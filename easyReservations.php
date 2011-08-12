@@ -1,8 +1,9 @@
 <?php
 /*
 Plugin Name: easyReservations
-Plugin URI: http://www.feryaz.com/easyReservations/
+Plugin URI: http://www.feryaz.com
 Description: easyReservation is the a Reservations or Booking Plugin for Websites with rentable content. It grants you a fast, structured and detailed overview of your Reservations. For help read the Dokumentation on the Pulgin Page.
+Version: 1.0
 Author: Feryaz Beer
 Author URI: http://www.feryaz.com
 */
