@@ -129,7 +129,7 @@ function easyreservation_install() { // Install Plugin Database
 		}
 		if(!get_option('reservations_support_mail') OR !get_option('reservation_season2')){
 			add_option( 'reservations_currency', '&euro;', '', 'yes' );
-			add_option( 'reservations_support_mail', '', 'yes' ); 
+			add_option( 'reservations_support_mail', '', '', 'yes' ); 
 			add_option( 'reservation_season1', '', '', 'yes' ); 
 			add_option( 'reservation_season2', '', '', 'yes' ); 
 			add_option( 'reservation_season3', '', '', 'yes' ); 

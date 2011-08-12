@@ -193,7 +193,7 @@ function reservation_main_page() {
 		$message.="Phone: ".$phone."<br/>";
 		if($reservation_form_address == '1' ) $message.="Address: ".$addresse."<br/>";
 		$message.="E-mail: ".$mail_to."<br/>";
-		$message.="From: ".$reservationDate." - To : ".date("d.m.Y", timestampend)."<br/>";
+		$message.="From: ".$reservationDate." - To : ".date("d.m.Y", $timestampend)."<br/>";
 		$message.="Room: ".$rooms."<br/>";
 		$message.="Special Offer: ".$specials."<br/>";
 
@@ -764,9 +764,9 @@ function reservation_add_reservaton() {
 				}
 
 				$epls=strtotime($date);				
-				$dat=date("Y-m",$epls);
-				$rightdate=date("Y-n-j",$epls);
-				$rightdate2=date("Y-m-d",$epls);
+				$dat=date("Y-m", $epls);
+				$rightdate=date("Y-n-j", $epls);
+				$rightdate2=date("Y-m-d", $epls);
 
 				if($action == "addreservation") {
 
@@ -1143,7 +1143,7 @@ function reservation_settings_page() { //Set Settings
 								</tr>
 						</tbody>
 					</table>
-		</td></tr></table>
+		</td></tr></table><br>
 		<a href="javascript:{}" onclick="document.getElementById('reservation_settingss').submit(); return false;" class="button-secondary" ><span><?php printf ( __( 'Save Changes' , 'easyReservations' ));?></span></a>
 	</form>
 </div>
