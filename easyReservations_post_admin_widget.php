@@ -37,30 +37,30 @@ function reservations_post_widget() {
  $reservations_current_value_price = get_post_meta($post->ID, 'price', TRUE);
  $reservations_current_room_count = get_post_meta($post->ID, 'roomcount', TRUE);
   ?>
-  <small><?php printf ( __( 'Only fill this for Special Offers and Rooms' , 'easyReservationslang' ));?>; <a href=\"admin.php?page=reservations-help\"><?php printf ( __( 'Help' , 'easyReservationslang' ));?></a></small><br><br>
- <b><?php printf ( __( 'For Special Offers only ' , 'easyReservationslang' ));?></b>
+  <small><?php printf ( __( 'Only fill this for Special Offers and Rooms' , 'easyReservations' ));?>; <a href=\"http://www.feryaz.de"><?php printf ( __( 'Help' , 'easyReservations' ));?></a></small><br><br>
+ <b><?php printf ( __( 'For Special Offers only ' , 'easyReservations' ));?></b>
   <table>
   <tr>
-  <td><?php printf ( __( 'From - To' , 'easyReservationslang' ));?></td>
+  <td><?php printf ( __( 'From - To' , 'easyReservations' ));?></td>
   <td><input type="text" id="reservations_from_to" name="reservations_from_to" size="25" value="<?php echo $reservations_current_value_fromto; ?>" /></td>
   </tr>
   <tr>
-  <td><?php printf ( __( 'Percent/Price' , 'easyReservationslang' ));?></td>
+  <td><?php printf ( __( 'Percent/Price' , 'easyReservations' ));?></td>
   <td><input type="text" id="reservations_percent" name="reservations_percent" size="25" value="<?php echo $reservations_current_value_percent; ?>" /></td>
   </tr>
   <tr>
-  <td><?php printf ( __( 'Short Description' , 'easyReservationslang' ));?></td>
+  <td><?php printf ( __( 'Short Description' , 'easyReservations' ));?></td>
   <td><input type="text" id="reservations_short" name="reservations_short" size="25" value="<?php echo $reservations_current_value_short; ?>" /></td>
   </tr>
   </table><br>
- <b><?php printf ( __( 'For Special Offers and Rooms' , 'easyReservationslang' ));?></b>
+ <b><?php printf ( __( 'For Special Offers and Rooms' , 'easyReservations' ));?></b>
   <table>
   <tr>
-  <td width="50%"><?php printf ( __( 'Price' , 'easyReservationslang' ));?></td>
+  <td width="50%"><?php printf ( __( 'Price' , 'easyReservations' ));?></td>
   <td width="50%"><input type="text" id="reservations_price" name="reservations_price" size="25" value="<?php echo $reservations_current_value_price; ?>" /></td>
   </tr>
   <tr>
-  <td width="50%"><?php printf ( __( 'Room Count' , 'easyReservationslang' ));?></td>
+  <td width="50%"><?php printf ( __( 'Room Count' , 'easyReservations' ));?></td>
   <td width="50%"><input type="text" id="reservations_room_count" name="reservations_room_count" size="25" value="<?php echo $reservations_current_room_count; ?>" /></td>
   </tr>
   </table>

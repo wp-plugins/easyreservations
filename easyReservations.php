@@ -1,6 +1,6 @@
 <?php
 /*
-Plugin Name: easyReservation
+Plugin Name: easyReservations
 Plugin URI: http://www.feryaz.com/easyReservations/
 Description: easyReservation is the a Reservations or Booking Plugin for Websites with rentable content. It grants you a fast, structured and detailed overview of your Reservations. For help read the Dokumentation on the Pulgin Page.
 Author: Feryaz Beer
@@ -20,7 +20,7 @@ add_shortcode('reservations', 'reservations_shortcode');
 
 function my_plugin_init() {
 // Internationalization, first(!)
-load_plugin_textdomain('easyReservations', false, dirname(plugin_basename( __FILE__ )).'/languages/' );
+load_plugin_textdomain('easyreservations', false, dirname(plugin_basename( __FILE__ )).'/languages/' );
 // Other init stuff, be sure to it after load_plugins_textdomain if it involves translated text(!)
 }
 add_action('init','my_plugin_init');
@@ -47,11 +47,11 @@ function reservation_admin_bar() {
 add_action( 'wp_before_admin_bar_render', 'reservation_admin_bar' );
 
 function plugin_load() {  //  Load Scripts and Styles
-        $myStyleUrl = WP_PLUGIN_URL . '/easyReservations/css/style.css';
-        $ScriptFile1 = WP_PLUGIN_URL . '/easyReservations/js/checkbox.js';
-        $ScriptFile2 = WP_PLUGIN_URL . '/easyReservations/js/others.js';
-        $ScriptFile3 = WP_PLUGIN_URL . '/easyReservations/js/jquery.tools.min.js';
-        $ScriptFile4 = WP_PLUGIN_URL . '/easyReservations/js/mColorPicker_min.js';
+        $myStyleUrl = WP_PLUGIN_URL . '/easyreservations/css/style.css';
+        $ScriptFile1 = WP_PLUGIN_URL . '/easyreservations/js/checkbox.js';
+        $ScriptFile2 = WP_PLUGIN_URL . '/easyreservations/js/others.js';
+        $ScriptFile3 = WP_PLUGIN_URL . '/easyreservations/js/jquery.tools.min.js';
+        $ScriptFile4 = WP_PLUGIN_URL . '/easyreservations/js/mColorPicker_min.js';
 		
 		wp_register_style('myStyleSheets', $myStyleUrl);
 		wp_register_script('checkbox', $ScriptFile1);
@@ -73,9 +73,9 @@ add_action('admin_init', 'plugin_load');
 }
 
 function stylechained_load() {  //  Load Scripts and Styles for datepicker
-        $myStyleUrl = WP_PLUGIN_URL . '/easyReservations/css/jquery-ui.css';
-        $ScriptFile6 = WP_PLUGIN_URL . '/easyReservations/js/jquery-ui.min.js';
-        $ScriptFile7 = WP_PLUGIN_URL . '/easyReservations/js/jquery.min.js';
+        $myStyleUrl = WP_PLUGIN_URL . '/easyreservations/css/jquery-ui.css';
+        $ScriptFile6 = WP_PLUGIN_URL . '/easyreservations/js/jquery-ui.min.js';
+        $ScriptFile7 = WP_PLUGIN_URL . '/easyreservations/js/jquery.min.js';
 
 		wp_register_style('jquery-ui-css', $myStyleUrl);
 		wp_register_script('jquery-ui-mini', $ScriptFile6);

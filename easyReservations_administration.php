@@ -295,11 +295,11 @@ function reservation_main_page() {
 											if($datetodays >= $timpstamp_start AND $datetodays <= $timestampend) {
 												$xor=$datetodays;
 												$test='1';
-												$farbe="url(".WP_PLUGIN_URL ."/easyReservations/images/".$colorfull."_middle.png) repeat"; if($letztername!=$expl[0]) $farbe="url(".WP_PLUGIN_URL ."/easyReservations/images/".$colorfull."_start.png) no-repeat ".$colorbackgroundfree.""; if($cellcount=="1") { $farbe="url(".WP_PLUGIN_URL ."/easyReservations/images/".$colorfull."_middle.png) repeat"; } if($letztername != "") {$farbe="url(".WP_PLUGIN_URL ."/easyReservations/images/".$colorfull."_middle.png) repeat";  }
+												$farbe="url(".WP_PLUGIN_URL ."/easyreservations/images/".$colorfull."_middle.png) repeat"; if($letztername!=$expl[0]) $farbe="url(".WP_PLUGIN_URL ."/easyreservations/images/".$colorfull."_start.png) no-repeat ".$colorbackgroundfree.""; if($cellcount=="1") { $farbe="url(".WP_PLUGIN_URL ."/easyreservations/images/".$colorfull."_middle.png) repeat"; } if($letztername != "") {$farbe="url(".WP_PLUGIN_URL ."/easyreservations/images/".$colorfull."_middle.png) repeat";  }
 												?><td title="Name: <?php echo $expl[0].' '.$expl[1]; ?><br>Datum: <?php echo date("d.m.Y",$datetodays2-86400)?><br>Room: <?php echo __(get_the_title($roomsidentify))?> # <?php echo $rowcount; ?><br>Status: Full"  style="background: <?php echo $farbe;?>; text-decoration:none; font: normal 12px Arial, sans-serif; color:<?php echo $fontcoloriffull; ?>; text-align:center; text-shadow:none; border-style:none; border-bottom: <?php echo $borderbottom; ?>px solid <?php echo $colorborder; ?>; border-left:  <?php echo $borderside; ?>px solid <?php echo $colorborder; ?>; vertical-align:middle;"><?php echo date("d",$datetodays-86400); ?></td>
 												<?php $letztername=$expl[0];
 											}
-									} if($test=='0') { if($datumtoday != $xor  AND $datetodays != $letzternameleer){ if($letztername AND $cellcount != '1'){ $farbe2='url('.WP_PLUGIN_URL .'/easyReservations/images/'.$colorfull.'_end.png) no-repeat '.$colorbackgroundfree.''; } else { $farbe2=$colorbackgroundfree; } echo '<td title="Datum: '.date("d.m.Y",$datetodays2-86400).'<br>Room: '.__(get_the_title($roomsidentify)).' # '.$rowcount.'<br>Status: Free" style="height:30px; color:'.$fontcolorifempty.'; text-align:center;text-shadow:none; border-style:none; border-bottom: '.$borderbottom.'px solid '.$colorborder.'; border-left: '.$borderside.'px solid '.$colorborder.'; vertical-align: middle; background:'.$farbe2.'">'.date("d",$datetodays-86400).'</td>'; $letztername=''; $letzternameleer=$datetodays; $xor=''; } } }  $warvoll=''; echo '</tr>'; } } ?>
+									} if($test=='0') { if($datumtoday != $xor  AND $datetodays != $letzternameleer){ if($letztername AND $cellcount != '1'){ $farbe2='url('.WP_PLUGIN_URL .'/easyreservations/images/'.$colorfull.'_end.png) no-repeat '.$colorbackgroundfree.''; } else { $farbe2=$colorbackgroundfree; } echo '<td title="Datum: '.date("d.m.Y",$datetodays2-86400).'<br>Room: '.__(get_the_title($roomsidentify)).' # '.$rowcount.'<br>Status: Free" style="height:30px; color:'.$fontcolorifempty.'; text-align:center;text-shadow:none; border-style:none; border-bottom: '.$borderbottom.'px solid '.$colorborder.'; border-left: '.$borderside.'px solid '.$colorborder.'; vertical-align: middle; background:'.$farbe2.'">'.date("d",$datetodays-86400).'</td>'; $letztername=''; $letzternameleer=$datetodays; $xor=''; } } }  $warvoll=''; echo '</tr>'; } } ?>
 				</tbody></table><br>
 <script>
 $("[title]").tooltip({ deley: 0, predelay: 30 , tipClass: 'tooltip_klein',position: "center right", offset: [-50, 50] });
@@ -582,7 +582,7 @@ $("[title]").tooltip({ deley: 0, predelay: 30 , tipClass: 'tooltip_klein',positi
 														</td>
 													</tr>
 												</table></form>
-												<form  name="export" action="<?php echo WP_PLUGIN_URL; ?>/easyReservations/export.php" method="post">
+												<form  name="export" action="<?php echo WP_PLUGIN_URL; ?>/easyreservations/export.php" method="post">
 													<input class="button-secondary" type="submit" value="Export table as CSV">
 													<input type="hidden" value="<?php echo $csv_hdr; ?>" name="csv_hdr">
 													<input type="hidden" value="<?php echo $csv_output; ?>" name="csv_output">
@@ -602,41 +602,41 @@ $("[title]").tooltip({ deley: 0, predelay: 30 , tipClass: 'tooltip_klein',positi
 													</thead>
 													<tbody>
 														<tr>
-															<td style="vertical-align:middle;"><img src="<?php echo WP_PLUGIN_URL; ?>/easyReservations/images/user.png"> <?php printf ( __( 'Name' , 'easyReservations' ));?>:</td> 
+															<td style="vertical-align:middle;"><img src="<?php echo WP_PLUGIN_URL; ?>/easyreservations/images/user.png"> <?php printf ( __( 'Name' , 'easyReservations' ));?>:</td> 
 															<td><?php echo $name;?></td>
 														</tr>
 														<tr>
-															<td style="vertical-align:middle;"><img src="<?php echo WP_PLUGIN_URL; ?>/easyReservations/images/date.png"> <?php printf ( __( 'Date' , 'easyReservations' ));?>:</td> 
+															<td style="vertical-align:middle;"><img src="<?php echo WP_PLUGIN_URL; ?>/easyreservations/images/date.png"> <?php printf ( __( 'Date' , 'easyReservations' ));?>:</td> 
 															<td><?php echo date("d.m.Y",$timpstampanf);?> - <?php echo date("d.m.Y",$timestampend);?> <small>(<?php echo $reservationFrom;?>)</small></td>
 														</tr>
 														<tr>
-															<td style="vertical-align:middle;"><img src="<?php echo WP_PLUGIN_URL; ?>/easyReservations/images/email.png"> <?php printf ( __( 'eMail' , 'easyReservations' ));?>:</td> 
+															<td style="vertical-align:middle;"><img src="<?php echo WP_PLUGIN_URL; ?>/easyreservations/images/email.png"> <?php printf ( __( 'eMail' , 'easyReservations' ));?>:</td> 
 															<td><?php echo $mail_to;?></td>
 														</tr>
 														<tr>
-															<td style="vertical-align:middle;"><img src="<?php echo WP_PLUGIN_URL; ?>/easyReservations/images/phone.png"> <?php printf ( __( 'Phone' , 'easyReservations' ));?>:</td> 
+															<td style="vertical-align:middle;"><img src="<?php echo WP_PLUGIN_URL; ?>/easyreservations/images/phone.png"> <?php printf ( __( 'Phone' , 'easyReservations' ));?>:</td> 
 															<td><?php echo $phone;?></td>
 														</tr>
 														<tr>
-															<td style="vertical-align:middle;"><img src="<?php echo WP_PLUGIN_URL; ?>/easyReservations/images/persons.png"> <?php printf ( __( 'Persons' , 'easyReservations' ));?>:</td> 
+															<td style="vertical-align:middle;"><img src="<?php echo WP_PLUGIN_URL; ?>/easyreservations/images/persons.png"> <?php printf ( __( 'Persons' , 'easyReservations' ));?>:</td> 
 															<td><?php echo $persons;?></td>
 														</tr>
 														<tr>
-															<td style="vertical-align:middle;"><img src="<?php echo WP_PLUGIN_URL; ?>/easyReservations/images/room.png"> <?php printf ( __( 'Room' , 'easyReservations' ));?>:</td> 
+															<td style="vertical-align:middle;"><img src="<?php echo WP_PLUGIN_URL; ?>/easyreservations/images/room.png"> <?php printf ( __( 'Room' , 'easyReservations' ));?>:</td> 
 															<td><?php echo __($rooms);?></td>
 														</tr>
 														<tr>
-															<td style="vertical-align:middle;"><img src="<?php echo WP_PLUGIN_URL; ?>/easyReservations/images/special.png"> <?php printf ( __( 'Special Offer' , 'easyReservations' ));?>:</b></td> 
+															<td style="vertical-align:middle;"><img src="<?php echo WP_PLUGIN_URL; ?>/easyreservations/images/special.png"> <?php printf ( __( 'Special Offer' , 'easyReservations' ));?>:</b></td> 
 															<td><?php if($specials){ echo __($specials);} else { printf ( __( 'None' , 'easyReservations' )); }  ?></td>
 														</tr>
 														<?php if($reservation_form_address == "1"){ ?>
 														<tr>
-															<td style="vertical-align:middle;"><img src="<?php echo WP_PLUGIN_URL; ?>/easyReservations/images/house.png"> <?php printf ( __( 'Address' , 'easyReservations' ));?>:</b></td> 
+															<td style="vertical-align:middle;"><img src="<?php echo WP_PLUGIN_URL; ?>/easyreservations/images/house.png"> <?php printf ( __( 'Address' , 'easyReservations' ));?>:</b></td> 
 															<td><?php if($message_r[1]){ echo __($message_r[1]); } else { printf ( __( 'Not asked for' , 'easyReservations' )); } ?></td>
 														</tr>
 														<?php } ?>
 														<tr>
-															<td style="vertical-align:middle;"><img src="<?php echo WP_PLUGIN_URL; ?>/easyReservations/images/message.png"> <?php printf ( __( 'Message' , 'easyReservations' ));?>:</b></td> 
+															<td style="vertical-align:middle;"><img src="<?php echo WP_PLUGIN_URL; ?>/easyreservations/images/message.png"> <?php printf ( __( 'Message' , 'easyReservations' ));?>:</b></td> 
 															<td><?php echo $message_r[0];?></td>
 														</tr>
 													</tbody>
@@ -805,32 +805,32 @@ function reservation_add_reservaton() {
 						</thead>
 						<tbody>
 						<tr valign="top">
-							<td  style="vertical-align:middle;"><img src="<?php echo WP_PLUGIN_URL; ?>/easyReservations/images/user.png"> <?php printf ( __( 'Name' , 'easyReservations' ));?></td>
+							<td  style="vertical-align:middle;"><img src="<?php echo WP_PLUGIN_URL; ?>/easyreservations/images/user.png"> <?php printf ( __( 'Name' , 'easyReservations' ));?></td>
 							<td><input type="text" name="name" align="middle" value="<?php if($edit) echo $namex;?>" class="regular-text"></td>
 						</tr>
 						<tr valign="top">
-							<td style="vertical-align:middle;"><img src="<?php echo WP_PLUGIN_URL; ?>/easyReservations/images/date.png" > <?php printf ( __( 'Date of Arrvial' , 'easyReservations' ));?></td>
+							<td style="vertical-align:middle;"><img src="<?php echo WP_PLUGIN_URL; ?>/easyreservations/images/date.png" > <?php printf ( __( 'Date of Arrvial' , 'easyReservations' ));?></td>
 							<td style="vertical-align:middle;"><input type="text" id="datepicker" name="date" value="<?php if($edit){ echo $datex; } ?>" class="regular-text"></td>
 						</tr>
 						<tr valign="top">
-							<td style="vertical-align:middle;"><img src="<?php echo WP_PLUGIN_URL; ?>/easyReservations/images/email.png"> <?php printf ( __( 'eMail' , 'easyReservations' ));?></td>
+							<td style="vertical-align:middle;"><img src="<?php echo WP_PLUGIN_URL; ?>/easyreservations/images/email.png"> <?php printf ( __( 'eMail' , 'easyReservations' ));?></td>
 							<td><input type="text" name="email" value="<?php if($edit) echo $emailx;?>" class="regular-text"></td>
 						</tr>
 						<tr valign="top">
-							<td style="vertical-align:middle;"><img src="<?php echo WP_PLUGIN_URL; ?>/easyReservations/images/phone.png"> <?php printf ( __( 'Phone' , 'easyReservations' ));?></td>
+							<td style="vertical-align:middle;"><img src="<?php echo WP_PLUGIN_URL; ?>/easyreservations/images/phone.png"> <?php printf ( __( 'Phone' , 'easyReservations' ));?></td>
 							<td><input type="text" name="phone" value="<?php if($edit) echo $phonex;?>" class="regular-text"></td>
 						</tr>
 						<tr valign="top">
-							<td style="vertical-align:middle;"><img src="<?php echo WP_PLUGIN_URL; ?>/easyReservations/images/nights.png"> <?php printf ( __( 'Nights' , 'easyReservations' ));?></td>
+							<td style="vertical-align:middle;"><img src="<?php echo WP_PLUGIN_URL; ?>/easyreservations/images/nights.png"> <?php printf ( __( 'Nights' , 'easyReservations' ));?></td>
 							<td><select name="nights"><?php if($edit){?><option select="selected"><?php echo $nightsx;?></option><?php } ?><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option><option>11</option><option>12</option><option>13</option><option>14</option></select><span class="description"> Nights to stay</span></td>
 						</tr>
 						
 						<tr valign="top">
-							<td style="vertical-align:middle;"><img src="<?php echo WP_PLUGIN_URL; ?>/easyReservations/images/persons.png"> <?php printf ( __( 'Persons' , 'easyReservations' ));?></td>
+							<td style="vertical-align:middle;"><img src="<?php echo WP_PLUGIN_URL; ?>/easyreservations/images/persons.png"> <?php printf ( __( 'Persons' , 'easyReservations' ));?></td>
 							<td><select name="persons" style="width:40px;"><?php if($edit){?><option select="selected"><?php echo $personsx;?></option><?php } ?><option>1</option><option>2</option><option>3</option><option>4</option></select><span class="description"> Number of persons</span></td>
 						</tr>
 						<tr valign="top">
-							<td style="vertical-align:middle;"><img src="<?php echo WP_PLUGIN_URL; ?>/easyReservations/images/room.png"> <?php printf ( __( 'Room' , 'easyReservations' ));?></td>
+							<td style="vertical-align:middle;"><img src="<?php echo WP_PLUGIN_URL; ?>/easyreservations/images/room.png"> <?php printf ( __( 'Room' , 'easyReservations' ));?></td>
 							<td><select id="room" name="room"><?php if($edit){?><option value="<?php echo $roomy;?>" select="selected"><?php echo __($roomx);?></option><?php } ?>
 								<?php 
 								$posts = "SELECT post_title, ID FROM $wpdb->posts WHERE post_type='post' AND post_status='publish'";
@@ -855,7 +855,7 @@ function reservation_add_reservaton() {
 								}  echo '</select>'; }  ?>
 							</td></tr>
 						<tr valign="top">
-							<td><img src="<?php echo WP_PLUGIN_URL; ?>/easyReservations/images/special.png" > <?php printf ( __( 'Special Offer' , 'easyReservations' ));?></td>
+							<td><img src="<?php echo WP_PLUGIN_URL; ?>/easyreservations/images/special.png" > <?php printf ( __( 'Special Offer' , 'easyReservations' ));?></td>
 							<td><select name="specialoffer"><?php if($edit AND $specialy != "0"){?><option option value="<?php echo $specialy;?>" select="selected"><?php echo __($specialx);?></option><option><?php printf ( __( 'None' , 'easyReservations' ));?></option><?php } else { ?><option value="0" select="selected"><?php printf ( __( 'None' , 'easyReservations' ));?></option><?php }
 								foreach( $roomsresult as $result )	{			
 								$id=$result->ID;
@@ -866,12 +866,12 @@ function reservation_add_reservaton() {
 							</select></td></tr>
 							<?php if($reservation_form_address == "1"){ ?>
 							<tr valign="top">
-								<td style="vertical-align:middle;"><img src="<?php echo WP_PLUGIN_URL; ?>/easyReservations/images/house.png"> <?php printf ( __( 'Address' , 'easyReservations' ));?>:</b></td> 
+								<td style="vertical-align:middle;"><img src="<?php echo WP_PLUGIN_URL; ?>/easyreservations/images/house.png"> <?php printf ( __( 'Address' , 'easyReservations' ));?>:</b></td> 
 								<td><textarea name="address" cols="30" rows="1"><?php if($edit) echo $notesx[1];?></textarea></td>
 							</tr>
 							<?php } ?>
 							<tr valign="top">
-								<td><img src="<?php echo WP_PLUGIN_URL; ?>/easyReservations/images/message.png"> <?php printf ( __( 'Notes' , 'easyReservations' ));?></td>
+								<td><img src="<?php echo WP_PLUGIN_URL; ?>/easyreservations/images/message.png"> <?php printf ( __( 'Notes' , 'easyReservations' ));?></td>
 								<td><textarea name="note" cols="42" rows="10"><?php if($edit) echo $notesx[0];?></textarea><br><br><br><?php if($edit) {?><a href="javascript:{}" onclick="document.getElementById('edit').submit(); return false;" class="button-secondary"><span><?php printf ( __( 'Save Changes' , 'easyReservations' ));?></span></a><?php } else {?><a href="javascript:{}" onclick="document.getElementById('addreservation').submit(); return false;" class="button-secondary"><span><?php printf ( __( 'Save Changes' , 'easyReservations' ));?></span></a><?php } ?><br><br></td>
 							</tr>
 							</tbody></table></form></div>
@@ -990,7 +990,7 @@ function reservation_settings_page() { //Set Settings
 			</thead>
 			<tbody>
 					<tr valign="top">
-						<td style="vertical-align:middle;"><img src="<?php echo WP_PLUGIN_URL; ?>/easyReservations/images/database.png"> <?php printf ( __( 'Clean Database' , 'easyReservations' ));?></td>
+						<td style="vertical-align:middle;"><img src="<?php echo WP_PLUGIN_URL; ?>/easyreservations/images/database.png"> <?php printf ( __( 'Clean Database' , 'easyReservations' ));?></td>
 						<td><input title="<?php printf ( __( 'Delete all unapproved, rejected or trashed Old Reservations' , 'easyReservations' ));?>" type="submit" value="<?php printf ( __( 'Clean Database' , 'easyReservations' ));?>" class="button-secondary"></td>
 					</tr>
 			</tbody>
@@ -1008,35 +1008,35 @@ function reservation_settings_page() { //Set Settings
 			</thead>
 			<tbody>
 				<tr valign="top">
-					<td style="vertical-align:middle;"><img src="<?php echo WP_PLUGIN_URL; ?>/easyReservations/images/list.png"> <?php printf ( __( 'Show Overview Reservation on List', 'easyReservations' ));?></td>
+					<td style="vertical-align:middle;"><img src="<?php echo WP_PLUGIN_URL; ?>/easyreservations/images/list.png"> <?php printf ( __( 'Show Overview Reservation on List', 'easyReservations' ));?></td>
 					<td><input type="checkbox" title="<?php printf ( __( 'When deselected the Overview only will be shown when view, approve or reject a Reservation' , 'easyReservations' ));?>" name="reservation_overview_showgeneraly" value="1" <?php if(get_option("reservation_overview_showgeneraly") == "1") echo 'checked';?>></td>
 				</tr>
 				<tr valign="top">
-						<td style="vertical-align:middle;"><img src="<?php echo WP_PLUGIN_URL; ?>/easyReservations/images/day.png"> <?php printf ( __( 'Count Days' , 'easyReservations' ));?></td>
+						<td style="vertical-align:middle;"><img src="<?php echo WP_PLUGIN_URL; ?>/easyreservations/images/day.png"> <?php printf ( __( 'Count Days' , 'easyReservations' ));?></td>
 						<td><input type="text" title="<?php printf ( __( 'Select how many Days to show at the Reservation Overview' , 'easyReservations' ));?>" name="reservations_show_days" value="<?php echo $reservations_show_days;?>" class="regular-text"></td>
 				</tr>
 				<tr valign="top">
-					<td style="vertical-align:middle;"><img src="<?php echo WP_PLUGIN_URL; ?>/easyReservations/images/background.png"> <?php printf ( __( 'Style of Reservations' , 'easyReservations' ));?></td>
+					<td style="vertical-align:middle;"><img src="<?php echo WP_PLUGIN_URL; ?>/easyreservations/images/background.png"> <?php printf ( __( 'Style of Reservations' , 'easyReservations' ));?></td>
 					<td><select data-hex="true" title="<?php printf ( __( 'Style of the Reservations in the Reservation Overview' , 'easyReservations' ));?>" name="backgroundiffull" class="regular-text"><option select="selected" value="<?php echo $backgroundiffull;?>" ><?php echo $backgroundiffull;?></option><option value="green" >green</option><option value="red" >red</option><option value="yellow" >yellow</option><option value="blue" >blue</option><option value="pink" >pink</option></select></td>
 				</tr>
 				<tr valign="top">
-					<td style="vertical-align:middle;"><img src="<?php echo WP_PLUGIN_URL; ?>/easyReservations/images/background.png"> <?php printf ( __( 'Backgroundcolor if empty' , 'easyReservations' ));?></td>
+					<td style="vertical-align:middle;"><img src="<?php echo WP_PLUGIN_URL; ?>/easyreservations/images/background.png"> <?php printf ( __( 'Backgroundcolor if empty' , 'easyReservations' ));?></td>
 					<td nowrap><input type="color" data-hex="true" title="<?php printf ( __( 'Background of the empty Days in the Reservation Overview' , 'easyReservations' ));?>" name="colorbackgroundfree" align="middle" value="<?php echo $colorbackgroundfree;?>" class="regular-text"></td>
 				</tr>
 				<tr valign="top">
-					<td style="vertical-align:middle;"><img src="<?php echo WP_PLUGIN_URL; ?>/easyReservations/images/bordercolor.png"> <?php printf ( __( 'Bordercolor' , 'easyReservations' ));?></td>
+					<td style="vertical-align:middle;"><img src="<?php echo WP_PLUGIN_URL; ?>/easyreservations/images/bordercolor.png"> <?php printf ( __( 'Bordercolor' , 'easyReservations' ));?></td>
 					<td><input type="color" data-hex="true" title="<?php printf ( __( 'Color of the Border in the Reservation Overview' , 'easyReservations' ));?>" name="colorborder" align="middle" value="<?php echo $colorborder;?>" class="regular-text"></td>
 				</tr>
 				<tr valign="top">
-					<td style="vertical-align:middle;"><img src="<?php echo WP_PLUGIN_URL; ?>/easyReservations/images/border.png"> <?php printf ( __( 'Border' , 'easyReservations' ));?></td>
+					<td style="vertical-align:middle;"><img src="<?php echo WP_PLUGIN_URL; ?>/easyreservations/images/border.png"> <?php printf ( __( 'Border' , 'easyReservations' ));?></td>
 					<td><?php printf ( __( 'Bottom' , 'easyReservations' ));?> <select data-hex="true" title="<?php printf ( __( 'Turn the Bottom-Border in the Reservation Overview on or off' , 'easyReservations' ));?>" name="border_bottom"><option select="selected" value="<?php echo $border_bottom;?>"><?php if($border_bottom=="0") printf ( __( 'None' , 'easyReservations' )); if($border_bottom=="1") printf ( __( 'Thin' , 'easyReservations' )); if($border_bottom=="2") printf ( __( 'Thick' , 'easyReservations' ));?></option><option value="0"><?php printf ( __( 'None' , 'easyReservations' ));?></option><option value="1"><?php printf ( __( 'Thin' , 'easyReservations' ));?></option><option value="2"><?php printf ( __( 'Thick' , 'easyReservations' ));?></option></select> <?php printf ( __( 'Side' , 'easyReservations' ));?> <select data-hex="true" title="<?php printf ( __( 'Turn the Side-Border in the Reservation Overview on or off' , 'easyReservations' ));?>" name="border_side"><option select="selected" value="<?php echo $border_side;?>"><?php if($border_side=="0") printf ( __( 'None' , 'easyReservations' )); if($border_side=="1") printf ( __( 'Thin' , 'easyReservations' )); if($border_side=="2") printf ( __( 'Thick' , 'easyReservations' ));?></option><option value="0"><?php printf ( __( 'None' , 'easyReservations' ));?></option><option value="1"><?php printf ( __( 'Thin' , 'easyReservations' ));?></option><option value="2"><?php printf ( __( 'Thick' , 'easyReservations' ));?></option></select></td>
 				</tr>
 				<tr valign="top">
-					<td style="vertical-align:middle;"><img src="<?php echo WP_PLUGIN_URL; ?>/easyReservations/images/font.png"> <?php printf ( __( 'Font Color if Full' , 'easyReservations' ));?></td>
+					<td style="vertical-align:middle;"><img src="<?php echo WP_PLUGIN_URL; ?>/easyreservations/images/font.png"> <?php printf ( __( 'Font Color if Full' , 'easyReservations' ));?></td>
 					<td><input type="color" data-hex="true" title="<?php printf ( __( 'Font Color of full Days in the Reservation Overview' , 'easyReservations' ));?>"  name="fontcoloriffull" align="middle" value="<?php echo $fontcoloriffull;?>" class="regular-text"></td>
 				</tr>
 				<tr valign="top">
-					<td style="vertical-align:middle;"><img src="<?php echo WP_PLUGIN_URL; ?>/easyReservations/images/font.png"> <?php printf ( __( 'Font Color if Empty' , 'easyReservations' ));?></td>
+					<td style="vertical-align:middle;"><img src="<?php echo WP_PLUGIN_URL; ?>/easyreservations/images/font.png"> <?php printf ( __( 'Font Color if Empty' , 'easyReservations' ));?></td>
 					<td><input type="color" data-hex="true" title="<?php printf ( __( 'Font Color of empty Days in the Reservation Overview' , 'easyReservations' ));?>"  name="fontcolorifempty" align="middle" value="<?php echo $fontcolorifempty;?>" class="regular-text"></td>
 				</tr>
 			</table></div>
@@ -1050,43 +1050,43 @@ function reservation_settings_page() { //Set Settings
 				</thead>
 				<tbody>
 					<tr valign="top">
-						<td style="vertical-align:middle;"><img src="<?php echo WP_PLUGIN_URL; ?>/easyReservations/images/email.png"> <?php printf ( __( 'Reservation Support Mail' , 'easyReservations' ));?></td>
+						<td style="vertical-align:middle;"><img src="<?php echo WP_PLUGIN_URL; ?>/easyreservations/images/email.png"> <?php printf ( __( 'Reservation Support Mail' , 'easyReservations' ));?></td>
 						<td><input type="text" title="<?php printf ( __( 'Mail for Reservations' , 'easyReservations' ));?>" name="reservations_support_mail" value="<?php echo $reservation_support_mail;?>" class="regular-text"></td>
 					</tr>
 					<tr valign="top">
-						<td style="vertical-align:middle;"><img src="<?php echo WP_PLUGIN_URL; ?>/easyReservations/images/special.png"> <?php printf ( __( 'Special Offers Category' , 'easyReservations' ));?></td>
+						<td style="vertical-align:middle;"><img src="<?php echo WP_PLUGIN_URL; ?>/easyreservations/images/special.png"> <?php printf ( __( 'Special Offers Category' , 'easyReservations' ));?></td>
 						<td><input type="text" title="<?php printf ( __( 'The ID of the Special Offer Category' , 'easyReservations' ));?>" name="special_offer_cat" value="<?php echo $offer_cat;?>" class="regular-text"> </td>
 					</tr>
 					<tr valign="top">
-						<td style="vertical-align:middle;"><img src="<?php echo WP_PLUGIN_URL; ?>/easyReservations/images/room.png"> <?php printf ( __( 'Rooms Category' , 'easyReservations' ));?></td>
+						<td style="vertical-align:middle;"><img src="<?php echo WP_PLUGIN_URL; ?>/easyreservations/images/room.png"> <?php printf ( __( 'Rooms Category' , 'easyReservations' ));?></td>
 						<td><input type="text" title="<?php printf ( __( 'The ID of the Rooms Category' , 'easyReservations' ));?>" name="room_category" value="<?php echo $room_category;?>" class="regular-text"></td>
 					</tr>
 					<tr valign="top">
-						<td style="vertical-align:middle;"><img src="<?php echo WP_PLUGIN_URL; ?>/easyReservations/images/calc.png"> <?php printf ( __( 'Price' , 'easyReservations' ));?></td>
+						<td style="vertical-align:middle;"><img src="<?php echo WP_PLUGIN_URL; ?>/easyreservations/images/calc.png"> <?php printf ( __( 'Price' , 'easyReservations' ));?></td>
 						<td><select name="reservations_price_per_persons" title="<?php printf ( __( 'Select type of Price calculation' , 'easyReservations' ));?>"><?php if($reservations_price_per_persons == '0'){ ?><option select="selected"  value="0"><?php printf ( __( 'Price per Room' , 'easyReservations' ));?></option><option value="1"><?php printf ( __( 'Price per Person' , 'easyReservations' ));?></option><?php } ?><?php if($reservations_price_per_persons == '1'){ ?><option select="selected"  value="1"><?php printf ( __( 'Price per Person' , 'easyReservations' ));?></option><option  value="0"><?php printf ( __( 'Price per Room' , 'easyReservations' ));?></option><?php } ?></select></td>
 					</tr>
 					<tr valign="top">
-						<td style="vertical-align:middle;"><img src="<?php echo WP_PLUGIN_URL; ?>/easyReservations/images/dollar.png"> <?php printf ( __( 'Price' , 'easyReservations' ));?></td>
+						<td style="vertical-align:middle;"><img src="<?php echo WP_PLUGIN_URL; ?>/easyreservations/images/dollar.png"> <?php printf ( __( 'Price' , 'easyReservations' ));?></td>
 						<td><select name="reservations_currency" title="<?php printf ( __( 'Select currency' , 'easyReservations' ));?>"><?php if($reservations_currency=='euro'){ ?><option select="selected"  value="euro"><?php printf ( __( 'Euro' , 'easyReservations' ));?> &euro;</option><?php } ?><?php if($reservations_currency=='dollar'){ ?><option select="selected"  value="dollar"><?php printf ( __( 'Dollar' , 'easyReservations' ));?> &dollar;</option><?php } ?><?php if($reservations_currency == 'pound'){ ?><option select="selected"  value="pound"><?php printf ( __( 'Pound' , 'easyReservations' ));?> &pound;</option><?php } ?><?php if($reservations_currency == 'yen'){ ?><option select="selected"  value="yen"><?php printf ( __( 'Yen' , 'easyReservations' ));?> &yen;</option><?php } ?><option value="euro"><?php printf ( __( 'Euro' , 'easyReservations' ));?> &euro;</option><option value="dollar"><?php printf ( __( 'Dollar' , 'easyReservations' ));?> &dollar;</option><option  value="pound"><?php printf ( __( 'Pound' , 'easyReservations' ));?> &pound;</option><option  value="yen"><?php printf ( __( 'Yen' , 'easyReservations' ));?> &yen;</option></td>
 					</tr>
 					<tr valign="top">
-						<td style="vertical-align:middle;"><img src="<?php echo WP_PLUGIN_URL; ?>/easyReservations/images/snow.png"> <?php printf ( __( 'Season #1' , 'easyReservations' ));?></td>
+						<td style="vertical-align:middle;"><img src="<?php echo WP_PLUGIN_URL; ?>/easyreservations/images/snow.png"> <?php printf ( __( 'Season #1' , 'easyReservations' ));?></td>
 						<td><input type="text" title="<?php printf ( __( 'Date of the 1st Season' , 'easyReservations' ));?>" name="season1" value="<?php echo $season1;?>" class="regular-text"></td>
 					</tr>
 					<tr valign="top">
-						<td style="vertical-align:middle;"><img src="<?php echo WP_PLUGIN_URL; ?>/easyReservations/images/rain.png"> <?php printf ( __( 'Season #2' , 'easyReservations' ));?></td>
+						<td style="vertical-align:middle;"><img src="<?php echo WP_PLUGIN_URL; ?>/easyreservations/images/rain.png"> <?php printf ( __( 'Season #2' , 'easyReservations' ));?></td>
 						<td><input type="text" title="<?php printf ( __( 'Date of the 2nd Season' , 'easyReservations' ));?>" name="season2" value="<?php echo $season2;?>" class="regular-text"></td>
 					</tr>
 					<tr valign="top">
-						<td style="vertical-align:middle;"><img src="<?php echo WP_PLUGIN_URL; ?>/easyReservations/images/sunny.png"> <?php printf ( __( 'Season #3' , 'easyReservations' ));?></td>
+						<td style="vertical-align:middle;"><img src="<?php echo WP_PLUGIN_URL; ?>/easyreservations/images/sunny.png"> <?php printf ( __( 'Season #3' , 'easyReservations' ));?></td>
 						<td><input type="text" title="<?php printf ( __( 'Date of the 3rd Season' , 'easyReservations' ));?>" name="season3" value="<?php echo $season3;?>" class="regular-text"></td>
 					</tr>
 					<tr valign="top">
-						<td style="vertical-align:middle;"><img src="<?php echo WP_PLUGIN_URL; ?>/easyReservations/images/rain.png"> <?php printf ( __( 'Season #4' , 'easyReservations' ));?></td>
+						<td style="vertical-align:middle;"><img src="<?php echo WP_PLUGIN_URL; ?>/easyreservations/images/rain.png"> <?php printf ( __( 'Season #4' , 'easyReservations' ));?></td>
 						<td><input type="text" title="<?php printf ( __( 'Date of the 4th Season' , 'easyReservations' ));?>" name="season4" value="<?php echo $season4;?>" class="regular-text"></td>
 					</tr>
 					<tr valign="top">
-						<td style="vertical-align:middle;"><img src="<?php echo WP_PLUGIN_URL; ?>/easyReservations/images/snow.png"> <?php printf ( __( 'Season #5' , 'easyReservations' ));?></td>
+						<td style="vertical-align:middle;"><img src="<?php echo WP_PLUGIN_URL; ?>/easyreservations/images/snow.png"> <?php printf ( __( 'Season #5' , 'easyReservations' ));?></td>
 						<td><input type="text" title="<?php printf ( __( 'Date of the 5th Season' , 'easyReservations' ));?>" name="season5" value="<?php echo $season5;?>" class="regular-text"> </td>
 					</tr>
 				</tbody>
@@ -1100,19 +1100,19 @@ function reservation_settings_page() { //Set Settings
 				</thead>
 				<tbody>
 					<tr valign="top">
-						<td style="vertical-align:middle;"><img src="<?php echo WP_PLUGIN_URL; ?>/easyReservations/images/phone.png"> <?php printf ( __( 'Ask for phone?' , 'easyReservations' ));?></td>
+						<td style="vertical-align:middle;"><img src="<?php echo WP_PLUGIN_URL; ?>/easyreservations/images/phone.png"> <?php printf ( __( 'Ask for phone?' , 'easyReservations' ));?></td>
 						<td><select name="reservation_form_phone" title="<?php printf ( __( 'Select Yes to ask for Phone in Reservation Form' , 'easyReservations' ));?>"><?php if($reservation_form_phone == '0'){ ?><option select="selected"  value="0"><?php printf ( __( 'No' , 'easyReservations' ));?></option><option value="1"><?php printf ( __( 'Yes' , 'easyReservations' ));?></option><?php } ?><?php if($reservation_form_phone == '1'){ ?><option select="selected"  value="1"><?php printf ( __( 'Yes' , 'easyReservations' ));?></option><option  value="0"><?php printf ( __( 'No' , 'easyReservations' ));?></option><?php } ?></select></td>
 					</tr>
 					<tr valign="top">
-						<td style="vertical-align:middle;"><img src="<?php echo WP_PLUGIN_URL; ?>/easyReservations/images/house.png"> <?php printf ( __( 'Ask for Address?' , 'easyReservations' ));?></td>
+						<td style="vertical-align:middle;"><img src="<?php echo WP_PLUGIN_URL; ?>/easyreservations/images/house.png"> <?php printf ( __( 'Ask for Address?' , 'easyReservations' ));?></td>
 						<td><select name="reservation_form_address" title="<?php printf ( __( 'Select Yes to ask for Address in Reservation Form' , 'easyReservations' ));?>"><?php if($reservation_form_address == '0'){ ?><option select="selected"  value="0"><?php printf ( __( 'No' , 'easyReservations' ));?></option><option value="1"><?php printf ( __( 'Yes' , 'easyReservations' ));?></option><?php } ?><?php if($reservation_form_address == '1'){ ?><option select="selected"  value="1"><?php printf ( __( 'Yes' , 'easyReservations' ));?></option><option  value="0"><?php printf ( __( 'No' , 'easyReservations' ));?></option><?php } ?></select></td>
 					</tr>
 					<tr valign="top">
-						<td style="vertical-align:middle;"><img src="<?php echo WP_PLUGIN_URL; ?>/easyReservations/images/date.png"> <?php printf ( __( 'Date Select Style' , 'easyReservations' ));?></td>
+						<td style="vertical-align:middle;"><img src="<?php echo WP_PLUGIN_URL; ?>/easyreservations/images/date.png"> <?php printf ( __( 'Date Select Style' , 'easyReservations' ));?></td>
 						<td><select name="reservation_form_nights" title="<?php printf ( __( 'Select type of Date choosing' , 'easyReservations' ));?>"><?php if($reservation_form_nights == '0'){ ?><option select="selected"  value="0"><?php printf ( __( 'From - To' , 'easyReservations' ));?></option><option value="1"><?php printf ( __( 'From - Nights' , 'easyReservations' ));?></option><?php } ?><?php if($reservation_form_nights == '1'){ ?><option select="selected"  value="1"><?php printf ( __( 'From - Nights' , 'easyReservations' ));?></option><option  value="0"><?php printf ( __( 'From - To' , 'easyReservations' ));?></option><?php } ?></select></td>
 					</tr>
 					<tr valign="top">
-						<td style="vertical-align:middle;"><img src="<?php echo WP_PLUGIN_URL; ?>/easyReservations/images/special.png"> <?php printf ( __( 'Special Style' , 'easyReservations' ));?></td>
+						<td style="vertical-align:middle;"><img src="<?php echo WP_PLUGIN_URL; ?>/easyreservations/images/special.png"> <?php printf ( __( 'Special Style' , 'easyReservations' ));?></td>
 						<td><select name="reservation_form_special" title="<?php printf ( __( 'Select Style of Special Offer' , 'easyReservations' ));?>"><?php if($reservation_form_special == '0'){ ?><option select="selected"  value="0"><?php printf ( __( 'Select' , 'easyReservations' ));?></option><option value="1"><?php printf ( __( 'Box' , 'easyReservations' ));?></option><?php } ?><?php if($reservation_form_special == '1'){ ?><option select="selected"  value="1"><?php printf ( __( 'Box' , 'easyReservations' ));?></option><option  value="0"><?php printf ( __( 'Select' , 'easyReservations' ));?></option><?php } ?></select></td>
 					</tr>
 				</tbody>

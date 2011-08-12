@@ -9,7 +9,7 @@ easyReservation is the a Reservations Plugin for your Website. It grants you a f
 
 == Description ==
 easyReservation is a Reservation and Booking Plugin for Wordpress for giving you an fast, structured and detailed overview of your Reservations.
-It can be used on any side with overnight rentable content. 
+It can be used on any side with overnight rentable content. Its fully translatable and comes with Englisch and German. On deletion all database entries will be deletet. Ignore the Warning on activation.
 
 * monthly Reservation Overview
 * adjustable Reservation Table
