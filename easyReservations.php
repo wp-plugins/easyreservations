@@ -92,7 +92,7 @@ function plugin_load_colorpick() {  //  Load Scripts and Styles
 }
 
 if($page == 'settings'){  //  Only load Styles and Scripts on Reservation Admin Page
-add_action('admin_init', 'plugin_load_colorpick');
+	add_action('admin_init', 'plugin_load_colorpick');
 }
 
 function statistics_load() {  //  Load Scripts and Styles
@@ -110,13 +110,12 @@ function statistics_load() {  //  Load Scripts and Styles
 	wp_enqueue_script('jquery');
 }
 
-if($page == 'statistics'){  //  Only load Styles and Scripts on Statistics Page
-add_action('admin_init', 'statistics_load');
+if(isset($page) AND $page == 'statistics'){  //  Only load Styles and Scripts on Statistics Page
+	add_action('admin_init', 'statistics_load');
 }
 
 function reservations_scripts_resources_load() {  //  Load Scripts and Styles
 	$dateStyleUrl = WP_PLUGIN_URL . '/easyreservations/css/jquery-ui.css';
-
 	$ScriptFilejqmin = WP_PLUGIN_URL . '/easyreservations/js/jquery.min.js';
 
 	wp_register_script('jqmin', $ScriptFilejqmin);
@@ -124,24 +123,15 @@ function reservations_scripts_resources_load() {  //  Load Scripts and Styles
 
 	wp_register_style('datestyle', $dateStyleUrl);
 	wp_enqueue_style( 'datestyle');
+	
+	wp_enqueue_style('thickbox');
+	wp_enqueue_script('media-upload');
+	wp_enqueue_script('thickbox');
 
 }
 
-if($page == 'reservation-resources'){  //  Only load Styles and Scripts on Statistics Page
+if(isset($page) AND $page == 'reservation-resources'){  //  Only load Styles and Scripts on Statistics Page
 add_action('admin_init', 'reservations_scripts_resources_load');
-}
-function my_admin_scripts() {
-wp_enqueue_script('media-upload');
-wp_enqueue_script('thickbox');
-}
-
-function my_admin_styles() {
-wp_enqueue_style('thickbox');
-}
-
-if (isset($_GET['page']) && $_GET['page'] == 'reservation-resources') {
-add_action('admin_print_scripts', 'my_admin_scripts');
-add_action('admin_print_styles', 'my_admin_styles');
 }
 
 function reservations_datepicker_load() {  //  Load Scripts and Styles for datepicker
@@ -177,6 +167,11 @@ function reservation_add_pages(){  //  Add Pages Admincenter and Order them
 	
 }
 //delete_option('reservations_db_version' );
+function easyReservations_upgrade_notice(){
+    echo '<div class="updated">
+       <p>Thanks for updating <b>easyReservations</b> to <b>1.1.3</b>!<br>Some Shortcodes for eMails and Forms needed to get modified or deleted in the last two Updates, please take a look at the "default" eMails/Forms and try if your Form work.</p>
+    </div>';
+}
 add_option('reservations_db_version', '1.1.1', '', 'yes' );
 $easyreservations_ver="1.1.3";
 $installed_ver=get_option("reservations_db_version");
@@ -188,13 +183,9 @@ if( $installed_ver != $easyreservations_ver ){
 		add_option( 'reservations_overview_size', 'small', '', 'yes' );
 	//easyreservation_install();
 	update_option('reservations_db_version', '1.1.3');
+	add_action('admin_notices', 'easyReservations_upgrade_notice');
 }
 
-if('a' == 'a'){
-
-$prompt = 'You should eat bananas';
-
-}
 
 register_activation_hook(__FILE__, 'easyreservation_install');
 

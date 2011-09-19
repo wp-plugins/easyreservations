@@ -3,7 +3,7 @@ Contributors: feryaz
 Tags: booking, reservation, form, book, rentals, ressources, hotel, rooms
 Requires at least: 3.0
 Tested up to: 3.2.1
-Stable tag: 1.1.2
+Stable tag: 1.1.3
 
 easyReservation is a Reservations or Booking Plugin for your Website. It grants you a fast, structured and detailed overview of your Reservations.
 
@@ -27,7 +27,7 @@ It can be used on any side with overnight rentable content. Its fully translatab
 = Website =
 This Plugin has a Website with a Dokumentation to help you.
 Ask Questions on the releated Dokumentation Page!
-If you want to suggest a Feature or report a Bug use the "Suggestion" Page. 
+If you want to suggest a Feature or report a Bug use the "Suggestion" Page.
 For contacting me use the "Contact" Page. 
 Every help and tip is more as welcome.
 
@@ -37,8 +37,8 @@ Every help and tip is more as welcome.
 
 This section describes how to install the plugin and get it working.
 
-1. Upload the folder "easyreservations" to the `/wp-content/plugins/` directory
-2. Activate the plugin through the 'Plugins' menu in WordPress
+1. Upload the folder "easyreservations" to the `/wp-content/plugins/` directory.
+2. Activate the plugin through the 'Plugins' menu in WordPress.
 3. Follow the Instructions in the Dokumentation on the Plugin Page.
 
 == Changelog ==

@@ -710,7 +710,7 @@ function setVals(roomid) {
 												<table style="width:99%"><tr> <!-- Type Chooser //--> 
 													<td style="width:20%;">
 														<ul class="subsubsub">
-															<?php if(isset($typ) AND ($typ=="" OR $typ=="active")){ ?>
+															<?php if(!isset($typ) OR (isset($typ) AND ($typ=="" OR $typ=="active"))){ ?>
 															<li><a href="admin.php?page=reservations&typ=active" class="current"><?php printf ( __( 'Active' , 'easyReservations' ));?><span class="count"> (<?php echo $items1; ?>)</span></a> |</li>
 															<li><a href="admin.php?page=reservations&typ=pending"><?php printf ( __( 'Pending' , 'easyReservations' ));?><span class="count"> (<?php echo $items3; ?>)</span></a> |</li>
 															<li><a href="admin.php?page=reservations&typ=deleted"><?php printf ( __( 'Rejected' , 'easyReservations' ));?><span class="count"> (<?php echo $items2; ?>)</span></a> |</li>

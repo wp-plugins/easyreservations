@@ -855,7 +855,7 @@ function jumpto(x){ // Chained inputs;
 			var Output  = '<input type="text" name="zwei" id="zwei" value="Amount">';
 			document.getElementById("Text3").innerHTML += Output;
 
-			var Help = '<div class="explainbox" style="font-weight:bold">1. <?php echo __( 'Fill in the Amount of Persons you wanr to fix' , 'easyReservations' ); ?>';
+			var Help = '<div class="explainbox" style="font-weight:bold">1. <?php echo __( 'Fill in the Amount of Persons you want to fix' , 'easyReservations' ); ?>';
 			Help += '<br>2. <?php echo __( 'Click on "Add" to add the Persons as Hidden Field to the end of the Form' , 'easyReservations' ); ?></div><br>';
 			document.getElementById("Helper").innerHTML = Help;
 
@@ -1036,11 +1036,13 @@ Name: [thename] <br>eMail: [email] <br>From: [arrivaldate] <br>To: [departuredat
 								<b>* ADDED</b> <i>Help for Form Field and Room/Offer Filter adding</i><br>
 								<b>* ADDED</b> <i>Custom fields &amp; error preventing to "add Reservation"</i><br>
 								<b>* ADDED</b> <i>Roomcount and "Offer Box Informations" to Resource editing</i><br>
+								<b>* ADDED</b> <i>Hidden fields can be date-from, date-to or persons too</i><br>
 								<b>* STYLE</b> <i>add Reservation</i><br>
 								<b>* FIXED</b> <i>many speed optimizations and clean-ups</i><br>
 								<b>* FIXED</b> <i>Overview is visible without Reservations now</i><br>
 								<b>* FIXED</b> <i>Bugs in Orderby and Filter at Reservations Table</i><br>
 								<b>* FIXED</b> <i>private Posts can be Room/Offer too</i><br>
+								<b>* FIXED</b> <i>allow spaces in custom &amp; price field options</i><br>
 								<div class="fakehr"></div>
 						<p><b style="font-size:13px">easyReservations Version 1.1.2</b><br>
 								<b>* NEW FUNCTION</b> <i>Custom Fields in Form, view and edit; Can be different for each Reservation; delete-, edit-  &amp;  addable for each Reservation</i><br>

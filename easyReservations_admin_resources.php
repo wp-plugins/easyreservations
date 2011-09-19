@@ -574,7 +574,7 @@ function jumpto(x){ // Chained inputs;
 			var Help = '<div class="explainbox"><b>1. <?php echo __( 'Choose the Type of Condition for the Price Filter' , 'easyReservations' ); ?></b>';
 				Help += '<br> &emsp; <i><b>Date Range</b> <i><?php echo __( 'for Example' , 'easyReservations' ); ?>: <code>01.06.2013 - 23.08.2003</code></i>';
 				Help += '<br> &emsp; <i><b>Day</b> <i><?php echo __( 'for Example' , 'easyReservations' ); ?>: <code>10.05.2012</code></i>';
-				Help += '<br> &emsp; <i><b>Unit of Time</b> <i><?php echo __( 'a recurring or fixing unit of Time' , 'easyReservations' ); ?> <code>monday;2011;jan</code></i>';
+				Help += '<br> &emsp; <i><b>Unit of Time</b> <i><?php echo __( 'a recurring or fixed unit of Time' , 'easyReservations' ); ?> <code>monday;2011;jan</code></i>';
 			Help += '<br><b>2. <?php echo __( 'Click on "Add" to add the Avail Filter to the Resource' , 'easyReservations' ); ?></b></div><br>';
 			document.getElementById("Helper").innerHTML = Help;
 
