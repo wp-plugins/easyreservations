@@ -1,0 +1,1674 @@
+# Copyright (C) 2010 
+# This file is distributed under the same license as the  package.
+msgid ""
+msgstr ""
+"Project-Id-Version:  \n"
+"Report-Msgid-Bugs-To: http://wordpress.org/tag/easyreservations\n"
+"POT-Creation-Date: 2011-09-19 15:20:06+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2010-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+
+#: easyReservations_admin_statistics.php:483 easyReservations.php:174
+msgid "Statistics"
+msgstr ""
+
+#: easyReservations_admin_statistics.php:493
+msgid "Detailed Statistics"
+msgstr ""
+
+#: easyReservations_admin_statistics.php:498
+msgid "Total Reservations"
+msgstr ""
+
+#: easyReservations_admin_statistics.php:502
+msgid "Future approved Reservations"
+msgstr ""
+
+#: easyReservations_admin_statistics.php:506
+msgid "Past approved Reservations"
+msgstr ""
+
+#: easyReservations_admin_statistics.php:510
+msgid "Pending Reservations"
+msgstr ""
+
+#: easyReservations_admin_statistics.php:514
+msgid "Rejected Reservations"
+msgstr ""
+
+#: easyReservations_admin_statistics.php:518
+msgid "Trashed Reservations"
+msgstr ""
+
+#: easyReservations_admin_statistics.php:522
+msgid "Guests per Reservation"
+msgstr ""
+
+#: easyReservations_admin_statistics.php:526
+msgid "Nights per Reservation"
+msgstr ""
+
+#: easyReservations_admin_statistics.php:530
+msgid "Revenue of all Reservations"
+msgstr ""
+
+#: easyReservations_admin_statistics.php:534
+msgid "Revenue of future Reservations"
+msgstr ""
+
+#: easyReservations_admin_statistics.php:538
+msgid "Revenue of past Reservations"
+msgstr ""
+
+#: easyReservations_admin_statistics.php:542
+msgid "Revenue per Reservation"
+msgstr ""
+
+#: easyReservations_admin_statistics.php:555
+msgid "Add Reservations first"
+msgstr ""
+
+#: easyReservations_form_shortcode.php:45
+msgid "Please enter correct Name"
+msgstr ""
+
+#: easyReservations_form_shortcode.php:52
+msgid "Please enter correct arrival Date"
+msgstr ""
+
+#: easyReservations_form_shortcode.php:59
+msgid "Please enter correct destination Date"
+msgstr ""
+
+#: easyReservations_form_shortcode.php:65
+msgid "Please enter correct eMail"
+msgstr ""
+
+#: easyReservations_form_shortcode.php:69
+msgid "Please enter correct amount of Persons"
+msgstr ""
+
+#: easyReservations_form_shortcode.php:73
+msgid "Please select a Room"
+msgstr ""
+
+#: easyReservations_form_shortcode.php:109
+msgid "Special Offer isn't available at"
+msgstr ""
+
+#: easyReservations_form_shortcode.php:111
+#: easyReservations_form_shortcode.php:114
+msgid "Room isn't available at"
+msgstr ""
+
+#: easyReservations_form_shortcode.php:124
+msgid "Your Reservation was sent"
+msgstr ""
+
+#: easyReservations_form_shortcode.php:130
+#: easyReservations_form_shortcode.php:234
+#: easyReservations_admin_settings.php:249 easyReservations_admin_main.php:872
+#: easyReservations_admin_main.php:873 easyReservations_admin_main.php:939
+#: easyReservations_admin_add_reservations.php:149
+#: easyReservations_admin_add_reservations.php:160 easyReservations_admin_main
+#: - Kopie.php:836 Kopie.php:837 Kopie.php:902 Kopie.php:1240
+msgid "None"
+msgstr ""
+
+#: easyReservations_form_shortcode.php:230
+msgid "You've choosen"
+msgstr ""
+
+#: easyReservations_form_shortcode.php:230
+msgid "Available"
+msgstr ""
+
+#: easyReservations_admin_post_widget.php:9
+msgid "Special Offers and Rooms"
+msgstr ""
+
+#: easyReservations_admin_post_widget.php:32
+msgid "Only fill this for Special Offers and Rooms"
+msgstr ""
+
+#: easyReservations_admin_post_widget.php:32
+msgid "Help"
+msgstr ""
+
+#: easyReservations_admin_post_widget.php:33
+msgid "For Offers Box Style only "
+msgstr ""
+
+#: easyReservations_admin_post_widget.php:36
+msgid "From - To"
+msgstr ""
+
+#: easyReservations_admin_post_widget.php:40
+msgid "Percent/Price"
+msgstr ""
+
+#: easyReservations_admin_post_widget.php:44
+msgid "Short Description"
+msgstr ""
+
+#: easyReservations_admin_post_widget.php:48
+msgid "For Offers and Rooms"
+msgstr ""
+
+#: easyReservations_admin_post_widget.php:51
+#: easyReservations_admin_resources.php:88
+msgid "Base Price"
+msgstr ""
+
+#: easyReservations_admin_post_widget.php:55
+msgid "Number of Rooms"
+msgstr ""
+
+#: easyReservations_admin_post_widget.php:59
+msgid "Set Filter"
+msgstr ""
+
+#: easyReservations_admin_settings.php:198 easyReservations.php:176
+msgid "Settings"
+msgstr ""
+
+#: easyReservations_admin_settings.php:204
+msgid "General"
+msgstr ""
+
+#: easyReservations_admin_settings.php:205
+msgid "Form"
+msgstr ""
+
+#: easyReservations_admin_settings.php:206
+msgid "eMails"
+msgstr ""
+
+#: easyReservations_admin_settings.php:207
+msgid "About"
+msgstr ""
+
+#: easyReservations_admin_settings.php:219
+msgid "Overview Style"
+msgstr ""
+
+#: easyReservations_admin_settings.php:225
+msgid "Count Days"
+msgstr ""
+
+#: easyReservations_admin_settings.php:226
+msgid "Select how many Days to show at the Reservation Overview"
+msgstr ""
+
+#: easyReservations_admin_settings.php:229
+msgid "Style of Reservations"
+msgstr ""
+
+#: easyReservations_admin_settings.php:230
+msgid "Style of the Reservations in the Reservation Overview"
+msgstr ""
+
+#: easyReservations_admin_settings.php:240
+msgid "Backgroundcolor if empty"
+msgstr ""
+
+#: easyReservations_admin_settings.php:241
+msgid "Background of the empty Days in the Reservation Overview"
+msgstr ""
+
+#: easyReservations_admin_settings.php:244
+msgid "Bordercolor"
+msgstr ""
+
+#: easyReservations_admin_settings.php:245
+msgid "Color of the Border in the Reservation Overview"
+msgstr ""
+
+#: easyReservations_admin_settings.php:248
+msgid "Border"
+msgstr ""
+
+#: easyReservations_admin_settings.php:249
+msgid "Bottom"
+msgstr ""
+
+#: easyReservations_admin_settings.php:249
+msgid "Turn the Bottom-Border in the Reservation Overview on or off"
+msgstr ""
+
+#: easyReservations_admin_settings.php:249
+msgid "Thin"
+msgstr ""
+
+#: easyReservations_admin_settings.php:249
+msgid "Thick"
+msgstr ""
+
+#: easyReservations_admin_settings.php:249
+msgid "Side"
+msgstr ""
+
+#: easyReservations_admin_settings.php:249
+msgid "Turn the Side-Border in the Reservation Overview on or off"
+msgstr ""
+
+#: easyReservations_admin_settings.php:252
+msgid "Font Color if Full"
+msgstr ""
+
+#: easyReservations_admin_settings.php:253
+msgid "Font Color of full Days in the Reservation Overview"
+msgstr ""
+
+#: easyReservations_admin_settings.php:256
+msgid "Font Color if Empty"
+msgstr ""
+
+#: easyReservations_admin_settings.php:257
+msgid "Font Color of empty Days in the Reservation Overview"
+msgstr ""
+
+#: easyReservations_admin_settings.php:264
+msgid "Reservation Settings"
+msgstr ""
+
+#: easyReservations_admin_settings.php:270
+msgid "Reservation Support Mail"
+msgstr ""
+
+#: easyReservations_admin_settings.php:271
+msgid "Mail for Reservations"
+msgstr ""
+
+#: easyReservations_admin_settings.php:274
+msgid "Rooms Category"
+msgstr ""
+
+#: easyReservations_admin_settings.php:275
+msgid "Choose the Post-Category of Rooms"
+msgstr ""
+
+#: easyReservations_admin_settings.php:288
+msgid "Special Offers Category"
+msgstr ""
+
+#: easyReservations_admin_settings.php:289
+msgid "Choose the Post-Category of Offers"
+msgstr ""
+
+#: easyReservations_admin_settings.php:303 easyReservations_admin_main.php:268
+#: easyReservations_admin_main.php:802 easyReservations_admin_main.php:821
+#: easyReservations_admin_main.php:942 easyReservations_admin_main -
+#: Kopie.php:267 Kopie.php:766 Kopie.php:785 Kopie.php:905
+msgid "Price"
+msgstr ""
+
+#: easyReservations_admin_settings.php:304
+msgid "Select type of Price calculation"
+msgstr ""
+
+#: easyReservations_admin_settings.php:304
+msgid "Price per Room"
+msgstr ""
+
+#: easyReservations_admin_settings.php:304 easyReservations.php:655
+msgid "Price per Person"
+msgstr ""
+
+#: easyReservations_admin_settings.php:307
+msgid "Currency"
+msgstr ""
+
+#: easyReservations_admin_settings.php:308
+msgid "Select currency"
+msgstr ""
+
+#: easyReservations_admin_settings.php:308
+msgid "Euro"
+msgstr ""
+
+#: easyReservations_admin_settings.php:308
+msgid "Florin"
+msgstr ""
+
+#: easyReservations_admin_settings.php:308
+msgid "Dollar"
+msgstr ""
+
+#: easyReservations_admin_settings.php:308
+msgid "Pound"
+msgstr ""
+
+#: easyReservations_admin_settings.php:308
+msgid "Yen"
+msgstr ""
+
+#: easyReservations_admin_settings.php:311
+#: easyReservations_admin_settings.php:519
+#: easyReservations_admin_settings.php:948
+#: easyReservations_admin_settings.php:964
+#: easyReservations_admin_settings.php:980
+#: easyReservations_admin_main.php:1099 easyReservations_admin_main -
+#: Kopie.php:1060 Kopie.php:1252
+msgid "Save Changes"
+msgstr ""
+
+#: easyReservations_admin_settings.php:320
+msgid "Clean Database"
+msgstr ""
+
+#: easyReservations_admin_settings.php:326
+msgid "Delete all unapproved Old Reservations"
+msgstr ""
+
+#: easyReservations_admin_settings.php:327
+msgid "Delete all unapproved, rejected or trashed Old Reservations"
+msgstr ""
+
+#: easyReservations_admin_settings.php:327
+msgid "Clean DB"
+msgstr ""
+
+#: easyReservations_admin_settings.php:337
+msgid "Change Permissions"
+msgstr ""
+
+#: easyReservations_admin_settings.php:342
+msgid "Select needed permission for Reservations Admin Panel"
+msgstr ""
+
+#: easyReservations_admin_settings.php:353
+#: easyReservations_admin_resources.php:396
+#: easyReservations_admin_resources.php:417
+msgid "Set"
+msgstr ""
+
+#: easyReservations_admin_settings.php:362
+msgid "Informations"
+msgstr ""
+
+#: easyReservations_admin_settings.php:367
+msgid "Room IDs"
+msgstr ""
+
+#: easyReservations_admin_settings.php:375
+#: easyReservations_admin_add_reservations.php:133
+#: easyReservations_admin_resources.php:105
+msgid "add Post to Room Category to add a Room"
+msgstr ""
+
+#: easyReservations_admin_settings.php:377
+msgid "Offer IDs"
+msgstr ""
+
+#: easyReservations_admin_settings.php:385
+#: easyReservations_admin_add_reservations.php:155
+#: easyReservations_admin_resources.php:107
+msgid "add Post to Offer Category to add an Offer"
+msgstr ""
+
+#: easyReservations_admin_settings.php:387
+msgid "Support Mail"
+msgstr ""
+
+#: easyReservations_admin_settings.php:475
+msgid "Reservation Form"
+msgstr ""
+
+#: easyReservations_admin_settings.php:481
+msgid "Standard"
+msgstr ""
+
+#: easyReservations_admin_settings.php:481
+#: easyReservations_admin_resources.php:760
+#: easyReservations_admin_resources.php:786
+msgid "Add"
+msgstr ""
+
+#: easyReservations_admin_settings.php:517
+msgid "The ID of the Special Offer Category"
+msgstr ""
+
+#: easyReservations_admin_settings.php:526
+msgid "Include to Page or Post with"
+msgstr ""
+
+#: easyReservations_admin_settings.php:529
+msgid "wrong inputs & unavailable dates"
+msgstr ""
+
+#: easyReservations_admin_settings.php:530
+msgid "day of arrival with datepicker"
+msgstr ""
+
+#: easyReservations_admin_settings.php:531
+msgid "day of departure with datepicker"
+msgstr ""
+
+#: easyReservations_admin_settings.php:532
+#: easyReservations_admin_settings.php:1003
+msgid "number of guests"
+msgstr ""
+
+#: easyReservations_admin_settings.php:533
+msgid "name of guest"
+msgstr ""
+
+#: easyReservations_admin_settings.php:534
+msgid "email of guest"
+msgstr ""
+
+#: easyReservations_admin_settings.php:535
+msgid "select of rooms"
+msgstr ""
+
+#: easyReservations_admin_settings.php:536
+msgid "offers as select or box"
+msgstr ""
+
+#: easyReservations_admin_settings.php:537
+msgid "for fix a room/offer to a form"
+msgstr ""
+
+#: easyReservations_admin_settings.php:538
+msgid "add custom fields as needed"
+msgstr ""
+
+#: easyReservations_admin_settings.php:539
+#: easyReservations_admin_settings.php:1006
+msgid "message from guest"
+msgstr ""
+
+#: easyReservations_admin_settings.php:540
+msgid "submit button"
+msgstr ""
+
+#: easyReservations_admin_settings.php:545
+#: easyReservations_admin_settings.php:547
+#: easyReservations_admin_settings.php:551
+#: easyReservations_admin_settings.php:557
+#: easyReservations_admin_settings.php:567
+#: easyReservations_admin_settings.php:569
+#: easyReservations_admin_settings.php:571
+#: easyReservations_admin_settings.php:574
+#: easyReservations_admin_settings.php:576
+msgid "No"
+msgstr ""
+
+#: easyReservations_admin_settings.php:545
+#: easyReservations_admin_settings.php:547
+#: easyReservations_admin_settings.php:551
+#: easyReservations_admin_settings.php:557
+#: easyReservations_admin_settings.php:567
+#: easyReservations_admin_settings.php:569
+#: easyReservations_admin_settings.php:571
+#: easyReservations_admin_settings.php:574
+#: easyReservations_admin_settings.php:576
+msgid "Tag in Form"
+msgstr ""
+
+#: easyReservations_admin_settings.php:547
+#: easyReservations_admin_settings.php:551
+#: easyReservations_admin_settings.php:557 easyReservations_admin_main.php:160
+#: easyReservations_admin_resources.php:591
+#: easyReservations_admin_resources.php:603
+#: easyReservations_admin_resources.php:615
+#: easyReservations_admin_resources.php:651
+#: easyReservations_admin_resources.php:653
+#: easyReservations_admin_resources.php:655
+#: easyReservations_admin_resources.php:657
+#: easyReservations_admin_resources.php:659
+#: easyReservations_admin_resources.php:679
+#: easyReservations_admin_resources.php:681
+#: easyReservations_admin_resources.php:683
+#: easyReservations_admin_resources.php:685
+#: easyReservations_admin_resources.php:687
+#: easyReservations_admin_resources.php:700
+#: easyReservations_admin_resources.php:706
+msgid "or"
+msgstr ""
+
+#: easyReservations_admin_settings.php:549
+#: easyReservations_admin_settings.php:553
+#: easyReservations_admin_settings.php:559
+#: easyReservations_admin_settings.php:561
+#: easyReservations_admin_settings.php:563
+msgid "Dont use"
+msgstr ""
+
+#: easyReservations_admin_settings.php:549
+#: easyReservations_admin_settings.php:553
+#: easyReservations_admin_settings.php:559
+#: easyReservations_admin_settings.php:561
+#: easyReservations_admin_settings.php:563
+msgid "and"
+msgstr ""
+
+#: easyReservations_admin_settings.php:549
+#: easyReservations_admin_settings.php:553
+#: easyReservations_admin_settings.php:559
+#: easyReservations_admin_settings.php:561
+#: easyReservations_admin_settings.php:563
+msgid "in the same Form"
+msgstr ""
+
+#: easyReservations_admin_settings.php:555
+#: easyReservations_admin_settings.php:565
+msgid "Check "
+msgstr ""
+
+#: easyReservations_admin_settings.php:555
+msgid "'s roomID"
+msgstr ""
+
+#: easyReservations_admin_settings.php:565
+msgid "'s offerID"
+msgstr ""
+
+#: easyReservations_admin_settings.php:580
+msgid "This form is not valid"
+msgstr ""
+
+#: easyReservations_admin_settings.php:583
+msgid "This form is valid"
+msgstr ""
+
+#: easyReservations_admin_settings.php:658
+msgid "Select type of Input you want to add"
+msgstr ""
+
+#: easyReservations_admin_settings.php:668
+msgid "Select Type of custom Price Input"
+msgstr ""
+
+#: easyReservations_admin_settings.php:669
+msgid "Select"
+msgstr ""
+
+#: easyReservations_admin_settings.php:669
+msgid "Add a Drop-Down Select Input with effect on the Price to the Form"
+msgstr ""
+
+#: easyReservations_admin_settings.php:670
+msgid "Radio"
+msgstr ""
+
+#: easyReservations_admin_settings.php:670
+msgid "Add a Radio Select Input with effect on the Price to the Form"
+msgstr ""
+
+#: easyReservations_admin_settings.php:671
+msgid "Checkbox"
+msgstr ""
+
+#: easyReservations_admin_settings.php:671
+msgid "Add a Checkbox Input with effect on the Price to the Form"
+msgstr ""
+
+#: easyReservations_admin_settings.php:681
+msgid ""
+"Click on \"Add\" to add the Output of wrong Inputs or Unavailable Days to "
+"the end of the Form"
+msgstr ""
+
+#: easyReservations_admin_settings.php:683
+msgid ""
+"Click on \"Add\" to add a Input for the Arrival Date with the Date-Picker to "
+"the end of the Form"
+msgstr ""
+
+#: easyReservations_admin_settings.php:685
+msgid "Click on \"Add\" to add a Input for the eMail to the end of the Form"
+msgstr ""
+
+#: easyReservations_admin_settings.php:687
+msgid ""
+"Click on \"Add\" to add a Input for the Departure Date with the Date-Picker "
+"to the end of the Form"
+msgstr ""
+
+#: easyReservations_admin_settings.php:689
+msgid "Click on \"Add\" to add a Select of all Rooms to the end of the Form"
+msgstr ""
+
+#: easyReservations_admin_settings.php:691
+msgid "Click on \"Add\" to add a Input for a Message to the end of the Form"
+msgstr ""
+
+#: easyReservations_admin_settings.php:693
+msgid "Click on \"Add\" to add a Input for the Name to the end of the Form"
+msgstr ""
+
+#: easyReservations_admin_settings.php:705
+msgid "Type in Value of Submit button"
+msgstr ""
+
+#: easyReservations_admin_settings.php:718
+msgid "Select Type of Person Input"
+msgstr ""
+
+#: easyReservations_admin_settings.php:730
+msgid "Select Type of Hidden Input"
+msgstr ""
+
+#: easyReservations_admin_settings.php:731
+msgid "for fixing an Information to the form & hide it from Guest"
+msgstr ""
+
+#: easyReservations_admin_settings.php:732
+msgid "Fix a Room to the Form; dont use it with [rooms] in the same Form"
+msgstr ""
+
+#: easyReservations_admin_settings.php:733
+msgid "Fix an Offer to the Form; dont use it with [offers] in the same Form"
+msgstr ""
+
+#: easyReservations_admin_settings.php:734
+msgid ""
+"Fix an Arrival Date to the Form; dont use it with [date-from] in the same "
+"Form"
+msgstr ""
+
+#: easyReservations_admin_settings.php:735
+msgid ""
+"Fix a Departure Date to the Form; dont use it with [date-to] in the same Form"
+msgstr ""
+
+#: easyReservations_admin_settings.php:736
+msgid ""
+"Fix a Departure Date to the Form; dont use it with [persons] in the same Form"
+msgstr ""
+
+#: easyReservations_admin_settings.php:751
+msgid "Select Type of Offer"
+msgstr ""
+
+#: easyReservations_admin_settings.php:752
+msgid "A Drop-Down Select of all Offers"
+msgstr ""
+
+#: easyReservations_admin_settings.php:753
+msgid "A Box as promt if the Guest was redirected by an Offer Post"
+msgstr ""
+
+#: easyReservations_admin_settings.php:754
+msgid "Click on \"Add\" to add the Offer Input to the end of the Form"
+msgstr ""
+
+#: easyReservations_admin_settings.php:767
+#: easyReservations_admin_settings.php:800
+msgid "Type in a Name for the"
+msgstr ""
+
+#: easyReservations_admin_settings.php:767
+msgid "Input you want to add"
+msgstr ""
+
+#: easyReservations_admin_settings.php:777
+msgid "Type in a Name for the Checkbox"
+msgstr ""
+
+#: easyReservations_admin_settings.php:778
+msgid "Type in a Value for the Checkbox"
+msgstr ""
+
+#: easyReservations_admin_settings.php:779
+msgid "The Value has to match "
+msgstr ""
+
+#: easyReservations_admin_settings.php:780
+#: easyReservations_admin_settings.php:781
+msgid "if Guest checks the Checkbox the Price will increase by"
+msgstr ""
+
+#: easyReservations_admin_settings.php:782
+msgid "if Guest checks the Checkbox the Price will decrease by"
+msgstr ""
+
+#: easyReservations_admin_settings.php:783
+msgid ""
+"Click on \"Add\" to add the custom Price Checkbox to the end of the Form"
+msgstr ""
+
+#: easyReservations_admin_settings.php:792
+msgid "Type in a Name for the Drop-Down Select"
+msgstr ""
+
+#: easyReservations_admin_settings.php:793
+msgid "Type in the Options Field for the"
+msgstr ""
+
+#: easyReservations_admin_settings.php:794
+#: easyReservations_admin_settings.php:802
+msgid "The Options Field has to match "
+msgstr ""
+
+#: easyReservations_admin_settings.php:795
+msgid "if Guest selects \"selectname\" the Price will increase by"
+msgstr ""
+
+#: easyReservations_admin_settings.php:796
+msgid "if Guest selects \"noBreakfast\" the Price will decrease by"
+msgstr ""
+
+#: easyReservations_admin_settings.php:797
+msgid "if Guest selects \"noLaundry\" the Price wont change"
+msgstr ""
+
+#: easyReservations_admin_settings.php:798
+msgid "Click on \"Add\" to add the custom Price"
+msgstr ""
+
+#: easyReservations_admin_settings.php:798
+#: easyReservations_admin_settings.php:806
+msgid "Input to the end of the Form"
+msgstr ""
+
+#: easyReservations_admin_settings.php:801
+msgid "Type in the Options Field the Drop-Down Select"
+msgstr ""
+
+#: easyReservations_admin_settings.php:803
+#: easyReservations_admin_settings.php:804
+#: easyReservations_admin_settings.php:805
+msgid "selected Option will be saved"
+msgstr ""
+
+#: easyReservations_admin_settings.php:806
+msgid "Click on \"Add\" to add the custom "
+msgstr ""
+
+#: easyReservations_admin_settings.php:818
+msgid "Select a Room"
+msgstr ""
+
+#: easyReservations_admin_settings.php:819
+msgid "Click on \"Add\" to add the hidden Room Field to the end of the Form"
+msgstr ""
+
+#: easyReservations_admin_settings.php:829
+msgid "Select an Offer"
+msgstr ""
+
+#: easyReservations_admin_settings.php:830
+msgid "Click on \"Add\" to add the hidden Offer Field to the end of the Form"
+msgstr ""
+
+#: easyReservations_admin_settings.php:840
+msgid "Select maximum Number of Selects"
+msgstr ""
+
+#: easyReservations_admin_settings.php:841
+msgid "Click on \"Add\" to add the Persons Input to the end of the Form"
+msgstr ""
+
+#: easyReservations_admin_settings.php:849
+msgid ""
+"Click on \"Add\" to add the Person Input as Text Field to the end of the Form"
+msgstr ""
+
+#: easyReservations_admin_settings.php:859
+msgid "Fill in the Amount of Persons you wanr to fix"
+msgstr ""
+
+#: easyReservations_admin_settings.php:860
+msgid ""
+"Click on \"Add\" to add the Persons as Hidden Field to the end of the Form"
+msgstr ""
+
+#: easyReservations_admin_settings.php:870
+msgid "Fill in the Date of the Arrival Date you want to fix"
+msgstr ""
+
+#: easyReservations_admin_settings.php:871
+msgid ""
+"Click on \"Add\" to add the Arrival Date as Hidden Field to the end of the "
+"Form"
+msgstr ""
+
+#: easyReservations_admin_settings.php:881
+msgid "Fill in the Date of the Departure Date you want to fix"
+msgstr ""
+
+#: easyReservations_admin_settings.php:882
+msgid ""
+"Click on \"Add\" to add the Departure Date as Hidden Field to the end of the "
+"Form"
+msgstr ""
+
+#: easyReservations_admin_settings.php:940
+msgid "Mail to admin for new Reservation"
+msgstr ""
+
+#: easyReservations_admin_settings.php:956
+msgid "Mail to User when approve Reservation"
+msgstr ""
+
+#: easyReservations_admin_settings.php:972
+msgid "Mail to User when reject Reservation"
+msgstr ""
+
+#: easyReservations_admin_settings.php:990
+msgid "Possibilitys"
+msgstr ""
+
+#: easyReservations_admin_settings.php:997
+msgid "wordwrap"
+msgstr ""
+
+#: easyReservations_admin_settings.php:998
+msgid "name"
+msgstr ""
+
+#: easyReservations_admin_settings.php:999
+msgid "email"
+msgstr ""
+
+#: easyReservations_admin_settings.php:1000
+msgid "arrival date"
+msgstr ""
+
+#: easyReservations_admin_settings.php:1001
+msgid "departure date"
+msgstr ""
+
+#: easyReservations_admin_settings.php:1002
+msgid "nights to stay"
+msgstr ""
+
+#: easyReservations_admin_settings.php:1004
+msgid "choosen room"
+msgstr ""
+
+#: easyReservations_admin_settings.php:1005
+msgid "choosen offer"
+msgstr ""
+
+#: easyReservations_admin_settings.php:1007
+msgid "shows price"
+msgstr ""
+
+#: easyReservations_admin_settings.php:1008
+msgid "custom fields"
+msgstr ""
+
+#: easyReservations_admin_settings.php:1022
+msgid "Changelog"
+msgstr ""
+
+#: easyReservations_admin_settings.php:1112
+msgid "How to Start"
+msgstr ""
+
+#: easyReservations_admin_settings.php:1119
+msgid "Set Reservation Admin eMail"
+msgstr ""
+
+#: easyReservations_admin_settings.php:1120
+msgid "Set Room Category"
+msgstr ""
+
+#: easyReservations_admin_settings.php:1121
+msgid "Set Offer Caregory"
+msgstr ""
+
+#: easyReservations_admin_settings.php:1122
+msgid "Set up Rooms and Offers"
+msgstr ""
+
+#: easyReservations_admin_settings.php:1123
+msgid "The Plugin should work!"
+msgstr ""
+
+#: easyReservations_admin_settings.php:1133
+msgid "Links"
+msgstr ""
+
+#: easyReservations_admin_settings.php:1139
+msgid "Documentation"
+msgstr ""
+
+#: easyReservations_admin_settings.php:1139
+msgid "Suggest Ideas & Report Bugs"
+msgstr ""
+
+#: easyReservations_admin_settings.php:1139
+msgid "Wordpress Repostry"
+msgstr ""
+
+#: easyReservations_admin_settings.php:1147
+msgid "Latest News"
+msgstr ""
+
+#: easyReservations_admin_settings.php:1185
+msgid "Donate"
+msgstr ""
+
+#: easyReservations_admin_main.php:92 easyReservations_admin_main.php:110
+#: easyReservations_admin_main.php:128 easyReservations_admin_main.php:912
+#: easyReservations.php:168 easyReservations_admin_main - Kopie.php:96
+#: Kopie.php:115 Kopie.php:133 Kopie.php:876
+msgid "Reservation"
+msgstr ""
+
+#: easyReservations_admin_main.php:92 easyReservations_admin_main.php:110
+#: easyReservations_admin_main.php:128 easyReservations.php:168
+#: easyReservations_admin_main - Kopie.php:96 Kopie.php:115 Kopie.php:133
+#: easyReservations_admin_resources.php:89
+msgid "Reservations"
+msgstr ""
+
+#: easyReservations_admin_main.php:129 easyReservations_admin_main -
+#: Kopie.php:134
+msgid "deleted permanently"
+msgstr ""
+
+#: easyReservations_admin_main.php:142 easyReservations_admin_main.php:145
+#: easyReservations_admin_main - Kopie.php:147
+msgid "Custom Field added"
+msgstr ""
+
+#: easyReservations_admin_main.php:146
+msgid "Set Title and Value of custom Field"
+msgstr ""
+
+#: easyReservations_admin_main.php:159 easyReservations_admin_main -
+#: Kopie.php:158
+msgid "Custom Price added"
+msgstr ""
+
+#: easyReservations_admin_main.php:160
+msgid "Price has to match for example"
+msgstr ""
+
+#: easyReservations_admin_main.php:176 easyReservations_admin_main.php:193
+#: easyReservations_admin_main - Kopie.php:175 Kopie.php:192
+msgid "Custom Field deleted"
+msgstr ""
+
+#: easyReservations_admin_main.php:238 easyReservations_admin_main -
+#: Kopie.php:237
+msgid "Reservation edited!"
+msgstr ""
+
+#: easyReservations_admin_main.php:262 easyReservations.php:899
+#: easyReservations_admin_main - Kopie.php:261
+msgid "paid"
+msgstr ""
+
+#: easyReservations_admin_main.php:265 easyReservations_admin_main -
+#: Kopie.php:264
+msgid "unpaid"
+msgstr ""
+
+#: easyReservations_admin_main.php:269 easyReservations_admin_main -
+#: Kopie.php:268
+msgid ""
+"Shows the price how it would be calculated now. When changing Filters/"
+"Groundprice/Settings or the Reservations Price after this Reservation was "
+"approved it wont match the Price anymore."
+msgstr ""
+
+#: easyReservations_admin_main.php:365 easyReservations_admin_main -
+#: Kopie.php:364
+msgid "Reservation approved"
+msgstr ""
+
+#: easyReservations_admin_main.php:435 easyReservations_admin_main -
+#: Kopie.php:434
+msgid "Reservation rejected"
+msgstr ""
+
+#: easyReservations_admin_main.php:582 easyReservations_admin_main.php:596
+#: easyReservations_admin_main.php:605 easyReservations_admin_main.php:792
+#: easyReservations_admin_main.php:811 easyReservations_admin_main.php:922
+#: easyReservations_admin_main.php:1017
+#: easyReservations_admin_add_reservations.php:110 easyReservations.php:770
+#: easyReservations_admin_main - Kopie.php:545 Kopie.php:562 Kopie.php:756
+#: Kopie.php:775 Kopie.php:885 Kopie.php:978 Kopie.php:1213
+msgid "Date"
+msgstr ""
+
+#: easyReservations_admin_main.php:582 easyReservations_admin_main.php:596
+#: easyReservations_admin_main.php:605 easyReservations_admin_main.php:797
+#: easyReservations_admin_main.php:816 easyReservations_admin_main.php:934
+#: easyReservations_admin_main.php:1034
+#: easyReservations_admin_add_reservations.php:137 easyReservations.php:328
+#: easyReservations_admin_main - Kopie.php:545 Kopie.php:562 Kopie.php:761
+#: Kopie.php:780 Kopie.php:897 Kopie.php:995 Kopie.php:1228
+#: easyReservations_admin_resources.php:161
+msgid "Room"
+msgstr ""
+
+#: easyReservations_admin_main.php:582 easyReservations_admin_main -
+#: Kopie.php:545
+msgid "Status: Occupied"
+msgstr ""
+
+#: easyReservations_admin_main.php:596 easyReservations_admin_main.php:605
+#: easyReservations_admin_main - Kopie.php:562
+msgid "Status: Empty"
+msgstr ""
+
+#: easyReservations_admin_main.php:714 easyReservations_admin_main.php:721
+#: easyReservations_admin_main.php:728 easyReservations_admin_main.php:735
+#: easyReservations_admin_main.php:742 easyReservations_admin_main.php:749
+#: easyReservations_admin_main - Kopie.php:677 Kopie.php:684 Kopie.php:691
+#: Kopie.php:698 Kopie.php:705 Kopie.php:712
+msgid "Active"
+msgstr ""
+
+#: easyReservations_admin_main.php:715 easyReservations_admin_main.php:722
+#: easyReservations_admin_main.php:729 easyReservations_admin_main.php:736
+#: easyReservations_admin_main.php:743 easyReservations_admin_main.php:750
+#: easyReservations_admin_main - Kopie.php:678 Kopie.php:685 Kopie.php:692
+#: Kopie.php:699 Kopie.php:706 Kopie.php:713
+msgid "Pending"
+msgstr ""
+
+#: easyReservations_admin_main.php:716 easyReservations_admin_main.php:723
+#: easyReservations_admin_main.php:730 easyReservations_admin_main.php:737
+#: easyReservations_admin_main.php:744 easyReservations_admin_main.php:751
+#: easyReservations_admin_main - Kopie.php:679 Kopie.php:686 Kopie.php:693
+#: Kopie.php:700 Kopie.php:707 Kopie.php:714
+msgid "Rejected"
+msgstr ""
+
+#: easyReservations_admin_main.php:717 easyReservations_admin_main.php:724
+#: easyReservations_admin_main.php:731 easyReservations_admin_main.php:738
+#: easyReservations_admin_main.php:745 easyReservations_admin_main.php:753
+#: easyReservations_admin_main - Kopie.php:680 Kopie.php:687 Kopie.php:694
+#: Kopie.php:701 Kopie.php:708 Kopie.php:716
+msgid "All"
+msgstr ""
+
+#: easyReservations_admin_main.php:718 easyReservations_admin_main.php:725
+#: easyReservations_admin_main.php:732 easyReservations_admin_main.php:739
+#: easyReservations_admin_main.php:746 easyReservations_admin_main.php:752
+#: easyReservations_admin_main - Kopie.php:681 Kopie.php:688 Kopie.php:695
+#: Kopie.php:702 Kopie.php:709 Kopie.php:715
+msgid "Old"
+msgstr ""
+
+#: easyReservations_admin_main.php:719 easyReservations_admin_main.php:726
+#: easyReservations_admin_main.php:733 easyReservations_admin_main.php:754
+#: easyReservations_admin_main - Kopie.php:682 Kopie.php:689 Kopie.php:696
+#: Kopie.php:717
+msgid "Trash"
+msgstr ""
+
+#: easyReservations_admin_main.php:759 easyReservations_admin_main -
+#: Kopie.php:722
+msgid "Show all Dates"
+msgstr ""
+
+#: easyReservations_admin_main.php:767 easyReservations_admin_main -
+#: Kopie.php:730
+msgid "January"
+msgstr ""
+
+#: easyReservations_admin_main.php:767 easyReservations_admin_main -
+#: Kopie.php:730
+msgid "February"
+msgstr ""
+
+#: easyReservations_admin_main.php:767 easyReservations_admin_main -
+#: Kopie.php:730
+msgid "March"
+msgstr ""
+
+#: easyReservations_admin_main.php:767 easyReservations_admin_main -
+#: Kopie.php:730
+msgid "April"
+msgstr ""
+
+#: easyReservations_admin_main.php:767 easyReservations_admin_main -
+#: Kopie.php:730
+msgid "May"
+msgstr ""
+
+#: easyReservations_admin_main.php:767 easyReservations_admin_main -
+#: Kopie.php:730
+msgid "June"
+msgstr ""
+
+#: easyReservations_admin_main.php:767 easyReservations_admin_main -
+#: Kopie.php:730
+msgid "July"
+msgstr ""
+
+#: easyReservations_admin_main.php:767 easyReservations_admin_main -
+#: Kopie.php:730
+msgid "August"
+msgstr ""
+
+#: easyReservations_admin_main.php:767 easyReservations_admin_main -
+#: Kopie.php:730
+msgid "September"
+msgstr ""
+
+#: easyReservations_admin_main.php:767 easyReservations_admin_main -
+#: Kopie.php:730
+msgid "October"
+msgstr ""
+
+#: easyReservations_admin_main.php:767 easyReservations_admin_main -
+#: Kopie.php:730
+msgid "November"
+msgstr ""
+
+#: easyReservations_admin_main.php:767 easyReservations_admin_main -
+#: Kopie.php:730
+msgid "December"
+msgstr ""
+
+#: easyReservations_admin_main.php:770 easyReservations_admin_main -
+#: Kopie.php:734
+msgid "View all Rooms"
+msgstr ""
+
+#: easyReservations_admin_main.php:772 easyReservations_admin_main -
+#: Kopie.php:736
+msgid "View all Offers "
+msgstr ""
+
+#: easyReservations_admin_main.php:775 easyReservations_admin_main -
+#: Kopie.php:739 easyReservations_admin_resources.php:90
+msgid "Filter"
+msgstr ""
+
+#: easyReservations_admin_main.php:778 easyReservations_admin_main -
+#: Kopie.php:742
+msgid "Search"
+msgstr ""
+
+#: easyReservations_admin_main.php:789 easyReservations_admin_main.php:808
+#: easyReservations_admin_main.php:918 easyReservations_admin_main.php:1013
+#: easyReservations_admin_add_reservations.php:106 easyReservations_admin_main
+#: - Kopie.php:753 Kopie.php:772 Kopie.php:881 Kopie.php:974 Kopie.php:1209
+msgid "Name"
+msgstr ""
+
+#: easyReservations_admin_main.php:793 easyReservations_admin_main.php:812
+#: easyReservations_admin_main.php:926 easyReservations_admin_main.php:1021
+#: easyReservations_admin_add_reservations.php:114 easyReservations_admin_main
+#: - Kopie.php:757 Kopie.php:776 Kopie.php:889 Kopie.php:982 Kopie.php:1217
+msgid "eMail"
+msgstr ""
+
+#: easyReservations_admin_main.php:794 easyReservations_admin_main.php:813
+#: easyReservations_admin_main.php:930 easyReservations_admin_main.php:1026
+#: easyReservations_admin_add_reservations.php:118 easyReservations_admin_main
+#: - Kopie.php:758 Kopie.php:777 Kopie.php:893 Kopie.php:987 Kopie.php:1221
+msgid "Persons"
+msgstr ""
+
+#: easyReservations_admin_main.php:800 easyReservations_admin_main.php:819
+#: easyReservations.php:329 easyReservations_admin_main - Kopie.php:764
+#: Kopie.php:783 easyReservations_admin_resources.php:161
+msgid "Offer"
+msgstr ""
+
+#: easyReservations_admin_main.php:801 easyReservations_admin_main.php:820
+#: easyReservations_admin_main - Kopie.php:765 Kopie.php:784
+msgid "Note"
+msgstr ""
+
+#: easyReservations_admin_main.php:867 easyReservations_admin_main -
+#: Kopie.php:831
+msgid "Edit"
+msgstr ""
+
+#: easyReservations_admin_main.php:867 easyReservations_admin_main.php:912
+#: easyReservations_admin_main.php:1176 easyReservations_admin_main -
+#: Kopie.php:831 Kopie.php:876 Kopie.php:1136
+msgid "Approve"
+msgstr ""
+
+#: easyReservations_admin_main.php:867 easyReservations_admin_main.php:912
+#: easyReservations_admin_main.php:1176 easyReservations_admin_main -
+#: Kopie.php:831 Kopie.php:876 Kopie.php:1136
+msgid "Reject"
+msgstr ""
+
+#: easyReservations_admin_main.php:867 easyReservations_admin_main.php:887
+#: easyReservations_admin_main - Kopie.php:831 Kopie.php:851
+msgid "Restore"
+msgstr ""
+
+#: easyReservations_admin_main.php:867 easyReservations_admin_main.php:887
+#: easyReservations_admin_main - Kopie.php:831 Kopie.php:851
+msgid "Delete Permanently"
+msgstr ""
+
+#: easyReservations_admin_main.php:867 easyReservations_admin_main.php:912
+#: easyReservations_admin_main - Kopie.php:831 Kopie.php:876
+msgid "View"
+msgstr ""
+
+#: easyReservations_admin_main.php:868 easyReservations_admin_main -
+#: Kopie.php:832
+msgid "Nights"
+msgstr ""
+
+#: easyReservations_admin_main.php:879 easyReservations_admin_main -
+#: Kopie.php:843
+msgid "No Reservations found!"
+msgstr ""
+
+#: easyReservations_admin_main.php:887 easyReservations_admin_main -
+#: Kopie.php:851
+msgid "Bulk Actions"
+msgstr ""
+
+#: easyReservations_admin_main.php:887 easyReservations_admin_main -
+#: Kopie.php:851
+msgid "Move to Trash"
+msgstr ""
+
+#: easyReservations_admin_main.php:887 easyReservations_admin_main -
+#: Kopie.php:851
+msgid "Apply"
+msgstr ""
+
+#: easyReservations_admin_main.php:893 easyReservations_admin_main -
+#: Kopie.php:857
+msgid "Elements"
+msgstr ""
+
+#: easyReservations_admin_main.php:898 easyReservations_admin_main -
+#: Kopie.php:862
+msgid "Export table as CSV"
+msgstr ""
+
+#: easyReservations_admin_main.php:913
+#: easyReservations_admin_resources.php:150
+#: easyReservations_admin_resources.php:161
+#: easyReservations_admin_resources.php:313
+msgid "edit"
+msgstr ""
+
+#: easyReservations_admin_main.php:938 easyReservations_admin_main.php:1056
+#: easyReservations_admin_add_reservations.php:159 easyReservations_admin_main
+#: - Kopie.php:901 Kopie.php:1017 Kopie.php:1239
+msgid "Special Offer"
+msgstr ""
+
+#: easyReservations_admin_main.php:947 easyReservations_admin_main.php:1069
+#: easyReservations_admin_main - Kopie.php:910 Kopie.php:1030
+msgid "Message"
+msgstr ""
+
+#: easyReservations_admin_main.php:983 easyReservations_admin_main.php:1143
+#: easyReservations.php:885 easyReservations.php:908
+#: easyReservations_admin_main - Kopie.php:946 Kopie.php:1103
+msgid "approved"
+msgstr ""
+
+#: easyReservations_admin_main.php:984 easyReservations_admin_main.php:1144
+#: easyReservations.php:888 easyReservations_admin_main - Kopie.php:947
+#: Kopie.php:1104
+msgid "pending"
+msgstr ""
+
+#: easyReservations_admin_main.php:985 easyReservations_admin_main.php:1145
+#: easyReservations.php:886 easyReservations_admin_main - Kopie.php:948
+#: Kopie.php:1105
+msgid "rejected"
+msgstr ""
+
+#: easyReservations_admin_main.php:986 easyReservations_admin_main.php:1146
+#: easyReservations.php:887 easyReservations_admin_main - Kopie.php:949
+#: Kopie.php:1106
+msgid "trashed"
+msgstr ""
+
+#: easyReservations_admin_main.php:1005 easyReservations_admin_main -
+#: Kopie.php:966
+msgid "Edit Reservation"
+msgstr ""
+
+#: easyReservations_admin_main.php:1108 easyReservations_admin_main.php:1114
+#: easyReservations_admin_main.php:1130
+#: easyReservations_admin_add_reservations.php:180
+#: easyReservations_admin_add_reservations.php:186 easyReservations_admin_main
+#: - Kopie.php:1069 Kopie.php:1075 Kopie.php:1090
+msgid "Add custom Field"
+msgstr ""
+
+#: easyReservations_admin_main.php:1123 easyReservations_admin_main -
+#: Kopie.php:1084
+msgid "Add custom Price"
+msgstr ""
+
+#: easyReservations_admin_main.php:1155 easyReservations_admin_main -
+#: Kopie.php:1115
+msgid "Approve the Reservation"
+msgstr ""
+
+#: easyReservations_admin_main.php:1155 easyReservations_admin_main -
+#: Kopie.php:1115
+msgid "Reject the Reservation"
+msgstr ""
+
+#: easyReservations_admin_main.php:1163 easyReservations_admin_main -
+#: Kopie.php:1123
+msgid "Room:"
+msgstr ""
+
+#: easyReservations_admin_main.php:1175 easyReservations_admin_main -
+#: Kopie.php:1135
+msgid "Send Mail to Guest"
+msgstr ""
+
+#: easyReservations_admin_main.php:1175 easyReservations_admin_main -
+#: Kopie.php:1135
+msgid "Has been paid"
+msgstr ""
+
+#: easyReservations_admin_main.php:1176 easyReservations_admin_main -
+#: Kopie.php:1136
+msgid "To"
+msgstr ""
+
+#: easyReservations_admin_main.php:1176 easyReservations_admin_main -
+#: Kopie.php:1136
+msgid "the Reservation, write a message and press Send"
+msgstr ""
+
+#: easyReservations_admin_main.php:1176 easyReservations_admin_main -
+#: Kopie.php:1136
+msgid "The Customer will recieve that message in an eMail"
+msgstr ""
+
+#: easyReservations_admin_main.php:1191 easyReservations_admin_main -
+#: Kopie.php:1151
+msgid "Message has been sent!"
+msgstr ""
+
+#: easyReservations_admin_add_reservations.php:49 easyReservations_admin_main
+#: - Kopie.php:1185
+msgid "Reservation added!"
+msgstr ""
+
+#: easyReservations_admin_add_reservations.php:52
+msgid "Please fill out all Fields"
+msgstr ""
+
+#: easyReservations_admin_add_reservations.php:96
+#: easyReservations_admin_add_reservations.php:172 easyReservations.php:172
+#: easyReservations_admin_main - Kopie.php:1201
+msgid "Add Reservation"
+msgstr ""
+
+#: easyReservations_admin_add_reservations.php:164 easyReservations_admin_main
+#: - Kopie.php:1251
+msgid "Notes"
+msgstr ""
+
+#: easyReservations.php:170
+msgid "Resources"
+msgstr ""
+
+#: easyReservations.php:351 easyReservations.php:361 easyReservations.php:380
+#: easyReservations.php:393 easyReservations.php:589 easyReservations.php:596
+msgid " Price Filter"
+msgstr ""
+
+#: easyReservations.php:624 easyReservations.php:644
+msgid "base Price"
+msgstr ""
+
+#: easyReservations.php:674 easyReservations.php:677
+msgid " Stay Filter"
+msgstr ""
+
+#: easyReservations.php:692 easyReservations.php:695
+msgid " Loyal Filter"
+msgstr ""
+
+#: easyReservations.php:708 easyReservations.php:711
+msgid " Persons Filter"
+msgstr ""
+
+#: easyReservations.php:731
+msgid "Reservation Custom Price %"
+msgstr ""
+
+#: easyReservations.php:734
+msgid "Reservation Custom Price"
+msgstr ""
+
+#: easyReservations.php:756
+msgid "Wrong Price/Filter"
+msgstr ""
+
+#: easyReservations.php:770
+msgid "Detailed Price"
+msgstr ""
+
+#: easyReservations.php:770
+msgid "Description"
+msgstr ""
+
+#: easyReservations.php:770
+msgid "Price of Day"
+msgstr ""
+
+#: easyReservations.php:770
+msgid "Total Price"
+msgstr ""
+
+#: easyReservations.php:900
+msgid "not unpaid"
+msgstr ""
+
+#: easyReservations_admin_resources.php:46
+msgid "Resource added"
+msgstr ""
+
+#: easyReservations_admin_resources.php:47
+msgid "Please enter a Title"
+msgstr ""
+
+#: easyReservations_admin_resources.php:75
+msgid "Add and Set Room Post Category"
+msgstr ""
+
+#: easyReservations_admin_resources.php:76
+msgid "Add and Set Offer Post Category"
+msgstr ""
+
+#: easyReservations_admin_resources.php:85
+#: easyReservations_admin_resources.php:768
+msgid "Title"
+msgstr ""
+
+#: easyReservations_admin_resources.php:86
+msgid "ID"
+msgstr ""
+
+#: easyReservations_admin_resources.php:87
+msgid "Quantity"
+msgstr ""
+
+#: easyReservations_admin_resources.php:91
+msgid "Status"
+msgstr ""
+
+#: easyReservations_admin_resources.php:92
+msgid "Excerpt"
+msgstr ""
+
+#: easyReservations_admin_resources.php:160
+msgid "edit Post"
+msgstr ""
+
+#: easyReservations_admin_resources.php:162
+msgid "view"
+msgstr ""
+
+#: easyReservations_admin_resources.php:163
+msgid "trash & delete"
+msgstr ""
+
+#: easyReservations_admin_resources.php:287
+#: easyReservations_admin_resources.php:288
+#: easyReservations_admin_resources.php:298
+#: easyReservations_admin_resources.php:385
+msgid "Groundprice"
+msgstr ""
+
+#: easyReservations_admin_resources.php:329
+msgid "Filters"
+msgstr ""
+
+#: easyReservations_admin_resources.php:373
+msgid "Save Filters"
+msgstr ""
+
+#: easyReservations_admin_resources.php:395
+msgid "Roomcount"
+msgstr ""
+
+#: easyReservations_admin_resources.php:406
+msgid "Offer Box Informations"
+msgstr ""
+
+#: easyReservations_admin_resources.php:427
+msgid "Filter Help"
+msgstr ""
+
+#: easyReservations_admin_resources.php:534
+msgid "Select the Amount of needed Persons for Discount"
+msgstr ""
+
+#: easyReservations_admin_resources.php:543
+msgid "Select the Amount of needed Nights for Discount"
+msgstr ""
+
+#: easyReservations_admin_resources.php:552
+msgid ""
+"Select the Amount of needed past approved Reservations with the same eMail "
+"for Discount"
+msgstr ""
+
+#: easyReservations_admin_resources.php:562
+msgid "Type in the period in which the Resource is unavailable"
+msgstr ""
+
+#: easyReservations_admin_resources.php:563
+#: easyReservations_admin_resources.php:575
+#: easyReservations_admin_resources.php:576
+#: easyReservations_admin_resources.php:591
+#: easyReservations_admin_resources.php:603
+#: easyReservations_admin_resources.php:615
+#: easyReservations_admin_resources.php:626
+#: easyReservations_admin_resources.php:637
+#: easyReservations_admin_resources.php:651
+#: easyReservations_admin_resources.php:653
+#: easyReservations_admin_resources.php:655
+#: easyReservations_admin_resources.php:657
+#: easyReservations_admin_resources.php:659
+#: easyReservations_admin_resources.php:679
+#: easyReservations_admin_resources.php:681
+#: easyReservations_admin_resources.php:683
+#: easyReservations_admin_resources.php:685
+#: easyReservations_admin_resources.php:687
+#: easyReservations_admin_resources.php:690
+#: easyReservations_admin_resources.php:700
+#: easyReservations_admin_resources.php:706
+msgid "for Example"
+msgstr ""
+
+#: easyReservations_admin_resources.php:564
+#: easyReservations_admin_resources.php:578
+msgid "Click on \"Add\" to add the Avail Filter to the Resource"
+msgstr ""
+
+#: easyReservations_admin_resources.php:574
+msgid "Choose the Type of Condition for the Price Filter"
+msgstr ""
+
+#: easyReservations_admin_resources.php:577
+msgid "a recurring or fixing unit of Time"
+msgstr ""
+
+#: easyReservations_admin_resources.php:590
+#: easyReservations_admin_resources.php:602
+#: easyReservations_admin_resources.php:614
+msgid "Type in Amount of Discount in Money or Percent"
+msgstr ""
+
+#: easyReservations_admin_resources.php:592
+msgid "Click on \"Add\" to add the Persons Filter to the Resource"
+msgstr ""
+
+#: easyReservations_admin_resources.php:604
+msgid "Click on \"Add\" to add the Stay Filter to the Resource"
+msgstr ""
+
+#: easyReservations_admin_resources.php:616
+msgid "Click on \"Add\" to add the Loyal Filter to the Resource"
+msgstr ""
+
+#: easyReservations_admin_resources.php:625
+#: easyReservations_admin_resources.php:689
+msgid ""
+"Type in the Dates from the period in wich the Groundprice should be different"
+msgstr ""
+
+#: easyReservations_admin_resources.php:636
+msgid "Type in the Date in wich the Groundprice should be different"
+msgstr ""
+
+#: easyReservations_admin_resources.php:647
+#: easyReservations_admin_resources.php:675
+msgid "Type in the Unit of time in wich the Groundprice should be different"
+msgstr ""
+
+#: easyReservations_admin_resources.php:648
+#: easyReservations_admin_resources.php:676
+msgid "The Condition Field has to match "
+msgstr ""
+
+#: easyReservations_admin_resources.php:649
+#: easyReservations_admin_resources.php:677
+msgid "Type of Units by Priority"
+msgstr ""
+
+#: easyReservations_admin_resources.php:699
+msgid "Type in the Price for each Room in the selected Period"
+msgstr ""
+
+#: easyReservations_admin_resources.php:705
+msgid "Type in the Price for the Room in the selected Period"
+msgstr ""
+
+#: easyReservations_admin_resources.php:708
+msgid "Click on \"Add\" to add the Price Filter to the Resource"
+msgstr ""
+
+#: easyReservations_admin_resources.php:765
+msgid "This will add a Post to the"
+msgstr ""
+
+#: easyReservations_admin_resources.php:765
+msgid "Category"
+msgstr ""
+
+#: easyReservations_admin_resources.php:765
+msgid "It will be Private and only visible in Forms and Admin"
+msgstr ""
+
+#: easyReservations_admin_resources.php:772
+msgid "Content"
+msgstr ""
+
+#: easyReservations_admin_resources.php:776
+msgid "Image"
+msgstr ""
