@@ -6,7 +6,7 @@ add_action( 'save_post', 'reservations_save_postdata' );
 function reservations_add_custom_box() {
     add_meta_box( 
         'myplugin_sectionid',
-        __( 'Special Offers and Rooms', 'myplugin_textdomain' ),
+        __( 'Special Offers and Rooms', 'easyReservations' ),
 			'reservations_post_widget',
             'post',
             'side',
@@ -28,7 +28,8 @@ function reservations_post_widget() {
  $reservations_current_value_price = get_post_meta($post->ID, 'reservations_groundprice', TRUE);
  $reservations_current_room_count = get_post_meta($post->ID, 'roomcount', TRUE);
  $reservations_filter = get_post_meta($post->ID, 'reservations_filter', TRUE);
-  ?><script src="<?php echo WP_PLUGIN_URL . '/easyreservations/js/filterhelp.js'; ?>"></script><small><?php printf ( __( 'Only fill this for Special Offers and Rooms' , 'easyReservations' ));?>; <a href=<?php echo '"http://www.feryaz.de/dokumentation/"'; ?>><?php printf ( __( 'Help' , 'easyReservations' ));?></a></small><br><br>
+  ?>
+  <script src="<?php echo WP_PLUGIN_URL . '/easyreservations/js/filterhelp.js'; ?>"></script><small><?php printf ( __( 'Only fill this for Special Offers and Rooms' , 'easyReservations' ));?>; <a href=<?php echo '"http://www.feryaz.de/dokumentation/"'; ?>><?php printf ( __( 'Help' , 'easyReservations' ));?></a></small><br><br>
  <b><?php printf ( __( 'For Offers Box Style only ' , 'easyReservations' ));?></b>
   <table>
   <tr>

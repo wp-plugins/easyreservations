@@ -1,5 +1,4 @@
 <?php
-	
 	for($ii = 0; $ii < 8; $ii++){
 		$daysOptions .= "'".date("D", time()+($ii*86400))."<br>".date("d.m", time()+($ii*86400))."', ";
 		$daysOptionsPast .= "'".date("D", time()-604800+($ii*86400))."<br>".date("d.m", time()-604800+($ii*86400))."', ";
@@ -11,7 +10,6 @@
 		$countRejected .= mysql_num_rows(mysql_query("SELECT id FROM ".$wpdb->prefix ."reservations WHERE approve='no' AND '$day' BETWEEN arrivalDate AND DATE_ADD(arrivalDate, INTERVAL nights DAY)")).', '; // number of total rows in the database
 		$countPending .= mysql_num_rows(mysql_query("SELECT id FROM ".$wpdb->prefix ."reservations WHERE approve='' AND '$day' BETWEEN arrivalDate AND DATE_ADD(arrivalDate, INTERVAL nights DAY)")).', '; // number of total rows in the database
 	}
-	
 ?>
 <script type="text/javascript">
 	var chart;

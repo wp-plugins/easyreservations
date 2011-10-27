@@ -1,6 +1,39 @@
 .widefat input,select,textarea,radio {
 	margin-top: -2px;
 }
+.widefat .tmiddle td {
+    background-image: -moz-linear-gradient(center top , #F9F9F9, #ECECEC);
+	background-image: -ms-linear-gradient(top, #F9F9F9, #ECECEC); /* IE10 */
+	background-image: -moz-linear-gradient(top, #F9F9F9, #ECECEC); /* Firefox */
+	background-image: -o-linear-gradient(top, #F9F9F9, #ECECEC); /* Opera */
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#F9F9F9), to(#ECECEC)); /* old Webkit */
+	background-image: -webkit-linear-gradient(top, #F9F9F9, #ECECEC); /* new Webkit */
+	background-image: linear-gradient(top, #F9F9F9, #ECECEC); /* proposed W3C Markup */
+
+	height: 40px;
+	padding: 7px 7px 8px;
+	font-size: 14px;
+	font-weight: normal;
+	
+	  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
+
+    border-bottom-color: #DFDFDF;
+    border-top-color: #FFFFFF;
+
+    font-family: Georgia,"Times New Roman","Bitstream Charter",Times,serif;
+    font-weight: normal;
+
+    overflow: hidden;
+
+    font-size: 14px;
+    line-height: 1.5em;
+    padding: 7px 7px 8px;
+    text-align: left;
+
+    border-style: solid;
+    border-width: 1px 0;
+}
+}
 .fakehr {
 	background:#e0e0e0;
 	width:100%;
@@ -199,4 +232,17 @@ td.hover  { background: #C6C6C6; }
 .easySubmitButton-secondary:active {
 	position:relative;
 	top:1px;
+}
+
+.showPrice {
+	padding:6px;
+	font-family :Verdana;
+	white-space: nowrap; 
+	background: #FFF9AD;
+}
+
+.resourceType {
+	color: #000 !important;
+	text-shadow:1px 1px 0px #fff;
+	text-transform: capitalize;
 }

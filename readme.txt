@@ -3,7 +3,7 @@ Contributors: feryaz
 Tags: booking, reservation, form, book, rentals, ressources, hotel, rooms
 Requires at least: 3.0
 Tested up to: 3.2.1
-Stable tag: 1.2
+Stable tag: 1.1.4
 easyReservation is a Reservations or Booking Plugin for your Website. It grants you a fast, structured and detailed overview of your Reservations.
 
 == Description ==

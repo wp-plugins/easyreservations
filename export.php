@@ -109,7 +109,7 @@
 			$priceExpl = explode(";", $exportReservations->price);
 			if($priceExpl[0] != '') $exportPrice = $priceExpl[0];
 			else {
-				$priceFunction = easyreservations_price_calculation($exportReservations->id);
+				$priceFunction = easyreservations_price_calculation($exportReservations->id, '');
 				$exportPrice = $priceFunction['price'];
 			}
 			if($priceExpl[1] != '') $exportPaid = $priceExpl[1];

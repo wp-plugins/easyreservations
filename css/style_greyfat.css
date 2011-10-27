@@ -86,13 +86,13 @@ code p {
 	border-bottom-left-radius: 0px;
 }
 .greyfat tbody td:first-of-type {
-	border-left: 1px solid #c2c2c2;
+	border-left: 1px solid #A3A3A3;
 }
 .greyfat tbody td:last-of-type {
-	border-right: 1px solid #c2c2c2;
+	border-right: 1px solid #A3A3A3;
 }
-.greyfat tr:last-of-type td {
-	border-bottom: 1px solid #c2c2c2;
+.greyfat tbody tr:last-of-type td {
+	border-bottom: 1px solid #A3A3A3;
 }
 
 .greyfat {
@@ -104,7 +104,23 @@ code p {
 	text-align: center;
 }
 .greyfat tr {
-	background-color: #f4f4f2;
+	background-color: #f8f8f7;
+
+}
+.greyfat .tmiddle td {
+	background-color: #575757;
+	height: 40px;
+	padding: 7px 7px 8px;
+	text-align: left;
+	line-height: 1.5em;
+	font-size: 14px;
+	font-family: "Lucida Grande", "Lucida Sans Unicode", "Trebuchet MS", sans-serif;
+	color: #fff;
+	font-weight: normal;
+	shadow:none;
+	border:1px solid #575757 !important;
+}
+.greyfat .tmiddle {
 
 }
 .greyfat .alternate {
@@ -118,6 +134,7 @@ code p {
 }
 .greyfat a {
 	text-decoration: none;
+
 }
 .greyfat input,select,textarea,radio {
 	margin-top: -1px;
@@ -442,4 +459,17 @@ td.hover {
 .easySubmitButton-secondary:active {
 	position:relative;
 	top:1px;
+}
+
+.showPrice {
+	padding:6px;
+	font-family :Verdana;
+	white-space: nowrap; 
+	background: #FFF9AD;
+}
+
+.resourceType {
+	color: #000 !important;
+	text-shadow:1px 1px 0px #fff;
+	text-transform: capitalize;
 }

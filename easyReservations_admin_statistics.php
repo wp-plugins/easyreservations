@@ -73,14 +73,14 @@ function reservation_statistics_page() { //Statistic Page
 			foreach($results_personnights as $results_personnight){
 				$personsall+=$results_personnight->number;
 				$nightsall+=$results_personnight->nights;
-				$pricecalculation=easyreservations_price_calculation($results_personnight->id);
+				$pricecalculation=easyreservations_price_calculation($results_personnight->id, '');
 				$pricesall+=$pricecalculation['price'];
 			}
 			
 			$sql_pricesfuture = "SELECT id, number, nights FROM ".$wpdb->prefix ."reservations WHERE DATE_ADD(arrivalDate, INTERVAL nights DAY) >= NOW() AND approve='yes' ";
 			$results_pricesfuture = $wpdb->get_results($sql_pricesfuture );
 			foreach($results_pricesfuture as $results_pricefuture){
-				$pricecalculation=easyreservations_price_calculation($results_pricefuture->id);
+				$pricecalculation=easyreservations_price_calculation($results_pricefuture->id, '');
 				$pricesfuture+=$pricecalculation['price'];
 
 			}
@@ -88,7 +88,7 @@ function reservation_statistics_page() { //Statistic Page
 			$sql_pricespast = "SELECT id, number, nights FROM ".$wpdb->prefix ."reservations WHERE DATE_ADD(arrivalDate, INTERVAL nights DAY) < NOW() AND approve='yes' ";
 			$results_pricespast = $wpdb->get_results($sql_pricespast );
 			foreach($results_pricespast as $results_pricepast){
-				$pricecalculation=easyreservations_price_calculation($results_pricepast->id);
+				$pricecalculation=easyreservations_price_calculation($results_pricepast->id, '');
 				$pricespast+=$pricecalculation['price'];
 			}
 
@@ -546,7 +546,7 @@ function reservation_statistics_page() { //Statistic Page
 				</tr>
 			</tbody>
 		</table>
-<br>
+		<br>
 		<table style="width: 99%;" cellpadding="0">
 			<tr>
 				<td style="width: 35%;"><div id="percentrooms"></div></td>
@@ -559,51 +559,51 @@ function reservation_statistics_page() { //Statistic Page
 						</thead>
 						<tbody>
 							<tr style="font-size:13px;">
-								<td><?php printf ( __( 'Total Reservations' , 'easyReservations' ));?>:</td>
+								<td><?php printf ( __( 'Total reservations' , 'easyReservations' ));?>:</td>
 								<td style="text-align:right;"><b><?php echo $countallreservationsall; ?> </b></td>
 							</tr>
 							<tr class="alternate" style="font-size:13px;">
-								<td style="font-size:13px"> - <?php printf ( __( 'Future approved Reservations' , 'easyReservations' ));?>:</td>
+								<td style="font-size:13px"> - <?php printf ( __( 'Future approved reservations' , 'easyReservations' ));?>:</td>
 								<td style="text-align:right;"><b><?php echo $countallreservationsfuture; ?></b></td>
 							</tr>
 							<tr style="font-size:13px;">
-								<td style="font-size:13px;"> - <?php printf ( __( 'Past approved Reservations' , 'easyReservations' ));?>:</td>
+								<td style="font-size:13px;"> - <?php printf ( __( 'Past approved reservations' , 'easyReservations' ));?>:</td>
 								<td style="text-align:right;"><b><?php echo $countallreservationspast; ?></b></td>
 							</tr>
 							<tr class="alternate" style="font-size:13px;">
-								<td> - <?php printf ( __( 'Pending Reservations' , 'easyReservations' ));?>:</td>
+								<td> - <?php printf ( __( 'Pending reservations' , 'easyReservations' ));?>:</td>
 								<td style="text-align:right;"><b><?php echo $countallreservationspending; ?></b></td>
 							</tr>
 							<tr>
-								<td style="font-size:13px;"> - <?php printf ( __( 'Rejected Reservations' , 'easyReservations' ));?>:</td>
+								<td style="font-size:13px;"> - <?php printf ( __( 'Rejected reservations' , 'easyReservations' ));?>:</td>
 								<td style="text-align:right;"><b><?php echo $countallreservationsreject; ?></b></td>
 							</tr>
 							<tr  class="alternate"  style="font-size:13px;">
-								<td> - <?php printf ( __( 'Trashed Reservations' , 'easyReservations' ));?>:</td>
+								<td> - <?php printf ( __( 'Trashed reservations' , 'easyReservations' ));?>:</td>
 								<td style="text-align:right;"><b><?php echo $countallreservationstrash; ?></b></td>
 							</tr>
 							<tr style="font-size:13px;">
-								<td>&#216; <?php printf ( __( 'Guests per Reservation' , 'easyReservations' ));?>:</td>
+								<td>&#216; <?php printf ( __( 'Guests per reservations' , 'easyReservations' ));?>:</td>
 								<td style="text-align:right;"><b><?php echo round($personsperreservation, 2); ?></b></td>
 							</tr>
 							<tr  class="alternate" style="font-size:13px;">
-								<td>&#216; <?php printf ( __( 'Nights per Reservation' , 'easyReservations' ));?>:</td>
+								<td>&#216; <?php printf ( __( 'Nights per reservations' , 'easyReservations' ));?>:</td>
 								<td style="text-align:right;"><b><?php echo round($nightsperreservation, 2); ?></b></td>
 							</tr><br>
 							<tr style="font-size:13px;">
-								<td><?php printf ( __( 'Revenue of all Reservations' , 'easyReservations' ));?>:</td>
+								<td><?php printf ( __( 'Revenue of all reservations' , 'easyReservations' ));?>:</td>
 								<td style="text-align:right;"><b><?php echo reservations_format_money($pricesall).' &'.get_option('reservations_currency').';'; ?></b></td>
 							</tr>
 							<tr  class="alternate"  style="font-size:13px;">
-								<td> - <?php printf ( __( 'Revenue of future Reservations' , 'easyReservations' ));?>:</td>
+								<td> - <?php printf ( __( 'Revenue of future reservations' , 'easyReservations' ));?>:</td>
 								<td style="text-align:right;"><b><?php echo reservations_format_money($pricesfuture).' &'.get_option('reservations_currency').';'; ?></b></td>
 							</tr>
 							<tr style="font-size:13px;">
-								<td> - <?php printf ( __( 'Revenue of past Reservations' , 'easyReservations' ));?>:</td>
+								<td> - <?php printf ( __( 'Revenue of past reservations' , 'easyReservations' ));?>:</td>
 								<td style="text-align:right;"><b><?php echo reservations_format_money($pricespast).' &'.get_option('reservations_currency').';'; ?></b></td>
 							</tr>
 							<tr class="alternate" style="font-size:13px;">
-								<td> &#216; <?php printf ( __( 'Revenue per Reservation' , 'easyReservations' ));?>:</td>
+								<td> &#216; <?php printf ( __( 'Revenue per reservations' , 'easyReservations' ));?>:</td>
 								<td style="text-align:right;"><b><?php echo $priceperreservation.' &'.get_option('reservations_currency').';'; ?></b></td>
 							</tr>
 						</tbody>
@@ -616,5 +616,5 @@ function reservation_statistics_page() { //Statistic Page
 		
 
 <?php 
-} else echo  __( 'Add Reservations first' , 'easyReservations' ); 
+} else echo '<b style="color:#FF0000">'.__( 'Add reservations first' , 'easyReservations' ).'</b>'; 
 } ?>

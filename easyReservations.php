@@ -9,7 +9,12 @@ Author URI: http://www.feryaz.com
 */
 
 add_action('admin_menu', 'reservation_add_pages');
+/*
 
+	get files
+
+
+*/
 require_once(dirname(__FILE__)."/easyReservations_admin_main.php");
 
 require_once(dirname(__FILE__)."/easyReservations_admin_resources.php");
@@ -22,25 +27,43 @@ require_once(dirname(__FILE__)."/easyReservations_admin_post_widget.php");
 
 require_once(dirname(__FILE__)."/easyReservations_form_shortcode.php");
 
-add_shortcode('reservations', 'reservations_form_shortcode');
+require_once(dirname(__FILE__)."/lib/widgets/form_widget.php");
 
 require_once(dirname(__FILE__)."/easyReservations_edit_shortcode.php");
 
-add_shortcode('editreservations', 'reservations_edit_shortcode');
-
 require_once(dirname(__FILE__)."/easyReservations_calendar_shortcode.php");
 
-add_shortcode('reservationcalendar', 'reservations_calendar_shortcode');
+if(file_exists(dirname(__FILE__).'/lib/plugins/paypal/paypal.php')){
+	require_once(dirname(__FILE__)."/lib/plugins/paypal/paypal.php");
+}
 
+/*
+
+	add shortcodes
+
+
+*/
+add_shortcode('easy_calendar', 'reservations_calendar_shortcode');
+add_shortcode('easy_edit', 'reservations_edit_shortcode');
+add_shortcode('easy_form', 'reservations_form_shortcode');
+
+/*
+
+	get files
+
+
+*/
 define('RESERVATIONS_IMAGES_DIR', WP_PLUGIN_URL.'/easyreservations/images');
+define('RESERVATIONS_LIB_DIR', WP_PLUGIN_URL.'/easyreservations/lib/');
 define('RESERVATIONS_JS_DIR', WP_PLUGIN_URL.'/easyreservations/js');
 define('RESERVATIONS_STYLE', get_option("reservations_style"));
+//add_filter('widget_text', 'do_shortcode'); //enable shortcodes in widgets
 
-function my_plugin_init() {
+function easyreservations_init() {
 	load_plugin_textdomain('easyReservations', false, dirname(plugin_basename( __FILE__ )).'/languages/' );
 }
-add_action('init','my_plugin_init');
-add_action('admin_init','my_plugin_init');
+add_action('init','easyreservations_init');
+add_action('admin_init','easyreservations_init');
 
 
 function reservation_register_head() {
@@ -133,7 +156,7 @@ function easyreservations_scripts_resources_load() {  //  Load Scripts and Style
 	wp_enqueue_script('thickbox');
 }
 
-if(isset($page) AND $page == 'reservation-resources'){  //  Only load Styles and Scripts on Statistics Page
+if(isset($page) AND $page == 'reservation-resources'){  //  Only load Styles and Scripts on Resources Page
 add_action('admin_init', 'easyreservations_scripts_resources_load');
 }
 
@@ -195,42 +218,81 @@ Reservation Details:<br>
 Reservation ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrivaldate] <br>To: [departuredate] <br>Persons: [persons] <br>Room: [rooms] <br>Offer: [offers] <br>Message: [note]<br>Price: [price]<br>[customs]<br><br>edit your reservation on [editlink]";
 $emailstandart5="Your reservation got edited from you. If this wasnt you, please contact us through this email address.<br><br>
 New Reservation Details:<br>
-Reservation ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrivaldate] <br>To: [departuredate] <br>Persons: [persons] <br>Room: [rooms] <br>Offer: [offers] <br>Message: [note]<br>Price: [price]<br>[customs]<br><br>edit your reservation on [editlink]";
+Reservation ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrivaldate] <br>To: [departuredate] <br>Persons: [persons] <br>Room: [rooms] <br>Offer: [offers] <br>Message: [note]<br>Price: [price]<br>[customs]<br><br>edit your reservation on [editlink]<br><br>[changelog]";
 $emailstandart6="Reservation got edited by Guest.<br><br>
 New Reservation Details:<br>
-Reservation ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrivaldate] <br>To: [departuredate] <br>Persons: [persons] <br>Room: [rooms] <br>Offer: [offers] <br>Message: [note]<br>Price: [price]<br>[customs]";
-$formstandart.="
-	[error]
+Reservation ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrivaldate] <br>To: [departuredate] <br>Persons: [persons] <br>Room: [rooms] <br>Offer: [offers] <br>Message: [note]<br>Price: [price]<br>[customs]<br><br>[changelog]";
+$emailstandart7="Your reservation got edited by admin.<br><br>
+[adminmessage]<br>
+New Reservation Details:<br>
+Reservation ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrivaldate] <br>To: [departuredate] <br>Persons: [persons] <br>Room: [rooms] <br>Offer: [offers] <br>Message: [note]<br>Price: [price]<br>[customs]<br><br>edit your reservation on [editlink]<br><br>[changelog]";
 
-	<p>From:<br>[date-from]</p>
+$formstandart.='[error]
+<h1>Sign-up form</h1>
+<p>General informations</p>
 
-	<p>To:<br>[date-to]</p>
+<label>From
+<span class="small">When do you come?</span>
+</label>[date-from]
 
-	<p>Persons:<br>[persons Select 10]</p>
+<label>To
+<span class="small">When do you go?</span>
+</label>[date-to]
 
-	<p>Name:<br>[thename]</p>
+<label>Room
+<span class="small">How many guests?</span>
+</label>[rooms]
 
-	<p>eMail:<br>[email]</p>
+<label>Offer
+<span class="small">Do you want an offer?</span>
+</label>[offers select]
 
-	<p>Phone:<br>[custom text Phone]</p>
+<label>Persons
+<span class="small">How many guests?</span>
+</label>[persons Select 10]
 
-	<p>Address:<br>[custom text Address]</p>
+<label>Childs
+<span class="small">with childrens?</span>
+</label>[childs Select 10]
 
-	<p>Room: [rooms]</p>
+<p>Personal informations</p>
+<label>Name
+<span class="small">Whats your name?</span>
+</label>[thename]
 
-	<p>Offer: [offers select]</p>	
+<label>eMail
+<span class="small">Whats your email?</span>
+</label>[email]
 
-	<p>Message:<br>[message]</p>
+<label>Phone
+<span class="small">Your phone number?</span>
+</label>[custom text Phone *]
 
-	<p>[submit Send]</p>";
+<label>Address
+<span class="small">Your address?</span>
+</label>[custom text Address]
+
+<label>Postal code
+<span class="small">Your postal code?</span>
+</label>[custom text postal]
+
+<label>Message
+<span class="small">Want write us smth?</span>
+</label>[message]
+
+<label>Captcha
+<span class="small">Type in code</span>
+</label>[captcha]
+
+[submit Send]
+[show_price]';
 
 	/*
 
 		Add Options
 
 	*/
-
-	if(!get_option('reservations_regular_guests') OR !get_option('reservations_show_rooms')){
+		add_option( 'reservations_style_form', 'blue', '', 'yes' );
 		add_option('reservations_main_permission', 'edit_posts', '', 'yes' );
 		add_option( 'reservations_email_to_userapp_subj', 'Your Reservation on '.get_option('blogname').' has been approved', '', 'yes' );
 		add_option( 'reservations_email_to_userapp_msg', $emailstandart2, '', 'yes' );
@@ -244,6 +306,8 @@ $formstandart.="
 		add_option( 'reservations_email_to_user_edited_msg', $emailstandart5, '', 'yes' );
 		add_option( 'reservations_email_to_admin_edited_subj', 'Reservation on '.get_option('blogname').' got edited by user', '', 'yes' );
 		add_option( 'reservations_email_to_admin_edited_msg', $emailstandart6, '', 'yes' );
+		add_option( 'reservations_email_to_user_admin_edited_subj', 'Reservation on '.get_option('blogname').' got edited by admin', '', 'yes' );
+		add_option( 'reservations_email_to_user_admin_edited_msg', $emailstandart7, '', 'yes' );
 		add_option( 'reservations_email_sendmail_subj', 'Message from '.get_option('blogname'), '', 'yes' );
 		add_option( 'reservations_email_sendmail_msg', $emailstandart0, '', 'yes' );
 		add_option( 'reservations_form', $formstandart, '', 'yes' );
@@ -252,15 +316,13 @@ $formstandart.="
 		add_option( 'reservations_show_rooms', '', '', 'yes' );
 		add_option( 'reservations_edit_url', '', '', 'yes' );
 		add_option( 'reservations_edit_text', '', '', 'yes' );
-	}
-	if(!get_option('reservations_on_page') OR !get_option('reservations_price_per_persons')){
-		add_option( 'reservations_price_per_persons', '0', '', 'yes' ); 
-		add_option( 'reservations_on_page', '10', '', 'yes' ); 
-		add_option( 'reservations_room_category', '', '', 'yes' ); 
+		add_option( 'reservations_price_per_persons', '0', '', 'yes' );
+		add_option( 'reservations_on_page', '10', '', 'yes' );
+		add_option( 'reservations_room_category', '', '', 'yes' );
 		add_option( 'reservations_special_offer_cat', '', '', 'yes' ); 
 		add_option( 'reservations_currency', 'euro', '', 'yes' );
-		add_option( 'reservations_support_mail', '', '', 'yes' ); 
-	}
+		add_option( 'reservations_support_mail', '', '', 'yes' );
+		add_option( 'reservations_style', 'greyfat', '', 'yes' );
 
 	/*
 
@@ -278,17 +340,19 @@ $formstandart.="
 		email varchar(50) NOT NULL,
 		notes text NOT NULL,
 		nights varchar(5) NOT NULL,
+		country varchar(4) NOT NULL,
 		dat varchar(8) NOT NULL,
 		approve varchar(3) NOT NULL,
 		room varchar(8) DEFAULT NULL,
 		roomnumber varchar(8) NOT NULL,
-		number varchar(4) NOT NULL,
+		number int(4) NOT NULL,
+		childs int(4) NOT NULL,
 		special varchar(8) NOT NULL,
 		price varchar(20) NOT NULL,
 		custom text NOT NULL,
 		customp text NOT NULL,
 		reservated DATETIME NOT NULL,
-		UNIQUE KEY id (id));";
+		UNIQUE KEY id (id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci ;";
 		require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
 		dbDelta($sql);
 		
@@ -320,7 +384,7 @@ $formstandart.="
 		$sql_setpricequerie = "SELECT id, price FROM ".$wpdb->prefix ."reservations WHERE approve='yes'";
 		$setpricequeries = $wpdb->get_results($sql_setpricequerie );
 		foreach($setpricequeries as $price){
-			$pricearry = easyreservations_price_calculation($price->id);
+			$pricearry = easyreservations_price_calculation($price->id, '');
 			$priceset=$pricearry['price'].';0';
 			if($price->price == '') $wpdb->query( $wpdb->prepare("UPDATE ".$wpdb->prefix ."reservations SET price='$priceset' WHERE id='$price->id' ") );
 		}
@@ -336,21 +400,26 @@ $formstandart.="
 	*/
 
 	if(get_option("reservations_special_offer_cat")==''){
-		$offer_cat = array('cat_name' => 'Offer', 'category_description' => 'Sample Offer Category', 'category_nicename' => 'offers', 'category_parent' => '');
+		$offer_cat = array('cat_name' => 'Offer', 'category_description' => 'Sample offer category', 'category_nicename' => 'offers', 'category_parent' => '');
 		$offer_cat_id = wp_insert_category($offer_cat);
 		update_option("reservations_special_offer_cat", $offer_cat_id);
 	}
 	if(get_option("reservations_room_category")==''){
-		$room_cat = array('cat_name' => 'Rooms', 'category_description' => 'Sample Room Category', 'category_nicename' => 'rooms', 'category_parent' => '');
+		$room_cat = array('cat_name' => 'Rooms', 'category_description' => 'Sample room category', 'category_nicename' => 'rooms', 'category_parent' => '');
 		$room_cat_id = wp_insert_category($room_cat);
 		update_option("reservations_room_category", $room_cat_id);
+	}
+
+	$room_args = array( 'post_status' => 'publish|private', 'category' => get_option("reservations_room_category"), 'orderby' => 'post_title', 'order' => 'ASC', 'numberposts' => 1);
+	$roomcategories = get_posts( $room_args );
+	if(!$roomcategories){
 
 		$roomOne = array(
 			'post_title' => 'roomOne',
 			'post_content' => 'This is a Sample Room.',
 			'post_status' => 'private',
 			'post_author' => 1,
-			'post_category' => array($room_cat_id)
+			'post_category' => array(get_option("reservations_room_category"))
 		);
 
 		$roomOne_id = wp_insert_post( $roomOne );
@@ -362,39 +431,50 @@ $formstandart.="
 			'post_content' => 'This is a Sample Room.',
 			'post_status' => 'private',
 			'post_author' => 1,
-			'post_category' => array($room_cat_id)
+			'post_category' => array(get_option("reservations_room_category"))
 		);
 
 		$roomTwo_id = wp_insert_post( $roomTwo );
 		add_post_meta($roomTwo_id, 'roomcount', 7);
 		add_post_meta($roomTwo_id, 'reservations_groundprice', 250.57);
 		
-		if(isset($offer_cat_id)){
-			$offerOne = array(
-				'post_title' => 'offerOne',
-				'post_content' => 'This is a Sample Offer.',
-				'post_status' => 'private',
-				'post_author' => 1,
-				'post_category' => array($offer_cat_id)
-			);
+	}
 
-			$offerOne_id = wp_insert_post( $offerOne );
-			$pricestring = $roomOne_id.':50-'.$roomTwo_id.':70';
-			add_post_meta($offerOne_id, 'reservations_groundprice', $pricestring);
-		}
+	$offer_args=array( 'category' => get_option('reservations_special_offer_cat'), 'post_type' => 'post', 'post_status' => 'publish|private', 'orderby' => 'post_title', 'order' => 'ASC', 'numberposts' => 1 );
+	$offerposts = get_posts( $offer_args );
+	if(!$offerposts){
+		$offerOne = array(
+			'post_title' => 'offerOne',
+			'post_content' => 'This is a Sample Offer.',
+			'post_status' => 'private',
+			'post_author' => 1,
+			'post_category' => array(get_option('reservations_special_offer_cat'))
+		);
+
+		$offerOne_id = wp_insert_post( $offerOne );
+		$pricestring = $roomOne_id.':50-'.$roomTwo_id.':70';
+		add_post_meta($offerOne_id, 'reservations_groundprice', $pricestring);
 	}
 }
+		add_option( 'reservations_style_form', 'blue', '', 'yes' );
+
 function easyReservations_upgrade_notice(){
     echo '<div class="updated">
-       <p>Thanks for updating <b>easyReservations</b> to <b>1.2</b>!<br>Please submit any Bugs to feryazbeer@googlemail.com</p>
+       <p>Thanks for updating <b>easyReservations</b> to <b>1.2</b>!<br>Please submit any bugs to feryazbeer@googlemail.com</p>
     </div>';
 }
 
+/*
+
+	Upgrade Script
+
+*/
 //delete_option('reservations_db_version' );
 add_option('reservations_db_version', '1.1.4', '', 'yes' );
-$easyreservations_ver="1.2b3";
-$installed_ver=get_option("reservations_db_version");
-if($installed_ver != $easyreservations_ver ){
+$easyReservations_active_ver="1.2b8";
+$easyReservations_installed_ver=get_option("reservations_db_version");
+
+if($easyReservations_installed_ver != $easyReservations_active_ver ){
 $emailstandart0="[adminmessage]<br><br>
 Reservation Details:<br>
 Name: [thename] <br>eMail: [email] <br>From: [arrivaldate] <br>To: [departuredate] <br>Persons: [persons] <br>Room: [rooms] <br>Offer: [offers] <br>Message: [note]<br>Price: [price]<br>[customs]";
@@ -407,43 +487,130 @@ Reservation ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrivaldat
 $emailstandart6="Reservation got edited by Guest.<br><br>
 New Reservation Details:<br>
 Reservation ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrivaldate] <br>To: [departuredate] <br>Persons: [persons] <br>Room: [rooms] <br>Offer: [offers] <br>Message: [note]<br>Price: [price]<br>[customs]";
+$emailstandart7="Your reservation got edited by admin.<br><br>
+[adminmessage]<br>
+New Reservation Details:<br>
+Reservation ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrivaldate] <br>To: [departuredate] <br>Persons: [persons] <br>Room: [rooms] <br>Offer: [offers] <br>Message: [note]<br>Price: [price]<br>[customs]<br><br>edit your reservation on [editlink]<br><br>[changelog]";
+$new_form = '[error]
+<h1>Sign-up form</h1>
+<p>General informations</p>
 
-	add_option( 'reservations_email_to_user_subj', 'Your Reservation on '.get_option('blogname'), '', 'yes' );
-	add_option( 'reservations_email_to_user_msg', $emailstandart4, '', 'yes' );
-	add_option( 'reservations_email_to_user_edited_subj', 'Your Reservation on '.get_option('blogname').' got edited', '', 'yes' );
-	add_option( 'reservations_email_to_user_edited_msg', $emailstandart5, '', 'yes' );
-	add_option( 'reservations_email_to_admin_edited_subj', 'Reservation on '.get_option('blogname').' got edited by user', '', 'yes' );
-	add_option( 'reservations_email_to_admin_edited_msg', $emailstandart6, '', 'yes' );
-	add_option( 'reservations_email_sendmail_subj', 'Message from '.get_option('blogname'), '', 'yes' );
-	add_option( 'reservations_email_sendmail_msg', $emailstandart0, '', 'yes' );
-	add_option( 'reservations_regular_guests', '', '', 'yes' );
-	add_option( 'reservations_style', 'greyfat', '', 'yes' );
-	add_option( 'reservations_edit_url', '', '', 'yes' );
-	add_option( 'reservations_edit_text', 'After editing your reservations status will get back to pending. We\'ll check the new situation as soon as we can.', '', 'yes' );
-	add_option( 'reservations_show_rooms', '', '', 'yes' );
-	delete_option( 'reservations_backgroundiffull' );
-	delete_option( 'reservations_border_bottom' );
-	delete_option( 'reservations_border_side' );
-	delete_option( 'reservations_colorbackgroundfree' );
-	delete_option( 'reservations_fontcoloriffull' );
-	delete_option( 'reservations_backgroundiffull' );
-	delete_option( 'reservations_colorborder' );
-	delete_option( 'reservations_overview_size' );
+<label>From
+<span class="small">When do you come?</span>
+</label>[date-from]
+
+<label>To
+<span class="small">When do you go?</span>
+</label>[date-to]
+
+<label>Room
+<span class="small">How many guests?</span>
+</label>[rooms]
+
+<label>Offer
+<span class="small">Do you want an offer?</span>
+</label>[offers select]
+
+<label>Persons
+<span class="small">How many guests?</span>
+</label>[persons Select 10]
+
+<label>Childs
+<span class="small">with childrens?</span>
+</label>[childs Select 10]
+
+<p>Personal informations</p>
+<label>Name
+<span class="small">Whats your name?</span>
+</label>[thename]
+
+<label>eMail
+<span class="small">Whats your email?</span>
+</label>[email]
+
+<label>Phone
+<span class="small">Your phone number?</span>
+</label>[custom text Phone *]
+
+<label>Address
+<span class="small">Your address?</span>
+</label>[custom text Address]
+
+<label>Postal code
+<span class="small">Your postal code?</span>
+</label>[custom text postal]
+
+<label>Message
+<span class="small">Want write us smth?</span>
+</label>[message]
+
+<label>Captcha
+<span class="small">Type in code</span>
+</label>[captcha]
+
+[submit Send]
+[show_price]';
+
+	$reservtionsTable = 0;
 
 	global $wpdb;
-	$wpdb->query( $wpdb->prepare("ALTER TABLE ".$wpdb->prefix ."reservations ADD reservated DATETIME NOT NULL"));
-	$wpdb->query( $wpdb->prepare("UPDATE ".$wpdb->prefix ."reservations SET reservated=NOW()")) or die(mysql_error());
+	$table_name = $wpdb->prefix . "reservations";
+	if($wpdb->get_var($table_name) == $table_name) { /* CHECK FOR DB TABLE */
 
-	update_option('reservations_db_version', '1.2b3');
-	add_action('admin_notices', 'easyReservations_upgrade_notice');
+		$wpdb->query( $wpdb->prepare("ALTER TABLE ".$wpdb->prefix ."reservations ADD reservated DATETIME NOT NULL"));
+		$wpdb->query( $wpdb->prepare("UPDATE ".$wpdb->prefix ."reservations SET reservated=NOW()"));
+		$wpdb->query( $wpdb->prepare("ALTER TABLE ".$wpdb->prefix ."reservations ADD childs int(4) NOT NULL"));
+		$wpdb->query( $wpdb->prepare("UPDATE ".$wpdb->prefix ."reservations SET childs=0"));
+		$wpdb->query( $wpdb->prepare("ALTER TABLE ".$wpdb->prefix ."reservations ADD country varchar(4) NOT NULL"));
+		$reservtionsTable = 1;
+
+	}
+
+	if($reservtionsTable == 1){
+		update_option('reservations_db_version', '1.2b8');
+		add_action('admin_notices', 'easyReservations_upgrade_notice');
+		$oldStandardForm = get_option('reservations_form');
+		add_option( 'reservations_form_StandardOld', $oldStandardForm, '', 'yes' );
+		update_option('reservations_form', $new_form);
+
+
+		add_option( 'reservations_email_to_user_subj', 'Your Reservation on '.get_option('blogname'), '', 'yes' );
+		add_option( 'reservations_email_to_user_msg', $emailstandart4, '', 'yes' );
+		add_option( 'reservations_email_to_user_edited_subj', 'Your Reservation on '.get_option('blogname').' got edited', '', 'yes' );
+		add_option( 'reservations_email_to_user_edited_msg', $emailstandart5, '', 'yes' );
+		add_option( 'reservations_email_to_admin_edited_subj', 'Reservation on '.get_option('blogname').' got edited by user', '', 'yes' );
+		add_option( 'reservations_email_to_admin_edited_msg', $emailstandart6, '', 'yes' );
+		add_option( 'reservations_email_to_user_admin_edited_subj', 'Reservation on '.get_option('blogname').' got edited by admin', '', 'yes' );
+		add_option( 'reservations_email_to_user_admin_edited_msg', $emailstandart7, '', 'yes' );
+		add_option( 'reservations_email_sendmail_subj', 'Message from '.get_option('blogname'), '', 'yes' );
+		add_option( 'reservations_email_sendmail_msg', $emailstandart0, '', 'yes' );
+		add_option( 'reservations_regular_guests', '', '', 'yes' );
+		add_option( 'reservations_style', 'greyfat', '', 'yes' );
+		add_option( 'reservations_edit_url', '', '', 'yes' );
+		add_option( 'reservations_edit_text', 'After editing your reservations status will get back to pending. We\'ll check the new situation as soon as we can.', '', 'yes' );
+		add_option( 'reservations_show_rooms', '', '', 'yes' );
+		add_option( 'reservations_style_form', 'blue', '', 'yes' );
+		delete_option( 'reservations_backgroundiffull' );
+		delete_option( 'reservations_border_bottom' );
+		delete_option( 'reservations_border_side' );
+		delete_option( 'reservations_colorbackgroundfree' );
+		delete_option( 'reservations_fontcoloriffull' );
+		delete_option( 'reservations_backgroundiffull' );
+		delete_option( 'reservations_colorborder' );
+		delete_option( 'reservations_overview_size' );
+	}
 }
 
 ////////////////////////////////////////////////////////////////// END OF MAIN FUNTIONS /////////////////////////////////////////////////////////////
 
-	function easyreservations_price_calculation($id){ //This is for calculate price just from the reservation ID
+	function easyreservations_price_calculation($id, $newRes){ //This is for calculate price just from the reservation ID
 		global $wpdb;
-		$reservation = "SELECT room, special, arrivalDate, nights, email, number, price, customp, reservated FROM ".$wpdb->prefix ."reservations WHERE id='$id' LIMIT 1";
-		$res = $wpdb->get_results( $reservation );
+		if(!isset($newRes) OR $newRes == ""){
+			$reservation = "SELECT room, special, arrivalDate, nights, email, number, childs, price, customp, reservated FROM ".$wpdb->prefix ."reservations WHERE id='$id' LIMIT 1";
+			$res = $wpdb->get_results( $reservation );
+		} else {
+			$res = $newRes; // newRes is an array with a db fake of a reservaton. for new reservations, testing purposes or the price in calendars for example need to have theese format  = array(room => '', special => '', arrivalDate => '', nights => '', email => '', number => '', childs => '', price => '', customp => '', reservated => '');
+		}
 		$price=0; // This will be the Price
 		$discount=0; // This will be the Dicount
 		$countpriceadd=0; // Count times (=days) a sum is add to price
@@ -466,7 +633,6 @@ Reservation ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrivaldat
 		$filterouts=array_filter($getfilters[1]); //make array out of filters
 		$countfilter=count($filterouts);// count the filter-array elements
 		$datearray[]='';
-
 
 		/*
 
@@ -790,6 +956,28 @@ Reservation ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrivaldat
 			$countpriceadd++;
 		}
 
+		if(get_option('reservations_price_per_persons') == '1' and $res[0]->number > 1) {  // Calculate Price if  "Calculate per person"  was choosen
+			$checkprice=$price;
+			$price=$price*$res[0]->number; 
+			$exactlyprice[] = array('date'=>strtotime($res[0]->arrivalDate)+($countpriceadd*86400), 'priceday'=>$price-$checkprice, 'type'=>__( 'Price for  persons' , 'easyReservations' ).' x'.$res[0]->number);
+			$countpriceadd++;
+		}
+
+		if(!empty($res[0]->childs) OR $res[0]->childs != 0){
+			$childprice = get_post_meta($roomoroffer, 'reservations_child_price', true);
+			if(substr($childprice, -1) == "%"){
+				$percent=$checkprice/100*str_replace("%", "", $childprice);
+				$childsPrice = ($checkprice-$percent)*$res[0]->childs;
+			} else {
+				$childsPrice = ($checkprice - $childprice)*$res[0]->childs;
+			}
+			
+			$price += $childsPrice;
+
+			$exactlyprice[] = array('date'=>strtotime($res[0]->arrivalDate)+($countpriceadd*86400), 'priceday'=>$childsPrice, 'type'=>__( 'Price per child' , 'easyReservations' ).' x'.$res[0]->childs);
+			$countpriceadd++;
+		}
+
 		if($res[0]->customp != ""){
 			$explodecustomprices=explode("&;&", $res[0]->customp);
 			foreach($explodecustomprices as $customprice){
@@ -799,21 +987,14 @@ Reservation ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrivaldat
 					if(substr($priceasexp[1], -1) == "%"){
 						$percent=$price/100*str_replace("%", "", $priceasexp[1]);
 						$customprices+=$percent;
-						$exactlyprice[] = array('date'=>strtotime($res[0]->arrivalDate)+($countpriceadd*86400), 'priceday'=>$percent, 'type'=>__( 'Reservation Custom Price %' , 'easyReservations' ).' '.$custompriceexp[0]);
+						$exactlyprice[] = array('date'=>strtotime($res[0]->arrivalDate)+($countpriceadd*86400), 'priceday'=>$percent, 'type'=>__( 'Reservation custom price %' , 'easyReservations' ).' '.$custompriceexp[0]);
 					} else {
 						$customprices+=$priceasexp[1];
-						$exactlyprice[] = array('date'=>strtotime($res[0]->arrivalDate)+($countpriceadd*86400), 'priceday'=>$priceasexp[1], 'type'=>__( 'Reservation Custom Price' , 'easyReservations' ).' '.$custompriceexp[0]);
+						$exactlyprice[] = array('date'=>strtotime($res[0]->arrivalDate)+($countpriceadd*86400), 'priceday'=>$priceasexp[1], 'type'=>__( 'Reservation custom price' , 'easyReservations' ).' '.$custompriceexp[0]);
 					}
 				}
 			}
 			$price+=$customprices; //Price plus Custom prices
-		}
-
-		if(get_option('reservations_price_per_persons') == '1' and $res[0]->number > 1) {  // Calculate Price if  "Calculate per person"  was choosen
-			$checkprice=$price;
-			$price=$price*$res[0]->number; 
-			$exactlyprice[] = array('date'=>strtotime($res[0]->arrivalDate)+($countpriceadd*86400), 'priceday'=>$price-$checkprice, 'type'=>__( 'Price per Person' , 'easyReservations' ).' x'.$res[0]->number);
-			$countpriceadd++;
 		}
 
 		if(count($filterouts) > 0){  //IF Filter array has elemts left they should be Discount Filters or nonsense
@@ -829,10 +1010,10 @@ Reservation ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrivaldat
 							if(substr($filtertype[2], -1) == "%"){
 								$percent=$price/100*str_replace("%", "", $filtertype[2]);
 								$discount+=$percent; 
-								$exactlyprice[] = array('date'=>strtotime($res[0]->arrivalDate)+($countpriceadd*86400), 'priceday'=>'-'.$percent, 'type'=>get_the_title($roomoroffer).' '.__( ' Stay Filter' , 'easyReservations' ).' '.$filtertype[2]);
+								$exactlyprice[] = array('date'=>strtotime($res[0]->arrivalDate)+($countpriceadd*86400), 'priceday'=>'-'.$percent, 'type'=>get_the_title($roomoroffer).' '.__( ' Stay filter' , 'easyReservations' ).' '.$filtertype[2]);
 							} else {
 								$discount+=$filtertype[2];
-								$exactlyprice[] = array('date'=>strtotime($res[0]->arrivalDate)+($countpriceadd*86400), 'priceday'=>'-'.$filtertype[2], 'type'=>get_the_title($roomoroffer).' '.__( ' Stay Filter' , 'easyReservations' ));
+								$exactlyprice[] = array('date'=>strtotime($res[0]->arrivalDate)+($countpriceadd*86400), 'priceday'=>'-'.$filtertype[2], 'type'=>get_the_title($roomoroffer).' '.__( ' Stay filter' , 'easyReservations' ));
 							}
 						$staywasfull++;
 						}
@@ -846,10 +1027,10 @@ Reservation ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrivaldat
 							if(substr($filtertype[2], -1) == "%"){
 								$percent=$price/100*str_replace("%", "", $filtertype[2]);
 								$discount+=$percent;
-								$exactlyprice[] = array('date'=>strtotime($res[0]->arrivalDate)+($countpriceadd*86400), 'priceday'=>'-'.$percent, 'type'=>get_the_title($roomoroffer).' '.__( ' Loyal Filter' , 'easyReservations' ).' '.$filtertype[2]);
+								$exactlyprice[] = array('date'=>strtotime($res[0]->arrivalDate)+($countpriceadd*86400), 'priceday'=>'-'.$percent, 'type'=>get_the_title($roomoroffer).' '.__( ' Loyal filter' , 'easyReservations' ).' '.$filtertype[2]);
 							} else {
 								$discount+=$filtertype[2];
-								$exactlyprice[] = array('date'=>strtotime($res[0]->arrivalDate)+($countpriceadd*86400), 'priceday'=>'-'.$filtertype[2], 'type'=>get_the_title($roomoroffer).' '.__( ' Loyal Filter' , 'easyReservations' ));
+								$exactlyprice[] = array('date'=>strtotime($res[0]->arrivalDate)+($countpriceadd*86400), 'priceday'=>'-'.$filtertype[2], 'type'=>get_the_title($roomoroffer).' '.__( ' Loyal filter' , 'easyReservations' ));
 							}
 						$loyalwasfull++;
 						}
@@ -862,10 +1043,10 @@ Reservation ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrivaldat
 							if(substr($filtertype[2], -1) == "%"){
 								$percent=$price/100*str_replace("%", "", $filtertype[2]);
 								$discount+=$percent;
-								$exactlyprice[] = array('date'=>strtotime($res[0]->arrivalDate)+($countpriceadd*86400), 'priceday'=>'-'.$discount, 'type'=>get_the_title($roomoroffer).' '.__( ' Persons Filter' , 'easyReservations' ).' '.$filtertype[2]);
+								$exactlyprice[] = array('date'=>strtotime($res[0]->arrivalDate)+($countpriceadd*86400), 'priceday'=>'-'.$discount, 'type'=>get_the_title($roomoroffer).' '.__( ' Persons filter' , 'easyReservations' ).' '.$filtertype[2]);
 							} else {
 								$discount+=$filtertype[2];
-								$exactlyprice[] = array('date'=>strtotime($res[0]->arrivalDate)+($countpriceadd*86400), 'priceday'=>'-'.$filtertype[2], 'type'=>get_the_title($roomoroffer).' '.__( ' Persons Filter' , 'easyReservations' ));
+								$exactlyprice[] = array('date'=>strtotime($res[0]->arrivalDate)+($countpriceadd*86400), 'priceday'=>'-'.$filtertype[2], 'type'=>get_the_title($roomoroffer).' '.__( ' Persons filter' , 'easyReservations' ));
 							}
 						$perswasfull++;
 						}
@@ -879,10 +1060,10 @@ Reservation ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrivaldat
 							if(substr($filtertype[2], -1) == "%"){
 								$percent=$price/100*str_replace("%", "", $filtertype[2]);
 								$discount+=$percent;
-								$exactlyprice[] = array('date'=>strtotime($res[0]->arrivalDate)+($countpriceadd*86400), 'priceday'=>'-'.$discount, 'type'=>get_the_title($roomoroffer).' '.__( ' Early Bird Filter' , 'easyReservations' ).' '.$filtertype[2]);
+								$exactlyprice[] = array('date'=>strtotime($res[0]->arrivalDate)+($countpriceadd*86400), 'priceday'=>'-'.$discount, 'type'=>get_the_title($roomoroffer).' '.__( ' Early Bird filter' , 'easyReservations' ).' '.$filtertype[2]);
 							} else {
 								$discount+=$filtertype[2];
-								$exactlyprice[] = array('date'=>strtotime($res[0]->arrivalDate)+($countpriceadd*86400), 'priceday'=>'-'.$filtertype[2], 'type'=>get_the_title($roomoroffer).' '.__( ' Early Bird Filter' , 'easyReservations' ));
+								$exactlyprice[] = array('date'=>strtotime($res[0]->arrivalDate)+($countpriceadd*86400), 'priceday'=>'-'.$filtertype[2], 'type'=>get_the_title($roomoroffer).' '.__( ' Early Bird filter' , 'easyReservations' ));
 							}
 						$earlywasfull++;
 						}
@@ -908,7 +1089,7 @@ Reservation ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrivaldat
 	}
 
 		function easyreservations_get_price($id){
-			$getprice=easyreservations_price_calculation($id);
+			$getprice=easyreservations_price_calculation($id, '');
 			if($getprice['price'] <= 0) $rightprice=__( 'Wrong Price/Filter' , 'easyReservations' );
 			else {
 				$geprice=str_replace(",", ".", $getprice['price']);
@@ -918,7 +1099,7 @@ Reservation ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrivaldat
 		}
 
 		function easyreservations_detailed_price($id){
-			$pricearray=easyreservations_price_calculation($id);
+			$pricearray=easyreservations_price_calculation($id, '');
 			$priceforarray=$pricearray['getusage'];
 			if(count($priceforarray) > 0){
 				$arraycount=count($priceforarray);
@@ -933,7 +1114,7 @@ Reservation ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrivaldat
 						$count++;
 						if(is_int($count/2)) $class=' class="alternate"'; else $class='';
 						$date=$pricefor['date'];
-						if(preg_match("/(stay|loyal|custom price|early|pers)/i", $pricefor['type'])) $dateposted=' '; else $dateposted=date("d.m.Y", $date); 
+						if(preg_match("/(stay|loyal|custom price|early|pers|child|benutzerdefinierter)/i", $pricefor['type'])) $dateposted=' '; else $dateposted=date("d.m.Y", $date); 
 						$datearray.="".date("d.m.Y", $date)." ";
 						$pricetotal+=$pricefor['priceday'];
 						if($count==$arraycount) $onlastprice=' style="border-bottom: double 3px #000000;"';  else $onlastprice='';
@@ -966,14 +1147,13 @@ Reservation ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrivaldat
 					}
 				}
 			}
+
 			$arivaldattes2=strtotime($arrivalDate);
 			for($counti = 0; $counti < $nights; $counti++){
-
-			$arivaldattes3=date("Y-m-d", $arivaldattes2);
-			$countroomondate = mysql_num_rows(mysql_query("SELECT id FROM ".$wpdb->prefix ."reservations WHERE room='$room' AND approve='yes' AND roomnumber != '' AND '$arivaldattes3' BETWEEN arrivalDate AND DATE_ADD(arrivalDate, INTERVAL nights DAY) ")); // number of total Reservations on day in Room in the database
-
-			$arivaldattes2+=86400;
-			if($countroomondate >= get_post_meta($room, 'roomcount', true)){ $errox++; }
+				$arivaldattes3=date("Y-m-d", $arivaldattes2);
+				$countroomondate = mysql_num_rows(mysql_query("SELECT id FROM ".$wpdb->prefix ."reservations WHERE room='$room' AND approve='yes' AND roomnumber != '' AND '$arivaldattes3' BETWEEN arrivalDate AND DATE_ADD(arrivalDate, INTERVAL nights DAY) - INTERVAL 1 DAY ")); // number of total Reservations on day in Room in the database
+				$arivaldattes2+=86400;
+				if($countroomondate >= get_post_meta($room, 'roomcount', true)){ $errox++; }
 			}
 			
 			return $errox;
@@ -1051,6 +1231,7 @@ Reservation ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrivaldat
 	}
 
 	function reservations_check_availibility_for_room_filter($roomid, $date){ //Check if a Room or Offer is Avail or Full
+
 		global $wpdb;
 		$errox=0;
 		$getfilters = spliti("\[|\] |\]", get_post_meta($roomid, 'reservations_filter', true));
@@ -1064,7 +1245,6 @@ Reservation ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrivaldat
 				if($arivaldattes >= strtotime($explodedates[0]) AND $arivaldattes <= strtotime($explodedates[1])){ $errox++; }
 			}
 		}
-		
 		return $errox;
 	}
 
@@ -1089,7 +1269,6 @@ Reservation ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrivaldat
 
 	function reservations_get_offer_ids(){ //Get the IDs of the Offer Posts in array for helping people to find it.
 		global $wpdb;
-
 		$args=array( 'category' => get_option('reservations_special_offer_cat'), 'post_type' => 'post', 'post_status' => 'publish|private', 'orderby' => 'post_title', 'order' => 'ASC', 'numberposts'     => -1 );
 
 		$getids = get_posts($args);
@@ -1102,7 +1281,7 @@ Reservation ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrivaldat
 	function reservations_check_type($id){
 		global $wpdb;
 
-		$checktype = "SELECT approve FROM ".$wpdb->prefix ."reservations WHERE id='$id'"; // Get Higest Roomcount
+		$checktype = "SELECT approve FROM ".$wpdb->prefix ."reservations WHERE id='$id'"; 
 		$res = $wpdb->get_results( $checktype );
 
 		if($res[0]->approve=="yes") $istype=__( 'approved' , 'easyReservations' );
@@ -1112,20 +1291,32 @@ Reservation ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrivaldat
 
 		return $istype;
 	}
+	
+	function reservations_status_output($status){ //gives out colored and named stauts
 
+		if($status=="yes") $theStatus= '<b style="color:#009B1C">'.__( 'approved' , 'easyReservations' ).'</b>';
+		elseif($status=="no") $theStatus= '<b style="color:#E80000;">'.__( 'rejected' , 'easyReservations' ).'</b>';
+		elseif($status=="del") $theStatus= '<b style="color:#E80000;">'.__( 'trashed' , 'easyReservations' ).'</b>';
+		elseif($status=="") $theStatus= '<b style="color:#0072E5;">'.__( 'pending' , 'easyReservations' ).'</b>';
+
+		return $theStatus;
+	}
 	function reservations_check_pay_status($id){
 		global $wpdb;
 
-		$checkpaid = "SELECT price FROM ".$wpdb->prefix ."reservations WHERE id='$id'"; // Get Higest Roomcount
+		$checkpaid = "SELECT price FROM ".$wpdb->prefix ."reservations WHERE id='$id'";
 		$res = $wpdb->get_results( $checkpaid  );
 		$explodetheprice = explode(";", $res[0]->price);
-		if($explodetheprice[0] != '') $ispayed = $explodetheprice[0]-$explodetheprice[1];
+		if(!isset($explodetheprice[0]) OR empty($explodetheprice[0])) $payed = 0;
+		else $payed = $explodetheprice[1];
+
+		if($explodetheprice[0] != '') $ispayed = $explodetheprice[0]-$payed;
 		else {
-			$thepriceArray = easyreservations_price_calculation($id);
+			$thepriceArray = easyreservations_price_calculation($id, '');
 			$thePricetoAdd = $thepriceArray['price'];
-			$ispayed = easyreservations_check_price($thePricetoAdd)-$explodetheprice[1];
+			$ispayed = easyreservations_check_price($thePricetoAdd)-$payed;
 		}
-		
+
 		return $ispayed;
 	}
 
@@ -1133,13 +1324,15 @@ Reservation ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrivaldat
 
 		$countits=0;
 		$checkID = reservations_check_type($id);
-		if($where != "approve" AND $checkID != __("approved")) { $administration_links='<a href="admin.php?page=reservations&approve='.$id.'">Approve</a>'; $countits++; }
+		if($where != "approve" AND $checkID != __("approved")) { $administration_links='<a href="admin.php?page=reservations&approve='.$id.'">'.__( 'Approve' , 'easyReservations' ).'</a>'; $countits++; }
 		if($countits > 0){ $administration_links.=' | '; $countits=0; }
-		if($where != "reject" AND $checkID != "rejected") { $administration_links.='<a href="admin.php?page=reservations&delete='.$id.'">Reject</a>'; $countits++; }
+		if($where != "reject" AND $checkID != "rejected") { $administration_links.='<a href="admin.php?page=reservations&delete='.$id.'">'.__( 'Reject' , 'easyReservations' ).'</a>'; $countits++; }
 		if($countits > 0){ $administration_links.=' | '; $countits=0; }
-		if($where != "edit") { $administration_links.='<a href="admin.php?page=reservations&edit='.$id.'">Edit</a>'; $countits++; }
+		if($where != "edit") { $administration_links.='<a href="admin.php?page=reservations&edit='.$id.'">'.__( 'Edit' , 'easyReservations' ).'</a>'; $countits++; }
 		if($countits > 0){ $administration_links.=' | '; $countits=0; }
-		if($where != "trash" AND $checkID != "trashed") { $administration_links.='<a href="admin.php?page=reservations&bulkArr[]='.$id.'&bulk=1">Trash</a>'; $countits++; }
+		$administration_links.='<a href="admin.php?page=reservations&sendmail='.$id.'">'.__( 'Mail' , 'easyReservations' ).'</a>'; $countits++;
+		//if($countits > 0){ $administration_links.=' | '; $countits=0; }
+		//if($where != "trash" AND $checkID != "trashed") { $administration_links.='<a href="admin.php?page=reservations&bulkArr[]='.$id.'&bulk=1">'.__( 'Trash' , 'easyReservations' ).'</a>'; $countits++; }
 
 		return $administration_links;
 	}
@@ -1202,51 +1395,23 @@ Reservation ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrivaldat
 			return $wpdb->get_var($SQL);
 		}
 	}
-/*
-	add_filter('mce_external_plugins', "tinyplugin_register");
-	add_filter('mce_buttons', 'tinyplugin_add_button', 0);
 
-	function tinyplugin_add_button($buttons){
-		array_push($buttons, "separator", "tinyplugin");
+	add_filter('mce_external_plugins', "reservations_tiny_register");
+	add_filter('mce_buttons', 'reservations_tiny_add_button', 0);
+
+	function reservations_tiny_add_button($buttons){
+		array_push($buttons, "separator", "easyReservations");
 		return $buttons;
 	}
 
-	function tinyplugin_register($plugin_array){
-		$url = WP_PLUGIN_URL . '/easyreservations/js/editor_plugin.js';
+	function reservations_tiny_register($plugin_array){
+		$url = WP_PLUGIN_URL . '/easyreservations/js/tinyMCE_shortcode_add.js';
 
-		$plugin_array['tinyplugin'] = $url;
+		$plugin_array['easyReservations'] = $url;
 		return $plugin_array;
 	}
-*/
-	class MyGallery {
-		function __construct() {
-			add_action( 'admin_init', array( $this, 'action_admin_init' ) );
-		}
-		
-		function action_admin_init() {
-			// only hook up these filters if we're in the admin panel, and the current user has permission
-			// to edit posts and pages
-			if ( current_user_can( 'edit_posts' ) && current_user_can( 'edit_pages' ) ) {
-				add_filter( 'mce_buttons', array( $this, 'filter_mce_button' ) );
-				add_filter( 'mce_external_plugins', array( $this, 'filter_mce_plugin' ) );
-			}
-		}
-		
-		function filter_mce_button( $buttons ) {
-			// add a separation before our button, here our button's id is "mygallery_button"
-			array_push( $buttons, '|', 'mygallery_button' );
-			return $buttons;
-		}
-		
-		function filter_mce_plugin( $plugins ) {
-			// this plugin file will work the magic of our button
-			$plugins['mygallery'] = plugin_dir_url( __FILE__ ) . '/js/editor_plugin.js';
-			return $plugins;
-		}
-	}
 
-$mygallery = new MyGallery();
-	function easyreservations_send_mail($theForm, $mailTo, $mailSubj, $theMessage, $theID, $arrivalDate, $departureDate, $theName, $theEmail, $theNights, $thePersons, $theRoom, $theOffer, $theCustoms, $thePrice, $theNote){ //Send formatted Mails from anywhere
+	function easyreservations_send_mail($theForm, $mailTo, $mailSubj, $theMessage, $theID, $arrivalDate, $departureDate, $theName, $theEmail, $theNights, $thePersons, $theChilds, $theCountry, $theRoom, $theOffer, $theCustoms, $thePrice, $theNote, $theChangelog){ //Send formatted Mails from anywhere
 		preg_match_all(' /\[.*\]/U', $theForm, $matchers); 
 		$mergearrays=array_merge($matchers[0], array());
 		$edgeoneremoave=str_replace('[', '', $mergearrays);
@@ -1269,6 +1434,9 @@ $mygallery = new MyGallery();
 			elseif($field[0]=="arrivaldate"){
 				$theForm=preg_replace('/\['.$fieldsx.']/U', ''.date("d.m.Y", $arrivalDate).'', $theForm);
 			}
+			elseif($field[0]=="changelog"){
+				$theForm=preg_replace('/\['.$fieldsx.']/U', $theChangelog, $theForm);
+			}
 			elseif($field[0]=="departuredate"){
 				$theForm=preg_replace('/\['.$fieldsx.']/U', ''.date("d.m.Y", $departureDate).'', $theForm);
 			}
@@ -1281,8 +1449,14 @@ $mygallery = new MyGallery();
 			elseif($field[0]=="persons"){
 				$theForm=preg_replace('/\['.$fieldsx.']/U', ''.$thePersons.'', $theForm);
 			}
+			elseif($field[0]=="childs"){
+				$theForm=preg_replace('/\['.$fieldsx.']/U', ''.$theChilds.'', $theForm);
+			}
 			elseif($field[0]=="rooms"){
 				$theForm=preg_replace('/\['.$fieldsx.']/U', ''.__($theRoom).'', $theForm);
+			}
+			elseif($field[0]=="country"){
+				$theForm=preg_replace('/\['.$fieldsx.']/U', ''.__($theCountry).'', $theForm);
 			}
 			elseif($field[0]=="offers"){
 				$theForm=preg_replace('/\['.$fieldsx.']/U', ''.__($theOffer).'', $theForm);
@@ -1291,7 +1465,7 @@ $mygallery = new MyGallery();
 				$theForm=str_replace('[price]', str_replace("&", "", str_replace(";", "", $thePrice)), $theForm);
 			}
 			elseif($field[0]=="editlink"){
-				$theForm=str_replace('/\['.$fieldsx.']/U', get_option("reservations_edit_url").'?id='.$theID.'?email='.$theEmail, $theForm);
+				$theForm=str_replace('[editlink]', get_option("reservations_edit_url").'?id='.$theID.'?email='.$theEmail, $theForm);
 			}
 			elseif($field[0]=="customs"){
 				$explodecustoms=explode("&;&", $theCustoms);
@@ -1367,5 +1541,327 @@ $mygallery = new MyGallery();
 			$pageURL .= $_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"];
 		}
 		return $pageURL;
+	}
+	
+	function easyreservations_generate_res_Changelog($beforeArray, $afterArray){		
+		$changelog = '';
+
+		if($beforeArray['arrivalDate'] != $afterArray['arrivalDate']){
+			$changelog .= __('The arrival date was edited' , 'easyReservations' ).': '.date("d.m.Y", (strtotime($beforeArray['arrivalDate']))).' => '.date("d.m.Y", (strtotime($afterArray['arrivalDate']))).'<br>';
+		}
+
+		//if($beforeArray['arrivalDate'] != $afterArray['arrivalDate'] OR $beforeArray['nights'] != $afterArray['nights']){
+		if((strtotime($beforeArray['arrivalDate'])+($beforeArray['nights']*86400)) != (strtotime($afterArray['arrivalDate'])+($afterArray['nights']*86400))){
+			$changelog .= __('The departure date was edited' , 'easyReservations' ).': '.date("d.m.Y", ((strtotime($beforeArray['arrivalDate'])+($beforeArray['nights']*86400)))).' => '.date("d.m.Y", ((strtotime($afterArray['arrivalDate'])+($afterArray['nights']*86400)))).'<br>';
+		}
+
+		if($beforeArray['name'] != $afterArray['name']){
+			$changelog .= __('The name was edited' , 'easyReservations' ).': '.$beforeArray['name'].' => '.$afterArray['name'].'<br>';
+		}
+
+		if($beforeArray['email'] != $afterArray['email']){
+			$changelog .= __('The email was edited' , 'easyReservations' ).': '.$beforeArray['email'].' => '.$afterArray['email'].'<br>';
+		}
+
+		if($beforeArray['persons'] != $afterArray['persons']){
+			$changelog .= __('The amoun of persons was edited' , 'easyReservations' ).': '.$beforeArray['persons'].' => '.$afterArray['persons'].'<br>';
+		}
+
+		if($beforeArray['childs'] != $afterArray['childs']){
+			$changelog .= __('The amoun of childs was edited' , 'easyReservations' ).': '.$beforeArray['childs'].' => '.$afterArray['childs'].'<br>';
+		}
+
+		if($beforeArray['country'] != $afterArray['country']){
+			$changelog .= __('The country edited' , 'easyReservations' ).': '.$beforeArray['country'].' => '.$afterArray['country'].'<br>';
+		}
+
+		if($beforeArray['room'] != $afterArray['room']){
+			$changelog .= __('The room was edited' , 'easyReservations' ).': '.get_the_title($beforeArray['room']).' => '.get_the_title($afterArray['room']).'<br>';
+		}
+
+		if($beforeArray['offer'] != $afterArray['offer']){
+			if($afterArray['offer'] == 0) $afterMailOffer = __( 'None' , 'easyReservations' );
+			else $afterMailOffer = __(get_the_title($afterArray['offer']));
+			if($beforeArray['offer'] == 0) $beforMailOffer = __( 'None' , 'easyReservations' );
+			else $beforMailOffer = __(get_the_title($beforeArray['offer']));
+
+			$changelog .= __('The offer was edited' , 'easyReservations' ).': '.$beforMailOffer.' => '.$afterMailOffer.'<br>';
+		}
+
+		if($beforeArray['message'] != $afterArray['message']){
+			$changelog .= __('The message was edited' , 'easyReservations' ).'<br>';
+		}
+
+		if($beforeArray['custom'] != $afterArray['custom']){
+			$changelog .= __('Custom fields was edited' , 'easyReservations' ).'<br>';
+		}
+
+		return $changelog;
+	}
+	
+	function easyReservations_country_array(){
+
+		return array(
+			'AF'=>'Afghanistan',
+			'AL'=>'Albania',
+			'DZ'=>'Algeria',
+			'AS'=>'American Samoa',
+			'AD'=>'Andorra',
+			'AO'=>'Angola',
+			'AI'=>'Anguilla',
+			'AQ'=>'Antarctica',
+			'AG'=>'Antigua And Barbuda',
+			'AR'=>'Argentina',
+			'AM'=>'Armenia',
+			'AW'=>'Aruba',
+			'AU'=>'Australia',
+			'AT'=>'Austria',
+			'AZ'=>'Azerbaijan',
+			'BS'=>'Bahamas',
+			'BH'=>'Bahrain',
+			'BD'=>'Bangladesh',
+			'BB'=>'Barbados',
+			'BY'=>'Belarus',
+			'BE'=>'Belgium',
+			'BZ'=>'Belize',
+			'BJ'=>'Benin',
+			'BM'=>'Bermuda',
+			'BT'=>'Bhutan',
+			'BO'=>'Bolivia',
+			'BA'=>'Bosnia And Herzegovina',
+			'BW'=>'Botswana',
+			'BV'=>'Bouvet Island',
+			'BR'=>'Brazil',
+			'IO'=>'British Indian Ocean Territory',
+			'BN'=>'Brunei',
+			'BG'=>'Bulgaria',
+			'BF'=>'Burkina Faso',
+			'BI'=>'Burundi',
+			'KH'=>'Cambodia',
+			'CM'=>'Cameroon',
+			'CA'=>'Canada',
+			'CV'=>'Cape Verde',
+			'KY'=>'Cayman Islands',
+			'CF'=>'Central African Republic',
+			'TD'=>'Chad',
+			'CL'=>'Chile',
+			'CN'=>'China',
+			'CX'=>'Christmas Island',
+			'CC'=>'Cocos (Keeling) Islands',
+			'CO'=>'Columbia',
+			'KM'=>'Comoros',
+			'CG'=>'Congo',
+			'CK'=>'Cook Islands',
+			'CR'=>'Costa Rica',
+			'CI'=>'Cote D\'Ivorie (Ivory Coast)',
+			'HR'=>'Croatia (Hrvatska)',
+			'CU'=>'Cuba',
+			'CY'=>'Cyprus',
+			'CZ'=>'Czech Republic',
+			'CD'=>'Democratic Republic Of Congo (Zaire)',
+			'DK'=>'Denmark',
+			'DJ'=>'Djibouti',
+			'DM'=>'Dominica',
+			'DO'=>'Dominican Republic',
+			'TP'=>'East Timor',
+			'EC'=>'Ecuador',
+			'EG'=>'Egypt',
+			'SV'=>'El Salvador',
+			'GQ'=>'Equatorial Guinea',
+			'ER'=>'Eritrea',
+			'EE'=>'Estonia',
+			'ET'=>'Ethiopia',
+			'FK'=>'Falkland Islands (Malvinas)',
+			'FO'=>'Faroe Islands',
+			'FJ'=>'Fiji',
+			'FI'=>'Finland',
+			'FR'=>'France',
+			'FX'=>'France, Metropolitan',
+			'GF'=>'French Guinea',
+			'PF'=>'French Polynesia',
+			'TF'=>'French Southern Territories',
+			'GA'=>'Gabon',
+			'GM'=>'Gambia',
+			'GE'=>'Georgia',
+			'DE'=>'Germany',
+			'GH'=>'Ghana',
+			'GI'=>'Gibraltar',
+			'GR'=>'Greece',
+			'GL'=>'Greenland',
+			'GD'=>'Grenada',
+			'GP'=>'Guadeloupe',
+			'GU'=>'Guam',
+			'GT'=>'Guatemala',
+			'GN'=>'Guinea',
+			'GW'=>'Guinea-Bissau',
+			'GY'=>'Guyana',
+			'HT'=>'Haiti',
+			'HM'=>'Heard And McDonald Islands',
+			'HN'=>'Honduras',
+			'HK'=>'Hong Kong',
+			'HU'=>'Hungary',
+			'IS'=>'Iceland',
+			'IN'=>'India',
+			'ID'=>'Indonesia',
+			'IR'=>'Iran',
+			'IQ'=>'Iraq',
+			'IE'=>'Ireland',
+			'IL'=>'Israel',
+			'IT'=>'Italy',
+			'JM'=>'Jamaica',
+			'JP'=>'Japan',
+			'JO'=>'Jordan',
+			'KZ'=>'Kazakhstan',
+			'KE'=>'Kenya',
+			'KI'=>'Kiribati',
+			'KW'=>'Kuwait',
+			'KG'=>'Kyrgyzstan',
+			'LA'=>'Laos',
+			'LV'=>'Latvia',
+			'LB'=>'Lebanon',
+			'LS'=>'Lesotho',
+			'LR'=>'Liberia',
+			'LY'=>'Libya',
+			'LI'=>'Liechtenstein',
+			'LT'=>'Lithuania',
+			'LU'=>'Luxembourg',
+			'MO'=>'Macau',
+			'MK'=>'Macedonia',
+			'MG'=>'Madagascar',
+			'MW'=>'Malawi',
+			'MY'=>'Malaysia',
+			'MV'=>'Maldives',
+			'ML'=>'Mali',
+			'MT'=>'Malta',
+			'MH'=>'Marshall Islands',
+			'MQ'=>'Martinique',
+			'MR'=>'Mauritania',
+			'MU'=>'Mauritius',
+			'YT'=>'Mayotte',
+			'MX'=>'Mexico',
+			'FM'=>'Micronesia',
+			'MD'=>'Moldova',
+			'MC'=>'Monaco',
+			'MN'=>'Mongolia',
+			'MS'=>'Montserrat',
+			'MA'=>'Morocco',
+			'MZ'=>'Mozambique',
+			'MM'=>'Myanmar (Burma)',
+			'NA'=>'Namibia',
+			'NR'=>'Nauru',
+			'NP'=>'Nepal',
+			'NL'=>'Netherlands',
+			'AN'=>'Netherlands Antilles',
+			'NC'=>'New Caledonia',
+			'NZ'=>'New Zealand',
+			'NI'=>'Nicaragua',
+			'NE'=>'Niger',
+			'NG'=>'Nigeria',
+			'NU'=>'Niue',
+			'NF'=>'Norfolk Island',
+			'KP'=>'North Korea',
+			'MP'=>'Northern Mariana Islands',
+			'NO'=>'Norway',
+			'OM'=>'Oman',
+			'PK'=>'Pakistan',
+			'PW'=>'Palau',
+			'PA'=>'Panama',
+			'PG'=>'Papua New Guinea',
+			'PY'=>'Paraguay',
+			'PE'=>'Peru',
+			'PH'=>'Philippines',
+			'PN'=>'Pitcairn',
+			'PL'=>'Poland',
+			'PT'=>'Portugal',
+			'PR'=>'Puerto Rico',
+			'QA'=>'Qatar',
+			'RE'=>'Reunion',
+			'RO'=>'Romania',
+			'RU'=>'Russia',
+			'RW'=>'Rwanda',
+			'SH'=>'Saint Helena',
+			'KN'=>'Saint Kitts And Nevis',
+			'LC'=>'Saint Lucia',
+			'PM'=>'Saint Pierre And Miquelon',
+			'VC'=>'Saint Vincent And The Grenadines',
+			'SM'=>'San Marino',
+			'ST'=>'Sao Tome And Principe',
+			'SA'=>'Saudi Arabia',
+			'SN'=>'Senegal',
+			'SC'=>'Seychelles',
+			'SL'=>'Sierra Leone',
+			'SG'=>'Singapore',
+			'SK'=>'Slovak Republic',
+			'SI'=>'Slovenia',
+			'SB'=>'Solomon Islands',
+			'SO'=>'Somalia',
+			'ZA'=>'South Africa',
+			'GS'=>'South Georgia And South Sandwich Islands',
+			'KR'=>'South Korea',
+			'ES'=>'Spain',
+			'LK'=>'Sri Lanka',
+			'SD'=>'Sudan',
+			'SR'=>'Suriname',
+			'SJ'=>'Svalbard And Jan Mayen',
+			'SZ'=>'Swaziland',
+			'SE'=>'Sweden',
+			'CH'=>'Switzerland',
+			'SY'=>'Syria',
+			'TW'=>'Taiwan',
+			'TJ'=>'Tajikistan',
+			'TZ'=>'Tanzania',
+			'TH'=>'Thailand',
+			'TG'=>'Togo',
+			'TK'=>'Tokelau',
+			'TO'=>'Tonga',
+			'TT'=>'Trinidad And Tobago',
+			'TN'=>'Tunisia',
+			'TR'=>'Turkey',
+			'TM'=>'Turkmenistan',
+			'TC'=>'Turks And Caicos Islands',
+			'TV'=>'Tuvalu',
+			'UG'=>'Uganda',
+			'UA'=>'Ukraine',
+			'AE'=>'United Arab Emirates',
+			'UK'=>'United Kingdom',
+			'US'=>'United States',
+			'UM'=>'United States Minor Outlying Islands',
+			'UY'=>'Uruguay',
+			'UZ'=>'Uzbekistan',
+			'VU'=>'Vanuatu',
+			'VA'=>'Vatican City (Holy See)',
+			'VE'=>'Venezuela',
+			'VN'=>'Vietnam',
+			'VG'=>'Virgin Islands (British)',
+			'VI'=>'Virgin Islands (US)',
+			'WF'=>'Wallis And Futuna Islands',
+			'EH'=>'Western Sahara',
+			'WS'=>'Western Samoa',
+			'YE'=>'Yemen',
+			'YU'=>'Yugoslavia',
+			'ZM'=>'Zambia',
+			'ZW'=>'Zimbabwe'
+		);
+	}
+	
+	function easyReservations_country_select($presentCountry){
+	
+		$countryArray = easyReservations_country_array();
+		$country_options = '';
+		foreach($countryArray as $short => $country){
+			if($short == $presentCountry){ $select = ' selected'; }
+			else $select = "";
+			$country_options .= '<option value="'.$short.'"'.$select.'>'.$country.'</options>';
+		}
+
+		return $country_options;
+	}
+	
+	function easyReservations_country_name($country){
+
+		$countryArray = easyReservations_country_array();
+		
+		return $countryArray[$country];
+	
 	}
 ?>
