@@ -1,0 +1,91 @@
+	.calendartable {
+		border:1px solid #000 !important;
+		border-spacing: 0;
+		margin:0 !important;
+	}
+	.calendarcell {
+		color: #fff;
+		text-align:center;
+		vertical-align:top;
+		border-right: 1px solid #fff;
+		border-bottom: 1px solid #fff;
+		border-top:none !important;
+		text-align: center !important;
+		vertical-align: middle;
+		font-size:13px;
+		padding: 3px !important;
+	}
+	tr .calendarcell:last-of-type{
+		border-right:0;
+	}
+	tr .calendarheadercell:last-of-type{
+		border-right:0;
+	}
+	.calendartable tr:last-of-type td {
+		border-bottom:0;
+	}
+	.calendarheadercell {
+		text-align:center;
+		border-bottom: 1px solid #fff; 
+		background: #000;
+		color:#fff !important;
+	}
+	.calendartable th {
+		 line-height: 2.6em !important;
+	}
+	.callenderlast {
+		background: #cccccc; 
+		color: #666666;
+	}
+	.calendarFull {
+		background: #cc0001; 
+		color: #fff;
+	}
+	.calendarOccu {
+		background: #ffcb00; 
+		color: #5E5E5E;
+	}
+	.calendarEmpty {
+		background: #006600; 
+		color: #fff;
+	}
+	.callenderp {
+		border-collapse: collapse;
+		text-align: center;
+	}
+	.monthSelectPrev {
+		text-align:left;
+		background: #575757;
+	}
+	.monthSelectNext {
+		text-align:right;
+		background: #575757;
+	}
+	.calendarheadline {
+		font-family: "Arial";
+		font-size: 12px !important;
+		text-align:center;
+		background: #575757;
+		color:#fff !important;
+	}
+	.monthSelector {
+		margin: 0px 4px;
+		background:#898989;
+		color:#000;
+		font-weight:bold;
+		text-decoration:none;
+		padding:3px 5px;
+		-moz-border-radius: 2px;
+		-khtml-border-top-radius: 2px;
+		-webkit-border-top-radius: 2px;
+		border-top-radius: 2px;
+	}
+	.monthSelector:hover {
+		cursor:pointer;
+		background:#3A3A3A;
+		color:#fff;
+		text-decoration:none;
+	}
+	.today {
+		font-weight:bold;
+	}
