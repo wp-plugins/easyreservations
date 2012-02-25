@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: easyReservations\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-10-19 14:04+0100\n"
-"PO-Revision-Date: 2011-10-24 16:33+0100\n"
+"PO-Revision-Date: 2012-02-23 21:23+0100\n"
 "Last-Translator: feryaz <f.e.r.y@web.de>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -780,7 +780,7 @@ msgstr "Hilfe"
 
 #: K:\homepage\WordPress\plugin\easyreservations\easyreservations/easyReservations_admin_post_widget.php:32
 msgid "For Offers Box Style only "
-msgstr "Nur für die Sonderangebote-Box"
+msgstr "Nur für Angebots-Box Stil"
 
 #: K:\homepage\WordPress\plugin\easyreservations\easyreservations/easyReservations_admin_post_widget.php:35
 msgid "From - To"
@@ -886,8 +886,9 @@ msgstr "Filter"
 
 #: K:\homepage\WordPress\plugin\easyreservations\easyreservations/easyReservations_admin_resources.php:362
 #: K:\homepage\WordPress\plugin\easyreservations\easyreservations/easyReservations_admin_settings.php:493
+#, fuzzy
 msgid "Reset"
-msgstr "Zurücksetzten"
+msgstr "Ablehnen"
 
 #: K:\homepage\WordPress\plugin\easyreservations\easyreservations/easyReservations_admin_resources.php:385
 msgid "Set Filters"
@@ -1346,7 +1347,7 @@ msgstr "Anzahl der Gäste"
 
 #: K:\homepage\WordPress\plugin\easyreservations\easyreservations/easyReservations_admin_settings.php:516
 msgid "name of guest"
-msgstr "Name des Gastes"
+msgstr "Name des Gastest"
 
 #: K:\homepage\WordPress\plugin\easyreservations\easyreservations/easyReservations_admin_settings.php:517
 msgid "email of guest"
@@ -1358,7 +1359,7 @@ msgstr "Auswahl der Zimmer"
 
 #: K:\homepage\WordPress\plugin\easyreservations\easyreservations/easyReservations_admin_settings.php:519
 msgid "offers as select or box"
-msgstr "Angebote als Auswahl oder Box"
+msgstr "Angebote als Außwahl oder Box"
 
 #: K:\homepage\WordPress\plugin\easyreservations\easyreservations/easyReservations_admin_settings.php:520
 msgid "for fix a room/offer to a form"
@@ -1586,7 +1587,7 @@ msgstr "Wenn die Gäste die Kontrollbox auswählen erhöht sich der Preis um"
 
 #: K:\homepage\WordPress\plugin\easyreservations\easyreservations/easyReservations_admin_settings.php:767
 msgid "if Guest checks the Checkbox the Price will decrease by"
-msgstr "Wenn die Gäste die Kontrollbox auswählen verringert sich der Preis um"
+msgstr "Wenn die Gäste die Kontrollbox auswählen erniedrigt sich der Preis um"
 
 #: K:\homepage\WordPress\plugin\easyreservations\easyreservations/easyReservations_admin_settings.php:768
 msgid "Click on \"Add\" to add the custom Price Checkbox to the end of the Form"
@@ -1607,11 +1608,11 @@ msgstr "Das Optionsfeld muss übereinstimmen"
 
 #: K:\homepage\WordPress\plugin\easyreservations\easyreservations/easyReservations_admin_settings.php:780
 msgid "if Guest selects \"selectname\" the Price will increase by"
-msgstr "wenn Gäste \"selectname\" auswählen erhöht sich der Preis um"
+msgstr "wenn Gäste \"selectname\" selektieren, erhöht sich der Preis um"
 
 #: K:\homepage\WordPress\plugin\easyreservations\easyreservations/easyReservations_admin_settings.php:781
 msgid "if Guest selects \"noBreakfast\" the Price will decrease by"
-msgstr "wenn Gäste \"kein Frühstück\" auswählen verringert sich der Preis um"
+msgstr "wenn Gäste \"kein Frühstück\" selektieren, erhöht sich der Preis um"
 
 #: K:\homepage\WordPress\plugin\easyreservations\easyreservations/easyReservations_admin_settings.php:782
 msgid "if Guest selects \"noLaundry\" the Price wont change"
@@ -1693,8 +1694,9 @@ msgid "Click on \"Add\" to add the Departure Date as Hidden Field to the end of 
 msgstr "Klicke auf \"Hinzufügen\", um die Abfahrtszeit als verstecktes Feld am Ende des Formulars hinzuzufügen"
 
 #: K:\homepage\WordPress\plugin\easyreservations\easyreservations/easyReservations_admin_settings.php:949
+#, fuzzy
 msgid "Standard Sendmail"
-msgstr "Standard Mail"
+msgstr "Standard"
 
 #: K:\homepage\WordPress\plugin\easyreservations\easyreservations/easyReservations_admin_settings.php:954
 #: K:\homepage\WordPress\plugin\easyreservations\easyreservations/easyReservations_admin_settings.php:984
@@ -1702,7 +1704,7 @@ msgstr "Standard Mail"
 #: K:\homepage\WordPress\plugin\easyreservations\easyreservations/easyReservations_admin_settings.php:1020
 #: K:\homepage\WordPress\plugin\easyreservations\easyreservations/easyReservations_admin_settings.php:1050
 msgid "Mail to Guest"
-msgstr "eMail an Gast"
+msgstr "Sende eMail an Gast"
 
 #: K:\homepage\WordPress\plugin\easyreservations\easyreservations/easyReservations_admin_settings.php:957
 #: K:\homepage\WordPress\plugin\easyreservations\easyreservations/easyReservations_admin_settings.php:975
@@ -1931,7 +1933,7 @@ msgstr "Falsche ID und/oder eMail"
 
 #: K:\homepage\WordPress\plugin\easyreservations\easyreservations/easyReservations_edit_shortcode.php:189
 msgid "Back"
-msgstr "zurück"
+msgstr "Zurück"
 
 #: K:\homepage\WordPress\plugin\easyreservations\easyreservations/easyReservations_form_shortcode.php:73
 msgid "Please select a Room"
