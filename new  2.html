@@ -1,0 +1,73 @@
+Filters came with update 1.1 and have the functions to change the price by different time-periods (fixed and flexible ones), set up discounts for different things like amount of persons or how many nights the guest stays and define unavail days for resources (rooms and offers). Their very flexible, but complicated too.<br>
+
+<h2>How to set filters?</h2><br>
+Filters are build with shortcodes composed out of the three Informations Type of Filter, Condition and Value.<br>
+They can be set and changed on the resources site.<br>
+<h2>Types of Filters</h2>
+<h3>Price</h3>
+With this Filter you can change the price for a room or an offer for a specfic date.<br> The default tag is<br><br><code>[price condition value]</code><br><br>
+<h4>Conditions</h3>
+<b>Date Range</b><br>
+With this condition you can set the price for a date range with the condition <code>dd.mm.yyyy-dd.mm.yyyy</code>.<br>
+Example: <code>[price 22.08.2011-30.10.2011 100]</code><br>
+From 22.08.2011 to 30.10.2011 the resource will cost 100€<br><br>
+<b>Date</b><br>
+With this condition you can set the price for a date with the condition <code>dd.mm.yyyy</code>.<br>
+Example: <code>[price 30.10.2011 100]</code><br>
+At the 30.10.2011 the resource will cost 100€<br><br>
+<b>Units of Time</b><br>
+With <b>1.1.3</b> you can set up a price filter for recurring units of time. A unit of time can be a day (monday - friday;week;weekend), a calendarweek (1 - 52), a month (January - Dezember), a quarter (Quarter 1 - Quarter 4) or a year (1970 - 2035). So its possible to set a price for each monday for a the month april. The default structure is <code>cond1;cond2;cond3</code><br>
+<u>Days</u>: monday or mon, tuesday or tue, wednesday or wed, thursday or thu, friday or fri, saturday or sat, sunday or sun, week, weekend<br>
+<u>Calendarweek</u>: 1 - 52<br>
+<u>Month</u>: january or jan, february or feb, march or mar, april or apr, may, june or jun, july or jul, august or aug, september or sep, octobre or oct, november or nov, dezebmer or dez<br>
+<u>Quarter</u>: quarter1 or q1, quarter2 or q2, quarter3 or q3, quarter4 or q4.<br>
+<u>Year</u>: 1970-2035
+<h4>Priorities</h3>
+The filters have given priorities (each day gets checked itself) of <code><strong>"daterange price filter" -> "day" -> "calendarweek" -> "month" -> "quarter" -> "year"</strong></code>.<br>
+But you can change this order to set up the prices like you want flexible, its very easy in the filter table.
+So its be possible to change the price for each monday in the months april and may for example.
+To set the priority just enter a number from 1-9 between the price and the condition ([price 1-9 condition value]) and the calculation will first check if the day to calculate match the given conditions.
+<small>For the example above: [price 1 q1;q3;q4;jun 200][price 2 monday 350][price 3 apr;may 200]</small><br>
+<h4>Value</h4><br>
+The value has to be a price, for the offers you have to enter a price for each room.
+Examples: <code>584</code> or <code>57.48</code>.
+
+<h3>Avail</h3>
+With this filter you can set a resource unavailable.<br>
+Example: <code>[avail 22.08.2011-30.10.2011]</code><br>
+From 22.08.2011 till 30.10.2011 the resource wont be reservable.<br>
+<h3>Stay</h3>
+With this filter you can set a discount for longer stays.<br>
+Example: <code>[stay 10 50]</code><br>
+If a guest stays ten days or more he gets a discount of 50€.<br>
+or: <code>[stay 20 40%]</code><br>
+If a guest stays twenty days or more he gets a discount of 40% on total price.<br>
+
+<h3>Pers</h3>
+With this filter you can set a discount the more Persons reservate.<br>
+Example: <code>[pers 10 50]</code><br>
+If a ten or more Persons reservate they get a discount of 50€.<br>
+or: <code>[pers 20 40%]</code><br>
+If a ten or more Persons reservate they get a discount of 40% on total price.<br>
+
+<h3>Loyal</h3>
+With this filter you can set a discount for recurring guests. This get counted by reservations with the same emails that are apprioved and in past.<br>
+Example: <code>[loyal 3 520]</code><br>
+If a guest comes for the third time or more he gets a discount of 520€ on the total price. Value can also be in %.<br>
+
+<h3>Early</h3>
+With this filter you can set a discount for recurring guests.<br>
+Example: <code>[loyal 3 520]</code><br>
+If a guest comes for the third time or more he gets a discount of 520€ on the total price. Value can also be in %.<br>
+<h2>A few Notes</h2><br>
+<strong>Why this filters?</strong><br>
+All of this four filters are working without a change of the database from Version 1.0!<br>
+If i would implement for example a early bird discount, the database have to be extended by a row with the Information when the huest has reservated.<br>
+Technicaly no Problem, but if its worth a new database entry for each reservation?<br>
+Answer this question, and i'll do more! :)
+
+done. :) any more ideas?<br>
+<br>
+<strong>Few more Examples:</strong><br>
+<code>[price 22.08.2011 100]</code> price can be set for one day only too!<br>
+<code>[price 22.08.2011 100.99]</code> With a point you can set prices like 100,99€<br>
