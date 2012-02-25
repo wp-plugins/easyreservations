@@ -1,5 +1,5 @@
 <?php
-require('../../../../wp-blog-header.php');
+require('../../../../../wp-blog-header.php');
 global $wpdb;
 
 $from =  $_POST['from'];
@@ -10,7 +10,7 @@ $offer = $_POST['offer'];
 $persons = $_POST['persons'];
 
 if(isset($_POST['customp'])){
-	$customp = str_replace("%", "&", $_POST['customp']);
+	$customp = str_replace("!", "&", $_POST['customp']);
 } else $customp = '';
 
 if(isset($_POST['childs'])){

@@ -12,8 +12,7 @@ function generateXMLHttpReqObjThree(){
       resObjektThree = new XMLHttpRequest();
       }
       catch(Error){
-        alert(
-          "Generating XMLHttpRequest-Obj not possible");
+        alert("AJAX error");
       }
     }
   }
@@ -26,14 +25,15 @@ xxy = new generateAJAXObjektThree();
 resObjektThree = xxy.generateXMLHttpReqObjThree();
 
 function easyRes_sendReq_Validate() {
-	var url = document.getElementById('urlValidate').src;
+	if(document.getElementById('urlValidate').type == "hidden") var url = document.getElementById('urlValidate').value;
+	else var url = document.getElementById('urlValidate').src;
 
 	if(document.easyFrontendFormular.from.value != "" && document.easyFrontendFormular.to.value != ""){
 		resObjektThree.open('post', url.replace("send_validate.js", "") + 'send_validate.php' ,true);
 		resObjektThree.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 		resObjektThree.onreadystatechange = handleResponseValidate;
-		resObjektThree.send('from=' + escape(document.easyFrontendFormular.from.value) + '&to=' + escape(document.easyFrontendFormular.to.value) + '&room=' + escape(document.easyFrontendFormular.room.value) + '&persons=' + escape(document.easyFrontendFormular.persons.value) + '&email=' + escape(document.easyFrontendFormular.email.value) + '&offer=' + escape(document.easyFrontendFormular.specialoffer.value) + '&thename=' + escape(document.easyFrontendFormular.thename.value));
-		document.getElementById("showError").innerHTML = '<img style="vertical-align:text-bottom;" src="' + url.replace("js/send_validate.js", "") + 'images/loading.gif">';
+		resObjektThree.send('from=' + escape(document.easyFrontendFormular.from.value) + '&to=' + escape(document.easyFrontendFormular.to.value) + '&room=' + escape(document.easyFrontendFormular.room.value) + '&persons=' + escape(document.easyFrontendFormular.persons.value) + '&email=' + escape(document.easyFrontendFormular.email.value) + '&offer=' + escape(document.easyFrontendFormular.offer.value) + '&thename=' + escape(document.easyFrontendFormular.thename.value));
+		document.getElementById("showError").innerHTML = '<img style="vertical-align:text-bottom;" src="' + url.replace("js/ajax/send_validate.js", "") + 'images/loading.gif">';
 	} else {
 		document.getElementById("showError").style.visibility = "hidden";
 	}

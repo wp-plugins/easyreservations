@@ -18,12 +18,12 @@
 			ed.addButton('easyReservations', {
 				title : 'easyReservations',
 				cmd : 'shtb_adv_insert_cmd',
-                image: url + "/day.png",
+                image: url + "/logo.png",
 				onclick : function() {
 								ed.windowManager.open({
 					file : url + '/tinyMCE_shortcode_add.php',
 					width : 400,
-					height : 250,
+					height : 260,
 					inline : 1
 				}, {
 					plugin_url : url // Plugin absolute URL
@@ -34,7 +34,7 @@
 
         getInfo : function() {
             return {
-                longname : 'Add Reservation Form',
+                longname : 'easyReservations Shortcodes',
                 author : 'Feryaz Beer',
                 authorurl : 'http://www.feryaz.de',
                 infourl : '',

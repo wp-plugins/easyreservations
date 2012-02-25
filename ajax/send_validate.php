@@ -1,5 +1,5 @@
 <?php
-	require('../../../../wp-blog-header.php');
+	require('../../../../../wp-blog-header.php');
 
 	$val_from = strtotime($_POST['from']);
 	$val_fromdate = date("d.m.Y", $val_from);
@@ -32,8 +32,8 @@
 		$error.=  __( 'The depature Date has to be after the arrival Date' , 'easyReservations' ).'<br>';
 	}
 
-	$pattern_mail = "^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*\.[a-z]{2,5}$";
-	if(!eregi($pattern_mail, $_POST['email']) AND $val_email != ""){ /* check email */
+	$pattern_mail = "/^[a-zA-Z0-9-_.]+@[a-zA-Z0-9-_.]+\.[a-zA-Z]{2,4}$/";
+	if(!preg_match($pattern_mail, $_POST['email']) AND $val_email != ""){ /* check email */
 		$error.=  __( 'Please enter a correct eMail' , 'easyReservations' ).'<br>'; 
 	}
 
