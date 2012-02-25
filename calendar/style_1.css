@@ -14,6 +14,7 @@
 		vertical-align: middle;
 		font-size:13px;
 		padding: 3px !important;
+		width:14.6%;
 	}
 	tr .calendarcell:last-of-type{
 		border-right:0;
@@ -29,6 +30,7 @@
 		border-bottom: 1px solid #fff; 
 		background: #000;
 		color:#fff !important;
+		vertical-align: middle !important;
 	}
 	.calendartable th {
 		 line-height: 2.6em !important;
@@ -56,10 +58,12 @@
 	.monthSelectPrev {
 		text-align:left;
 		background: #575757;
+		vertical-align: middle !important;
 	}
 	.monthSelectNext {
 		text-align:right;
 		background: #575757;
+		vertical-align: middle !important;
 	}
 	.calendarheadline {
 		font-family: "Arial";
@@ -67,6 +71,7 @@
 		text-align:center;
 		background: #575757;
 		color:#fff !important;
+		vertical-align: middle !important;
 	}
 	.monthSelector {
 		margin: 0px 4px;
@@ -76,9 +81,9 @@
 		text-decoration:none;
 		padding:3px 5px;
 		-moz-border-radius: 2px;
-		-khtml-border-top-radius: 2px;
-		-webkit-border-top-radius: 2px;
-		border-top-radius: 2px;
+		-khtml-border-radius: 2px;
+		-webkit-border-radius: 2px;
+		border-radius: 2px;
 	}
 	.monthSelector:hover {
 		cursor:pointer;

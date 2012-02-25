@@ -1,12 +1,11 @@
 .easyFrontendFormular{
-margin:0 auto;
-width:400px;
-padding:14px;
-font-family:"Lucida Grande", "Lucida Sans Unicode", Verdana, Arial, Helvetica, sans-serif;
-font-size:12px;
+	margin:0 auto;
+	width:410px;
+	font-family:"Lucida Grande", "Lucida Sans Unicode", Verdana, Arial, Helvetica, sans-serif;
+	font-size:12px;
 }
 #easyFrontendFormular{
-line-height:1em;
+	line-height:1em;
 }
 #easyFrontendFormular label{
 	display:block;
@@ -35,6 +34,14 @@ line-height:1em;
 	font-weight:normal;
 	text-align:right;
 	width:140px;
+}
+#easyFrontendFormular .formblock {
+
+	font-family:Verdana, Arial, Helvetica, sans-serif;
+	width:250px;
+	margin:2px 0 20px 10px;
+	display:inline-block;
+
 }
 .showError {
 	padding:6px;
@@ -82,4 +89,32 @@ line-height:1em;
 	background:-moz-linear-gradient( center top, #636363 5%, #636363 100% );
 	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#636363', endColorstr='#444444');
 	color:#ffffff;
+}
+#easyFrontendFormular pre{
+	background: none ;
+	font-family:Verdana;
+	padding:2px !important;
+	margin-bottom: 4px;
+}
+.showPrice {
+	padding:6px;
+	width:170px;
+	font-family :Verdana;
+	white-space: nowrap; 
+	background: #FFF9AD;
+	margin: 10px auto;
+}
+
+.ui-datepicker{
+	font-size:10px !important;
+}
+
+.ui-state-default{
+	text-align:center !important;
+}
+
+.easy_form_success {
+
+	color:#009B1C;
+
 }

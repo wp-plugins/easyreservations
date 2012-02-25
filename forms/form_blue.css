@@ -1,13 +1,13 @@
 .easyFrontendFormular {
 	margin:0 auto;
 	width:500px;
-	padding:14px;
+	padding:14px; 
 }
 .spacer{clear:both; height:1px;}
 .easyFrontendFormular p, .easyFrontendFormular h1, .easyFrontendFormular form, .easyFrontendFormular button{border:0; margin:0; padding:0;}
 .easyFrontendFormular{
 	margin:0 auto;
-	width:400px;
+	width:410px;
 	padding:14px;
 	font-family:"Lucida Grande", "Lucida Sans Unicode", Verdana, Arial, Helvetica, sans-serif;
 	font-size:12px;
@@ -18,45 +18,50 @@
 	line-height:1em;
 }
 #easyFrontendFormular h1 {
-	font-size:14px;
-	font-weight:bold;
-	margin-bottom:8px;
-	margin-left:10px;
+	font-size:14px !important;
+	font-weight:bold !important;
+	margin-bottom:8px !important;
+	margin-left:10px !important;
 }
 #easyFrontendFormular p{
-	font-size:11px;
-	color:#666666;
-	margin: 0px 10px 20px 10px;
-	border-bottom:solid 1px #b7ddf2;
-	padding-bottom:10px;
+	font-size:11px !important;
+	color:#666666 !important;
+	margin: 0px 10px 20px 10px !important;
+	border-bottom:solid 1px #b7ddf2 !important;
+	padding-bottom:10px !important;
 }
 #easyFrontendFormular label{
-	display:inline;
-	font-weight:bold;
+	display:inline !important;
+	font-weight:bold !important;
 	text-align:right !important;
-	width:140px;
+	width:140px !important;
 	float:left !important;
 }
+#easyFrontendFormular .formblock {
+	font-family:Verdana, Arial, Helvetica, sans-serif !important;
+	width:250px !important;
+	margin:2px 0 20px 10px !important;
+	display:inline-block !important;
+}
+
 #easyFrontendFormular small, #easyFrontendFormular .small {
-	color:#666666;
-	display:block;
-	font-size:11px;
-	font-weight:normal;
-	text-align:right;
+	color:#666666 !important;
+	display:block !important;
+	font-size:11px !important;
+	font-weight:normal !important;
+	text-align:right !important;
 	width:140px;
 }
 #easyFrontendFormular input{
-	font-size:12px;
-	padding:4px 5px;
-	border:solid 1px #aacfe4;
+	font-size:12px !important;
+	padding:4px 5px !important;
+	border:solid 1px #aacfe4 !important;
 	width:200px;
-	margin:2px 0 20px 10px;
-	color:#666666;
-
+	margin:2px 0 20px 10px !important;
+	color:#666666 !important;
 }
 #easyFrontendFormular input[type=radio]{
 	width:10px;
-
 }
 #easyFrontendFormular textarea{
 	font-size:12px;
@@ -75,9 +80,10 @@
 	color:#666666;
 }
 #easyFrontendFormular pre{
-	background: none ;
-	font-family:Verdana;
-	padding-left:2px !important;
+	background: none;
+	font-family:Verdana !important;
+	padding:2px !important;
+	margin-bottom: 4px;
 }
 #easyFrontendFormular pre input{
 	margin:0px 0px 0px 15px;
@@ -118,4 +124,28 @@
 	color:#E80000;
 	margin-left: 4px;
 	line-height :1.2em;
+}
+
+.showPrice {
+	padding:6px;
+	width:170px;
+	font-family :Verdana;
+	white-space: nowrap; 
+	background: #FFF9AD;
+	margin: 10px 0px;
+}
+
+.ui-datepicker{
+	font-size:10px !important;
+}
+
+.ui-state-default{
+	text-align:center !important;
+}
+.easy_form_success {
+
+	color:#009B1C;
+    font-weight: bold;
+    text-align: center;
+
 }
