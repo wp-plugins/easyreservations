@@ -49,37 +49,31 @@ if($offer_cat != ''){
 
 /* - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + BULK ACTIONS (trash,delete,undo trash) + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + */
 
-	if(isset($_GET['bulk'])) { // GET Bulk Actions
-
+	if(isset($_GET['bulk']) && check_admin_referer( 'easy-main-bulk', 'easy-main-bulk' )){ // GET Bulk Actions
 		if(isset($_GET['bulkArr'])) {
-
 			$to=0;
 			$listes=$_GET['bulkArr'];
-			
-			if($_GET['bulk']=="1"){ //  If Move to Trash 
 
-				if(count($listes)  > "1" ) {
-					foreach($listes as $liste) {
-
-					$to++;
-					$ids=$liste;
-					$wpdb->query( $wpdb->prepare("UPDATE ".$wpdb->prefix ."reservations SET approve='del' WHERE id='$ids' ") ); 	
-
-				} } else { 
+			if($_GET['bulk']==1){ //  If Move to Trash 
+				if(count($listes)  > 1) {
+					foreach($listes as $liste){
+						$to++;
+						$ids=$liste;
+						$wpdb->query( $wpdb->prepare("UPDATE ".$wpdb->prefix ."reservations SET approve='del' WHERE id='$ids' ") );
+					}
+				} else {
 					$ids=$listes[0];
 					$to++;
-					$wpdb->query( $wpdb->prepare("UPDATE ".$wpdb->prefix ."reservations SET approve='del' WHERE id='$ids' ") ); }
-
+					$wpdb->query( $wpdb->prepare("UPDATE ".$wpdb->prefix ."reservations SET approve='del' WHERE id='$ids' ") ); 
+				}
 			if ($to!=1) { $linkundo=implode("&bulkArr[]=", $listes); } else { $linkundo=$liste; }
 			if ($to==1) { $anzahl=__('Reservation', 'easyReservations'); } else { $anzahl=$to.' '.__('Reservations', 'easyReservations');  }
-			$prompt='<div style="width: 97%; padding: 5px; margin: -11px 0 5px 0;" class="updated below-h2"><p>'.$anzahl.' '.__( 'moved to Trash' , 'easyReservations' ).'. <a href="admin.php?page=reservations&bulkArr[]='.$linkundo.'&bulk=2">'.__( 'Undo' , 'easyReservations' ).'</a></p></div>';
+			$prompt='<div style="width: 97%; padding: 5px; margin: -11px 0 5px 0;" class="updated below-h2"><p>'.$anzahl.' '.__( 'moved to Trash' , 'easyReservations' ).'. <a href="admin.php?page=reservations&bulkArr[]='.wp_nonce_url($linkundo, 'easy-main-bulk').'&bulk=2">'.__( 'Undo' , 'easyReservations' ).'</a></p></div>';
 
 			}
 			if($_GET['bulk']=="2"){ //  If Undo Trashing
-
 				if(count($listes)  > "1" ) { 
 					foreach($listes as $liste){
-
 						$ids=$liste;
 						$to++;
 						$wpdb->query( $wpdb->prepare("UPDATE ".$wpdb->prefix ."reservations SET approve='' WHERE id='$ids' ") ); 	
@@ -446,7 +440,7 @@ if($show['show_overview']==1){ //Hide Overview completly
 		$ovBorderStatus='dotted';
 		$ovSettingsIcon='settings';
 	} elseif(RESERVATIONS_STYLE == 'greyfat'){
-		$ovBorderColor='#838383';
+		$ovBorderColor='#9E9E9E';
 		$ovBorderStatus='dashed';
 		$ovSettingsIcon='settingsTry';
 	}?>
@@ -484,6 +478,8 @@ function generateAJAXObjektThree(){
 xxy = new generateAJAXObjektThree();
 resObjektThree = xxy.generateXMLHttpReqObjThree();
 
+var save = 0;
+
 function easyRes_sendReq_Overview(x,y,daystoshow) {
 	if(x && x != 'no') x = 'more=' + x;
 	else var x = '';
@@ -511,13 +507,15 @@ function easyRes_sendReq_Overview(x,y,daystoshow) {
 	if(nonepage != '') var f = '&nonepage=' + nonepage;
 	else var f = '';
 	if(daystoshow) var g = '&daysshow=' + daystoshow;
-	else g = '&daysshow=' + <?php echo get_option("reservations_show_days"); ?>;
+	else g = '&daysshow=' + <?php echo $overview_options['overview_show_days']; ?>;
 	
-	if(y != "" || x != ""){
+	if((y != "" || x != "") && save == 0){
+		save = 1;
 		resObjektThree.open('post', '<?php echo WP_PLUGIN_URL; ?>/easyreservations/overview.php' ,true);
 		resObjektThree.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 		resObjektThree.onreadystatechange = handleResponseValidate;
 		resObjektThree.send(x + y + z + a + b + c + d + e + f + g);
+		document.getElementById('pickForm').innerHTML = '<img style="" src="<?php echo RESERVATIONS_IMAGES_DIR; ?>/loading1.gif">';
 	}
 }
 
@@ -527,6 +525,7 @@ function handleResponseValidate() {
   	text=resObjektThree.responseText;
     document.getElementById("theOverviewDiv").innerHTML = text;
 	createPickers();
+	save = 0;
   }
 }
 
@@ -714,7 +713,8 @@ function clickTwo(t,d,color){
 			while(theid != Last){
 				if(t.className == "er_overview_cell" && t.name != "activeres" && color == "black"){
 					resetSet();
-					document.getElementById('resetdiv').innerHTML += "<?php echo __( 'full' , 'easyReservations' ); ?>!"; 
+					document.getElementById('resetdiv').innerHTML += "<?php echo __( 'full' , 'easyReservations' ); ?>!";
+					document.getElementById('overview').style.boxShadow = "0 0 4px #ED2828";
 					var field = document.getElementById('datepicker2');
 					if(field && field.type == "text" ){
 						field.style.borderColor="#F20909";
@@ -748,6 +748,7 @@ function changer(x){
 		document.getElementById('datepicker').style.borderColor="#dfdfdf";
 		document.getElementById('room').style.borderColor="#dfdfdf";
 		document.getElementById('roomexactly').style.borderColor="#dfdfdf";
+		document.getElementById('overview').style.boxShadow = "0 0 2px #848484";
 	}
 	if( Click == 2 ){
 		resetSet();
@@ -803,6 +804,10 @@ function resetSet(){
 				if(t.className != "er_overview_cell") t.style.borderLeft='1px <?php echo $ovBorderStatus; ?> <?php echo $ovBorderColor; ?>';
 				t.style.background=t.abbr;
 			}
+			var testa = document.getElementById(First);
+			if(testa.className != "er_overview_cell") testa.style.borderLeft='1px <?php echo $ovBorderStatus; ?> <?php echo $ovBorderColor; ?>';
+			testa.style.background=t.abbr;
+
 			Click = 0;
 			document.getElementById('resetdiv').innerHTML='';
 			document.getElementById("hiddenfieldclick2").value="";
@@ -1077,7 +1082,7 @@ if(!isset($approve) && !isset($delete) && !isset($view) && !isset($edit) && !iss
 			</td>
 		</tr>
 		</table>
-		<form action="admin.php?page=reservations" method="get" name="frmAdd" id="frmAdd">
+		<form action="admin.php?page=reservations" method="get" name="frmAdd" id="frmAdd"><?php wp_nonce_field('easy-main-bulk','easy-main-bulk'); ?>
 		<table  class="reservationTable <?php echo RESERVATIONS_STYLE; ?>" style="width:99%;"> <!-- Main Table //-->
 			<thead> <!-- Main Table Header //-->
 				<tr>
@@ -1696,7 +1701,7 @@ if(isset($edit)){
 						</tr>
 						<tr>
 							<td nowrap><img style="vertical-align:text-bottom;" src="<?php echo RESERVATIONS_IMAGES_DIR.'/money.png'; ?>"> <?php printf ( __( 'Fixed Price' , 'easyReservations' ));?></td>
-							<td nowrap><input type="checkbox" onclick="setPrice()" name="fixReservation" <?php if($pricexpl[0] != '') echo 'checked'; ?>> <span id="priceSetter"><?php if($pricexpl[0] != ''){ ?><input type="text" value="<?php echo $pricexpl[0]; ?>" name="priceset" style="width:60px"><?php echo ' &'.get_option('reservations_currency').';'; } ?></span></td>
+							<td nowrap><input type="checkbox" onclick="setPrice()" name="fixReservation" <?php if($pricexpl[0] != '') echo 'checked'; ?>> <span id="priceSetter"><?php if($pricexpl[0] != ''){ ?><input type="text" value="<?php echo $pricexpl[0]; ?>" name="priceset" style="width:60px;text-align: right;"><?php echo ' &'.get_option('reservations_currency').';'; } ?></span></td>
 						</tr>
 						<tr class="alternate">
 							<td nowrap><?php printf ( __( 'Paid' , 'easyReservations' ));?></td>

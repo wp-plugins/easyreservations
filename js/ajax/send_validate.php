@@ -23,12 +23,8 @@
 		$error.=  __( 'The depature Date has to be in future' , 'easyReservations' ).'<br>';
 	}
 	
-	if($val_to < $val_from){ /* check difference between arrival and departure date */
-		$error.=  __( 'The arrival Date has to be before the depature Date' , 'easyReservations' ).'<br>';
-	}
-
-	if($val_to == $val_from){ /* check difference between arrival and departure date */
-		$error.=  __( 'The depature Date has to be after the arrival Date' , 'easyReservations' ).'<br>';
+	if($val_to <= $val_from){ /* check difference between arrival and departure date */
+		$error.=  __( 'The depature date has to be after the arrival date' , 'easyReservations' ).'<br>';
 	}
 
 	$pattern_mail = "/^[a-zA-Z0-9-_.]+@[a-zA-Z0-9-_.]+\.[a-zA-Z]{2,4}$/";

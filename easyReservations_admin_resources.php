@@ -4,14 +4,14 @@ function reservation_resources_page(){
 $offer_cat = get_option("reservations_special_offer_cat");
 $room_category = get_option('reservations_room_category');
 
-if(isset($_GET['delete'])){
+if(isset($_GET['delete']) && check_admin_referer( 'easy-resource-delete')){
 	wp_delete_post($_GET['delete']);
 }
 if(isset($_GET['room'])){
 	$resourceID=$_GET['room'];
 	$site='rooms';
 }
-if(isset($_POST['thecontent'])){
+if(isset($_POST['thecontent']) && check_admin_referer( 'easy-resource-add', 'easy-resource-add' )){
 // Create post object
 	if($_POST['roomoroffer']=='room') $cat=$room_category;
 	else $cat=$offer_cat;
@@ -192,7 +192,7 @@ if(!isset($site) OR $site=='' OR $site=='main'){
 								<a href="post.php?post=<?php echo $allroom->ID; ?>&action=edit" title="<?php echo __( 'edit post' , 'easyReservations' ); ?>"><img style="vertical-align:text-bottom;" src="<?php echo RESERVATIONS_IMAGES_DIR; ?>/message.png"></a>
 								<a href="admin.php?page=reservation-resources&room=<?php echo $allroom->ID;?>" title="<?php echo __( 'edit' , 'easyReservations' ); if($categoryid == $room_category) echo ' '. __( 'Room' , 'easyReservations' ); else echo ' '. __( 'Offer' , 'easyReservations' );?>"><img style="vertical-align:text-bottom;" src="<?php echo RESERVATIONS_IMAGES_DIR; ?>/money.png"></a>
 								<a href="<?php echo get_permalink( $allroom->ID ); ?>" target="_blank" title="<?php echo __( 'view post' , 'easyReservations' ); ?>"><img style="vertical-align:text-bottom;" src="<?php echo RESERVATIONS_IMAGES_DIR; ?>/page_white_link.png"></a>
-								<a href="admin.php?page=reservation-resources&delete=<?php echo $allroom->ID;?>" title="<?php echo __( 'trash & delete' , 'easyReservations' ); ?>"><img style="vertical-align:text-bottom;" src="<?php echo RESERVATIONS_IMAGES_DIR; ?>/trash.png"></a>
+								<a href="<?php echo wp_nonce_url('admin.php?page=reservation-resources&delete='.($allroom->ID).'', 'easy-resource-delete'); ?>" title="<?php echo __( 'trash & delete' , 'easyReservations' ); ?>"><img style="vertical-align:text-bottom;" src="<?php echo RESERVATIONS_IMAGES_DIR; ?>/trash.png"></a>
 							</td>
 						</tr><?php
 						/*for($countexactroom=1; get_post_meta($allroom->ID, 'roomcount', true) >= $countexactroom; $countexactroom++){
@@ -1005,7 +1005,7 @@ function createPickersAvail(context) {
 			$roomoroffer='Offer';
 			$cat=get_the_category_by_ID($offer_cat);
 		}
- ?><form method="post" action="" name="addresource" id="addresource">
+ ?><form method="post" action="" name="addresource" id="addresource"><?php wp_nonce_field('easy-resource-add','easy-resource-add'); ?>
 <input type="hidden" name="roomoroffer" value="<?php echo $addresource; ?>">
 	<table class="<?php echo RESERVATIONS_STYLE; ?>" style="width:340px;">
 		<thead>

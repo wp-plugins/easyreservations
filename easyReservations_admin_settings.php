@@ -481,7 +481,7 @@ function resteText() {
 					Default += '<span class="small">How many guests?</span>\n';
 					Default += '</label>[persons Select 10]\n\n';
 
-					Default += '<label>Childs\n';
+					Default += '<label>Children\'s\n';
 					Default += '<span class="small">with childrens?</span>\n';
 					Default += '</label>[childs Select 10]\n\n';
 
@@ -927,7 +927,7 @@ function jumpto(x){ // Chained inputs;
 			document.form1.eins.disabled=true;
 		} else if (x == "offer") {
 			end = 3;
-			var Output  = '<select id="zwei" name="zwei"><?php echo $offeroptions; ?></select>';
+			var Output  = '<select id="zwei" name="zwei"><option value="0"><?php echo __( 'None' , 'easyReservations' ); ?></option><?php echo $offeroptions; ?></select>';
 			document.getElementById("Text2").innerHTML += Output;
 
 			var Help = '<div class="explainbox"><b>1. <?php echo __( 'Select an Offer' , 'easyReservations' ); ?></b>';
