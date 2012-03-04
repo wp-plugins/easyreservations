@@ -770,7 +770,7 @@ ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrivaldate] <br>To: [
 					$current.='<b><u>'.__( 'Show Days' , 'easyReservations' ).':</u></b><br>';
 					$current.='<input type="text" name="overview_show_days" style="width:50px" value="'.$overview['overview_show_days'].'"> '.__( 'Days' , 'easyReservations' );
 				$current .= '</p>';
-				$current .= '<input type="submit" value="Save Changes" class="button-secondary" style="float:right;vertical-align:bottom !important">';
+				$current .= '<input type="submit" value="Save Changes" class="button-primary" style="float:right;margin-top:120px !important">';
 			$current .= '</form>';
 			
 

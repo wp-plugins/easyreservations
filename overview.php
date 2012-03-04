@@ -276,7 +276,7 @@
 							$minusdays=round($daybetween)-1;
 							$nightsproof=$reservationarray[$CountNumberOfAdd]['nights']-$minusdays;
 						} elseif($reservationarray[$CountNumberOfAdd]['arDate']+(86400*$reservationarray[$CountNumberOfAdd]['nights']) > $timesy) {
-							$daybetween=(($timesy-$reservationarray[$CountNumberOfAdd]['arDate'])/86400)+$reservationarray[$CountNumberOfAdd]['nights'];
+							$daybetween=($timesy/86400)-(($reservationarray[$CountNumberOfAdd]['arDate']/86400)+$reservationarray[$CountNumberOfAdd]['nights']);
 							$minusdays=substr(round($daybetween), 1, 10);
 							$nightsproof=$reservationarray[$CountNumberOfAdd]['nights']-$minusdays;
 						} else {
