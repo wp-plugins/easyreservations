@@ -141,15 +141,18 @@ class easyReservations_form_widget extends WP_Widget {
 			$form_editor = esc_attr( $instance[ 'form_editor' ] );
 		}
 		else {
-			$title = __( 'New title', 'text_domain' );
+			$title = __( 'Reserve now!', 'easyReservations' );
 			$calendar_width = 180;
 			$calendar_height = 140;
 			$calendar_style = 1;
-			$form_url = __( 'type in URL to a form', 'text_domain' );
-			$form_button = __( 'Reser now!', 'text_domain' );
+			$form_url = __( 'type in URL to a form', 'easyReservations' );
+			$form_button = __( 'Reser now!', 'easyReservations' );
 			$form_editor = '[date-from] - [date-to]<br>
-<b><u>Room:</u></b> [rooms]<br>
-<b><u>Offer:</u></b> [offers]<br>';
+<label>Room:</label> [rooms]<br>
+<label>Offer:</label> [offers]<br>
+<label>Name:</label> [thename]<br>
+<label>eMail:</label> [email]<br>
+<label>Persons:</label> [persons Select 10]<br>>';
 		} //<?php checked( (bool) $instance['calendar_room'], true );
 		?>
 		<p>
@@ -199,5 +202,4 @@ class easyReservations_form_widget extends WP_Widget {
 
 } // class Foo_Widget
 // register Foo_Widget widget
-add_action( 'widgets_init', create_function( '', 'register_widget("easyReservations_form_widget");' ) );
- ?>
+add_action( 'widgets_init', create_function( '', 'register_widget("easyReservations_form_widget");' ) ); ?>
