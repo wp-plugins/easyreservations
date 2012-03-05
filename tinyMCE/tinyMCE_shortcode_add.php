@@ -17,10 +17,7 @@ if ( !is_user_logged_in() || !current_user_can('edit_posts') )
 	}
 
 	$roomsoptions = reservations_get_room_options();
-
-?>
-
-<html xmlns="http://www.w3.org/1999/xhtml" style="background:#fff">
+?><html xmlns="http://www.w3.org/1999/xhtml" style="background:#fff">
 	<head>
 	<title><?php _e("easyReservations Shortcodes", "easyReservations"); ?></title>
 	<script language="javascript" type="text/javascript" src="<?php echo get_option('siteurl'); ?>/wp-includes/js/tinymce/tiny_mce_popup.js"></script>
@@ -173,5 +170,4 @@ function insertEasyShortcode() {
 	tinyMCEPopup.close();
 	return;
 }
-
 </script>

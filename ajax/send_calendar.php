@@ -1,4 +1,6 @@
-<?php require('../../../../../wp-blog-header.php'); 
+<?php 
+
+require('../../../../../wp-blog-header.php'); 
 
 $explodeSize = explode(",", $_POST['size']);
 
@@ -43,6 +45,7 @@ $cellheight = ($height-$headerheigth)/100*16.5;
 	$monthnow=date("m", $timenow);
 	$monthString=date("F", $timenow);
 	$num = cal_days_in_month(CAL_GREGORIAN, $monthnow, $yearnow); // 31
+
 	if($monthnow-1 <= 0){
 		$monthnowFix=13;
 		$yearnowFix=$yearnow-1;
@@ -50,9 +53,10 @@ $cellheight = ($height-$headerheigth)/100*16.5;
 		$monthnowFix=$monthnow;
 		$yearnowFix=$yearnow;
 	}
+
 	$num2 = cal_days_in_month(CAL_GREGORIAN, $monthnowFix-1, $yearnowFix); // 31
-	echo '<table class="calendartable" cellpadding="0" style="width:'.$width.'px;height:'.$height.'px;margin-left:auto;"><thead><tr class="calendarheader"><th class="monthSelectPrev"><a class="monthSelector" onClick="document.'.$formular.'.date.value='.($_POST['date']-1).';'.$onClick.'">&lt;</a></th><th colspan="5" class="calendarheadline">'.$monthString.' '.date("Y", $timenow).'</th><th class="monthSelectNext"><a class="monthSelector" onClick="document.'.$formular.'.date.value='.($_POST['date']+1).';'.$onClick.'">&gt;</a></th></tr>';
-	echo '<tr><th class="calendarheadercell">'.__( 'Mo' , 'easyReservations' ).'</th><th class="calendarheadercell">'.__( 'Tu' , 'easyReservations' ).'</th><th class="calendarheadercell">'.__( 'We' , 'easyReservations' ).'</th><th class="calendarheadercell">'.__( 'Th' , 'easyReservations' ).'</th><th class="calendarheadercell">'.__( 'Fr' , 'easyReservations' ).'</th><th class="calendarheadercell">'.__( 'Sa' , 'easyReservations' ).'</th><th class="calendarheadercell">'.__( 'Su' , 'easyReservations' ).'</th></tr></thead><tbody style="text-align:center">';
+	echo '<table class="calendar-table" cellpadding="0" style="width:'.$width.'px;height:'.$height.'px;margin-left:auto;"><thead><tr class="calendarheader"><th class="calendar-header-month-prev"><a class="calendar-month-button" onClick="document.'.$formular.'.date.value='.($_POST['date']-1).';'.$onClick.'">&lt;</a></th><th colspan="5" class="calendar-header-show-month">'.$monthString.' '.date("Y", $timenow).'</th><th class="calendar-header-month-next"><a class="calendar-month-button" onClick="document.'.$formular.'.date.value='.($_POST['date']+1).';'.$onClick.'">&gt;</a></th></tr>';
+	echo '<tr><th class="calendar-header-cell">'.__( 'Mo' , 'easyReservations' ).'</th><th class="calendar-header-cell">'.__( 'Tu' , 'easyReservations' ).'</th><th class="calendar-header-cell">'.__( 'We' , 'easyReservations' ).'</th><th class="calendar-header-cell">'.__( 'Th' , 'easyReservations' ).'</th><th class="calendar-header-cell">'.__( 'Fr' , 'easyReservations' ).'</th><th class="calendar-header-cell">'.__( 'Sa' , 'easyReservations' ).'</th><th class="calendar-header-cell">'.__( 'Su' , 'easyReservations' ).'</th></tr></thead><tbody style="text-align:center">';
 	$rowcount=0;
 	while($diff <= $num){
 
@@ -60,19 +64,19 @@ $cellheight = ($height-$headerheigth)/100*16.5;
 		$dayindex=date("N", $dateofeachday);
 		if($setet==0 OR $setet==7 OR $setet==14 OR $setet==21 OR $setet==28 OR $setet==35){ echo '<tr style="text-align:center">'; $rowcount++; }
 		if($setet==0 AND $diff==1 AND $dayindex != "1"){ 
-			echo '<td class="calendarcell callenderlast"><span>'.($num2-$dayindex+2).'</span></td>'; $setet++; 
+			echo '<td class="calendar-cell calendar-cell-last"><span>'.($num2-$dayindex+2).'</span></td>'; $setet++; 
 			if($setet==1 AND $diff==1 AND $dayindex != "2"){ 
-				echo '<td class="calendarcell callenderlast"><span>'.($num2-$dayindex+2+$setet).'</span></td>'; $setet++; 
+				echo '<td class="calendar-cell calendar-cell-last"><span>'.($num2-$dayindex+2+$setet).'</span></td>'; $setet++; 
 				if($setet==2 AND $diff==1 AND $dayindex != "3"){ 
-				echo '<td class="calendarcell callenderlast"><span>'.($num2-$dayindex+2+$setet).'</span></td>'; $setet++;
+				echo '<td class="calendar-cell calendar-cell-last"><span>'.($num2-$dayindex+2+$setet).'</span></td>'; $setet++;
 					if($setet==3 AND $diff==1 AND $dayindex != "4"){ 
-					echo '<td class="calendarcell callenderlast"><span>'.($num2-$dayindex+2+$setet).'</span></td>'; $setet++; 
+					echo '<td class="calendar-cell calendar-cell-last"><span>'.($num2-$dayindex+2+$setet).'</span></td>'; $setet++; 
 						if($setet==4 AND $diff==1 AND $dayindex != "5"){ 
-						echo '<td class="calendarcell callenderlast"><span>'.($num2-$dayindex+2+$setet).'</span></td>'; $setet++;
+						echo '<td class="calendar-cell calendar-cell-last"><span>'.($num2-$dayindex+2+$setet).'</span></td>'; $setet++;
 							if($setet==5 AND $diff==1 AND $dayindex != "6"){
-							echo '<td class="calendarcell callenderlast"><span>'.($num2-$dayindex+2+$setet).'</span></td>'; $setet++;
+							echo '<td class="calendar-cell calendar-cell-last"><span>'.($num2-$dayindex+2+$setet).'</span></td>'; $setet++;
 								if($setet==6 AND $diff==1 AND $dayindex != "7"){
-								echo '<td class="calendarcell callenderlast"><span>'.($num2-$dayindex+2+$setet).'</span></td>'; $setet++; 
+								echo '<td class="calendar-cell calendar-cell-last"><span>'.($num2-$dayindex+2+$setet).'</span></td>'; $setet++; 
 								}
 							}
 						}
@@ -100,31 +104,33 @@ $cellheight = ($height-$headerheigth)/100*16.5;
 		$roomcategories = get_posts( $argsx );
 		foreach( $roomcategories as $roomcategorie ){
 			$countrooms++;
-			if($countrooms <= 3 AND reservations_check_availibility_for_room($roomcategorie->ID, date("d.m.Y", $dateofeachday)) == 0){
+			if($countrooms <= 3 AND easyreservations_check_avail($roomcategorie->ID, $dateofeachday) == 0){
 				$calendarbgimage.='<p style="margin: -17px 0 -17px 0;position:relative;top:-17px; left:14px"><img src="'.RESERVATIONS_IMAGES_DIR.'/room'.$countrooms.'.png"></p>';
 			}
 		}*/
 
 		if(date("d.m.Y", $dateofeachday) == date("d.m.Y", time())) $todayClass=" today";
 		else $todayClass="";
+		
+		$avail = easyreservations_check_avail($_POST['room'], $dateofeachday);
 
-		if(reservations_check_availibility_for_room($_POST['room'], date("d.m.Y", $dateofeachday)) >= get_post_meta($_POST['room'], 'roomcount', true)){
-			$backgroundtd=" calendarFull";
-		} elseif(reservations_check_availibility_for_room($_POST['room'], date("d.m.Y", $dateofeachday)) > 0){
-			$backgroundtd=" calendarOccu";
+		if($avail >= get_post_meta($_POST['room'], 'roomcount', true)){
+			$backgroundtd=" calendar-cell-full";
+		} elseif($avail > 0){
+			$backgroundtd=" calendar-cell-occupied";
 		} else {
-			$backgroundtd=" calendarEmpty";
+			$backgroundtd=" calendar-cell-empty";
 		}
 
-		echo '<td class="calendarcell'.$todayClass.$backgroundtd.'">'.$diff++.''.$price.'</td>'; $setet++;
+		echo '<td class="calendar-cell'.$todayClass.$backgroundtd.'">'.$diff++.''.$price.'</td>'; $setet++;
 		if($setet==0 OR $setet==7 OR $setet==14 OR $setet==21 OR $setet==28){ echo '</tr>'; }
 	}
 
 	if($diff-1==$num AND $setet/7 != $rowcount){
 		$calc=($rowcount*7)-($setet+1);
 		for($countits=0; $countits < $calc+1; $countits++){
-			if($countits==0) $fix = " callenderlastfixer"; else $fix ="";
-			echo '<td class="calendarcell callenderlast'.$fix.'"><span>'.($countits+1).'</span></td>';
+			if($countits==0) $fix = " calendar-cell-lastfixer"; else $fix ="";
+			echo '<td class="calendar-cell calendar-cell-last'.$fix.'"><span>'.($countits+1).'</span></td>';
 		}
 	}
 

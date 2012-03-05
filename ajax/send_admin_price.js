@@ -34,7 +34,6 @@ function easyRes_sendReq_Price() {
 				customPrices += 'testPrice!:!test:' + Element.value + '!;!';
 			}
 		}
-		
 
 		if(customPrices!=''){
 			var customAdd = '&customp='+ customPrices;
