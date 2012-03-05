@@ -135,9 +135,6 @@ td.hover  { background: #C6C6C6; }
 .overviewemptyRoom {
 	background:#f9f9f9;
 }
-.overviewfullRoom {
-	background:url(images/unavail.png) right no-repeat;
-}
 .h1overview {
 	font: 12px #333333 Verdana, Arial;
 	vertical-align:middle;

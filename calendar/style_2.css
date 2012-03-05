@@ -1,4 +1,4 @@
-	.calendartable {
+	.calendar-table {
 		color: #666;
 		font-size: 12px;
 		-webkit-box-shadow: 0 1px 5px rgba(0,0,0,0.3);
@@ -22,7 +22,7 @@
 		border-left: 1px solid #383838 !important;
 	}
 	
-	.calendarcell {
+	.calendar-cell {
 		color: #666;
 		text-shadow: 0 1px 0 rgba(255,255,255,0.5);
 		text-align: center;
@@ -40,27 +40,27 @@
 		/*padding: 8px 5px  5px  5px !important;*/
 	}
 
-	.calendartable tbody td:first-of-type  {
+	.calendar-table tbody td:first-of-type  {
 		border-left:none !Important;
 	}
 
-	.calendartable tbody tr td:first-of-type  {
+	.calendar-table tbody tr td:first-of-type  {
 		border-left:1px solid #898989 !important;
 	}
 
-	.calendartable tbody tr td:last-of-type  {
+	.calendar-table tbody tr td:last-of-type  {
 		border-right:1px solid #898989 !important;
 	}
 	
-	.calendartable thead .calendarheadercell:first-of-type  {
+	.calendar-table thead .calendar-header-cell:first-of-type  {
 		border-left:1px solid #898989 !important;
 	}
 	
-	.calendartable thead .calendarheadercell:last-of-type  {
+	.calendar-table thead .calendar-header-cell:last-of-type  {
 		border-right:1px solid #898989 !important;
 	}
 	
-	.calendarheadercell {
+	.calendar-header-cell {
 		vertical-align: middle !important;
 		font-size: 9px;
 		/*padding:none !important;*/
@@ -74,17 +74,17 @@
 		text-align:center;
 	}
 
-	.callenderlast {
+	.calendar-cell-last {
 		border-left:none;
 		color: #666666;
 	}
-	.callenderlast span {
+	.calendar-cell-last span {
 		display:none;
 	}
-	.callenderlastfixer {
+	.calendar-cell-lastfixer {
 		border-left:1px solid #898989;
 	}
-	.calendarFull {
+	.calendar-cell-full {
 		background: -moz-linear-gradient(top, #EDEDED 0%, #D8D8D8 88%, #C14B49 88%, #C14B49 100%); /* FF3.6+ */
 		background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#EDEDED), color-stop(88%,#D8D8D8), color-stop(88%,#C14B49), color-stop(100%,#C14B49)); /* Chrome,Safari4+ */
 		background: -webkit-linear-gradient(top, #EDEDED 0%,#D8D8D8 88%,#C14B49 88%,#C14B49 100%); /* Chrome10+,Safari5.1+ */
@@ -93,7 +93,7 @@
 		background: linear-gradient(top, #EDEDED 0%,#D8D8D8 88%,#C14B49 88%,#C14B49 100%); /* W3C */
 		filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#EDEDED', endColorstr='#C14B49',GradientType=0 ); /* IE6-9 */
 	}
-	.calendarOccu {
+	.calendar-cell-occupied {
 		background: -moz-linear-gradient(top, #EDEDED 0%, #D8D8D8 88%, #E0DD41 88%, #E0DD41 100%); /* FF3.6+ */
 		background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#EDEDED), color-stop(88%,#D8D8D8), color-stop(88%,#E0DD41), color-stop(100%,#E0DD41)); /* Chrome,Safari4+ */
 		background: -webkit-linear-gradient(top, #EDEDED 0%,#D8D8D8 88%,#E0DD41 88%,#E0DD41 100%); /* Chrome10+,Safari5.1+ */
@@ -102,7 +102,7 @@
 		background: linear-gradient(top, #EDEDED 0%,#D8D8D8 88%,#E0DD41 88%,#E0DD41 100%); /* W3C */
 		filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#EDEDED', endColorstr='#E0DD41',GradientType=0 ); /* IE6-9 */
 	}
-	.calendarEmpty {
+	.calendar-cell-empty {
 		background: -moz-linear-gradient(top, #EDEDED 0%, #D8D8D8 88%, #81C149 88%, #81C149 100%); /* FF3.6+ */
 		background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#EDEDED), color-stop(88%,#D8D8D8), color-stop(88%,#81C149), color-stop(100%,#81C149)); /* Chrome,Safari4+ */
 		background: -webkit-linear-gradient(top, #EDEDED 0%,#D8D8D8 88%,#81C149 88%,#81C149 100%); /* Chrome10+,Safari5.1+ */
@@ -111,20 +111,16 @@
 		background: linear-gradient(top, #EDEDED 0%,#D8D8D8 88%,#81C149 88%,#81C149 100%); /* W3C */
 		filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#EDEDED', endColorstr='#81C149',GradientType=0 ); /* IE6-9 */
 	}
-	.callenderp {
-		border-collapse: collapse;
-		text-align: center;
-	}
-	.monthSelectPrev {
+	.calendar-header-month-prev {
 		text-align:left;
 		vertical-align: middle !important;
 	}
-	.monthSelectNext {
+	.calendar-header-month-next {
 		text-align:right;
 		vertical-align: middle !important;
 
 	}
-	.calendarheadline {
+	.calendar-header-show-month {
 		text-align:center;
 		color: #E0E0E0 !important;
 		font-size: 14px !important;
@@ -133,7 +129,7 @@
 				vertical-align: middle !important;
 
 	}
-	.monthSelector {
+	.calendar-month-button {
 		margin: 0px 4px;
 		color:#fff;
 		font: bold 16px arial;
@@ -141,12 +137,12 @@
 		padding:3px 5px;
 	   -moz-user-select: none;-khtml-user-select: none;user-select: none;
    }
-	.monthSelector:hover {
+	.calendar-month-button:hover {
 		cursor:pointer;
 		color:#E5E5E5;
 		text-decoration:none;
 	}
-	.today {
+	.calendar-cell-today {
 		color: #000;
 		font-weight:bold;
 	}

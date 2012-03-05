@@ -199,7 +199,9 @@ ul.tabs li {
 	-moz-box-shadow:0 0 90px 5px #000;
 	-webkit-box-shadow: 0 0 90px #000;	
 }
-
+.reservationTable > tbody td {
+	vertical-align:top !important;
+}
 .simple_overlay .close {
 	background-image:url(../img/overlay/close.png);
 	position:absolute;
@@ -225,23 +227,60 @@ ul.tabs li {
   padding:5px;
   margin-top:4px;
 }
-.er_res_box {
-	display:inline-block;
-	width:9px;
-	height:12px;
-	float:left;
-	margin:2px 3px 0px 0px;
-	-moz-border-radius: 2px;
-	-khtml-border-radius: 2px;
-	-webkit-border-radius: 2px;
-	border-radius: 2px;
+
+.greyfat tbody .little_table {
+	margin:none !important;
+	padding:none !important;
+	border-spacing:0 !important;
+	width:100%;
+}
+
+.greyfat tbody .little_table thead {
+	margin:none !important;
+	padding:none !important;
+
+}
+.greyfat tbody .little_table thead tr:first-child {
+	background-color:#E6E6E6 !important;
+	padding: 5px 7px 3px;
+}
+.greyfat tbody .little_table th {
+	border:none;
+	border-top: 1px solid #ccc;
+	margin:none !important;
+	padding: 5px 7px 3px;
+	
+}
+.greyfat tbody .little_table td {
+	border:none !important;
+	border-bottom: 1px solid #ccc;
+	margin:none !important;
+	padding:none !important;
+}
+.greyfat .little_table tbody tr:nth-child(odd) {
+	background:#fff;
+}
+.greyfat .little_table tbody tr:nth-child(even) {
+	background:#f8f8f7;
 }
 .er_res_old {
 	background:#2A78D8;
+	max-width:4px !important;
+	min-width:4px !important;
+	border-left:0px !important;
+	padding:0px !important;
 }
 .er_res_now {
 	background:#118D18;
+	max-width:4px !important;
+	min-width:4px !important;
+	border-left:0px !important;
+	padding:0px !important;
 }
-.er_res_future {
+.greyfat tbody .er_res_future {
 	background:#CC3333;
+	max-width:4px !important;
+	border-left:0px !important;
+	padding:0px !important;
+	min-width:4px !important;
 }
