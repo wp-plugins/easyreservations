@@ -23,12 +23,13 @@ function generateAJAXObjekt(){
 }
 iol = new generateAJAXObjekt();
 resObjekt = iol.generateXMLHttpReqObj();
-
+var cal_save = 0;
 function easyRes_sendReq_Calendar() {
 	if(document.getElementById('urlCalendar').type == "hidden") var url = document.getElementById('urlCalendar').value;
 	else var url = document.getElementById('urlCalendar').src;
 
-		if(document.CalendarFormular.date.value !=""){
+		if(document.CalendarFormular.date.value !="" && cal_save == 0){
+			cal_save = 1;
 			resObjekt.open('post', url.replace("send_calendar.js", "") + 'send_calendar.php' ,true);
 			resObjekt.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 			resObjekt.onreadystatechange = handleResponseCal;
@@ -47,6 +48,7 @@ function handleResponseCal() {
 	var text="";
   if(resObjekt.readyState == 4){
   	text=resObjekt.responseText;
+	cal_save = 0;
     document.getElementById("showCalender").innerHTML = text;
   }
 }

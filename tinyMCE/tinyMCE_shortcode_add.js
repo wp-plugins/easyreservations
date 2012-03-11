@@ -44,5 +44,5 @@
     });
 
     tinymce.PluginManager.add('easyReservations', tinymce.plugins.easyReservations);
-    
+
 })();
