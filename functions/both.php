@@ -4,23 +4,20 @@
 	*/
 
 	/**
-	* 	Hook languages to admin & frontend 
-	*/
-
-
-	/**
 	* 	Hook on adminbar, add link to admin-panel and count of pending reservations
 	*/
 
 	function easyreservations_admin_bar() {
-		global $wp_admin_bar, $wpdb;
+		global $wp_admin_bar;
+		
+		$c = easyreservations_get_pending();
+		
+		if($c != 0) $pending = '<span class="ab-label">'.$c.'</span>';
+		else $pending = '';
 
-		$count = $wpdb->get_var($wpdb->prepare("SELECT COUNT(id) as Num FROM ".$wpdb->prefix ."reservations WHERE approve=''"));
-
-		if($count!=0) $c="<span id=\"ab-awaiting-mod\" class=\"pending-count\">".$count."</span>"; else $c ="";
 		$wp_admin_bar->add_menu( array(
 			'id' => 'reservations',
-			'title' => __('Reservations '.$c.''),
+			'title' => __('Reservations '.$pending.''),
 			'href' => admin_url( 'admin.php?page=reservations&typ=pending')
 		) );
 	}
@@ -114,7 +111,7 @@
 			if(!preg_match('/(loyal|stay|pers|avail|early)/i', $filtertype[0]) AND !preg_match("/^[0-9]$/", $filtertype[1])){
 				if(preg_match('/(january|jan|february|feb|march|mar|april|apr|may|june|jun|july|jul|august|aug|septembre|sep|octobre|oct|novembre|nov|decembre|dec)/', $filtertype[1])){
 					 $filterouts = preg_replace("/\s".$filtertype[1]."\s/", ' 4 '.$filtertype[1].' ', $filterouts);
-				} elseif(preg_match('/(week|weekdays|weekend|moneday|mon|tuesday|tue|wednesday|wed|thursday|thu|friday|fri|saturday|sat|sunday|sun)/', $filtertype[1])){
+				} elseif(preg_match('/(week|weekdays|weekend|monday|mon|tuesday|tue|wednesday|wed|thursday|thu|friday|fri|saturday|sat|sunday|sun)/', $filtertype[1])){
 					 $filterouts = preg_replace("/\s".$filtertype[1]."\s/", ' 2 '.$filtertype[1].' ', $filterouts);
 				} elseif(preg_match("/(([0-9]{4}[\;])+|^[0-9]{4}$)/", $filtertype[1])){
 					 $filterouts = preg_replace("/\s".$filtertype[1]."\s/", ' 6 '.$filtertype[1].' ', $filterouts);
@@ -213,7 +210,7 @@
 							$derderder=0;
 
 							if(!in_array($arivaldaae, $datearray)){
-								if(preg_match('/(week|weekdays|weekend|moneday|mon|tuesday|tue|wednesday|wed|thursday|thu|friday|fri|saturday|sat|sunday|sun)/', $condition)){
+								if(preg_match('/(week|weekdays|weekend|monday|mon|tuesday|tue|wednesday|wed|thursday|thu|friday|fri|saturday|sat|sunday|sun)/', $condition)){
 									if($condition == 'week' OR $condition == 'weekdays'){
 										if((date("D", $arivaldaae) == "Mon" OR date("D", $arivaldaae) == "Tue" OR date("D", $arivaldaae) == "Wed" OR date("D", $arivaldaae) == "Thu" OR date("D", $arivaldaae) == "Sun")){
 											$derderder=1;
@@ -265,7 +262,7 @@
 										$derderder=1;
 										$daystring='Calendar Week';
 									}
-								} elseif(preg_match('/(january|jan|february|feb|march|mar|april|apr|may|june|jun|july|jul|august|aug|septembre|sep|octobre|oct|novembre|nov|decembre|dec)/', $condition)){
+								} elseif(preg_match('/(january|jan|february|feb|march|mar|april|apr|may|june|jun|july|jul|august|aug|september|sep|october|oct|novembre|nov|december|dec)/', $condition)){
 									if(($condition == 'january' OR $condition == 'jan')){
 										if(date("m", $arivaldaae) == "01"){
 											$derderder=1;
@@ -571,7 +568,7 @@
 
 		$price-=$discount; //Price minus Discount
 
-		$price=str_replace(".", ",", $price);
+		//$price=str_replace(".", ",", $price);
 		$paid=0;
 
 		if($res[0]->price != ''){
@@ -615,18 +612,19 @@
 		return $rightprice;
 	}
 
-	function easyreservations_check_avail($resourceID, $date, $exactly=0, $nights=0, $offer=0, $mode=0, $id=0){
+	function easyreservations_check_avail($resourceID, $date, $exactly=0, $nights=0, $offer=0, $mode=0, $id=0, $avail=1){
 		global $wpdb;
 		$error=null;
+		
 		
 		if($offer > 0) $error .= reservations_check_avail_filter($offer, $date, $nights, $mode);
 		$date_format = date("Y-m-d", $date);
 		$roomcount = get_post_meta($resourceID, 'roomcount', true);
-		if($id > 0) $idsql = "id!='".$id."' AND";
+		if($id > 0) $idsql = " id != '$id' AND";
 		else  $idsql = '';
 
 		if($resourceID > 0){
-			$error .= reservations_check_avail_filter($resourceID, $date, $nights, $mode);
+			if($avail == 1) $error .= reservations_check_avail_filter($resourceID, $date, $nights, $mode);
 
 			if($nights > 0){
 				if($exactly > 0){
@@ -709,9 +707,10 @@
 	*	Returns amount of paid money for reservations
 	*
 	*	$id = id of reservation
+	*	$mode = 0: get amount to pay left - 1: get amount paid
 	*/
 
-	function reservations_check_pay_status($id){
+	function reservations_check_pay_status($id, $mode = 0){
 		global $wpdb;
 
 		$checkpaid = "SELECT price FROM ".$wpdb->prefix ."reservations WHERE id='$id'";
@@ -726,8 +725,9 @@
 			$thePricetoAdd = $thepriceArray['price'];
 			$ispayed = easyreservations_check_price($thePricetoAdd)-$payed;
 		}
-
-		return $ispayed;
+		
+		if($mode == 0) return $ispayed;
+		else return $payed;
 	}
 
 	/**
@@ -771,7 +771,7 @@
 		return $rooms_options;
 	}
 
-	function easyreservations_get_offers($conent=0){
+	function easyreservations_get_offers($content=0){
 		global $wpdb;
 		if($content == 1) $con = ", cat_posts.post_content"; else $con = "";
 		$offer_category =get_option("reservations_special_offer_cat");
@@ -790,8 +790,8 @@
 		$offercategories = easyreservations_get_offers();
 		$offer_options='';
 		foreach( $offercategories as $offercategorie ){
-			if(isset($selected) AND !empty($selected) AND $selected == $offercategorie->ID) $select = ' selected="selected"'; $select = "";
-			$offer_options .= '<option value="'.$offercategorie->ID.'"'.$select.'>'.__($offercategorie->post_title).'</option>';
+			if(isset($selected) AND !empty($selected) AND $selected == $offercategorie->ID) $select = 'selected="selected"'; else $select = "";
+			$offer_options .= '<option value="'.$offercategorie->ID.'" '.$select.'>'.__($offercategorie->post_title).'</option>';
 		}
 		return $offer_options;
 	}
@@ -869,247 +869,8 @@
 	*/
 	function easyReservations_country_array(){
 
-		return array(
-			'AF'=>'Afghanistan',
-			'AL'=>'Albania',
-			'DZ'=>'Algeria',
-			'AS'=>'American Samoa',
-			'AD'=>'Andorra',
-			'AO'=>'Angola',
-			'AI'=>'Anguilla',
-			'AQ'=>'Antarctica',
-			'AG'=>'Antigua And Barbuda',
-			'AR'=>'Argentina',
-			'AM'=>'Armenia',
-			'AW'=>'Aruba',
-			'AU'=>'Australia',
-			'AT'=>'Austria',
-			'AZ'=>'Azerbaijan',
-			'BS'=>'Bahamas',
-			'BH'=>'Bahrain',
-			'BD'=>'Bangladesh',
-			'BB'=>'Barbados',
-			'BY'=>'Belarus',
-			'BE'=>'Belgium',
-			'BZ'=>'Belize',
-			'BJ'=>'Benin',
-			'BM'=>'Bermuda',
-			'BT'=>'Bhutan',
-			'BO'=>'Bolivia',
-			'BA'=>'Bosnia And Herzegovina',
-			'BW'=>'Botswana',
-			'BV'=>'Bouvet Island',
-			'BR'=>'Brazil',
-			'IO'=>'British Indian Ocean Territory',
-			'BN'=>'Brunei',
-			'BG'=>'Bulgaria',
-			'BF'=>'Burkina Faso',
-			'BI'=>'Burundi',
-			'KH'=>'Cambodia',
-			'CM'=>'Cameroon',
-			'CA'=>'Canada',
-			'CV'=>'Cape Verde',
-			'KY'=>'Cayman Islands',
-			'CF'=>'Central African Republic',
-			'TD'=>'Chad',
-			'CL'=>'Chile',
-			'CN'=>'China',
-			'CX'=>'Christmas Island',
-			'CC'=>'Cocos (Keeling) Islands',
-			'CO'=>'Columbia',
-			'KM'=>'Comoros',
-			'CG'=>'Congo',
-			'CK'=>'Cook Islands',
-			'CR'=>'Costa Rica',
-			'CI'=>'Cote D\'Ivorie (Ivory Coast)',
-			'HR'=>'Croatia (Hrvatska)',
-			'CU'=>'Cuba',
-			'CY'=>'Cyprus',
-			'CZ'=>'Czech Republic',
-			'CD'=>'Democratic Republic Of Congo (Zaire)',
-			'DK'=>'Denmark',
-			'DJ'=>'Djibouti',
-			'DM'=>'Dominica',
-			'DO'=>'Dominican Republic',
-			'TP'=>'East Timor',
-			'EC'=>'Ecuador',
-			'EG'=>'Egypt',
-			'SV'=>'El Salvador',
-			'GQ'=>'Equatorial Guinea',
-			'ER'=>'Eritrea',
-			'EE'=>'Estonia',
-			'ET'=>'Ethiopia',
-			'FK'=>'Falkland Islands (Malvinas)',
-			'FO'=>'Faroe Islands',
-			'FJ'=>'Fiji',
-			'FI'=>'Finland',
-			'FR'=>'France',
-			'FX'=>'France, Metropolitan',
-			'GF'=>'French Guinea',
-			'PF'=>'French Polynesia',
-			'TF'=>'French Southern Territories',
-			'GA'=>'Gabon',
-			'GM'=>'Gambia',
-			'GE'=>'Georgia',
-			'DE'=>'Germany',
-			'GH'=>'Ghana',
-			'GI'=>'Gibraltar',
-			'GR'=>'Greece',
-			'GL'=>'Greenland',
-			'GD'=>'Grenada',
-			'GP'=>'Guadeloupe',
-			'GU'=>'Guam',
-			'GT'=>'Guatemala',
-			'GN'=>'Guinea',
-			'GW'=>'Guinea-Bissau',
-			'GY'=>'Guyana',
-			'HT'=>'Haiti',
-			'HM'=>'Heard And McDonald Islands',
-			'HN'=>'Honduras',
-			'HK'=>'Hong Kong',
-			'HU'=>'Hungary',
-			'IS'=>'Iceland',
-			'IN'=>'India',
-			'ID'=>'Indonesia',
-			'IR'=>'Iran',
-			'IQ'=>'Iraq',
-			'IE'=>'Ireland',
-			'IL'=>'Israel',
-			'IT'=>'Italy',
-			'JM'=>'Jamaica',
-			'JP'=>'Japan',
-			'JO'=>'Jordan',
-			'KZ'=>'Kazakhstan',
-			'KE'=>'Kenya',
-			'KI'=>'Kiribati',
-			'KW'=>'Kuwait',
-			'KG'=>'Kyrgyzstan',
-			'LA'=>'Laos',
-			'LV'=>'Latvia',
-			'LB'=>'Lebanon',
-			'LS'=>'Lesotho',
-			'LR'=>'Liberia',
-			'LY'=>'Libya',
-			'LI'=>'Liechtenstein',
-			'LT'=>'Lithuania',
-			'LU'=>'Luxembourg',
-			'MO'=>'Macau',
-			'MK'=>'Macedonia',
-			'MG'=>'Madagascar',
-			'MW'=>'Malawi',
-			'MY'=>'Malaysia',
-			'MV'=>'Maldives',
-			'ML'=>'Mali',
-			'MT'=>'Malta',
-			'MH'=>'Marshall Islands',
-			'MQ'=>'Martinique',
-			'MR'=>'Mauritania',
-			'MU'=>'Mauritius',
-			'YT'=>'Mayotte',
-			'MX'=>'Mexico',
-			'FM'=>'Micronesia',
-			'MD'=>'Moldova',
-			'MC'=>'Monaco',
-			'MN'=>'Mongolia',
-			'MS'=>'Montserrat',
-			'MA'=>'Morocco',
-			'MZ'=>'Mozambique',
-			'MM'=>'Myanmar (Burma)',
-			'NA'=>'Namibia',
-			'NR'=>'Nauru',
-			'NP'=>'Nepal',
-			'NL'=>'Netherlands',
-			'AN'=>'Netherlands Antilles',
-			'NC'=>'New Caledonia',
-			'NZ'=>'New Zealand',
-			'NI'=>'Nicaragua',
-			'NE'=>'Niger',
-			'NG'=>'Nigeria',
-			'NU'=>'Niue',
-			'NF'=>'Norfolk Island',
-			'KP'=>'North Korea',
-			'MP'=>'Northern Mariana Islands',
-			'NO'=>'Norway',
-			'OM'=>'Oman',
-			'PK'=>'Pakistan',
-			'PW'=>'Palau',
-			'PA'=>'Panama',
-			'PG'=>'Papua New Guinea',
-			'PY'=>'Paraguay',
-			'PE'=>'Peru',
-			'PH'=>'Philippines',
-			'PN'=>'Pitcairn',
-			'PL'=>'Poland',
-			'PT'=>'Portugal',
-			'PR'=>'Puerto Rico',
-			'QA'=>'Qatar',
-			'RE'=>'Reunion',
-			'RO'=>'Romania',
-			'RU'=>'Russia',
-			'RW'=>'Rwanda',
-			'SH'=>'Saint Helena',
-			'KN'=>'Saint Kitts And Nevis',
-			'LC'=>'Saint Lucia',
-			'PM'=>'Saint Pierre And Miquelon',
-			'VC'=>'Saint Vincent And The Grenadines',
-			'SM'=>'San Marino',
-			'ST'=>'Sao Tome And Principe',
-			'SA'=>'Saudi Arabia',
-			'SN'=>'Senegal',
-			'SC'=>'Seychelles',
-			'SL'=>'Sierra Leone',
-			'SG'=>'Singapore',
-			'SK'=>'Slovak Republic',
-			'SI'=>'Slovenia',
-			'SB'=>'Solomon Islands',
-			'SO'=>'Somalia',
-			'ZA'=>'South Africa',
-			'GS'=>'South Georgia And South Sandwich Islands',
-			'KR'=>'South Korea',
-			'ES'=>'Spain',
-			'LK'=>'Sri Lanka',
-			'SD'=>'Sudan',
-			'SR'=>'Suriname',
-			'SJ'=>'Svalbard And Jan Mayen',
-			'SZ'=>'Swaziland',
-			'SE'=>'Sweden',
-			'CH'=>'Switzerland',
-			'SY'=>'Syria',
-			'TW'=>'Taiwan',
-			'TJ'=>'Tajikistan',
-			'TZ'=>'Tanzania',
-			'TH'=>'Thailand',
-			'TG'=>'Togo',
-			'TK'=>'Tokelau',
-			'TO'=>'Tonga',
-			'TT'=>'Trinidad And Tobago',
-			'TN'=>'Tunisia',
-			'TR'=>'Turkey',
-			'TM'=>'Turkmenistan',
-			'TC'=>'Turks And Caicos Islands',
-			'TV'=>'Tuvalu',
-			'UG'=>'Uganda',
-			'UA'=>'Ukraine',
-			'AE'=>'United Arab Emirates',
-			'UK'=>'United Kingdom',
-			'US'=>'United States',
-			'UM'=>'United States Minor Outlying Islands',
-			'UY'=>'Uruguay',
-			'UZ'=>'Uzbekistan',
-			'VU'=>'Vanuatu',
-			'VA'=>'Vatican City (Holy See)',
-			'VE'=>'Venezuela',
-			'VN'=>'Vietnam',
-			'VG'=>'Virgin Islands (British)',
-			'VI'=>'Virgin Islands (US)',
-			'WF'=>'Wallis And Futuna Islands',
-			'EH'=>'Western Sahara',
-			'WS'=>'Western Samoa',
-			'YE'=>'Yemen',
-			'YU'=>'Yugoslavia',
-			'ZM'=>'Zambia',
-			'ZW'=>'Zimbabwe'
-		);
+		return array( 'AF'=>'Afghanistan', 'AL'=>'Albania', 'DZ'=>'Algeria', 'AS'=>'American Samoa', 'AD'=>'Andorra', 'AO'=>'Angola', 'AI'=>'Anguilla', 'AQ'=>'Antarctica', 'AG'=>'Antigua And Barbuda', 'AR'=>'Argentina', 'AM'=>'Armenia', 'AW'=>'Aruba', 'AU'=>'Australia', 'AT'=>'Austria', 'AZ'=>'Azerbaijan', 'BS'=>'Bahamas', 'BH'=>'Bahrain', 'BD'=>'Bangladesh', 'BB'=>'Barbados', 'BY'=>'Belarus', 'BE'=>'Belgium', 'BZ'=>'Belize', 'BJ'=>'Benin', 'BM'=>'Bermuda', 'BT'=>'Bhutan', 'BO'=>'Bolivia', 'BA'=>'Bosnia And Herzegovina', 'BW'=>'Botswana', 'BV'=>'Bouvet Island', 'BR'=>'Brazil', 'IO'=>'British Indian Ocean Territory', 'BN'=>'Brunei', 'BG'=>'Bulgaria', 'BF'=>'Burkina Faso', 'BI'=>'Burundi', 'KH'=>'Cambodia', 'CM'=>'Cameroon', 'CA'=>'Canada', 'CV'=>'Cape Verde', 'KY'=>'Cayman Islands', 'CF'=>'Central African Republic', 'TD'=>'Chad', 'CL'=>'Chile', 'CN'=>'China', 'CX'=>'Christmas Island', 'CC'=>'Cocos (Keeling) Islands', 'CO'=>'Columbia', 'KM'=>'Comoros', 'CG'=>'Congo', 'CK'=>'Cook Islands', 'CR'=>'Costa Rica', 'CI'=>'Cote D\'Ivorie (Ivory Coast)', 'HR'=>'Croatia (Hrvatska)', 'CU'=>'Cuba', 'CY'=>'Cyprus', 'CZ'=>'Czech Republic', 'CD'=>'Democratic Republic Of Congo (Zaire)', 'DK'=>'Denmark', 'DJ'=>'Djibouti', 'DM'=>'Dominica', 'DO'=>'Dominican Republic', 'TP'=>'East Timor', 'EC'=>'Ecuador', 'EG'=>'Egypt', 'SV'=>'El Salvador', 'GQ'=>'Equatorial Guinea', 'ER'=>'Eritrea', 'EE'=>'Estonia', 'ET'=>'Ethiopia', 'FK'=>'Falkland Islands (Malvinas)', 'FO'=>'Faroe Islands', 'FJ'=>'Fiji', 'FI'=>'Finland', 'FR'=>'France', 'FX'=>'France, Metropolitan', 'GF'=>'French Guinea', 'PF'=>'French Polynesia', 'TF'=>'French Southern Territories', 'GA'=>'Gabon', 'GM'=>'Gambia', 'GE'=>'Georgia', 'DE'=>'Germany', 'GH'=>'Ghana', 'GI'=>'Gibraltar', 'GR'=>'Greece', 'GL'=>'Greenland', 'GD'=>'Grenada', 'GP'=>'Guadeloupe', 'GU'=>'Guam', 'GT'=>'Guatemala', 'GN'=>'Guinea', 'GW'=>'Guinea-Bissau', 'GY'=>'Guyana', 'HT'=>'Haiti', 'HM'=>'Heard And McDonald Islands', 'HN'=>'Honduras', 'HK'=>'Hong Kong', 'HU'=>'Hungary', 'IS'=>'Iceland', 'IN'=>'India', 'ID'=>'Indonesia', 'IR'=>'Iran', 'IQ'=>'Iraq', 'IE'=>'Ireland', 'IL'=>'Israel', 'IT'=>'Italy', 'JM'=>'Jamaica', 'JP'=>'Japan', 'JO'=>'Jordan', 'KZ'=>'Kazakhstan', 'KE'=>'Kenya', 'KI'=>'Kiribati', 'KW'=>'Kuwait', 'KG'=>'Kyrgyzstan', 'LA'=>'Laos', 'LV'=>'Latvia', 'LB'=>'Lebanon', 'LS'=>'Lesotho', 'LR'=>'Liberia', 'LY'=>'Libya', 'LI'=>'Liechtenstein', 'LT'=>'Lithuania', 'LU'=>'Luxembourg', 'MO'=>'Macau', 'MK'=>'Macedonia', 'MG'=>'Madagascar', 'MW'=>'Malawi', 'MY'=>'Malaysia', 'MV'=>'Maldives', 'ML'=>'Mali', 'MT'=>'Malta', 'MH'=>'Marshall Islands', 'MQ'=>'Martinique', 'MR'=>'Mauritania', 'MU'=>'Mauritius', 'YT'=>'Mayotte', 'MX'=>'Mexico', 'FM'=>'Micronesia', 'MD'=>'Moldova', 'MC'=>'Monaco', 'MN'=>'Mongolia', 'MS'=>'Montserrat', 'MA'=>'Morocco', 'MZ'=>'Mozambique', 'MM'=>'Myanmar (Burma)', 'NA'=>'Namibia', 'NR'=>'Nauru', 'NP'=>'Nepal', 'NL'=>'Netherlands', 'AN'=>'Netherlands Antilles', 'NC'=>'New Caledonia', 'NZ'=>'New Zealand', 'NI'=>'Nicaragua', 'NE'=>'Niger', 'NG'=>'Nigeria', 'NU'=>'Niue', 'NF'=>'Norfolk Island', 'KP'=>'North Korea', 'MP'=>'Northern Mariana Islands', 'NO'=>'Norway', 'OM'=>'Oman', 'PK'=>'Pakistan', 'PW'=>'Palau', 'PA'=>'Panama', 'PG'=>'Papua New Guinea', 'PY'=>'Paraguay', 'PE'=>'Peru', 'PH'=>'Philippines', 'PN'=>'Pitcairn', 'PL'=>'Poland', 'PT'=>'Portugal', 'PR'=>'Puerto Rico', 'QA'=>'Qatar', 'RE'=>'Reunion', 'RO'=>'Romania', 'RU'=>'Russia', 'RW'=>'Rwanda', 'SH'=>'Saint Helena', 'KN'=>'Saint Kitts And Nevis', 'LC'=>'Saint Lucia', 'PM'=>'Saint Pierre And Miquelon', 'VC'=>'Saint Vincent And The Grenadines', 'SM'=>'San Marino', 'ST'=>'Sao Tome And Principe', 'SA'=>'Saudi Arabia', 'SN'=>'Senegal', 'SC'=>'Seychelles', 'SL'=>'Sierra Leone', 'SG'=>'Singapore', 'SK'=>'Slovak Republic', 'SI'=>'Slovenia', 'SB'=>'Solomon Islands', 'SO'=>'Somalia', 'ZA'=>'South Africa', 'GS'=>'South Georgia And South Sandwich Islands', 'KR'=>'South Korea', 'ES'=>'Spain', 'LK'=>'Sri Lanka', 'SD'=>'Sudan', 'SR'=>'Suriname', 'SJ'=>'Svalbard And Jan Mayen', 'SZ'=>'Swaziland', 'SE'=>'Sweden', 'CH'=>'Switzerland', 'SY'=>'Syria', 'TW'=>'Taiwan', 'TJ'=>'Tajikistan', 'TZ'=>'Tanzania', 'TH'=>'Thailand', 'TG'=>'Togo', 'TK'=>'Tokelau', 'TO'=>'Tonga', 'TT'=>'Trinidad And Tobago', 'TN'=>'Tunisia', 'TR'=>'Turkey', 'TM'=>'Turkmenistan', 'TC'=>'Turks And Caicos Islands', 'TV'=>'Tuvalu', 'UG'=>'Uganda', 'UA'=>'Ukraine', 'AE'=>'United Arab Emirates', 'UK'=>'United Kingdom', 'US'=>'United States', 'UM'=>'United States Minor Outlying Islands', 'UY'=>'Uruguay', 'UZ'=>'Uzbekistan', 'VU'=>'Vanuatu', 'VA'=>'Vatican City (Holy See)', 'VE'=>'Venezuela', 'VN'=>'Vietnam', 'VG'=>'Virgin Islands (British)', 'VI'=>'Virgin Islands (US)', 'WF'=>'Wallis And Futuna Islands', 'EH'=>'Western Sahara', 'WS'=>'Western Samoa', 'YE'=>'Yemen', 'YU'=>'Yugoslavia', 'ZM'=>'Zambia', 'ZW'=>'Zimbabwe' );
+
 	}
 	/**
 	*	Returns options for a country select

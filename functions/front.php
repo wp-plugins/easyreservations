@@ -135,7 +135,7 @@
 
 		if((strlen($val_name) > 30 OR strlen($val_name) <= 3) AND $val_name != ""){ /* check name */
 			$error.=  __( 'Please enter a correct name' , 'easyReservations' ).'<br>';
-		}
+		} else $error.=  __( 'Please enter your Name' , 'easyReservations' ).'<br>'; 
 
 		if($val_from < $time){ /* check arrival Date */
 			$error.=  __( 'The arrival date has to be in future' , 'easyReservations' ).'<br>';
@@ -152,11 +152,11 @@
 		$pattern_mail = "/^[a-zA-Z0-9-_.]+@[a-zA-Z0-9-_.]+\.[a-zA-Z]{2,4}$/";
 		if(!preg_match($pattern_mail, $val_email) AND $val_email != ""){ /* check email */
 			$error.=  __( 'Please enter a correct eMail' , 'easyReservations' ).'<br>'; 
-		}
+		} else $error.=  __( 'Please enter an eMail' , 'easyReservations' ).'<br>'; 
 
 		if (!is_numeric($val_persons)){ /* check persons */
 			$error.=  __( 'Persons has to be a number' , 'easyReservations' ).'<br>';
-		}
+		} else $error.=  __( 'Please enter an amount of persons' , 'easyReservations' ).'<br>'; 
 		
 		$numbererrors=easyreservations_check_avail($val_room, $val_from, 0, $val_nights, $val_offer, 1 ); /* check rooms availability */
 

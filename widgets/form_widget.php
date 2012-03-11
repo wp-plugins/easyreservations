@@ -47,19 +47,23 @@ class easyReservations_form_widget extends WP_Widget {
 				$theForm=preg_replace('/\['.$fields.'\]/', '<select name="nights">'.easyReservations_num_options(1,$number).'</select>', $theForm);
 			} elseif($field[0]=="persons"){
 				if($field[1]=="Select"){
-					if(isset($field[2])) $number=$field[2]; else $number = 6;
-					$theForm=preg_replace('/\['.$fields.'\]/', '<select name="persons">'.easyReservations_num_options(1,$number).'</select>', $theForm);
+					$start = 1;
+					if(isset($field[2])) $end = $field[2]; else $end = 6;
+					if(isset($field[3])){ $start = $field[2]; $end = $field[3]; }
+					$theForm=preg_replace('/\['.$fields.'\]/', '<select name="persons">'.easyReservations_num_options($start,$end).'</select>', $theForm);
 				} elseif($field[1]=="text"){
-					$theForm=preg_replace('/\['.$fields.'\]/', '<input id="easy-widget-persons" name="persons" type="text" size="70px">', $theForm);
+					$theForm=preg_replace('/\['.$fields.'\]/', '<inputt id="easy-widget-persons" name="persons" type="text" size="70px">', $theForm);
 				}
 			} elseif($field[0]=="childs"){
 				if($field[1]=="Select"){
-					if(isset($field[2])) $number=$field[2]; else $number = 6;
-					$theForm=preg_replace('/\['.$fields.'\]/', '<select name="childs">'.easyReservations_num_options(0,$number).'</select>', $theForm);
+					$start = 0;
+					if(isset($field[2])) $end = $field[2]; else $end = 6;
+					if(isset($field[3])){ $start = $field[2]; $end = $field[3]; }
+					$theForm=preg_replace('/\['.$fields.'\]/', '<select name="childs">'.easyReservations_num_options($start,$end).'</select>', $theForm);
 				} elseif($field[1]=="text"){
 					$theForm=preg_replace('/\['.$fields.'\]/', '<input name="childs" type="text" size="70px">', $theForm);
 				}
-			} elseif($field[0]=="thename"){
+			}  elseif($field[0]=="thename"){
 				$theForm=preg_replace('/\['.$fields.'\]/', '<input type="text" id="easy-widget-thename" name="thename">', $theForm);
 			}  elseif($field[0]=="email"){
 				$theForm=preg_replace('/\['.$fields.'\]/', '<input id="easy-widget-email"  type="text" name="email">', $theForm);
@@ -97,8 +101,7 @@ class easyReservations_form_widget extends WP_Widget {
 		} if($form_date > 0){?>
 			<script>
 				jQuery(document).ready(function() {
-					jQuery("#easy-widget-datepicker-from").datepicker( { dateFormat: 'dd.mm.yy', style: 'font-size:1em' });
-					jQuery("#easy-widget-datepicker-to").datepicker( { dateFormat: 'dd.mm.yy' });
+					jQuery("#easy-widget-datepicker-from, #easy-widget-datepicker-to").datepicker( { dateFormat: 'dd.mm.yy' });
 				});
 			</script><?php
 		}

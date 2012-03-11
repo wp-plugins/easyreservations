@@ -7,20 +7,6 @@
 	*	Add pages to admin
 	*
 	*/
-
-	add_action('admin_menu', 'easyReservations_add_pages');
-
-	function easyReservations_add_pages(){  //  Add Pages Admincenter and Order them
-		$reservation_main_permission=get_option("reservations_main_permission");
-
-		add_menu_page(__('easyReservation','easyReservations'), __('Reservation','easyReservations'), $reservation_main_permission, 'reservations', 'reservation_main_page', RESERVATIONS_IMAGES_DIR.'/logo.png' );
-
-		add_submenu_page('reservations', __('Resources','easyReservations'), __('Resources','easyReservations'), $reservation_main_permission, 'reservation-resources', 'reservation_resources_page');
-
-		add_submenu_page('reservations', __('Statistics','easyReservations'), __('Statistics','easyReservations'), $reservation_main_permission, 'reservation-statistics', 'reservation_statistics_page');
-		
-		add_submenu_page('reservations', __('Settings','easyReservations'), __('Settings','easyReservations'), $reservation_main_permission, 'reservation-settings', 'reservation_settings_page');
-	}
 	
 	/**
 	*	Load scripts and styles
@@ -67,6 +53,8 @@
 		wp_register_style('datestyle', $dateStyleUrl);
 		wp_enqueue_style('datestyle');
 		wp_enqueue_script('jquery-ui-datepicker');
+		wp_enqueue_script('jquery-ui-autocomplete');
+		wp_enqueue_script('jquery-ui-sortable');
 
 		wp_enqueue_style('thickbox');
 		wp_enqueue_script('media-upload');
@@ -74,7 +62,7 @@
 	}
 
 	if(isset($page) AND $page == 'reservation-resources'){  //  Only load Styles and Scripts on Resources Page
-	add_action('admin_init', 'easyReservations_scripts_resources_load');
+		add_action('admin_init', 'easyReservations_scripts_resources_load');
 	}
 		
 	function easyReservations_datepicker_load() {  //  Load Scripts and Styles for datepicker
@@ -88,82 +76,6 @@
 		add_action('admin_init', 'easyReservations_datepicker_load');
 	}
 
-	/**
-	*	Install script
-	*
-	*/
-
-
-	/**
-	*	Upgrade script
-	*
-	*/
-	
-	//delete_option('reservations_db_version' );
-	add_action('admin_init','easyReservations_upgrade',1);
-
-	function easyReservations_upgrade(){
-
-		$easyReservations_active_ver="1.3.2";
-		$easyReservations_installed_ver=get_option("reservations_db_version");
-
-		if($easyReservations_installed_ver != $easyReservations_active_ver ){
-
-			$reservtionsTable = 0;
-
-			if($easyReservations_installed_ver < 1.2){
-				global $wpdb;
-				$table_name = $wpdb->prefix . "reservations";
-				if($wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM ".$table_name.";" ) ) > 0) { /* CHECK FOR DB TABLE */
-
-					$wpdb->query( $wpdb->prepare("ALTER TABLE ".$wpdb->prefix ."reservations ADD reservated DATETIME NOT NULL"));
-					$wpdb->query( $wpdb->prepare("UPDATE ".$wpdb->prefix ."reservations SET reservated=NOW()"));
-					$wpdb->query( $wpdb->prepare("ALTER TABLE ".$wpdb->prefix ."reservations ADD childs int(4) NOT NULL"));
-					$wpdb->query( $wpdb->prepare("UPDATE ".$wpdb->prefix ."reservations SET childs=0"));
-					$wpdb->query( $wpdb->prepare("ALTER TABLE ".$wpdb->prefix ."reservations ADD country varchar(4) NOT NULL"));
-
-					add_option( 'reservations_email_to_user_subj', 'Your Reservation on '.get_option('blogname'), '', 'yes' );
-					add_option( 'reservations_email_to_user_msg', $emailstandart4, '', 'yes' );
-					add_option( 'reservations_email_to_user_edited_subj', 'Your Reservation on '.get_option('blogname').' got edited', '', 'yes' );
-					add_option( 'reservations_email_to_user_edited_msg', $emailstandart5, '', 'yes' );
-					add_option( 'reservations_email_to_admin_edited_subj', 'Reservation on '.get_option('blogname').' got edited by user', '', 'yes' );
-					add_option( 'reservations_email_to_admin_edited_msg', $emailstandart6, '', 'yes' );
-					add_option( 'reservations_email_to_user_admin_edited_subj', 'Reservation on '.get_option('blogname').' got edited by admin', '', 'yes' );
-					add_option( 'reservations_email_to_user_admin_edited_msg', $emailstandart7, '', 'yes' );
-					add_option( 'reservations_email_sendmail_subj', 'Message from '.get_option('blogname'), '', 'yes' );
-					add_option( 'reservations_email_sendmail_msg', $emailstandart0, '', 'yes' );
-					add_option( 'reservations_regular_guests', '', '', 'yes' );
-					add_option( 'reservations_style', 'greyfat', '', 'yes' );
-					add_option( 'reservations_edit_url', '', '', 'yes' );
-					add_option( 'reservations_edit_text', 'After editing your reservations status will get back to pending. We\'ll check the new situation as soon as we can.', '', 'yes' );
-
-					$reservtionsTable = 1;
-
-				}
-			} elseif($easyReservations_installed_ver == 1.2 || $easyReservations_installed_ver == 1.3 || $easyReservations_installed_ver == "1.3.1"){
-
-				$showhide = array( 'show_overview' => 1, 'show_table' => 1, 'show_upcoming' => 1, 'show_new' => 1, 'show_export' => 1, 'show_today' => 1 );
-				$table = array( 'table_color' => 1, 'table_id' => 0, 'table_name' => 1, 'table_from' => 1, 'table_to' => 1, 'table_nights' => 1, 'table_email' => 1, 'table_room' => 1, 'table_exactly' => 1, 'table_offer' => 1, 'table_persons' => 1, 'table_childs' => 1, 'table_country' => 1, 'table_message' => $table_message, 'table_custom' => $table_custom, 'table_customp' => $table_customp, 'table_paid' => $table_paid, 'table_price' => 1, 'table_filter_month' => 1, 'table_filter_room' => 1, 'table_filter_offer' => 1, 'table_filter_days' => 1, 'table_search' => 1, 'table_bulk' => 1, 'table_onmouseover' => 1 );
-				$overview = array( 'overview_onmouseover' => 1, 'overview_autoselect' => 1, 'overview_show_days' => 30, 'overview_show_rooms' => '', 'overview_show_avail' => 1 );
-				add_option('reservations_main_options', array('show' => $showhide, 'table' => $table, 'overview' => $overview ), '', 'no');
-
-				$reservtionsTable = 1;
-			}
-
-			if($reservtionsTable == 1){
-				update_option('reservations_db_version', "1.3.2");
-				add_action('admin_notices', 'easyReservations_upgrade_notice');
-			}
-		}
-	}
-	
-	function easyReservations_upgrade_notice(){
-		echo '<div class="updated">
-		   <p>Thanks for updating <b>easyReservations</b> to <b>1.3</b>!<br>View <a href="http://feryaz.de/changelog/">here</a> fore a detailed Changelog!<br>
-		   Sorry for the mess of updates, now everythink should be fine!</p>
-		</div>';
-	}
-	
 	/**
 	*	Add help to settings
 	*
@@ -265,9 +177,9 @@
 	function easyreservations_get_highest_roomcount(){ //Get highest Count of Room
 		global $wpdb;
 
-		$gethighroomcount = "SELECT meta_value FROM ".$wpdb->prefix ."postmeta WHERE meta_key='roomcount' ORDER BY meta_value DESC LIMIT 1"; // Get Higest Roomcount
-		$res = $wpdb->get_results( $gethighroomcount );
+		$res = $wpdb->get_results( $wpdb->prepare("SELECT meta_value FROM ".$wpdb->prefix ."postmeta WHERE meta_key='roomcount' AND meta_value > 0 ORDER BY meta_value DESC LIMIT 1")); // Get Higest Roomcount
 		return $res[0]->meta_value;
+
 	}
 
 	/**
@@ -572,9 +484,9 @@
 
 	add_action('wp_dashboard_setup', 'easyreservations_add_dashboard_widgets' );
 	
-/**
- * Dashboards ajax request
-*/
+	/* *
+	*	Dashboards ajax request
+	*/
 
 	function easyreservations_send_dashboard(){
 		$nonce = wp_create_nonce( 'easy-dashboard' );
@@ -600,9 +512,9 @@
 
 	add_action('admin_head-index.php', 'easyreservations_send_dashboard');
 
-/**
- * Dashboards ajax callback
-*/
+	/* *
+	*	Dashboards ajax callback
+	*/
 	function easyreservations_send_dashboard_callback() {
 		global $wpdb; // this is how you get access to the database
 		check_ajax_referer( 'easy-dashboard', 'security' );
@@ -659,6 +571,504 @@
 	}
 
 	add_action('wp_ajax_easyreservations_send_dashboard', 'easyreservations_send_dashboard_callback');
+	/* *
+	*	Dashboards ajax request
+	*/
+
+	function easyreservations_send_filters(){
+		$nonce = wp_create_nonce( 'easy-filter' );
+		?><script type="text/javascript" >	
+		function easyreservations_send_filter(thefilter, i){
+			var filter = document.getElementById('reservations_filter').value;
+
+			var data = {
+				action: 'easyreservations_send_filters',
+				security: '<?php echo $nonce; ?>',
+				id:document.getElementById('theResourceID').value,
+				filter:filter,
+				thefilter:thefilter,
+			};
+
+			// since 2.8 ajaxurl is always defined in the admin header and points to admin-ajax.php
+			jQuery.post(ajaxurl, data, function(response) {
+				if(i) jQuery("#easy-res-filter-price-cond-string-" + i).html(response);
+				easyRes_sendReq_Calendar();
+				return false;
+			});
+		}</script><?php
+	}
+
+	if(isset($page) && $page == 'reservation-resources'){
+		add_action('admin_head', 'easyreservations_send_filters');
+	}
+
+	/* *
+	*	Dashboards ajax callback
+	*/
+	function easyreservations_send_filter_callback() {
+
+		global $wpdb; // this is how you get access to the database
+		check_ajax_referer( 'easy-filter', 'security' );
+
+		update_post_meta( $_POST['id'], 'reservations_filter',$_POST['filter']);
+		
+		if(isset($_POST['thefilter'])){
+			$filtertype=explode(" ", $_POST['thefilter']);
+
+			echo easyreservations_get_price_filter_description($filtertype);
+		}
+
+		// IMPORTANT: don't forget to "exit"
+		exit;
+	}
+
+	add_action('wp_ajax_easyreservations_send_filters', 'easyreservations_send_filter_callback');
+
+	/* *
+	*	Table ajax request
+	*/
+
+	function easyreservations_send_table(){
+		$nonce = wp_create_nonce( 'easy-table' );
+		?><script type="text/javascript" >	
+			function easyreservation_send_table(typ, paging, order, orderby){
+				var loading = '<img style="margin-right:7px;margin-top:7px" src="<?php echo RESERVATIONS_IMAGES_DIR; ?>/loading1.gif">';
+				jQuery("#er-table-loading").html(loading);
+				
+				if(!order){
+					var orderfield = document.getElementById('easy-table-order');
+					if(orderfield) var order = orderfield.value;
+					else var order = '';
+				}
+				if(!orderby){
+					var orderbyfield = document.getElementById('easy-table-orderby');
+					if(orderbyfield) var orderby = orderbyfield.value;
+					else var orderby = '';
+				}
+				
+				var searchfield = document.getElementById('easy-table-search-field');
+				if(searchfield) var searching = searchfield.value;
+				else var searching = '';
+
+				var searchdatefield = document.getElementById('easy-table-search-date');
+				if(searchdatefield) var searchdatefield = searchdatefield.value;
+				else var searchdatefield = '';
+
+				var specialselector = document.getElementById('easy-table-specialselector');
+				if(specialselector) var specialselect = specialselector.value;
+				else var specialselect = '';
+
+				var monthselector = document.getElementById('easy-table-monthselector');
+				if(monthselector) var monthselect = monthselector.value;
+				else var monthselect = '';
+
+				var roomselector = document.getElementById('easy-table-roomselector');
+				if(roomselector) var roomselect = roomselector.value;
+				else var roomselect = '';
+
+				var perpage = document.getElementById('easy-table-perpage-field');
+				if(perpage) var perge = perpage.value;
+				else var perge = '';
+				
+				var data = {
+					action: 'easyreservations_send_table',
+					security: '<?php echo $nonce; ?>',
+					typ:typ,
+					search:searching,
+					specialselector:specialselect,
+					monthselector:monthselect,
+					searchdate:searchdatefield,
+					roomselector:roomselect,
+					perpage:perge,
+					order:order,
+					orderby:orderby,
+					paging:paging
+				};
+
+				// since 2.8 ajaxurl is always defined in the admin header and points to admin-ajax.php
+				jQuery.post(ajaxurl, data, function(response) {
+
+					jQuery("#easy-table-div").html(response);
+					createTablePickers();
+					return false;
+				});
+			}
+		</script><?php
+	}
+
+	if(isset($page) AND $page == 'reservations'){
+		add_action('admin_head', 'easyreservations_send_table');
+	}
+
+	/**
+	*
+	*	Table ajax callback
+	*
+	*/
+
+	function easyreservations_send_table_callback() {
+		global $wpdb; // this is how you get access to the database
+		check_ajax_referer( 'easy-table', 'security' );
+
+		if(isset($_POST['typ'])) $typ=$_POST['typ'];
+		else $typ = 'active';
+		$orderby = ''; $order = ''; $search = '';
+
+		$dateToday = date("Y-m-d", time());
+		if($_POST['search'] != '') $search = $_POST['search'];
+		if($_POST['order'] != '') $order = $_POST['order'];
+		if($_POST['orderby'] != '') $orderby = $_POST['orderby'];
+		if($_POST['perpage'] != '') $reservations_on_page = $_POST['perpage'];
+		else $reservations_on_page = get_option("reservations_on_page");
+
+		$main_options = get_option("reservations_main_options");
+		
+		$table_options =  $main_options['table'];
+		$regular_guest_explodes = explode(",", str_replace(" ", "", get_option("reservations_regular_guests")));
+		foreach( $regular_guest_explodes as $regular_guest) $regular_guest_array[]=$regular_guest;
+		
+		$selectors='';
+
+		if($_POST['specialselector'] > 0){
+			$specialselector=$_POST['specialselector'];
+			$selectors.="AND special='$specialselector' ";
+		}
+		if($_POST['monthselector'] > 0){
+			$monthselector=$_POST['monthselector'];
+			$selectors.="AND dat='$monthselector' ";
+		}
+		if($_POST['roomselector'] > 0){
+			$roomselector=$_POST['roomselector'];
+			$selectors.="AND room='$roomselector' ";
+		}
+		
+		if($_POST['searchdate'] != ''){
+			$search_date = $_POST['searchdate'];
+			$search_date_stamp = strtotime($search_date);
+			$search_date_mysql = date("Y-m-d", $search_date_stamp);
+			$selectors .= "AND '$search_date_mysql' BETWEEN arrivalDate AND DATE_ADD(arrivalDate, INTERVAL nights DAY) - INTERVAL 1 DAY";
+		}
+
+		$zeichen="AND DATE_ADD(arrivalDate, INTERVAL nights DAY) >= NOW()";
+		$orders="ASC";
+		$ordersby="arrivalDate";
+
+		if(!empty($search)) $searchstr = "AND (name like '%1\$s' OR id like '%1\$s' OR email like '%1\$s' OR notes like '%1\$s' OR arrivalDate like '%1\$s')"; // number of total rows in the database
+		else $searchstr = "";
+		
+		$items1 = $wpdb->get_var($wpdb->prepare("SELECT COUNT(id) FROM ".$wpdb->prefix ."reservations WHERE approve='yes' $zeichen $selectors $searchstr ", '%' . like_escape($search) . '%')); // number of total rows in the database
+		$items2 = $wpdb->get_var($wpdb->prepare("SELECT COUNT(id) FROM ".$wpdb->prefix ."reservations WHERE approve='no' $zeichen $selectors $searchstr", '%' . like_escape($search) . '%')); // number of total rows in the database
+		$items3 = $wpdb->get_var($wpdb->prepare("SELECT COUNT(id) FROM ".$wpdb->prefix ."reservations WHERE approve='' $zeichen $selectors $searchstr", '%' . like_escape($search) . '%')); // number of total rows in the database
+		$items4 = $wpdb->get_var($wpdb->prepare("SELECT COUNT(id) FROM ".$wpdb->prefix ."reservations WHERE approve='yes' AND DATE_ADD(arrivalDate, INTERVAL nights DAY) < NOW() $selectors $searchstr", '%' . like_escape($search) . '%')); // number of total rows in the database
+		$items5 = $wpdb->get_var($wpdb->prepare("SELECT COUNT(id) FROM ".$wpdb->prefix ."reservations WHERE approve='del' $selectors $searchstr", '%' . like_escape($search) . '%')); // number of total rows in the database
+		$items7 = $wpdb->get_var($wpdb->prepare("SELECT COUNT(id) FROM ".$wpdb->prefix ."reservations WHERE approve='yes' AND NOW() BETWEEN arrivalDate AND DATE_ADD(arrivalDate, INTERVAL nights DAY) - INTERVAL 1 DAY $selectors $searchstr", '%' . like_escape($search) . '%'));
+		$items6 = $wpdb->get_var($wpdb->prepare("SELECT COUNT(id) FROM ".$wpdb->prefix ."reservations WHERE 1=1 $selectors $searchstr ", '%' . like_escape($search) . '%')); // number of total rows in the database
+
+		if(!isset($typ) OR $typ=='active' OR $typ=='') { $type="approve='yes'"; $items=$items1; if(!isset($orders)) $orders="ASC";  } // If type is actice
+		elseif($typ=="current") { $type="approve='yes'"; $items=$items7; if(!isset($orders)) $orders="ASC"; $zeichen ="AND NOW() BETWEEN arrivalDate AND DATE_ADD(arrivalDate, INTERVAL nights DAY)"; } // If type is current
+		elseif($typ=="pending") { $type="approve=''"; $items=$items3; if(!isset($ordersby)) $ordersby="id"; if(!isset($orders)) $orders="DESC"; } // If type is pending
+		elseif($typ=="deleted") { $type="approve='no'"; $items=$items2; } // If type is rejected
+		elseif($typ=="old") { $type="approve='yes'"; $items=$items4; $zeichen="AND DATE_ADD(arrivalDate, INTERVAL nights DAY) + INTERVAL 1 DAY < NOW()";  } // If type is old
+		elseif($typ=="trash") { $type="approve='del'"; $items=$items5; $zeichen=""; } // If type is trash
+		elseif($typ=="all") { $type="approve!='sda'"; $items=$items6; $zeichen=""; } // If type is all
+
+		if($order=="ASC") $orders="ASC";
+		elseif($order=="DESC") $orders="DESC";
+
+		if($orderby=="date") $ordersby="arrivalDate";
+		elseif($orderby=="name") $ordersby="name";
+		elseif($orderby=="room") $ordersby="room";
+		elseif($orderby=="special") $ordersby="special";
+		elseif($orderby=="nights") $ordersby="nights";
+
+		if($orderby=="" && $typ=="pending") { $ordersby="id"; $orders="DESC"; }
+		if($orderby=="" && $typ=="old") { $ordersby="arrivalDate"; $orders="DESC"; }
+		if($orderby=="" && $typ=="all") { $ordersby="arrivalDate"; $orders="DESC"; }
+
+		if(isset($perpage) AND $perpage != 0) { $perpagelink="&perpage=".$perpage; }
+		else $perpage=$reservations_on_page;
+		if(isset($more) AND $more != 0) $morelink="&more=";
+
+		if(isset($specialselector) OR isset($monthselector) OR isset($roomselector)){
+			$variableitems = $wpdb->get_var($wpdb->prepare("SELECT COUNT(id) FROM ".$wpdb->prefix ."reservations WHERE $type $selectors $zeichen $searchstr", '%' . like_escape($search) . '%'));
+			$items=$variableitems;
+		}
+
+		if(!isset($specialselector)) $specialselector="";
+		if(!isset($roomselector)) $roomselector="";
+
+		$pagei = 1;
+
+		if(isset($items) AND $items > 0) {
+
+			$p = new pagination;
+			$p->items($items);
+			$p->limit($perpage); // Limit entries per page
+			$p->target($typ);
+			$pagination = 0;
+			$p->currentPage($pagination); // Gets and validates the current page
+			$p->calculate(); // Calculates what to show
+			$p->parameterName('paging');
+			$p->adjacents(1); //No. of page away from the current page
+
+			if(isset($_POST['paging'])) {
+				$pagei = $_POST['paging'];
+			} else {
+				$pagei = 1;
+			}
+
+			$p->page = $pagei;
+
+			$limit = "LIMIT " . ($p->page - 1) * $p->limit  . ", " . $p->limit;
+		} else $limit = 'LIMIT 0'; ?>
+		<input type="hidden" id="easy-table-order" value="<?php echo $order;?>"><input type="hidden" id="easy-table-orderby" value="<?php echo $orderby;?>">
+		<table style="width:99%">
+			<tr> <!-- Type Chooser //--> 
+				<td style="width:30%;" class="no-select" nowrap>
+					<ul class="subsubsub" style="float:left;">
+						<li><a onclick="easyreservation_send_table('active', 1)" <?php if(!isset($typ) || (isset($typ) && $typ == 'active')) echo 'class="current"'; ?> style="cursor:pointer"><?php printf ( __( 'Active' , 'easyReservations' ));?><span class="count"> (<?php echo $items1; ?>)</span></a> |</li>
+						<li><a onclick="easyreservation_send_table('current', 1)" <?php if(isset($typ) && $typ == 'current') echo 'class="current"'; ?> style="cursor:pointer"><?php printf ( __( 'Current' , 'easyReservations' ));?><span class="count"> (<?php echo $items7; ?>)</span></a> |</li>
+						<li><a onclick="easyreservation_send_table('pending', 1)" <?php if(isset($typ) && $typ == 'pending') echo 'class="current"'; ?> style="cursor:pointer"><?php printf ( __( 'Pending' , 'easyReservations' ));?><span class="count"> (<?php echo $items3; ?>)</span></a> |</li>
+						<li><a onclick="easyreservation_send_table('deleted', 1)" <?php if(isset($typ) && $typ == 'deleted') echo 'class="current"'; ?> style="cursor:pointer"><?php printf ( __( 'Rejected' , 'easyReservations' ));?><span class="count"> (<?php echo $items2; ?>)</span></a> |</li>
+						<li><a onclick="easyreservation_send_table('all', 1)" <?php if(isset($typ) && $typ == 'all') echo 'class="current"'; ?> style="cursor:pointer"><?php printf ( __( 'All' , 'easyReservations' ));?><span class="count"> (<?php echo $items6; ?>)</span></a> |</li>
+						<li><a onclick="easyreservation_send_table('old', 1)" <?php if(isset($typ) && $typ == 'old') echo 'class="current"'; ?> style="cursor:pointer"><?php printf ( __( 'Old' , 'easyReservations' ));?><span class="count"> (<?php echo $items4; ?>)</span></a></li>
+						<?php if( $items5 > 0 ){ ?>| <li><a onclick="easyreservation_send_table('trash', <?php echo $pagei; ?>)" <?php if(isset($typ) && $typ == 'trash') echo 'class="current"'; ?> style="cursor:pointer"><?php printf ( __( 'Trash' , 'easyReservations' ));?><span class="count"> (<?php echo $items5; ?>)</span></a></li><?php } ?>
+					</ul>
+					<span style="float:left;margin:5px 0px 0px 5px" id="er-table-loading"></span>
+				</td>
+				<td style="width:50%; text-align:center; font-size:12px;" nowrap><!-- Begin of Filter //--> 
+				<?php if($table_options['table_filter_month'] == 1){ ?>
+					<select name="monthselector"  id="easy-table-monthselector" onchange="easyreservation_send_table('<?php echo $typ; ?>', 1)"><option value="0"><?php printf ( __( 'Show all Dates' , 'easyReservations' ));?></option><!-- Filter Months //--> 
+					<?php
+						$posts = "SELECT DISTINCT dat FROM ".$wpdb->prefix ."reservations GROUP BY dat ORDER BY dat ";
+						$results = $wpdb->get_results($posts);
+
+						foreach( $results as $result ){
+							$dat=$result->dat;
+							$zerst = explode("-",$dat);
+							if($zerst[1]=="01") $month=__( 'January' , 'easyReservations' ); elseif($zerst[1]=="02") $month=__( 'February' , 'easyReservations' ); elseif($zerst[1]=="03") $month=__( 'March' , 'easyReservations' ); elseif($zerst[1]=="04") $month=__( 'April' , 'easyReservations' ); elseif($zerst[1]=="05") $month=__( 'May' , 'easyReservations' ); elseif($zerst[1]=="06") $month=__( 'June' , 'easyReservations' ); elseif($zerst[1]=="07") $month=__( 'July' , 'easyReservations' ); elseif($zerst[1]=="08") $month=__( 'August' , 'easyReservations' ); elseif($zerst[1]=="09") $month=__( 'September' , 'easyReservations' ); elseif($zerst[1]=="10") $month=__( 'October' , 'easyReservations' ); elseif($zerst[1]=="11") $month=__( 'November' , 'easyReservations' ); elseif($zerst[1]=="12") $month=__( 'December' , 'easyReservations' );
+							if(isset($monthselector) && $monthselector == $dat) $selected = 'selected="selected"'; else $selected ="";
+							echo '<option value="'.$dat.'" '.$selected.'>'.$month.' '.__($zerst[0]).'</option>'; 
+						} ?>
+					</select>
+					<?php } ?>
+					<?php if($table_options['table_filter_room'] == 1){ ?>
+						<select name="roomselector" id="easy-table-roomselector" class="postform" onchange="easyreservation_send_table('<?php echo $typ; ?>', 1)"><option value="0"><?php printf ( __( 'View all Rooms' , 'easyReservations' ));?></option><?php echo reservations_get_room_options($roomselector); ?></select>
+					<?php } if($table_options['table_filter_offer'] == 1){ ?>
+						<select name="specialselector" id="easy-table-specialselector" class="postform" onchange="easyreservation_send_table('<?php echo $typ; ?>', 1)"><option value="0"><?php printf ( __( 'View all Offers ' , 'easyReservations' ));?></option><?php echo reservations_get_offer_options($specialselector); ?></select>
+					<?php } if($table_options['table_filter_days'] == 1){ ?><input size="1px" type="text" id="easy-table-perpage-field" name="perpage" value="<?php echo $perpage; ?>" maxlength="3" onchange="easyreservation_send_table('<?php echo $typ; ?>', 1)"></input><input class="easySubmitButton-secondary" type="submit" value="<?php  printf ( __( 'Filter' , 'easyReservations' )); ?>">
+					<?php } ?>
+				</td>
+				<td style="width:20%; margin-left: auto; margin-right:0px; text-align:right;" nowrap>
+					<img src="<?php echo RESERVATIONS_IMAGES_DIR; ?>/refresh.png" style="vertical-align:text-bottom" onclick="resetTableValues()">
+					<?php if($table_options['table_search'] == 1){ ?>
+						<input type="text" onchange="easyreservation_send_table('all', 1)" style="width:77px;text-align:center" id="easy-table-search-date" value="<?php if(isset($search_date)) echo $search_date; ?>">
+						<input type="text" onchange="easyreservation_send_table('all', 1)" style="width:130px;" id="easy-table-search-field" name="search" value="<?php if(isset($search)) echo $search;?>" class="all-options"></input>
+						<input class="easySubmitButton-secondary" type="submit" value="<?php  printf ( __( 'Search' , 'easyReservations' )); ?>" onclick="easyreservation_send_table('all', 1)">
+					<?php } ?>
+				</td>
+			</tr>
+		</table>
+		<form action="admin.php?page=reservations" method="get" name="frmAdd" id="frmAdd"><?php wp_nonce_field('easy-main-bulk','easy-main-bulk'); ?>
+		<table  class="reservationTable <?php echo RESERVATIONS_STYLE; ?>" style="width:99%;"> <!-- Main Table //-->
+			<thead> <!-- Main Table Header //-->
+				<tr><?php $countrows = 0; ?>
+					<?php if($table_options['table_color'] == 1){ $countrows++; ?>
+						<th style="max-width:4px;padding:0px;"></th>
+					<?php } if($table_options['table_bulk'] == 1){ $countrows++; ?>
+						<th><input type="hidden" name="page" value="reservations"><input type="checkbox" id="bulkArr[]" onclick="checkAllController(document.frmAdd,this,'bulkArr')" style="margin-top:2px"></th>
+					<?php } if($table_options['table_name'] == 1 || $table_options['table_id'] == 1){ $countrows++; ?>
+						<th><?php if($order=="ASC" and $orderby=="name") { ?><a class="asc2" onclick="easyreservation_send_table('<?php echo $typ; ?>', 1, 'DESC', 'name' )">
+						<?php } elseif($order=="DESC" and $orderby=="name") { ?><a class="desc2" onclick="easyreservation_send_table('<?php echo $typ; ?>', 1, 'ASC', 'name' )">
+						<?php } else { ?><a class="stand2" onclick="easyreservation_send_table('<?php echo $typ; ?>', 1, 'ASC', 'name' )"><?php } ?><?php printf ( __( 'Name' , 'easyReservations' ));?></a></th>
+					<?php } if($table_options['table_from'] == 1 || $table_options['table_to'] == 1 || $table_options['table_nights'] == 1){ $countrows++; ?>
+						<th><?php if($order=="ASC" and $orderby=="date") { ?><a class="asc2" onclick="easyreservation_send_table('<?php echo $typ; ?>', 1, 'DESC', 'date' )">
+						<?php } elseif($order=="DESC" and $orderby=="date") { ?><a class="desc2" onclick="easyreservation_send_table('<?php echo $typ; ?>', 1, 'ASC', 'date' )">
+						<?php } else { ?><a class="stand2" onclick="easyreservation_send_table('<?php echo $typ; ?>', 1, 'ASC', 'date' )"><?php } ?><?php printf ( __( 'Date' , 'easyReservations' ));?></a></th>
+					<?php } if($table_options['table_email'] == 1){ $countrows++; ?>
+						<th><?php printf ( __( 'eMail' , 'easyReservations' ));?></th>
+					<?php } if($table_options['table_persons'] == 1 || $table_options['table_childs'] == 1){ $countrows++; ?>
+						<th style="text-align:center"><?php if($table_options['table_persons'] == 1 && $table_options['table_childs'] == 1) printf ( __( 'Persons' , 'easyReservations' )); elseif($table_options['table_persons'] == 1) echo __( 'Adults' , 'easyReservations' ); else echo __( 'Children\'s' , 'easyReservations' );?></th>
+					<?php }  if($table_options['table_room'] == 1 || $table_options['table_exactly'] == 1){ $countrows++; ?>
+						<th><?php if($order=="ASC" and $orderby=="room") { ?><a class="asc2" onclick="easyreservation_send_table('<?php echo $typ; ?>', 1, 'DESC', 'room' )">
+						<?php } elseif($order=="DESC" and $orderby=="room") { ?><a class="desc2" onclick="easyreservation_send_table('<?php echo $typ; ?>', 1, 'ASC', 'room' )">
+						<?php } else { ?><a class="stand2" onclick="easyreservation_send_table('<?php echo $typ; ?>', 1, 'ASC', 'room' )"><?php } ?><?php printf ( __( 'Room' , 'easyReservations' ));?></a></th>
+					<?php }  if($table_options['table_offer'] == 1){ $countrows++; ?>
+						<th><?php if($order=="ASC" and $orderby=="special") { ?><a class="asc2" onclick="easyreservation_send_table('<?php echo $typ; ?>', 1, 'DESC', 'special' )">
+						<?php } elseif($order=="DESC" and $orderby=="special") { ?><a class="desc2" onclick="easyreservation_send_table('<?php echo $typ; ?>', 1, 'ASC', 'special' )">
+						<?php } else { ?><a class="stand2"   onclick="easyreservation_send_table('<?php echo $typ; ?>', 1, 'ASC', 'special' )"><?php } ?><?php printf ( __( 'Offer' , 'easyReservations' ));?></a></th>
+					<?php }  if($table_options['table_country'] == 1){ $countrows++; ?>
+						<th><?php printf ( __( 'Country' , 'easyReservations' )); ?></th>
+					<?php }  if($table_options['table_message'] == 1){ $countrows++; ?>
+						<th><?php printf ( __( 'Note' , 'easyReservations' )); ?></th>
+					<?php }  if($table_options['table_custom'] == 1){ $countrows++; ?>
+						<th><?php printf ( __( 'Custom fields' , 'easyReservations' )); ?></th>
+					<?php }  if($table_options['table_customp'] == 1){ $countrows++; ?>
+						<th><?php printf ( __( 'Custom prices' , 'easyReservations' )); ?></th>
+					<?php }  if($table_options['table_paid'] == 1){ $countrows++; ?>
+						<th style="text-align:right"><?php printf ( __( 'Paid' , 'easyReservations' ));?></th>
+					<?php }  if($table_options['table_price'] == 1){ $countrows++; ?>
+						<th style="text-align:right"><?php printf ( __( 'Price' , 'easyReservations' ));?></th>
+					<?php } ?>
+				</tr>
+			</thead>
+			<tfoot>
+				<tr>
+					<?php if($table_options['table_color'] == 1){ ?>
+						<th style="max-width:4px;padding:0px;"></th>
+					<?php } if($table_options['table_bulk'] == 1){ ?>
+						<th><input type="hidden" name="page" value="reservations"><input type="checkbox" id="bulkArr[]" onclick="checkAllController(document.frmAdd,this,'bulkArr')"></th>
+					<?php } if($table_options['table_name'] == 1 || $table_options['table_id'] == 1){ ?>
+						<th><?php if($order=="ASC" and $orderby=="name") { ?><a class="asc2" onclick="easyreservation_send_table('<?php echo $typ; ?>', 1, 'DESC', 'name' )">
+						<?php } elseif($order=="DESC" and $orderby=="name") { ?><a class="desc2" onclick="easyreservation_send_table('<?php echo $typ; ?>', 1, 'ASC', 'name' )">
+						<?php } else { ?><a class="stand2" onclick="easyreservation_send_table('<?php echo $typ; ?>', 1, 'ASC', 'name' )"><?php } ?><?php printf ( __( 'Name' , 'easyReservations' ));?></a></th>
+					<?php } if($table_options['table_from'] == 1 || $table_options['table_to'] == 1 || $table_options['table_nights'] == 1){ ?>
+						<th><?php if($order=="ASC" and $orderby=="date") { ?><a class="asc2" onclick="easyreservation_send_table('<?php echo $typ; ?>', 1, 'DESC', 'date' )">
+						<?php } elseif($order=="DESC" and $orderby=="date") { ?><a class="desc2" onclick="easyreservation_send_table('<?php echo $typ; ?>', 1, 'ASC', 'date' )">
+						<?php } else { ?><a class="stand2" onclick="easyreservation_send_table('<?php echo $typ; ?>', 1, 'ASC', 'date' )"><?php } ?><?php printf ( __( 'Date' , 'easyReservations' ));?></a></th>
+					<?php } if($table_options['table_email'] == 1){ ?>
+						<th><?php printf ( __( 'eMail' , 'easyReservations' ));?></th>
+					<?php } if($table_options['table_persons'] == 1 || $table_options['table_childs'] == 1){ ?>
+						<th style="text-align:center"><?php if($table_options['table_persons'] == 1 && $table_options['table_childs'] == 1) printf ( __( 'Persons' , 'easyReservations' )); elseif($table_options['table_persons'] == 1) echo __( 'Adults' , 'easyReservations' ); else echo __( 'Children\'s' , 'easyReservations' );?></th>
+					<?php }  if($table_options['table_room'] == 1 || $table_options['table_exactly'] == 1){ ?>
+						<th><?php if($order=="ASC" and $orderby=="room") { ?><a class="asc2" onclick="easyreservation_send_table('<?php echo $typ; ?>', 1, 'DESC', 'room' )">
+						<?php } elseif($order=="DESC" and $orderby=="room") { ?><a class="desc2" onclick="easyreservation_send_table('<?php echo $typ; ?>', 1, 'ASC', 'room' )">
+						<?php } else { ?><a class="stand2" onclick="easyreservation_send_table('<?php echo $typ; ?>', 1, 'ASC', 'room' )"><?php } ?><?php printf ( __( 'Room' , 'easyReservations' ));?></a></th>
+					<?php }  if($table_options['table_offer'] == 1){ ?>
+						<th><?php if($order=="ASC" and $orderby=="special") { ?><a class="asc2" onclick="easyreservation_send_table('<?php echo $typ; ?>', 1, 'DESC', 'special' )">
+						<?php } elseif($order=="DESC" and $orderby=="special") { ?><a class="desc2" onclick="easyreservation_send_table('<?php echo $typ; ?>', 1, 'ASC', 'special' )">
+						<?php } else { ?><a class="stand2"   onclick="easyreservation_send_table('<?php echo $typ; ?>', 1, 'ASC', 'special' )"><?php } ?><?php printf ( __( 'Offer' , 'easyReservations' ));?></a></th>
+					<?php }  if($table_options['table_country'] == 1){ ?>
+						<th><?php printf ( __( 'Country' , 'easyReservations' )); ?></th>
+					<?php }  if($table_options['table_message'] == 1){ ?>
+						<th><?php printf ( __( 'Note' , 'easyReservations' )); ?></th>
+					<?php }  if($table_options['table_custom'] == 1){ ?>
+						<th><?php printf ( __( 'Custom fields' , 'easyReservations' )); ?></th>
+					<?php }  if($table_options['table_customp'] == 1){ ?>
+						<th><?php printf ( __( 'Custom prices' , 'easyReservations' )); ?></th>
+					<?php }  if($table_options['table_paid'] == 1){ ?>
+						<th style="text-align:right"><?php printf ( __( 'Paid' , 'easyReservations' ));?></th>
+					<?php }  if($table_options['table_price'] == 1){ ?>
+						<th style="text-align:right"><?php printf ( __( 'Price' , 'easyReservations' ));?></th>
+					<?php } ?>
+				</tr>
+			</tfoot>
+			<tbody>
+			<?php
+				$nr=0;
+				$time = strtotime(date("d.m.Y",time()));
+				$sql = "SELECT id, arrivalDate, name, email, number, childs, nights, notes, room, roomnumber, country, special, approve, price, custom, customp FROM ".$wpdb->prefix ."reservations WHERE $type $selectors $zeichen $searchstr ORDER BY $ordersby $orders $limit";  // Main Table query
+				$result = $wpdb->get_results( $wpdb->prepare($sql, '%' . like_escape($search) . '%'));
+
+				if(count($result) > 0 ){
+
+					$export_IDs='';
+					foreach($result as $res){
+						$id=$res->id;
+						$name = $res->name;
+						$nights=$res->nights;
+						$person=$res->number;
+						$childs=$res->childs;
+						$special=$res->special;
+						$room=$res->room;
+						$rooms=__(get_the_title($room));
+
+						if($nr%2==0) $class="alternate"; else $class="";
+						$timpstampanf=strtotime($res->arrivalDate);
+						$timestampend=(86400*$nights)+$timpstampanf;
+
+						if(in_array($res->email, $regular_guest_array)) $highlightClass='highlight';
+						else $highlightClass='';
+						
+						$export_IDs.=$id.', ';
+						
+						if($time - $timpstampanf > 0 AND $time+86400 - $timestampend > 0) $sta = "er_res_old";
+						elseif($time+86400 - $timpstampanf > 0 AND $time - $timestampend <= 0) $sta = "er_res_now";
+						else $sta = "er_res_future";
+
+						$nr++;
+						?>
+				<tr class="<?php echo $class.' '.$highlightClass; ?>" height="47px" <?php if($table_options['table_onmouseover'] == 1 && $res->approve == "yes" && !empty($res->roomnumber)){ ?>onmouseover="fakeClick('<?php echo $timpstampanf; ?>', '<?php echo $timestampend; ?>', '<?php echo $res->room; ?>', '<?php echo $res->roomnumber; ?>', 'yellow');" onmouseout="changer()"<?php } ?>><!-- Main Table Body //-->
+					<?php if($table_options['table_color'] == 1){ ?>
+						<td class="<?php echo $sta; ?>" style="max-width:4px !important;padding:0px !important;"></td>
+					<?php } if($table_options['table_bulk'] == 1){ ?>
+						<td width="2%" style="text-align:center;vertical-align:middle;"><input name="bulkArr[]" id="bulkArr[]" type="checkbox" style="margin-left: 8px;" value="<?php echo $id;?>"></td>
+					<?php } if($table_options['table_name'] == 1 || $table_options['table_id'] == 1){ ?>
+						<td  valign="top" class="row-title" valign="top" nowrap>
+							<div class="test">
+								<?php if($table_options['table_name'] == 1){ ?>
+									<a href="admin.php?page=reservations&view=<?php echo $id;?>"><?php echo $name;?></a>
+								<?php } if($table_options['table_id'] == 1) echo ' (#'.$id.')'; ?>
+								<div class="test2" style="margin:5px 0 0px 0;">
+									<a href="admin.php?page=reservations&edit=<?php echo $id;?>"><?php printf ( __( 'Edit' , 'easyReservations' ));?></a> 
+									<?php if(isset($typ) AND ($typ=="deleted" OR $typ=="pending")) { ?>| <a style="color:#28a70e;" href="admin.php?page=reservations&approve=<?php echo $id;?>"><?php printf ( __( 'Approve' , 'easyReservations' ));?></a>
+									<?php } if(!isset($typ) OR (isset($typ) AND ($typ=="active" or $typ=="pending"))) { ?> | <a style="color:#bc0b0b;" href="admin.php?page=reservations&delete=<?php echo $id;?>"><?php printf ( __( 'Reject' , 'easyReservations' ));?></a>
+									<?php } if(isset($typ) AND $typ=="trash") { ?>| <a href="admin.php?page=reservations&bulkArr[]=<?php echo $id;?>&bulk=2"><?php printf ( __( 'Restore' , 'easyReservations' ));?></a> | <a style="color:#bc0b0b;" href="admin.php?page=reservations&easy-main-bulk=&bulkArr[]=<?php echo $id;?>&bulk=3&easy-main-bulk=<?php echo wp_create_nonce('easy-main-bulk'); ?>"><?php printf ( __( 'Delete Permanently' , 'easyReservations' ));?></a><?php } ?> | <a href="admin.php?page=reservations&sendmail=<?php echo $id;?>"><?php echo __( 'Mail' , 'easyReservations' );?></a>
+								</div>
+							</div>
+						</td>
+					<?php } if($table_options['table_from'] == 1 || $table_options['table_to'] == 1 || $table_options['table_nights'] == 1){ ?>
+						<td nowrap><?php if($table_options['table_from'] == 1) echo date("d.m.Y",$timpstampanf); if($table_options['table_from'] == 1 && $table_options['table_to'] == 1) echo '-';  if($table_options['table_to'] == 1) echo date("d.m.Y",$timestampend);?><?php if($table_options['table_nights'] == 1){ ?> <small>(<?php echo $nights; ?> <?php printf ( __( 'Nights' , 'easyReservations' ));?>)</small><?php } ?></td>
+					<?php } if($table_options['table_email'] == 1){ ?>
+						<td><a href="admin.php?page=reservations&sendmail=<?php echo $id; ?>"><?php echo $res->email;?></a></td>
+					<?php } if($table_options['table_persons'] == 1 || $table_options['table_childs'] == 1){ ?>
+						<td style="text-align:center;"><?php if($table_options['table_name'] == 1) echo $person; if($table_options['table_from'] == 1 && $table_options['table_to'] == 1) echo ' / '; if($table_options['table_childs'] == 1) echo $childs; ?></td>
+					<?php }  if($table_options['table_room'] == 1 || $table_options['table_exactly'] == 1){  ?>
+						<td nowrap><?php if($table_options['table_room'] == 1) echo '<a href="admin.php?page=reservation-resources&room='.$room.'">'.__($rooms).'</a>'; if($table_options['table_exactly'] == 1 && isset($res->roomnumber)) echo ' #'.$res->roomnumber; ?></td>
+					<?php }  if($table_options['table_offer'] == 1){  ?>
+						<td nowrap><?php if($special > 0) echo '<a href="admin.php?page=reservation-resources&room='.$special.'">'.__(get_the_title($special)).'</a>'; else echo __( 'None' , 'easyReservations' ); ?></td>
+					<?php }  if($table_options['table_country'] == 1){  ?>
+						<td nowrap><?php if($special > 0) echo easyReservations_country_name( $res->country); ?></td>
+					<?php }  if($table_options['table_message'] == 1){ ?>
+						<td><?php echo substr($res->notes, 0, 36); ?></td>
+					<?php }  if($table_options['table_custom'] == 1){ ?>
+						<td><?php $customs = easyreservations_get_custom_array($res->custom);
+								if(!empty($customs)){
+									foreach($customs as $custom){
+										echo '<b>'.$custom['title'].':</b> '.$custom['value'].'<br>';
+									}
+								}?></td>
+					<?php }  if($table_options['table_customp'] == 1){ ?>
+						<td><?php $customs = easyreservations_get_custom_price_array($res->customp);
+								if(!empty($customs)){
+									foreach($customs as $custom){
+										echo '<b>'.$custom['title'].':</b> '.$custom['value'].' - '.reservations_format_money($custom['price'], 1).'<br>';
+									}
+								}?></td>
+					<?php } if($table_options['table_paid'] == 1){  ?>
+						<td nowrap style="text-align:right"><?php $theExplode = explode(";", $res->price); if(isset($theExplode[1]) && $theExplode[1] > 0) echo reservations_format_money( $theExplode[1], 1); else echo reservations_format_money( '0', 1); ?></td>
+					<?php }  if($table_options['table_price'] == 1){  ?>
+						<td nowrap style="text-align:right"><?php echo easyreservations_get_price($id, 1); ?></td>
+					<?php } ?>
+				</tr>
+			<?php }
+			} else { ?> <!-- if no results form main quary !-->
+					<tr>
+						<td colspan="<?php echo $countrows; ?>"><b><?php printf ( __( 'No Reservations found!' , 'easyReservations' ));?></b></td> <!-- Mail Table Body if empty //-->
+					<tr>
+			<?php } ?>
+			</tbody>
+		</table>
+		<table  style="width:99%;"> 
+			<tr>
+				<td style="width:33%;"><!-- Bulk Options //-->
+					<?php if($table_options['table_bulk'] == 1){ ?><select name="bulk" id="bulk"><option select="selected" value="0"><?php echo __( 'Bulk Actions' ); ?></option><?php if((isset($typ) AND $typ!="trash") OR !isset($typ)) { ?><option value="1"><?php printf ( __( 'Move to Trash' , 'easyReservations' ));?></option><?php }  if(isset($typ) AND $typ=="trash") { ?><option value="2"><?php printf ( __( 'Restore' , 'easyReservations' ));?></option><option value="3"><?php printf ( __( 'Delete Permanently' , 'easyReservations' ));?></option><?php } ;?></select>  <input class="easySubmitButton-secondary" type="submit" value="<?php printf ( __( 'Apply' , 'easyReservations' ));?>" /></form><?php } ?>
+				</td>
+				<td style="width:33%;" nowrap> <!-- Pagination  //-->
+					<?php if($items > 0) { ?><div class="tablenav" style="text-align:center; margin:0 115px 4px 0;"><div style="background:#ffffff;" class='tablenav-pages'><?php echo $p->show(); ?></div></div><?php } ?>
+				</td>
+				<td style="width:33%;margin-left: auto; margin-right: 0pt; text-align: right;"> <!-- Num Elements //-->
+					<span class="displaying-nums"><?php echo $nr;?> <?php printf ( __( 'Elements' , 'easyReservations' ));?></span>
+				</td>
+			</tr>
+		</table>
+		</form><?php
+
+		exit;
+	}
+
+	add_action('wp_ajax_easyreservations_send_table', 'easyreservations_send_table_callback');
+
 	function easyreservations_get_custom_array($custom){
 		$customs=array_values(array_filter(explode("&;&", $custom)));
 		$customarray = "";
@@ -679,5 +1089,56 @@
 		}
 		
 		return $customparray;
+	}
+	
+	function easyreservations_get_price_filter_description($filtertype){
+		$filter = $filtertype[2];
+		if(preg_match("/^[\d]{2}+[\.]+[\d]{2}+[\.]+[\d]{4}[\-][\d]{2}+[\.]+[\d]{2}+[\.]+[\d]{4}$/", $filter)){
+			$explode = explode("-", $filter);
+			$the_condtion = sprintf(__( 'If the day to calculate is beween %1$s and %2$s else' , 'easyReservations' ), '<b>'.$explode[0].'</b>', '<b>'.$explode[1].'</b>' ).' <b style="font-size:17px">&#8595;</b>';
+		}
+		elseif(preg_match("/^[\d]{2}+[\.]+[\d]{2}+[\.]+[\d]{4}$/", $filter)){
+			$the_condtion = sprintf(__( 'If the day to calculate is %1$s else' , 'easyReservations' ), '<b>'.$filter.'</b>' ).' <b style="font-size:17px">&#8595;</b>';
+		}
+		else{
+			if(preg_match("/;/", $filter)){
+				$conditions = explode(";", $filter);
+			} else {
+				$conditions = array($filter);
+			}
+			$daycondition=''; $weekcondition=''; $weekdaycondition=''; $weekendcondition=''; $cwcondition=''; $monthcondition=''; $qcondition=''; $ycondition='';
+			foreach($conditions as $condition){
+				if(preg_match('/(monday|mon|tuesday|tue|wednesday|wed|thursday|thu|friday|fri|saturday|sat|sunday|sun)$/i', $condition)){
+					$daycondition .= $condition.', ';
+				} elseif($condition == 'week'){
+					$weekcondition .= $condition.', ';
+				} elseif($condition == 'weekdays'){
+					$weekdaycondition .= $condition.', ';
+				} elseif($condition == 'weekend'){
+					$weekendcondition .= $condition.', ';
+				} elseif(preg_match("/(([0-9]{1,2}[\;])+|^[0-9]{1,2}$)/", $condition)){
+					$cwcondition .= $condition.', ';
+				} elseif(preg_match('/(january|jan|february|feb|march|mar|april|apr|may|june|jun|july|jul|august|aug|september|sep|october|oct|november|nov|decembre|dec)/', $condition)){
+					$monthcondition .= $condition.', ';
+				} elseif(preg_match('/(q1|quarter1|q2|quarter2|q3|quarter3|q4|quarter4)/', $condition)){
+					$qcondition .= substr($condition, -1).', ';
+				} elseif(preg_match("/(([0-9]{4}[\;])+|^[0-9]{4}$)/", $condition)){
+					$ycondition .= $condition.', ';
+				}
+			}
+			$itcondtion="If day to calculate is ";
+			if(isset($daycondition) AND $daycondition != '') $itcondtion .= "a <b>".substr($daycondition, 0, -2).'</b> or ';
+			if(isset($weekcondition) AND $weekcondition != '') $itcondtion .= "in <b>".substr($weekcondition, 0, -2).'</b> or ';
+			if(isset($weekdaycondition) AND $weekdaycondition != '') $itcondtion .= "a <b>".substr($weekdaycondition, 0, -2).'</b> or ';
+			if(isset($weekendcondition) AND $weekendcondition != '') $itcondtion .= "at <b>".substr($weekendcondition, 0, -2).'</b> or' ;
+			if(isset($cwcondition) AND $cwcondition != '') $itcondtion .= "in calendar week <b>".substr($cwcondition, 0, -2).'</b> or ';
+			if(isset($monthcondition) AND $monthcondition != '') $itcondtion .= "in <b>".substr($monthcondition, 0, -2).'</b> or ';
+			if(isset($qcondition) AND $qcondition != '') $itcondtion .= "in quarter <b>".substr($qcondition, 0, -2).'</b> or ';
+			if(isset($ycondition) AND $ycondition != '') $itcondtion .= "in <b>".substr($ycondition, 0, -2).'</b> or ';
+			$the_condtion = substr($itcondtion, 0, -4).' else <b style="font-size:17px">&#8595;</b>';
+		}
+		
+		return $the_condtion;
+
 	}
 ?>
