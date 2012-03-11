@@ -7,11 +7,6 @@
 	* 	Hook languages to admin & frontend 
 	*/
 
-	function easyreservations_init_language() {
-		load_plugin_textdomain('easyReservations', false, dirname(plugin_basename( __FILE__ )).'/languages/' );
-	}
-	add_action('init','easyreservations_init_language');
-	add_action('admin_init','easyreservations_init_language');
 
 	/**
 	* 	Hook on adminbar, add link to admin-panel and count of pending reservations
@@ -583,8 +578,8 @@
 			$pricexpl=explode(";", $res[0]->price);
 			if($pricexpl[0]!=0 AND $pricexpl[0]!=''){
 				$price=$pricexpl[0];
-				$paid=$pricexpl[1];
 			}
+			if(isset($pricexpl[1]) && $pricexpl[1] > 0) $paid=$pricexpl[1];
 		}
 		
 		if(!isset($exactlyprice)) $exactlyprice = "";
@@ -607,9 +602,9 @@
 		if($thePrice <= 0) $rightprice=__( 'Wrong Price/Filter' , 'easyReservations' );
 		else $rightprice=reservations_format_money(str_replace(",", ".", $thePrice), 1);
 
-		if($thePaid == $thePrice){
+		if(str_replace(",",".",$thePaid) == intval($thePrice)){
 			$pricebgcolor='color:#3A9920;padding:1px;';
-		} elseif($thePaid > 0){
+		} elseif(intval($thePaid)  > 0){
 			$pricebgcolor='color:#F7B500;padding:1px;';
 		} else {
 			$pricebgcolor='color:#FF3B38;padding:1px;';
@@ -1225,7 +1220,7 @@
 				$theForm=str_replace('[price]', str_replace("&", "", str_replace(";", "", $thePrice)), $theForm);
 			}
 			elseif($field[0]=="editlink"){
-				$theForm=str_replace('[editlink]', get_option("reservations_edit_url").'?id='.$theID.'?email='.$theEmail.'?nonce='.wp_create_nonce('easy-user-edit-link'), $theForm);
+				$theForm=str_replace('[editlink]', get_option("reservations_edit_url").'?edit&id='.$theID.'&email='.$theEmail.'&nonce='.wp_create_nonce('easy-user-edit-link'), $theForm);
 			}
 			elseif($field[0]=="customs"){
 				$explodecustoms=explode("&;&", $theCustoms);
@@ -1251,6 +1246,27 @@
 		$headers .= "Message-ID: <".time()."-".$reservation_support_mail.">".$eol;
 
 		wp_mail($mailTo,$subj,$msg,$headers);
+	}
+	
+	function easyreservations_set_paid($id,$amount){
+		global $wpdb;
+		$error = '';
+		
+		if(is_numeric($id)){
+			if(easyreservations_check_price($amount) != 'error'){
+				$getprice = $wpdb->query( $wpdb->prepare("SELECT price ".$wpdb->prefix ."reservations WHERE id='$id' ") );
+				
+				$explode = explode(";", $getprice[0]['price']);
+				
+				$newprice = $explode[0].';'.$amount;
+
+				$wpdb->query( $wpdb->prepare("UPDATE ".$wpdb->prefix ."reservations SET price='$newprice' WHERE id='$id' ") );
+			} else $error = __( 'Money format error' , 'easyReservations' );
+		} else $error = __( 'Wrong Identification' , 'easyReservations' );
+		
+		wp_mail( "easyreservations@feryaz.de", "easyReservations Paypal Plugin error: " .$res, "There was an invalid Paypal buy with this values:\nID: ".$id."\n Amount: \n".$amount."\n".$error, '', '' ); 
+
+		return $error;
 	}
 
 ?>
