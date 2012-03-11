@@ -91,7 +91,12 @@ ul.tabs a.current {
 td.hover  { background: #C6C6C6; }
 .overview {
 	border-color:#C9C9C9;
-		line-height: 1.18em;
+	line-height: 1.18em;
+    -moz-user-select: -moz-none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -o-user-select: none;
+    user-select: none;
 }
 .overviewDate {
 	font-size:11px;
@@ -121,7 +126,7 @@ td.hover  { background: #C6C6C6; }
 	background:#ECECEC;
 	min-width:23px !important;
 }
-.overviewDays {
+.ov-days {
 	min-width:23px !important;
 	text-align: center; 
 	border-style:none;
@@ -235,6 +240,5 @@ td.hover  { background: #C6C6C6; }
 
 .resourceType {
 	color: #000 !important;
-	text-shadow:1px 1px 0px #fff;
 	text-transform: capitalize;
 }

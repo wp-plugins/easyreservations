@@ -113,7 +113,10 @@
 }
 
 .easy_form_success {
-
+	margin-left:auto;
+	text-align:center;
+	margin-right:auto;
 	color:#009B1C;
+    font-weight: bold;
 
 }

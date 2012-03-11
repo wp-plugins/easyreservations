@@ -35,7 +35,7 @@ code p {
 .greyfat > thead tr th,
 .greyfat > tfoot tr th
  {
-	background-color: #f1f1f1; /* Fallback */
+	background-color: #575757; /* Fallback */
 	background-image: -ms-linear-gradient(top, #575757, #575757); /* IE10 */
 	background-image: -moz-linear-gradient(top, #575757, #575757); /* Firefox */
 	background-image: -o-linear-gradient(top, #575757, #575757); /* Opera */
@@ -215,10 +215,10 @@ input[type=text], select {
 */
 .tabs-box {
 	-webkit-box-shadow: 0px 0px 2px #848484; /* webkit browser*/ -moz-box-shadow: 0px 0px 2px #848484; /* firefox */ box-shadow: 0px 0px 2px #848484;
-	width:99%;
+	width:99% !important;
 	color: #fff;
 	height:40px;
-	border:0px solid #E9E9E9;
+	border:0px solid #E9E9E9 !important;
 	-moz-border-radius:3px;
 	-webkit-border-radius:3px;
 	border-radius:3px ;
@@ -267,6 +267,10 @@ ul.tabs a.current {
 	border-width: 1px;
 	border-style: solid;
 	line-height: 1.23em;
+	-moz-user-select: none; 
+	-khtml-user-select: none; 
+	-webkit-user-select: none; 
+	-o-user-select: none; 
 }
 .overview thead th {
 	border-color: #575757;
@@ -316,10 +320,14 @@ td.hover {
 	font-weight:normal;
 	color: #fff;
 }
-.greyfat .overviewDays {
+.greyfat .ov-days {
 	text-align: center; 
 	border-style: none;
 	border-left: 1px solid #000;
+}
+.greyfat .ov-days-hover:hover {
+	background:#3F3F3F;
+	cursor:pointer;
 }
 .overviewFooter {
 	font-family: Arial; 
@@ -461,6 +469,5 @@ td.hover {
 
 .resourceType {
 	color: #000 !important;
-	text-shadow:1px 1px 0px #fff;
 	text-transform: capitalize;
 }
