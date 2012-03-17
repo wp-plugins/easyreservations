@@ -7,6 +7,11 @@
 		border:none !important;
 		border-top:1px solid #383838 !important;
 		border-spacing: 0;
+		-moz-user-select: none; 
+		-khtml-user-select: none; 
+		-webkit-user-select: none; 
+		-o-user-select: none; 
+
 		/*line-height:2.0em !important;*/
 	}
 	

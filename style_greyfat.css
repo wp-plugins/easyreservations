@@ -137,9 +137,6 @@ code p {
 .greyfat > tbody td p {
 	margin: 2px 0 0.8em;
 }
-.greyfat > tbody tr:hover {
-	background-color: #e6e6e6;
-}
 .overview > tbody tr:hover {
 	background-color: #bdbdbd;
 }

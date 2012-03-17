@@ -245,7 +245,6 @@ ul.tabs li {
 .greyfat tbody .little_table thead {
 	margin:none !important;
 	padding:none !important;
-
 }
 .greyfat tbody .little_table thead tr:first-child {
 	background-color:#E6E6E6 !important;
@@ -305,8 +304,8 @@ ul.tabs li {
 	margin: 0px 0px 7px 0px !important;
 	width:98%;
 }
-#easy-table-div .ui-datepicker-trigger {
-	margin:0 5px 0 6px !important;
+#easy-table-div .ui-datepicker-trigger, #filter-table .ui-datepicker-trigger {
+	margin:0 4px 0 5px !important;
 	vertical-align:text-bottom;
 }
 #overview .ui-datepicker-trigger {
@@ -333,4 +332,22 @@ h2 {
 	font-weight: normal !important;
     margin: 0.5em 0 !important;
     text-shadow: 0 1px 0 #FFFFFF;
+}
+.easy-h3 {
+	color: #464646;
+	font-size: 14px;
+	font-weight: bold;
+    margin: 3px !important;
+}
+#filter-table:hover{
+	background:#fff;
+}
+.hide-it {
+	visibility:hidden;
+	max-width:1px;
+	position:absolute;
+	overflow:hidden;
+}
+.wp-editor-container {
+	margin-top:8px;
 }
