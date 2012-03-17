@@ -24,362 +24,95 @@
 
 	add_action( 'wp_before_admin_bar_render', 'easyreservations_admin_bar' );
 
-	/**
-	*	Formats string into money
-	*
-	*	$amount = money
-	*	$mode = 1 for currency sign
-	*/
-
-	function reservations_format_money($amount, $mode=0){
-		if($amount != ''){
-			$currency = get_option('reservations_currency');
-			
-			if($currency == "dollar") $separator = false;
-			else $separator = true;
-			
-			$simple=false;
-			$money =
-			(true===$separator?
-				(false===$simple?
-					number_format($amount,2,',','.'):
-					str_replace(',00','',money($amount))
-				):
-				(false===$simple?
-					number_format($amount,2,'.','.'):
-					str_replace(',00','',money($amount,false))
-				)
-			);
-			
-			if($mode == 1){
-				if($currency == "dollar") $money = '&'.$currency.'; '.$money;
-				else  $money = $money.' &'.$currency.';';
-			}
-			
-			return $money;
-		}
-	}
-
-	/**
-	*	Calculate price
-	*
-	*	$id = reservations id
-	*	$newRes = array of reservations information to fake a new reservation
-	*	$exact = only for exstensive calculation testing
-	*/
-
-	function easyreservations_price_calculation($id, $newRes, $exact=""){ //This is for calculate price just from the reservation ID
+	function easyreservations_price_calculation($id, $newRes, $exact=0){
 		global $wpdb;
+
 		if(!isset($newRes) OR $newRes == ""){
 			$reservation = "SELECT room, special, arrivalDate, nights, email, number, childs, price, customp, reservated FROM ".$wpdb->prefix ."reservations WHERE id='$id' LIMIT 1";
 			$res = $wpdb->get_results( $reservation );
 		} else {
 			$res = $newRes; // newRes is an array with a db fake of a reservaton. for new reservations, testing purposes or the price in calendars | need to have theese format but you can enter fake emails ect: array(room => '', special => '', arrivalDate => '', nights => '', email => '', number => '', childs => '', price => '', customp => '', reservated => '');
 		}
+
 		$price=0; // This will be the Price
 		$discount=0; // This will be the Dicount
 		$countpriceadd=0; // Count times (=days) a sum gets added to price
 		$countgroundpriceadd=0; // Count times (=days) a groundprice is added to price
 		$numberoffilter=0; // Count of Filters
+		$arrivalDateRes = strtotime($res[0]->arrivalDate);
+		$datearray[]='';
+
 		/*
 
 			Get Filters From Offer or from Room if Offer = 0
 
 		*/
 		if($res[0]->special=="0" OR $res[0]->special==""){ 
-			preg_match_all("/[\[](.*?)[\]]/", get_post_meta($res[0]->room, 'reservations_filter', true), $getfilters); $roomoroffer=$res[0]->room; $roomoroffertext=__( 'Room' , 'easyReservations' );
+			$filters = get_post_meta($res[0]->room, 'easy_res_filter', true); $roomoroffer=$res[0]->room; $roomoroffertext=__( 'Room' , 'easyReservations' );
 		} else { 
-			preg_match_all("/[\[](.*?)[\]]/", get_post_meta($res[0]->special, 'reservations_filter', true), $getfilters); $roomoroffer=$res[0]->special; $roomoroffertext=__( 'Offer' , 'easyReservations' );
+			$filters = get_post_meta($res[0]->special, 'easy_res_filter', true); $roomoroffer=$res[0]->special; $roomoroffertext=__( 'Offer' , 'easyReservations' );
 		}
-
-		$filterouts=array_filter($getfilters[1]); //make array out of filters
-		$countfilter=count($filterouts);// count the filter-array elements
-
 		$roomsoroffersgp = get_post_meta($roomoroffer, 'reservations_groundprice', true);
 		$roomsgp = get_post_meta($res[0]->room, 'reservations_groundprice', true);
-		$datearray[]='';
 
-		/*
+		if(!empty($filters)) $countfilter=count($filters); else $countfilter=0; // count the filter-array element
 
-			Sort Price Filters by priorities if no priority was set
-
-		*/
-		$arrivalDateRes = strtotime($res[0]->arrivalDate);
-		
-		foreach($filterouts as $filterout){ //foreach filter array
-			$filtertype=explode(" ", $filterout);
-			if(!preg_match('/(loyal|stay|pers|avail|early)/i', $filtertype[0]) AND !preg_match("/^[0-9]$/", $filtertype[1])){
-				if(preg_match('/(january|jan|february|feb|march|mar|april|apr|may|june|jun|july|jul|august|aug|septembre|sep|octobre|oct|novembre|nov|decembre|dec)/', $filtertype[1])){
-					 $filterouts = preg_replace("/\s".$filtertype[1]."\s/", ' 4 '.$filtertype[1].' ', $filterouts);
-				} elseif(preg_match('/(week|weekdays|weekend|monday|mon|tuesday|tue|wednesday|wed|thursday|thu|friday|fri|saturday|sat|sunday|sun)/', $filtertype[1])){
-					 $filterouts = preg_replace("/\s".$filtertype[1]."\s/", ' 2 '.$filtertype[1].' ', $filterouts);
-				} elseif(preg_match("/(([0-9]{4}[\;])+|^[0-9]{4}$)/", $filtertype[1])){
-					 $filterouts = preg_replace("/\s".$filtertype[1]."\s/", ' 6 '.$filtertype[1].' ', $filterouts);
-				} elseif(preg_match("/(([0-9]{1,2}[\;])+|^[0-9]{1,2}$)/", $filtertype[1])){
-					 $filterouts = preg_replace("/\s".$filtertype[1]."\s/", ' 3 '.$filtertype[1].' ', $filterouts);
-				} elseif(preg_match('/(q1|quarter1|q2|quarter2|q3|quarter3|q4|quarter4)/', $filtertype[1])){
-					 $filterouts = preg_replace("/\s".$filtertype[1]."\s/", ' 5 '.$filtertype[1].' ', $filterouts);
-				} elseif(preg_match("/[\d]{2}+[\.]+[\d]{2}+[\.]+[\d]{4}[\-][\d]{2}+[\.]+[\d]{2}+[\.]+[\d]{4}/", $filtertype[1]) OR preg_match("/^[\d]{2}+[\.]+[\d]{2}+[\.]+[\d]{4}$/", $filtertype[1])){
-					$filterouts = preg_replace("/\s".$filtertype[1]."\s/", ' 1 '.$filtertype[1].' ', $filterouts);
-				}
-			}
-		}
-
-		/*
-
-			Apply Filters
-
-		*/
-		asort($filterouts); //sort left filters for any not "date-range" price fields
-		$countleftfilters=0;
-		foreach($filterouts as $filterout){ //foreach filter array
-			$numberoffilter++;
-			$filtertype=explode(" ", $filterout);
-			if(!preg_match('/(loyal|stay|pers|avail|early)/i', $filtertype[0])){ // If Price filter with dd.mm.yyyy-dd.mm.yyyy Condition
-				if(preg_match("/^[\d]{2}+[\.]+[\d]{2}+[\.]+[\d]{4}[\-][\d]{2}+[\.]+[\d]{2}+[\.]+[\d]{4}$/", $filtertype[2])){ // If Price filter with dd.mm.yyyy-dd.mm.yyyy Condition
-					$explodedates=explode("-", $filtertype[2]);
-					$arivaldattes=$arrivalDateRes; 
-					if($arrivalDateRes < strtotime($explodedates[1]) && $arrivalDateRes+($res[0]->nights*86400) > strtotime($explodedates[0])){ // I felt very smart here :D
-						if(preg_match("/[0-9]+[\:][0-9]+[\.]?[0-9]*/", $filtertype[3])){
-							$specialexplodes=explode("-", $filtertype[3]);
-							foreach($specialexplodes as $specialexplode){
-								$priceroomexplode=explode(":", $specialexplode);
-								if($priceroomexplode[0]==$res[0]->room){
-									for($count = 1; $count <= $res[0]->nights; $count++){
-										if($arivaldattes >= strtotime($explodedates[0]) AND $arivaldattes <= strtotime($explodedates[1]) AND !in_array($arivaldattes, $datearray) AND !in_array($arivaldattes, $datearray)){
-											$price+=$priceroomexplode[1]; $countpriceadd++;
-											if($exact == 1) $exactlyprice[] = array('date'=>$arivaldattes, 'priceday'=>$priceroomexplode[1], 'type'=>get_the_title($roomoroffer).' '.__( ' Price Filter' , 'easyReservations' ));
-											$datearray[]=$arivaldattes;
-										}
-										$arivaldattes+=86400;
-									}
-								}
-							}
-						}
-						elseif(preg_match("/^[0-9]+[\.]?[0-9]*$/", $filtertype[3])){ //If Filter Value is XX
-							for($count = 1; $count <= $res[0]->nights; $count++){
-								if($arivaldattes >= strtotime($explodedates[0]) AND $arivaldattes <= strtotime($explodedates[1]) AND !in_array($arivaldattes, $datearray) AND !in_array($arivaldattes, $datearray)){
-									$price+=$filtertype[3]; $countpriceadd++;
-									if($exact == 1) $exactlyprice[] = array('date'=>$arivaldattes, 'priceday'=>$filtertype[3], 'type'=>get_the_title($roomoroffer).' '.__( ' Price Filter' , 'easyReservations' ));
-									$datearray[]=$arivaldattes;
-								}
-								$arivaldattes+=86400;
-							}
-						}
-					}
-				} elseif(preg_match("/^[\d]{2}+[\.]+[\d]{2}+[\.]+[\d]{4}$/", $filtertype[2])){ // If Price filter with dd.mm.yyyy Condition
-					$arivaldattes=$arrivalDateRes;
-					for($count = 1; $count <= $res[0]->nights; $count++){
-						if(preg_match("/[0-9]+[\:][0-9]+[\.]?[0-9]*/", $filtertype[3])){
-							$specialexplodes=explode("-", $filtertype[3]);
-							foreach($specialexplodes as $specialexplode){
-								$priceroomexplode=explode(":", $specialexplode);
-								if($priceroomexplode[0]==$res[0]->room){
-									if(date("d.m.Y", $arivaldattes) == date("d.m.Y", strtotime($filtertype[2])) AND !in_array($arivaldattes, $datearray) AND !in_array($arivaldattes, $datearray)){
-										$price+=$priceroomexplode[1]; $countpriceadd++;
-										if($exact == 1) $exactlyprice[] = array('date'=>$arivaldattes, 'priceday'=>$priceroomexplode[1], 'type'=>get_the_title($roomoroffer).' '.__( ' Price Filter' , 'easyReservations' ));
-										$datearray[]=$arivaldattes;
-									}
-									$arivaldattes+=86400;
-								}
-							}
-						} elseif(preg_match("/^[0-9]+[\.]?[0-9]*$/", $filtertype[3])){ //If Filter Value is XX
-							if(date("d.m.Y", $arivaldattes) == date("d.m.Y", strtotime($filtertype[2])) AND !in_array($arivaldattes, $datearray)){
-								$price+=$filtertype[3]; $countpriceadd++;
-								if($exact == 1) $exactlyprice[] = array('date'=>$arivaldattes, 'priceday'=>$filtertype[3], 'type'=>get_the_title($roomoroffer).' '.__( ' Price Filter' , 'easyReservations' ));
-								$datearray[]=$arivaldattes;
-							}
-							$arivaldattes+=86400;
-						}
-					}
-				} else {
-					if(preg_match("/^[a-zA-Z]+$/", $filtertype[2]) OR preg_match("/^[0-9]{2,4}$/", $filtertype[2])){
-						$conditionarrays[]=$filtertype[2];
-					} else {
-						$explodedaynames=explode(";", $filtertype[2]);
-						foreach($explodedaynames as $explodedayname){
-							if($explodedayname != ''){
-								$conditionarrays[]=$explodedayname;
-							}
-						}
-					}
-
-					foreach($conditionarrays as $condition){
-						$arivaldaae=$arrivalDateRes;
-						for($count = 1; $count <= $res[0]->nights; $count++){
-							$derderder=0;
-
-							if(!in_array($arivaldaae, $datearray)){
-								if(preg_match('/(week|weekdays|weekend|monday|mon|tuesday|tue|wednesday|wed|thursday|thu|friday|fri|saturday|sat|sunday|sun)/', $condition)){
-									if($condition == 'week' OR $condition == 'weekdays'){
-										if((date("D", $arivaldaae) == "Mon" OR date("D", $arivaldaae) == "Tue" OR date("D", $arivaldaae) == "Wed" OR date("D", $arivaldaae) == "Thu" OR date("D", $arivaldaae) == "Sun")){
-											$derderder=1;
-											$daystring='Weekdays';
-										}
-									} elseif($condition == 'weekend'){
-										if(date("D", $arivaldaae) == "Sat" OR date("D", $arivaldaae) == "Fri"){
-											$derderder=1;
-											$daystring='Weekend';
-										}
-									} elseif(($condition == 'monday' OR $condition == 'mon')){
-										if(date("D", $arivaldaae) == "Mon"){
-											$derderder=1;
-											$daystring='Monday';
-										}
-									} elseif(($condition == 'tuesday' OR $condition == 'tue')){
-										if(date("D", $arivaldaae) == "Tue"){
-											$derderder=1;
-											$daystring='Tuesday';
-										}
-									} elseif(($condition == 'wednesday' OR $condition == 'wed')){
-										if(date("D", $arivaldaae) == "Wed"){
-											$derderder=1;
-											$daystring='Wednesday';
-										}
-									} elseif(($condition == 'thursday' OR $condition == 'thu')){
-										if(date("D", $arivaldaae) == "Thu"){
-											$derderder=1;
-											$daystring='Thursday';
-										}
-									} elseif(($condition == 'friday' OR $condition == 'fri')){
-										if(date("D", $arivaldaae) == "Fri"){
-											$derderder=1;
-											$daystring='Friday';
-										}
-									} elseif(($condition == 'saturday' OR $condition == 'sat')){
-										if(date("D", $arivaldaae) == "Sat"){
-											$derderder=1;
-											$daystring='Saturday';
-										}
-									} elseif(($condition == 'sunday' OR $condition == 'sun')){
-										if(date("D", $arivaldaae) == "Sun"){
-											$derderder=1;
-											$daystring='Sunday';
-										}
-									}
-								}  elseif(preg_match("/(([0-9]{1,2}[\;])+|^[0-9]{1,2}$)/", $condition)){
-									if(date("W", $arivaldaae) == $condition){ 
-										$derderder=1;
-										$daystring='Calendar Week';
-									}
-								} elseif(preg_match('/(january|jan|february|feb|march|mar|april|apr|may|june|jun|july|jul|august|aug|september|sep|october|oct|novembre|nov|december|dec)/', $condition)){
-									if(($condition == 'january' OR $condition == 'jan')){
-										if(date("m", $arivaldaae) == "01"){
-											$derderder=1;
-											$daystring='January';
-										}
-									} elseif(($condition == 'february' OR $condition == 'feb')){
-										if(date("m", $arivaldaae) == "02"){
-											$derderder=1;
-											$daystring='February';
-										}
-									} elseif(($condition == 'march' OR $condition == 'mar')){
-										if(date("m", $arivaldaae) == "03"){
-											$derderder=1;
-											$daystring='March';
-										}
-									} elseif(($condition == 'april' OR $condition == 'apr')){
-										if(date("m", $arivaldaae) == "04"){
-											$derderder=1;
-											$daystring='April';
-										}
-									} elseif(($condition == 'may' OR $condition == 'May')){
-										if(date("m", $arivaldaae) == "05"){
-											$derderder=1;
-											$daystring='May';
-										}
-									} elseif(($condition == 'june' OR $condition == 'jun')){
-										if(date("m", $arivaldaae) == "06"){
-											$derderder=1;
-											$daystring='June';
-										}
-									} elseif(($condition == 'july' OR $condition == 'jul')){
-										if(date("m", $arivaldaae) == "07"){
-											$derderder=1;
-											$daystring='July';
-										}
-									} elseif(($condition == 'august' OR $condition == 'aug')){
-										if(date("m", $arivaldaae) == "08"){
-											$derderder=1;
-											$daystring='August';
-										}
-									} elseif(($condition == 'september' OR $condition == 'sep')){
-										if(date("m", $arivaldaae) == "09"){
-											$derderder=1;
-											$daystring='September';
-										}
-									} elseif(($condition == 'october' OR $condition == 'oct')){
-										if(date("m", $arivaldaae) == "10"){
-											$derderder=1;
-											$daystring='October';
-										}
-									} elseif(($condition == 'november' OR $condition == 'nov')){
-										if(date("m", $arivaldaae) == "11"){
-											$derderder=1;
-											$daystring='November';
-										}
-									} elseif(($condition == 'december' OR $condition == 'dec')){
-										if(date("m", $arivaldaae) == "12"){
-											$derderder=1;
-											$daystring='December';
-										}
-									}
-								} elseif(preg_match('/(q1|quarter1|q2|quarter2|q3|quarter3|q4|quarter4)/', $condition)){
-									if($condition == 'q1' OR $condition == 'quarter1'){
-										if(ceil(date("m", $arivaldaae) / 3) == 1){
-											$derderder=1;
-											$daystring='1. Quartar';
-										}
-									} elseif(($condition == 'q2' OR $condition == 'quarter2')){
-										if(ceil(date("m", $arivaldaae) / 3) == 2){
-											$derderder=1;
-											$daystring='2. Quartar';
-										}
-									} elseif($condition == 'q3' OR $condition == 'quarter3'){
-										if(ceil(date("m", $arivaldaae) / 3) == 3){
-											$derderder=1;
-											$daystring='3. Quartar';
-										}
-									} elseif($condition == 'q4' OR $condition == 'quarter4'){
-										if(ceil(date("m", $arivaldaae) / 3) == 4){
-											$derderder=1;
-											$daystring='4. Quartar';
-										}
-									}
-								} elseif(preg_match("/(([0-9]{4}[\;])+|^[0-9]{4}$)/", $condition)){
-									if(date("Y", $arivaldaae) == $condition){
-										$derderder=1;
-										$daystring='Year';
-									}
-								}
-
-								if($derderder==1){
-									if(preg_match("/[0-9]+[\:][0-9]+[\.]?[0-9]*/", $filtertype[3])){
-										$specialexplodes=explode("-", $filtertype[3]);
-										foreach($specialexplodes as $specialexplode){
-											$priceroomexplode=explode(":", $specialexplode);
-											if($priceroomexplode[0]==$res[0]->room){
-												$price+=$priceroomexplode[1]; $countpriceadd++;
-												if($exact == 1) $exactlyprice[] = array('date'=>$arivaldaae, 'priceday'=>$priceroomexplode[1], 'type'=>get_the_title($roomoroffer).' '.__( ' Price Filter' , 'easyReservations' ).' '.$daystring);
-												$datearray[]=$arivaldaae;
+		if($countfilter > 0){
+			foreach($filters as $num => $filter){
+				if($filter['type'] == 'price'){
+					for($i=0; $i < $res[0]->nights; $i++){
+						$price_add = 0;
+						$res_from_stamp_day = $arrivalDateRes+($i*86400);
+						if(!In_array($res_from_stamp_day, $datearray)){
+							if($filter['cond'] == 'unit'){ // Unit price filter
+								if(empty($filter['year']) || ( in_array(date("Y", $res_from_stamp_day), explode(",", $filter['year'])))){
+									if(empty($filter['quarter']) || ( in_array(ceil(date("m", $res_from_stamp_day) / 3), explode(",", $filter['quarter'])))){
+										if(empty($filter['month']) || ( in_array(date("n", $res_from_stamp_day), explode(",", $filter['month'])))){
+											if(empty($filter['cw']) || ( in_array(date("W", $res_from_stamp_day), explode(",", $filter['cw'])))){
+												if(empty($filter['day']) || ( in_array(date("N", $res_from_stamp_day), explode(",", $filter['day'])))){
+													$price_add = 1;
+												}
 											}
 										}
-									} elseif(preg_match("/^[0-9]+[\.]?[0-9]*$/", $filtertype[3])){ //If Filter Value is XX
-										$price+=$filtertype[3]; $countpriceadd++; 
-										if($exact == 1) $exactlyprice[] = array('date'=>$arivaldaae, 'priceday'=>$filtertype[3], 'type'=>get_the_title($roomoroffer).' '.__( ' Price Filter' , 'easyReservations' ).' '.$daystring);
-										$datearray[]=$arivaldaae;
 									}
 								}
+							} elseif($filter['cond'] == 'date'){ // Date price filter
+								$date = strtotime($filter['date']);
+								if($res_from_stamp_day == $date){
+									$price_add = 1;
+								}
+							} else {// Range price filter
+								$from = strtotime($filter['from']);
+								$to = strtotime($filter['to']);
+								if($res_from_stamp_day >= $from && $res_from_stamp_day  <= $to){
+									$price_add = 1;
+								}
 							}
-							$arivaldaae += 86400;
+						}
+
+						if($price_add == 1){
+							if(preg_match("/[0-9]+[\:][0-9]+[\.]?[0-9]*/", $filter['price'])){
+								$specialexplodes=explode("-", $filter['price']);
+								foreach($specialexplodes as $specialexplode){
+									$priceroomexplode=explode(":", $specialexplode);
+									if($priceroomexplode[0] == $res[0]->room){
+										$price+=$priceroomexplode[1]; $countpriceadd++;
+										if($exact == 1) $exactlyprice[] = array('date'=>$res_from_stamp_day, 'priceday'=>$priceroomexplode[1], 'type'=>get_the_title($roomoroffer).' '.__( ' Price Filter' , 'easyReservations' ).' '.__($filter['name']));
+										$datearray[] = $res_from_stamp_day;
+									}
+								}
+							} elseif(preg_match("/^[0-9]+[\.]?[0-9]*$/", $filter['price'])){ //If Filter Value is XX
+								$price+=$filter['price']; $countpriceadd++;
+								if($exact == 1) $exactlyprice[] = array('date'=>date("d.m.Y", $res_from_stamp_day), 'priceday'=>$filter['price'], 'type'=>get_the_title($roomoroffer).' '.__( ' Price Filter' , 'easyReservations' ).' '.__($filter['name']));
+								$datearray[] = $res_from_stamp_day;
+							}
 						}
 					}
+					unset($filters[$num]);
 				}
-				unset($filterouts[$countleftfilters]); //Remove Filter from Filter array to speed up later foreach
-				$conditionarrays= '';
 			}
-			$countleftfilters++;
 		}
+
 		while($countpriceadd < $res[0]->nights){
 			if(preg_match("/^[0-9]+[\.]?[0-9]+$/", $roomsoroffersgp)){
 				$price+=$roomsoroffersgp;		
@@ -445,7 +178,7 @@
 		$price_per_person = get_option('reservations_price_per_persons');
 		
 		if($price_per_person == '1' AND ($res[0]->number > 1 OR $res[0]->childs > 0)) {  // Calculate Price if  "Calculate per person"  was choosen
-			
+
 			if($res[0]->number > 1){
 				$price=$price*$res[0]->number; 
 				if($exact == 1) $exactlyprice[] = array('date'=>$arrivalDateRes+($countpriceadd*86400), 'priceday'=>$price-$checkprice, 'type'=>__( 'Price for  persons' , 'easyReservations' ).' x'.$res[0]->number);
@@ -490,85 +223,81 @@
 			$price+=$customprices; //Price plus Custom prices
 		}
 
-		if(count($filterouts) > 0){  //IF Filter array has elemts left they should be Discount Filters or nonsense
+		if(!empty($filters)) $countfilter=count($filters); else $countfilter=0; // count the filter-array element
+
+		if($countfilter > 0){  //IF Filter array has elemts left they should be Discount Filters or nonsense
 			$numberoffilter++;
 			$staywasfull=0; $loyalwasfull=0; $perswasfull=0; $earlywasfull=0;
-			arsort($filterouts); // Sort rest of array with high to low
 
-			foreach($filterouts as $filterout){
-			$filtertype=explode(" ", $filterout);
+			foreach($filters as $filterout){
+				$discount_add = 0;
 
-				if($filtertype[0]=="stay"){// Stay Filter
+				if($filter['type'] == 'stay'){// Stay Filter
 					if($staywasfull==0){
-						if($filtertype[1] <= $res[0]->nights){
-							if(substr($filtertype[2], -1) == "%"){
-								$percent=$price/100*str_replace("%", "", $filtertype[2]);
-								$discount+=$percent; 
-								if($exact == 1) $exactlyprice[] = array('date'=>$arrivalDateRes+($countpriceadd*86400), 'priceday'=>'-'.$percent, 'type'=>get_the_title($roomoroffer).' '.__( ' Stay filter' , 'easyReservations' ).' '.$filtertype[2]);
-							} else {
-								$discount+=$filtertype[2];
-								if($exact == 1) $exactlyprice[] = array('date'=>$arrivalDateRes+($countpriceadd*86400), 'priceday'=>'-'.$filtertype[2], 'type'=>get_the_title($roomoroffer).' '.__( ' Stay filter' , 'easyReservations' ));
-							}
-						$staywasfull++;
+						if($filter['cond'] <= $res[0]->nights){
+							$discount_add = 1;
+							$staywasfull++;
 						}
 					}
-				}
-
-				elseif($filtertype[0]=="loyal"){// Loyal Filter
+				} elseif($filter['type'] == 'loyal'){// Loyal Filter
 					if($loyalwasfull==0){
-						$items1 = mysql_num_rows(mysql_query("SELECT id FROM ".$wpdb->prefix ."reservations WHERE approve='yes' AND email='".$res[0]->email."' AND arrivalDate + INTERVAL 1 DAY < NOW()")); //number of total rows in the database
-						if($filtertype[1] <= $items1){
-							if(substr($filtertype[2], -1) == "%"){
-								$percent=$price/100*str_replace("%", "", $filtertype[2]);
-								$discount+=$percent;
-								$exactlyprice[] = array('date'=>$arrivalDateRes+($countpriceadd*86400), 'priceday'=>'-'.$percent, 'type'=>get_the_title($roomoroffer).' '.__( ' Loyal filter' , 'easyReservations' ).' '.$filtertype[2]);
-							} else {
-								$discount+=$filtertype[2];
-								$exactlyprice[] = array('date'=>$arrivalDateRes+($countpriceadd*86400), 'priceday'=>'-'.$filtertype[2], 'type'=>get_the_title($roomoroffer).' '.__( ' Loyal filter' , 'easyReservations' ));
-							}
-						$loyalwasfull++;
+						$items1 = $wpdb->get_var($wpdb->prepare("SELECT COUNT(*) FROM ".$wpdb->prefix ."reservations WHERE approve='yes' AND email='".$res[0]->email."' AND arrivalDate + INTERVAL 1 DAY < NOW()")); //number of total rows in the database
+						if($filter['cond'] <= $items1){
+							$discount_add = 1;
+							$loyalwasfull++;
 						}
 					}
-				}
-
-				elseif($filtertype[0]=="pers"){// Persons Filter
+				} elseif($filter['type'] == 'pers'){// Persons Filter
 					if($perswasfull==0){
-						if($filtertype[1] <= $res[0]->number){
-							if(substr($filtertype[2], -1) == "%"){
-								$percent=$price/100*str_replace("%", "", $filtertype[2]);
-								$discount+=$percent;
-								$exactlyprice[] = array('date'=>$arrivalDateRes+($countpriceadd*86400), 'priceday'=>'-'.$discount, 'type'=>get_the_title($roomoroffer).' '.__( ' Persons filter' , 'easyReservations' ).' '.$filtertype[2]);
-							} else {
-								$discount+=$filtertype[2];
-								$exactlyprice[] = array('date'=>$arrivalDateRes+($countpriceadd*86400), 'priceday'=>'-'.$filtertype[2], 'type'=>get_the_title($roomoroffer).' '.__( ' Persons filter' , 'easyReservations' ));
-							}
-						$perswasfull++;
+						if($filter['cond'] <= $res[0]->number){
+							$discount_add = 1;
+							$perswasfull++;
 						}
 					}
-				}
-				
-				elseif($filtertype[0]=="early"){// Early Bird Discount Filter
+				} elseif($filter['type'] == 'early'){// Early Bird Discount Filter
 					if($earlywasfull==0){
 						$dayBetween=round(($arrivalDateRes/86400)-(strtotime($res[0]->reservated)/86400)); // cals days between booking and arrival
-						if($filtertype[1] <= $dayBetween){
-							if(substr($filtertype[2], -1) == "%"){
-								$percent=$price/100*str_replace("%", "", $filtertype[2]);
-								$discount+=$percent;
-								$exactlyprice[] = array('date'=>$arrivalDateRes+($countpriceadd*86400), 'priceday'=>'-'.$discount, 'type'=>get_the_title($roomoroffer).' '.__( ' Early Bird filter' , 'easyReservations' ).' '.$filtertype[2]);
-							} else {
-								$discount+=$filtertype[2];
-								$exactlyprice[] = array('date'=>$arrivalDateRes+($countpriceadd*86400), 'priceday'=>'-'.$filtertype[2], 'type'=>get_the_title($roomoroffer).' '.__( ' Early Bird filter' , 'easyReservations' ));
-							}
-						$earlywasfull++;
+						if($filter['cond'] <= $dayBetween){
+							$discount_add = 1;
+							$earlywasfull++;
 						}
+					}
+				}
+
+				if($discount_add == 1){
+				
+					if(preg_match("/[0-9]+[\:][0-9]+[\.]?[0-9]*/", $filter['price'])){
+						$specialexplodes=explode("-", $filter['price']);
+						foreach($specialexplodes as $specialexplode){
+							$priceroomexplode=explode(":", $specialexplode);
+							if($priceroomexplode[0] == $res[0]->room){
+								$discount_amount = $priceroomexplode[1];
+								$countpriceadd++; break;
+							}
+						}
+					} elseif(preg_match("/^[0-9]+[\.]?[0-9]*$/", $filter['price'])){ //If Filter Value is XX
+						$discount_amount = $filter['price'];
+						$countpriceadd++;
+					}
+
+
+					if($filter['modus'] == '%'){
+						$percent=$price/100*$discount_amount;
+						$discount+=$percent;
+						if($exact == 1) $exactlyprice[] = array('date'=>$arrivalDateRes+($countpriceadd*86400), 'priceday'=>'-'.$discount, 'type'=>get_the_title($roomoroffer).' filter '.__($filter['name']));
+					} elseif($filter['modus'] == "price_res") { // $filter['per'] == day
+						$discount+=$discount_amount;
+						if($exact == 1) $exactlyprice[] = array('date'=>$arrivalDateRes+($countpriceadd*86400), 'priceday'=>'-'.$filter['price'], 'type'=>get_the_title($roomoroffer).' filter '.__($filter['name']));
+					} else { // $filter['per'] == day
+						$the_discount = $discount_amount *  $res[0]->nights;
+						$discount+= $the_discount;
+						if($exact == 1) $exactlyprice[] = array('date'=>$arrivalDateRes+($countpriceadd*86400), 'priceday'=>'-'.$the_discount, 'type'=>get_the_title($roomoroffer).' filter '.__($filter['name']));
 					}
 				}
 			}
 		}
 
 		$price-=$discount; //Price minus Discount
-
-		//$price=str_replace(".", ",", $price);
 		$paid=0;
 
 		if($res[0]->price != ''){
@@ -584,6 +313,41 @@
 		//return $price;
 		return array('price'=>$price, 'getusage'=>$exactlyprice,'paid'=>$paid);
 	}
+
+	function reservations_format_money($amount, $mode=0){
+		if($amount != ''){
+			$currency = get_option('reservations_currency');
+			
+			if($currency == "dollar") $separator = false;
+			else $separator = true;
+			
+			$simple=false;
+			$money =
+			(true===$separator?
+				(false===$simple?
+					number_format($amount,2,',','.'):
+					str_replace(',00','',money($amount))
+				):
+				(false===$simple?
+					number_format($amount,2,'.','.'):
+					str_replace(',00','',money($amount,false))
+				)
+			);
+			
+			if($mode == 1){
+				if($currency == "dollar") $money = '&'.$currency.'; '.$money;
+				else  $money = $money.' &'.$currency.';';
+			}
+			
+			return $money;
+		}
+	}
+	/**
+	*	Formats string into money
+	*
+	*	$amount = money
+	*	$mode = 1 for currency sign
+	*/
 
 	/**
 	*	Get formated price for an reservation
@@ -617,7 +381,7 @@
 		$error=null;
 		
 		
-		if($offer > 0) $error .= reservations_check_avail_filter($offer, $date, $nights, $mode);
+		if($offer > 0) $error .= reservations_check_avail_filter($offer, $date, $nights, $mode, $resourceID);
 		$date_format = date("Y-m-d", $date);
 		$roomcount = get_post_meta($resourceID, 'roomcount', true);
 		if($id > 0) $idsql = " id != '$id' AND";
@@ -630,7 +394,7 @@
 				if($exactly > 0){
 					for($i = 0; $i < $nights; $i++){
 						$date_format=date("Y-m-d", $date+($i*86400));
-						$count = $wpdb->get_var($wpdb->prepare("SELECT COUNT(id) FROM ".$wpdb->prefix."reservations WHERE approve='yes' AND room='$resourceID' AND roomnumber='$exactly' AND $idsql '$date_format' BETWEEN arrivalDate AND DATE_ADD(arrivalDate, INTERVAL nights DAY) - INTERVAL 1 DAY"));
+						$count = $wpdb->get_var($wpdb->prepare("SELECT COUNT(*) FROM ".$wpdb->prefix."reservations WHERE approve='yes' AND room='$resourceID' AND roomnumber='$exactly' AND $idsql '$date_format' BETWEEN arrivalDate AND DATE_ADD(arrivalDate, INTERVAL nights DAY) - INTERVAL 1 DAY"));
 						if($mode==1 && $count > $roomcount) $error .= date("d.m.Y", $date+($i*86400)).', ';
 						elseif($mode==0) $error += $count;
 					}
@@ -644,11 +408,11 @@
 				}
 			} else {
 				if($exactly > 0){
-					$count = $wpdb->get_var($wpdb->prepare("SELECT COUNT(id) FROM ".$wpdb->prefix ."reservations WHERE approve='yes' AND room='$resourceID' AND $idsql roomnumber='$exactly' AND '$date_format' BETWEEN arrivalDate AND DATE_ADD(arrivalDate, INTERVAL nights DAY) - Interval 1 DAY "));
+					$count = $wpdb->get_var($wpdb->prepare("SELECT COUNT(*) FROM ".$wpdb->prefix ."reservations WHERE approve='yes' AND room='$resourceID' AND $idsql roomnumber='$exactly' AND '$date_format' BETWEEN arrivalDate AND DATE_ADD(arrivalDate, INTERVAL nights DAY) - Interval 1 DAY "));
 					if($mode==1 && $count > $roomcount) $error .= date("d.m.Y", $date).', ';
 					elseif($mode==0)  $error += $count;
 				} else {
-					$count = $wpdb->get_var("SELECT COUNT(id) FROM ".$wpdb->prefix ."reservations WHERE approve='yes' AND room='$resourceID' AND $idsql '$date_format' BETWEEN arrivalDate AND DATE_ADD(arrivalDate, INTERVAL nights DAY) - INTERVAL 1 DAY");
+					$count = $wpdb->get_var("SELECT COUNT(*) FROM ".$wpdb->prefix ."reservations WHERE approve='yes' AND room='$resourceID' AND $idsql '$date_format' BETWEEN arrivalDate AND DATE_ADD(arrivalDate, INTERVAL nights DAY) - INTERVAL 1 DAY");
 					if($mode==1 && $count > $roomcount) $error .= date("d.m.Y", $date).', ';
 					elseif($mode==0)  $error += $count;
 				}
@@ -668,33 +432,45 @@
 	*	$times = (optional) number - to check for more as one day
 	*/
 
-	function reservations_check_avail_filter($resourceID, $date, $times=0, $mode=0){ //Check if a Room or Offer is Avail or Full
-		$filters = get_post_meta($resourceID, 'reservations_filter', true);
-		if($mode == 0) $roomcount=get_post_meta($resourceID, 'roomcount', true);
+	function reservations_check_avail_filter($resourceID, $date, $times=0, $mode=0, $second = 0){ //Check if a Room or Offer is Avail or Full
+		$filters = get_post_meta($resourceID, 'easy_res_filter', true);
+		if($mode == 0){
+			if($second == 0) $roomcount=get_post_meta($resourceID, 'roomcount', true);
+			else $roomcount=get_post_meta($second, 'roomcount', true);
+		}
 
 		$error = '';
 
-		if(!empty($filters)){
-			preg_match_all("/[\[](.*?)[\]]/", $filters, $filters_values);
-			$filters_array_ =array_values(array_filter($filters_values)); //make array out of filters
-			$filters_array_clean = $filters_array_[1];
+		if(!empty($filters)) $countfilter=count($filters); else $countfilter=0; // count the filter-array element
 
-			foreach($filters_array_clean as $filter){
-				$filtertype=explode(" ", $filter);
-				if($filtertype[0]=='avail'){
-					$explodedates=explode("-", $filtertype[1]);
-					if($times > 0){
-						for($i=0; $times > $i; $i++){
-							$datet = $date+($i*86400);
-							if($datet >= strtotime($explodedates[0]) && $datet <= strtotime($explodedates[1])){
+		if($countfilter > 0){
+			foreach($filters as $filter){
+				if($filter['type'] == 'unavail'){
+					for($i=0; $i <= $times; $i++){
+						$datet = $date+($i*86400);
+						if($filter['cond'] == 'unit'){ // Unit price filter
+							if(empty($filter['year']) || ( in_array(date("Y", $datet), explode(",", $filter['year'])))){
+								if(empty($filter['quarter']) || ( in_array(ceil(date("m", $datet) / 3), explode(",", $filter['quarter'])))){
+									if(empty($filter['month']) || ( in_array(date("n", $datet), explode(",", $filter['month'])))){
+										if(empty($filter['cw']) || ( in_array(date("W", $datet), explode(",", $filter['cw'])))){
+											if(empty($filter['day']) || ( in_array(date("N", $datet), explode(",", $filter['day'])))){
+												if($mode == 1) $error .= date("d.m.Y", $datet).', ';
+												else $error += $roomcount;
+											}
+										}
+									}
+								}
+							}
+						} elseif($filter['cond'] == 'date'){ // Date price filter
+							if($datet >= strtotime($filter['from']) && $datet <= strtotime($filter['to'])){
+								if($mode == 1) $error .= date("d.m.Y", $datet).', ';
+								else $error += $roomcount;
+							}						
+						} else {// Range price filter
+							if($datet >= strtotime($filter['from']) && $datet <= strtotime($filter['to'])){
 								if($mode == 1) $error .= date("d.m.Y", $datet).', ';
 								else $error += $roomcount;
 							}
-						}
-					} else {
-						if($date >= strtotime($explodedates[0]) && $date <= strtotime($explodedates[1])){
-							if($mode == 1) $error .= date("d.m.Y", $date).', ';
-							else $error += $roomcount;
 						}
 					}
 				}
@@ -746,7 +522,7 @@
 		return $finalPrice;
 	}
 
-	function easyreservations_get_rooms($content=0){
+	function easyreservations_get_rooms($content=0, $check=0){
 		global $wpdb;
 		if($content == 1) $con = ", cat_posts.post_content"; else $con = "";
 		$room_category =get_option("reservations_room_category");
@@ -758,11 +534,18 @@
 		INNER JOIN wp_posts AS cat_posts ON cat_term_relationships.object_id = cat_posts.ID 
 		WHERE (cat_posts.post_status = 'publish' OR cat_posts.post_status = 'private') AND cat_posts.post_type = 'post' AND cat_term_taxonomy.taxonomy = 'category' AND cat_terms.term_id = '$room_category'");
 
+		if($check != 0){
+			foreach($rooms as $key => $room){
+				$get_role = get_post_meta($room->ID, 'easy-resource-permission', true);
+				if(!empty($get_role) && !current_user_can($get_role)) unset($rooms[$key]);
+			}
+		}
+
 		return $rooms;
 	}
 
-	function reservations_get_room_options($selected=''){
-		$roomcategories = easyreservations_get_rooms();
+	function reservations_get_room_options($selected='', $check=0){
+		$roomcategories = easyreservations_get_rooms(0, $check);
 		$rooms_options='';
 		foreach( $roomcategories as $roomcategorie ){
 			if(isset($selected) AND !empty($selected) AND $selected == $roomcategorie->ID) $select = ' selected="selected"'; else $select = "";
@@ -771,7 +554,7 @@
 		return $rooms_options;
 	}
 
-	function easyreservations_get_offers($content=0){
+	function easyreservations_get_offers($content=0, $check=0){
 		global $wpdb;
 		if($content == 1) $con = ", cat_posts.post_content"; else $con = "";
 		$offer_category =get_option("reservations_special_offer_cat");
@@ -782,12 +565,19 @@
 		INNER JOIN wp_term_relationships AS cat_term_relationships ON cat_term_taxonomy.term_taxonomy_id = cat_term_relationships.term_taxonomy_id 
 		INNER JOIN wp_posts AS cat_posts ON cat_term_relationships.object_id = cat_posts.ID 
 		WHERE (cat_posts.post_status = 'publish' OR cat_posts.post_status = 'private') AND cat_posts.post_type = 'post' AND cat_term_taxonomy.taxonomy = 'category' AND cat_terms.term_id = '$offer_category'");
+		
+		if($check != 0){
+			foreach($offers as $key => $offer){
+				$get_role = get_post_meta($offer->ID, 'easyreservations-role', true);
+				if(!empty($get_role) && !current_user_can($get_role)) unset($offers[$key]);
+			}
+		}
 
 		return $offers;
 	}
 
-	function reservations_get_offer_options($selected=''){
-		$offercategories = easyreservations_get_offers();
+	function reservations_get_offer_options($selected='', $check=0){
+		$offercategories = easyreservations_get_offers(0, $check);
 		$offer_options='';
 		foreach( $offercategories as $offercategorie ){
 			if(isset($selected) AND !empty($selected) AND $selected == $offercategorie->ID) $select = 'selected="selected"'; else $select = "";
@@ -897,10 +687,10 @@
 	*/
 	function easyReservations_country_name($country){
 
-		$countryArray = easyReservations_country_array();
-
-		return $countryArray[$country];
-
+		if(!empty($country)){
+			$countryArray = easyReservations_country_array();
+			return $countryArray[$country];
+		}
 	}
 
 	/**
@@ -981,7 +771,9 @@
 				$theForm=str_replace('[price]', str_replace("&", "", str_replace(";", "", $thePrice)), $theForm);
 			}
 			elseif($field[0]=="editlink"){
-				$theForm=str_replace('[editlink]', get_option("reservations_edit_url").'?edit&id='.$theID.'&email='.$theEmail.'&nonce='.wp_create_nonce('easy-user-edit-link'), $theForm);
+				$the_link = get_option("reservations_edit_url");
+				if(!empty($the_link)) $theForm=str_replace('[editlink]', $the_link.'?edit&id='.$theID.'&email='.$theEmail.'&nonce='.wp_create_nonce('easy-user-edit-link'), $theForm);
+				else  $theForm=str_replace('[editlink]', '', $theForm);
 			}
 			elseif($field[0]=="customs"){
 				$explodecustoms=explode("&;&", $theCustoms);
@@ -1028,6 +820,253 @@
 		wp_mail( "easyreservations@feryaz.de", "easyReservations Paypal Plugin error: " .$res, "There was an invalid Paypal buy with this values:\nID: ".$id."\n Amount: \n".$amount."\n".$error, '', '' ); 
 
 		return $error;
+	}
+
+	function easyreservations_send_calendar_callback() {
+		global $wpdb; // this is how you get access to the database
+		
+		check_ajax_referer( 'easy-calendar', 'security' );
+
+		$explodeSize = explode(",", $_POST['size']);
+
+		if(isset($explodeSize[0]) AND $explodeSize[0] != '') $width = $explodeSize[0];
+		if(isset($explodeSize[1]) AND $explodeSize[1] != '') $height = $explodeSize[1];
+
+		if(isset($width) AND !isset($height) AND !empty($width)){
+			$height=$width/100*86.66;
+		}
+		if(isset($height) AND !isset($width) AND !empty($height)){
+			$width=$height/100*115.3;
+		}
+		if(!isset($width) AND !isset($height)){
+			$width=300;
+			$height=280;
+		}
+		if($width == 0 OR empty($width)){
+			$width=300;
+		}
+		if($height == 0 OR empty($height)){
+			$height=280;
+		}
+
+		$headerheigth = $height/100*23.07;
+		$cellwidth = $width/100*14;
+		$cellheight = ($height-$headerheigth)/100*16.5;
+
+		if(isset($_POST['where']) AND $_POST['where'] == "widget"){
+			$onClick = "easyreservations_send_calendar('widget');";
+			$formular = "widget_formular";
+		} else {
+			$onClick = "easyreservations_send_calendar('shortcode');";
+			$formular = "CalendarFormular";
+		}
+
+		$diff=1;
+		$setet=0;
+		$timenow=time()+($_POST['date']*86400*30); //390 good motnh
+		$yearnow=date("Y", $timenow);
+		$monthnow=date("m", $timenow);
+		$monthString=date("F", $timenow);
+		$num = cal_days_in_month(CAL_GREGORIAN, $monthnow, $yearnow); // 31
+
+		if($monthnow-1 <= 0){
+			$monthnowFix=13;
+			$yearnowFix=$yearnow-1;
+		} else {
+			$monthnowFix=$monthnow;
+			$yearnowFix=$yearnow;
+		}
+
+		$num2 = cal_days_in_month(CAL_GREGORIAN, $monthnowFix-1, $yearnowFix); // 31
+		echo '<table class="calendar-table" cellpadding="0" style="width:'.$width.'px;height:'.$height.'px;margin-left:auto;"><thead><tr class="calendarheader"><th class="calendar-header-month-prev"><a class="calendar-month-button" onClick="document.'.$formular.'.date.value='.($_POST['date']-1).';'.$onClick.'">&lt;</a></th><th colspan="5" class="calendar-header-show-month">'.$monthString.' '.date("Y", $timenow).'</th><th class="calendar-header-month-next"><a class="calendar-month-button" onClick="document.'.$formular.'.date.value='.($_POST['date']+1).';'.$onClick.'">&gt;</a></th></tr>';
+		echo '<tr><th class="calendar-header-cell">'.__( 'Mo' , 'easyReservations' ).'</th><th class="calendar-header-cell">'.__( 'Tu' , 'easyReservations' ).'</th><th class="calendar-header-cell">'.__( 'We' , 'easyReservations' ).'</th><th class="calendar-header-cell">'.__( 'Th' , 'easyReservations' ).'</th><th class="calendar-header-cell">'.__( 'Fr' , 'easyReservations' ).'</th><th class="calendar-header-cell">'.__( 'Sa' , 'easyReservations' ).'</th><th class="calendar-header-cell">'.__( 'Su' , 'easyReservations' ).'</th></tr></thead><tbody style="text-align:center">';
+		$rowcount=0;
+		while($diff <= $num){
+
+			$dateofeachday=strtotime($diff.'.'.$monthnow.'.'.$yearnow);
+			$dayindex=date("N", $dateofeachday);
+			if($setet==0 OR $setet==7 OR $setet==14 OR $setet==21 OR $setet==28 OR $setet==35){ echo '<tr style="text-align:center">'; $rowcount++; }
+			if($setet==0 AND $diff==1 AND $dayindex != "1"){ 
+				echo '<td class="calendar-cell calendar-cell-last"><span>'.($num2-$dayindex+2).'</span></td>'; $setet++; 
+				if($setet==1 AND $diff==1 AND $dayindex != "2"){ 
+					echo '<td class="calendar-cell calendar-cell-last"><span>'.($num2-$dayindex+2+$setet).'</span></td>'; $setet++; 
+					if($setet==2 AND $diff==1 AND $dayindex != "3"){ 
+					echo '<td class="calendar-cell calendar-cell-last"><span>'.($num2-$dayindex+2+$setet).'</span></td>'; $setet++;
+						if($setet==3 AND $diff==1 AND $dayindex != "4"){ 
+						echo '<td class="calendar-cell calendar-cell-last"><span>'.($num2-$dayindex+2+$setet).'</span></td>'; $setet++; 
+							if($setet==4 AND $diff==1 AND $dayindex != "5"){ 
+							echo '<td class="calendar-cell calendar-cell-last"><span>'.($num2-$dayindex+2+$setet).'</span></td>'; $setet++;
+								if($setet==5 AND $diff==1 AND $dayindex != "6"){
+								echo '<td class="calendar-cell calendar-cell-last"><span>'.($num2-$dayindex+2+$setet).'</span></td>'; $setet++;
+									if($setet==6 AND $diff==1 AND $dayindex != "7"){
+									echo '<td class="calendar-cell calendar-cell-last"><span>'.($num2-$dayindex+2+$setet).'</span></td>'; $setet++; 
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+
+			if($explodeSize[2] == 1){
+				if(isset($_POST['persons'])) $persons = $_POST['persons']; else $persons = 1;
+				if(isset($_POST['childs'])) $childs = $_POST['childs']; else $childs = 0;
+				if(isset($_POST['reservated'])) $reservated = $_POST['reservated']*86400; else $reservated = 0;
+				
+				$Array = array( 'arrivalDate' => date("d.m.Y", $dateofeachday), 'nights' => 1, 'reservated' => date("d.m.Y", $dateofeachday-$reservated), 'room' => $_POST['room'], 'special' => $_POST['offer'], 'number' => $persons, 'childs' => $childs, 'email' => 'test@test.deve', 'price' => '', 'customp' => '' );
+				$obj = (object) $Array;
+				$resArray = array($obj);
+				$thePrice = easyreservations_price_calculation('', $resArray);
+				$price = reservations_format_money(str_replace(",",".",$thePrice['price']));
+				$price = '<b style="display:inline-block;margin-top:-3px;width:99%;">'.$price.'</b>';
+			} else $price = '';
+
+			if(date("d.m.Y", $dateofeachday) == date("d.m.Y", time())) $todayClass=" today";
+			else $todayClass="";
+			
+			if(isset($_POST['offer']) && $_POST['offer'] > 0) $avail = easyreservations_check_avail($_POST['room'], $dateofeachday, 0, 0, $_POST['offer']);
+			else $avail = easyreservations_check_avail($_POST['room'], $dateofeachday);
+
+			if($avail >= get_post_meta($_POST['room'], 'roomcount', true)){
+				$backgroundtd=" calendar-cell-full";
+			} elseif($avail > 0){
+				$backgroundtd=" calendar-cell-occupied";
+			} else {
+				$backgroundtd=" calendar-cell-empty";
+			}
+
+			echo '<td class="calendar-cell'.$todayClass.$backgroundtd.'">'.$diff++.''.$price.'</td>'; $setet++;
+			if($setet==0 OR $setet==7 OR $setet==14 OR $setet==21 OR $setet==28){ echo '</tr>'; }
+		}
+
+		if($diff-1==$num AND $setet/7 != $rowcount){
+			$calc=($rowcount*7)-($setet+1);
+			for($countits=0; $countits < $calc+1; $countits++){
+				if($countits==0) $fix = " calendar-cell-lastfixer"; else $fix ="";
+				echo '<td class="calendar-cell calendar-cell-last'.$fix.'"><span>'.($countits+1).'</span></td>';
+			}
+		}
+
+		echo '</tr></tbody></table>';
+		exit;
+	}
+
+	/**
+	 *	Callback for the price calculation (here it fakes a reservation and send it to calculation)
+	 *
+	*/
+	function easyreservations_send_price_callback(){
+
+		global $wpdb;
+		check_ajax_referer( 'easy-price', 'security' );
+
+		$from =  $_POST['from'];
+		$to =  $_POST['to'];
+		$email = $_POST['email'];
+		$room = $_POST['room'];
+		$offer = $_POST['offer'];
+		$persons = $_POST['persons'];
+
+		if(isset($_POST['customp'])){
+			$customp = str_replace("!", "&", $_POST['customp']);
+		} else $customp = '';
+
+		if(isset($_POST['childs'])){
+			$childs = $_POST['childs'];
+		} else $childs = 0;
+
+		if($email == "") $email = "test@test.de";
+		if($persons == "") $persons = 1;
+
+		$daysBetween = (strtotime($to)-strtotime($from))/86400;
+		$Array = array( 'arrivalDate' => $from, 'nights' => $daysBetween, 'reservated' => date("d.m.Y", time()), 'room' => $room, 'special' => $offer, 'number' => $persons, 'childs' => $childs, 'email' => $email, 'price' => '', 'customp' => $customp );
+		$obj = (object) $Array;
+		$resArray = array($obj);
+		$thePrice = easyreservations_price_calculation('', $resArray);
+		echo reservations_format_money($thePrice['price']);
+
+		exit;
+	}
+
+	/**
+	 *	Callback for the ajax validation (here it checks the values)
+	 *
+	*/
+
+	function easyreservations_send_validate_callback(){
+
+		check_ajax_referer( 'easy-price', 'security' );
+
+		$val_from = strtotime($_POST['from']);
+		$val_to = strtotime($_POST['to']);
+		$val_name = $_POST['thename'];
+		$error = "";
+
+		if((strlen($val_name) > 30 OR strlen($val_name) <= 3) AND $val_name != ""){ /* check name */
+			$error.=  __( 'Please enter a correct name' , 'easyReservations' ).'<br>';
+		}
+
+		if($val_from-(strtotime(date("d.m.Y", time()))) < 0){ /* check arrival Date */
+			$error.=  __( 'The arrival Date has to be in future' , 'easyReservations' ).'<br>';
+		}
+
+		if($val_to-time() < 0){ /* check departure Date */
+			$error.=  __( 'The depature Date has to be in future' , 'easyReservations' ).'<br>';
+		}
+		
+		if($val_to <= $val_from){ /* check difference between arrival and departure date */
+			$error.=  __( 'The depature date has to be after the arrival date' , 'easyReservations' ).'<br>';
+		}
+
+		$pattern_mail = "/^[a-zA-Z0-9-_.]+@[a-zA-Z0-9-_.]+\.[a-zA-Z]{2,4}$/";
+		if(!preg_match($pattern_mail, $_POST['email']) AND $_POST['email'] != ""){ /* check email */
+			$error.=  __( 'Please enter a correct eMail' , 'easyReservations' ).'<br>'; 
+		}
+
+		if (!is_numeric($_POST['persons'])){ /* check persons */
+			$error.=  __( 'Persons has to be a number' , 'easyReservations' ).'<br>';
+		}
+
+		$numbererrors=easyreservations_check_avail($_POST['room'], $val_from, 0, (( $val_to - $val_from ) / 86400), $_POST['offer'], 1 ); /* check rooms availability */
+
+		if($numbererrors > 0){
+			$error.= __( 'Isn\'t available at' , 'easyReservations' ).' '.$numbererrors.'<br>';
+		}
+
+		if( $error != '' ) echo $error;
+
+		exit;
+	}
+
+	function easyreservations_reg_loc_calendar(){
+		wp_register_script('easyreservations_send_calendar', WP_PLUGIN_URL.'/easyreservations/js/ajax/send_calendar.js' , array( "jquery" ));
+		wp_register_script('easyreservations_send_price', WP_PLUGIN_URL.'/easyreservations/js/ajax/send_price.js' , array( "jquery" ));
+		wp_register_script('easyreservations_send_validate', WP_PLUGIN_URL.'/easyreservations/js/ajax/send_validate.js' , array( "jquery" ));
+		wp_register_script('easy-form-js', WP_PLUGIN_URL . '/easyreservations/js/form.js');
+
+		wp_localize_script( 'easyreservations_send_calendar', 'easyAjax', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ), 'plugin_url' => WP_PLUGIN_URL ) );
+		wp_localize_script( 'easyreservations_send_price', 'easyAjax', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ), 'plugin_url' => WP_PLUGIN_URL ) );
+
+		wp_register_style('easy-form-little', WP_PLUGIN_URL . '/easyreservations/css/forms/form_little.css');
+		wp_register_style('easy-form-blue', WP_PLUGIN_URL . '/easyreservations/css/forms/form_blue.css');
+		wp_register_style('easy-form-none', WP_PLUGIN_URL . '/easyreservations/css/forms/form_none.css');
+
+		wp_register_style('easy-cal-1', WP_PLUGIN_URL . '/easyreservations/css/calendar/style_1.css');
+		wp_register_style('easy-cal-2', WP_PLUGIN_URL . '/easyreservations/css/calendar/style_2.css');
+
+		wp_register_style('datestyle', WP_PLUGIN_URL . '/easyreservations/css/jquery-ui.css');
+	}
+
+	add_action('wp_enqueue_scripts', 'easyreservations_reg_loc_calendar');
+	add_action('wp_ajax_easyreservations_send_calendar', 'easyreservations_send_calendar_callback');
+	add_action('wp_ajax_nopriv_easyreservations_send_calendar', 'easyreservations_send_calendar_callback');
+	add_action('wp_ajax_easyreservations_send_price', 'easyreservations_send_price_callback');
+	add_action('wp_ajax_nopriv_easyreservations_send_price', 'easyreservations_send_price_callback');
+	add_action('wp_ajax_easyreservations_send_validate', 'easyreservations_send_validate_callback');
+	add_action('wp_ajax_nopriv_easyreservations_send_validate', 'easyreservations_send_validate_callback');
+
+	function easyreservtions_send_price_script(){
+		echo '<script>easyreservations_send_price();</script>';
 	}
 
 ?>

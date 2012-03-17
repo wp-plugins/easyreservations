@@ -4,53 +4,7 @@
 */
 
 	/**
-	*	Load scripts and styles
-	*
-	*/
-
-	function easyReservations_enqueue_Scripts(){
-		global $post, $page;
-
-		// See if the post content contains our shortcode
-		if((isset( $post->post_content ) && (false !== strpos( $post->post_content, '[easy_edit' ) || false !== strpos( $post->post_content, '[easy_form' ))) || (isset( $page->post_content ) && (false !== strpos( $page->post_content, '[easy_edit' ) || false !== strpos( $page->post_content, '[easy_form' ))) OR is_home() OR is_category()){
-			$dateStyleUrl = WP_PLUGIN_URL . '/easyreservations/css/jquery-ui.css';
-			$sendPrice = RESERVATIONS_JS_DIR . '/ajax/send_price.js';
-			$sendValidate = RESERVATIONS_JS_DIR . '/ajax/send_validate.js';
-
-			wp_register_style('datestyle', $dateStyleUrl);
-			wp_register_script('sendPrice', $sendPrice);
-			wp_register_script('sendValidate', $sendValidate);
-
-			wp_enqueue_style( 'datestyle');
-			wp_enqueue_script('sendPrice');
-			wp_enqueue_script('sendValidate');
-			wp_enqueue_script('jquery-ui-datepicker');
-		}
-		if((isset( $post->post_content ) && (false !== strpos( $post->post_content, '[easy_calendar' ))) || (isset( $page->post_content ) && (false !== strpos( $page->post_content, '[easy_calendar' ))) OR is_home() OR is_category()){
-			$sendCalendar = RESERVATIONS_JS_DIR . '/ajax/send_calendar.js';
-			wp_register_script('sendCalendar', $sendCalendar);
-			wp_enqueue_script('sendCalendar');
-		}
-		if(is_active_widget(true, false, 'easyReservations_form_widget', true)){
-			$dateStyleUrl = WP_PLUGIN_URL . '/easyreservations/css/jquery-ui.css';
-			wp_register_style('datestyle', $dateStyleUrl);
-			wp_enqueue_style( 'datestyle');
-			wp_enqueue_script('jquery-ui-datepicker');
-
-			$littleformStyleUrl = WP_PLUGIN_URL . '/easyreservations/css/forms/form_little.css';
-			wp_register_style('littleForm', $littleformStyleUrl);
-			wp_enqueue_style('littleForm');
-
-			$sendCalendar = WP_PLUGIN_URL . '/easyreservations/lib/widgets/form_widget_calendar.js';
-			wp_register_script('sendwidgetCalendar', $sendCalendar);
-			wp_enqueue_script('sendwidgetCalendar');
-		}
-	}
-
-	add_action( 'wp_enqueue_scripts', 'easyReservations_enqueue_Scripts' );
-
-	/**
-	*	Returns url of current page
+	*	Returns url of current page before wp can do it
 	*/
 	function easyreservations_current_page() {
 		$pageURL = 'http';
@@ -65,9 +19,9 @@
 	}
 
 	/**
-	 *	Returns formated status
-	 *
-	 *	$status = status of reservtion
+	*	Returns formated status
+	*
+	*	$status = status of reservtion
 	*/
 
 	function reservations_status_output($status){ //gives out colored and named stauts
@@ -113,6 +67,7 @@
 		$val_message = $res['message'];
 		$val_custom = $res['custom'];
 		$val_customp = $res['customp'];
+		if(isset($res['old_email'])) $val_oldemail = $res['old_email'];
 		$error = "";
 		
 		if(isset($res['id'])) $val_id = $res['id'];
@@ -133,11 +88,11 @@
 			if($correct != 1)	$error.=  __( 'Please enter the correct captcha' , 'easyReservations' ).'</b><br>';
 		}
 
-		if((strlen($val_name) > 30 OR strlen($val_name) <= 3) AND $val_name != ""){ /* check name */
+		if((strlen($val_name) > 30 OR strlen($val_name) <= 3) OR $val_name == ""){ /* check name */
 			$error.=  __( 'Please enter a correct name' , 'easyReservations' ).'<br>';
-		} else $error.=  __( 'Please enter your Name' , 'easyReservations' ).'<br>'; 
+		}
 
-		if($val_from < $time){ /* check arrival Date */
+		if($val_from < time()){ /* check arrival Date */
 			$error.=  __( 'The arrival date has to be in future' , 'easyReservations' ).'<br>';
 		}
 
@@ -150,18 +105,18 @@
 		}
 
 		$pattern_mail = "/^[a-zA-Z0-9-_.]+@[a-zA-Z0-9-_.]+\.[a-zA-Z]{2,4}$/";
-		if(!preg_match($pattern_mail, $val_email) AND $val_email != ""){ /* check email */
+		if(!preg_match($pattern_mail, $val_email) OR $val_email == ""){ /* check email */
 			$error.=  __( 'Please enter a correct eMail' , 'easyReservations' ).'<br>'; 
-		} else $error.=  __( 'Please enter an eMail' , 'easyReservations' ).'<br>'; 
+		}
 
-		if (!is_numeric($val_persons)){ /* check persons */
+		if (!is_numeric($val_persons) OR $val_persons == '' ){ /* check persons */
 			$error.=  __( 'Persons has to be a number' , 'easyReservations' ).'<br>';
-		} else $error.=  __( 'Please enter an amount of persons' , 'easyReservations' ).'<br>'; 
+		}
 		
 		$numbererrors=easyreservations_check_avail($val_room, $val_from, 0, $val_nights, $val_offer, 1 ); /* check rooms availability */
 
 		if($numbererrors != '' || $numbererrors > 0){
-			$error.= 'x) '.__( 'Isn\'t available at' , 'easyReservations' ).' '.$numbererrors.'<br>';
+			$error.= __( 'Isn\'t available at' , 'easyReservations' ).' '.$numbererrors.'<br>';
 		}
 
 		if($error == ""){
@@ -186,13 +141,11 @@
 
 				$roomtitle = __(get_the_title($val_room));
 
-				$emailformation=get_option('reservations_email_to_admin_msg');
-				$subj=get_option("reservations_email_to_admin_subj");
-				$emailformation2=get_option('reservations_email_to_user_msg');
-				$subj2=get_option("reservations_email_to_user_subj");
+				$emailformation=get_option('reservations_email_to_admin');
+				$emailformation2=get_option('reservations_email_to_user');
 
-				easyreservations_send_mail($emailformation, $reservation_support_mail, $subj, '', $newID, $val_from, $val_to, $val_name, $val_email, $val_nights, $val_persons, $val_childs, $val_country, $roomtitle, $specialoffer, $val_custom, $thePrice, $val_message, '');
-				easyreservations_send_mail($emailformation2, $reservation_support_mail, $subj2, '', $newID, $val_from, $val_to, $val_name, $val_email, $val_nights, $val_persons, $val_childs, $val_country, $roomtitle, $specialoffer, $val_custom, $thePrice, $val_message, '');
+				if($emailformation['active'] == 1) easyreservations_send_mail($emailformation['msg'], $reservation_support_mail, $emailformation['subj'], '', $newID, $val_from, $val_to, $val_name, $val_email, $val_nights, $val_persons, $val_childs, $val_country, $roomtitle, $specialoffer, $val_custom, $thePrice, $val_message, '');
+				if($emailformation2['active'] == 1) easyreservations_send_mail($emailformation2['msg'], $reservation_support_mail, $emailformation2['subj'], '', $newID, $val_from, $val_to, $val_name, $val_email, $val_nights, $val_persons, $val_childs, $val_country, $roomtitle, $specialoffer, $val_custom, $thePrice, $val_message, '');
 
 			} elseif($where == "user-edit"){
 			
@@ -205,11 +158,12 @@
 				$changelog = easyreservations_generate_res_Changelog($beforeArray, $afterArray);
 				
 				if($checkQuerry[0]->nights != $val_nights OR $checkQuerry[0]->arrivalDate != $val_fromdate_sql OR $checkQuerry[0]->number != $val_persons OR $checkQuerry[0]->room != $val_room OR $checkQuerry[0]->special != $val_offer){
+					if($checkQuerry[0]->price)
 					$explodePrice = explode(";", $checkQuerry[0]->price);
 					$newPrice = " price='".$explodePrice[1]."',";
 				} else $newPrice = '';
 
-				$wpdb->query($wpdb->prepare("UPDATE ".$wpdb->prefix ."reservations SET arrivalDate='$val_fromdate_sql', nights='$val_nights', name='$val_name', email='$val_email', notes='$val_message', room='$val_room', number='$val_persons', childs='$val_childs', special='$val_offer', dat='$month_form', country='$val_country', custom='$val_custom', customp='$val_customp',".$newPrice." approve='' WHERE id='$val_id' ")) or trigger_error('mySQL-Fehler: '.mysql_error(), E_USER_ERROR);
+				$wpdb->query($wpdb->prepare("UPDATE ".$wpdb->prefix ."reservations SET arrivalDate='$val_fromdate_sql', nights='$val_nights', name='$val_name', email='$val_email', notes='$val_message', room='$val_room', number='$val_persons', childs='$val_childs', special='$val_offer', dat='$val_fromdat', country='$val_country', custom='$val_custom', customp='$val_customp',".$newPrice." approve='' WHERE id='$val_id' ")) or trigger_error('mySQL-Fehler: '.mysql_error(), E_USER_ERROR);
 				$thePrice = easyreservations_get_price($val_id);
 				
 				if($val_offer != 0) $specialoffer = get_the_title($val_offer);
@@ -218,22 +172,19 @@
 				$roomtitle = get_the_title($val_room);
 
 				$emailformation=get_option('reservations_email_to_admin_edited_msg');
-				$subj=get_option("reservations_email_to_admin_edited_subj");
 				$emailformation2=get_option('reservations_email_to_user_edited_msg');
-				$subj2=get_option("reservations_email_to_user_edited_subj");
 				
 				if($checkQuerry[0]->email == $val_email){
-					easyreservations_send_mail($emailformation, $reservation_support_mail, $subj, '', $newID, $val_from, $val_to, $val_name, $val_email, $val_nights, $val_persons, $val_childs, $val_country, $roomtitle, $specialoffer, $val_custom, $thePrice, $val_message, $changelog);
-					easyreservations_send_mail($emailformation2, $val_email, $subj2, '', $newID, $val_from, $val_to, $val_name, $val_email, $val_nights, $val_persons, $val_childs, $val_country, $roomtitle, $specialoffer, $val_custom, $thePrice, $val_message, $changelog);
+					if($emailformation['active'] == 1) easyreservations_send_mail($emailformation['msg'], $reservation_support_mail, $emailformation['subj'], '', $val_id, $val_from, $val_to, $val_name, $val_email, $val_nights, $val_persons, $val_childs, $val_country, $roomtitle, $specialoffer, $val_custom, $thePrice, $val_message, $changelog);
+					if($emailformation2['active'] == 1) easyreservations_send_mail($emailformation2['msg'], $val_email, $emailformation2['subj'], '', $val_id, $val_from, $val_to, $val_name, $val_email, $val_nights, $val_persons, $val_childs, $val_country, $roomtitle, $specialoffer, $val_custom, $thePrice, $val_message, $changelog);
 				} else {
-					easyreservations_send_mail($emailformation, $reservation_support_mail, $subj, '', $newID, $val_from, $val_to, $val_name, $val_email, $val_nights, $val_persons, $val_childs, $val_country, $roomtitle, $specialoffer, $val_custom, $thePrice, $val_message, $changelog);
-					easyreservations_send_mail($emailformation2, $val_email, $subj2, '', $newID, $val_from, $val_to, $val_name, $val_email, $val_nights, $val_persons, $val_childs, $val_country, $roomtitle, $specialoffer, $val_custom, $thePrice, $val_message, $changelog);
-					easyreservations_send_mail($emailformation2, $checkQuerry[0]->email, $subj2, '', $newID, $val_from, $val_to, $val_name, $val_email, $val_nights, $val_persons, $val_childs, $val_country, $roomtitle, $specialoffer, $val_custom, $thePrice, $val_message, $changelog);
+					if($emailformation['active'] == 1) easyreservations_send_mail($emailformation['msg'], $reservation_support_mail, $emailformation['subj'], '', $val_id, $val_from, $val_to, $val_name, $val_email, $val_nights, $val_persons, $val_childs, $val_country, $roomtitle, $specialoffer, $val_custom, $thePrice, $val_message, $changelog);
+					if($emailformation2['active'] == 1) easyreservations_send_mail($emailformation2['msg'], $val_email, $emailformation2['subj'], '', $val_id, $val_from, $val_to, $val_name, $val_email, $val_nights, $val_persons, $val_childs, $val_country, $roomtitle, $specialoffer, $val_custom, $thePrice, $val_message, $changelog);
+					if($emailformation2['active'] == 1) easyreservations_send_mail($emailformation2['msg'], $checkQuerry[0]->email, $emailformation2['subj'], '', $val_id, $val_from, $val_to, $val_name, $val_email, $val_nights, $val_persons, $val_childs, $val_country, $roomtitle, $specialoffer, $val_custom, $thePrice, $val_message, $changelog);
 				}
 			}
 		}
 		
 		return $error;
-	}	
-
+	}
 ?>
