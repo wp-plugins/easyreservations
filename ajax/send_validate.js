@@ -1,49 +1,63 @@
-function generateXMLHttpReqObjThree(){
-  var resObjektTwo = null;
-  try {
-    resObjektThree = new ActiveXObject("Microsoft.XMLHTTP");
-  }
-  catch(Error){
-    try {
-      resObjektThree = new ActiveXObject("MSXML2.XMLHTTP");
-    }
-    catch(Error){
-      try {
-      resObjektThree = new XMLHttpRequest();
-      }
-      catch(Error){
-        alert("AJAX error");
-      }
-    }
-  }
-  return resObjektThree;
-}
-function generateAJAXObjektThree(){
-  this.generateXMLHttpReqObjThree = generateXMLHttpReqObjThree;
-}
-xxy = new generateAJAXObjektThree();
-resObjektThree = xxy.generateXMLHttpReqObjThree();
+function easyreservations_send_validate(){
 
-function easyRes_sendReq_Validate() {
-	if(document.getElementById('urlValidate').type == "hidden") var url = document.getElementById('urlValidate').value;
-	else var url = document.getElementById('urlValidate').src;
+	var error = 0;
+	var customPrices = '';
 
-	if(document.easyFrontendFormular.from.value != "" && document.easyFrontendFormular.to.value != ""){
-		resObjektThree.open('post', url.replace("send_validate.js", "") + 'send_validate.php' ,true);
-		resObjektThree.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-		resObjektThree.onreadystatechange = handleResponseValidate;
-		resObjektThree.send('from=' + escape(document.easyFrontendFormular.from.value) + '&to=' + escape(document.easyFrontendFormular.to.value) + '&room=' + escape(document.easyFrontendFormular.room.value) + '&persons=' + escape(document.easyFrontendFormular.persons.value) + '&email=' + escape(document.easyFrontendFormular.email.value) + '&offer=' + escape(document.easyFrontendFormular.offer.value) + '&thename=' + escape(document.easyFrontendFormular.thename.value));
-		document.getElementById("showError").innerHTML = '<img style="vertical-align:text-bottom;" src="' + url.replace("js/ajax/send_validate.js", "") + 'images/loading.gif">';
-	} else {
-		document.getElementById("showError").style.visibility = "hidden";
+		var loading = '<img style="vertical-align:text-bottom" src="' + easyAjax.plugin_url + '/easyreservations/images/loading.gif">';
+		jQuery("#showError").html(loading);
+
+		var tsecurity = document.easyFrontendFormular.pricenonce.value;
+
+		var fromfield = document.easyFrontendFormular.from;
+		if(fromfield) var from = fromfield.value;
+		else error = 'arrival date';
+		
+		var tofield = document.easyFrontendFormular.to;
+		if(tofield) var to = tofield.value;
+		else error = 'depature date';
+
+		var roomfield = document.easyFrontendFormular.room;
+		if(roomfield) var room = roomfield.value;
+		else error =  'room';
+
+		var offerfield = document.easyFrontendFormular.offer;
+		if(offerfield) var offer = offerfield.value;
+		else var offer = 0;
+
+		var childsfield = document.easyFrontendFormular.offer;
+		if(childsfield) var childs = childsfield.value;
+		else var childs = 0;
+
+		var personsfield = document.easyFrontendFormular.persons;
+		if(personsfield) var persons = personsfield.value;
+		else var persons = 0;
+
+		var emailfield = document.easyFrontendFormular.email;
+		if(emailfield) var email = emailfield.value;
+		else var email = 'f.e.r.y@web.de';
+
+		var thenamefield = document.easyFrontendFormular.thename;
+		if(thenamefield) var thename = thenamefield.value;
+		else var thename = 'f.e.r.y@web.de';
+		
+
+	var data = {
+		action: 'easyreservations_send_validate',
+		security:tsecurity,
+		from:from,
+		to:to,
+		childs:childs,
+		persons:persons,
+		room: room,
+		offer: offer,
+		email:email,
+		thename:thename
+	};
+	
+	if(error == 0){
+		jQuery.post(easyAjax.ajaxurl , data, function(response) {
+			jQuery("#showError").html(response);
+			return false;
+		});
 	}
-}
-
-function handleResponseValidate() {
-	var text="";
-  document.getElementById("showError").style.visibility = "visible";
-  if(resObjektThree.readyState == 4){
-  	text=resObjektThree.responseText;
-    document.getElementById("showError").innerHTML = text;
-  }
 }

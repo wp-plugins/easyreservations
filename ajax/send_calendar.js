@@ -1,54 +1,46 @@
-function generateXMLHttpReqObj(){
-  var resObjekt = null;
-  try {
-    resObjekt = new ActiveXObject("Microsoft.XMLHTTP");
-  }
-  catch(Error){
-    try {
-      resObjekt = new ActiveXObject("MSXML2.XMLHTTP");
-    }
-    catch(Error){
-      try {
-      resObjekt = new XMLHttpRequest();
-      }
-      catch(Error){
-        alert("AJAX error");
-      }
-    }
-  }
-  return resObjekt;
-}
-function generateAJAXObjekt(){
-  this.generateXMLHttpReqObj = generateXMLHttpReqObj;
-}
-iol = new generateAJAXObjekt();
-resObjekt = iol.generateXMLHttpReqObj();
-var cal_save = 0;
-function easyRes_sendReq_Calendar() {
-	if(document.getElementById('urlCalendar').type == "hidden") var url = document.getElementById('urlCalendar').value;
-	else var url = document.getElementById('urlCalendar').src;
+function easyreservations_send_calendar(where){
 
-		if(document.CalendarFormular.date.value !="" && cal_save == 0){
-			cal_save = 1;
-			resObjekt.open('post', url.replace("send_calendar.js", "") + 'send_calendar.php' ,true);
-			resObjekt.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-			resObjekt.onreadystatechange = handleResponseCal;
-			
-			if(document.CalendarFormular.childs === undefined) var childs = '';
-			else var childs = '&childs=' + document.CalendarFormular.childs.value;
-			if(document.CalendarFormular.persons === undefined) var persons = '';
-			else var persons = '&persons=' + document.CalendarFormular.persons.value;
-			if(document.CalendarFormular.reservated === undefined) var reservated = '';
-			else var reservated = '&reservated=' + document.CalendarFormular.reservated.value;
-			resObjekt.send('date=' + escape(document.CalendarFormular.date.value) + '&room=' + escape(document.CalendarFormular.room.value) +  '&offer=' + escape(document.CalendarFormular.offer.value) + '&size=' + escape(document.CalendarFormular.size.value) + childs + persons + reservated);
-		}
-}
+	if(where == 'shortcode'){
+		var tsecurity = document.CalendarFormular.calendarnonce.value;
+		var room = document.CalendarFormular.room.value;
+		var offerfield = document.CalendarFormular.offer;
+		if(offerfield) var offer = offerfield.value;
+		else var offer = 0;
+		var sizefield = document.CalendarFormular.size;
+		if(sizefield) var size = sizefield.value;
+		else var size = '300,260,0,1';
+		var datefield = document.CalendarFormular.date;
+		if(datefield) var date = datefield.value;
+		else var date = '0';
+	} else {
+		var tsecurity = document.widget_formular.calendarnonce.value;
+		var room = document.widget_formular.room.value;
+		var offerfield = document.widget_formular.offer;
+		if(offerfield) var offer = offerfield.value;
+		else var offer = 0;
+		var sizefield = document.widget_formular.size;
+		if(sizefield) var size = sizefield.value;
+		else var size = '300,260,0,1';
+		var datefield = document.widget_formular.date;
+		if(datefield) var date = datefield.value;
+		else var date = '0';
+	}
 
-function handleResponseCal() {
-	var text="";
-  if(resObjekt.readyState == 4){
-  	text=resObjekt.responseText;
-	cal_save = 0;
-    document.getElementById("showCalender").innerHTML = text;
-  }
+	var data = {
+		action: 'easyreservations_send_calendar',
+		security:tsecurity,
+		room: room,
+		offer: offer,
+		size: size,
+		date: date,
+		where:where
+	};
+	
+	// since 2.8 ajaxurl is always defined in the admin header and points to admin-ajax.php
+	jQuery.post(easyAjax.ajaxurl , data, function(response) {
+	//jQuery.post('<?php echo admin_url( 'admin-ajax.php' ); ?>' , data, function(response) {
+		if(where == 'shortcode') jQuery("#showCalender").html(response);
+		else jQuery("#show_widget_calendar").html(response);
+		return false;
+	});
 }
