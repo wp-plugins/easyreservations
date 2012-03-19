@@ -1,0 +1,47 @@
+#easy-widget-datepicker-to, #easy-widget-datepicker-from {
+
+	width:80px;
+	
+}
+
+#easy_widget_form {
+
+	margin:5px;
+	padding:5px;
+	line-height:2.4em;
+	width:100%;
+
+}
+
+#easy_widget_form label{
+	display:inline;
+	font-weight:bold;
+	width:60px;
+	float:left !important;
+}
+.easybutton {
+	-moz-box-shadow:inset 0px 1px 0px 0px #fff;
+	-webkit-box-shadow:inset 0px 1px 0px 0px #fff;
+	box-shadow:inset 0px 1px 0px 0px #575757;
+	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #444444), color-stop(1, #636363) );
+	background:-moz-linear-gradient( center top, #444444 5%, #636363 100% );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#444444', endColorstr='#636363');
+	background-color:#ededed;
+	border:1px solid #575757 !important;
+	display:inline-block;
+	color:#ffffff !important;
+	line-height:1.1;
+	font-family:arial;
+	font-size:13px;
+	font-weight:bold;
+	padding:3px 6px;
+	text-decoration:none;
+	text-shadow:1px 1px 0px #000;
+	cursor:pointer;
+}
+
+#easy-widget-country, #easy-widget-thename, #easy-widget-email, #easy-widget-persons {
+	
+	width:120px;
+
+}
