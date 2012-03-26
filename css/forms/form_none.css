@@ -1,0 +1,185 @@
+.easyFrontendFormular{
+	margin:0 auto;
+	width:410px;
+	font-family:"Lucida Grande", "Lucida Sans Unicode", Verdana, Arial, Helvetica, sans-serif;
+	font-size:12px;
+}
+#easyFrontendFormular{
+	line-height:1em;
+}
+#easyFrontendFormular label{
+	display:block;
+	font-weight:bold;
+	text-align:right !important;
+	width:140px;
+	float:left !important;
+}
+#easyFrontendFormular p{
+	font-size:11px;
+	color:#666666;
+	margin: 0px 10px 20px 10px;
+	border-bottom:solid 1px #EAEAEA;
+	padding-bottom:10px;
+}
+#easyFrontendFormular h1 {
+	font-size:14px;
+	font-weight:bold;
+	margin-bottom:8px;
+	margin-left:10px;
+}
+#easyFrontendFormular small, #easyFrontendFormular .small {
+	color:#666666;
+	display:block;
+	font-size:11px;
+	font-weight:normal;
+	text-align:right;
+	width:140px;
+}
+#easyFrontendFormular .formblock {
+	font-family:Verdana, Arial, Helvetica, sans-serif;
+	width:60%;
+	margin:2px 0 20px 10px;
+	display:inline-block;
+}
+.showError {
+	padding:6px;
+	width:400px;
+	font-family :Verdana;
+	font-size:12px;
+	font-weight:bold;
+	color:#E80000;
+	margin-left: 4px;
+}
+#easyFrontendFormular select {
+	width:150px;
+	margin:2px 0 20px 10px;
+	background: #FAFAFA;
+    border: 1px solid #DDDDDD;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1) inset;
+    color: #888888;
+    padding: 3px;
+}
+#easyFrontendFormular select:focus,#easyFrontendFormular input[type=text]:focus {
+	background: #fff;
+}
+#easyFrontendFormular input[type=text] {
+	width:150px;
+	margin:2px 0 20px 10px;
+}
+#easyFrontendFormular textarea {
+	margin:2px 0 20px 10px;
+}
+#easyFrontendFormular input[type=submit], .easy-button {
+	-moz-box-shadow:inset 0px 1px 0px 0px #fff;
+	-webkit-box-shadow:inset 0px 1px 0px 0px #fff;
+	box-shadow:inset 0px 1px 0px 0px #575757;
+	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #444444), color-stop(1, #636363) );
+	background:-moz-linear-gradient( center top, #444444 5%, #636363 100% );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#444444', endColorstr='#636363');
+	background-color:#ededed;
+	border:1px solid #575757 !important;
+	display:inline-block;
+	color:#ffffff !important;
+	line-height:1.1;
+	font-family:arial;
+	font-size:13px;
+	font-weight:bold;
+	padding:3px 6px;
+	text-decoration:none;
+	text-shadow:1px 1px 0px #000;
+	cursor:pointer;
+}
+#easyFrontendFormular input[type=submit]:hover, .easy-button:hover {
+	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #636363), color-stop(1, #636363) );
+	background:-moz-linear-gradient( center top, #636363 5%, #636363 100% );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#636363', endColorstr='#444444');
+	color:#ffffff;
+}
+#easyFrontendFormular pre{
+	background: none ;
+	font-family:Verdana;
+	padding:2px !important;
+	margin-bottom: 4px;
+}
+.showPrice {
+	padding:6px;
+	width:170px;
+	font-family :Verdana;
+	white-space: nowrap; 
+	background: #FFF9AD;
+	margin: 10px auto;
+}
+
+.ui-datepicker{
+	font-size:10px !important;
+}
+
+.ui-state-default{
+	text-align:center !important;
+}
+
+.easy_form_success {
+	margin-left:auto;
+	text-align:center;
+	margin-right:auto;
+	color:#009B1C;
+    font-weight: bold;
+}
+.avatar-15 {
+	width:15px;
+	height:15px;
+	margin:0px 5px 0px 5px;
+	vertical-align:text-bottom; 	
+}
+.chat-container{
+	float:right;
+	width:40%;
+	border-left:solid 1px #EAEAEA;
+}
+.chat-container .chat-entry-h1:first-of-type {
+	border-top:solid 1px #EAEAEA;
+}
+.chat-entry-h1{
+	font-size:10px;
+	color:#666666;
+	margin: 0px 10px 8px 10px !important;
+	border-bottom:solid 1px #EAEAEA;
+	padding:8px 0px 8px;
+}
+.chat-admin {
+	background:#FAFFE6;
+}
+.chat-user {
+	background:#fff;
+}
+.chat-entry-bold {
+	color:#000;
+	font-size:14px !important;
+	font-weight:bold !important;
+}
+.chat-entry-message {
+	display:inline-block;
+	padding: 0px 0px 0px 10px;
+	margin: 0px 0px 10px  0px;
+    color: #666666;
+    font-size: 11px;
+    font-weight: normal;
+}
+.chat-entry-p {
+	padding-bottom: 10px !important;
+	margin-bottom: 0px !important;
+}
+.chat-entry-time {
+	float:right;
+	padding-right: 6px;
+}
+.easy-edit-status {
+	background:#f9f9f9;
+	border-top:solid 1px #EAEAEA;
+	border-bottom:solid 1px #EAEAEA;
+	margin-left:auto;
+	margin-right:auto;
+	text-align:center;
+	padding: 5px 0px;
+	white-space:nowrap;
+}
