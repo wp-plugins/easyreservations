@@ -102,7 +102,7 @@
 			if(isset($exportReservations->name)) $row[] = $exportReservations->name;
 			if(isset($exportReservations->email)) $row[] = $exportReservations->email;
 			if(isset($exportReservations->number)) $row[] = $exportReservations->number;
-			if(isset($exportReservations->arrivalDate)){ $row[] = date("d.m.Y", strtotime($exportReservations->arrivalDate)); $row[] = date("d.m.Y", strtotime($exportReservations->arrivalDate)+(86400*$exportReservations->nights)); }
+			if(isset($exportReservations->arrivalDate)){ $row[] = date(RESERVATIONS_DATE_FORMAT, strtotime($exportReservations->arrivalDate)); $row[] = date(RESERVATIONS_DATE_FORMAT, strtotime($exportReservations->arrivalDate)+(86400*$exportReservations->nights)); }
 			if(isset($exportReservations->nights)) $row[] = $exportReservations->nights;
 			if(isset($exportReservations->country)) $row[] = easyReservations_country_name($exportReservations->country);
 			if(isset($exportReservations->approve)){
@@ -195,7 +195,7 @@
 
 		}
 		$row = $xml->addChild("row"); 
-s
+
 		$xml = $xml->asXML();
 		print $xml;
 	} else {
@@ -271,12 +271,12 @@ s
 			if(!empty($status)){
 				$status = '('.substr($status,2).')';
 			}
-			
+
 			$time = '';
 
-			if(isset($_POST['past'])) $time .= "OR (arrivalDate < DATE(NOW()) AND DATE(NOW()) NOT BETWEEN arrivalDate AND DATE_ADD(arrivalDate, INTERVAL nights DAY))";
+			if(isset($_POST['past'])) $time .= "OR (DATE_ADD(arrivalDate, INTERVAL nights DAY) < DATE(NOW())) ";
 			if(isset($_POST['present'])) $time .= "OR DATE(NOW()) BETWEEN arrivalDate AND DATE_ADD(arrivalDate, INTERVAL nights DAY) ";
-			if(isset($_POST['future'])) $time .= "OR (arrivalDate > DATE(NOW()) AND DATE(NOW()) NOT BETWEEN arrivalDate AND DATE_ADD(arrivalDate, INTERVAL nights DAY))";
+			if(isset($_POST['future'])) $time .= "OR (arrivalDate > DATE(NOW()) AND DATE(NOW()) NOT BETWEEN arrivalDate AND DATE_ADD(arrivalDate, INTERVAL nights DAY)) ";
 			if(!empty($time)){
 				$time = '('.substr($time,2).')';
 			}
@@ -292,7 +292,7 @@ s
 			if(isset($exportReservations->name)) $out .= $exportReservations->name .', ';
 			if(isset($exportReservations->email)) $out .= $exportReservations->email .', ';
 			if(isset($exportReservations->number)) $out .= $exportReservations->number .', ';
-			if(isset($exportReservations->arrivalDate)) $out .= date("d.m.Y", strtotime($exportReservations->arrivalDate)).', '.date("d.m.Y", strtotime($exportReservations->arrivalDate)+(86400*$exportReservations->nights)).', ';
+			if(isset($exportReservations->arrivalDate)) $out .= date(RESERVATIONS_DATE_FORMAT, strtotime($exportReservations->arrivalDate)).', '.date(RESERVATIONS_DATE_FORMAT, strtotime($exportReservations->arrivalDate)+(86400*$exportReservations->nights)).', ';
 			if(isset($exportReservations->nights)) $out .= $exportReservations->nights .', ';
 			if(isset($exportReservations->country)) $out .= easyReservations_country_name($exportReservations->country) .', ';
 			if(isset($exportReservations->approve)){

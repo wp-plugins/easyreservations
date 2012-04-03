@@ -28,7 +28,6 @@
 		add_action('admin_init', 'easyreservations_load_mainstyle');
 	}
 
-
 	function easyreservations_statistics_load() {  //  Load Scripts and Styles
 		wp_register_style('jqplot_style', RESERVATIONS_JS_DIR . '/jQplot/jquery.jqplot.min.css' );
 		wp_register_script('jqplot', RESERVATIONS_JS_DIR . '/jQplot/jquery.jqplot.min.js');
@@ -108,7 +107,7 @@
 		$screen->add_help_tab( array(
 			'id'	=> 'easyReservations_help_4',
 			'title'	=> __('Shortcodes', 'easyReservations'  ),
-			'content'	=> '<p><b><u>'.__('Shortcode adding Tool - tinyMCE button', 'easyReservations').'</u></b><br>'.__('When add or editing a post or page you\'ll see a button with the easyReservations logo in the header of the editor. After clicking on it a dialog box will open and let you add each of the three shortcodes (form, user-edit and calendar) very easily.', 'easyReservations').'</p><p><b><u>'.__('Calendar', 'easyReservations').'</u></b><br>'.__('Everyone wanted, her it is: A fully flexible ajax calendar to show the availabilty of your rooms on the frontpage. It can have different styles and the price for the night can be shown in it. On start it shows the availibility of the pre-selected room. If its in the same page, post or widget like a room select it changes on select.', 'easyReservations').'</p><p><b><u>'.__('User edit', 'easyReservations').'</u></b><br>'.__('To let users edit their reservations afterwards you have to add a page with the shortcode [easy_edit]. Only add this shortcode one page. In the settings you have to enter a text that describes your guests the procedure of editing his reservation and the link to the page with the shortcode. Its recomment to add the calendar shortcode to the same page as the edit-shortcode.', 'easyReservations').'</p><p>'.__('The Guest have to enter his ID and email to see and change his reservation. I think this is secure enoought, because the user and the admin both get an email after edit. If the email changes, the old one will get a mail too.', 'easyReservations').'</p><p>'.__('The guest can edit his reservation only if the arrival date isn\'t past. After editing the reservation will reset to pending. Custom fields can be changed in a text-field, custom price fields can just get deselected.', 'easyReservations').'</p>',
+			'content'	=> '<p><b><u>'.__('Shortcode adding Tool - tinyMCE button', 'easyReservations').'</u></b><br>'.__('When add or editing a post or page you\'ll see a button with the easyReservations logo in the header of the editor. After clicking on it a dialog box will open and let you add each of the three shortcodes (Form, User ControlPanel and Calendar) very easily.', 'easyReservations').'</p><p><b><u>'.__('Calendar', 'easyReservations').'</u></b><br>'.__('Everyone wanted, her it is: A fully flexible ajax calendar to show the availabilty of your rooms on the frontpage. It can have different styles and the price for the night can be shown in it. On start it shows the availibility of the pre-selected room. If its in the same page, post or widget like a room select it changes on select.', 'easyReservations').'</p><p><b><u>'.__('User edit', 'easyReservations').'</u></b><br>'.__('To let users edit their reservations afterwards you have to add a page with the shortcode [easy_edit]. Only add this shortcode one page. In the settings you have to enter a text that describes your guests the procedure of editing his reservation and the link to the page with the shortcode. Its recomment to add the calendar shortcode to the same page as the edit-shortcode.', 'easyReservations').'</p><p>'.__('The Guest have to enter his ID and email to see and change his reservation. I think this is secure enoought, because the user and the admin both get an email after edit. If the email changes, the old one will get a mail too.', 'easyReservations').'</p><p>'.__('The guest can edit his reservation only if the arrival date isn\'t past. After editing the reservation will reset to pending. Custom fields can be changed in a text-field, custom price fields can just get deselected.', 'easyReservations').'</p>',
 		) );
 
 		$screen->add_help_tab( array(
@@ -138,23 +137,19 @@
 
 			$pricetable='<table class="'.RESERVATIONS_STYLE.'"><thead><tr><th colspan="4" style="border-right:1px">'.__('Detailed Price', 'easyReservations').'</th></tr></thead><tr style="background:#fff;"><td><b>'.__('Date', 'easyReservations').'</b></td><td><b>'.__('Description', 'easyReservations').'</b></td><td style="text-align:right"><b>'.__('Price of Day', 'easyReservations').'</b></td><td style="text-align:right"><b>'.__('Total Price', 'easyReservations').'</b></td></tr>';
 			$count=0;
-			$count2=0;
-			$countprices=0;
-			$datearray  = "";
 			$pricetotal=0;
 
-				sort($priceforarray);
-				foreach( $priceforarray as $pricefor){
-					$count++;
-					if(is_int($count/2)) $class=' class="alternate"'; else $class='';
-					$date=$pricefor['date'];
-					if(preg_match("/(stay|loyal|custom price|early|pers|child)/i", $pricefor['type'])) $dateposted=' '; else $dateposted=date("d.m.Y", $date); 
-					$datearray.="".date("d.m.Y", $date)." ";
-					$pricetotal+=$pricefor['priceday'];
-					if($count==$arraycount) $onlastprice=' style="border-bottom: double 3px #000000;"';  else $onlastprice='';
-					$pricetable.= '<tr'.$class.'><td nowrap>'.$dateposted.'</td><td nowrap>'.$pricefor['type'].'</td><td style="text-align:right;" nowrap>'.reservations_format_money($pricefor['priceday'], 1).'</td><td style="text-align:right;" nowrap><b'.$onlastprice.'>'.reservations_format_money($pricetotal, 1).'</b></td></tr>';
-					unset($priceforarray[$count-1]);
-				}
+			sort($priceforarray);
+			foreach( $priceforarray as $pricefor){
+				$count++;
+				if(is_int($count/2)) $class=' class="alternate"'; else $class='';
+				$date=$pricefor['date'];
+				if(preg_match("/(stay|loyal|custom price|early|pers|child)/i", $pricefor['type'])) $dateposted=' '; else $dateposted=date(RESERVATIONS_DATE_FORMAT, $date);
+				$pricetotal+=$pricefor['priceday'];
+				if($count == $arraycount) $onlastprice=' style="border-bottom: double 3px #000000;"';  else $onlastprice='';
+				$pricetable.= '<tr'.$class.'><td nowrap>'.$dateposted.'</td><td nowrap>'.$pricefor['type'].'</td><td style="text-align:right;" nowrap>'.reservations_format_money($pricefor['priceday'], 1).'</td><td style="text-align:right;" nowrap><b'.$onlastprice.'>'.reservations_format_money($pricetotal, 1).'</b></td></tr>';
+				unset($priceforarray[$count-1]);
+			}
 
 			$pricetable.='</table>';
 		} else $pricetable = 'Critical Error #1023462';
@@ -183,38 +178,13 @@
 	*/
 
 	function reservations_get_room_ids($mode=0){ //Get the IDs of the Room Posts in array for helping people to find it.
-		global $wpdb;
 		$getids = easyreservations_get_rooms();
+		$theroomidsarray = '';
 		foreach($getids as $getid){
 			if($mode==1) $theroomidsarray .= $getid->ID.',';
 			else $theroomidsarray[] = array($getid->ID, $getid->post_title);
 		}
 		return $theroomidsarray;
-	}
-
-	/**
-	*	Returns type of reservation
-	*
-	*	$id = reservations id
-	*/
-
-	function reservations_check_type($id, $status = 0){
-		global $wpdb;
-		
-		if($status == 0){
-
-			$checktype = "SELECT approve FROM ".$wpdb->prefix ."reservations WHERE id='$id'"; 
-			$res = $wpdb->get_results( $checktype );
-			$status = $res[0]->approve;
-		
-		}
-
-		if($status=="yes") $istype=__( 'approved' , 'easyReservations' );
-		elseif($status=="no") $istype=__( 'rejected' , 'easyReservations' );
-		elseif($status=="del") $istype=__( 'trashed' , 'easyReservations' );
-		elseif($status=="") $istype=__( 'pending' , 'easyReservations' );
-
-		return $istype;
 	}
 
 	/**
@@ -236,18 +206,12 @@
 	*	$where = place to display info box
 	*/
 
-	function easyreservations_reservation_info_box($id, $where){
+	function easyreservations_reservation_info_box($id, $where, $status){
 		$payStatus = reservations_check_pay_status($id);
 		if($payStatus == 0) $paid = ' - <b style="text-transform: capitalize;color:#1FB512;">'. __( 'paid' , 'easyReservations' ).'</b>';
 		else $paid = ' - <b style="text-transform: capitalize;color:#FF3B38;">'. __( 'unpaid' , 'easyReservations' ).'</b>';
-		$status = reservations_check_type($id) ;
 
-		if($status == __('approved', 'easyReservations' )) $color='#1FB512';
-		elseif($status == __('pending' , 'easyReservations' )) $color='#3BB0E2';
-		elseif($status == __('rejected' , 'easyReservations' )) $color='#D61111';
-		elseif($status == __('trashed' , 'easyReservations' )) $color='#870A0A';
-
-		$infoBox = '<div class="explainbox" style="width:96%; margin-bottom:2px;"><div id="left" style=""><b><img style="vertical-align:text-bottom;" src="'.RESERVATIONS_IMAGES_DIR.'/money.png"> '.easyreservations_get_price($id).'</b></div><div id="right"><span style="float:right">'.reservations_get_administration_links($id, $where).'</span></div><div id="center"><b style="color:'.$color.';text-transform: capitalize">'.$status.'</b> '.$paid.'</div></div>';
+		$infoBox = '<div class="explainbox" style="width:96%; margin-bottom:2px;"><div id="left" style=""><b><img style="vertical-align:text-bottom;" src="'.RESERVATIONS_IMAGES_DIR.'/money.png"> '.easyreservations_get_price($id).'</b></div><div id="right"><span style="float:right">'.reservations_get_administration_links($id, $where, $status).'</span></div><div id="center">'.easyreservations_format_status($status,1).' '.$paid.'</div></div>';
 
 		return $infoBox;
 	}
@@ -259,14 +223,14 @@
 	*	$where = place to display info box
 	*/
 
-	function reservations_get_administration_links($id, $where){ //Get Links for approve, edit, trash, delete, view...
+	function reservations_get_administration_links($id, $where, $status){ //Get Links for approve, edit, trash, delete, view...
 
 		$countits=0;
-		$checkID = reservations_check_type($id);
+		$checkID = easyreservations_format_status($status);
 		$administration_links = "";
-		if($where != "approve" AND $checkID != __("approved")) { $administration_links.='<a href="admin.php?page=reservations&approve='.$id.'">'.__( 'Approve' , 'easyReservations' ).'</a>'; $countits++; }
+		if($where != "approve" && $checkID != __("approved")) { $administration_links.='<a href="admin.php?page=reservations&approve='.$id.'">'.__( 'Approve' , 'easyReservations' ).'</a>'; $countits++; }
 		if($countits > 0){ $administration_links.=' | '; $countits=0; }
-		if($where != "reject" AND $checkID != "rejected") { $administration_links.='<a href="admin.php?page=reservations&delete='.$id.'">'.__( 'Reject' , 'easyReservations' ).'</a>'; $countits++; }
+		if($where != "reject" && $checkID != __("rejected")) { $administration_links.='<a href="admin.php?page=reservations&delete='.$id.'">'.__( 'Reject' , 'easyReservations' ).'</a>'; $countits++; }
 		if($countits > 0){ $administration_links.=' | '; $countits=0; }
 		if($where != "edit") { $administration_links.='<a href="admin.php?page=reservations&edit='.$id.'">'.__( 'Edit' , 'easyReservations' ).'</a>'; $countits++; }
 		if($countits > 0){ $administration_links.=' | '; $countits=0; }
@@ -538,7 +502,7 @@
 			else $class="even";
 				$table .= '<tr class="'.$class.'">';
 					$table .= '<td><a href="admin.php?page=reservations&view='.$res->id.'">'.$res->name.'</a></td>';
-					$table .= '<td>'.date("d.m.Y", $dateanf).' - '.date("d.m.Y", $dateend).' ('.$res->nights.')</td>';
+					$table .= '<td>'.date(RESERVATIONS_DATE_FORMAT, $dateanf).' - '.date(RESERVATIONS_DATE_FORMAT, $dateend).' ('.$res->nights.')</td>';
 					$table .= '<td>'.get_the_title($res->room).'</td>';
 					$table .= '<td style="text-align:center;">'.$res->number.' ('.$res->childs.')</td>';
 					$table .= '<td style="text-align:right">'.easyreservations_get_price($res->id,1).'</td>';
@@ -649,12 +613,11 @@
 		else $typ = 'active';
 		$orderby = ''; $order = ''; $search = '';
 
-		$dateToday = date("Y-m-d", time());
 		if($_POST['search'] != '') $search = $_POST['search'];
 		if($_POST['order'] != '') $order = $_POST['order'];
 		if($_POST['orderby'] != '') $orderby = $_POST['orderby'];
-		if($_POST['perpage'] != '') $reservations_on_page = $_POST['perpage'];
-		else $reservations_on_page = get_option("reservations_on_page");
+		if($_POST['perpage'] != '') $perpage = $_POST['perpage'];
+		else $perpage = get_option("reservations_on_page");
 
 		$main_options = get_option("reservations_main_options");
 
@@ -668,7 +631,7 @@
 			$current_user = wp_get_current_user();
 			$user = $current_user->ID;
 			$favourite = get_user_meta($user, 'reservations-fav', true);
-			if(!empty($favourite) && is_array($favourite) && isset($favourite[0]) && !empty($favourite[0])) $favourite_sql = 'id in('.implode(",", $favourite).')'; 
+			if(!empty($favourite) && is_array($favourite)) $favourite_sql = 'id in('.implode(",", $favourite).')'; 
 			else $favourite = array();
 		}
 
@@ -736,10 +699,6 @@
 		if(empty($orderby) && $typ=="pending") { $ordersby="id"; $orders="DESC"; }
 		if(empty($orderby) && $typ=="old") { $ordersby="arrivalDate"; $orders="DESC"; }
 		if(empty($orderby) && $typ=="all") { $ordersby="arrivalDate"; $orders="DESC"; }
-
-		if(isset($perpage) AND $perpage != 0) { $perpagelink="&perpage=".$perpage; }
-		else $perpage=$reservations_on_page;
-		if(isset($more) AND $more != 0) $morelink="&more=";
 
 		if(isset($specialselector) OR isset($monthselector) OR isset($roomselector)){
 			$variableitems = $wpdb->get_var($wpdb->prepare("SELECT COUNT(*) FROM ".$wpdb->prefix ."reservations WHERE $type $selectors $zeichen $searchstr $permission_selectors", '%' . like_escape($search) . '%'));
@@ -987,16 +946,12 @@
 							</div>
 						</td>
 					<?php } if($table_options['table_from'] == 1 || $table_options['table_to'] == 1 || $table_options['table_nights'] == 1){ ?>
-						<td nowrap><?php if($table_options['table_from'] == 1) echo date("d.m.Y",$timpstampanf); if($table_options['table_from'] == 1 && $table_options['table_to'] == 1) echo '-';  if($table_options['table_to'] == 1) echo date("d.m.Y",$timestampend);?><?php if($table_options['table_nights'] == 1){ ?> <small>(<?php echo $nights; ?> <?php printf ( __( 'Nights' , 'easyReservations' ));?>)</small><?php } ?></td>
+						<td nowrap><?php if($table_options['table_from'] == 1) echo date(RESERVATIONS_DATE_FORMAT,$timpstampanf); if($table_options['table_from'] == 1 && $table_options['table_to'] == 1) echo '-';  if($table_options['table_to'] == 1) echo date(RESERVATIONS_DATE_FORMAT,$timestampend);?><?php if($table_options['table_nights'] == 1){ ?> <small>(<?php echo $nights; ?> <?php printf ( __( 'Nights' , 'easyReservations' ));?>)</small><?php } ?></td>
 					<?php } if($table_options['table_reservated'] == 1){ ?>
 						<td style="text-align:center"><b><?php echo human_time_diff( strtotime($res->reservated) );?></b></td>
 					<?php } if($table_options['table_status'] == 1){ 
-									$status = reservations_check_type($id, $res->approve);
-									if($status == __('approved', 'easyReservations' )) $color='#1FB512';
-									elseif($status == __('pending' , 'easyReservations' )) $color='#3BB0E2';
-									elseif($status == __('rejected' , 'easyReservations' )) $color='#D61111';
-									elseif($status == __('trashed' , 'easyReservations' )) $color='#870A0A'; ?>
-						<td><b style="color:<?php echo $color; ?>"><?php echo ucfirst($status); ?></b></td>
+									$status = easyreservations_format_status($res->approve, 1); ?>
+						<td><b style="color:<?php echo $color; ?>"><?php echo $status; ?></b></td>
 					<?php } if($table_options['table_email'] == 1){ ?>
 						<td><a href="admin.php?page=reservations&sendmail=<?php echo $id; ?>"><?php echo $res->email;?></a></td>
 					<?php } if($table_options['table_persons'] == 1 || $table_options['table_childs'] == 1){ ?>
@@ -1218,6 +1173,7 @@
 					persons:persons,
 					childs:childs,
 					reservated:reservated,
+					monthes:'1x1'
 				};
 
 				jQuery.post(ajaxurl , data, function(response) {
@@ -1328,14 +1284,12 @@
 			
 		</script>
 	<?php }
-	
+
 	function easyreservations_get_roles_options($sel=''){
 		$roles = get_editable_roles();
 		$the_options = '';
 
 		foreach($roles as $key => $role){
-			$caps = implode(',', $role['capabilities']);
-
 			$da = key($role['capabilities']);
 
 			if(is_numeric($da)) $value = $role['capabilities'][0];
@@ -1428,7 +1382,7 @@
 	}
 
 	if(isset($page) && $page == 'reservations'){
-		if(isset($_GET['edit'])){
+		if(isset($_GET['edit']) || isset($_GET['add'])){
 			add_action('admin_head', 'easyreservations_send_price_admin');
 			add_action('wp_ajax_easyreservations_send_price_admin', 'easyreservations_send_price_callback');
 		} else {
@@ -1436,6 +1390,5 @@
 			add_action('admin_head', 'easyreservations_send_fav');
 		}
 	}
-
 
 ?>

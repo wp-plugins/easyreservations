@@ -23,6 +23,8 @@ if(isset($_POST['thecontent']) && check_admin_referer( 'easy-resource-add', 'eas
 			'post_status' => 'private',
 			'post_type' => $cat
 		);
+
+
 		$thenewid = wp_insert_post( $add_roomoroffer );
 		if($_POST['roomoroffer']=='room') add_post_meta($thenewid, 'roomcount', '1', TRUE);
 		add_post_meta($thenewid, 'reservations_groundprice', '', TRUE);
@@ -205,10 +207,14 @@ if(!isset($site) OR $site=='' OR $site=='main'){
 		if($categoryid == 'easy-rooms'){ 
 			$roomoroffer=__( 'Rooms' , 'easyReservations' );
 			$roo = 'room'; ?>
+			<h3>
+				<?php echo $roomoroffer; ?>
+				<a class="add-new-h2" href="admin.php?page=reservation-resources&addresource=<?php echo $roo; ?>"><?php echo __( 'Add New' , 'easyReservations' );?></a>
+			</h3>
 			<table class="<?php echo RESERVATIONS_STYLE; ?>" style="width:99%;margin-bottom:5px;">
 				<thead>
 					<tr>
-						<th style="width:100px"><?php echo $roomoroffer; ?> <a href="admin.php?page=reservation-resources&addresource=<?php echo $roo; ?>"><img style="vertical-align:text-bottom;" src="<?php echo RESERVATIONS_IMAGES_DIR; ?>/add.png"></a></th>
+						<?php if(function_exists('get_the_post_thumbnail')){ ?><th></th><?php } ?>
 						<th nowrap><?php echo __( 'Title' , 'easyReservations' );?></th>
 						<th nowrap><?php echo __( 'ID' , 'easyReservations' );?></th>
 						<th style="text-align:center;" nowrap><?php echo __( 'Quantity' , 'easyReservations' ); ?></th>
@@ -224,16 +230,21 @@ if(!isset($site) OR $site=='' OR $site=='main'){
 		} else { 
 			$roomoroffer=__( 'Offers' , 'easyReservations' ); 
 			$roo = 'offer';?>
-					<tr class="tmiddle">
-						<td style="width:100px"><?php echo $roomoroffer; ?> <a href="admin.php?page=reservation-resources&addresource=<?php echo $roo; ?>"><img style="vertical-align:text-bottom;" src="<?php echo RESERVATIONS_IMAGES_DIR; ?>/add.png"></a>
-						<td nowrap><?php echo __( 'Title' , 'easyReservations' );?></td>
-						<td style="text-align:center" nowrap><?php echo __( 'ID' , 'easyReservations' );?></td>
-						<td style="text-align:right" nowrap><?php echo __( 'Base Price' , 'easyReservations' ); ?></td>
-						<td nowrap><?php echo __( 'Reservations' , 'easyReservations' ); ?></td>
-						<td style="text-align:center" nowrap><?php echo __( 'Filter' , 'easyReservations' ); ?></td>
-						<td colspan="3" nowrap><?php echo __( 'Excerpt' , 'easyReservations' ); ?></td>
-						<td nowrap></td>
-					</tr><?php
+			<h3>
+				<?php echo $roomoroffer; ?>
+				<a class="add-new-h2" href="admin.php?page=reservation-resources&addresource=<?php echo $roo; ?>"><?php echo __( 'Add New' , 'easyReservations' );?></a>
+			</h3>
+			<table class="<?php echo RESERVATIONS_STYLE; ?>" style="width:99%;margin-bottom:5px;">
+				<thead>
+					<?php if(function_exists('get_the_post_thumbnail')){ ?><th></th><?php } ?>
+					<th nowrap><?php echo __( 'Title' , 'easyReservations' );?></th>
+					<th style="text-align:center" nowrap><?php echo __( 'ID' , 'easyReservations' );?></th>
+					<th style="text-align:right" nowrap><?php echo __( 'Base Price' , 'easyReservations' ); ?></th>
+					<th nowrap><?php echo __( 'Reservations' , 'easyReservations' ); ?></th>
+					<th style="text-align:center" nowrap><?php echo __( 'Filter' , 'easyReservations' ); ?></th>
+					<th colspan="3" nowrap><?php echo __( 'Excerpt' , 'easyReservations' ); ?></th>
+					<th nowrap></th>
+				</thead><?php
 				}
 
 		if( $roo == 'room' ) $allrooms = easyreservations_get_rooms(1,1);
@@ -269,12 +280,13 @@ if(!isset($site) OR $site=='' OR $site=='main'){
 			else $countallrooms = $wpdb->get_var($wpdb->prepare("SELECT COUNT(*) FROM ".$wpdb->prefix ."reservations WHERE approve='yes' AND special='$allroom->ID'"));
 
 			?><tr class="<?php echo $class; ?>">
-					<td style="text-align:left; vertical-align:middle;">
-						<?php if(function_exists('get_the_post_thumbnail')){ ?>
-							<a href="post.php?post=<?php echo $allroom->ID; ?>&action=edit" title="<?php echo __( 'edit' , 'easyReservations' ); ?>"><?php echo get_the_post_thumbnail($allroom->ID, array(25,25)); ?></a>
-						<?php } ?>
-					</td>
-					<td><a href="admin.php?page=reservation-resources&room=<?php echo $allroom->ID;?>" title="<?php echo __( 'edit ' , 'easyReservations' ).' '.$allroom->post_title; ?>s "><?php echo '<b>'.__($allroom->post_title).'</b>'; ?></a></td>
+					<?php if(function_exists('get_the_post_thumbnail')){
+						if(($img=get_the_post_thumbnail($allroom->ID, array(25,25))) != '' ){ ?>
+
+					<td style="text-align:left; vertical-align:middle;max-width:25px;width:25px;">
+							<a href="post.php?post=<?php echo $allroom->ID; ?>&action=edit" title="<?php echo __( 'edit' , 'easyReservations' ); ?>"><?php echo $img; ?></a>
+					</td><?php } else echo '<td></td>'; }?>
+					<td><a href="admin.php?page=reservation-resources&room=<?php echo $allroom->ID;?>" title="<?php echo __( 'edit ' , 'easyReservations' ).' '.$allroom->post_title; ?>"><?php echo '<b>'.__($allroom->post_title).'</b>'; ?></a></td>
 					<td style="text-align:center"><?php echo '<b>'.$allroom->ID.'</b>'; ?></td>
 					<?php if($roo == 'room'){ ?><td style="text-align:center;"><?php echo $theRoomCount; ?></td><?php } ?>
 					<td style="text-align:right;width:100px" nowrap><?php echo $price;?></td>
@@ -290,6 +302,9 @@ if(!isset($site) OR $site=='' OR $site=='main'){
 					</td>
 				</tr><?php
 		}
+		
+		echo '</tbody>';
+		echo '</table>';
 	}
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -303,7 +318,10 @@ if(!isset($site) OR $site=='' OR $site=='main'){
 		} else $action = "";
 
 		if(reservations_is_room($resourceID)) $roomoroffer='room'; else $roomoroffer='offer';
-
+		if(isset($_POST['easy-resource-max-nights'])) {
+			$req = array( 'nights-min' => $_POST['easy-resource-min-nights'], 'nights-max' => $_POST['easy-resource-max-nights'], 'pers-min' => $_POST['easy-resource-min-pers'], 'pers-max' => $_POST['easy-resource-max-pers'] );
+			update_post_meta($resourceID, 'easy-resource-req', $req);
+		}
 		if($action=='set_groundprice'){ /* SET GROUND PRICE */
 			$error=0;
 
@@ -411,12 +429,12 @@ if(!isset($site) OR $site=='' OR $site=='main'){
 					if($explidgpprice[0] == $roomcategorie->ID){
 						if(!is_numeric($explidgpprice[1]) || $explidgpprice[1] == ''  || !isset($explidgpprice[1])) $theStyle = 'border-color:#F20909'; else $theStyle = "";
 						if(is_int(($num+1)/2)) $class='alternate'; else $class='';
-						$roomgpadd .= '<tr class="'.$class.'"><td>'.__($roomcategorie->post_title).': <input type="hidden" name="idgproom'.$counroooms.'" id="idgproom'.$counroooms.'" value="'.$roomcategorie->ID.'"></td><td style="text-align:right;"><input type="text" id="gppriceroom'.$counroooms.'" name="gppriceroom'.$counroooms.'" value="'.$explidgpprice[1].'" style="width:60px;margin-top:-2px;text-align:right;'.$theStyle.'"> &'.get_option("reservations_currency").';</td></tr>';
+						$roomgpadd .= '<tr class="'.$class.'"><td><b>'.__($roomcategorie->post_title).':</b><input type="hidden" name="idgproom'.$counroooms.'" id="idgproom'.$counroooms.'" value="'.$roomcategorie->ID.'"></td><td style="text-align:right;"><input type="text" id="gppriceroom'.$counroooms.'" name="gppriceroom'.$counroooms.'" value="'.$explidgpprice[1].'" style="width:60px;margin-top:-2px;text-align:right;'.$theStyle.'"> &'.get_option("reservations_currency").';</td></tr>';
 						$wassetted++;
 					}
 				}
 
-				if( $wassetted == 0) $roomgpadd .= '<tr><td>'.__($roomcategorie->post_title).': <input type="hidden" name="idgproom'.$counroooms.'" id="idgproom'.$counroooms.'" value="'.$roomcategorie->ID.'"></td><td style="text-align:right;"><input type="text" id="gppriceroom'.$counroooms.'" name="gppriceroom'.$counroooms.'" value="Price" style="width:60px"></td></tr>';
+				if( $wassetted == 0) $roomgpadd .= '<tr><td><b>'.__($roomcategorie->post_title).':</b> <input type="hidden" name="idgproom'.$counroooms.'" id="idgproom'.$counroooms.'" value="'.$roomcategorie->ID.'"></td><td style="text-align:right;"><input type="text" id="gppriceroom'.$counroooms.'" name="gppriceroom'.$counroooms.'" value="Price" style="width:60px"></td></tr>';
 				$roomsadd .= "document.getElementById('idroom".$counroooms."').value+':'+document.getElementById('priceroom".$counroooms."').value+";
 				if($counroooms!=$count) $roomsadd .= "'-'+";
 			}
@@ -436,8 +454,12 @@ if(!isset($site) OR $site=='' OR $site=='main'){
 		$reservations_current_child_price = get_post_meta($resourceID, 'reservations_child_price', TRUE);
 		$reservations_current_value_short = get_post_meta($resourceID, 'reservations_short', TRUE);
 		$reservations_current_price_set = get_post_meta($resourceID, 'easy-resource-price', TRUE);
+		$reservations_current_req = get_post_meta($resourceID, 'easy-resource-req', TRUE);
+		if(!$reservations_current_req || !is_array($reservations_current_req)){
+			$reservations_current_req = array('nights-min' => 1, 'nights-max' => 30, 'pers-min' => 1, 'pers-max' => 0);
+		}
 		$allrooms = get_post( $resourceID );
-					
+
 		if(isset($prompt)) echo $prompt;
   ?><table style="width:99%">
 			<tr>
@@ -469,65 +491,65 @@ if(!isset($site) OR $site=='' OR $site=='main'){
 					<script>var filter = new Array();</script>
 					<?php
 							$theFilters = get_post_meta($resourceID, 'easy_res_filter', true);
-							if(!empty($theFilters)) $count_all_filters=count($theFilters); else $count_all_filters=0; // count the filter-array element
+							if(!empty($theFilters) && is_array($theFilters)) $count_all_filters=count($theFilters); else $count_all_filters=0; // count the filter-array element
 							$numberoffilter = 0;
 							if($count_all_filters > 0){
-							foreach($theFilters as $nummer => $filter){ //foreach filter array
-								if($filter['type'] == 'price') {
-									$numberoffilter++; //count filters
-									if($numberoffilter%2==0) $class="alternate"; else $class=""; ?>
-									<tr class="<?php echo $class; ?>">
-										<script>filter[<?php echo $nummer; ?>] = new Object(); filter[<?php echo $nummer; ?>] = <?php echo json_encode($filter); ?>;</script>
-										<td class="resourceType" style="background:#BF4848;border-left:0px;width:60px;cursor:pointer">Price</td>
-										<td style="vertical-align:middle;text-align:center;width:40px"><?php echo $filter['imp']; ?></td>
-										<td>
-											<?php echo easyreservations_get_price_filter_description($filter); ?>
-										</td>
-										<?php if($roomoroffer == "offer"){
-											$explprices=explode("-", $filter['price']);
-											$i = 0;
-											$offer_prices = '';
-
-											foreach($roomcategories as $roomcategorie){
-											//	print_r($explprices);
-											//	$key = array_search($roomcategorie->ID.':', $explprices);
-												$keys = preg_grep("/^[".$roomcategorie->ID."]+[:]{1}/i", $explprices);
-												if(count($keys) > 0){
-													$explidprice=explode(":", $keys[$i]);
-													$offer_prices.= '<b>'.__(get_the_title($roomcategorie->ID)).':</b> '.reservations_format_money($explidprice[1], 1).'<br>';
-													$i++;
-												} else {
-													$offer_prices.= '<b>'.__(get_the_title($roomcategorie->ID)).':</b> '.reservations_format_money('0', 1).'<br>';
-													$i++;
-												}
-											} ?>
-											<td><?php echo $offer_prices; ?></td>
-										<?php } else { ?>
+								foreach($theFilters as $nummer => $filter){ //foreach filter array
+									if($filter['type'] == 'price') {
+										$numberoffilter++; //count filters
+										if($numberoffilter%2==0) $class="alternate"; else $class=""; ?>
+										<tr class="<?php echo $class; ?>">
+											<script>filter[<?php echo $nummer; ?>] = new Object(); filter[<?php echo $nummer; ?>] = <?php echo json_encode($filter); ?>;</script>
+											<td class="resourceType" style="background:#BF4848;border-left:0px;width:60px;cursor:pointer">Price</td>
+											<td style="vertical-align:middle;text-align:center;width:40px"><?php echo $filter['imp']; ?></td>
 											<td>
-												<?php if(isset($filter['price']) && $filter['price'] > 0){ ?>
-													<?php echo reservations_format_money($filter['price'], 1); ?>
-												<?php } else { ?>
-													<?php echo reservations_format_money('0', 1); ?>
-												<?php } ?>
+												<?php echo easyreservations_get_price_filter_description($filter); ?>
 											</td>
-										<?php } ?>
-										<td style="vertical-align:middle;text-align:center">
-											<a href="javascript:filter_edit(<?php echo $nummer; ?>);"><img style="vertical-align:text-middle;" src="<?php echo RESERVATIONS_IMAGES_DIR.'/edit.png'; ?>"></a>
-											<a href="<?php echo wp_nonce_url('admin.php?page=reservation-resources&room='.$resourceID.'&delete_filter='.$nummer, 'easy-resource-delete-filter'); ?>"><img style="vertical-align:text-middle;" src="<?php echo RESERVATIONS_IMAGES_DIR.'/delete.png'; ?>"></a>
-										</td>
-									</tr>
-									<?php
-									unset($theFilters[$nummer]);
+											<?php if($roomoroffer == "offer"){
+												$explprices=explode("-", $filter['price']);
+												$i = 0;
+												$offer_prices = '';
+
+												foreach($roomcategories as $roomcategorie){
+													$keys = preg_grep("/^[".$roomcategorie->ID."]+[:]{1}/i", $explprices);
+													$key = key($keys);
+													if(isset($keys[$key])){
+														$explidprice=explode(":", $keys[$key]);
+														$offer_prices.= '<b>'.__(get_the_title($roomcategorie->ID)).':</b> '.reservations_format_money($explidprice[1], 1).'<br>';
+														$i++;
+													} else {
+														$offer_prices.= '<b>'.__(get_the_title($roomcategorie->ID)).':</b> '.reservations_format_money('0', 1).'<br>';
+														$i++;
+													}
+												} ?>
+												<td><?php echo $offer_prices; ?></td>
+											<?php } else { ?>
+												<td>
+													<?php if(isset($filter['price']) && $filter['price'] > 0){ ?>
+														<?php echo reservations_format_money($filter['price'], 1); ?>
+													<?php } else { ?>
+														<?php echo reservations_format_money('0', 1); ?>
+													<?php } ?>
+												</td>
+											<?php } ?>
+											<td style="vertical-align:middle;text-align:center">
+												<a href="javascript:filter_edit(<?php echo $nummer; ?>);"><img style="vertical-align:text-middle;" src="<?php echo RESERVATIONS_IMAGES_DIR.'/edit.png'; ?>"></a>
+												<a href="<?php echo wp_nonce_url('admin.php?page=reservation-resources&room='.$resourceID.'&delete_filter='.$nummer, 'easy-resource-delete-filter'); ?>"><img style="vertical-align:text-middle;" src="<?php echo RESERVATIONS_IMAGES_DIR.'/delete.png'; ?>"></a>
+											</td>
+										</tr>
+										<?php
+										unset($theFilters[$nummer]);
+									}
 								}
-							}
-							} else echo '<td colspan="5">'.__( 'No price filter set' , 'easyReservations' ).'</td>';
+							} 
+							if($numberoffilter == 0)  echo '<td colspan="5">'.__( 'No price filter set' , 'easyReservations' ).'</td>';
 							?>
 							</tbody>
 							<tbody>
 								<tr class="tmiddle">
 									<td><?php echo __( 'Type' , 'easyReservations' ); ?></td>
 									<td colspan="2"><?php echo __( 'Condition' , 'easyReservations' ); ?></td>
-									<td><?php echo __( 'Discount' , 'easyReservations' ); ?></td>
+									<td><?php echo __( 'Price' , 'easyReservations' ); ?></td>
 									<td></td>
 								</tr>
 							<?php
@@ -541,23 +563,23 @@ if(!isset($site) OR $site=='' OR $site=='main'){
 
 									if($filter['type']=="stay"){
 										$bgcolor='#76AEFC';
-										$condition_string = sprintf(__('If guest stays %s days or more he\'ll get an discount of','easyReservations'), '<b>'.$filter['cond'].'</b>');
+										$condition_string = sprintf(__('If guest stays %s days or more the price changes by','easyReservations'), '<b>'.$filter['cond'].'</b>');
 									} elseif($filter['type'] =="unavail"){
 										$bgcolor='#81FC76';
 										$condition_string =str_replace(__("calculate", 'easyReservations'), __("check", 'easyReservations'),substr(easyreservations_get_price_filter_description($filter),0,-42)).' '.__('resouce is unavailable','easyReservations');
 									} elseif($filter['type'] =="pers"){
 										$bgcolor='#1CA0E1';
-										$condition_string = sprintf(__('If %s or more persons reservating they\'ll get an discount of','easyReservations'), '<b>'.$filter['cond'].'</b>');
+										$condition_string = sprintf(__('If %s or more persons reservating the price changes by','easyReservations'), '<b>'.$filter['cond'].'</b>');
 									} elseif($filter['type'] =="loyal"){
 										$bgcolor='#FCF776';
 										if($filter['cond'] == 1) $end = 'st';
 										elseif($filter['cond'] == 2) $end = 'nd';
 										elseif($filter['cond'] == 3) $end = 'rd';
 										else $end = 'th';
-										$condition_string = sprintf(__('If guest comes the %1$s%2$s time he\'ll get an discount of','easyReservations'), '<b>'.$filter['cond'].'</b>', $end);
+										$condition_string = sprintf(__('If guest comes the %1$s%2$s time the price changes by','easyReservations'), '<b>'.$filter['cond'].'</b>', $end);
 									} elseif($filter['type']=="early"){
 										$bgcolor='#FCF776';
-										$condition_string = sprintf(__('If the guest reservates %s days before his arrival he\'ll get a discount of','easyReservations'), '<b>'.$filter['cond'].'</b>');
+										$condition_string = sprintf(__('If the guest reservates %s days before his arrival the price changes by','easyReservations'), '<b>'.$filter['cond'].'</b>');
 									} ?>
 									<tr class="<?php echo $class; ?>" name="notsort">
 										<script>filter[<?php echo $nummer; ?>] = new Object(); filter[<?php echo $nummer; ?>] = <?php echo json_encode($filter); ?>;</script>
@@ -567,24 +589,22 @@ if(!isset($site) OR $site=='' OR $site=='main'){
 										if($filter['type'] != "unavail"){
 											if($roomoroffer == "offer"){
 											$explprices=explode("-", $filter['price']);
-											$i = 0;
 											$offer_prices = '';
 
 											foreach($roomcategories as $roomcategorie){
 												$keys = preg_grep("/^[".$roomcategorie->ID."]+[:]{1}/i", $explprices);
-												if(count($keys) > 0){
-													$explidprice=explode(":", $keys[$i]);
+												$key = key($keys);
+												if(isset($keys[$key])){
+													$explidprice=explode(":", $keys[$key]);
 													$offer_prices.= '<b>'.__(get_the_title($roomcategorie->ID)).':</b> '.reservations_format_money($explidprice[1], 1).'<br>';
-													$i++;
 												} else {
 													$offer_prices.= '<b>'.__(get_the_title($roomcategorie->ID)).':</b> '.reservations_format_money('0', 1).'<br>';
-													$i++;
 												}
 											} ?>
 											<td><?php echo $offer_prices; ?></td>
 										<?php } else { ?>
 											<td>
-												<?php if(isset($filter['price']) && $filter['price'] > 0){ ?>
+												<?php if(isset($filter['price'])){ ?>
 													<?php if($filter['modus']=='%') echo $filter['price'].' %';
 													elseif($filter['modus']=='price_res') echo reservations_format_money($filter['price'], 1).'/'.__('Reservation','easyReservations');
 													elseif($filter['modus']=='price_day') echo reservations_format_money($filter['price'], 1).'/'.__('Day','easyReservations');
@@ -628,7 +648,7 @@ if(!isset($site) OR $site=='' OR $site=='main'){
 										<b><?php echo __( 'Childs' , 'easyReservations' ); ?></b>: <select name="childs" onChange="easyreservations_send_calendar()" style="margin-top:5px;width:80px;"><?php echo easyReservations_num_options(0, 10); ?></select><br>
 										<b><?php echo sprintf("Reservated %s days ago", '</b><select name="reservated" onChange="easyreservations_send_calendar()" style="margin-top:5px;">'.easyReservations_num_options(0, 150).'</select><b>');  ?></b>
 										<input type="hidden" name="date" onChange="easyreservations_send_calendar()" value="0">
-										<input type="hidden" name="size" value="350,350,1">
+										<input type="hidden" name="size" value="350,4">
 									</form>
 								</td>
 							</tr>
@@ -643,7 +663,7 @@ if(!isset($site) OR $site=='' OR $site=='main'){
 					<table class="<?php echo RESERVATIONS_STYLE; ?>">
 						<thead>
 							<tr>
-								<th colspan="2"><?php printf ( __( 'Base price per night' , 'easyReservations' ));?>	<input type="button" style="float:right;margin-top:3px" onclick="document.getElementById('set_groundprice').submit(); return false;" class="easySubmitButton-secondary" value="<?php printf ( __( 'Set' , 'easyReservations' ));?>"></th>
+								<th colspan="2"><?php printf ( __( 'Resource settings' , 'easyReservations' ));?>	<input type="button" style="float:right;margin-top:3px" onclick="document.getElementById('set_groundprice').submit(); return false;" class="easySubmitButton-secondary" value="<?php printf ( __( 'Set' , 'easyReservations' ));?>"></th>
 							</tr>
 						</thead>
 						<tbody>
@@ -671,6 +691,18 @@ if(!isset($site) OR $site=='' OR $site=='main'){
 										<option value="0" <?php selected($reservations_current_price_set, 0); ?>><?php  echo __( 'per Room' , 'easyReservations' );?></option>
 										<option value="1" <?php selected($reservations_current_price_set, 1); ?>><?php echo  __( 'per Person' , 'easyReservations' );?></option>
 									</select>
+								</td>
+							</tr>
+							<tr <?php if($roomoroffer == "room"){ ?>class="alternate"<?php } ?>>
+								<td><b><?php printf ( __( 'Nights' , 'easyReservations' ), $roomoroffer);?>:</b></td>
+								<td style="text-align:right">
+									<?php printf ( __( 'Min' , 'easyReservations' ), $roomoroffer);?>: <select name="easy-resource-min-nights"><?php echo easyReservations_num_options(1, 99, $reservations_current_req['nights-min']); ?></select><br><?php printf ( __( 'Max' , 'easyReservations' ), $roomoroffer);?>: <select name="easy-resource-max-nights"><option value="0" <?php echo selected($reservations_current_req['nights-max'], 0); ?>>&infin;</option><?php echo easyReservations_num_options(1,99, $reservations_current_req['nights-max']); ?></select>
+								</td>
+							</tr>
+							<tr <?php if($roomoroffer == "offer"){ ?>class="alternate"<?php } ?>>
+								<td><b><?php printf ( __( 'Persons' , 'easyReservations' ), $roomoroffer);?>:</b></td>
+								<td style="text-align:right">
+									<?php printf ( __( 'Min' , 'easyReservations' ), $roomoroffer);?>: <select name="easy-resource-min-pers"><?php echo easyReservations_num_options(1, 99, $reservations_current_req['pers-min']); ?></select><br><?php printf ( __( 'Max' , 'easyReservations' ), $roomoroffer);?>: <select name="easy-resource-max-pers"><option value="0" <?php echo selected($reservations_current_req['pers-max'], 0); ?>>&infin;</option><?php echo easyReservations_num_options(1,99,$reservations_current_req['pers-max']); ?></select>
 								</td>
 							</tr>
 						</tbody>
@@ -708,50 +740,50 @@ if(!isset($site) OR $site=='' OR $site=='main'){
 						<tbody>
 							<tr>
 								<td>
-									<div style="margin:2px;padding:2px"><b><?php echo __( 'Add' , 'easyReservations' ); ?></b> <a id="show_add_price_link" href="javascript:show_add_price();document.filter_form.reset();"><?php echo __( 'Price' , 'easyReservations' ); ?></a> | <a id="show_add_discount_link" href="javascript:show_add_discount();document.filter_form.reset();"><?php echo __( 'Discount' , 'easyReservations' ); ?></a> | <a id="show_add_avail_link" href="javascript:show_add_avail();document.filter_form.reset();"><?php echo __( 'Unavailability' , 'easyReservations' ); ?></a> <b>Filter</b> <a href="javascript:reset_filter_form()" style="float:right;margin-right:3px">X</a></div>
+									<div style="margin:2px;padding:2px"><b><?php echo __( 'Add' , 'easyReservations' ); ?></b> <a id="show_add_price_link" href="javascript:show_add_price();document.filter_form.reset();"><?php echo __( 'Price' , 'easyReservations' ); ?></a> | <a id="show_add_discount_link" href="javascript:show_add_discount();document.filter_form.reset();"><?php echo __( 'Discount' , 'easyReservations' ); ?></a> | <a id="show_add_avail_link" href="javascript:show_add_avail();document.filter_form.reset();"><?php echo __( 'Unavailability' , 'easyReservations' ); ?></a> <b>Filter</b> <a href="javascript:reset_filter_form()" style="float:right;margin-right:3px">&#10005;</a></div>
 										<input type="hidden" name="filter_type" id="filter_type">
 										<div id="filter_form_name" class="hide-it">
 												<div class="fakehr"></div>
 												<b style="padding:4px;display:inline-block;min-width:65px"><?php echo __( 'Name' , 'easyReservations' ); ?>:</b> <input type="text" name="filter_form_name_field" id="filter_form_name_field"> <i><?php echo __( 'Give your filter a name' , 'easyReservations' ); ?></i><br>
 										</div>
 										<div id="filter_form_importance" class="hide-it">
-												<b style="padding:4px;display:inline-block;min-width:65px"><?php echo __( 'Priority' , 'easyReservations' ); ?>:</b> <select name="price_filter_imp" id="price_filter_imp"><?php echo easyreservations_num_options(1,99); ?></select><br>
+												<b style="padding:4px;display:inline-block;min-width:65px"><?php echo __( 'Priority' , 'easyReservations' ); ?>:</b> <select name="price_filter_imp" id="price_filter_imp"><?php echo easyReservations_num_options(1,99); ?></select><br>
 										</div>
-
 										<div id="filter_form_time_cond" class="hide-it">
 											<div class="fakehr"></div>
 											<span class="easy-h3"><?php echo __( 'Condition' , 'easyReservations' ); ?></span>
 											<div class="fakehr"></div>
-											<input type="radio" name="price_filter_cond" value="date"> <b class=""><?php echo __( 'Date' , 'easyReservations' ); ?></b><br>
+											<input type="radio" name="price_filter_cond" id="price_filter_cond_date" value="date"> <b class=""><?php echo __( 'Date' , 'easyReservations' ); ?></b><br>
 											<div class="fakehr"></div>
 
 											<span style="padding:2px 0px 2px 18px;">
-												<?php echo __( 'Change price at' , 'easyReservations' ); ?> <input type="text" id="price_filter_date" name="price_filter_date" style="width:71px">
+												<label for="price_filter_cond_date" id="price_filter_cond_date"><?php echo __( 'Change price at' , 'easyReservations' ); ?> <input type="text" id="price_filter_date" name="price_filter_date" style="width:71px"></label>
 											</span><br>
 											<div class="fakehr"></div>
-											<input type="radio" name="price_filter_cond" value="range"> <b><?php echo __( 'Date range' , 'easyReservations' ); ?></b><br>
+											<input type="radio" name="price_filter_cond" id="price_filter_cond_range" value="range"> <b><?php echo __( 'Date range' , 'easyReservations' ); ?></b><br>
 											<div class="fakehr"></div>
 											<span style="padding:2px 0px 2px 18px;">
-												<?php echo __( 'Change price between' , 'easyReservations' ); ?> <input type="text" id="price_filter_range_from" name="price_filter_range_from" style="width:71px"><?php echo __( 'and' , 'easyReservations' ); ?> <input type="text" id="price_filter_range_to" name="price_filter_range_to" style="width:71px">
+												<label for="price_filter_cond_range" id="price_filter_cond_range"><?php echo __( 'Change price between' , 'easyReservations' ); ?> <input type="text" id="price_filter_range_from" name="price_filter_range_from" style="width:71px"><?php echo __( 'and' , 'easyReservations' ); ?> <input type="text" id="price_filter_range_to" name="price_filter_range_to" style="width:71px"></label>
 											</span><br>
 											<div class="fakehr"></div>
 
-											<input type="radio" name="price_filter_cond" value="unit"> <b><?php echo __( 'Unit' , 'easyReservations' ); ?></b><br>
+											<input type="radio" name="price_filter_cond" id="price_filter_cond_unit" value="unit"> <b><?php echo __( 'Unit' , 'easyReservations' ); ?></b><br>
 											<div class="fakehr"></div>
+											<label for="price_filter_cond_unit" id="price_filter_cond_unit">
 
 											<span style="padding:2px 0px 2px 18px;"><b><u><?php echo __( 'Days' , 'easyReservations' ); ?></u></b></span><br>
 											<span style="padding:2px 0px 2px 18px;"><i><?php echo __( 'select nothing to change price/availability for entire calendar week' , 'easyReservations' ); ?></i></span><br>
 											<span style="min-width:99%;display:block;float:left">
 												<div style="padding:0px 0px 0px 18px;margin:3px;width:90px;float:left;">
-													<span style="margin:3px;"><input type="checkbox" name="price_filter_unit_days[]" value="1"> <?php echo __( 'Monday' , 'easyReservations' ); ?></span><br>
-													<span style="margin:3px;"><input type="checkbox" name="price_filter_unit_days[]" value="2"> <?php echo __( 'Tuesday' , 'easyReservations' ); ?></span><br>
-													<span style="margin:3px;"><input type="checkbox" name="price_filter_unit_days[]" value="3"> <?php echo __( 'Wednesday' , 'easyReservations' ); ?></span><br>
-													<span style="margin:3px;"><input type="checkbox" name="price_filter_unit_days[]" value="4"> <?php echo __( 'Thursday' , 'easyReservations' ); ?></span>
+													<label style="margin:3px;"><input type="checkbox" name="price_filter_unit_days[]" value="1"> <?php echo __( 'Monday' , 'easyReservations' ); ?></label><br>
+													<label style="margin:3px;"><input type="checkbox" name="price_filter_unit_days[]" value="2"> <?php echo __( 'Tuesday' , 'easyReservations' ); ?></label><br>
+													<label style="margin:3px;"><input type="checkbox" name="price_filter_unit_days[]" value="3"> <?php echo __( 'Wednesday' , 'easyReservations' ); ?></label><br>
+													<label style="margin:3px;"><input type="checkbox" name="price_filter_unit_days[]" value="4"> <?php echo __( 'Thursday' , 'easyReservations' ); ?></label>
 												</div>
 												<div style="margin:3px;width:90px;float:left;">
-													<span style="margin:3px;"><input type="checkbox" name="price_filter_unit_days[]" value="5"> <?php echo __( 'Friday' , 'easyReservations' ); ?></span><br>
-													<span style="margin:3px;"><input type="checkbox" name="price_filter_unit_days[]" value="6"> <?php echo __( 'Saturday' , 'easyReservations' ); ?></span><br>
-													<span style="margin:3px;"><input type="checkbox" name="price_filter_unit_days[]" value="7"> <?php echo __( 'Sunday' , 'easyReservations' ); ?></span><br>
+													<label style="margin:3px;"><input type="checkbox" name="price_filter_unit_days[]" value="5"> <?php echo __( 'Friday' , 'easyReservations' ); ?></label><br>
+													<label style="margin:3px;"><input type="checkbox" name="price_filter_unit_days[]" value="6"> <?php echo __( 'Saturday' , 'easyReservations' ); ?></label><br>
+													<label style="margin:3px;"><input type="checkbox" name="price_filter_unit_days[]" value="7"> <?php echo __( 'Sunday' , 'easyReservations' ); ?></label><br>
 												</div>
 											</span>
 
@@ -759,122 +791,123 @@ if(!isset($site) OR $site=='' OR $site=='main'){
 											<span style="padding:2px 0px 2px 18px;"><i><?php echo __( 'select nothing to change price/availability for entire month' , 'easyReservations' ); ?></i></span><br>
 											<span style="min-width:99%;display:block;float:left">
 												<div style="padding:0px 0px 0px 18px;margin:3px;width:36px;float:left;">
-													<span><input type="checkbox" name="price_filter_unit_cw[]" value="1"> 1</span>
-													<span><input type="checkbox" name="price_filter_unit_cw[]" value="2"> 2</span>
-													<span><input type="checkbox" name="price_filter_unit_cw[]" value="3"> 3</span>
-													<span><input type="checkbox" name="price_filter_unit_cw[]" value="4"> 4</span>
-													<span><input type="checkbox" name="price_filter_unit_cw[]" value="5"> 5</span>
-													<span><input type="checkbox" name="price_filter_unit_cw[]" value="6"> 6</span>
-													<span><input type="checkbox" name="price_filter_unit_cw[]" value="7"> 7</span>
-													<span><input type="checkbox" name="price_filter_unit_cw[]" value="8"> 8</span>
-													<span><input type="checkbox" name="price_filter_unit_cw[]" value="9"> 9</span>
-													<span><input type="checkbox" name="price_filter_unit_cw[]" value="10"> 10</span>
+													<label><input type="checkbox" name="price_filter_unit_cw[]" value="1"> 1</label>
+													<label><input type="checkbox" name="price_filter_unit_cw[]" value="2"> 2</label>
+													<label><input type="checkbox" name="price_filter_unit_cw[]" value="3"> 3</label>
+													<label><input type="checkbox" name="price_filter_unit_cw[]" value="4"> 4</label>
+													<label><input type="checkbox" name="price_filter_unit_cw[]" value="5"> 5</label>
+													<label><input type="checkbox" name="price_filter_unit_cw[]" value="6"> 6</label>
+													<label><input type="checkbox" name="price_filter_unit_cw[]" value="7"> 7</label>
+													<label><input type="checkbox" name="price_filter_unit_cw[]" value="8"> 8</label>
+													<label><input type="checkbox" name="price_filter_unit_cw[]" value="9"> 9</label>
+													<label><input type="checkbox" name="price_filter_unit_cw[]" value="10"> 10</label>
 												</div>
 												<div style="margin:3px;width:36px;float:left;">
-													<span><input type="checkbox" name="price_filter_unit_cw[]" value="11"> 11</span>
-													<span><input type="checkbox" name="price_filter_unit_cw[]" value="12"> 12</span>
-													<span><input type="checkbox" name="price_filter_unit_cw[]" value="13"> 13</span>
-													<span><input type="checkbox" name="price_filter_unit_cw[]" value="14"> 14</span>
-													<span><input type="checkbox" name="price_filter_unit_cw[]" value="15"> 15</span>
-													<span><input type="checkbox" name="price_filter_unit_cw[]" value="16"> 16</span>
-													<span><input type="checkbox" name="price_filter_unit_cw[]" value="17"> 17</span>
-													<span><input type="checkbox" name="price_filter_unit_cw[]" value="18"> 18</span>
-													<span><input type="checkbox" name="price_filter_unit_cw[]" value="19"> 19</span>
-													<span><input type="checkbox" name="price_filter_unit_cw[]" value="20"> 20</span>
+													<label><input type="checkbox" name="price_filter_unit_cw[]" value="11"> 11</label>
+													<label><input type="checkbox" name="price_filter_unit_cw[]" value="12"> 12</label>
+													<label><input type="checkbox" name="price_filter_unit_cw[]" value="13"> 13</label>
+													<label><input type="checkbox" name="price_filter_unit_cw[]" value="14"> 14</label>
+													<label><input type="checkbox" name="price_filter_unit_cw[]" value="15"> 15</label>
+													<label><input type="checkbox" name="price_filter_unit_cw[]" value="16"> 16</label>
+													<label><input type="checkbox" name="price_filter_unit_cw[]" value="17"> 17</label>
+													<label><input type="checkbox" name="price_filter_unit_cw[]" value="18"> 18</label>
+													<label><input type="checkbox" name="price_filter_unit_cw[]" value="19"> 19</label>
+													<label><input type="checkbox" name="price_filter_unit_cw[]" value="20"> 20</label>
 												</div>
 												<div style="margin:3px;width:36px;float:left;">
-													<span><input type="checkbox" name="price_filter_unit_cw[]" value="21"> 21</span>
-													<span><input type="checkbox" name="price_filter_unit_cw[]" value="22"> 22</span>
-													<span><input type="checkbox" name="price_filter_unit_cw[]" value="23"> 23</span>
-													<span><input type="checkbox" name="price_filter_unit_cw[]" value="24"> 24</span>
-													<span><input type="checkbox" name="price_filter_unit_cw[]" value="25"> 25</span>
-													<span><input type="checkbox" name="price_filter_unit_cw[]" value="26"> 26</span>
-													<span><input type="checkbox" name="price_filter_unit_cw[]" value="27"> 27</span>
-													<span><input type="checkbox" name="price_filter_unit_cw[]" value="28"> 28</span>
-													<span><input type="checkbox" name="price_filter_unit_cw[]" value="29"> 29</span>
-													<span><input type="checkbox" name="price_filter_unit_cw[]" value="30"> 30</span>
+													<label><input type="checkbox" name="price_filter_unit_cw[]" value="21"> 21</label>
+													<label><input type="checkbox" name="price_filter_unit_cw[]" value="22"> 22</label>
+													<label><input type="checkbox" name="price_filter_unit_cw[]" value="23"> 23</label>
+													<label><input type="checkbox" name="price_filter_unit_cw[]" value="24"> 24</label>
+													<label><input type="checkbox" name="price_filter_unit_cw[]" value="25"> 25</label>
+													<label><input type="checkbox" name="price_filter_unit_cw[]" value="26"> 26</label>
+													<label><input type="checkbox" name="price_filter_unit_cw[]" value="27"> 27</label>
+													<label><input type="checkbox" name="price_filter_unit_cw[]" value="28"> 28</label>
+													<label><input type="checkbox" name="price_filter_unit_cw[]" value="29"> 29</label>
+													<label><input type="checkbox" name="price_filter_unit_cw[]" value="30"> 30</label>
 												</div>
 												<div style="margin:3px;width:36px;float:left;">
-													<span><input type="checkbox" name="price_filter_unit_cw[]" value="31"> 31</span>
-													<span><input type="checkbox" name="price_filter_unit_cw[]" value="32"> 32</span>
-													<span><input type="checkbox" name="price_filter_unit_cw[]" value="33"> 33</span>
-													<span><input type="checkbox" name="price_filter_unit_cw[]" value="34"> 34</span>
-													<span><input type="checkbox" name="price_filter_unit_cw[]" value="35"> 35</span>
-													<span><input type="checkbox" name="price_filter_unit_cw[]" value="36"> 36</span>
-													<span><input type="checkbox" name="price_filter_unit_cw[]" value="37"> 37</span>
-													<span><input type="checkbox" name="price_filter_unit_cw[]" value="38"> 38</span>
-													<span><input type="checkbox" name="price_filter_unit_cw[]" value="39"> 39</span>
-													<span><input type="checkbox" name="price_filter_unit_cw[]" value="40"> 40</span>
+													<label><input type="checkbox" name="price_filter_unit_cw[]" value="31"> 31</label>
+													<label><input type="checkbox" name="price_filter_unit_cw[]" value="32"> 32</label>
+													<label><input type="checkbox" name="price_filter_unit_cw[]" value="33"> 33</label>
+													<label><input type="checkbox" name="price_filter_unit_cw[]" value="34"> 34</label>
+													<label><input type="checkbox" name="price_filter_unit_cw[]" value="35"> 35</label>
+													<label><input type="checkbox" name="price_filter_unit_cw[]" value="36"> 36</label>
+													<label><input type="checkbox" name="price_filter_unit_cw[]" value="37"> 37</label>
+													<label><input type="checkbox" name="price_filter_unit_cw[]" value="38"> 38</label>
+													<label><input type="checkbox" name="price_filter_unit_cw[]" value="39"> 39</label>
+													<label><input type="checkbox" name="price_filter_unit_cw[]" value="40"> 40</label>
 												</div>
 												<div style="margin:3px;width:36px;float:left">
-													<span><input type="checkbox" name="price_filter_unit_cw[]" value="41"> 41</span>
-													<span><input type="checkbox" name="price_filter_unit_cw[]" value="42"> 42</span>
-													<span><input type="checkbox" name="price_filter_unit_cw[]" value="43"> 43</span>
-													<span><input type="checkbox" name="price_filter_unit_cw[]" value="44"> 44</span>
-													<span><input type="checkbox" name="price_filter_unit_cw[]" value="45"> 45</span>
-													<span><input type="checkbox" name="price_filter_unit_cw[]" value="46"> 46</span>
-													<span><input type="checkbox" name="price_filter_unit_cw[]" value="47"> 47</span>
-													<span><input type="checkbox" name="price_filter_unit_cw[]" value="48"> 48</span>
-													<span><input type="checkbox" name="price_filter_unit_cw[]" value="49"> 49</span>
-													<span><input type="checkbox" name="price_filter_unit_cw[]" value="50"> 50</span>
+													<label><input type="checkbox" name="price_filter_unit_cw[]" value="41"> 41</label>
+													<label><input type="checkbox" name="price_filter_unit_cw[]" value="42"> 42</label>
+													<label><input type="checkbox" name="price_filter_unit_cw[]" value="43"> 43</label>
+													<label><input type="checkbox" name="price_filter_unit_cw[]" value="44"> 44</label>
+													<label><input type="checkbox" name="price_filter_unit_cw[]" value="45"> 45</label>
+													<label><input type="checkbox" name="price_filter_unit_cw[]" value="46"> 46</label>
+													<label><input type="checkbox" name="price_filter_unit_cw[]" value="47"> 47</label>
+													<label><input type="checkbox" name="price_filter_unit_cw[]" value="48"> 48</label>
+													<label><input type="checkbox" name="price_filter_unit_cw[]" value="49"> 49</label>
+													<label><input type="checkbox" name="price_filter_unit_cw[]" value="50"> 50</label>
 												</div>
 												<div style="margin:3px;width:36px;float:left">
-													<span><input type="checkbox" name="price_filter_unit_cw[]" value="51"> 51</span>
-													<span><input type="checkbox" name="price_filter_unit_cw[]" value="52"> 52</span>
+													<label><input type="checkbox" name="price_filter_unit_cw[]" value="51"> 51</label>
+													<label><input type="checkbox" name="price_filter_unit_cw[]" value="52"> 52</label>
 												</div>
 											</span>
 
 											<span style="padding:2px 0px 2px 18px;margin-top:3px;float:none"><b><u><?php echo __( 'Monthes' , 'easyReservations' ); ?></u></b></span><br>
 											<span style="padding:2px 0px 2px 18px;"><i><?php echo __( 'select nothing to change price/availability for entire quarter' , 'easyReservations' ); ?></i></span><br>
 											<div style="padding:0px 0px 0px 20px;">
-												<span style="width:80px;float:left"><input type="checkbox" name="price_filter_unit_month[]" value="1"> <?php echo __( 'January' , 'easyReservations' ); ?></span>
-												<span style="width:80px;float:left"><input type="checkbox" name="price_filter_unit_month[]" value="2"> <?php echo __( 'February' , 'easyReservations' ); ?></span>
-												<span style="width:80px;"><input type="checkbox" name="price_filter_unit_month[]" value="3"> <?php echo __( 'March' , 'easyReservations' ); ?></span>
+												<label style="width:80px;float:left"><input type="checkbox" name="price_filter_unit_month[]" value="1"> <?php echo __( 'January' , 'easyReservations' ); ?></label>
+												<label style="width:80px;float:left"><input type="checkbox" name="price_filter_unit_month[]" value="2"> <?php echo __( 'February' , 'easyReservations' ); ?></label>
+												<label style="width:80px;"><input type="checkbox" name="price_filter_unit_month[]" value="3"> <?php echo __( 'March' , 'easyReservations' ); ?></label>
 											</div>
 											<div style="padding:0px 0px 0px 20px;">
-												<span style="width:80px;float:left"><input type="checkbox" name="price_filter_unit_month[]" value="4"> <?php echo __( 'April' , 'easyReservations' ); ?></span>
-												<span style="width:80px;float:left"><input type="checkbox" name="price_filter_unit_month[]" value="5"> <?php echo __( 'May' , 'easyReservations' ); ?></span>
-												<span style="width:80px;"><input type="checkbox" name="price_filter_unit_month[]" value="6"> <?php echo __( 'June' , 'easyReservations' ); ?></span>
+												<label style="width:80px;float:left"><input type="checkbox" name="price_filter_unit_month[]" value="4"> <?php echo __( 'April' , 'easyReservations' ); ?></label>
+												<label style="width:80px;float:left"><input type="checkbox" name="price_filter_unit_month[]" value="5"> <?php echo __( 'May' , 'easyReservations' ); ?></label>
+												<label style="width:80px;"><input type="checkbox" name="price_filter_unit_month[]" value="6"> <?php echo __( 'June' , 'easyReservations' ); ?></label>
 											</div>
 											<div style="padding:0px 0px 0px 20px;">
-												<span style="width:80px;float:left"><input type="checkbox" name="price_filter_unit_month[]" value="7"> <?php echo __( 'July' , 'easyReservations' ); ?></span>
-												<span style="width:80px;float:left"><input type="checkbox" name="price_filter_unit_month[]" value="8"> <?php echo __( 'August' , 'easyReservations' ); ?></span>
-												<span style="width:80px;"><input type="checkbox" name="price_filter_unit_month[]" value="9"> <?php echo __( 'September' , 'easyReservations' ); ?></span>
+												<label style="width:80px;float:left"><input type="checkbox" name="price_filter_unit_month[]" value="7"> <?php echo __( 'July' , 'easyReservations' ); ?></label>
+												<label style="width:80px;float:left"><input type="checkbox" name="price_filter_unit_month[]" value="8"> <?php echo __( 'August' , 'easyReservations' ); ?></label>
+												<label style="width:80px;"><input type="checkbox" name="price_filter_unit_month[]" value="9"> <?php echo __( 'September' , 'easyReservations' ); ?></label>
 											</div>
 											<div style="padding:0px 0px 0px 20px;">
-												<span style="width:80px;float:left"><input type="checkbox" name="price_filter_unit_month[]" value="10"> <?php echo __( 'October' , 'easyReservations' ); ?></span>
-												<span style="width:80px;float:left"><input type="checkbox" name="price_filter_unit_month[]" value="11"> <?php echo __( 'November' , 'easyReservations' ); ?></span>
-												<span style="width:80px;"><input type="checkbox" name="price_filter_unit_month[]" value="12"> <?php echo __( 'December' , 'easyReservations' ); ?></span>
+												<label style="width:80px;float:left"><input type="checkbox" name="price_filter_unit_month[]" value="10"> <?php echo __( 'October' , 'easyReservations' ); ?></label>
+												<label style="width:80px;float:left"><input type="checkbox" name="price_filter_unit_month[]" value="11"> <?php echo __( 'November' , 'easyReservations' ); ?></label>
+												<label style="width:80px;"><input type="checkbox" name="price_filter_unit_month[]" value="12"> <?php echo __( 'December' , 'easyReservations' ); ?></label>
 											</div>
 
 											<span style="padding:2px 0px 2px 18px;margin-top:3px"><b><u><?php echo __( 'Quarter' , 'easyReservations' ); ?></u></b></span><br>
 											<span style="padding:2px 0px 2px 18px;"><i><?php echo __( 'select nothing to change price/availability for entire year' , 'easyReservations' ); ?></i></span><br>
 											<div style="padding:0px 0px 0px 20px;">
-												<span style="width:40px;float:left"><input type="checkbox" name="price_filter_unit_quarter[]" value="1"> 1</span>
-												<span style="width:40px;float:left"><input type="checkbox" name="price_filter_unit_quarter[]" value="2"> 2</span>
-												<span style="width:40px;float:left"><input type="checkbox" name="price_filter_unit_quarter[]" value="3"> 3</span>
-												<span style="width:40px;"><input type="checkbox" name="price_filter_unit_quarter[]" value="4"> 4</span>
+												<label style="width:40px;float:left"><input type="checkbox" name="price_filter_unit_quarter[]" value="1"> 1</label>
+												<label style="width:40px;float:left"><input type="checkbox" name="price_filter_unit_quarter[]" value="2"> 2</label>
+												<label style="width:40px;float:left"><input type="checkbox" name="price_filter_unit_quarter[]" value="3"> 3</label>
+												<label style="width:40px;"><input type="checkbox" name="price_filter_unit_quarter[]" value="4"> 4</label>
 											</div>
 
 											<span style="padding:2px 0px 2px 18px;margin-top:3px"><b><u><?php echo __( 'Year' , 'easyReservations' ); ?></u></b></span><br>
 											<div style="padding:0px 0px 0px 20px;">
-												<span style="width:50px;float:left"><input type="checkbox" name="price_filter_unit_year[]" value="2010"> 2010</span>
-												<span style="width:50px;float:left"><input type="checkbox" name="price_filter_unit_year[]" value="2011"> 2011</span>
-												<span style="width:50px;float:left"><input type="checkbox" name="price_filter_unit_year[]" value="2012"> 2012</span>
-												<span style="width:50px;float:left"><input type="checkbox" name="price_filter_unit_year[]" value="2013"> 2013</span>
-												<span style="width:50px;"><input type="checkbox" name="price_filter_unit_year[]" value="2014"> 2014</span>
+												<label style="width:50px;float:left"><input type="checkbox" name="price_filter_unit_year[]" value="2010"> 2010</label>
+												<label style="width:50px;float:left"><input type="checkbox" name="price_filter_unit_year[]" value="2011"> 2011</label>
+												<label style="width:50px;float:left"><input type="checkbox" name="price_filter_unit_year[]" value="2012"> 2012</label>
+												<label style="width:50px;float:left"><input type="checkbox" name="price_filter_unit_year[]" value="2013"> 2013</label>
+												<label style="width:50px;"><input type="checkbox" name="price_filter_unit_year[]" value="2014"> 2014</label>
 											</div>
 											<div style="padding:0px 0px 0px 20px;">
-												<span style="width:50px;float:left"><input type="checkbox" name="price_filter_unit_year[]" value="2015"> 2015</span>
-												<span style="width:50px;float:left"><input type="checkbox" name="price_filter_unit_year[]" value="2016"> 2016</span>
-												<span style="width:50px;float:left"><input type="checkbox" name="price_filter_unit_year[]" value="2017"> 2017</span>
-												<span style="width:50px;float:left"><input type="checkbox" name="price_filter_unit_year[]" value="2018"> 2018</span>
-												<span style="width:50px;"><input type="checkbox" name="price_filter_unit_year[]" value="2019"> 2019</span>
+												<label style="width:50px;float:left"><input type="checkbox" name="price_filter_unit_year[]" value="2015"> 2015</label>
+												<label style="width:50px;float:left"><input type="checkbox" name="price_filter_unit_year[]" value="2016"> 2016</label>
+												<label style="width:50px;float:left"><input type="checkbox" name="price_filter_unit_year[]" value="2017"> 2017</label>
+												<label style="width:50px;float:left"><input type="checkbox" name="price_filter_unit_year[]" value="2018"> 2018</label>
+												<label style="width:50px;"><input type="checkbox" name="price_filter_unit_year[]" value="2019"> 2019</label>
 											</div>
+											</label>
 										</div>
 										<div id="filter_form_discount" class="hide-it">
 											<b style="padding:4px;display:inline-block;min-width:65px"><?php echo __( 'Type' , 'easyReservations' ); ?>:</b> <select name="filter_form_discount_type" id="filter_form_discount_type" onchange="setWord(this.value)"><option value="early"><?php echo __( 'Days between reservation and arrival' , 'easyReservations' ); ?></option><option value="loyal"><?php echo __( 'Recurring guests' , 'easyReservations' ); ?></option><option value="stay"><?php echo __( 'Amount of nights' , 'easyReservations' ); ?></option><option value="pers"><?php echo __( 'Amount of Persons' , 'easyReservations' ); ?></option></select><br>
-											<b style="padding:4px;display:inline-block;min-width:65px"><?php echo __( 'Condition' , 'easyReservations' ); ?>:</b> <select name="filter_form_discount_cond" id="filter_form_discount_cond"><?php echo easyreservations_num_options(1,99); ?></select> <span id="filter_form_discount_cond_verb">Days</span><br>
+											<b style="padding:4px;display:inline-block;min-width:65px"><?php echo __( 'Condition' , 'easyReservations' ); ?>:</b> <select name="filter_form_discount_cond" id="filter_form_discount_cond"><?php echo easyReservations_num_options(1,99); ?></select> <span id="filter_form_discount_cond_verb">Days</span><br>
 											<b style="padding:4px;display:inline-block;min-width:65px"><?php echo __( 'Mode' , 'easyReservations' ); ?>:</b> 
 												<select name="filter_form_discount_mode" id="filter_form_discount_mode">
 													<option value="price_res"><?php echo __( 'Price per Reservation' , 'easyReservations' ); ?></option>
@@ -891,13 +924,13 @@ if(!isset($site) OR $site=='' OR $site=='main'){
 											<?php if($roomoroffer == "offer"){
 												foreach($roomcategories as $num => $roomcategorie){?>
 													<span style="display:block;margin:2px;padding:3px 5px;">
-													<b style="min-width:90px;display:inline-block"><?php echo __(get_the_title($roomcategorie->ID)); ?></b>
-													<input type="text" name="filter-price-fields[]" id="filter-price-fields-<?php echo $roomcategorie->ID; ?>">
-													<input type="hidden" name="filter-price-field-room[]" id="filter-price-field-room-<?php echo $num; ?>" value="<?php echo $roomcategorie->ID; ?>">
-												</span>
+														<b style="min-width:90px;display:inline-block"><?php echo __(get_the_title($roomcategorie->ID)); ?></b>
+														<input type="text" name="filter-price-fields[]" id="filter-price-fields-<?php echo $roomcategorie->ID; ?>" value="-100"><select onchange="easy_change_amount(this);" name="filter-price-mode" class="hide-it"><option value="discount">Discount</option><option value="charge">Extra Charge</option></select>
+														<input type="hidden" name="filter-price-field-room[]" id="filter-price-field-room-<?php echo $num; ?>" value="<?php echo $roomcategorie->ID; ?>" value="-100">
+													</span>
 												<?php } ?>
 											<?php } else { ?>
-													<b><?php echo __(get_the_title($resourceID)); ?></b>: <input type="text" name="filter-price-field" id="filter-price-field">
+											<b><?php echo __(get_the_title($resourceID)); ?></b>: <input type="text" name="filter-price-field" id="filter-price-field" value="-100"><select onchange="easy_change_amount(this);" name="filter-price-mode" class="hide-it"><option value="discount">Discount</option><option value="charge">Extra Charge</option></select>
 											<?php } ?>
 										</div>
 								</td>
@@ -931,7 +964,6 @@ if(!isset($site) OR $site=='' OR $site=='main'){
 				document.getElementById('price_filter_range_to').value = filter[i]['to'];
 			} else {
 				document.getElementsByName('price_filter_cond')[2].checked = true;
-				
 				var day_checkboxes = document.getElementsByName('price_filter_unit_days[]');
 				if(filter[i]['day'] != ''){
 					var days =  filter[i]['day'];
@@ -982,13 +1014,23 @@ if(!isset($site) OR $site=='' OR $site=='main'){
 		if(type == 'price' || type == 'loyal' || type == 'early' || type == 'pers' || type == 'stay' ){
 			var price = filter[i]['price'];
 			var pricefield = document.getElementById('filter-price-field');
+			var pricemodus = document.getElementsByName('filter-price-mode');
 			if(pricefield){
 				pricefield.value = price;
+				if(price > 0) pricemodus[0].selectedIndex = 1;
+				else pricemodus[0].selectedIndex = 0;
 			} else {
 				var price_split = price.split('-');
 				for(var x = 0; x < price_split.length; x++){
 					var room_split = price_split[x].split(':');
-					document.getElementById('filter-price-fields-'+room_split[0]).value = room_split[1];
+					var room_field = document.getElementById('filter-price-fields-'+room_split[0]);
+					if(room_field){
+						room_field.value = room_split[1];
+						if(pricemodus[x]){
+							if(room_split[1] > 0) pricemodus[x].selectedIndex = 1;
+							else pricemodus[x].selectedIndex = 0;
+						}
+					}
 				}
 			}
 		}
@@ -1022,7 +1064,8 @@ if(!isset($site) OR $site=='' OR $site=='main'){
 		document.getElementById('filter_form_button').className = '';
 
 		document.getElementById('filter_form_discount').className = 'hidden';
-
+		var pricemodes = document.getElementsByName('filter-price-mode');
+		for(var index = 0; index < pricemodes.length; index++) pricemodes[index].className = 'hidden';
 		document.getElementById('filter_type').value="price";
 	}
 	function show_add_discount(){
@@ -1030,7 +1073,9 @@ if(!isset($site) OR $site=='' OR $site=='main'){
 		document.getElementById('filter_form_discount').className = '';
 		document.getElementById('filter_form_price').className = '';
 		document.getElementById('filter_form_button').className = '';
+		var pricemodes = document.getElementsByName('filter-price-mode');
 
+		for(var index = 0; index < pricemodes.length; index++) pricemodes[index].className = '';
 		document.getElementById('filter_form_importance').className = 'hidden';
 		document.getElementById('filter_form_time_cond').className = 'hidden';
 
@@ -1076,19 +1121,29 @@ if(!isset($site) OR $site=='' OR $site=='main'){
 			dateFormat: 'dd.mm.yy'
 		});
 	});
+	function easy_change_amount(t){
+		var fieldbefore = t.previousSibling;
+		if(t){
+			if(t.value == 'discount'){
+				if(fieldbefore.value[0] == '-') var end = fieldbefore.value;
+				else var end = '-' + fieldbefore.value;
+			} else {
+				if(fieldbefore.value[0] == '-') var end = fieldbefore.value.substr(1);
+				else var end = fieldbefore.value;
+			}
+			fieldbefore.value = end;
+		}
+	}
 
 </script><style> .ui-datepicker-trigger { }</style>
 <?php
 	} elseif($site=='addresource'){
-		
 		if($addresource=='room'){
 			$roomoroffer='Room';
 		} else {
 			$roomoroffer='Offer';
 		}
-		
 		if(isset($prompt)) echo $prompt;
-
  ?><form method="post" action="" name="addresource" id="addresource"><?php wp_nonce_field('easy-resource-add','easy-resource-add'); ?>
 <input type="hidden" name="roomoroffer" value="<?php echo $addresource; ?>">
 	<table class="<?php echo RESERVATIONS_STYLE; ?>" style="width:340px;">

@@ -43,16 +43,13 @@ function easyreservations_send_validate(){
 	if(emailfield){
 		emailfield.style.borderColor = '#DDDDDD';
 		var email = emailfield.value;
-	}
-	else var email = 'f.e.r.y@web.de';
+	} else var email = 'test@test.com';
 
 	var thenamefield = document.easyFrontendFormular.thename;
 	if(thenamefield){
 		thenamefield.style.borderColor = '#DDDDDD';
 		var thename = thenamefield.value;
-	}
-	else var thename = 'f.e.r.y@web.de';
-		
+	} else var thename = 'testuser';
 
 	var data = {
 		action: 'easyreservations_send_validate',
@@ -77,10 +74,10 @@ function easyreservations_send_validate(){
 					i++;
 					var error = errors[i];
 					if(field == 'date'){
-						document.getElementById('easy-form-from').style.border = '#E80000';
-						document.getElementById('easy-form-to').style.border= '#E80000';
+						document.getElementById('easy-form-from').style.border = '1px solid #E80000';
+						document.getElementById('easy-form-to').style.border= '1px solid #E80000';
+					} else document.getElementById(field).style.border = '1px solid #E80000';
 						jQuery("#showError").html(error);
-					} else document.getElementById(field).style.border = '#E80000';
 				}
 			}
 		});

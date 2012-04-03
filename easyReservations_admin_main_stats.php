@@ -4,6 +4,7 @@
 	wp_enqueue_script('jqplot_plugin_categoryAxisRenderer');
 	wp_enqueue_script('jqplot_plugin_highlighter');
 	wp_enqueue_script('jqplot_plugin_barRenderer');
+	if(!$wpdb) global $wpdb;
 
 	$countReservated = '';
 	$countApproved = '';
@@ -24,25 +25,7 @@
 	}
 ?><script type="text/javascript">
 <?php if( $show['show_upcoming'] == 1 ){ ?>
-/*
-	jQuery(document).ready(function() {
-	  var cosPoints = [<?php echo $countApproved; ?>];
-	 // for (var i=0; i<2*Math.PI; i+=0.1){
-	//	 cosPoints.push([i, Math.cos(i)]);
-	 // }
-	  var plot1 = jQuery.jqplot('container', [cosPoints], { 
-		  series:[{showMarker:false}],
-		  axes:{
-			xaxis:{
-			  label:'Angle (radians)'
-			},
-			yaxis:{
-			  label:'Cosine'
-			}
-		  }
-	  });
-	});
-*/
+
 	jQuery(document).ready(function(){
 		var s1 = [<?php echo $countApproved; ?>];
 		var s2 = [<?php echo $countRejected; ?>];

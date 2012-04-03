@@ -1,26 +1,38 @@
 var easyClick = 0;
+var easyClickFirst = '';
 var easyCellnr = 0;
-
-function easyreservations_click_calendar(t,d,w){
+var easyCalM = 0;
+function easyreservations_click_calendar(t,d,w, m){
 	if(easyClick == 2){
 		jQuery(".calendar-cell-selected").removeClass("calendar-cell-selected");
 		easyClick = 0;
 	}
 	if(easyClick == 1){
+
 		easyCellnr = parseFloat(easyCellnr);
+		easyCalM = parseFloat(easyCalM);
 		var axis = parseFloat(t.axis);
-		if(easyCellnr <= t.axis){
-		//alert(easyCellnr+ ' - ' +t.axis);
+		if(easyCalM != m) axis = 31;
+		//alert('easyCellnr: '+easyCellnr+' axis: '+axis+' m: '+m+' easyCalM: '+easyCalM);
+		if(!document.getElementById('easy-cal-' + w + '-'+ easyCellnr + '-' + easyCalM)) easyCellnr = 1;
+
+		if(easyCellnr <= axis && parseFloat(m) >= easyCalM){
+
 			for (i=easyCellnr; i<=axis; i++){
-				var element = '#easy-cal-' + w + '-'+ i;
+				var element = '#easy-cal-' + w + '-'+ i + '-' + easyCalM;
 				if(i != axis && jQuery(element).hasClass('calendar-cell-full') == true){
 					jQuery(".calendar-cell-selected").removeClass("calendar-cell-selected");
 					var To = document.getElementById('easy-form-to');
 					if(To) To.value = '';
-					jQuery(t.parentNode.parentNode.parentNode).addClass("calendar-full");
+					jQuery(t.parentNode.parentNode.parentNode.parentNode).addClass("calendar-full");
 					break;
 				}
 				jQuery(element).addClass("calendar-cell-selected");
+				if(i  == 31 && easyCalM != m){
+					easyCalM = easyCalM + 1;
+					i = 0;
+					if(easyCalM == m) axis = parseFloat(t.axis);
+				}
 			}
 			var To = document.getElementById('easy-form-to');
 			if(To) To.value = d;
@@ -32,11 +44,14 @@ function easyreservations_click_calendar(t,d,w){
 			easyClick = 2;
 		} else {
 			easyClick = 0;
+			easyCalM = 0;
 			jQuery(".calendar-cell-selected").removeClass("calendar-cell-selected");
 		}
 	}
 	if(easyClick == 0){
-		jQuery(t.parentNode.parentNode.parentNode).removeClass("calendar-full");
+		easyCalM = m;
+		easyClickFirst = t.id;
+		jQuery(t.parentNode.parentNode.parentNode.parentNode).removeClass("calendar-full");
 		jQuery(t).addClass("calendar-cell-selected");
 		var From = document.getElementById('easy-form-from');
 		if(From) From.value = d;
@@ -48,8 +63,9 @@ function easyreservations_click_calendar(t,d,w){
 	}
 }
 
-function easyreservations_send_calendar(where){
-
+function easyreservations_send_calendar(where, e ){
+    e =  window.event;
+    if(e){ e = e.target || e.srcElement; }
 	if(where == 'shortcode'){
 		var tsecurity = document.CalendarFormular.calendarnonce.value;
 		var room = document.CalendarFormular.room.value;
@@ -62,6 +78,9 @@ function easyreservations_send_calendar(where){
 		var datefield = document.CalendarFormular.date;
 		if(datefield) var date = datefield.value;
 		else var date = '0';
+		var monthfield = document.CalendarFormular.monthes;
+		if(monthfield) var monthes = monthfield.value;
+		else var monthes = 1;
 	} else {
 		var tsecurity = document.widget_formular.calendarnonce.value;
 		var room = document.widget_formular.room.value;
@@ -70,10 +89,11 @@ function easyreservations_send_calendar(where){
 		else var offer = 0;
 		var sizefield = document.widget_formular.size;
 		if(sizefield) var size = sizefield.value;
-		else var size = '300,260,0,1';
+		else var size = '300,0,1';
 		var datefield = document.widget_formular.date;
 		if(datefield) var date = datefield.value;
 		else var date = '0';
+		var monthes = 1;
 	}
 
 	var data = {
@@ -83,7 +103,8 @@ function easyreservations_send_calendar(where){
 		offer: offer,
 		size: size,
 		date: date,
-		where:where
+		where:where,
+		monthes:monthes
 	};
 	
 	// since 2.8 ajaxurl is always defined in the admin header and points to admin-ajax.php
@@ -91,7 +112,6 @@ function easyreservations_send_calendar(where){
 	//jQuery.post('<?php echo admin_url( 'admin-ajax.php' ); ?>' , data, function(response) {
 		if(where == 'shortcode') jQuery("#showCalender").html(response);
 		else jQuery("#show_widget_calendar").html(response);
-		easyCellnr = 1;
 		return false;
 	});
 }

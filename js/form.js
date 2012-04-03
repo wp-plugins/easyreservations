@@ -11,10 +11,18 @@ function removeElement(parentDiv, childDiv){
 		alert("Child div has already been removed or does not exist.");
 		return false;
 	}
+
 }
 function easyreservations_build_datepicker(){
+
+	if(easyDate.easydateformat == 'Y/m/d') var dateformatse = 'yy/mm/dd';
+	else if(easyDate.easydateformat == 'm/d/Y') var dateformatse = 'mm/dd/yy';
+	else if(easyDate.easydateformat == 'Y-m-d') var dateformatse = 'yy-mm-dd';
+	else if(easyDate.easydateformat == 'd/m/Y') var dateformatse = 'dd/mm/yy';
+	else if(easyDate.easydateformat == 'd.m.Y') var dateformatse = 'dd.mm.yy';
+
 	var dates = jQuery( "#easy-form-from, #easy-form-to" ).datepicker({
-		dateFormat: 'dd.mm.yy',
+		dateFormat: dateformatse,
 		minDate: -1,
 		onSelect: function( selectedDate ) {
 			var option = this.id == "easy-form-from" ? "minDate" : "maxDate",

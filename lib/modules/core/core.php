@@ -26,7 +26,7 @@ License:GPL2
 	
 		if(isset($_GET['site']) AND $_GET['site'] == "plugins"){
 			if(isset($_GET['check'])){
-				$xml = easyreservations_latest_modules_versions(0);
+				easyreservations_latest_modules_versions(0);
 			} elseif(isset($_GET['activate'])){
 				//easyreservation_activate_module($_GET['activate']);
 				echo '<br><div class="updated"><p>'.sprintf(__( 'Module %s activated' , 'easyReservations' ), '<b>'.$_GET['activate'].'</b>').'</p></div>';
@@ -44,18 +44,18 @@ License:GPL2
 				if(isset($_FILES['reservation_core_upload_file']) || isset($_GET['file_name'])){
 					if(isset($_FILES['reservation_core_upload_file'])) $file_name = $_FILES['reservation_core_upload_file']['name']; else $file_name = $_GET['file_name'];
 					$file_tmp_name = $_FILES['reservation_core_upload_file']['tmp_name'];
-					$file_type = $_FILES['reservation_core_upload_file']['type'];
+					if(isset($_FILES['reservation_core_upload_file']))  $file_type = $_FILES['reservation_core_upload_file']['type']; else  $file_type = 'application/x-zip' ;
 					$file_size = $_FILES['reservation_core_upload_file']['size'];
 					$plugin_dir = WP_PLUGIN_DIR.'/easyreservations/';
 					$uploads = wp_upload_dir();
 					$saved_file_location = $uploads['basedir'].'/'. $file_name;
 
-					if(preg_match("/(PayPal|Import|GuestContact)/i", $file_name) && ($file_type == 'application/zip'  || $file_type == 'application/x-zip'  || isset($_GET['file_name']))){
+					if(preg_match("/(PayPal|Import|GuestContact)/i", $file_name) && ($file_type == 'application/zip'  || $file_type == 'application/x-zip' || $file_type == 'application/x-zip-compressed'  || isset($_GET['file_name']))){
 						if(move_uploaded_file($file_tmp_name, $saved_file_location) || isset($_GET['file_name'])) {
 							$url = 'admin.php?page=reservation-settings&site=plugins&file_name='.$file_name;
 							$creds = $_POST;
 							if ( ! WP_Filesystem($creds) ) {
-								request_filesystem_credentials($url, 'ftp', false, false, $form_fields);
+								request_filesystem_credentials($url, 'ftp', false, false, '$form_fields');
 							} else {
 								global $wp_filesystem;
 								if(get_filesystem_method($creds, $saved_file_location)){
@@ -87,6 +87,13 @@ License:GPL2
 
 		if(isset($_GET['site']) AND $_GET['site'] == "plugins"){
 			$options = get_option('reservations_core_options'); 
+			if(get_option('easyreservations-notifier-cache')) $xml = easyreservations_latest_modules_versions(86400);
+			else {
+				$xml = new stdClass();
+				$xml->latestc = '1.0';
+				$xml->latestd = '1.0';
+				$xml->latestp = '1.0';
+			}
 			if(empty($options)) $options = array('title' => '[room] for [nights] days | [arrivalDate] - [depatureDate]', 'owner' => 'feryaz_1319406050_biz@googlemail.com', 'modus' => 'off', 'currency' => 'USD', 'button' => 'https://www.paypal.com/en_US/i/btn/btn_paynow_SM.gif')?>
 			<?php wp_nonce_field('easy-set-core','easy-set-core'); ?>
 				<input type="hidden" name="action" value="reservation_core_settings">
@@ -140,12 +147,36 @@ License:GPL2
 							<td style="font-weight:bold;text-align:center"><b>free</b></td>
 							<td style="font-weight:bold;text-align:right"><?php if($import > 0) echo '<a href="mailto:import@feryaz.de">'.__( 'Support' , 'easyReservations' ).'</a>'; else echo '<a href="http://www.feryaz.de/import-module/" target="_blank">'.__( 'Download' , 'easyReservations' ).'</a>'; ?></td>
 						</tr>
+						<?php /*
+							$multical_current_version = "1.0"; $color = ''; $action = '';
+							if(function_exists('easyreservations_generate_multical')){
+								$multical = 2;
+								$multical_data = get_plugin_data(WP_PLUGIN_DIR.'/easyreservations/lib/modules/multical/multical.php', false);
+								$multical_current_version = $multical_data['Version'];
+								if(version_compare($multical_data['Version'], $xml->latestc) == -1) $color = 'color:#FF3B38';
+								$action = '<form action="'.WP_PLUGIN_URL.'/easyreservations/lib/modules/core/activate.php" method="post"><input type="hidden" name="deactivate" value="multical"><a onclick="javascript:this.parentNode.submit()" href="#">'.__( 'Deactivate' , 'easyReservations' ).'</a></form>';
+							} else{
+								if(file_exists(WP_PLUGIN_DIR.'/easyreservations/lib/modules/multical/multical.php')){
+									$multical = 1;
+									$multical_data = get_plugin_data(WP_PLUGIN_DIR.'/easyreservations/lib/modules/multical/multical.php', false);
+									$multical_current_version = $multical_data['Version'];
+									if(version_compare($multical_data['Version'], $xml->latestc) == -1) $color = 'color:#FF3B38';
+									$action = '<form action="'.WP_PLUGIN_URL.'/easyreservations/lib/modules/core/activate.php" method="post"><input type="hidden" name="activate" value="multical"><a onclick="javascript:this.parentNode.submit()" href="#">'.__( 'Activate' , 'easyReservations' ).'</a></form>';
+								} else $multical = 0;
+							}
+						?>
+						<tr <?php if($multical != 2) echo 'class="inactive"'; ?>>
+							<td style="text-align:center"><img style="vertical-align:text-bottom ;" src="<?php echo RESERVATIONS_IMAGES_DIR; ?>/day.png"></td>
+							<td><b><a href="http://www.feryaz.de/multical-module/" target="_blank"><?php printf ( __( 'ExtentedCalendar Module' , 'easyReservations' ));?></a></b><?php echo $action; ?></td>
+							<td><?php printf ( __( 'Extend the calendar shortcode to show multiple monthes at once.' , 'easyReservations' ));?></td>
+							<td style="font-weight:bold;text-align:center"><?php if($multical) echo '<a style="color:#118D18">'.$multical_current_version.'</a>'; else echo '<a style="color:#FF3B38">'.__( 'None' , 'easyReservations' ).'</a>'; ?></td>
+							<td style="text-align:center;font-weight:bold;<?php echo $color; ?>"><?php echo $xml->latestc; ?></td>
+							<td style="font-weight:bold;text-align:center"><?php echo '7.50 &#36;<br>5,00 &euro;'; ?></td>
+							<td style="font-weight:bold;text-align:right"><?php if($multical) echo '<a href="admin.php?page=reservation-settings&site=pay">'.__( 'Settings' , 'easyReservations' ).'</a> | <a href="mailto:multical@feryaz.de">'.__( 'Support' , 'easyReservations' ).'</a>'; else echo '<a href="http://www.feryaz.de/multical-module/" target="_blank">'.__( 'Buy now' , 'easyReservations' ).'</a>'; ?></td>
+						</tr>
 						<?php
-						/*
-							$color = '';
-							$paypal_current_version = "1.0";
+							$chat_current_version = "1.0"; $action= ''; $color = ''; 
 							if(function_exists('easyreservations_generate_chat')){
-								$xml = easyreservations_latest_modules_versions(86400); // This tells the function to cache the remote call for 21600 seconds (6 hours)
 								$chat = 2;
 								$chat_data = get_plugin_data(WP_PLUGIN_DIR.'/easyreservations/lib/modules/chat/chat.php', false);
 								$chat_current_version = $chat_data['Version'];
@@ -154,7 +185,6 @@ License:GPL2
 							} else{
 								if(file_exists(WP_PLUGIN_DIR.'/easyreservations/lib/modules/chat/chat.php')){
 									$chat = 1;
-									$xml = easyreservations_latest_modules_versions(86400); // This tells the function to cache the remote call for 21600 seconds (6 hours)
 									$chat_data = get_plugin_data(WP_PLUGIN_DIR.'/easyreservations/lib/modules/chat/chat.php', false);
 									$chat_current_version = $chat_data['Version'];
 									if(version_compare($chat_data['Version'], $xml->latestd) == -1) $color = 'color:#FF3B38';
@@ -168,15 +198,13 @@ License:GPL2
 							<td><?php printf ( __( 'Let your users pay their reserservations directly throug chat! Expands the form and the user editation by a chat buy now button. Payment verfication by IPN.' , 'easyReservations' ));?></td>
 							<td style="font-weight:bold;text-align:center"><?php if($chat) echo '<a style="color:#118D18">'.$chat_current_version.'</a>'; else echo '<a style="color:#FF3B38">'.__( 'None' , 'easyReservations' ).'</a>'; ?></td>
 							<td style="text-align:center;font-weight:bold;<?php echo $color; ?>"><?php echo $xml->latestd; ?></td>
-							<td style="font-weight:bold;text-align:center"><?php echo '7.50 &#36;<br>5,00 &euro;'; ?></td>
+							<td style="font-weight:bold;text-align:center"><?php echo '10.00 &#36;<br>7,50 &euro;'; ?></td>
 							<td style="font-weight:bold;text-align:right"><?php if($chat) echo '<a href="admin.php?page=reservation-settings&site=pay">'.__( 'Settings' , 'easyReservations' ).'</a> | <a href="mailto:chat@feryaz.de">'.__( 'Support' , 'easyReservations' ).'</a>'; else echo '<a href="http://www.feryaz.de/chat-module/" target="_blank">'.__( 'Buy now' , 'easyReservations' ).'</a>'; ?></td>
 						</tr>
 						<?php
-							$color = '';
-							$paypal_current_version = "1.0";
+							$paypal_current_version = "1.0"; $action =''; $color = '';
 							if(function_exists('easyreservations_generate_paypal_button')){
 								$paypal = 2;
-								if(!isset($xml)) $xml = easyreservations_latest_modules_versions(86400); // This tells the function to cache the remote call for 21600 seconds (6 hours)
 								$paypal_data = get_plugin_data(WP_PLUGIN_DIR.'/easyreservations/lib/modules/paypal/paypal.php', false);
 								$paypal_current_version = $paypal_data['Version'];
 								if(version_compare($paypal_data['Version'], $xml->latestp) == -1) $color = 'color:#FF3B38';
@@ -184,7 +212,6 @@ License:GPL2
 							} else{
 								if(file_exists(WP_PLUGIN_DIR.'/easyreservations/lib/modules/paypal/paypal.php')){
 									$paypal = 1;
-									if(!isset($xml)) $xml = easyreservations_latest_modules_versions(86400); // This tells the function to cache the remote call for 21600 seconds (6 hours)
 									$paypal_data = get_plugin_data(WP_PLUGIN_DIR.'/easyreservations/lib/modules/paypal/paypal.php', false);
 									$paypal_current_version = $paypal_data['Version'];
 									if(version_compare($paypal_data['Version'], $xml->latestp) == -1) $color = 'color:#FF3B38';
@@ -200,13 +227,12 @@ License:GPL2
 							<td style="text-align:center;font-weight:bold;<?php echo $color; ?>"><?php echo $xml->latestp; ?></td>
 							<td style="font-weight:bold;text-align:center"><?php echo '17.50 &#36;12,50 &euro;'; ?></td>
 							<td style="font-weight:bold;text-align:right"><?php if($paypal) echo '<a href="admin.php?page=reservation-settings&site=pay">'.__( 'Settings' , 'easyReservations' ).'</a> | <a href="mailto:paypal@feryaz.de">'.__( 'Support' , 'easyReservations' ).'</a>'; else echo '<a href="http://www.feryaz.de/paypal-module/" target="_blank">'.__( 'Buy now' , 'easyReservations' ).'</a>'; ?></td>
-						</tr>
-						<?php */ ?>
+						</tr> <?php */ ?>
 					</tbody>
 				</table>
 			<div style="float:right;text-align:right;margin:7px;padding:5px">
-				<a class="button" href="admin.php?page=reservation-settings&site=plugins&check">Check For Updates</a><br>
-				<br><?php printf ( __( 'Last check' , 'easyReservations' ));?>: <?php echo date("d.m.Y H:i", get_option( 'easyreservations-notifier-last-updated')); ?>
+				<a class="button" href="admin.php?page=reservation-settings&site=plugins&check"><?php if(get_option('easyreservations-notifier-cache')) echo __( 'Check For Updates' , 'easyReservations' ); else echo  __( 'Turn on update notifier' , 'easyReservations' );  ?></a><br>
+				<br><?php printf ( __( 'Last check' , 'easyReservations' ));?>: <?php echo date(RESERVATIONS_DATE_FORMAT." H:i", get_option( 'easyreservations-notifier-last-updated')); ?>
 			</div>
 			<h2><?php printf ( __( 'Install/Update Module' , 'easyReservations' ));?></h2>
 			<form enctype="multipart/form-data"  id="reservation_core_upload" name="reservation_core_upload" method="post">
@@ -218,7 +244,8 @@ License:GPL2
 			<?php
 		}
 	}
-	function easyreservations_update_notifier_menu() {
+
+	function easyreservations_update_notifier_menu(){
 	
 		if(function_exists('easyreservations_generate_paypal_button')){
 			$paypal = true;
@@ -230,9 +257,20 @@ License:GPL2
 			$chat_data = get_plugin_data(WP_PLUGIN_DIR.'/easyreservations/lib/modules/chat/chat.php', false); // Get theme data from style.css (current version is what we want)
 		} else $chat = false;
 
-		if($paypal == true || $chat == true){
-			$xml = easyreservations_latest_modules_versions(86400); // This tells the function to cache the remote call for 21600 seconds (6 hours)
-			if(($paypal == true && version_compare($paypal_data['Version'], $xml->latestp) == -1) || ($chat == true && version_compare($chat_data['Version'], $xml->latestd) == -1)) {
+		if(function_exists('easyreservations_generate_multical')){ 
+			$multical = true;
+			$multical_data = get_plugin_data(WP_PLUGIN_DIR.'/easyreservations/lib/modules/multical/multical.php', false); // Get theme data from style.css (current version is what we want)
+		} else $multical = false;
+
+		if($paypal === true || $chat === true || $multical === true){
+			if(get_option('easyreservations-notifier-cache')) $xml = easyreservations_latest_modules_versions(86400);
+			else {
+				$xml = new stdClass();
+				$xml->latestc = '1.0';
+				$xml->latestd = '1.0';
+				$xml->latestp = '1.0';
+			}
+			if(($paypal == true && version_compare($paypal_data['Version'], $xml->latestp) == -1) || ($chat == true && version_compare($chat_data['Version'], $xml->latestd) == -1) ||  ($chat == true && version_compare($multical_data['Version'], $xml->latestc) == -1)) {
 
 				$reservation_main_permission=get_option("reservations_main_permission");
 				if(isset($reservation_main_permission['settings'])) $cap = $reservation_main_permission['settings'];
@@ -241,22 +279,32 @@ License:GPL2
 				add_submenu_page('reservations', __('New Module Update','easyReservations'), __('Update!','easyReservations') . '<span class="update-plugins count-1"><span class="update-count">1</span></span>', $cap, 'reservation-update', 'easyreservations_update_notifier');
 			}
 		}
-	}  
+	}
 
 	add_action('admin_menu', 'easyreservations_update_notifier_menu');
 
 	function easyreservations_update_notifier() {
-		$xml = easyreservations_latest_modules_versions(86400); // This tells the function to cache the remote call for 21600 seconds (6 hours)
+			if(get_option('easyreservations-notifier-cache')) $xml = easyreservations_latest_modules_versions(86400);
+			else {
+				$xml = new stdClass();
+				$xml->latestc = '1.0';
+				$xml->latestd = '1.0';
+				$xml->latestp = '1.0';
+			}
 
-		if(function_exists('easyreservations_generate_paypal_button')){
+		if(easyreservation_is_paypal()){
 			$paypal = true;
 			$paypal_data = get_plugin_data(WP_PLUGIN_DIR.'/easyreservations/lib/modules/paypal/paypal.php', false); // Get theme data from style.css (current version is what we want)
 		} else $paypal = false;
-		if(function_exists('easyreservations_chat_function')){ 
+		if(easyreservation_is_chat()){ 
 			$chat = true;
 			$chat_data = get_plugin_data(WP_PLUGIN_DIR.'/easyreservations/lib/modules/chat/chat.php', false); // Get theme data from style.css (current version is what we want)
 		} else $chat = false;
-		?>		<style>
+		if(easyreservation_is_multical()){ 
+			$multical = true;
+			$multical_data = get_plugin_data(WP_PLUGIN_DIR.'/easyreservations/lib/modules/multical/multical.php', false); // Get theme data from style.css (current version is what we want)
+		} else $multical = false;
+		?><style>
 			.update-nag {display: none;}
 			#instructions {max-width: 800px;}
 			h3.title {margin: 30px 0 0 0; padding: 30px 0 0 0; border-top: 1px solid #ddd;}
@@ -300,6 +348,25 @@ License:GPL2
 			<h3 class="title" style="border-bottom:1px solid #DDDDDD;border-top:0px;"></h3>
 		</div>
 	<?php } 
+		if($multical == true && version_compare($multical_data['Version'], $xml->latestd) == -1){ ?>
+		<div class="wrap" style="float:Inherit;width:99%">
+			<div id="icon-tools" class="icon32"></div>
+			<h2><?php echo $multical_data['Name']; ?> Update</h2>
+			<div id="message" class="updated below-h2"><p><strong>There is a new version of the <?php echo $multical_data['Name']; ?> available.</strong> You have version <?php echo $multical_data['Version']; ?> installed. Update to version <?php echo $xml->latestc; ?>.</p></div>
+			<img style="float:left; margin: 0 20px 20px 0; border: 1px solid #ddd;" src="<?php echo get_bloginfo( 'template_url' ) . '/screenshot.png'; ?>" />
+			<?php //echo WP_PLUGIN_DIR.'/easyreservations/screenshot.png'; ?>
+			<div id="instructions" style="min-height:250px;width: 400px;float:left">
+				<h3>Update Download and Instructions</h3>
+				<p><strong>Please note:</strong> make a <strong>backup</strong> of the Plugin inside your WordPress installation folder <strong>/wp-content/plugins/easyreservations/</strong></p>
+				<p>To update the Module click <a href="http://www.feryaz.de/chat-module/" target="_blank">here</a>, login to your account, and re-download the Module like you did when you bought it.</p>
+				<p>To Install the Module head over to the modules settings, choose the .zip file and enter your FTP Datas or extract the .zip's content directly through FTP to <strong>/wp-content/plugins/easyreservations/</strong> and overwrite the old ones.
+			</div>
+			<div style="margin-left:30px;display:inline-block">
+				<?php echo $xml->changelogc; ?>
+			</div>
+			<h3 class="title" style="border-bottom:1px solid #DDDDDD;border-top:0px;"></h3>
+		</div>
+	<?php } 
 	}
 
 	// This function retrieves a remote xml file on my server to see if there's a new update
@@ -311,9 +378,8 @@ License:GPL2
 		$db_cache_field = 'easyreservations-notifier-cache';
 		$db_cache_field_last_updated = 'easyreservations-notifier-last-updated';
 		$last = get_option( $db_cache_field_last_updated );
-		$now = time();
 		// check the cache
-		if ( !$last || (( $now - $last ) > $interval) ) {
+		if ( !$last || (( time() - $last ) > $interval) ) {
 			// cache doesn't exist, or is old, so refresh it
 			if( function_exists('curl_init') ) { // if cURL is available, use it...
 				$ch = curl_init($notifier_file_url);
@@ -352,6 +418,12 @@ License:GPL2
 	function easyreservation_is_chat(){
 		$active = get_option('reservations_active_modules');
 		if(file_exists(WP_PLUGIN_DIR.'/easyreservations/lib/modules/chat/chat.php') && is_array($active) && in_array('chat', $active)) return true;
+		else return false;
+	}
+
+	function easyreservation_is_multical(){
+		$active = get_option('reservations_active_modules');
+		if(file_exists(WP_PLUGIN_DIR.'/easyreservations/lib/modules/multical/multical.php') && is_array($active) && in_array('multical', $active)) return true;
 		else return false;
 	}
 

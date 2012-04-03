@@ -36,7 +36,6 @@
 	if(!isset($reservations_show_rooms) || empty($reservations_show_rooms)) $show_rooms=easyreservations_get_rooms(0,1);
 	else $show_rooms = $wpdb->get_results("SELECT ID, post_title FROM wp_posts WHERE ID in($reservations_show_rooms) ");
 
-
 	/* - - - - - - - - - - - - - - - - *\
 	|
 	|	Calculate Overview
@@ -66,7 +65,7 @@
 	}
 	
 	if(!isset($moreget)) $moreget=0;
-	
+
 	if(RESERVATIONS_STYLE == 'widefat'){
 		$ovBorderColor='#9E9E9E';
 		$ovBorderStatus='dotted';
@@ -194,7 +193,6 @@
 							}
 							$reservationarray[]=array( 'name' =>$res_name, 'ID' =>$res_id, 'nights' => $res_nights, 'arDate' => $res_adate );
 							$countdifferenz++;
-							$wasAroom=1;
 						}
 					
 				}
@@ -264,7 +262,6 @@
 							$farbe2=str_replace("DERZEWEITESTRING", $lastbackground, $farbe2);
 							$backgrosund='#FFE400';
 							$addname=' name="activeres"';
-							$startdate = $dateToday;
 						} elseif($reservationarray[$CountNumberOfAdd]['arDate'] < time() AND $reservationarray[$CountNumberOfAdd]['arDate']+(86400*$reservationarray[$CountNumberOfAdd]['nights']) > time()){
 							$farbe2=str_replace("DERSTRING", "green", $farbe2);
 							$farbe2=str_replace("DERZEWEITESTRING", $lastbackground, $farbe2);

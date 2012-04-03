@@ -8,7 +8,7 @@ function easyreservation_delete_plugin() {
 	
 	$delete = get_option( 'reservations_uninstall' );
 	
-	if(empty($delete) || $delete == 1){
+	if($delete != 0){
 
 		delete_option( 'reservations_show_days' );
 		delete_option( 'reservations_backgroundiffull' );

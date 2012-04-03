@@ -1,5 +1,5 @@
 <?php
-function reservation_statistics_page() { //Statistic Page
+function reservation_statistics_page(){
 	global $wpdb;
 	
 	wp_enqueue_style('jqplot_style');
@@ -10,12 +10,11 @@ function reservation_statistics_page() { //Statistic Page
 	wp_enqueue_script('jqplot_plugin_pieRenderer');
 	wp_enqueue_script('jqplot_plugin_dateAxisRenderer');
 
-	
 	$countallreservations = $wpdb->get_var("SELECT COUNT(*) FROM ".$wpdb->prefix ."reservations WHERE approve='yes'"); // number of total rows in the database
 	if($countallreservations > 0){
 	$nr=0;
 	$guestcountyearly="";
-	while( $nr < 365*1.5) {
+	while( $nr < 365*1.5){
 
 		$date=mktime(0, 0, 0, 1, 10, 2011)+(86400*$nr);
 		$nr++;
@@ -24,6 +23,7 @@ function reservation_statistics_page() { //Statistic Page
 		$sql_A = $wpdb->get_var("SELECT COUNT(*) FROM ".$wpdb->prefix ."reservations WHERE approve='yes' AND '$lol' BETWEEN arrivalDate AND DATE_ADD(arrivalDate, INTERVAL nights DAY) - INTERVAL 1 DAY");
 		$guestcountyearly.=' [ "'.$lol.'" , '.$sql_A.' ], ';
 	}
+
 	$countallreservationsall = $wpdb->get_var("SELECT COUNT(*) FROM ".$wpdb->prefix ."reservations"); // number of total rows in the database
 	$countallreservationsfuture = $wpdb->get_var("SELECT COUNT(*) FROM ".$wpdb->prefix ."reservations WHERE approve='yes' AND DATE_ADD(arrivalDate, INTERVAL nights DAY) > NOW()"); // number of total rows in the database
 	$countallreservationspast = $wpdb->get_var("SELECT COUNT(*) FROM ".$wpdb->prefix ."reservations WHERE approve='yes' AND DATE_ADD(arrivalDate, INTERVAL nights DAY) < NOW()"); // number of total rows in the database
@@ -393,8 +393,6 @@ function reservation_statistics_page() { //Statistic Page
 				</tr>
 			</tbody>
 		</table>
-		Stoppuhr noch einmal befragt und das Ergebnis ausgegeben:
-
 <?php 
 	} else echo '<br><div class="error"><p>'.__( 'Add reservations first' , 'easyReservations' ).'</p></div>';
 } ?>

@@ -234,6 +234,7 @@ h2 {
 .hide-it {
 	visibility:hidden;
 	max-width:1px;
+	max-height:1px;
 	position:absolute;
 	overflow:hidden;
 }

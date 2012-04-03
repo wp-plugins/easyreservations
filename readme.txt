@@ -4,7 +4,7 @@ Donate link: http://example.com/
 Tags: booking, reservation, form, reservations, rentals, resources, hotel, rooms, motel, apartments, calendar
 Requires at least: 3.3
 Tested up to: 3.3.1
-Stable tag: 1.6.3
+Stable tag: 1.7
 easyReservation is the solution for every over-night rentable content!
 
 == Description ==
@@ -20,11 +20,11 @@ Its very flexible and inutiv and can be used on any side with over-night rentabl
 * adjustable Reservation Table
 * Guests can edit their reservation afterwards
 * add, edit, approve, reject and trash reservations
-* Group, Filter and Favourite Reservations
+* Group and Filter Reservations
 * Resources - Rooms & Offers
 * Live price calculation and error output
 * Price filters and discounts
-* Statistics, Export & Import
+* Statistics and Export
 
 = Website =
 The Plugin has a website with a documentation to help you.
