@@ -3,7 +3,7 @@
 Plugin Name: easyReservations
 Plugin URI: http://www.feryaz.de
 Description: easyReservation is a Reservations and Booking Plugin for Websites with over-night rentable content with many functions. It grants you a fast, structured and detailed overview over your Reservations. For help read the Documentation on the Plugins Page.
-Version: 1.7
+Version: 1.8
 Author: Feryaz Beer
 Author URI: http://www.feryaz.de
 License:GPL2
@@ -187,10 +187,10 @@ ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrivaldate] <br>To: [
 		add_option( 'reservations_style', 'greyfat', '', 'yes' );
 		add_option('reservations_db_version', '1.6', '', 'yes' );
 		$showhide = array( 'show_overview' => 1, 'show_table' => 1, 'show_upcoming' => 1, 'show_new' => 1, 'show_export' => 1, 'show_today' => 1 );
-		$table = array( 'table_color' => 1, 'table_id' => 0, 'table_name' => 1, 'table_from' => 1, 'table_to' => 1, 'table_nights' => 1, 'table_email' => 1, 'table_fav' => 1, 'table_room' => 1, 'table_exactly' => 1, 'table_offer' => 1, 'table_persons' => 1, 'table_childs' => 1, 'table_country' => 1, 'table_message' => 0, 'table_custom' => 0, 'table_customp' => 0, 'table_paid' => 0, 'table_price' => 1, 'table_filter_month' => 1, 'table_filter_room' => 1, 'table_filter_offer' => 1, 'table_filter_days' => 1, 'table_search' => 1, 'table_bulk' => 1, 'table_onmouseover' => 1 );
+		$table = array( 'table_color' => 1, 'table_id' => 0, 'table_name' => 1, 'table_from' => 1, 'table_to' => 1, 'table_nights' => 1, 'table_email' => 1, 'table_fav' => 1, 'table_room' => 1, 'table_exactly' => 1, 'table_offer' => 1, 'table_persons' => 1, 'table_childs' => 1, 'table_country' => 1, 'table_message' => 0, 'table_custom' => 0, 'table_customp' => 0, 'table_paid' => 0, 'table_price' => 1, 'table_filter_month' => 1, 'table_filter_room' => 1, 'table_filter_offer' => 1, 'table_filter_days' => 1, 'table_search' => 1, 'table_bulk' => 1, 'table_onmouseover' => 1, 'table_reservated' => 0, 'table_status' => 1, 'table_fav' => 1 );
 		$overview = array( 'overview_onmouseover' => 1, 'overview_autoselect' => 1, 'overview_show_days' => 30, 'overview_show_rooms' => '', 'overview_show_avail' => 1 );
 		add_option('reservations_main_options', array('show' => $showhide, 'table' => $table, 'overview' => $overview ), '', 'no');
-		$edit_options = array( 'login_text' => '', 'edit_text' => '',  'table_infos' => array('date', 'status', 'price', 'room'), 'table_status' => array('','yes','no'), 'table_time' => array('past','current','future'), 'table_style' => 1, 'table_more' => 1 );
+		$edit_options = array( 'login_text' => '', 'edit_text' => '', 'submit_text' => 'Reservation successfully edited',  'table_infos' => array('date', 'status', 'price', 'room'), 'table_status' => array('','yes','no'), 'table_time' => array('past','current','future'), 'table_style' => 1, 'table_more' => 1 );
 		add_option('reservations_edit_options', $edit_options, '', false);
 		add_option('reservations_date_format', 'd.m.Y', '', true);
 
@@ -293,14 +293,14 @@ ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrivaldate] <br>To: [
 
 	function easyReservations_upgrade(){
 
-		$easyReservations_active_ver=1.6;
+		$easyReservations_active_ver=1.8;
 		$easyReservations_installed_ver = get_option("reservations_db_version");
 
 		if($easyReservations_installed_ver != $easyReservations_active_ver ){
 
 			if($easyReservations_installed_ver == 1.2 || $easyReservations_installed_ver == 1.3 || $easyReservations_installed_ver == "1.3.1" || $easyReservations_installed_ver == "1.3.2"){
 				$showhide = array( 'show_overview' => 1, 'show_table' => 1, 'show_upcoming' => 1, 'show_new' => 1, 'show_export' => 1, 'show_today' => 1 );
-				$table = array( 'table_color' => 1, 'table_id' => 0, 'table_name' => 1, 'table_from' => 1, 'table_to' => 1, 'table_nights' => 1, 'table_email' => 1, 'table_room' => 1, 'table_exactly' => 1, 'table_offer' => 1, 'table_persons' => 1, 'table_childs' => 1, 'table_country' => 1, 'table_message' => $table_message, 'table_custom' => $table_custom, 'table_customp' => $table_customp, 'table_paid' => $table_paid, 'table_price' => 1, 'table_filter_month' => 1, 'table_filter_room' => 1, 'table_filter_offer' => 1, 'table_filter_days' => 1, 'table_search' => 1, 'table_bulk' => 1, 'table_onmouseover' => 1 );
+				$table = array( 'table_color' => 1, 'table_id' => 0, 'table_name' => 1, 'table_from' => 1, 'table_to' => 1, 'table_nights' => 1, 'table_email' => 1, 'table_room' => 1, 'table_exactly' => 1, 'table_offer' => 1, 'table_persons' => 1, 'table_childs' => 1, 'table_country' => 1, 'table_message' => 0, 'table_custom' => 0, 'table_customp' => 0, 'table_paid' => 0, 'table_price' => 1, 'table_filter_month' => 1, 'table_filter_room' => 1, 'table_filter_offer' => 1, 'table_filter_days' => 1, 'table_search' => 1, 'table_bulk' => 1, 'table_onmouseover' => 1, 'table_reservated' => 0, 'table_status' => 1, 'table_fav' => 1 );
 				$overview = array( 'overview_onmouseover' => 1, 'overview_autoselect' => 1, 'overview_show_days' => 30, 'overview_show_rooms' => '', 'overview_show_avail' => 1 );
 				add_option('reservations_main_options', array('show' => $showhide, 'table' => $table, 'overview' => $overview ), '', 'no');
 
@@ -432,17 +432,22 @@ ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrivaldate] <br>To: [
 				$easyReservations_installed_ver = 1.7;
 			}
 
+			if($easyReservations_installed_ver == 1.7){
+				$easyReservations_installed_ver = 1.8;
+			}
+
 			update_option('reservations_db_version', $easyReservations_installed_ver);
 			add_action('admin_notices', 'easyReservations_upgrade_notice');
+			//save_error();
 		}
 	}
 
 	function easyReservations_upgrade_notice(){
 		echo '<div class="updated">
-		   <p>Thanks for updating <b>easyReservations</b> to <b>17</b>!<br>View <a href="http://feryaz.de/changelog/" target="_blank">here</a> for a detailed Changelog!<br>
-		As discounts can now raise the price too, its neccesarry that you edit your discounts and add a minus (-) infront of the amounts. Else they raise instead of lower the price.</p>
+		   <p>Thanks for updating <b>easyReservations</b> to <b>1.8</b>!<br>View <a href="http://feryaz.de/changelog/" target="_blank">here</a> for a detailed Changelog!<br></p>
 		</div>';
 	}
+	apply_filters('debug', 'BeforeFiles');
 
 	define('RESERVATIONS_STYLE', get_option("reservations_style"));
 	define('RESERVATIONS_IMAGES_DIR', WP_PLUGIN_URL.'/easyreservations/images');
@@ -456,6 +461,7 @@ ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrivaldate] <br>To: [
 	function easyreservations_init_language() {
 		load_plugin_textdomain('easyReservations', false, dirname(plugin_basename( __FILE__ )).'/languages/' );
 	}
+
 	require_once(dirname(__FILE__)."/lib/functions/both.php");
 
 	if(file_exists(dirname(__FILE__).'/lib/modules/core/core.php')){
@@ -463,18 +469,17 @@ ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrivaldate] <br>To: [
 	}
 
 	if(is_admin()){
-
+		require_once(dirname(__FILE__)."/pagination.class.php");
 		require_once(dirname(__FILE__)."/lib/functions/admin.php");
-
-		if(!class_exists('easy_pagination')) require(dirname(__FILE__)."/pagination.class.php");
+		require_once(dirname(__FILE__)."/lib/widgets/dashboard.php");
 
 		if(isset($_GET['page']) && $_GET['page'] == 'reservations') require_once(dirname(__FILE__)."/easyReservations_admin_main.php");
 
-		require_once(dirname(__FILE__)."/easyReservations_admin_resources.php");
+		if(isset($_GET['page']) && $_GET['page'] == 'reservation-resources') require_once(dirname(__FILE__)."/easyReservations_admin_resources.php");
 
-		require_once(dirname(__FILE__)."/easyReservations_admin_statistics.php");
+		if(isset($_GET['page']) && $_GET['page'] == 'reservation-statistics') require_once(dirname(__FILE__)."/easyReservations_admin_statistics.php");
 
-		require_once(dirname(__FILE__)."/easyReservations_admin_settings.php");
+		if(isset($_GET['page']) && $_GET['page'] == 'reservation-settings') require_once(dirname(__FILE__)."/easyReservations_admin_settings.php");
 
 	} else {
 
@@ -495,15 +500,21 @@ ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrivaldate] <br>To: [
 	require_once(dirname(__FILE__)."/lib/widgets/form_widget.php");
 
 	if(function_exists('easyreservation_is_paypal') && easyreservation_is_paypal()){
-		require_once(dirname(__FILE__)."/lib/modules/paypal/paypal.php");
+		include_once(dirname(__FILE__)."/lib/modules/paypal/paypal.php");
 	}
 	if(function_exists('easyreservation_is_chat') && easyreservation_is_chat()){
-		require_once(dirname(__FILE__)."/lib/modules/chat/chat.php");
+		include_once(dirname(__FILE__)."/lib/modules/chat/chat.php");
 	}
 	if(function_exists('easyreservation_is_import') && easyreservation_is_import()){
-		require_once(dirname(__FILE__)."/lib/modules/import/import.php");
+		include_once(dirname(__FILE__)."/lib/modules/import/import.php");
 	}
 	if(function_exists('easyreservation_is_multical') && easyreservation_is_multical()){
-		require_once(dirname(__FILE__)."/lib/modules/multical/multical.php");
+		include_once(dirname(__FILE__)."/lib/modules/multical/multical.php");
 	}
+	if(function_exists('easyreservation_is_search') && easyreservation_is_search()){
+		include_once(dirname(__FILE__)."/lib/modules/search/search.php");
+	}
+	
+	apply_filters('debug', 'after');
+
 ?>

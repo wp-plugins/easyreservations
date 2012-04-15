@@ -45,7 +45,7 @@ function reservations_edit_shortcode($atts){
 				if($correct != 1) return '<div style="text-align:center;">'.__(  'Please enter the correct captcha code' , 'easyReservations' ).' - <a href="'.$_SERVER['referer_url'].'">'.__( 'back' , 'easyReservations' ).'</a></div>';
 			}
 		} elseif(isset($_GET['email']) && isset($_GET['id']) && isset($_GET['_wpnonce'])) {
-			if(!wp_verify_nonce($_GET['_wpnonce'], 'easyusereditlink' )) return '<div style="text-align:center;">'.__('Link is only 24h valid', 'easyReservations').' - <a href="'.$_SERVER['referer_url'].'">'.__( 'back' , 'easyReservations' ).'</a></div>';
+			if(!wp_verify_nonce($_GET['ernonce'], 'easyusereditlink' )) return '<div style="text-align:center;">'.__('Link is only 24h valid', 'easyReservations').' - <a href="'.$the_link.'">'.__( 'back' , 'easyReservations' ).'</a></div>';
 			$theMail = (string) $_GET['email'];
 			$theID = (int) $_GET['id'];
 			$_SESSION['easy-user-edit-id'] =  $theID;
@@ -55,25 +55,25 @@ function reservations_edit_shortcode($atts){
 		$theMail = $_SESSION['easy-user-edit-email'];
 		$theID = $_SESSION['easy-user-edit-id'] ;
 	}
-	
+
 	//if(wp_create_nonce('easyusereditlink') == $_GET['nonce']) echo $_GET['nonce']; else echo 'a<br>';
 
 	if(isset($_GET['newid'])){
-		if(!wp_verify_nonce($_GET['wpnonce'], 'easy-change-id' )) return '<div style="text-align:center;">'.__(  'An error occurred, please try again' , 'easyReservations' ).' - <a href="'.$_SERVER['referer_url'].'">'.__( 'back' , 'easyReservations' ).'</a></div>';
+		if(!wp_verify_nonce($_GET['wpnonce'], 'easy-change-id' )) return '<div style="text-align:center;">'.__(  'An error occurred, please try again' , 'easyReservations' ).' - <a href="'.$the_link.'">'.__( 'back' , 'easyReservations' ).'</a></div>';
 		if(is_numeric($_GET['newid'])){
 			$theID = (int) $_GET['newid'];
 			$_SESSION['easy-user-edit-id'] = $theID;
 		}
 	}
 
-	if(isset($theMail) AND isset($theID)){
+	if(isset($theMail) && isset($theID)){
 		wp_enqueue_script( 'easyreservations_send_validate' );
 
 		if(isset($atts['price'])){
 			wp_enqueue_script( 'easyreservations_send_price' );
 			add_action('wp_print_footer_scripts', 'easyreservtions_send_price_script'); //get price directily after loading
 		}
-		if(empty($atts['roomname'])) $atts['roomname'] = __('Room', 'easyReservations');
+		if(!isset($atts['roomname']) || empty($atts['roomname'])) $atts['roomname'] = __('Room', 'easyReservations');
 		else $atts['roomname'] = __($atts['roomname']);
 
 		add_action('wp_print_footer_scripts', 'easyreservations_make_datepicker');
@@ -134,7 +134,6 @@ function reservations_edit_shortcode($atts){
 
 			for($theCount = 0; $theCount < 500; $theCount++){
 				if(isset($_POST["customPvalue".$theCount]) && isset($_POST["customPtitle".$theCount])){
-					if(easyreservations_check_price($_POST["customPprice".$theCount]) == 'error') $moneyerrors++;
 					$custompfields[] = array( 'type' => 'cstm', 'mode' => $_POST["customPmodus".$theCount], 'title' => $_POST["customPtitle".$theCount], 'value' => $_POST["customPvalue".$theCount], 'amount' => $_POST["customPprice".$theCount]);
 				}
 			}
@@ -142,12 +141,12 @@ function reservations_edit_shortcode($atts){
 			$error .= easyreservations_check_reservation( array( 'thename' => $name_form, 'from' => $from, 'to' => $to, 'nights' => $nights, 'email' => $email, 'persons' => $persons, 'childs' => $childs, 'country' => $country, 'room' => $room, 'message' => $message, 'offer' => $offer, 'custom' => $customfields, 'customp' => $custompfields, 'id' => $theID, 'old_email' => $old_email), 'user-edit');
 		}
 
-		if(isset($_POST['thename']) AND empty($error)){ //When Check gives no error Insert into Database and send mail
-
-			$return .= '<div class="easy_form_success">'.__( 'Your Reservation was edited' , 'easyReservations' ).'</div>';
-
+		if(isset($_POST['thename']) && empty($error)){ //When Check gives no error Insert into Database and send mail
+			if(isset($edit_options['submit_text']) && !empty($edit_options['submit_text'])) $submit = $edit_options['submit_text'];
+			else $submit = __( 'Your Reservation was edited' , 'easyReservations' );
+			$return .= '<div class="easy_form_success">'.$submit.'</div>';
 		}
-		
+
 		do_action( 'er_edit_add_action' );
 
 		$edit_querie = $wpdb->get_results( $wpdb->prepare( "SELECT email, name, arrivalDate, nights, number, childs, room, special, approve, country, notes, custom, customp FROM ".$wpdb->prefix ."reservations WHERE id= '%d' AND email = '%s' " , $theID, $theMail )) or $sql_error = 1;
@@ -156,7 +155,7 @@ function reservations_edit_shortcode($atts){
 			session_destroy();
 			unset($_SESSION['easy-user-edit-id'] );
 			unset($_SESSION['easy-user-edit-email'] );
-			return '<div style="text-align:center;">'.__(  'Wrong ID or eMail' , 'easyReservations' ).' - <a href="'.$_SERVER['referer_url'].'">'.__( 'back' , 'easyReservations' ).'</a></div>';
+			return '<div style="text-align:center;">'.__(  'Wrong ID or eMail' , 'easyReservations' ).' - <a href="'.$the_link.'">'.__( 'back' , 'easyReservations' ).'</a></div>';
 		}
 
 		if(isset($atts['daysbefore'])) $daysbeforearival = $atts['daysbefore'];
@@ -184,22 +183,32 @@ function reservations_edit_shortcode($atts){
 				}  else $time_sql = '';
 				$other_sql = "SELECT id, name ,arrivalDate, nights, number, childs, room, special, approve, reservated FROM ".$wpdb->prefix ."reservations WHERE email='$theMail' $status_sql $time_sql ORDER BY arrivalDate DESC";
 				$other_query = $wpdb->get_results( $wpdb->prepare( $other_sql ));
-				
+
 				if(!isset($edit_options['table_more']) || !is_numeric($edit_options['table_more'])) $edit_options['table_more'] = 1;
 				if(isset($other_query[$edit_options['table_more']])){
+					$in_id = in_array('id', $edit_options['table_infos']);
+					$in_date = in_array('date', $edit_options['table_infos']);
+					$in_name = in_array('name', $edit_options['table_infos']);
+					$in_status = in_array('status', $edit_options['table_infos']);
+					$in_persons = in_array('persons', $edit_options['table_infos']);
+					$in_room = in_array('room', $edit_options['table_infos']);
+					$in_offer = in_array('offer', $edit_options['table_infos']);
+					$in_reservated = in_array('reservated', $edit_options['table_infos']);
+					$in_price = in_array('price', $edit_options['table_infos']);
+
 					if(isset($edit_options['table_style']) && $edit_options['table_style'] == 1) $class='class="easy-front-table"'; else $class = '';
 					$return .= '<table '.$class.'>';
 						$return .= '<thead>';
 							$return .= '<tr>';
-								if($in_id = in_array('id', $edit_options['table_infos'])) $return .= '<th>ID</th>';
-								if($in_date = in_array('date', $edit_options['table_infos'])) $return .= '<th>Date</th>';
-								if($in_name = in_array('name', $edit_options['table_infos'])) $return .= '<th>Name</th>';
-								if($in_status = in_array('status', $edit_options['table_infos'])) $return .= '<th class="center">Status</th>';
-								if($in_persons = in_array('persons', $edit_options['table_infos'])) $return .= '<th class="center">Persons</th>';
-								if($in_room = in_array('room', $edit_options['table_infos'])) $return .= '<th>'.$atts['roomname'].'</th>';
-								if($in_offer = in_array('offer', $edit_options['table_infos'])) $return .= '<th>Offer</th>';
-								if($in_reservated = in_array('reservated', $edit_options['table_infos'])) $return .= '<th>Reservated</th>';
-								if($in_price = in_array('price', $edit_options['table_infos'])) $return .= '<th class="right">'.__( 'Price' , 'easyReservations' ).'</th>';
+								if($in_id) $return .= '<th>ID</th>';
+								if($in_date) $return .= '<th>Date</th>';
+								if($in_name) $return .= '<th>Name</th>';
+								if($in_status) $return .= '<th class="center">Status</th>';
+								if($in_persons) $return .= '<th class="center">Persons</th>';
+								if($in_room) $return .= '<th>'.$atts['roomname'].'</th>';
+								if($in_offer) $return .= '<th>Offer</th>';
+								if($in_reservated) $return .= '<th>Reservated</th>';
+								if($in_price) $return .= '<th class="right">'.__( 'Price' , 'easyReservations' ).'</th>';
 								$return .= '<th></th>';
 							$return .= '</tr>';
 						$return .= '</thead>';
@@ -209,7 +218,7 @@ function reservations_edit_shortcode($atts){
 							$arrival = strtotime($reservation->arrivalDate);
 							$return .= '<tr '.$class.'>';
 								if($in_id) $return .= '<td>'.($reservation->id).'</td>';
-								if($in_date) $return .= '<td>'.date(substr(RESERVATIONS_DATE_FORMAT,0,-1), $arrival).' - '.date(RESERVATIONS_DATE_FORMAT, $arrival+($reservation->nights*86400)).'</td>';
+								if($in_date) $return .= '<td>'.date(RESERVATIONS_DATE_FORMAT, $arrival).' - '.date(RESERVATIONS_DATE_FORMAT, $arrival+($reservation->nights*86400)).'</td>';
 								if($in_name) $return .= '<td>'.($reservation->name).'</td>';
 								if($in_status) $return .= '<td class="center">'.easyreservations_format_status($reservation->approve,1).'</td>';
 								if($in_persons) $return .= '<td class="center">'.($reservation->number+$reservation->childs).'</td>';
@@ -233,10 +242,10 @@ function reservations_edit_shortcode($atts){
 
 			if(strtotime($edit_querie[0]->arrivalDate) < time()){
 				$resPast = 1;
-				$pastError = __( 'Your arrival date is past' , 'easyReservations' ).'<br>';
+				$pastError = '<li>'.__( 'Your arrival date is past' , 'easyReservations' ).'</li>';
 			} elseif(strtotime($edit_querie[0]->arrivalDate) < time()+(86400*$daysbeforearival)){
 				$resPast = 1;
-				$pastError = __( 'Please contact us to edit your reservation' , 'easyReservations' ).'<br>';
+				$pastError = '<li>'.__( 'Please contact us to edit your reservation' , 'easyReservations' ).'</li>';
 			} else {
 				$resPast = 0;
 				$pastError = '';
@@ -245,22 +254,32 @@ function reservations_edit_shortcode($atts){
 			$left = reservations_check_pay_status($theID);
 			if(function_exists('easyreservations_generate_paypal_button') && $left > 0){
 				$paypal = easyreservations_generate_paypal_button($theID, strtotime($edit_querie[0]->arrivalDate), $edit_querie[0]->nights, $edit_querie[0]->room, $special, $edit_querie[0]->email, 0);
-			} else $paypal = '';
+			} else {
+				$paypal = '';
+			}
 
 			if(!empty($edit_options['edit_text'])) $return .= '<div style="margin-left:auto;text-align:center;margin-right:auto;margin: 0px 5px;padding:5px 5px;">'.$edit_options['edit_text'].'</div>';
 			$return .= '<div class="easy-edit-status"><b>';
 				if(isset($atts['status'])) $return .= __( 'Status' , 'easyReservations' ).': '.ucfirst(reservations_status_output($approve)).'';
 				if(isset($atts['price']) && isset($atts['status'])) $return .= ' | ';
 				if(isset($atts['price'])) $return .= __( 'Price' , 'easyReservations' ).': '.easyreservations_get_price($theID,1).' | '.__( 'Left' , 'easyReservations' ).': '.reservations_format_money($left, 1);
-			$return .= '</b>'.$paypal.' - <a style="color:#ff0000" href="'.$the_link.'?edit&logout">logout</a></div>';
+			$return .= '</b>'.$paypal.' - <a style="color:#ff0000" href="'.$the_link.'?edit&logout">'.__( 'logout' , 'easyReservations' ).'</a></div>';
 
-			$return .= '<form method="post" id="easyFrontendFormular" name="easyFrontendFormular" style="width:99%;margin-left:auto;margin-right:auto;">';
+			$return .= '<form method="post" id="easyFrontendFormular" name="easyFrontendFormular" style="width:99%;margin-left:auto;margin-right:auto;margin-top:10px;">';
 			if(function_exists('easyreservations_generate_chat')){
 				$return .= easyreservations_generate_chat( $theID, 'edit' );
-				 $return .= '<div style="width:400px;">';
+				 $return .= '<div style="width:60%;">';
 			} else $return .= '<div style="width:400px;margin-left:auto;margin-right:auto">';
 				if(isset($error)) $pastError = $pastError.$error;
-				$return .= '<div id="showError" class="showError" style="margin-left:auto;margin-right:auto;padding-left:100px">'.$pastError.'</div>';
+				if(isset($pastError) && !empty($pastError)) $hideclass="";
+				else $hideclass=" hide-it";
+	
+				if(isset($atts['error_title'])) $error_title = $atts['error_title'];
+				else $error_title='Errors found in the form';
+				if(isset($atts['error_message'])) $error_message = $atts['error_message'];
+				else $error_message='There is a problem with the form, please check and correct the following:';
+
+				$return .= '<div id="easy-show-error-div" class="easy-show-error-div'.$hideclass.'"><h2>'.$error_title.'</h2>'.$error_message.'<ul id="easy-show-error">'.$pastError.'</ul></div>';
 
 				$return .= '<input name="pricenonce" type="hidden" value="'.wp_create_nonce('easy-price').'">';
 				$return .= '<input name="editID" id="editID" type="hidden" value="'.$theID.'">';
@@ -271,7 +290,7 @@ function reservations_edit_shortcode($atts){
 				$return .= '<label>'.__( 'From' , 'easyReservations' ).'<span class="small">'.__( 'The arrival date' , 'easyReservations' ).'</span></label><input type="text" name="from" onchange="easyreservations_send_price(\'front\');easyreservations_send_validate();" id="easy-form-from" value="'.date(RESERVATIONS_DATE_FORMAT, strtotime($edit_querie[0]->arrivalDate)).'">';
 				$return .= '<label>'.__( 'To' , 'easyReservations' ).'<span class="small">'.__( 'The departure date' , 'easyReservations' ).'</span></label><input type="text" name="to" onchange="easyreservations_send_price(\'front\');easyreservations_send_validate();" id="easy-form-to" value="'.date(RESERVATIONS_DATE_FORMAT, strtotime($edit_querie[0]->arrivalDate)+(86400*$edit_querie[0]->nights)).'">';
 				$return .= '<label>'.__( 'Persons' , 'easyReservations' ).'<span class="small">'.__( 'The amount of persons' , 'easyReservations' ).'</span></label><select name="persons" id="easy-form-persons" onchange="easyreservations_send_price(\'front\');easyreservations_send_validate();">'.easyReservations_num_options(1,50,$persons).'</select>';
-				if(isset($childs) AND $childs != "") $return .= '<label>'.__( 'Children\'s' , 'easyReservations' ).'<span class="small">'.__( 'The amount of children\'s' , 'easyReservations' ).'</span></label><select name="childs" onchange="easyreservations_send_price(\'front\');">'.easyReservations_num_options(0,50,$childs).'</select>';
+				if(isset($childs) && $childs != "") $return .= '<label>'.__( 'Children\'s' , 'easyReservations' ).'<span class="small">'.__( 'The amount of children\'s' , 'easyReservations' ).'</span></label><select name="childs" onchange="easyreservations_send_price(\'front\');easyreservations_send_validate();">'.easyReservations_num_options(0,50,$childs).'</select>';
 				$return .= '<label>'.__( 'Country' , 'easyReservations' ).'<span class="small">'.__( 'Select your county' , 'easyReservations' ).'</span></label><select name="country">'.easyReservations_country_select($country).'</select>';
 				if($isCalendar) $calendar_js = 'document.CalendarFormular.room.value=this.value;easyreservations_send_calendar(\'shortcode\');';
 				$return .= '<label>'.$atts['roomname'].'<span class="small">'.__( 'Choose the' , 'easyReservations' ).' '.$atts['roomname'].'</span></label><select  name="room" id="room" onChange="'.$calendar_js.'easyreservations_send_price(\'front\');easyreservations_send_validate();">'.reservations_get_room_options($edit_querie[0]->room).'</select>';
@@ -295,7 +314,7 @@ function reservations_edit_shortcode($atts){
 					if(!empty($customps)){
 						foreach($customps as $thenumber2 => $customp){
 							if($customp['mode'] == 'visible' || $customp['mode'] == 'edit'){ 
-								$return .= '<label>'.__($customp['title']).'<span class="small">'.__( "Pay service" , "easyReservations" ).'</span></label><span class="formblock"><b>'.$customp['value'].':</b> '.$customp['amount'].' &'.get_option("reservations_currency").';';
+								$return .= '<label>'.__($customp['title']).'<span class="small">'.__( "Pay service" , "easyReservations" ).'</span></label><span class="formblock" style="width:50%"><b>'.$customp['value'].':</b> '.$customp['amount'].' &'.get_option("reservations_currency").';';
 								if($customp['mode'] == 'edit') $return .= '<input type="checkbox"  id="custom_price'.$thenumber2.'" value="test:'.$customp['amount'].'" onchange="easyreservations_send_price(\'front\');" checked ><input name="customPmodus'.$thenumber2.'" type="hidden" value="edit">'; 
 								else $return .= '<input type="hidden" name="customPmodus'.$thenumber2.'" value="visible"><input type="hidden" id="custom_price'.$thenumber2.'" value="test:'.$customp['amount'].'">';
 								$return .= '<input type="hidden" name="customPtitle'.$thenumber2.'" value="'.$customp['title'].'"><input type="hidden" name="customPvalue'.$thenumber2.'" value="'.$customp['value'].'"><input type="hidden" name="customPprice'.$thenumber2.'" value="'.$customp['amount'].'"></span>';
@@ -305,7 +324,7 @@ function reservations_edit_shortcode($atts){
 				}
 				$return .= '<label>'.__( 'Message' , 'easyReservations' ).'<span class="small">'.__( 'Type in message' , 'easyReservations' ).'</span></label><textarea name="editMessage" style="width:170px;">'.$edit_querie[0]->notes.'</textarea>';
 				$return .= '<div style="text-align:center">';
-					if($resPast == 0) $return .= '<input type="submit" onclick="document.getElementById(\'easyFrontendFormular\').submit(); return false;" value="'.__( 'Submit' , 'easyReservations' ).'">';
+					if($resPast == 0) $return .= '<input type="submit" onclick="easyreservations_send_validate(\'send\'); return false;" value="'.__( 'Submit' , 'easyReservations' ).'">';
 					if(isset($atts['price'])) $return .='<span class="showPrice" style="margin-left:10px">'.__( 'Price' , 'easyReservations' ).': <span id="showPrice" style="font-weight:bold;"><b>0,00</b></span> &'.get_option("reservations_currency").';</span>';
 				$return .= '</div>';
 			$return .= '</div>';
@@ -314,7 +333,7 @@ function reservations_edit_shortcode($atts){
 			return $return;
 		} else return '<div style="text-align:center;">'.__(  'Wrong ID or eMail' , 'easyReservations' ).' - <a href="'.$_SERVER['referer_url'].'">'.__( 'back' , 'easyReservations' ).'</a></div>';
 	} else {
-		if(!isset($chaptchaFileAdded)) require_once(dirname(__FILE__).'/lib/captcha/captcha.php');
+		include_once(dirname(__FILE__).'/lib/captcha/captcha.php');
 		$captcha_instance = new ReallySimpleCaptcha();
 		$word = $captcha_instance->generate_random_word();
 		$prefix = mt_rand();

@@ -1,18 +1,6 @@
 <?php
-	/**
-	* 	@functions for admin only 
-	*/
-
-	/**
-	*	Add pages to admin
-	*
-	*/
-	
-	/**
-	*	Load scripts and styles
-	*
-	*/
-	if(isset($_GET['page'])) $page=$_GET['page'];
+if(isset($_GET['page'])){
+		$page=$_GET['page'];
 
 	function easyreservations_load_mainstyle() {  //  Load Scripts and Styles
 
@@ -24,7 +12,7 @@
 	}
 
 
-	if(isset($page) && ($page == 'reservations' OR $page== 'reservation-settings' OR $page== 'reservation-statistics' OR  $page=='reservation-resources')){  //  Only load Styles and Scripts on Reservation Admin Page 
+	if($page == 'reservations' || $page== 'reservation-settings' || $page== 'reservation-statistics' ||  $page=='reservation-resources'){  //  Only load Styles and Scripts on Reservation Admin Page 
 		add_action('admin_init', 'easyreservations_load_mainstyle');
 	}
 
@@ -38,7 +26,7 @@
 		wp_register_script('jqplot_plugin_categoryAxisRenderer', RESERVATIONS_JS_DIR . '/jQplot/plugins/jqplot.categoryAxisRenderer.min.js' );
 	}
 
-	if(isset($page) AND ($page == 'reservation-statistics' OR $page == 'reservations')){  //  Only load Styles and Scripts on Statistics Page
+	if($page == 'reservation-statistics' || $page == 'reservations'){  //  Only load Styles and Scripts on Statistics Page
 		add_action('admin_init', 'easyreservations_statistics_load');
 	}
 
@@ -55,7 +43,7 @@
 		wp_enqueue_script('thickbox');
 	}
 
-	if(isset($page) AND $page == 'reservation-resources'){  //  Only load Styles and Scripts on Resources Page
+	if($page == 'reservation-resources'){  //  Only load Styles and Scripts on Resources Page
 		add_action('admin_init', 'easyreservations_scripts_resources_load');
 		add_action('admin_head', 'easyreservations_send_cal_admin');
 		add_action('wp_ajax_easyreservations_send_cal_admin', 'easyreservations_send_calendar_callback');
@@ -67,10 +55,9 @@
 		wp_enqueue_style( 'datestyle');
 		wp_enqueue_script('jquery-ui-datepicker');
 	}
-	if(isset($page) AND $page == 'reservations'){  //  Only load Styles and Scripts on add Reservation
+	if($page == 'reservations'){  //  Only load Styles and Scripts on add Reservation
 		add_action('admin_enqueue_scripts', 'easyreservations_datepicker_load');
 	}
-
 
 	/**
 	*	Add help to settings
@@ -122,13 +109,12 @@
 		) );
 		$screen->set_help_sidebar('<p><b>'.__('Help to improve the Plugin', 'easyReservations').':</b><br>'.__('You can', 'easyReservations').' <a target="_blank" href="http://feryaz.square7.ch/bugs/bug_report_page.php"> '.__('report bugs', 'easyReservations').'</a>, <a target="_blank" href="http://feryaz.square7.ch/bugs/bug_report_page.php"> '.__('make a suggestion', 'easyReservations').'</a> or <a target="_blank" href="http://www.feryaz.de/translate/"> '.__('translate the plugin', 'easyReservations').'</a>!</p><p>'.__('Even', 'easyReservations').' <a target="_blank" href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=D3NW9TDVHBJ9E"> '.__('donating', 'easyReservations').'</a> '.__('for the hundreds of hours i\'ve spent isn\'t impossible', 'easyReservations').' :)</p><p><strong> '.__('For more information', 'easyReservations').':</strong><br><a target="_blank" href="http://www.feryaz.de/dokumentation/">Documentation</a><br><a target="_blank" href="http://www.feryaz.de">Plugin Website</a><br><a target="_blank" href="http://wordpress.org/extend/plugins/easyreservations/">Wordpress Plugin Directory</a></p>');
 	}
-	
+
 	/**
 	*	Get detailed price calculation box
 	*
 	*	$id = reservations id
 	*/
-
 	function easyreservations_detailed_price($id){
 		$pricearray=easyreservations_price_calculation($id, '', 1);
 		$priceforarray=$pricearray['getusage'];
@@ -169,34 +155,6 @@
 		$res = $wpdb->get_results( $wpdb->prepare("SELECT meta_value FROM ".$wpdb->prefix ."postmeta WHERE meta_key='roomcount' AND meta_value > 0 ORDER BY meta_value DESC LIMIT 1")); // Get Higest Roomcount
 		return $res[0]->meta_value;
 
-	}
-
-	/**
-	*	Return ids of all rooms
-	*
-	*	$id = reservations id
-	*/
-
-	function reservations_get_room_ids($mode=0){ //Get the IDs of the Room Posts in array for helping people to find it.
-		$getids = easyreservations_get_rooms();
-		$theroomidsarray = '';
-		foreach($getids as $getid){
-			if($mode==1) $theroomidsarray .= $getid->ID.',';
-			else $theroomidsarray[] = array($getid->ID, $getid->post_title);
-		}
-		return $theroomidsarray;
-	}
-
-	/**
-	*	Check if a post is a room
-	*
-	*	$id = rooms id
-	*/
-
-	function reservations_is_room($id){
-		$category=get_post($id);
-		if($category->post_type == 'easy-rooms') return true;
-		else return false;
 	}
 
 	/**
@@ -241,24 +199,11 @@
 		return $administration_links;
 	}
 
-	/**
-	*	Load button and add it to tinyMCE
-	*/
-
-	add_filter('mce_external_plugins', 'easyreservations_tiny_register');
-	add_filter('mce_buttons', 'easyreservations_tiny_add_button', 0);
-
-	function easyreservations_tiny_add_button($buttons){
-		array_push($buttons, "separator", "easyReservations");
-		return $buttons;
+	function easyreservations_add_warn_notice(){
+		echo html_entity_decode( '&lt;&#100;iv class=&quot;up&#100;at&#101;d&quot; style=&quot;wi&#100;th:97%&quot;&gt;&lt;p&gt;Th&#105;s &#112;l&#117;gi&#110; &#105;s f&#111;r &lt;a hr&#101;&#102;=&quot;htt&#112;://w&#111;rd&#112;re&#115;s.&#111;rg/&#101;xt&#101;nd/plugins/&#101;asyr&#101;serv&#97;ti&#111;ns/&quot;&gt;&#102;r&#101;e&lt;/a&gt;&#33; Pl&#101;a&#115;e c&#111;n&#115;id&#101;r <&#97; t&#97;rg&#101;t="_bl&#97;nk" hre&#102;="h&#116;tps:&#47;/w&#119;w.&#112;ay&#112;&#97;l.c&#111;m/cg&#105;-b&#105;n/w&#101;b&#115;cr?c&#109;d=_&#115;-xclick&amp;h&#111;st&#101;d_bu&#116;&#116;&#111;n_i&#100;=&#68;3NW9T&#68;VHB&#74;&#57;E">d&#111;na&#116;ing</&#97;>.&lt;/p&gt;&lt;/&#100;iv&gt;' );
 	}
 
-	function easyreservations_tiny_register($plugin_array){
-		$url = WP_PLUGIN_URL . '/easyreservations/js/tinyMCE/tinyMCE_shortcode_add.js';
-
-		$plugin_array['easyReservations'] = $url;
-		return $plugin_array;
-	}
+	add_action('er_set_main_side_top', 'easyreservations_add_warn_notice');
 
 	/**
 	*	Add screen settings to reservations main screen
@@ -345,7 +290,7 @@
 						$current .= '<label><input type="checkbox" name="table_from" value="1" '.checked($table['table_from'], 1, false).'> '.__( 'Arrival date  ' , 'easyReservations').'</label><br>';
 						$current .= '<label><input type="checkbox" name="table_to" value="1" '.checked($table['table_to'], 1, false).'> '.__( 'Depature date  ' , 'easyReservations').'</label><br>';
 						$current .= '<label><input type="checkbox" name="table_nights" value="1" '.checked($table['table_nights'], 1, false).'> '.__( 'Nights ' , 'easyReservations').'</label><br>';
-						$current .= '<label><input type="checkbox" name="table_reservated" value="1" '.checked($table['table_reservated'], 1, false).'> '.__( 'Reservated ' , 'easyReservations').'</label><br>';
+						$current .= '<label><input type="checkbox" name="table_reservated" value="1" '.checked($table['table_reservated'], 1, false).'> '.__( 'Reserved ' , 'easyReservations').'</label><br>';
 					$current .= '</span>';
 					$current .= '<span style="float:left;margin-right:10px">';
 						$current .= '<label><input type="checkbox" name="table_email" value="1" '.checked($table['table_email'], 1, false).'> '.__( 'eMail' , 'easyReservations').'</label><br>';
@@ -378,12 +323,12 @@
 				$current .= '<p style="float:left;margin-right:15px">';
 					$current .= '<b><u>'.__( 'Show Rooms' , 'easyReservations').':</u></b><br>';
 					$reservations_show_rooms = $overview['overview_show_rooms'];
-					$roomArray = reservations_get_room_ids();
+					$roomArray = easyreservations_get_rooms();
 					foreach($roomArray as $theNumber => $raum){
 						if($reservations_show_rooms == '') $check="checked";
-						elseif( substr_count($reservations_show_rooms, $raum[0]) > 0) $check="checked";
+						elseif( substr_count($reservations_show_rooms, $raum->ID) > 0) $check="checked";
 						else $check="";
-						$current.='<label><input type="checkbox" name="overview_show_rooms['.$theNumber.']" value="'.$raum[0].'" '.$check.'> '.__($raum[1]).'</label><br>';
+						$current.='<label><input type="checkbox" name="overview_show_rooms['.$theNumber.']" value="'.$raum->ID.'" '.$check.'> '.__($raum->post_title).'</label><br>';
 					}
 				$current .= '</p>';
 				$current .= '<p style="float:left;">';
@@ -403,122 +348,41 @@
 
 	add_filter('screen_settings', 'easyreservations_screen_settings', 10, 2);
 
-	/**
-	*	Construct dashboard widget 
-	*/
-	 
-	function easyreservations_dashboard_widget_function() {
-		echo '<style>#easyreservations_dashboard_widget .inside { margin:0px; padding:0px; } #er-dash-table thead th { background:#EAEAEA;border-top:1px solid #ccc;border-bottom:1px solid #ccc; padding:3px !important; } #er-dash-table tbody tr:nth-child(odd) { background:#fff } #er-dash-table tbody td { font-weight:normal !important; padding:3px !important; }</style>';?>
-		<script>
-			function navibackground(a){
-				var e = document.getElementsByName('sendajax'); 
-				for(var i=0;i<e.length;i++){ e[i].style.color = '#21759B';e[i].style.fontWeight='normal';} 
-				a.style.color='#000';
-				a.style.fontWeight='bold';
-			}
-		</script>
-		<div id="er-dash-navi" style="width:100%;padding:4px;">
-			<a id="current" name="sendajax" style="cursor:pointer" onclick="navibackground(this)">Current</a> | 
-			<a id="leaving" name="sendajax" style="cursor:pointer" onclick="navibackground(this)">Leaving today</a> | 
-			<a id="arrival" name="sendajax" style="cursor:pointer" onclick="navibackground(this)">Arrival today</a> | 
-			<a id="pending" name="sendajax" style="cursor:pointer;font-size:12px;" onclick="navibackground(this)">Pending</a> | 
-			<a id="future" name="sendajax" style="cursor:pointer" onclick="navibackground(this)">Future</a>
-			<span id="er-loading" style="float:right;"></span>
-		</div>
-		<div id="easy-dashboard-div"></div><?php
-	}
+	function easyreservations_get_user_options($sel = 0){
 
-	function easyreservations_add_dashboard_widgets() {
-		wp_add_dashboard_widget('easyreservations_dashboard_widget', 'easyReservations Dashboard Widget', 'easyreservations_dashboard_widget_function');	
-	}
+		$blogusers = get_users();
+		$options = '';
 
-	/* *
-	*	Dashboards ajax request
-	*/
-
-	function easyreservations_send_dashboard(){
-		$nonce = wp_create_nonce( 'easy-dashboard' );
-		?><script type="text/javascript" >	
-		jQuery(document).ready(function(jQuery) {
-			jQuery('a[name|="sendajax"]').click(function() {
-				var loading = '<img style="margin-right:7px" src="<?php echo RESERVATIONS_IMAGES_DIR; ?>/loading.gif">';
-				jQuery("#er-loading").html(loading);
-				var data = {
-					action: 'easyreservations_send_dashboard',
-					security: '<?php echo $nonce; ?>',
-					mode: jQuery(this).attr('id')
-				};
-				// since 2.8 ajaxurl is always defined in the admin header and points to admin-ajax.php
-				jQuery.post(ajaxurl, data, function(response) {
-					jQuery("#easy-dashboard-div").html(response);
-					jQuery("#er-loading").html('');
-					return false;
-				});
-			});
-		});		</script><?php
-	}
-
-	add_action('admin_head-index.php', 'easyreservations_send_dashboard');
-
-	/* *
-	*	Dashboards ajax callback
-	*/
-	function easyreservations_send_dashboard_callback() {
-		global $wpdb; // this is how you get access to the database
-		check_ajax_referer( 'easy-dashboard', 'security' );
-
-		$mode =  $_POST['mode'];
-		$dateToday = date("Y-m-d", time());
-	 
-		// response output
-		if($mode == "current"){
-			$query = $wpdb->get_results("SELECT id, name, arrivalDate, nights, room, special, number, childs FROM ".$wpdb->prefix ."reservations WHERE '$dateToday' BETWEEN arrivalDate AND arrivalDate + INTERVAL nights DAY AND approve='yes'"); // Search query
-		} elseif($mode == "leaving"){
-			$query = $wpdb->get_results("SELECT id, name, arrivalDate, nights, room, special, number, childs FROM ".$wpdb->prefix ."reservations WHERE arrivalDate = '$dateToday'  AND approve='yes'"); // Search query 
-		} elseif($mode == "pending"){
-			$query = $wpdb->get_results("SELECT id, name, arrivalDate, nights, room, special, number, childs FROM ".$wpdb->prefix ."reservations WHERE arrivalDate > DATE(NOW()) AND approve=''"); // Search query 
-		} elseif($mode == "arrival"){
-			$query = $wpdb->get_results("SELECT id, name, arrivalDate, nights, room, special, number, childs FROM ".$wpdb->prefix ."reservations WHERE arrivalDate + INTERVAL nights DAY = '$dateToday' AND approve='yes'"); // Search query 
-		} elseif($mode == "future"){
-			$query = $wpdb->get_results("SELECT id, name, arrivalDate, nights, room, special, number, childs FROM ".$wpdb->prefix ."reservations WHERE  arrivalDate > DATE(NOW()) AND approve='yes'"); // Search query 
+		foreach ($blogusers as $usr){
+			if($sel == $usr->ID) $selected = 'selected="selected"'; else $selected = '';
+			$options.='<option value='.$usr->ID.' '.$selected.'>'.$usr->display_name.'</option>';
 		}
-
-		$table = '<table id="er-dash-table" style="width:100%;text-align:left;font-weight:normal;border-spacing:0px">';
-			$table .= '<thead>';
-				$table .= '<tr>';
-					$table .= '<th>'.__( 'Name' , 'easyReservations').'</th>';
-					$table .= '<th>'.__( 'Date' , 'easyReservations').'</th>';
-					$table .= '<th>'.__( 'Room' , 'easyReservations').'</th>';
-					$table .= '<th style="text-align:center">'.__( 'Persons' , 'easyReservations').'</th>';
-					$table .= '<th style="text-align:right">'.__( 'Price' , 'easyReservations').'</th>';
-				$table .= '</tr>';
-			$table .= '</thead>';
-			$table .= '<tbody>';
-
-		foreach($query as $num => $res){
-			$dateanf = strtotime($res->arrivalDate);
-			$dateend = strtotime($res->arrivalDate) + ($res->nights * 86400);
-			if($num % 2 == 0) $class="odd";
-			else $class="even";
-				$table .= '<tr class="'.$class.'">';
-					$table .= '<td><a href="admin.php?page=reservations&view='.$res->id.'">'.$res->name.'</a></td>';
-					$table .= '<td>'.date(RESERVATIONS_DATE_FORMAT, $dateanf).' - '.date(RESERVATIONS_DATE_FORMAT, $dateend).' ('.$res->nights.')</td>';
-					$table .= '<td>'.get_the_title($res->room).'</td>';
-					$table .= '<td style="text-align:center;">'.$res->number.' ('.$res->childs.')</td>';
-					$table .= '<td style="text-align:right">'.easyreservations_get_price($res->id,1).'</td>';
-				$table .= '</tr>';
-		}
-
-			$table .= '</tbody>';
-		$table .= '</table>';
-		
-		echo $table;
-
-		// IMPORTANT: don't forget to "exit"
-		exit;
+		return $options;
 	}
 
-	add_action('wp_ajax_easyreservations_send_dashboard', 'easyreservations_send_dashboard_callback');
+	if(isset($page) && $page == 'reservations'){
+		if(isset($_GET['edit']) || isset($_GET['add'])){
+			add_action('admin_head', 'easyreservations_send_price_admin');
+			add_action('wp_ajax_easyreservations_send_price_admin', 'easyreservations_send_price_callback');
+		} else {
+			add_action('admin_head', 'easyreservations_send_table');
+			add_action('admin_head', 'easyreservations_send_fav');
+		}
+	}
+	
+	function easyreservations_get_roomname_options($number, $max, $room, $roomnames = ''){
+		if(empty($roomnames)) $roomnames = get_post_meta($room, 'easy-resource-roomnames', TRUE);
+		$options = '';
+		for($i=0; $i < $max; $i++){
+			if(isset($roomnames[$i]) && !empty($roomnames[$i])) $name = $roomnames[$i];
+			else $name = $i+1;
+			if($number == $i+1) $selected='selected="selected"'; else $selected='';
+			$options .= '<option value="'.($i+1).'">'.$name.'</option>';
+		}
+		return $options;
+	}
+
+}
 	/* *
 	*	Table ajax request
 	*/
@@ -700,7 +564,7 @@
 		if(empty($orderby) && $typ=="old") { $ordersby="arrivalDate"; $orders="DESC"; }
 		if(empty($orderby) && $typ=="all") { $ordersby="arrivalDate"; $orders="DESC"; }
 
-		if(isset($specialselector) OR isset($monthselector) OR isset($roomselector)){
+		if(isset($specialselector) || isset($monthselector) || isset($roomselector)){
 			$variableitems = $wpdb->get_var($wpdb->prepare("SELECT COUNT(*) FROM ".$wpdb->prefix ."reservations WHERE $type $selectors $zeichen $searchstr $permission_selectors", '%' . like_escape($search) . '%'));
 			$items=$variableitems;
 		}
@@ -710,7 +574,7 @@
 
 		$pagei = 1;
 
-		if(isset($items) AND $items > 0) {
+		if(isset($items) && $items > 0) {
 
 			$p = new easy_pagination;
 			$p->items($items);
@@ -800,7 +664,7 @@
 					<?php }  if($table_options['table_reservated'] == 1 || $table_options['table_reservated'] == 1){ $countrows++; ?>
 						<th style="text-align:center"><?php if($order=="ASC" and $orderby=="reservad") { ?><a class="asc2" onclick="easyreservation_send_table('<?php echo $typ; ?>', 1, 'DESC', 'reservated' )">
 						<?php } elseif($order=="DESC" and $orderby=="reservated") { ?><a class="desc2" onclick="easyreservation_send_table('<?php echo $typ; ?>', 1, 'ASC', 'reservated' )">
-						<?php } else { ?><a class="stand2" onclick="easyreservation_send_table('<?php echo $typ; ?>', 1, 'DESC', 'reservated' )"><?php } ?><?php printf ( __( 'Reservated' , 'easyReservations' ));?></a></th>
+						<?php } else { ?><a class="stand2" onclick="easyreservation_send_table('<?php echo $typ; ?>', 1, 'DESC', 'reservated' )"><?php } ?><?php printf ( __( 'Reserved' , 'easyReservations' ));?></a></th>
 					<?php }  if($table_options['table_status'] == 1){ $countrows++; ?>
 						<th><?php printf ( __( 'Status' , 'easyReservations' )); ?></th>
 					<?php } if($table_options['table_email'] == 1){ $countrows++; ?>
@@ -847,7 +711,7 @@
 					<?php }  if($table_options['table_reservated'] == 1 || $table_options['table_reservated'] == 1){ ?>
 						<th style="text-align:center"><?php if($order=="ASC" and $orderby=="reservad") { ?><a class="asc2" onclick="easyreservation_send_table('<?php echo $typ; ?>', 1, 'DESC', 'reservated' )">
 						<?php } elseif($order=="DESC" and $orderby=="reservated") { ?><a class="desc2" onclick="easyreservation_send_table('<?php echo $typ; ?>', 1, 'ASC', 'reservated' )">
-						<?php } else { ?><a class="stand2" onclick="easyreservation_send_table('<?php echo $typ; ?>', 1, 'DESC', 'reservated' )"><?php } ?><?php printf ( __( 'Reservated' , 'easyReservations' ));?></a></th>
+						<?php } else { ?><a class="stand2" onclick="easyreservation_send_table('<?php echo $typ; ?>', 1, 'DESC', 'reservated' )"><?php } ?><?php printf ( __( 'Reserved' , 'easyReservations' ));?></a></th>
 					<?php }  if($table_options['table_status'] == 1){ ?>
 						<th><?php printf ( __( 'Status' , 'easyReservations' )); ?></th>
 					<?php } if($table_options['table_email'] == 1){ ?>
@@ -899,6 +763,7 @@
 						$rooms=__(get_the_title($room));
 
 						if($nr%2==0) $class="alternate"; else $class="";
+						$nr++;
 						$timpstampanf=strtotime($res->arrivalDate);
 						$timestampend=(86400*$nights)+$timpstampanf;
 
@@ -918,10 +783,7 @@
 								$favclass = ' easy-unfav';
 								$favid = 'unfav-'.$id;
 							}
-						}
-
-						$nr++;
-						?>
+						} ?>
 				<tr class="<?php echo $class.' '.$highlightClass; ?>" height="47px" <?php if($table_options['table_onmouseover'] == 1 && $res->approve == "yes" && !empty($res->roomnumber)){ ?>onmouseover="fakeClick('<?php echo $timpstampanf; ?>', '<?php echo $timestampend; ?>', '<?php echo $res->room; ?>', '<?php echo $res->roomnumber; ?>', 'yellow');" onmouseout="changer()"<?php } ?>><!-- Main Table Body //-->
 					<?php if($table_options['table_color'] == 1){ ?>
 						<td class="<?php echo $sta; ?>" style="max-width:4px !important;padding:0px !important;"></td>
@@ -939,9 +801,9 @@
 								<?php do_action('er_table_name_custom', $res->custom, $id); ?>
 								<div class="test2" style="margin:5px 0 0px 0;">
 									<a href="admin.php?page=reservations&edit=<?php echo $id;?>"><?php printf ( __( 'Edit' , 'easyReservations' ));?></a> 
-									<?php if(isset($typ) AND ($typ=="deleted" OR $typ=="pending")) { ?>| <a style="color:#28a70e;" href="admin.php?page=reservations&approve=<?php echo $id;?>"><?php printf ( __( 'Approve' , 'easyReservations' ));?></a>
-									<?php } if(!isset($typ) OR (isset($typ) AND ($typ=="active" or $typ=="pending"))) { ?> | <a style="color:#bc0b0b;" href="admin.php?page=reservations&delete=<?php echo $id;?>"><?php printf ( __( 'Reject' , 'easyReservations' ));?></a>
-									<?php } if(isset($typ) AND $typ=="trash") { ?>| <a href="admin.php?page=reservations&bulkArr[]=<?php echo $id;?>&bulk=2"><?php printf ( __( 'Restore' , 'easyReservations' ));?></a> | <a style="color:#bc0b0b;" href="admin.php?page=reservations&easy-main-bulk=&bulkArr[]=<?php echo $id;?>&bulk=3&easy-main-bulk=<?php echo wp_create_nonce('easy-main-bulk'); ?>"><?php printf ( __( 'Delete Permanently' , 'easyReservations' ));?></a><?php } ?> | <a href="admin.php?page=reservations&sendmail=<?php echo $id;?>"><?php echo __( 'Mail' , 'easyReservations' );?></a>
+									<?php if(isset($typ) && ($typ=="deleted" || $typ=="pending")) { ?>| <a style="color:#28a70e;" href="admin.php?page=reservations&approve=<?php echo $id;?>"><?php printf ( __( 'Approve' , 'easyReservations' ));?></a>
+									<?php } if(!isset($typ) || (isset($typ) && ($typ=="active" || $typ=="pending"))) { ?> | <a style="color:#bc0b0b;" href="admin.php?page=reservations&delete=<?php echo $id;?>"><?php printf ( __( 'Reject' , 'easyReservations' ));?></a>
+									<?php } if(isset($typ) && $typ=="trash") { ?>| <a href="admin.php?page=reservations&bulkArr[]=<?php echo $id;?>&bulk=2"><?php printf ( __( 'Restore' , 'easyReservations' ));?></a> | <a style="color:#bc0b0b;" href="admin.php?page=reservations&easy-main-bulk=&bulkArr[]=<?php echo $id;?>&bulk=3&easy-main-bulk=<?php echo wp_create_nonce('easy-main-bulk'); ?>"><?php printf ( __( 'Delete Permanently' , 'easyReservations' ));?></a><?php } ?> | <a href="admin.php?page=reservations&sendmail=<?php echo $id;?>"><?php echo __( 'Mail' , 'easyReservations' );?></a>
 								</div>
 							</div>
 						</td>
@@ -957,7 +819,7 @@
 					<?php } if($table_options['table_persons'] == 1 || $table_options['table_childs'] == 1){ ?>
 						<td style="text-align:center;"><?php if($table_options['table_name'] == 1) echo $person; if($table_options['table_from'] == 1 && $table_options['table_to'] == 1) echo ' / '; if($table_options['table_childs'] == 1) echo $childs; ?></td>
 					<?php }  if($table_options['table_room'] == 1 || $table_options['table_exactly'] == 1){  ?>
-						<td nowrap><?php if($table_options['table_room'] == 1) echo '<a href="admin.php?page=reservation-resources&room='.$room.'">'.__($rooms).'</a>'; if($table_options['table_exactly'] == 1 && isset($res->roomnumber)) echo ' #'.$res->roomnumber; ?></td>
+						<td nowrap><?php if($table_options['table_room'] == 1) echo '<a href="admin.php?page=reservation-resources&room='.$room.'">'.__($rooms).'</a> '; if($table_options['table_exactly'] == 1 && isset($res->roomnumber)) echo easyreservations_get_roomname($res->roomnumber, $room); ?></td>
 					<?php }  if($table_options['table_offer'] == 1){  ?>
 						<td nowrap><?php if($special > 0) echo '<a href="admin.php?page=reservation-resources&room='.$special.'">'.__(get_the_title($special)).'</a>'; else echo __( 'None' , 'easyReservations' ); ?></td>
 					<?php }  if($table_options['table_country'] == 1){  ?>
@@ -1015,7 +877,7 @@
 	}
 
 	add_action('wp_ajax_easyreservations_send_table', 'easyreservations_send_table_callback');
-	
+
 	function easyreservations_get_price_filter_description($filtertype){
 		if($filtertype['cond'] == 'range'){
 			$the_condtion = sprintf(__( 'If the day to calculate is beween %1$s and %2$s else' , 'easyReservations' ), '<b>'.$filtertype['from'].'</b>', '<b>'.$filtertype['to'].'</b>' ).' <b style="font-size:17px">&#8595;</b>';
@@ -1025,14 +887,9 @@
 			if(!empty($filtertype['day'])){
 				$daycondition = '';
 				$days = explode(',', $filtertype['day']);
+				$daynames= easyreservations_get_date_name(0, 3);
 				foreach($days as $day){
-					if($day == 1) $daycondition .= __('Mon', 'easyReservations').', ';
-					elseif($day == 2) $daycondition .= __('Tue', 'easyReservations').', ';
-					elseif($day == 3) $daycondition .= __('Wed', 'easyReservations').', ';
-					elseif($day == 4) $daycondition .= __('Thu', 'easyReservations').', ';
-					elseif($day == 5) $daycondition .= __('Fri', 'easyReservations').', ';
-					elseif($day == 6) $daycondition .= __('Sat', 'easyReservations').', ';
-					elseif($day == 7) $daycondition .= __('Sun', 'easyReservations').', ';
+					$daycondition .= $daynames[$day-1].', ';
 				}
 			}
 
@@ -1043,19 +900,9 @@
 			if(!empty($filtertype['month'])){
 				$monthcondition = '';
 				$monthes = explode(',', $filtertype['month']);
+				$monthesnames= easyreservations_get_date_name(1, 3);
 				foreach($monthes as $month){
-					if($month == 1) $monthcondition .= __('Jan', 'easyReservations').', ';
-					elseif($month == 2) $monthcondition .= __('Feb', 'easyReservations').', ';
-					elseif($month == 3) $monthcondition .= __('Mar', 'easyReservations').', ';
-					elseif($month == 4) $monthcondition .= __('Apr', 'easyReservations').', ';
-					elseif($month == 5) $monthcondition .= __('May', 'easyReservations').', ';
-					elseif($month == 6) $monthcondition .= __('Jun', 'easyReservations').', ';
-					elseif($month == 7) $monthcondition .= __('Jul', 'easyReservations').', ';
-					elseif($month == 8) $monthcondition .= __('Aug', 'easyReservations').', ';
-					elseif($month == 9) $monthcondition .= __('Sep', 'easyReservations').', ';
-					elseif($month == 10) $monthcondition .= __('Oct', 'easyReservations').', ';
-					elseif($month == 11) $monthcondition .= __('Nov', 'easyReservations').', ';
-					elseif($month == 12) $monthcondition .= __('Dec', 'easyReservations').', ';
+					$monthcondition .=  $monthesnames[$month-1].', ';
 				}
 			}
 
@@ -1068,16 +915,15 @@
 			}
 
 			$itcondtion=__("If day to calculate is ", "easyReservations");
-			if(isset($daycondition) AND $daycondition != '') $itcondtion .= __('a calendar week', 'easyReservations')." <b>".substr($daycondition, 0, -2).'</b> '.__('and', 'easyReservations').' ';
-			if(isset($cwcondition) AND $cwcondition != '') $itcondtion .= __('in calendar week', 'easyReservations')." <b>".$cwcondition.'</b> '.__('and', 'easyReservations').' ';
-			if(isset($monthcondition) AND $monthcondition != '') $itcondtion .= __('in', 'easyReservations')." <b>".substr($monthcondition, 0, -2).'</b> '.__('and', 'easyReservations').' ';
-			if(isset($qcondition) AND $qcondition != '') $itcondtion .= __('in quarter', 'easyReservations')." <b>".$qcondition.'</b> '.__('and', 'easyReservations').' ';
-			if(isset($ycondition) AND $ycondition != '') $itcondtion .= __('in', 'easyReservations')." <b>".$ycondition.'</b> '.__('and', 'easyReservations').' ';
+			if(isset($daycondition) && $daycondition != '') $itcondtion .= __('a calendar week', 'easyReservations')." <b>".substr($daycondition, 0, -2).'</b> '.__('and', 'easyReservations').' ';
+			if(isset($cwcondition) && $cwcondition != '') $itcondtion .= __('in calendar week', 'easyReservations')." <b>".$cwcondition.'</b> '.__('and', 'easyReservations').' ';
+			if(isset($monthcondition) && $monthcondition != '') $itcondtion .= __('in', 'easyReservations')." <b>".substr($monthcondition, 0, -2).'</b> '.__('and', 'easyReservations').' ';
+			if(isset($qcondition) && $qcondition != '') $itcondtion .= __('in quarter', 'easyReservations')." <b>".$qcondition.'</b> '.__('and', 'easyReservations').' ';
+			if(isset($ycondition) && $ycondition != '') $itcondtion .= __('in', 'easyReservations')." <b>".$ycondition.'</b> '.__('and', 'easyReservations').' ';
 			$the_condtion = substr($itcondtion, 0, -4).' '.__('else', 'easyReservations').' <b style="font-size:17px">&#8595;</b>';
 		}
-		
-		return $the_condtion;
 
+		return $the_condtion;
 	}
 	
 	function easyreservations_send_price_admin(){
@@ -1369,26 +1215,23 @@
 		}
 	}
 
-	function easyreservations_get_user_options($sel = 0){
+	/**
+	*	Load button and add it to tinyMCE
+	*/
 
-		$blogusers = get_users();
-		$options = '';
+	add_filter('mce_external_plugins', 'easyreservations_tiny_register');
+	add_filter('mce_buttons', 'easyreservations_tiny_add_button', 0);
 
-		foreach ($blogusers as $usr){
-			if($sel == $usr->ID) $selected = 'selected="selected"'; else $selected = '';
-			$options.='<option value='.$usr->ID.' '.$selected.'>'.$usr->display_name.'</option>';
-		}
-		return $options;
+	function easyreservations_tiny_add_button($buttons){
+		array_push($buttons, "separator", "easyReservations");
+		return $buttons;
 	}
 
-	if(isset($page) && $page == 'reservations'){
-		if(isset($_GET['edit']) || isset($_GET['add'])){
-			add_action('admin_head', 'easyreservations_send_price_admin');
-			add_action('wp_ajax_easyreservations_send_price_admin', 'easyreservations_send_price_callback');
-		} else {
-			add_action('admin_head', 'easyreservations_send_table');
-			add_action('admin_head', 'easyreservations_send_fav');
-		}
+	function easyreservations_tiny_register($plugin_array){
+		$url = WP_PLUGIN_URL . '/easyreservations/js/tinyMCE/tinyMCE_shortcode_add.js';
+
+		$plugin_array['easyReservations'] = $url;
+		return $plugin_array;
 	}
 
 ?>

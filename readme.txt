@@ -1,15 +1,15 @@
 === easyReservations ===
 Contributors: feryaz
-Donate link: http://example.com/
-Tags: booking, reservation, form, reservations, rentals, resources, hotel, rooms, motel, apartments, calendar
+Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=D3NW9TDVHBJ9E
+Tags: booking, reservation, form, reservations, rentals, resources, hotel, rooms, motel, apartments, calendar, events
 Requires at least: 3.3
 Tested up to: 3.3.1
-Stable tag: 1.7
-easyReservation is the solution for every over-night rentable content!
+Stable tag: 1.8
+easyReservation is the perfect solution for every over-night rentable content!
 
 == Description ==
 easyReservation is a reservation or booking plugin to give you a fast, structured and detailed overview over your reservations.
-Its very flexible and inutiv and can be used on any side with over-night rentable content. Its fully translatable and comes with englisch and german.
+Its very flexible and inutiv and can be used on any side with over-night rentable content. Its fully translatable and comes with englisch, german, france, turkish and russian.
 
 [Website](http://feryaz.de/ "Check out the new Demonstration!")
 

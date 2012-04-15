@@ -40,10 +40,11 @@ function easyreservations_click_calendar(t,d,w, m){
 			if(ToWidget) ToWidget.value = d;
 			if(window.easyreservations_send_price) easyreservations_send_price();
 			if(window.easyreservations_send_validate) easyreservations_send_validate();
+			if(window.easyreservations_send_search) easyreservations_send_search();
 
 			easyClick = 2;
 		} else {
-			easyClick = 0;
+			easyClick = 2;
 			easyCalM = 0;
 			jQuery(".calendar-cell-selected").removeClass("calendar-cell-selected");
 		}

@@ -14,6 +14,7 @@
 		if(isset($atts['interval'])) $interval = $atts['interval']; else $interval = 1;
 		if(empty($width)) $width = 300;
 		wp_enqueue_style('easy-cal-'.$style);
+		if(isset($_POST['room']) && is_numeric($_POST['room'])) $room = $_POST['room'];
                 
 		$return = '<form name="CalendarFormular" id="CalendarFormular">';
 			$return .= '<input type="hidden" name="room" onChange="easyreservations_send_calendar(\'shortcode\')" value="'.$room.'">';

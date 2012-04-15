@@ -3,15 +3,19 @@ function reservations_form_shortcode($atts){
 
 	global $post;
 	$finalform = "";
-	$error = "";
+	$error = '';
 
-	if(isset($atts['style'])) $style=$atts['style'];
-	else $style = "none";
+	$atts = shortcode_atts(array(
+		'room' => 0,
+		'price' => 1,
+		'submit' => __( 'Your reservation was sent' , 'easyReservations' ),
+		'style' => 'none',
+	), $atts);
 
 	wp_enqueue_script('jquery-ui-datepicker');
 	wp_enqueue_style('datestyle');
 	wp_enqueue_script('easy-form-js');
-	wp_enqueue_style('easy-form-'.$style);
+	wp_enqueue_style('easy-form-'.$atts['style']);
 
 	if(isset($atts[0])) $theForm=stripslashes(get_option('reservations_form_'.$atts[0].''));
 	else $theForm=stripslashes (get_option("reservations_form"));
@@ -27,9 +31,8 @@ function reservations_form_shortcode($atts){
 		add_action('wp_print_footer_scripts', 'easyreservtions_send_price_script'); //get price directily after loading
 	} else $price_action = '';
 	
-	if(strpos(get_the_content($post->ID), '[easy_calendar') !== false){
-		$isCalendar = true;
-	} else $isCalendar = false;
+	if(strpos(get_the_content($post->ID), '[easy_calendar') !== false) $isCalendar = true;
+	else $isCalendar = false;
 
 	if(isset($_POST['easynonce'])) { // Check and Set the Form Inputs
 
@@ -78,10 +81,10 @@ function reservations_form_shortcode($atts){
 		foreach($edgetworemoves as $fields){
 			$field=explode(" ", $fields);
 			if($field[0]=="custom"){
-				if(isset($_POST[$field[2]]) AND !empty($_POST[$field[2]])){
-					$custom_form[] = array( 'type' => 'cstm', 'mode' => 'edit', 'title' => $field[2], 'value' => $_POST[$field[2]]);
+				if(isset($_POST['easy-custom-'.$field[2]]) && !empty($_POST['easy-custom-'.$field[2]])){
+					$custom_form[] = array( 'type' => 'cstm', 'mode' => 'edit', 'title' => $field[2], 'value' => $_POST['easy-custom-'.$field[2]]);
 				} else { 
-					if($field[count($field)-1] == "*") $error.= sprintf(__( 'Please fill out %s', 'easyReservations'), $field[2]).'<br>'; 
+					if($field[count($field)-1] == "*") $error.= sprintf(__( '%s is required', 'easyReservations'), ucfirst($field[2])).'<br>'; 
 				}
 			}
 			if($field[0]=="price"){
@@ -89,6 +92,7 @@ function reservations_form_shortcode($atts){
 					$explodeprice = explode(":",$_POST[$field[2]]);
 					if(isset($explodeprice[2]) && $explodeprice[2] == 1) $theprice = $explodeprice[1] * ($persons+$childs);
 					elseif(isset($explodeprice[2]) && $explodeprice[2] == 2) $theprice = $explodeprice[1] * round((strtotime($to)-strtotime($from))/86400);
+					elseif(isset($explodeprice[2]) && $explodeprice[2] == 3) $theprice = $explodeprice[1] * round((strtotime($to)-strtotime($from))/86400) * ($persons+$childs);
 					else $theprice = $explodeprice[1];
 					$custom_price[] = array( 'type' => 'cstm', 'mode' => 'edit', 'title' => $field[2], 'value' => $explodeprice[0], 'amount' => $theprice );
 				}
@@ -103,112 +107,42 @@ function reservations_form_shortcode($atts){
 			$theID = $error;
 			$error = '';
 		}
-		if($error != '') $error='<div id="post_errors" class="showError">'.substr($error, 0, -4).'</div>';
 	}
 
 	if(isset($_POST['easynonce']) && empty($error) && isset($from)) { //When Check gives no error Insert into Database and send mail
-		$finalform.= '<div class="easy_form_success"><b>'.__( 'Your reservation was sent' , 'easyReservations' ).'!</b>';
-			
+		$finalform.= '<div class="easy_form_success"><b>'.$atts['submit'].'!</b>';
+		if($atts['price'] == 1) $finalform.= '<span class="easy_show_price_submit">'.__('Price','easyReservations').': <b>'.easyreservations_get_price($theID, '').'</b></span>';
 		if(function_exists('easyreservations_generate_paypal_button')){
-			if($nights < 1 || $nights == '' ){
-				$nights = round((strtotime($to)-strtotime($from))/86400);
-			}
-			$finalform .= easyreservations_generate_paypal_button($theID, strtotime($from), $nights, $room, $offer, $email, 0);
+			$finalform .= easyreservations_generate_paypal_button($theID, strtotime($from), round((strtotime($to)-strtotime($from))/86400), $room, $offer, $email, 0);
 		}
 		$finalform.='</div>';
 	}
-	if(isset($atts['room'])) $theRoom = $atts['room']; else $theRoom = 0;
+	$finalformedgesremoved = easyreservations_generate_form($theForm, $price_action, $validate_action, $isCalendar, $atts['room'], $error);
 
-	$finalformedgesremoved = easyreservations_generate_form($theForm, $price_action, $validate_action, $isCalendar, $theRoom = 0);
+	if($finalform == '') $finalform.='<div class="easyFrontendFormular"><form method="post" id="easyFrontendFormular" name="easyFrontendFormular"><input name="easynonce" type="hidden" value="'.wp_create_nonce('easy-user-add').'"><input name="pricenonce" type="hidden" value="'.wp_create_nonce('easy-price').'">'.$finalformedgesremoved.'<!-- Provided by easyReservations free Wordpress Plugin http://www.feryaz.de --></form></div>';
 
-	if($finalform == '') $finalform.='<div class="easyFrontendFormular"><form method="post" id="easyFrontendFormular" name="easyFrontendFormular" class=""><input name="easynonce" type="hidden" value="'.wp_create_nonce('easy-user-add').'"><input name="pricenonce" type="hidden" value="'.wp_create_nonce('easy-price').'">'.$error.$finalformedgesremoved.'<!-- Provided by easyReservations free Wordpress Plugin http://www.feryaz.de --></form></div>';
-
-	if(isset($_POST['from'])){
-		$finalform .= '<script>if(document.easyFrontendFormular) document.easyFrontendFormular.from.value="'.$_POST['from'].'";document.easyFrontendFormular.to.value="'.$_POST['to'].'";</script>';
-		$informationsFromOutside = 1;
-	}
-
-	if(isset($_POST['thename'])){
-		$finalform .= '<script>if(document.easyFrontendFormular) document.easyFrontendFormular.thename.value="'.$_POST['thename'].'";</script>';
-		$informationsFromOutside = 1;
-	}
-
-	if(isset($_POST['message'])){
-		$finalform .= '<script>if(document.easyFrontendFormular) document.easyFrontendFormular.message.value="'.$_POST['message'].'";</script>';
-		$informationsFromOutside = 1;
-	}
-
-	if(isset($_POST['email'])){
-		$finalform .= '<script>if(document.easyFrontendFormular) document.easyFrontendFormular.email.value="'.$_POST['email'].'";</script>';
-		$informationsFromOutside = 1;
-	}
-	
-	if(isset($_POST['persons'])){
-		$finalform .= '<script>if(document.easyFrontendFormular) document.easyFrontendFormular.persons.selectedIndex='.($_POST['persons']-1).';</script>';
-		$informationsFromOutside = 1;
-	}
-
-	if(isset($_POST['childs'])){
-		$finalform .= '<script>if(document.easyFrontendFormular) document.easyFrontendFormular.childs.selectedIndex='.$_POST['childs'].';</script>';
-		$informationsFromOutside = 1;
-	}
-
-	if(isset($_POST['country'])){
-		$finalform .= '<script>
-function setCountry(country) {
-	var x = document.getElementById("easy-form-country");
-	if(x){
-		for (var i = 0; i < x.options.length; i++) {   
-			if (x.options[i].value == country){ 
-				x.options[i].selected = true;     
-				break;
+		if(isset($_POST['from'])){
+			$finalform .= '<script>if(document.easyFrontendFormular) document.easyFrontendFormular.from.value="'.$_POST['from'].'";document.easyFrontendFormular.to.value="'.$_POST['to'].'"; var theCustomField = \'\';</script>'; 
+			foreach($_POST as $key => $val){
+				if (strpos($key, 'easy-custom-') === 0) {
+					$finalform .= '<script>theCustomField = document.getElementsByName(\''.$key.'\'); if(theCustomField[0]) theCustomField[0].value = \''.$val.'\';</script>'; 
+				}
 			}
 		}
-	}
-
-}  setCountry("'.$_POST['country'].'");</script>';
-		$informationsFromOutside = 1;
-	}
-	
-	if(isset($_POST['room'])){
-		$finalform .= '<script>
-function setRoom(roomid) {
-	var x = document.getElementById("form_room"); 
-	if(x){
-		for (var i = 0; i < x.options.length; i++) {   
-			if (x.options[i].value == roomid){ 
-				x.options[i].selected = true;     
-				break;
-			}
-		}
-	}
-}  setRoom('.$_POST['room'].');</script>';
-		$informationsFromOutside = 1;
-	}
-
-	if(isset($_POST['offer']) AND $_POST['offer'] != 0){
-		$finalform .= '<script>
-function setOffer(offerid) {
-	var x = document.getElementById("form_offer");
-	if(x){
-		for (var i = 0; i < x.options.length; i++){   
-			if (x.options[i].value == offerid){ 
-				x.options[i].selected = true;     
-				break;
-			}
-		}
-	}
-}  setOffer('.$_POST['offer'].');</script>';
-		$informationsFromOutside = 1;
-	}
+		if(isset($_POST['thename'])) $finalform .= '<script>if(document.easyFrontendFormular) document.easyFrontendFormular.thename.value="'.$_POST['thename'].'";</script>';
+		if(isset($_POST['message'])) $finalform .= '<script>if(document.easyFrontendFormular) document.easyFrontendFormular.message.value="'.$_POST['message'].'";</script>';
+		if(isset($_POST['email'])) $finalform .= '<script>if(document.easyFrontendFormular) document.easyFrontendFormular.email.value="'.$_POST['email'].'";</script>';
+		if(isset($_POST['persons']))	$finalform .= '<script>if(document.easyFrontendFormular) document.easyFrontendFormular.persons.selectedIndex='.($_POST['persons']-1).';</script>';
+		if(isset($_POST['childs'])) $finalform .= '<script>if(document.easyFrontendFormular) document.easyFrontendFormular.childs.selectedIndex='.$_POST['childs'].';</script>';
+		if(isset($_POST['country'])) $finalform .= '<script>function setCountry(country) {var x = document.getElementById("easy-form-country");if(x){for (var i = 0; i < x.options.length; i++) {if (x.options[i].value == country){x.options[i].selected = true;break;}}}}setCountry("'.$_POST['country'].'");</script>';
+		if(isset($_POST['room'])) $finalform .= '<script>function setRoom(roomid){var x = document.getElementById("form_room");if(x){for (var i = 0; i < x.options.length; i++) {if (x.options[i].value == roomid){x.options[i].selected = true;break;}}}}setRoom('.$_POST['room'].');</script>';
+		if(isset($_POST['offer']) && $_POST['offer'] != 0)	$finalform .= '<script>function setOffer(offerid){var x = document.getElementById("form_offer");if(x){for (var i = 0; i < x.options.length; i++){if (x.options[i].value == offerid){x.options[i].selected = true;break;}}}} setOffer('.$_POST['offer'].');</script>';
 
 	add_action('wp_print_footer_scripts', 'easyreservations_make_datepicker');
-
 	return $finalform;
 }
 
 function easyreservations_make_datepicker(){
 	echo ' <script type="text/javascript"> easyreservations_build_datepicker(); </script> ';
 }
-
 ?>

@@ -11,11 +11,11 @@ function easyreservations_send_price(){
 	var fromfield = document.easyFrontendFormular.from;
 	if(fromfield) var from = fromfield.value;
 	else error = 'arrival date';
-	
+
 	var tofield = document.easyFrontendFormular.to;
 	if(tofield) var to = tofield.value;
 	else error = 'depature date';
-	
+
 	if(from && to){ 
 		instance = jQuery( fromfield ).data( "datepicker" );
 		if(instance){
@@ -63,6 +63,7 @@ function easyreservations_send_price(){
 				explodenormalprice = normalprice.split(':');
 				if(Element.className == 'pp') price = explodenormalprice[1] * persons;
 				else if(Element.className == 'pn') price = explodenormalprice[1] * nights;
+				else if(Element.className == 'pb') price = explodenormalprice[1] * persons * nights;
 				else price = explodenormalprice[1] ;
 				customPrices += 'testPrice!:!' + explodenormalprice[0] + ':' + price+ '!;!';
 			} else if(Type == "radio" &&  Element.checked != undefined){
@@ -70,6 +71,7 @@ function easyreservations_send_price(){
 				explodenormalprice = normalprice.split(':');
 				if(Element.className == 'pp') price = explodenormalprice[1] * persons;
 				else if(Element.className == 'pn') price = explodenormalprice[1] * nights;
+				else if(Element.className == 'pb') price = explodenormalprice[1] * persons * nights;
 				else price = explodenormalprice[1] ;
 				customPrices += 'testPrice!:!' + explodenormalprice[0] + ':' + price+ '!;!';
 			} else if(Type == "checkbox" &&  Element.checked){
@@ -77,6 +79,7 @@ function easyreservations_send_price(){
 				explodenormalprice = normalprice.split(':');
 				if(Element.className == 'pp') price = explodenormalprice[1] * persons;
 				else if(Element.className == 'pn') price = explodenormalprice[1] * nights;
+				else if(Element.className == 'pb') price = explodenormalprice[1] * persons * nights;
 				else price = explodenormalprice[1];
 				customPrices += 'testPrice!:!' + explodenormalprice[0] + ':' + price+ '!;!';
 			} else if(Type == "hidden"){
@@ -84,6 +87,7 @@ function easyreservations_send_price(){
 				explodenormalprice = normalprice.split(':');
 				if(Element.className == 'pp') price = explodenormalprice[1] * persons;
 				else if(Element.className == 'pn') price = explodenormalprice[1] * nights;
+				else if(Element.className == 'pb') price = explodenormalprice[1] * persons * nights;
 				else price = explodenormalprice[1] ;
 				customPrices += 'testPrice!:!' + explodenormalprice[0] + ':' + price+ '!;!';
 			}

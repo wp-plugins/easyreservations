@@ -66,6 +66,7 @@ if ( !is_user_logged_in() || !current_user_can('edit_posts') )
 								<option value="form"><?php _e("Formular", "easyReservations"); ?></option>
 								<option value="calendar"><?php _e("Calendar", "easyReservations"); ?></option>
 								<option value="edit"><?php _e("Edit", "easyReservations"); ?></option>
+								<?php do_action('easy-tinymce-add-name'); ?>
 							 </select> <?php _e("Choose type of shortcode", "easyReservations"); ?>
 						</td>
 					</tr>
@@ -102,6 +103,14 @@ function jumpto(x){ // Chained inputs;
 			FieldAdd += '<tr>';
 			FieldAdd += '<td nowrap="nowrap" valign="top"><label for="easyreservation_show_price"><?php _e("Style", "easyReservations"); ?></label></td>';
 			FieldAdd += '<td><label><select id="easyreservation_formstyle_chooser" name="easyreservation_formstyle_chooser" style="width: 100px"><option value="none"><?php _e("White", "easyReservations"); ?></option><option value="blue"><?php _e("Blue", "easyReservations"); ?></option></select></label> <?php _e("Select style", "easyReservations"); ?></td>';
+			FieldAdd += '</tr>';
+			FieldAdd += '</tr>';
+			FieldAdd += '<td colspan="2" nowrap="nowrap" valign="top"><label for="easyreservation_form_submit_message"><?php _e("Submit message", "easyReservations"); ?>: </label>';
+			FieldAdd += '<label><input type="text" id="easyreservation_form_submit_message" name="easyreservation_form_submit_message" style="width: 250px" value="Reservation successfull send"></label><i><?php _e("Message after successful submission", "easyReservations"); ?></i></td>';
+			FieldAdd += '</tr>';
+			FieldAdd += '</tr>';
+			FieldAdd += '<td nowrap="nowrap" valign="top"><label for="easyreservation_show_price"><?php _e("Show price", "easyReservations"); ?>: </label>';
+			FieldAdd += '<td><label><input type="checkbox"  id="easyreservation_show_price" name="easyreservation_edit_table" checked></label> <?php _e("After successful submission", "easyReservations"); ?></td>';
 			FieldAdd += '</tr>';
 			FieldAdd += '<tr><td colspan="2"><?php _e("This shortcode adds a form to the Page or Post", "easyReservations"); ?>.<br><b><?php _e("Only add one form per page or post", "easyReservations"); ?>.</b></td></tr>';
 		document.getElementById("tiny_Field").innerHTML = FieldAdd;
@@ -155,7 +164,7 @@ function jumpto(x){ // Chained inputs;
 			FieldAdd += '<tr><td colspan="2"><?php _e("This shortcode adds the function for your guests to edit their reservations afterwards", "easyReservations"); ?>. <?php _e("You have to copy the URL of this site to the easyReservations general settings", "easyReservations"); ?>.<br><b><?php _e("Only add the edit-form on one page or post", "easyReservations"); ?>.</b></td></tr>';
 
 		document.getElementById("tiny_Field").innerHTML = FieldAdd;
-	}
+	} <?php do_action('easy-tinymce-add'); ?>
 }
 
 function getCalendarInfos(){
@@ -170,18 +179,17 @@ function getCalendarInfos(){
 
 		if(price == 0) var variable = 148;
 		else var variable = 266 + cols -1;
-		if(style == 3) variable += 16;
+		if(style == 3) variable += 17;
 
 		if(anz == 1) var monthstring = '<?php _e("Month", "easyReservations"); ?>';
 		else var monthstring = '<?php _e("Months", "easyReservations"); ?>';
-		
+
 		document.getElementById("easyreservation_calendar_monthes_count").innerHTML = anz + ' ' + monthstring;
 		document.getElementById("easyreservation_calendar_min_width").innerHTML = cols * variable;
 	} else {
 		if(document.getElementById("easyreservation_show_price").value == 0) document.getElementById("easyreservation_calendar_min_width").innerHTML = 266;
 		else  document.getElementById("easyreservation_calendar_min_width").innerHTML = 148;
 	}
-
 }
 function insertEasyShortcode() {
 
@@ -195,8 +203,9 @@ function insertEasyShortcode() {
 	classAttribs = document.getElementById('easyreservation_type_select').value;
 
 	if(y == "form"){
-		classAttribs += document.getElementById('easyreservation_form_chooser').value + ' style="' + document.getElementById('easyreservation_formstyle_chooser').value + '"';
-	} else if(y == "calendar"){
+		classAttribs += document.getElementById('easyreservation_form_chooser').value + ' style="' + document.getElementById('easyreservation_formstyle_chooser').value + '" submit="' + document.getElementById('easyreservation_form_submit_message').value + '"';
+		if(document.getElementById('easyreservation_show_price').checked == true) classAttribs += ' price="1"';
+} else if(y == "calendar"){
 		classAttribs += ' room="' + document.getElementById('easyreservation_calendar_room').value + '"';
 		if(document.getElementById('easyreservation_calendar_width').value != "") classAttribs += ' width="' + document.getElementById('easyreservation_calendar_width').value + '"';
 		if(document.getElementById('easyreservation_calendar_style').value != "") classAttribs += ' style="' + document.getElementById('easyreservation_calendar_style').value + '"';
@@ -216,7 +225,7 @@ function insertEasyShortcode() {
 		if(document.getElementById('easyreservation_edit_table').checked == true) classAttribs += ' table="1"';
 		if(document.getElementById('easyreservation_edit_offers').checked == true) classAttribs += ' offers="1"';
 		classAttribs += ' roomname="' + document.getElementById('easyreservation_edit_roomname').value + '"';
-	}
+	} <?php do_action('easy-tinymce-save'); ?>
 
 	if(y != "choose") tinyMCEPopup.editor.execCommand('mceInsertContent', false, tagtext+classAttribs+']');
 
