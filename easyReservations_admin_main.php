@@ -1,7 +1,6 @@
 <?php
 
 function reservation_main_page() {
-
 	$main_options = get_option("reservations_main_options");
 	$show = $main_options['show'];
 	$overview_options = $main_options['overview'];
@@ -26,7 +25,6 @@ function reservation_main_page() {
 	if(isset($_GET['deletecustomfield'])) $deletecustomfield=$_GET['deletecustomfield'];
 	if(isset($_GET['deletepricefield'])) $deletepricefield=$_GET['deletepricefield'];
 	if(isset($_GET['sendmail'])) $sendmail=$_GET['sendmail'];
-	if(isset($_GET['typ'])) $typ=$_GET['typ'];
 	if(isset($_GET['approve'])) $approve=$_GET['approve'];
 	if(isset($_GET['view']))  $view=$_GET['view'];
 	if(isset($_GET['delete'])) $delete=$_GET['delete'];
@@ -38,7 +36,7 @@ function reservation_main_page() {
 		$moreget+=round($timestamp_timebetween/86400);
 	}
 
-	if(!isset($edit) AND !isset($view) AND !isset($add) AND !isset($approve) AND !isset($sendmail)  AND !isset($delete)){
+	if(!isset($edit) && !isset($view) && !isset($add) && !isset($approve) && !isset($sendmail)  && !isset($delete)){
 		$nonepage = 0;
 	}
 
@@ -124,7 +122,7 @@ function reservation_main_page() {
 
 		$errors=0;
 		$moneyerrors=0;
-		$name=$_POST["name"];
+		$res_the_name=$_POST["name"];
 		$date=$_POST["date"];
 		$dateend=$_POST["dateend"];
 		$email=$_POST["email"];
@@ -205,22 +203,23 @@ function reservation_main_page() {
 			$prompt='<div class="error" style="margin-top:-5px !important"><p>'.__( 'Selected Room is occupied at this date' , 'easyReservations' ).'</p></div>';
 		} else {
 
-			if(isset($sendthemail) AND $sendthemail=="on"){
+			$changelog = '';
+			if(isset($sendthemail) && $sendthemail=="on"){
 
 				$checkSQLedit = "SELECT email, name, arrivalDate, nights, number, childs, country, room, special, approve, notes, custom FROM ".$wpdb->prefix ."reservations WHERE id='$edit'";
 				$checkQuerry = $wpdb->get_results($checkSQLedit ); //or exit(__( 'Wrong ID or eMail' , 'easyReservations' ));
 
 				$beforeArray = array( 'arrivalDate' => date(RESERVATIONS_DATE_FORMAT, strtotime($checkQuerry[0]->arrivalDate)), 'nights' => $checkQuerry[0]->nights, 'email' => $checkQuerry[0]->email, 'name' => $checkQuerry[0]->name, 'persons' => $checkQuerry[0]->number, 'childs' => $checkQuerry[0]->childs, 'room' => $checkQuerry[0]->room, 'offer' => $checkQuerry[0]->special, 'message' => $checkQuerry[0]->notes, 'custom' => $checkQuerry[0]->custom, 'country' => $checkQuerry[0]->country );
-				$afterArray = array( 'arrivalDate' => date(RESERVATIONS_DATE_FORMAT, $timestampstartedit), 'nights' => $calcdaysbetween, 'email' => $email, 'name' => $name, 'persons' => $persons, 'childs' => $childs, 'room' =>  $EDITroom, 'offer' => $specialoffer, 'message' => $note, 'custom' => $customfields, 'country' => $country );
+				$afterArray = array( 'arrivalDate' => date(RESERVATIONS_DATE_FORMAT, $timestampstartedit), 'nights' => $calcdaysbetween, 'email' => $email, 'name' => $res_the_name, 'persons' => $persons, 'childs' => $childs, 'room' =>  $EDITroom, 'offer' => $specialoffer, 'message' => $note, 'custom' => $customfields, 'country' => $country );
 
 				$changelog = easyreservations_generate_res_changelog($beforeArray, $afterArray);
 			}
 
-			$wpdb->query($wpdb->prepare("UPDATE ".$wpdb->prefix ."reservations SET arrivalDate='$rightdate', nights='$calcdaysbetween', name='$name', email='$email', notes='$note', room='$EDITroom', number='$persons', childs='$childs', special='$specialoffer', dat='$dat', roomnumber='$EDITroomex', price='$settepricei', custom='$new_customfields', customp='$new_custompfields', approve='$EDITreservationStatus', country='$country', reservated='$reservation_date_sql', user='$edit_user' WHERE id='$edit' "));
+			$wpdb->query($wpdb->prepare("UPDATE ".$wpdb->prefix ."reservations SET arrivalDate='$rightdate', nights='$calcdaysbetween', name='$res_the_name', email='$email', notes='$note', room='$EDITroom', number='$persons', childs='$childs', special='$specialoffer', dat='$dat', roomnumber='$EDITroomex', price='$settepricei', custom='$new_customfields', customp='$new_custompfields', approve='$EDITreservationStatus', country='$country', reservated='$reservation_date_sql', user='$edit_user' WHERE id='$edit' "));
 
-			if(isset($sendthemail) AND $sendthemail=="on"){
+			if(isset($sendthemail) && $sendthemail=="on"){
 				$emailformation=get_option('reservations_email_to_user_admin_edited');
-				if($emailformation['active'] == 1) easyreservations_send_mail($emailformation['msg'], $email, $emailformation['subj'], $approve_message, $edit, $timestampstartedit, $timestampendedit, $name, $email, $calcdaysbetween, $persons, $childs, $country, easyreservations_get_the_title($EDITroom, $all_rooms), easyreservations_get_the_title($specialoffer, $all_offers), $customfields, easyreservations_get_price($edit), $note, $changelog);
+				if($emailformation['active'] == 1) easyreservations_send_mail($emailformation['msg'], $email, $emailformation['subj'], $approve_message, $edit, $changelog);
 			}
 
 			$prompt='<div class="updated" style="margin-top:-5px !important"><p>'.__( 'Reservation edited!' , 'easyReservations' ).'</p><p><a href="admin.php?page=reservations">&#8592; Back to Dashboard</a></p></div>';
@@ -282,7 +281,7 @@ function reservation_main_page() {
 
 		if($errors != ""){
 			$prompt='<div class="error" style="margin-top:-5px !important"><p>'.__( 'Please fill out all Fields' , 'easyReservations' ).'</p></div>';
-		} elseif(easyreservations_check_avail($ADDroom, $ADDtimestampsanf, $ADDroomex, $ADDanznights, 0, 0, '', 0) > 0){
+		} elseif(easyreservations_check_avail($ADDroom, $ADDtimestampsanf, $ADDroomex, $ADDanznights) > 0){
 			$prompt='<div class="error" style="margin-top:-5px !important"><p>'.__( 'Selected Room is occupied at this Date' , 'easyReservations' ).'</p></div>';
 		} elseif($moneyerrors > 0){
 			$prompt='<div class="error" style="margin-top:-5px !important"><p>'.__( 'Wrong money formatting' , 'easyReservations' ).'</p></div>';
@@ -328,17 +327,18 @@ function reservation_main_page() {
 		elseif(isset($sendmail)) $theIDofRes = $sendmail;
 		elseif(isset($delete)) $theIDofRes = $delete;
 
-		$sql_approvequerie = "SELECT id, name, approve, nights, arrivalDate, room, special, roomnumber, number, childs, country, email, custom, customp, notes, price, reservated, user FROM ".$wpdb->prefix ."reservations WHERE id='$theIDofRes'";
-		$approvequerie = $wpdb->get_results($sql_approvequerie );
+		$sql_approvequerie = "SELECT id, name, approve, nights, arrivalDate, room, special, roomnumber, number, childs, country, email, custom, customp, notes, price, reservated, user FROM ".$wpdb->prefix ."reservations WHERE id='%s'";
+		$approvequerie = $wpdb->get_results($wpdb->prepare($sql_approvequerie, $theIDofRes ));
 
 		$id=$approvequerie[0]->id;
-		$name=$approvequerie[0]->name;
+		$res_the_name=$approvequerie[0]->name;
 		$reservationStatus=$approvequerie[0]->approve;
 		$reservationNights=$approvequerie[0]->nights;
 		$reservationDate=$approvequerie[0]->arrivalDate;
 		$room=$approvequerie[0]->room;
 		$special=$approvequerie[0]->special;
 		$exactlyroom=$approvequerie[0]->roomnumber;
+		$exactly_room_name = easyreservations_get_roomname($exactlyroom, $room);
 		$persons=$approvequerie[0]->number;
 		$childs=$approvequerie[0]->childs;
 		$country=$approvequerie[0]->country;
@@ -373,8 +373,8 @@ function reservation_main_page() {
 
 	if(isset($sendmail) AND isset($_POST['thesendmail'])){
 		$emailformation=get_option('reservations_email_sendmail');
-		
-		if($emailformation['active'] == 1) easyreservations_send_mail($emailformation['msg'], $mail_to, $emailformation['subj'], $approve_message, $id, $res_date_from_stamp, $timestampend, $name, $mail_to, $reservationNights, $persons, $childs, $country, $room_name, $specials, $customs, easyreservations_get_price($sendmail), $message_r, '');
+
+		if($emailformation['active'] == 1) easyreservations_send_mail($emailformation['msg'], $mail_to, $emailformation['subj'], $approve_message, $id, '');
 		$prompt='<div class="updated" style="margin-top:-5px !important"><p>'.__( 'eMail sent successfully' , 'easyReservations' ).'</p></div>';
 	}
 
@@ -387,9 +387,9 @@ function reservation_main_page() {
 			$priceset=str_replace(",", ".", $priceset2);
 			$wpdb->query( $wpdb->prepare("UPDATE ".$wpdb->prefix ."reservations SET approve='yes', roomnumber='$roomexactly', price='$priceset' WHERE id='$approve'"  ) ); 	
 
-			if(isset($sendthemail) AND $sendthemail=="on"){
+			if(isset($sendthemail) && $sendthemail=="on"){
 				$emailformation=get_option('reservations_email_to_userapp');
-				if($emailformation['active'] == 1) easyreservations_send_mail($emailformation['msg'], $mail_to, $emailformation['subj'], $approve_message, $id, $res_date_from_stamp, $timestampend, $name, $mail_to, $reservationNights, $persons, $childs, $country, $room_name, $specials, $customs, easyreservations_get_price($approve), $message_r, '');
+				if($emailformation['active'] == 1) easyreservations_send_mail($emailformation['msg'], $mail_to, $emailformation['subj'], $approve_message, $id, '');
 			}
 			$prompt='<div class="updated" style="margin-top:-5px !important"><p> '.__( 'Reservation approved' , 'easyReservations' ).'</p></div>';
 			?><meta http-equiv="refresh" content="0; url=admin.php?page=reservations"><?php
@@ -403,7 +403,7 @@ function reservation_main_page() {
 		$wpdb->query( $wpdb->prepare("UPDATE ".$wpdb->prefix ."reservations SET approve='no' WHERE id=$delete"  ) ); 
 		if(isset($sendthemail) AND $sendthemail=="on"){
 			$emailformation=get_option('reservations_email_to_userdel');
-			if($emailformation['active'] == 1) easyreservations_send_mail($emailformation['msg'], $mail_to, $emailformation['subj'], $approve_message, $id, $res_date_from_stamp, $timestampend, $name, $mail_to, $reservationNights, $persons, $childs, $country, $room_name, $specials, $customs, easyreservations_get_price($delete), $message_r, '');
+			if($emailformation['active'] == 1) easyreservations_send_mail($emailformation['msg'], $mail_to, $emailformation['subj'], $approve_message, $id, '');
 		}
 		$prompt='<div class="updated" style="margin-top:-5px !important"><p>'.$anzahl.' '.__( 'Reservations rejected' , 'easyReservations' ).'</p></div>';
 		?><meta http-equiv="refresh" content="0; url=admin.php?page=reservations"><?php
@@ -1038,9 +1038,9 @@ if(!isset($approve) && !isset($delete) && !isset($view) && !isset($edit) && !iss
 							<div id="exportDiv">
 								</div><div class="fakehr"></div>
 								<b><?php echo __( 'Informations' , 'easyReservations' );?></b><br>
-								<span style="float:left;width:80px;"><input type="checkbox" name="info_ID" checked> <?php echo __( 'ID' , 'easyReservations' );?><br><input type="checkbox" name="info_name" checked> <?php echo __( 'Name' , 'easyReservations' );?><br><input type="checkbox" name="info_email" checked> <?php echo __( 'eMail' , 'easyReservations' );?><br><input type="checkbox" name="info_persons" checked> <?php echo __( 'Persons' , 'easyReservations' );?></span>
-									<span style="float:left;width:120px;wrap:no-wrap;"><input type="checkbox" name="info_date" checked> <?php echo __( 'Date' , 'easyReservations' );?><br><input type="checkbox" name="info_nights" checked> <?php echo __( 'Nights' , 'easyReservations' );?><br><input type="checkbox" name="info_status" checked> <?php echo __( 'Status' , 'easyReservations' );?><br><input type="checkbox" name="info_note" checked> <?php echo __( 'Note' , 'easyReservations' );?></span>
-								<span nowrap><input type="checkbox" name="info_country" checked> <?php echo __( 'Country', 'easyReservations' );?><br><input type="checkbox" name="info_room" checked> <?php echo __( 'Room' , 'easyReservations' );?><br><input type="checkbox" name="info_offer" checked> <?php echo __( 'Offer' , 'easyReservations' );?><br><input type="checkbox" name="info_price" checked> <?php echo __( 'Price/Paid' , 'easyReservations' );?></span><br>
+								<span style="float:left;width:80px;"><input type="checkbox" name="info_ID" checked> <?php echo __( 'ID' , 'easyReservations' );?><br><input type="checkbox" name="info_name" checked> <?php echo __( 'Name' , 'easyReservations' );?><br><input type="checkbox" name="info_email" checked> <?php echo __( 'eMail' , 'easyReservations' );?><br><input type="checkbox" name="info_persons" checked> <?php echo __( 'Persons' , 'easyReservations' );?><br><input type="checkbox" name="info_custom"> <?php echo __( 'Customs' , 'easyReservations' );?></span>
+									<span style="float:left;width:120px;wrap:no-wrap;"><input type="checkbox" name="info_date" checked> <?php echo __( 'Date' , 'easyReservations' );?><br><input type="checkbox" name="info_nights" checked> <?php echo __( 'Nights' , 'easyReservations' );?><br><input type="checkbox" name="info_reservated" checked> <?php echo __( 'Reserved' , 'easyReservations' );?><br><input type="checkbox" name="info_status" checked> <?php echo __( 'Status' , 'easyReservations' );?><br><input type="checkbox" name="info_note" checked> <?php echo __( 'Note' , 'easyReservations' );?></span>
+								<span nowrap><input type="checkbox" name="info_country" checked> <?php echo __( 'Country', 'easyReservations' );?><br><input type="checkbox" name="info_room" checked> <?php echo __( 'Room' , 'easyReservations' );?><br><input type="checkbox" name="info_roomnumber" checked> <?php echo __( 'Roomnumber' , 'easyReservations' );?><br><input type="checkbox" name="info_offer" checked> <?php echo __( 'Offer' , 'easyReservations' );?><br><input type="checkbox" name="info_price" checked> <?php echo __( 'Price/Paid' , 'easyReservations' );?></span><br>
 								<div class="fakehr"></div>
 								<input class="easySubmitButton-secondary" style="margin-top:5px;" type="submit" value="<?php printf ( __( 'Export reservations' , 'easyReservations' ));?>">
 							</div>
@@ -1162,7 +1162,7 @@ if(!isset($approve) && !isset($delete) && !isset($view) && !isset($edit) && !iss
 /* - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + VIEW RESERVATION + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + */
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// EDIT RESERVATION /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	if((isset($approve) || isset($delete) || isset($view) || isset($sendmail)) && !isset($reservation_approve)){ ?> <!-- // Content will only show on delete, view or approve Reservation -->
+	if(isset($approve) || isset($delete) || isset($view) || isset($sendmail)){ ?> <!-- // Content will only show on delete, view or approve Reservation -->
 
 	<?php if(!isset($view) || function_exists('easyreservations_generate_chat')){ ?><table style="width:99%;" cellspacing="0"><tr><td style="width:30%;" valign="top"><br><?php } else { $width='style="width:480px;"'; echo '<br>'; } ?>
 		<table class="<?php echo RESERVATIONS_STYLE; ?>" <?php if(isset($width)) echo $width; ?>>
@@ -1180,7 +1180,7 @@ if(!isset($approve) && !isset($delete) && !isset($view) && !isset($edit) && !iss
 				<?php } ?>
 				<tr>
 					<td nowrap style="width:45%"><img style="vertical-align:text-bottom;" src="<?php echo RESERVATIONS_IMAGES_DIR; ?>/user.png"> <?php printf ( __( 'Name' , 'easyReservations' ));?>:</td> 
-					<td><b><?php echo $name;?></b></td>
+					<td><b><?php echo $res_the_name;?></b></td>
 				</tr>
 				<tr class="alternate">
 					<td nowrap><img style="vertical-align:text-bottom;" src="<?php echo RESERVATIONS_IMAGES_DIR; ?>/day.png"> <?php printf ( __( 'Date' , 'easyReservations' ));?></td> 
@@ -1196,13 +1196,12 @@ if(!isset($approve) && !isset($delete) && !isset($view) && !isset($edit) && !iss
 				</tr>
 				<tr>
 					<td nowrap><img style="vertical-align:text-bottom;" src="<?php echo RESERVATIONS_IMAGES_DIR; ?>/room.png"> <?php printf ( __( 'Room' , 'easyReservations' ));?></td> 
-					<td><b><?php echo __($room_name); ?></b></td>
+					<td><b><?php echo __($room_name); ?> - <?php echo $exactly_room_name; ?></b></td>
 				</tr>
 				<tr class="alternate">
 					<td nowrap><img style="vertical-align:text-bottom;" src="<?php echo RESERVATIONS_IMAGES_DIR; ?>/special.png"> <?php echo __( 'Offer' , 'easyReservations' );?></b></td> 
 					<td><b><?php if($specials){ echo __($specials);} else echo __( 'None' , 'easyReservations' ); ?></b></td>
 				</tr>
-				<?php $countryArray = easyReservations_country_array(); ?>
 				<?php if(!empty($country)){ ?>
 					<tr>
 						<td nowrap><img style="vertical-align:text-bottom;" src="<?php echo RESERVATIONS_IMAGES_DIR; ?>/country.png"> <?php printf ( __( 'Country' , 'easyReservations' ));?></td> 
@@ -1237,7 +1236,7 @@ if(!isset($approve) && !isset($delete) && !isset($view) && !isset($edit) && !iss
 						if($thenumber%2==0) $class=""; else $class="alternate";
 						echo '<tr class="'.$class.'">';
 						echo '<td style="vertical-align:text-bottom;text-transform: capitalize;" nowrap><img style="vertical-align:text-bottom;" src="'.RESERVATIONS_IMAGES_DIR.'/money.png"> '.__($customp['title']).'</b></td>';
-						echo '<td><b>'.$customp['title'].'</b>: <b>'.reservations_format_money($customp['amount'], 1).'</b></td></tr>';
+						echo '<td><b>'.$customp['value'].'</b>: <b>'.reservations_format_money($customp['amount'], 1).'</b></td></tr>';
 						$thenumber++;
 					}
 				}
@@ -1338,7 +1337,7 @@ if(isset($edit)){
 				<table class="<?php echo RESERVATIONS_STYLE; ?>" style="width:550px; margin-bottom:10px;">
 					<thead>
 						<tr>
-							<th colspan="2"><?php printf ( __( 'Edit reservation' , 'easyReservations' ));?> <span style="background:#DB2000;padding:2px;text-shadow:0 1px 2px rgba(0,0,0,0.5);"><a href="admin.php?page=reservations&view=<?php echo $edit; ?>">#<?php echo $edit; ?></a></span></th>
+							<th colspan="2"><?php printf ( __( 'Edit reservation' , 'easyReservations' ));?> <span style="background:#DB2000;padding:2px;text-shadow:0 1px 2px rgba(0,0,0,0.5);"><a href="admin.php?page=reservations&view=<?php echo $edit; ?>">#<?php echo $edit; ?></a></span><a style="float:right" href="<?php echo 'admin.php?page=reservations&bulkArr[]='.$id.'&bulk=1&easy-main-bulk='.wp_create_nonce('easy-main-bulk'); ?>"><?php echo __( 'delete' , 'easyReservations' );?></a></th>
 						</tr>
 					</thead>
 					<tbody>
@@ -1347,14 +1346,14 @@ if(isset($edit)){
 						</tr>
 						<tr>
 							<td nowrap style="width:43%"><img style="vertical-align:text-bottom;" src="<?php echo RESERVATIONS_IMAGES_DIR; ?>/user.png"> <?php printf ( __( 'Name' , 'easyReservations' ));?></td> 
-							<td><input type="text" name="name" align="middle" value="<?php echo $name;?>"></td>
+							<td><input type="text" name="name" align="middle" value="<?php echo $res_the_name;?>"></td>
 						</tr>
 						<tr  class="alternate">
 							<td nowrap><img style="vertical-align:text-bottom;" src="<?php echo RESERVATIONS_IMAGES_DIR; ?>/day.png"> <?php printf ( __( 'Date' , 'easyReservations' ));?></td> 
 							<td><input type="text" id="datepicker" style="width:73px" name="date" value="<?php echo date(RESERVATIONS_DATE_FORMAT,$res_date_from_stamp); ?>" onchange="easyreservations_send_price_admin();<?php if($overview_options['overview_autoselect'] == 1){ ?>dofakeClick(1);<?php }?>"> <b>-</b> <input type="text" id="datepicker2" style="width:73px" name="dateend" value="<?php echo date(RESERVATIONS_DATE_FORMAT,$timestampend); ?>" onchange="easyreservations_send_price_admin();changer();<?php if($overview_options['overview_autoselect'] == 1){ ?>dofakeClick(2);<?php }?>"></td>
 						</tr>
 						<tr>
-							<td nowrap><img style="vertical-align:text-bottom;" src="<?php echo RESERVATIONS_IMAGES_DIR; ?>/persons.png"> <?php printf ( __( 'Persons' , 'easyReservations' ));?></td> 
+							<td nowrap><img style="vertical-align:text-bottom;" src="<?php echo RESERVATIONS_IMAGES_DIR; ?>/persons.png"> <?php echo __( 'Persons' , 'easyReservations' );?></td> 
 							<td>
 								<?php printf ( __( 'Adult\'s' , 'easyReservations' ));?>:
 								<select name="persons" onchange="easyreservations_send_price_admin();"><?php echo easyReservations_num_options(1,50,$persons); ?></select>
@@ -1411,7 +1410,7 @@ if(isset($edit)){
 							<td nowrap style="text-align:right"><select name="reservation_status" style="width:99%;float:right"><option value="" <?php if($reservationStatus == '') echo 'selected'; ?>><?php printf ( __( 'Pending' , 'easyReservations' ));?></option><option value="yes" <?php if($reservationStatus == 'yes') echo 'selected'; ?>><?php printf ( __( 'Approved' , 'easyReservations' ));?></option><option value="no" <?php if($reservationStatus == 'no') echo 'selected'; ?>><?php printf ( __( 'Rejected' , 'easyReservations' ));?></option><option value="del" <?php if($reservationStatus == 'del') echo 'selected'; ?>><?php printf ( __( 'Trashed' , 'easyReservations' ));?></option></select></td>
 						</tr>
 						<tr>
-							<td nowrap><?php echo __( 'Reservated' , 'easyReservations' );?></td>
+							<td nowrap><?php echo __( 'Reserved' , 'easyReservations' );?></td>
 							<td nowrap style="text-align:right"><input type="text" name="reservation_date" id="reservation_date" style="width:73px" value="<?php echo $reservated; ?>"></td>
 						</tr>
 						<tr class="alternate">
@@ -1626,7 +1625,7 @@ $highestRoomCount=easyreservations_get_highest_roomcount();
 							</select></td>
 					</tr>
 					<tr>
-						<td nowrap><?php printf ( __( 'Reservated' , 'easyReservations' ));?></td>
+						<td nowrap><?php printf ( __( 'Reserved' , 'easyReservations' ));?></td>
 						<td nowrap style="text-align:right"><input type="text" name="reservation_date" id="reservation_date" style="width:73px" value="<?php echo date(RESERVATIONS_DATE_FORMAT, time()); ?>"></td>
 					</tr>
 					<tr>
@@ -1696,7 +1695,7 @@ if(isset($approve) OR isset($delete)) {
 			</tr>
 				<?php if(isset($approve)){ ?><tr>
 					<td><?php printf ( __( 'Room' , 'easyReservations' ));?>: <?php echo __($room_name);?> # <select id="roomexactly" name="roomexactly">
-					<?php echo easyReservations_num_options(1,$roomcounty,$exactlyroom); ?></td>
+					<?php echo easyReservations_num_options(1,$roomcount,$exactlyroom); ?></td>
 				</tr><?php } ?>
 				<tr>
 					<td>

@@ -106,7 +106,7 @@ class easyReservations_form_widget extends WP_Widget {
 		}
 		echo htmlspecialchars_decode($theForm);
 			
-		if(isset($form_url) AND !empty($form_url)){ ?>
+		if(isset($form_url) && !empty($form_url)){ ?>
 			<input type="submit" class="easybutton" value="<?php echo $form_button; ?>">
 		</form>
 			<?php
@@ -150,7 +150,7 @@ class easyReservations_form_widget extends WP_Widget {
 <label>Offer:</label> [offers]<br>
 <label>Name:</label> [thename]<br>
 <label>eMail:</label> [email]<br>
-<label>Persons:</label> [persons Select 10]<br>>';
+<label>Persons:</label> [persons Select 10]<br>';
 		} //<?php checked( (bool) $instance['calendar_room'], true );
 		?>
 		<p>

@@ -12,9 +12,10 @@
 	$countPending = '';
 	$daysOptions = '';
 	$daysOptionsPast = '';
+	$dayNames = easyreservations_get_date_name(0, 3);
 	for($ii = 0; $ii < 8; $ii++){
-		$daysOptions .= "'".date("D", time()+($ii*86400))."<br>".date("d.m", time()+($ii*86400))."', ";
-		$daysOptionsPast .= "'".date("D", time()-604800+($ii*86400))."<br>".date("d.m", time()-604800+($ii*86400))."', ";
+		$daysOptions .= "'".$dayNames[date("N", time()+($ii*86400))-1]."<br>".date("d.m", time()+($ii*86400))."', ";
+		$daysOptionsPast .= "'".$dayNames[date("N", time()-604800+($ii*86400))-1]."<br>".date("d.m", time()-604800+($ii*86400))."', ";
 		$day=date("Y-m-d", time()+($ii*86400));
 		$dayPastAnf=date("Y-m-d H:i:s", strtotime(date("d.m.Y", time()))-604800+($ii*86400));
 		$dayPastEnd=date("Y-m-d H:i:s", (strtotime(date("d.m.Y", time()))+86399)-604800+($ii*86400));
@@ -42,10 +43,10 @@
 				renderer:jQuery.jqplot.BarRenderer,
 				shadow: false,
 				rendererOptions: {
-                    barWidth: 25,
-                    barPadding: -15,
+							barWidth: 25,
+							barPadding: -15
 					},
-				highlightMouseOver: true,
+				highlightMouseOver: true
 			},
 			// Custom labels for the series are specified with the "label"
 			// option on the series option.  Here a series option object

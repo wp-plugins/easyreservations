@@ -1,6 +1,6 @@
 === easyReservations ===
 Contributors: feryaz
-Donate link: http://example.com/
+Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=D3NW9TDVHBJ9E
 Tags: booking, reservation, form, reservations, rentals, resources, hotel, rooms, motel, apartments, calendar
 Requires at least: 3.3
 Tested up to: 3.3.1

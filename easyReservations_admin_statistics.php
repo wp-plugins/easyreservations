@@ -163,7 +163,7 @@ function reservation_statistics_page(){
 				tooltipLocation: 'n',  // location of tooltip: n, ne, e, se, s, sw, w, nw.
 				fadeTooltip: false,      // use fade effect to show/hide tooltip.
 				tooltipFadeSpeed: "fast",// slow, def, fast, or a number of milliseconds.
-				tooltipAxes: 'y',    // which axis values to display in the tooltip, x, y or both.
+				tooltipAxes: 'y'    // which axis values to display in the tooltip, x, y or both.
 			},
 			axes: {
 				xaxis: {
@@ -187,7 +187,7 @@ function reservation_statistics_page(){
 			grid: {
 				drawBorder: false,
 				shadow: false,
-				background: "white",
+				background: "white"
 			},
 			seriesDefaults: {
 				renderer: jQuery.jqplot.PieRenderer,
@@ -211,7 +211,7 @@ function reservation_statistics_page(){
 			grid: {
 				drawBorder: false,
 				shadow: false,
-				background: "white",
+				background: "white"
 			},
 			seriesDefaults: {
 				renderer: jQuery.jqplot.PieRenderer,

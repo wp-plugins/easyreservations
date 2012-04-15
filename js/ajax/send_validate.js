@@ -1,8 +1,18 @@
-function easyreservations_send_validate(){
+function easyreservations_send_validate(y){
 
-	var error = 0;
-	var customPrices = '';
-	jQuery("#showError").html('');
+	var errornr = 1;
+	var custom = '';
+	jQuery("#easy-show-error-div").addClass('hide-it');
+	//jQuery("div[id$='-error']").html('');
+	jQuery("[id^='easy-custom-req-']").each ( function (i) { 
+		if(this.value == '') custom +=	this.id + ',';
+    });
+	jQuery("[id^='easy-form-'],[id^='easy-custom-']").removeClass('form-error');
+	jQuery("label[id^='easy-error-field-']").remove();
+	document.getElementById('easy-show-error').innerHTML = '';
+
+	if(y) var mode = y;
+	else mode = 'normal';
 
 	var tsecurity = document.easyFrontendFormular.pricenonce.value;
 
@@ -18,7 +28,7 @@ function easyreservations_send_validate(){
 		tofield.style.borderColor = '#DDDDDD';
 		var to = tofield.value;
 	}
-	else error = 'depature date';
+	else to = from + 86400;
 
 	var roomfield = document.easyFrontendFormular.room;
 	if(roomfield) var room = roomfield.value;
@@ -28,58 +38,82 @@ function easyreservations_send_validate(){
 	if(offerfield) var offer = offerfield.value;
 	else var offer = 0;
 
-	var childsfield = document.easyFrontendFormular.offer;
+	var childsfield = document.easyFrontendFormular.childs;
 	if(childsfield) var childs = childsfield.value;
 	else var childs = 0;
 
 	var personsfield = document.easyFrontendFormular.persons;
 	if(personsfield){
-		personsfield.style.borderColor = '#DDDDDD';
 		var persons = personsfield.value;
 	}
 	else var persons = 0;
 
 	var emailfield = document.easyFrontendFormular.email;
 	if(emailfield){
-		emailfield.style.borderColor = '#DDDDDD';
 		var email = emailfield.value;
 	} else var email = 'test@test.com';
 
 	var thenamefield = document.easyFrontendFormular.thename;
 	if(thenamefield){
-		thenamefield.style.borderColor = '#DDDDDD';
 		var thename = thenamefield.value;
 	} else var thename = 'testuser';
+
+	var captchavalue = document.easyFrontendFormular.captcha_value;
+	if(captchavalue) var captcha = captchavalue.value;
+	else var captcha = 'x!';
 
 	var data = {
 		action: 'easyreservations_send_validate',
 		security:tsecurity,
+		captcha:captcha,
 		from:from,
 		to:to,
+		mode:mode,
 		childs:childs,
 		persons:persons,
 		room: room,
+		customs:custom,
 		offer: offer,
 		email:email,
 		thename:thename
 	};
-	
-	if(error == 0){
+
+	if(errornr == 1){
 		jQuery.post(easyAjax.ajaxurl , data, function(response) {
-			//jQuery("#showError").html(response);
+			errornr = 0;
 			errors = response;
-			if(errors != '' && errors != null){
+			var warning = '';
+			if(errors != '' && errors != null && errors != 1){
+				errornr++;
+				if(mode == 'send' && errors.length > 0) jQuery("#easy-show-error-div").removeClass('hide-it');
+				warningli = '';
 				for(var i = 0; i < errors.length; i++){
 					var field = errors[i];
 					i++;
 					var error = errors[i];
 					if(field == 'date'){
-						document.getElementById('easy-form-from').style.border = '1px solid #E80000';
-						document.getElementById('easy-form-to').style.border= '1px solid #E80000';
-					} else document.getElementById(field).style.border = '1px solid #E80000';
-						jQuery("#showError").html(error);
+						jQuery('#easy-form-from').addClass('form-error');
+						jQuery('#easy-form-to').addClass('form-error');
+						warning = '<label for="easy-form-to" class="easy-show-error" id="easy-error-field-'+field+'">'+error+'</label>'
+						jQuery('#easy-form-to').after(warning);
+						if(mode == 'send'){
+							warningli = '<li><label for="easy-form-to">'+error+'</label></li>'
+							document.getElementById('easy-show-error').innerHTML += warningli;
+						}
+					} else {
+						jQuery('#'+field).addClass('form-error');
+						warning = '<label for="'+field+'" class="easy-show-error" id="easy-error-field-'+field+'">'+error+'</label>'
+						if(mode == 'send'){
+							warningli = '<li><label for="'+field+'">'+error+'</label></li>'
+							document.getElementById('easy-show-error').innerHTML += warningli;
+						}
+						if(field == 'easy-form-captcha') field = 'easy-form-captcha-img';
+						jQuery('#'+field).after(warning);
+
+					}
 				}
 			}
+			if(errornr == 0 && mode == 'send') document.getElementById('easyFrontendFormular').submit();
 		});
 	}
 }
