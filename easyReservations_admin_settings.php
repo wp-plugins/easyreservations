@@ -491,7 +491,7 @@ function resteText() {
 					</tr>
 				</tbody>
 			</table>
-		<input type="button" value="<?php printf ( __( 'Save Changes' , 'easyReservations' ));?>" onclick="document.getElementById('er_main_set').submit(); return false;" style="margin-top:7px;" class="easySubmitButton-primary" >
+		<input type="button" value="<?php printf ( __( 'Save Changes' , 'easyReservations' ));?>" onclick="document.getElementById('er_main_set').submit(); return false;" style="margin-top:7px;" class="easySubmitButton-primary" style="margin-top:4px" >
 		</form>
 			</td><td style="width:1%;" valign="top">
 			</td><td style="width:29%;" valign="top">
@@ -637,7 +637,7 @@ function resteText() {
 			</thead>
 			<tbody>
 				<tr valign="top" class="alternate">
-					<td style="width:60%;line-height: 2;" colspan="2"><?php if($formnameget==""){ ?><a href="admin.php?page=reservation-settings&site=form"><b style="color:#000;"><?php printf ( __( 'Standard' , 'easyReservations' ));?></b></a><?php } else { ?><a href="admin.php?page=reservation-settings&site=form"><?php printf ( __( 'Standard' , 'easyReservations' ));?></a><?php } ?><?php echo $forms; ?><div style="float:right"><form method="post" action="admin.php?page=reservation-settings&site=form"  id="reservations_form_add"><input type="hidden" name="action" value="reservations_form_add"/><input name="formname" type="text"><input type="button" onclick="document.getElementById('reservations_form_add').submit(); return false;" class="easySubmitButton-primary" value="<?php printf ( __( 'Add' , 'easyReservations' ));?>"></form></div> </td>
+					<td style="width:60%;line-height: 2;" colspan="2"><?php if($formnameget==""){ ?><a href="admin.php?page=reservation-settings&site=form"><b style="color:#000;"><?php printf ( __( 'Standard' , 'easyReservations' ));?></b></a><?php } else { ?><a href="admin.php?page=reservation-settings&site=form"><?php printf ( __( 'Standard' , 'easyReservations' ));?></a><?php } ?><?php echo $forms; ?><div style="float:right"><form method="post" action="admin.php?page=reservation-settings&site=form"  id="reservations_form_add"><input type="hidden" name="action" value="reservations_form_add"/><input name="formname" type="text"><input type="button" onclick="document.getElementById('reservations_form_add').submit(); return false;" class="easySubmitButton-primary" style="margin-top:4px" value="<?php printf ( __( 'Add' , 'easyReservations' ));?>"></form></div> </td>
 				</tr>
 				<tr valign="top">
 					<td style="width:60%;line-height: 2;vertical-align: top;text-align:left">
@@ -668,7 +668,7 @@ function resteText() {
 						<div id="Text2" style="float: left;"></div>
 						<div id="Text3" style="float: left;"></div>
 						<div id="Text4" style="float: left;"></div>
-						<a href="javascript:resetform();" class="easySubmitButton-primary" style="line-height:1;margin:2px 2px 0px 2px"><?php printf ( __( 'Reset' , 'easyReservations' ));?></a>
+						<a href="javascript:resetform();" class="easySubmitButton-primary" style="margin-top:4px" style="line-height:1;margin:2px 2px 0px 2px"><?php printf ( __( 'Reset' , 'easyReservations' ));?></a>
 						<div id="formsettings" style="margin-top:2px;"></div>
 					</form>
 					<form method="post" action="admin.php?page=reservation-settings&site=form<?php if($formnameget!=""){ echo '&form='.$formnameget; } ?>"  id="reservations_form_settings" name="reservations_form_settings" style="margin-top:-2px">
@@ -677,7 +677,7 @@ function resteText() {
 						<input type='hidden' value='<?php echo stripslashes($reservations_form); ?>' name="resetforrm">
 							<?php wp_editor( stripslashes($reservations_form), 'reservations_formvalue', $settings = array( 'textarea_rows' => 35, 'wpautop' => false, 'tinymce' => false, 'media_buttons' => false, 'quicktags' => array('buttons' => 'strong,em,link,img,ul,ol,li' ) ) ); ?>
 						<div style="margin:8px 1px;">
-							<input type="button" value="<?php printf ( __( 'Save Changes' , 'easyReservations' ));?>" onclick="document.getElementById('reservations_form_settings').submit(); return false;" class="easySubmitButton-primary" >
+							<input type="button" value="<?php printf ( __( 'Save Changes' , 'easyReservations' ));?>" onclick="document.getElementById('reservations_form_settings').submit(); return false;" class="easySubmitButton-primary" style="margin-top:4px" >
 							<input type="button" value="<?php printf ( __( 'Default Form' , 'easyReservations' ));?>" onClick="setDefaultForm();" class="easySubmitButton-secondary" >
 							<input type="button" value="<?php printf ( __( 'Reset Form' , 'easyReservations' ));?>" onClick="resteText();" class="easySubmitButton-secondary" >
 						</div>
@@ -962,7 +962,7 @@ function jumpto(x){ // Chained inputs;
 			document.getElementById("Helper").innerHTML = Help;
 
 			document.form1.jumpmenu.disabled=true;
-			var Output  = '<a href="javascript:easy_add_form_tag()" class="easySubmitButton-primary" style="line-height:1;margin:2px 2px 0px 2px"><b><?php echo __( 'Add' , 'easyReservations' ); ?></b></a>';
+			var Output  = '<a href="javascript:easy_add_form_tag()" class="easySubmitButton-primary" style="margin-top:4px" style="line-height:1;margin:2px 2px 0px 2px"><b><?php echo __( 'Add' , 'easyReservations' ); ?></b></a>';
 
 		} else if (x == "hidden") {
 
@@ -998,7 +998,7 @@ function jumpto(x){ // Chained inputs;
 				Help += '<br> &emsp; <i><b>Box</b> <?php echo __( 'A box as prompt, if the guest was redirected by an offer post' , 'easyReservations' ); ?></i></div><br>';
 			document.getElementById("Helper").innerHTML = Help;
 
-			var Output  = '<a href="javascript:easy_add_form_tag()" class="easySubmitButton-primary" style="line-height:1;margin:2px 2px 0px 2px"><b><?php echo __( 'Add' , 'easyReservations' ); ?></b></a>';
+			var Output  = '<a href="javascript:easy_add_form_tag()" class="easySubmitButton-primary" style="margin-top:4px" style="line-height:1;margin:2px 2px 0px 2px"><b><?php echo __( 'Add' , 'easyReservations' ); ?></b></a>';
 			document.getElementById("Text4").innerHTML += Output;
 
 		}
@@ -1112,7 +1112,7 @@ function jumpto(x){ // Chained inputs;
 	}
 
 	if (end == 1) {
-		var Output  = '<a href="javascript:easy_add_form_tag()" class="easySubmitButton-primary" style="line-height:1;margin:2px 2px 0px 2px"><b><?php echo __( 'Add' , 'easyReservations' ); ?></b></a>';
+		var Output  = '<a href="javascript:easy_add_form_tag()" class="easySubmitButton-primary" style="margin-top:4px" style="line-height:1;margin:2px 2px 0px 2px"><b><?php echo __( 'Add' , 'easyReservations' ); ?></b></a>';
 		document.getElementById("Text4").innerHTML += Output;
 	}
 }
@@ -1189,6 +1189,7 @@ ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrivaldate] <br>To: [
 				</tr>	
 			</tbody>
 		</table>
+		<input type="button" onclick="document.getElementById('reservations_email_settings').submit(); return false;" class="easySubmitButton-primary" style="margin-top:4px" value="<?php printf ( __( 'Save Changes' , 'easyReservations' ));?>">
 		<table class="<?php echo RESERVATIONS_STYLE; ?>" style="margin-top:7px;">
 			<thead>
 				<tr>
@@ -1219,6 +1220,7 @@ ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrivaldate] <br>To: [
 				</tr>	
 			</tbody>
 		</table>
+		<input type="button" onclick="document.getElementById('reservations_email_settings').submit(); return false;" class="easySubmitButton-primary" style="margin-top:4px" value="<?php printf ( __( 'Save Changes' , 'easyReservations' ));?>">
 		<table class="<?php echo RESERVATIONS_STYLE; ?>" style="margin-top:7px;">
 			<thead>
 				<tr>
@@ -1237,6 +1239,7 @@ ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrivaldate] <br>To: [
 				</tr>	
 			</tbody>
 		</table>
+		<input type="button" onclick="document.getElementById('reservations_email_settings').submit(); return false;" class="easySubmitButton-primary" style="margin-top:4px" value="<?php printf ( __( 'Save Changes' , 'easyReservations' ));?>">
 		<table class="<?php echo RESERVATIONS_STYLE; ?>" style="margin-top:7px;">
 			<thead>
 				<tr>
@@ -1255,6 +1258,7 @@ ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrivaldate] <br>To: [
 				</tr>	
 			</tbody>
 		</table>
+		<input type="button" onclick="document.getElementById('reservations_email_settings').submit(); return false;" class="easySubmitButton-primary" style="margin-top:4px" value="<?php printf ( __( 'Save Changes' , 'easyReservations' ));?>">
 		<table class="<?php echo RESERVATIONS_STYLE; ?>" style="margin-top:7px;">
 			<thead>
 				<tr>
@@ -1273,6 +1277,7 @@ ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrivaldate] <br>To: [
 				</tr>	
 			</tbody>
 		</table>
+		<input type="button" onclick="document.getElementById('reservations_email_settings').submit(); return false;" class="easySubmitButton-primary" style="margin-top:4px" value="<?php printf ( __( 'Save Changes' , 'easyReservations' ));?>">
 		<table class="<?php echo RESERVATIONS_STYLE; ?>" style="margin-top:7px;">
 			<thead>
 				<tr>
@@ -1304,7 +1309,7 @@ ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrivaldate] <br>To: [
 			</tbody>
 		</table>
 		<?php do_action('er_set_emails_add_after'); ?>
-			<input type="button" onclick="document.getElementById('reservations_email_settings').submit(); return false;" class="easySubmitButton-primary" value="<?php printf ( __( 'Save Changes' , 'easyReservations' ));?>">
+		<input type="button" onclick="document.getElementById('reservations_email_settings').submit(); return false;" class="easySubmitButton-primary" style="margin-top:4px" value="<?php printf ( __( 'Save Changes' , 'easyReservations' ));?>">
 		</td>
 		<td  style="width:1%;"></td>
 		<td  style="width:39%;"  valign="top">

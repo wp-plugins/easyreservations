@@ -133,9 +133,11 @@
 			foreach($reservationsExportArray as $key => $exportReservations){
 				
 				$customs = easyreservations_get_customs($exportReservations->custom);
-				foreach($customs as $custom){
-					$the_customs[$custom['title']][$key] = $custom['value'];
-					$the_customs_titles[] = $custom['title'];
+				if(is_array($customs) && !empty($customs)){
+					foreach($customs as $custom){
+						$the_customs[$custom['title']][$key] = $custom['value'];
+						$the_customs_titles[] = $custom['title'];
+					}
 				}
 			}
 			$the_customs_titles = array_unique($the_customs_titles);

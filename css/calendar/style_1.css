@@ -88,6 +88,7 @@
 		line-height: 2.6em !important;
 	}
 	
+	.calendar-cell-last .calendar-cell-price,
 	.calendar-cell-last div {
 		display:none;
 	}
@@ -154,4 +155,8 @@
 		-webkit-box-shadow: 0 1px 5px rgba(226,24,24,0.6) !important;
 		-moz-box-shadow: 0 1px 5px rgba(226,24,24,0.6) !important;
 		box-shadow: 0 1px 5px rgba(226,24,24,0.6) !important;
+	}
+	.calendar-cell-price {
+			display: block !important;
+			font-weight: normal;
 	}

@@ -4,21 +4,21 @@ function reservations_form_shortcode($atts){
 	global $post;
 	$finalform = "";
 	$error = '';
+	if(isset($atts[0])) $theForm = stripslashes(get_option('reservations_form_'.$atts[0]));
+	else $theForm = stripslashes (get_option("reservations_form"));
+	if(empty($theForm)) $theForm = stripslashes (get_option("reservations_form"));
 
 	$atts = shortcode_atts(array(
 		'room' => 0,
 		'price' => 1,
 		'submit' => __( 'Your reservation was sent' , 'easyReservations' ),
-		'style' => 'none',
+		'style' => 'none'
 	), $atts);
 
 	wp_enqueue_script('jquery-ui-datepicker');
 	wp_enqueue_style('datestyle');
 	wp_enqueue_script('easy-form-js');
 	wp_enqueue_style('easy-form-'.$atts['style']);
-
-	if(isset($atts[0])) $theForm=stripslashes(get_option('reservations_form_'.$atts[0].''));
-	else $theForm=stripslashes (get_option("reservations_form"));
 
 	if(strpos($theForm, '[error') !== false){
 		$validate_action = 'easyreservations_send_validate();';
@@ -84,7 +84,7 @@ function reservations_form_shortcode($atts){
 				if(isset($_POST['easy-custom-'.$field[2]]) && !empty($_POST['easy-custom-'.$field[2]])){
 					$custom_form[] = array( 'type' => 'cstm', 'mode' => 'edit', 'title' => $field[2], 'value' => $_POST['easy-custom-'.$field[2]]);
 				} else { 
-					if($field[count($field)-1] == "*") $error.= sprintf(__( '%s is required', 'easyReservations'), ucfirst($field[2])).'<br>'; 
+					if($field[count($field)-1] == "*") $error.= '<li>'.sprintf(__( '%s is required', 'easyReservations'), ucfirst($field[2])).'</li>'; 
 				}
 			}
 			if($field[0]=="price"){

@@ -464,13 +464,13 @@
 	*/
 
 	function easyreservations_get_price($id,$paids='', $cur = true){
-		$getprice=easyreservations_price_calculation($id, '');
+		$getprice = easyreservations_price_calculation($id, '');
 		$price = $getprice['price'];
 		$paid = $getprice['paid'];
-		if($price < 0) $rightprice=__( 'Wrong Price/Filter' , 'easyReservations' );
+		if($price < 0) $rightprice = __( 'Wrong Price/Filter' , 'easyReservations' );
 		else{
-			if($cur) $rightprice=reservations_format_money(str_replace(",", ".", $price), 1);
-			else $rightprice=reservations_format_money(str_replace(",", ".", $price), 0);
+			if($cur) $rightprice = reservations_format_money(str_replace(",", ".", $price), 1);
+			else $rightprice = reservations_format_money(str_replace(",", ".", $price), 0);
 		}
 
 		if(str_replace(",",".",$paid) == intval($price)) $pricebgcolor='color:#3A9920;padding:1px;';
@@ -493,7 +493,7 @@
 		return $customparray;
 	}
 
-	function easyreservations_check_avail($resourceID, $date, $exactly=0, $nights=0, $offer=0, $mode=0, $id=0, $avail=1, $status = 0){
+	function easyreservations_check_avail($resourceID, $date, $exactly=0, $nights=1, $offer=0, $mode=0, $id=0, $avail=1, $status = 0){
 		global $wpdb;
 		$error=null;
 
@@ -505,7 +505,7 @@
 
 		if($resourceID > 0){
 			if($avail == 1) $error .= reservations_check_avail_filter($resourceID, $date, $nights, $mode);
-			if($nights > 0){
+			if($nights > 1){
 				if($exactly > 0){
 					for($i = 0; $i < $nights; $i++){
 						$date_format=date("Y-m-d", $date+($i*86400));
@@ -533,7 +533,7 @@
 				}
 			}
 		}
-		
+
 		if($mode == 1) $error = substr($error,0,-2);
 
 		return $error;
@@ -1186,12 +1186,12 @@
 					$fake_res = array( 'arrivalDate' => date("d.m.Y", $dateofeachday), 'nights' => 1, 'reservated' => date("d.m.Y", $dateofeachday-$reservated), 'room' => $_POST['room'], 'special' => $_POST['offer'], 'number' => $persons, 'childs' => $childs, 'email' => 'test@test.deve', 'price' => '', 'customp' => '' );
 					$fake_res_object = (object) $fake_res;
 					$calculate_price = easyreservations_price_calculation( '', array($fake_res_object) );
-					
+
 					if($price == 1) $formated_price = $calculate_price['price'].$currency;
 					elseif($price == 2) $formated_price = $calculate_price['price'];
 					elseif($price == 3) $formated_price = reservations_format_money($calculate_price['price'], 1);
 					elseif($price == 4) $formated_price = reservations_format_money($calculate_price['price']);
-					
+
 					$final_price = '<span class="calendar-cell-price">'.$formated_price.'</b>';
 				} else $final_price = '';
 
@@ -1292,7 +1292,7 @@
 
 		if($val_from-(strtotime(date("d.m.Y", time()))) < 0){ /* check arrival Date */
 			$error[] = 'easy-form-from';
-			$error[] =  __( 'The arrival Date has to be in future' , 'easyReservations' );
+			$error[] =  __( 'The arrival date has to be in future' , 'easyReservations' );
 		}
 
 		if($val_to <= $val_from){ /* check difference between arrival and departure date */
@@ -1310,7 +1310,7 @@
 			$error[] = __( 'Persons has to be a number' , 'easyReservations' );
 		}
 
-		if($val_from > time()) $numbererrors=easyreservations_check_avail($_POST['room'], $val_from, 0, (( $val_to - $val_from ) / 86400)-1, $_POST['offer'], 1 ); /* check rooms availability */
+		if($val_from > time()) $numbererrors=easyreservations_check_avail($_POST['room'], $val_from, 0, (( $val_to - $val_from ) / 86400), (int) $_POST['offer'], 1 ); /* check rooms availability */
 
 		if($numbererrors > 0){
 			$error[] = 'date';

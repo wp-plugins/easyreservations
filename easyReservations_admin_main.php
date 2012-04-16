@@ -191,15 +191,16 @@ function reservation_main_page() {
 		$rightdate=date("Y-m-d", $timestampstartedit);
 		$reservation_date_sql=date("Y-m-d H:i:s", strtotime($reservation_date));
 		$calcdaysbetween=round(($timestampendedit-$timestampstartedit)/86400);
+		$roomnumbers = get_post_meta($EDITroom, 'roomcount', true);
 
-		if($EDITroomex > get_post_meta($EDITroom, 'roomcount', true)) $errors++;
+		if($EDITroomex > $roomnumbers) $errors++;
 		if($timestampstartedit > $timestampendedit) $errors++;
 
 		if($errors > 0){
 			$prompt='<div class="error" style="margin-top:-5px !important"><p>'.__( 'Depature before arrival or roomcount too high' , 'easyReservations' ).'</p></div>';
 		} elseif($moneyerrors > 0){
 			$prompt='<div class="error" style="margin-top:-5px !important"><p>'.__( 'Wrong money formatting' , 'easyReservations' ).'</p></div>';
-		} elseif(easyreservations_check_avail($EDITroom, $timestampstartedit, $EDITroomex, $calcdaysbetween, 0, 0, $edit, 0, $EDITreservationStatus) > 0){
+		} elseif(easyreservations_check_avail($EDITroom, $timestampstartedit, $EDITroomex, $calcdaysbetween, 0, 0, $edit, 0, $EDITreservationStatus) > $roomnumbers){
 			$prompt='<div class="error" style="margin-top:-5px !important"><p>'.__( 'Selected Room is occupied at this date' , 'easyReservations' ).'</p></div>';
 		} else {
 
@@ -271,7 +272,8 @@ function reservation_main_page() {
 
 		$ADDtimestampsanf=strtotime($ADDdate);
 		$ADDtimestampsend=strtotime($ADDdateend);
-		if($ADDroomex > get_post_meta($ADDroom, 'roomcount', true)) $errors .= __( 'Roomcount was too high' , 'easyReservations' );
+		$ADDroomnumbers = get_post_meta($ADDroom, 'roomcount', true);
+		if($ADDroomex > $ADDroomnumbers) $errors .= __( 'Roomcount was too high' , 'easyReservations' );
 		if($ADDtimestampsanf > $ADDtimestampsend) $errors .= __( 'The depature date has to be after the arrival date' , 'easyReservations' );
 
 		$ADDanznights=round(($ADDtimestampsend-$ADDtimestampsanf)/60/60/24);
@@ -283,7 +285,7 @@ function reservation_main_page() {
 			$prompt='<div class="error" style="margin-top:-5px !important"><p>'.__( 'Please fill out all Fields' , 'easyReservations' ).'</p></div>';
 		} elseif(easyreservations_check_avail($ADDroom, $ADDtimestampsanf, $ADDroomex, $ADDanznights) > 0){
 			$prompt='<div class="error" style="margin-top:-5px !important"><p>'.__( 'Selected Room is occupied at this Date' , 'easyReservations' ).'</p></div>';
-		} elseif($moneyerrors > 0){
+		} elseif($moneyerrors > $ADDroomnumbers){
 			$prompt='<div class="error" style="margin-top:-5px !important"><p>'.__( 'Wrong money formatting' , 'easyReservations' ).'</p></div>';
 		} else {
 

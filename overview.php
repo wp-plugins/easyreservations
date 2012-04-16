@@ -221,7 +221,7 @@
 				if($dateToday < time()) $background2="url(".RESERVATIONS_IMAGES_DIR ."/patbg.png) repeat";
 				else $background2='';
 
-				if(reservations_check_avail_filter($roomID, $dateToday-86400 ) > 0) $colorbgfree='#FFEDED';
+				if(reservations_check_avail_filter($roomID, $dateToday-86400, 1 ) > 0) $colorbgfree='#FFEDED';
 				elseif(date("d.m.Y", $dateToday-86400)==date("d.m.Y", time())) $colorbgfree = '#EDF0FF';
 				elseif(date("N", $dateToday-86400)==6 OR date("N", $dateToday-86400)==7) $colorbgfree = '#FFFFEB';
 				else $colorbgfree='#FFFFFF';

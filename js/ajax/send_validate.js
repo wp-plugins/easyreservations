@@ -43,20 +43,16 @@ function easyreservations_send_validate(y){
 	else var childs = 0;
 
 	var personsfield = document.easyFrontendFormular.persons;
-	if(personsfield){
-		var persons = personsfield.value;
-	}
+	if(personsfield) var persons = personsfield.value;
 	else var persons = 0;
 
 	var emailfield = document.easyFrontendFormular.email;
-	if(emailfield){
-		var email = emailfield.value;
-	} else var email = 'test@test.com';
+	if(emailfield) var email = emailfield.value;
+	else var email = 'test@test.com';
 
 	var thenamefield = document.easyFrontendFormular.thename;
-	if(thenamefield){
-		var thename = thenamefield.value;
-	} else var thename = 'testuser';
+	if(thenamefield) var thename = thenamefield.value;
+	else var thename = 'testuser';
 
 	var captchavalue = document.easyFrontendFormular.captcha_value;
 	if(captchavalue) var captcha = captchavalue.value;

@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: booking, reservation, form, reservations, rentals, resources, hotel, rooms, motel, apartments, calendar, events
 Requires at least: 3.3
 Tested up to: 3.3.1
-Stable tag: 1.8
+Stable tag: 1.8.1
 easyReservation is the perfect solution for every over-night rentable content!
 
 == Description ==
