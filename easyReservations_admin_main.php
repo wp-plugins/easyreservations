@@ -283,9 +283,9 @@ function reservation_main_page() {
 
 		if($errors != ""){
 			$prompt='<div class="error" style="margin-top:-5px !important"><p>'.__( 'Please fill out all Fields' , 'easyReservations' ).'</p></div>';
-		} elseif(easyreservations_check_avail($ADDroom, $ADDtimestampsanf, $ADDroomex, $ADDanznights) > 0){
+		} elseif(easyreservations_check_avail($ADDroom, $ADDtimestampsanf, $ADDroomex, $ADDanznights) > $ADDroomnumbers){
 			$prompt='<div class="error" style="margin-top:-5px !important"><p>'.__( 'Selected Room is occupied at this Date' , 'easyReservations' ).'</p></div>';
-		} elseif($moneyerrors > $ADDroomnumbers){
+		} elseif($moneyerrors > 0){
 			$prompt='<div class="error" style="margin-top:-5px !important"><p>'.__( 'Wrong money formatting' , 'easyReservations' ).'</p></div>';
 		} else {
 
