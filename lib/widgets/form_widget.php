@@ -202,7 +202,7 @@ function easyreservatons_call_datepickers(){?>
 	<script>
 		jQuery(document).ready(function() {
 			dateformat = '<?php echo RESERVATIONS_DATE_FORMAT; ?>';
-			if(easyDate.easydateformat == 'Y/m/d') var dateformatse = 'yy/mm/dd';	else if(easyDate.easydateformat == 'm/d/Y') var dateformatse = 'mm/dd/yy'; else if(easyDate.easydateformat == 'Y-m-d') var dateformatse = 'yy-mm-dd';	else if(easyDate.easydateformat == 'd/m/Y') var dateformatse = 'dd/mm/yy'; else if(easyDate.easydateformat == 'd.m.Y') var dateformatse = 'dd.mm.yy';
+			if(dateformat == 'Y/m/d') var dateformatse = 'yy/mm/dd';	else if(dateformat == 'm/d/Y') var dateformatse = 'mm/dd/yy'; else if(dateformat == 'Y-m-d') var dateformatse = 'yy-mm-dd';	else if(dateformat == 'd/m/Y') var dateformatse = 'dd/mm/yy'; else if(dateformat == 'd.m.Y') var dateformatse = 'dd.mm.yy';
 			jQuery("#easy-widget-datepicker-from, #easy-widget-datepicker-to").datepicker( { dateFormat: dateformatse });
 		});
 		easyreservations_send_calendar('widget');

@@ -191,8 +191,8 @@ ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrivaldate] <br>To: [
 		$overview = array( 'overview_onmouseover' => 1, 'overview_autoselect' => 1, 'overview_show_days' => 30, 'overview_show_rooms' => '', 'overview_show_avail' => 1 );
 		add_option('reservations_main_options', array('show' => $showhide, 'table' => $table, 'overview' => $overview ), '', 'no');
 		$edit_options = array( 'login_text' => '', 'edit_text' => '', 'submit_text' => 'Reservation successfully edited',  'table_infos' => array('date', 'status', 'price', 'room'), 'table_status' => array('','yes','no'), 'table_time' => array('past','current','future'), 'table_style' => 1, 'table_more' => 1 );
-		add_option('reservations_edit_options', $edit_options, '', false);
-		add_option('reservations_date_format', 'd.m.Y', '', true);
+		add_option('reservations_edit_options', $edit_options, '', 'no');
+		add_option('reservations_date_format', 'd.m.Y', '', 'yes');
 
 		/*
 
