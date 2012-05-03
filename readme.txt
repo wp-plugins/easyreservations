@@ -8,7 +8,7 @@ Stable tag: 2.0
 This powerfull property and reservation management plugin that allows you to receive, schedule and handle your bookings easily!
 
 == Description ==
-easyReservations is the perfect plugin for receiving, managing and handling bookings easily. It's designed to be used for any reservable products like hotels, car rentals, events, B&B’s, appointments or conferences.
+easyReservations is the perfect plugin for receiving, managing and handling bookings easily. It's designed to be used for any reservable products like hotels, car rentals, events, B&Bs, appointments or conferences.
 It's very flexible and intuitive and has a more as huge amount of functions and possibilities. Of course it's fully translatable and comes with englisch, german, france, turkish and russian.
 
 [Website](http://easyreservations.org/ "Brand new website!")
