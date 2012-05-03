@@ -5,7 +5,6 @@
 		wp_enqueue_script( 'easyreservations_send_calendar' );
 	
 		if(isset($atts['room'])) $room = $atts['room']; else $room = 0;
-		if(isset($atts['offer'])) $offer = $atts['offer']; else $offer = 0;
 		if(isset($atts['width'])) $width = $atts['width']; else $width = 300;
 		if(isset($atts['price'])) $price = $atts['price']; else $price = 0;
 		if(isset($atts['style'])) $style = $atts['style']; else $style = 1;
@@ -18,7 +17,6 @@
                 
 		$return = '<form name="CalendarFormular" id="CalendarFormular">';
 			$return .= '<input type="hidden" name="room" onChange="easyreservations_send_calendar(\'shortcode\')" value="'.$room.'">';
-			$return .= '<input type="hidden" name="offer" onChange="easyreservations_send_calendar(\'shortcode\')" value="'.$offer.'">';
 			$return .= '<input type="hidden" name="date" onChange="easyreservations_send_calendar(\'shortcode\')" value="0">';
 			$return .= '<input type="hidden" name="size" value="'.$width.','.$price.','. $interval.','.$header.'">';
 			$return .= '<input type="hidden" name="monthes" value="'.$monthes.'">';

@@ -44,9 +44,9 @@
 		border-bottom: 1px solid #898989;
 		border-left: 1px solid #898989;
 		border-top:none !important;
-		background: #EDEDED; /* Old browsers */
+		background: #F4F4F4; /* Old browsers */
 		vertical-align: middle;
-		padding:3px !important;
+		padding:2px 3px 4px 3px !important;
 		/* width:14.6%; */
 	}
 
@@ -68,9 +68,10 @@
 	}
 
 	.calendar-header-month {
-		background:#D8D8D8;
+		background:#BFBFBF !important;
+		color: #3F3F3F !important;
 		text-align:center;
-		border-bottom: 1px solid #bbbbbb;
+		border-bottom: 1px solid #898989;
 		border-right:1px solid #898989 !important;
 	}
 
@@ -81,9 +82,7 @@
 		text-transform: uppercase;
 		text-shadow: 0 1px 0 rgba(255,255,255,0.5);
 		border-bottom: 1px solid #bbbbbb;
-		background: #f7f7f7;
-		background: -webkit-gradient(linear, left top, left bottom, from(#f7f7f7), to(#f1f1f1));
-		background: -moz-linear-gradient(top,  #f7f7f7,  #f1f1f1);
+		background: #E5E5E5;
 		text-align:center;
 	}
 

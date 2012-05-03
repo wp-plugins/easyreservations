@@ -1,9 +1,9 @@
 <?php
 /*
 Plugin Name: easyReservations
-Plugin URI: http://www.feryaz.de
-Description: easyReservation is a Reservations and Booking Plugin for Websites with over-night rentable content with many functions. It grants you a fast, structured and detailed overview over your Reservations. For help read the Documentation on the Plugins Page.
-Version: 1.8.1
+Plugin URI: http://www.easyreservations.org
+Description: This powerfull property and reservation management plugin allows you to receive, schedule and handle your bookings easily!
+Version: 2.0
 Author: Feryaz Beer
 Author URI: http://www.feryaz.de
 License:GPL2
@@ -46,7 +46,7 @@ License:GPL2
 
 		global $wpdb;
 
-		$count = $wpdb->get_var($wpdb->prepare("SELECT COUNT(*) as Num FROM ".$wpdb->prefix ."reservations WHERE approve='' AND arrivalDate > NOW()"));
+		$count = $wpdb->get_var($wpdb->prepare("SELECT COUNT(*) as Num FROM ".$wpdb->prefix ."reservations WHERE approve='' AND arrival > NOW()"));
 		return $count;
 	}
 
@@ -56,7 +56,7 @@ License:GPL2
 	*/
 
 	register_activation_hook(__FILE__, 'easyreservations_install');
-	//register_activation_hook(__FILE__, 'save_error');
+	register_activation_hook(__FILE__, 'save_error');
 	function save_error(){
 
 		update_option('plugin_error',  ob_get_contents());
@@ -67,58 +67,54 @@ License:GPL2
 
 		$emailstandart0="[adminmessage]<br><br>
 Reservation Details:<br>
-ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrivaldate] <br>To: [departuredate] <br>Persons: [adults] <br>Childs: [childs] <br>Room: [rooms] <br>Offer: [offers] <br>Message: [note]<br>Price: [price]<br>[customs]<br>edit your reservation on [editlink]";
+ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrival] <br>To: [departure] <br>Persons: [adults] <br>Childs: [childs] <br>Resource: [resource] <br>Price: [price]<br>[customs]<br>edit your reservation on [editlink]";
 		$emailstandart1="New Reservation on Blogname from<br>
-ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrivaldate] <br>To: [departuredate] <br>Persons: [adults] <br>Childs: [childs] <br>Room: [rooms] <br>Offer: [offers] <br>Message: [note]<br>Price: [price]<br>[customs]";
+ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrival] <br>To: [departure] <br>Persons: [adults] <br>Childs: [childs] <br>Resource: [resource] <br>Price: [price]<br>[customs]";
 		$emailstandart2="Your Reservation on Blogname has been approved.<br>
 [adminmessage]<br><br>
 Reservation Details:<br>
-ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrivaldate] <br>To: [departuredate] <br>Persons: [adults] <br>Childs: [childs] <br>Room: [rooms] <br>Offer: [offers] <br>Message: [note]<br>Price: [price]<br>[customs]<br>edit your reservation on [editlink]";
+ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrival] <br>To: [departure] <br>Persons: [adults] <br>Childs: [childs] <br>Resource: [resource] <br>Price: [price]<br>[customs]<br>edit your reservation on [editlink]";
 		$emailstandart3="Your Reservation on Blogname has been rejected.<br>
 [adminmessage]<br> <br>
 Reservation Details:<br>
-ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrivaldate] <br>To: [departuredate] <br>Persons: [adults] <br>Childs: [childs] <br>Room: [rooms] <br>Offer: [offers] <br>Message: [note]<br>Price: [price]<br>[customs]<br>edit your reservation on [editlink]";
+ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrival] <br>To: [departure] <br>Persons: [adults] <br>Childs: [childs] <br>Resource: [resource] <br>[customs]<br>edit your reservation on [editlink]";
 		$emailstandart4="We've got your reservaion and treat it as soon as possible.<br><br>
 Reservation Details:<br>
-ID: [ID]<br>>Name: [thename] <br>eMail: [email] <br>From: [arrivaldate] <br>To: [departuredate] <br>Persons: [adults] <br>Childs: [childs] <br>Room: [rooms] <br>Offer: [offers] <br>Message: [note]<br>Price: [price]<br>[customs]<br><br>edit your reservation on [editlink]";
+ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrival] <br>To: [departure] <br>Persons: [adults] <br>Childs: [childs] <br>Resource: [resource] <br>Price: [price]<br>[customs]<br><br>edit your reservation on [editlink]";
 		$emailstandart5="Your reservation got edited from you. If this wasnt you, please contact us through this email address.<br><br>
 New Reservation Details:<br>
-ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrivaldate] <br>To: [departuredate] <br>Persons: [adults] <br>Childs: [childs] <br>Room: [rooms] <br>Offer: [offers] <br>Message: [note]<br>Price: [price]<br>[customs]<br><br>edit your reservation on [editlink]<br><br>[changelog]";
+ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrival] <br>To: [departure] <br>Persons: [adults] <br>Childs: [childs] <br>Resource: [resource] <br>Price: [price]<br>[customs]<br><br>edit your reservation on [editlink]<br><br>[changelog]";
 		$emailstandart6="Reservation got edited by Guest.<br><br>
 New Reservation Details:<br>
-ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrivaldate] <br>To: [departuredate] <br>Persons: [adults] <br>Childs: [childs] <br>Room: [rooms] <br>Offer: [offers] <br>Message: [note]<br>Price: [price]<br>[customs]<br><br>[changelog]";
+ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrival] <br>To: [departure] <br>Persons: [adults] <br>Childs: [childs] <br>Resource: [resource] <br>Price: [price]<br>[customs]<br><br>[changelog]";
 		$emailstandart7="Your reservation got edited by admin.<br><br>
 [adminmessage]<br>
 New Reservation Details:<br>
-ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrivaldate] <br>To: [departuredate] <br>Persons: [adults] <br>Childs: [childs] <br>Room: [rooms] <br>Offer: [offers] <br>Message: [note]<br>Price: [price]<br>[customs]<br><br>edit your reservation on [editlink]<br><br>[changelog]";
+ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrival] <br>To: [departure] <br>Persons: [adults] <br>Childs: [childs] <br>Resource: [resource] <br>Price: [price]<br>[customs]<br><br>edit your reservation on [editlink]<br><br>[changelog]";
 
 		$formstandart = '[error]
-<h1>Reserve now!</h1>
+<h1>Reserve now!<span style="float:right;margin:10px">[show_price]</span></h1>
 <p>General informations</p>
 
 <label>Arrival Date
 <span class="small">When do you come?</span>
-</label>[date-from]
+</label><span class="row">[date-from style="width:75px"] [date-from-hour style="width:50px" value="12"]:[date-from-min style="width:50px"]</span>
 
-<label>Depature Date
+<label>Departure Date
 <span class="small">When do you go?</span>
-</label>[date-to]
+</label><span class="row">[date-to style="width:75px"] [date-to-hour style="width:50px" value="12"]:[date-to-min style="width:50px"]</span>
 
-<label>Room
-<span class="small">Where you want to sleep?</span>
-</label>[rooms]
-
-<label>Offer
-<span class="small">Do you want an offer?</span>
-</label>[offers select]
+<label>Resource
+<span class="small">What do you want?</span>
+</label>[resources]
 
 <label>Adults
 <span class="small">How many guests?</span>
-</label>[adults]
+</label>[adults 1 10]
 
-<label>Children&rsquo;s
+<label>Children&rsquo;s	
 <span class="small">With children&rsquo;s?</span>
-</label>[childs]
+</label>[childs 0 10]
 
 <p>Personal information&rsquo;s</p>
 
@@ -152,12 +148,12 @@ ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrivaldate] <br>To: [
 
 <label>Message
 <span class="small">Any comments?</span>
-</label>[message]
+</label>[custom textarea Message]
 
 <label>Captcha
 <span class="small">Type in code</span>
 </label>[captcha]
-[show_price]
+
 <div style="text-align:center;">[submit Send]</div>';
 
 		/*
@@ -182,17 +178,15 @@ ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrivaldate] <br>To: [
 		add_option( 'reservations_edit_url', '', '', 'yes' );
 		add_option( 'reservations_price_per_persons', '1', '', 'yes' );
 		add_option( 'reservations_on_page', '10', '', 'no' );
-		add_option( 'reservations_currency', '#36', '', 'yes' );
 		add_option( 'reservations_support_mail', '', '', 'yes' );
-		add_option( 'reservations_style', 'greyfat', '', 'yes' );
-		add_option('reservations_db_version', '1.8', '', 'yes' );
-		$showhide = array( 'show_overview' => 1, 'show_table' => 1, 'show_upcoming' => 1, 'show_new' => 1, 'show_export' => 1, 'show_today' => 1 );
+		add_option('reservations_db_version', '2.0', '', 'yes' );
+		$showhide = array( 'show_overview' => 1, 'show_table' => 1, 'show_upcoming' => 1, 'show_new' => 1, 'show_export' => 1, 'show_today' => 1, 'show_welcome' => 2 );
 		$table = array( 'table_color' => 1, 'table_id' => 0, 'table_name' => 1, 'table_from' => 1, 'table_to' => 1, 'table_nights' => 1, 'table_email' => 1, 'table_fav' => 1, 'table_room' => 1, 'table_exactly' => 1, 'table_offer' => 1, 'table_persons' => 1, 'table_childs' => 1, 'table_country' => 1, 'table_message' => 0, 'table_custom' => 0, 'table_customp' => 0, 'table_paid' => 0, 'table_price' => 1, 'table_filter_month' => 1, 'table_filter_room' => 1, 'table_filter_offer' => 1, 'table_filter_days' => 1, 'table_search' => 1, 'table_bulk' => 1, 'table_onmouseover' => 1, 'table_reservated' => 0, 'table_status' => 1, 'table_fav' => 1 );
 		$overview = array( 'overview_onmouseover' => 1, 'overview_autoselect' => 1, 'overview_show_days' => 30, 'overview_show_rooms' => '', 'overview_show_avail' => 1 );
 		add_option('reservations_main_options', array('show' => $showhide, 'table' => $table, 'overview' => $overview ), '', 'no');
 		$edit_options = array( 'login_text' => '', 'edit_text' => '', 'submit_text' => 'Reservation successfully edited',  'table_infos' => array('date', 'status', 'price', 'room'), 'table_status' => array('','yes','no'), 'table_time' => array('past','current','future'), 'table_style' => 1, 'table_more' => 1 );
 		add_option('reservations_edit_options', $edit_options, '', 'no');
-		add_option('reservations_date_format', 'd.m.Y', '', 'yes');
+		add_option('reservations_settings', array( 'style' => "greyfat", 'interval' => 86400, 'currency' => '#36', 'date_format' => 'd.m.Y', 'time' => 1 ), '', 'yes');
 
 		/*
 
@@ -205,20 +199,17 @@ ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrivaldate] <br>To: [
 
 		$sql = "CREATE TABLE IF NOT EXISTS $table_name(
 		id int(10) NOT NULL AUTO_INCREMENT,
-		arrivalDate date NOT NULL,
+		arrival DATETIME NOT NULL,
+		departure DATETIME NOT NULL,
 		user int(10) NOT NULL,
 		name varchar(35) NOT NULL,
 		email varchar(50) NOT NULL,
-		notes text NOT NULL,
-		nights varchar(5) NOT NULL,
 		country varchar(4) NOT NULL,
-		dat varchar(8) NOT NULL,
 		approve varchar(3) NOT NULL,
 		room varchar(8) DEFAULT NULL,
 		roomnumber varchar(8) NOT NULL,
 		number int(4) NOT NULL,
 		childs int(4) NOT NULL,
-		special varchar(8) NOT NULL,
 		price varchar(20) NOT NULL,
 		custom longtext NOT NULL,
 		customp longtext NOT NULL,
@@ -229,7 +220,7 @@ ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrivaldate] <br>To: [
 
 		/*
 
-			Add sample two rooms & one offer
+			Add sample two Resources
 
 		*/
 
@@ -238,8 +229,8 @@ ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrivaldate] <br>To: [
 		if(!$roomcategories){
 
 			$roomOne = array(
-				'post_title' => 'Sample Room One',
-				'post_content' => 'This is a Sample Room.',
+				'post_title' => 'Sample Resource One',
+				'post_content' => 'This is a Sample Resource.',
 				'post_status' => 'private',
 				'post_author' => 1,
 				'post_type' => 'easy-rooms'
@@ -251,8 +242,8 @@ ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrivaldate] <br>To: [
 			add_post_meta($roomOne_id, 'reservations_child_price', 10);
 
 			$roomTwo = array(
-				'post_title' => 'Sample Room Two',
-				'post_content' => 'This is a Sample Room.',
+				'post_title' => 'Sample Resource Two',
+				'post_content' => 'This is a Sample Resource.',
 				'post_status' => 'private',
 				'post_author' => 1,
 				'post_type' => 'easy-rooms'
@@ -263,24 +254,6 @@ ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrivaldate] <br>To: [
 			add_post_meta($roomTwo_id, 'reservations_groundprice', 250.57);
 			add_post_meta($roomTwo_id, 'reservations_child_price', 20);
 		}
-
-		$offer_args=array( 'post_type' => 'easy-offers', 'post_status' => 'publish|private', 'orderby' => 'post_title', 'order' => 'ASC', 'numberposts' => 1 );
-		$offerposts = get_posts( $offer_args );
-		if(!$offerposts){
-			$offerOne = array(
-				'post_title' => 'Sample Offer',
-				'post_content' => 'This is a Sample Offer.',
-				'post_status' => 'private',
-				'post_author' => 1,
-				'post_type' => 'easy-offers'
-			);
-
-			$offerOne_id = wp_insert_post( $offerOne );
-			$pricestring = $roomOne_id.':50-'.$roomTwo_id.':70';
-			add_post_meta($offerOne_id, 'reservations_groundprice', $pricestring);
-			add_post_meta($offerOne_id, 'reservations_child_price', 5);
-
-		}
 	}
 
 	/**
@@ -288,12 +261,11 @@ ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrivaldate] <br>To: [
 	*
 	*/
 
-	//delete_option('reservations_db_version' );
 	add_action('admin_init','easyReservations_upgrade',1);
 
 	function easyReservations_upgrade(){
 
-		$easyReservations_active_ver=1.8;
+		$easyReservations_active_ver=2.0;
 		$easyReservations_installed_ver = get_option("reservations_db_version");
 
 		if($easyReservations_installed_ver != $easyReservations_active_ver ){
@@ -413,7 +385,6 @@ ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrivaldate] <br>To: [
 
 					unset($new_custom);
 					unset($new_customp);
-
 				}
 
 				$wpdb->query( $wpdb->prepare("ALTER TABLE ".$wpdb->prefix ."reservations ADD user int(10) NOT NULL"));
@@ -436,24 +407,54 @@ ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrivaldate] <br>To: [
 				$easyReservations_installed_ver = 1.8;
 			}
 
+			if($easyReservations_installed_ver == 1.8){
+				global $wpdb;
+				$wpdb->query( $wpdb->prepare("ALTER TABLE ".$wpdb->prefix ."reservations ADD arrival datetime NOT NULL"));
+				$wpdb->query( $wpdb->prepare("ALTER TABLE ".$wpdb->prefix ."reservations ADD departure datetime NOT NULL"));
+				$reservations = $wpdb->get_results($wpdb->prepare("SELECT id, arrivalDate, nights, notes FROM ".$wpdb->prefix ."reservations"));
+				foreach($reservations as $reservation){
+					$id = $reservation->id;
+					$arrivalDate = strtotime($reservation->arrivalDate);
+					$notes = array( array( 'type' => 'cstm', 'mode' => 'edit', 'title' => 'Message', 'value' => $reservation->notes ) );
+					easyreservations_edit_custom( $notes, $id, 0, 0, false, 0, 'cstm', 'edit', 1 );
+
+					$nights = $reservation->nights;
+					$arrival = date("Y-m-d H:i", $arrivalDate+43200);
+					$departure = date("Y-m-d H:i", $arrivalDate+(86400*$nights)+43200);
+
+					$wpdb->query($wpdb->prepare("UPDATE ".$wpdb->prefix ."reservations SET arrival='$arrival', departure='$departure' WHERE id='$id' "));
+				}
+
+				$settings_array = array( 'style' => get_option("reservations_style"), 'interval' => 86400, 'currency' => get_option("reservations_currency"), 'date_format' => get_option("reservations_date_format"), 'time' => 1 );
+				add_option("reservations_settings", $settings_array);
+				delete_option("reservations_style");
+				delete_option("reservations_interval");
+				delete_option("reservations_currency");
+				delete_option("reservations_date_format");
+				$wpdb->query( $wpdb->prepare("DROP TABLE ".$wpdb->prefix ."reservations DROP arrivalDate, nights, special, dat, notes"));
+
+				$easyReservations_installed_ver = 2.0;
+			}
+
 			update_option('reservations_db_version', $easyReservations_installed_ver);
-			add_action('admin_notices', 'easyReservations_upgrade_notice');
-			//save_error();
+			$main_options = get_option("reservations_main_options");
+			$main_options['show']['show_welcome'] = 2;
+			update_option('reservations_main_options', $main_options);
+			save_error();
 		}
 	}
 
-	function easyReservations_upgrade_notice(){
-		echo '<div class="updated">
-		   <p>Thanks for updating <b>easyReservations</b> to <b>1.8</b>!<br>View <a href="http://feryaz.de/changelog/" target="_blank">here</a> for a detailed Changelog!<br></p>
-		</div>';
-	}
-	apply_filters('debug', 'BeforeFiles');
+	$reservations_settings = get_option("reservations_settings");
 
-	define('RESERVATIONS_STYLE', get_option("reservations_style"));
+	define('RESERVATIONS_STYLE', $reservations_settings['style']);
+	define('RESERVATIONS_CURRENCY', $reservations_settings['currency']);
 	define('RESERVATIONS_IMAGES_DIR', WP_PLUGIN_URL.'/easyreservations/images');
 	define('RESERVATIONS_LIB_DIR', WP_PLUGIN_URL.'/easyreservations/lib/');
 	define('RESERVATIONS_JS_DIR', WP_PLUGIN_URL.'/easyreservations/js');
-	define('RESERVATIONS_DATE_FORMAT', get_option("reservations_date_format"));
+	define('RESERVATIONS_DATE_FORMAT', $reservations_settings['date_format']);
+	define('RESERVATIONS_USE_TIME', $reservations_settings['time']);
+	if(RESERVATIONS_USE_TIME == 1) $usetime = ' H:i'; else $usetime = '';
+	define('RESERVATIONS_DATE_FORMAT_SHOW', RESERVATIONS_DATE_FORMAT.$usetime);
 
 	add_action('init','easyreservations_init_language');
 	add_action('admin_init','easyreservations_init_language');
@@ -494,7 +495,6 @@ ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrivaldate] <br>To: [
 		add_shortcode('easy_calendar', 'reservations_calendar_shortcode');
 		add_shortcode('easy_edit', 'reservations_edit_shortcode');
 		add_shortcode('easy_form', 'reservations_form_shortcode');
-
 	}
 
 	require_once(dirname(__FILE__)."/lib/widgets/form_widget.php");
@@ -514,7 +514,5 @@ ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrivaldate] <br>To: [
 	if(function_exists('easyreservation_is_search') && easyreservation_is_search()){
 		include_once(dirname(__FILE__)."/lib/modules/search/search.php");
 	}
-	
-	apply_filters('debug', 'after');
 
 ?>

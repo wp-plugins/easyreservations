@@ -1,6 +1,6 @@
 <?php
 function reservation_statistics_page(){
-	global $wpdb;
+	global $wpdb, $the_rooms_intervals_array;
 	
 	wp_enqueue_style('jqplot_style');
 	wp_enqueue_script('jqplot');
@@ -20,48 +20,39 @@ function reservation_statistics_page(){
 		$nr++;
 		$lol=date("Y-m-d", $date);
 
-		$sql_A = $wpdb->get_var("SELECT COUNT(*) FROM ".$wpdb->prefix ."reservations WHERE approve='yes' AND '$lol' BETWEEN arrivalDate AND DATE_ADD(arrivalDate, INTERVAL nights DAY) - INTERVAL 1 DAY");
+		$sql_A = $wpdb->get_var("SELECT COUNT(*) FROM ".$wpdb->prefix ."reservations WHERE approve='yes' AND '$lol' BETWEEN arrival AND departure");
 		$guestcountyearly.=' [ "'.$lol.'" , '.$sql_A.' ], ';
 	}
 
 	$countallreservationsall = $wpdb->get_var("SELECT COUNT(*) FROM ".$wpdb->prefix ."reservations"); // number of total rows in the database
-	$countallreservationsfuture = $wpdb->get_var("SELECT COUNT(*) FROM ".$wpdb->prefix ."reservations WHERE approve='yes' AND DATE_ADD(arrivalDate, INTERVAL nights DAY) > NOW()"); // number of total rows in the database
-	$countallreservationspast = $wpdb->get_var("SELECT COUNT(*) FROM ".$wpdb->prefix ."reservations WHERE approve='yes' AND DATE_ADD(arrivalDate, INTERVAL nights DAY) < NOW()"); // number of total rows in the database
+	$countallreservationsfuture = $wpdb->get_var("SELECT COUNT(*) FROM ".$wpdb->prefix ."reservations WHERE approve='yes' AND departure > NOW()"); // number of total rows in the database
+	$countallreservationspast = $wpdb->get_var("SELECT COUNT(*) FROM ".$wpdb->prefix ."reservations WHERE approve='yes' AND departure < NOW()"); // number of total rows in the database
 	$countallreservationsreject = $wpdb->get_var("SELECT COUNT(*) FROM ".$wpdb->prefix ."reservations WHERE approve='no'"); // number of total rows in the database
 	$countallreservationstrash = $wpdb->get_var("SELECT COUNT(*) FROM ".$wpdb->prefix ."reservations WHERE approve='del'"); // number of total rows in the database
 	$countallreservationspending = $wpdb->get_var("SELECT COUNT(*) FROM ".$wpdb->prefix ."reservations WHERE approve=''"); // number of total rows in the database
 
 	$roomquery='';
-	$my_posts = easyreservations_get_rooms();
+	global $the_rooms_array;
+	$my_posts = $the_rooms_array;
 	foreach($my_posts as $my_post){
 		$countroom = $wpdb->get_var("SELECT COUNT(*) FROM ".$wpdb->prefix ."reservations WHERE approve='yes' AND room='$my_post->ID' "); // number of total rows in the database
 		$percent=round(100/$countallreservations*$countroom, 2);
 		$roomquery.="['".__($my_post->post_title)."', ".$percent."], ";
 	}
 
-	$countwithoutspecial = $wpdb->get_var("SELECT COUNT(*) FROM ".$wpdb->prefix ."reservations WHERE approve='yes' AND special='0' "); // number of total rows in the database
-	$noneofferpercent=round(100/$countallreservations*$countwithoutspecial, 2);
-	$offerquery="['None', ".$noneofferpercent."], ";
-	$myoffers = easyreservations_get_offers();
-	foreach($myoffers as $myoffer){
-		$countspecial = $wpdb->get_var("SELECT COUNT(*) FROM ".$wpdb->prefix ."reservations WHERE approve='yes' AND special='$myoffer->ID' "); // number of total rows in the database
-		$percents=round(100/$countallreservations*$countspecial, 2);
-		$offerquery.="['".__($myoffer->post_title)."', ".$percents."], ";
-	}
-
-	$sql_personnights = "SELECT id, number, nights FROM ".$wpdb->prefix ."reservations WHERE approve='yes'";
+	$sql_personnights = "SELECT id, number, arrival, departure FROM ".$wpdb->prefix ."reservations WHERE approve='yes'";
 	$results_personnights = $wpdb->get_results($sql_personnights );
 	$pricesall=0;
 	$personsall=0;
 	$nightsall=0;
 	foreach($results_personnights as $results_personnight){
 		$personsall+=$results_personnight->number;
-		$nightsall+=$results_personnight->nights;
+		$nightsall+=easyreservations_get_nights(86400, $results_personnight->arrival, $results_personnight->departure);
 		$pricecalculation=easyreservations_price_calculation($results_personnight->id, '');
 		$pricesall+=$pricecalculation['price'];
 	}
 	
-	$sql_pricesfuture = "SELECT id, number, nights FROM ".$wpdb->prefix ."reservations WHERE approve='yes' AND DATE_ADD(arrivalDate, INTERVAL nights DAY) >= NOW()";
+	$sql_pricesfuture = "SELECT id, number, departure FROM ".$wpdb->prefix ."reservations WHERE approve='yes' AND departure >= NOW()";
 	$results_pricesfuture = $wpdb->get_results($sql_pricesfuture );
 	$pricesfuture=0;
 	foreach($results_pricesfuture as $results_pricefuture){
@@ -69,7 +60,7 @@ function reservation_statistics_page(){
 		$pricesfuture+=$pricecalculation['price'];
 	}
 
-	$sql_pricespast = "SELECT id, number, nights FROM ".$wpdb->prefix ."reservations WHERE approve='yes' AND DATE_ADD(arrivalDate, INTERVAL nights DAY) < NOW() ";
+	$sql_pricespast = "SELECT id, number, departure FROM ".$wpdb->prefix ."reservations WHERE approve='yes' AND departure < NOW() ";
 	$results_pricespast = $wpdb->get_results($sql_pricespast );
 	$pricespast=0;
 	foreach($results_pricespast as $results_pricepast){
@@ -85,9 +76,9 @@ function reservation_statistics_page(){
 	for($ii = 0; $ii < 30; $ii++){
 		$daysOptions .= "'".date("d", time()+($ii*86400))."<br>".date("M", time()+($ii*86400))."', ";
 		$day=date("Y-m-d", time()+($ii*86400));
-		$countApproved .= $wpdb->get_var("SELECT COUNT(*) FROM ".$wpdb->prefix ."reservations WHERE approve='yes' AND '$day' BETWEEN arrivalDate AND DATE_ADD(arrivalDate, INTERVAL nights DAY)").', '; // number of total rows in the database
-		$countRejected .= $wpdb->get_var("SELECT COUNT(*) FROM ".$wpdb->prefix ."reservations WHERE approve='no' AND '$day' BETWEEN arrivalDate AND DATE_ADD(arrivalDate, INTERVAL nights DAY)").', '; // number of total rows in the database
-		$countPending .= $wpdb->get_var("SELECT COUNT(*) FROM ".$wpdb->prefix ."reservations WHERE approve='' AND '$day' BETWEEN arrivalDate AND DATE_ADD(arrivalDate, INTERVAL nights DAY)").', '; // number of total rows in the database
+		$countApproved .= $wpdb->get_var("SELECT COUNT(*) FROM ".$wpdb->prefix ."reservations WHERE approve='yes' AND '$day' BETWEEN arrival AND departure").', '; // number of total rows in the database
+		$countRejected .= $wpdb->get_var("SELECT COUNT(*) FROM ".$wpdb->prefix ."reservations WHERE approve='no' AND '$day' BETWEEN arrival AND departure").', '; // number of total rows in the database
+		$countPending .= $wpdb->get_var("SELECT COUNT(*) FROM ".$wpdb->prefix ."reservations WHERE approve='' AND '$day' BETWEEN arrival AND departure").', '; // number of total rows in the database
 	}
 ?>
 <script type="text/javascript">
@@ -204,30 +195,6 @@ function reservation_statistics_page(){
 			}, 
 			legend: { show:true, location: 'e' }
 		});
-
-		var data = [<?php echo $offerquery; ?>];
-
-		var plot2 = jQuery.jqplot ('percentspecials', [data], {
-			grid: {
-				drawBorder: false,
-				shadow: false,
-				background: "white"
-			},
-			seriesDefaults: {
-				renderer: jQuery.jqplot.PieRenderer,
-				shadow:false,
-				rendererOptions: {
-					// Turn off filling of slices.
-					fill: true,
-					showDataLabels: true, 
-					// Add a margin to seperate the slices.
-					sliceMargin: 4, 
-					// stroke the slices with a little thicker line.
-					lineWidth: 5
-				}
-			}, 
-			legend: { show:true, location: 'e' }
-		});
 	
 			var data = [ <?php echo $guestcountyearly; ?> ];
 
@@ -313,7 +280,7 @@ function reservation_statistics_page(){
 		<br>
 		<table style="width: 99%;" cellpadding="0">
 			<tr>
-				<td style="width: 35%;"><div id="percentrooms"></div></td>
+				<td style="width: 71%;"><div id="percentrooms"></div></td>
 				<td style="width: 29%;">
 					<table class="<?php echo RESERVATIONS_STYLE; ?>" style="width: 99%;" >
 						<thead>
@@ -351,29 +318,29 @@ function reservation_statistics_page(){
 								<td style="text-align:right;"><b><?php echo round($personsperreservation, 2); ?></b></td>
 							</tr>
 							<tr  class="alternate" style="font-size:13px;">
-								<td>&#216; <?php printf ( __( 'Nights per reservations' , 'easyReservations' ));?>:</td>
+								<td>&#216; <?php echo __( 'Days per reservations' , 'easyReservations' );?>:</td>
 								<td style="text-align:right;"><b><?php echo round($nightsperreservation, 2); ?></b></td>
 							</tr><br>
 							<tr style="font-size:13px;">
 								<td><?php printf ( __( 'Revenue of all reservations' , 'easyReservations' ));?>:</td>
-								<td style="text-align:right;"><b><?php echo reservations_format_money($pricesall).' &'.get_option('reservations_currency').';'; ?></b></td>
+								<td style="text-align:right;"><b><?php echo reservations_format_money($pricesall).' &'.RESERVATIONS_CURRENCY.';'; ?></b></td>
 							</tr>
 							<tr  class="alternate"  style="font-size:13px;">
 								<td> - <?php printf ( __( 'Revenue of future reservations' , 'easyReservations' ));?>:</td>
-								<td style="text-align:right;"><b><?php echo reservations_format_money($pricesfuture).' &'.get_option('reservations_currency').';'; ?></b></td>
+								<td style="text-align:right;"><b><?php echo reservations_format_money($pricesfuture).' &'.RESERVATIONS_CURRENCY.';'; ?></b></td>
 							</tr>
 							<tr style="font-size:13px;">
 								<td> - <?php printf ( __( 'Revenue of past reservations' , 'easyReservations' ));?>:</td>
-								<td style="text-align:right;"><b><?php echo reservations_format_money($pricespast).' &'.get_option('reservations_currency').';'; ?></b></td>
+								<td style="text-align:right;"><b><?php echo reservations_format_money($pricespast).' &'.RESERVATIONS_CURRENCY.';'; ?></b></td>
 							</tr>
 							<tr class="alternate" style="font-size:13px;">
 								<td> &#216; <?php printf ( __( 'Revenue per reservations' , 'easyReservations' ));?>:</td>
-								<td style="text-align:right;"><b><?php echo $priceperreservation.' &'.get_option('reservations_currency').';'; ?></b></td>
+								<td style="text-align:right;"><b><?php echo $priceperreservation.' &'.RESERVATIONS_CURRENCY.';'; ?></b></td>
 							</tr>
 						</tbody>
 					</table>
 				</td>
-				<td style="width: 35%;"><div id="percentspecials"></div></td>
+				<td style="width: 35%;"></td>
 			</tr>
 		</table>
 		<br>

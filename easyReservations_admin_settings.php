@@ -18,19 +18,20 @@ function reservation_settings_page() { //Set Settings
 		if($settingpage=="about") $ifaboutcurrent='class="current"';
 
 		if(isset($action) && $action == "reservation_clean_database"){
-			$wpdb->query( $wpdb->prepare("DELETE FROM ".$wpdb->prefix ."reservations WHERE DATE_ADD(arrivalDate, INTERVAL nights DAY) < DATE(NOW()) AND approve != 'yes' ") );
+			$wpdb->query( $wpdb->prepare("DELETE FROM ".$wpdb->prefix ."reservations WHERE departure < NOW() AND approve != 'yes' ") );
 			$prompt = '<div class="update"><p>'.__( 'Database cleaned' , 'easyReservations' ).'</p></div>';
 		}
 
 		if(isset($action) && $action == "er_main_set"){ //Set Reservation settings 
 			if(isset($_POST["reservations_uninstall"])) $reservations_uninstall = 1; else $reservations_uninstall = 0;
+			if(isset($_POST["reservations_time"])) $reservations_time = 1; else $reservations_time = 0;
+			if( $_POST["reservations_interval"] == 3600 ) $reservations_time = 1;
 			update_option("reservations_uninstall", $reservations_uninstall);
-			update_option("reservations_style", $_POST["reservations_style"]);
+			$settings_array = array( 'style' => $_POST["reservations_style"], 'currency' => $_POST["reservations_currency"], 'date_format' => $_POST["reservations_date_format"], 'time' => $reservations_time );
+			update_option("reservations_settings", $settings_array);
 			update_option("reservations_regular_guests", $_POST["regular_guests"]);
 			update_option("reservations_support_mail", $_POST["reservations_support_mail"]);
 			update_option("reservations_edit_url", $_POST["reservations_edit_url"]);
-			update_option("reservations_currency", $_POST["reservations_currency"]);
-			update_option("reservations_date_format", $_POST["reservations_date_format"]);
 			if(isset( $_POST["reservations_edit_table_infos"])) $table_infos = $_POST["reservations_edit_table_infos"]; else $table_infos = array();
 			if(isset( $_POST["reservations_edit_table_status"])) $table_status = $_POST["reservations_edit_table_status"]; else $table_status = array();
 			if(isset( $_POST["reservations_edit_table_time"])) $table_time = $_POST["reservations_edit_table_time"]; else $table_time = array();
@@ -112,7 +113,7 @@ function reservation_settings_page() { //Set Settings
 			$prompt = '<div class="updated"><p>'.__( 'eMail settings saved' , 'easyReservations' ).'</p></div>';
 		}
 
-		if(isset($action) AND $action  == "reservations_form_settings"){ // Change a form
+		if(isset($action) && $action  == "reservations_form_settings"){ // Change a form
 			// Set form
 			$reservations_form_value =$_POST["reservations_formvalue"];
 			$formnamesgets = $_POST["formnamesgets"];
@@ -125,12 +126,12 @@ function reservation_settings_page() { //Set Settings
 			$reservations_form = $_POST["reservations_formvalue"];
 		}
 
-		if(isset($action) AND $action == "reservation_change_permissions"){ // Change a form
+		if(isset($action) && $action == "reservation_change_permissions"){ // Change a form
 			if(current_user_can('manage_options')){
 				$permissions = array('dashboard' => $_POST["easy-permission-dashboard"], 'resources' => $_POST["easy-permission-resources"], 'statistics' => $_POST["easy-permission-statistics"], 'settings' => $_POST["easy-permission-settings"]);
 				update_option('reservations_main_permission', $permissions);
 				$prompt = '<div class="updated"><p>'.__( 'Permissions changed' , 'easyReservations' ).'</p></div>';
-			} else $prompt = '<div class="error"><p>'.__( 'Only admins can change the permissions for easyReservations' , 'easyReservations' ).'</p></div>';
+			} else $prompt = '<div class="error"><p>'.__( 'Only admins can change the permissions for' , 'easyReservations' ).' easyReservations</p></div>';
 		}
 
 		if(isset($namtetodelete)){
@@ -141,11 +142,11 @@ function reservation_settings_page() { //Set Settings
 		if(isset($action) && $action == "reservations_form_add"){// Add form after check twice for stupid Users :D
 			if($_POST["formname"]!=""){
 
-				$formname0='reservations_form_'.$_POST["formname"];
-				$formname1='reservations_form_'.$_POST["formname"].'_1';
-				$formname2='reservations_form_'.$_POST["formname"].'_2';
+				$formname0='reservations_form_'.strtolower(str_replace(' ', '', $_POST["formname"]));
+				$formname1=$formname0.'_1';
+				$formname2=$formname0.'_2';
 				
-				if(get_option($formname0)=="")add_option(''.$formname0.'', ' ', '', 'no' );
+				if(get_option($formname0)=="") add_option(''.$formname0.'', ' ', '', 'no' );
 				elseif(get_option($formname1)=="") add_option(''.$formname1.'', ' ', '', 'no');
 				else add_option(''.$formname2.'', ' ', '', 'no');
 				$prompt = '<div class="updated"><p>'.sprintf(__( 'Form %s has been added' , 'easyReservations' ), '<b>'.$_POST["formname"].'</b>' ).'</p></div>';
@@ -257,15 +258,16 @@ function resteText() {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// EDIT RESERVATION /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	//Get current Options
-	$reservations_currency = get_option("reservations_currency");
-	$reservations_date_format = get_option("reservations_date_format");
+	$reservations_settings = get_option("reservations_settings");
+	$reservations_currency = $reservations_settings['currency'];
+	$reservations_date_format = $reservations_settings['date_format'];
+	$easyReservationSyle=$reservations_settings['style'];
 	$reservation_support_mail = get_option("reservations_support_mail");
 	$reservations_regular_guests = get_option('reservations_regular_guests');
 	$permission_options=get_option("reservations_main_permission");
 	$reservations_edit_url=get_option("reservations_edit_url");
 	$reservations_edit_options=get_option("reservations_edit_options");
 	if(!$reservations_edit_options) $reservations_edit_options = array();
-	$easyReservationSyle=get_option("reservations_style");
 	$reservations_uninstall=get_option("reservations_uninstall");
 
 	?>
@@ -282,81 +284,86 @@ function resteText() {
 						<th style="width:55%;"> </th>
 					</tr>
 				</thead>
-				<tbody style="border:0px" class="alternate">
-					<tr valign="top" style="border:0px">
-						<td style="font-weight:bold"><img style="vertical-align:text-bottom;margin-right:2px;" src="<?php echo RESERVATIONS_IMAGES_DIR; ?>/email.png"> <?php printf ( __( 'Reservation support mail' , 'easyReservations' ));?></td>
-						<td><input type="text" title="<?php printf ( __( 'Mail for reservations' , 'easyReservations' ));?>" name="reservations_support_mail" value="<?php echo $reservation_support_mail;?>" style="width:50%"></td>
+				<tbody style="border:0px">
+					<tr valign="top">
+						<td style="font-weight:bold"><img style="vertical-align:text-bottom;margin-right:2px;" src="<?php echo RESERVATIONS_IMAGES_DIR; ?>/email.png"> <?php printf ( __( 'Support eMail' , 'easyReservations' ));?></td>
+						<td><input type="text" name="reservations_support_mail" value="<?php echo $reservation_support_mail;?>" style="width:50%"></td>
 					</tr>
+						<tr valign="top" class="alternate" style="height:35px">
+							<td style="font-weight:bold"><img style="vertical-align:text-bottom;margin-right:2px;" src="<?php echo RESERVATIONS_IMAGES_DIR; ?>/clock.png"> <?php printf ( __( 'Time reservations' , 'easyReservations' ));?></td>
+							<td><input type="checkbox" name="reservations_time" <?php checked($reservations_settings['time'],1); ?>> <i><?php printf ( __( 'Enable time for reservations ' , 'easyReservations' ));?></i></td>
+						</tr>
 					<tr valign="top">
 						<td style="font-weight:bold"><img style="vertical-align:text-bottom;margin-right:2px;" src="<?php echo RESERVATIONS_IMAGES_DIR; ?>/dollar.png"> <?php printf ( __( 'Currency sign' , 'easyReservations' ));?></td>
 						<td>
-							<select name="reservations_currency" title="<?php printf ( __( 'Select currency' , 'easyReservations' ));?>"><?php
+							<select name="reservations_currency"><?php
 								$currencys = array(
-									array(__( 'Euro' , 'easyReservations' ), '#8364'),
-									array(__( 'Dollar' , 'easyReservations' ), '#36'),
-									array(__( 'Yen' , 'easyReservations' ), '#165'),
-									array(__( 'Cent' , 'easyReservations' ), '#162'), 
-									array(__( 'Florin' , 'easyReservations' ), '#402'), 
-									array(__( 'Pound' , 'easyReservations' ), '#163'), 
-									array(__( 'Lire' , 'easyReservations' ), '#8356'), 
-									array(__( 'Hongkong Dollar' , 'easyReservations' ), '#20803') , 
-									array(__( 'Tenge' , 'easyReservations' ), '#8376'),
-									array(__( 'Laos Kip' , 'easyReservations' ), '#8365') , 
-									array(__( 'Colon' , 'easyReservations' ), '#8353'),
-									array(__( 'Guarani ' , 'easyReservations' ), '#8370'),
-									array(__( 'Hungary Forint' , 'easyReservations' ), '#70;&#116'),
-									array(__( 'Uruguay Peso' , 'easyReservations' ), '#8369'),
-									array(__( 'Indian Rupee' , 'easyReservations' ), '#8360'),
-									array(__( 'Indian Rupee 2nd' , 'easyReservations' ), '#8377'), 
-									array(__( 'Bengali Rupee' , 'easyReservations' ), '#2547'),
-									array(__( 'Gujarati  Rupee' , 'easyReservations' ), '#2801'),
-									array(__( 'Tamil Rupee' , 'easyReservations' ), '#3065'),
-									array(__( 'Thai Baht' , 'easyReservations' ), '#3647'),
-									array(__( 'Khmer Riel' , 'easyReservations' ), '#6107'),
-									array(__( 'Belize Dollar' , 'easyReservations' ), '#66;&#90;&#36'),
-									array(__( 'Bolivia Boliviano' , 'easyReservations' ), '#36;&#98'),
-									array(__( 'Bosnia and Herzegovina Marka' , 'easyReservations' ), '#75;&#77'),
-									array(__( 'Botswana Pula' , 'easyReservations' ), '#80'),
-									array(__( 'Bulgaria Lev' , 'easyReservations' ), '#1083;&#1074'),
-									array(__( 'Cambodia Riel' , 'easyReservations' ), '#6107'),
-									array(__( 'China Yuan' , 'easyReservations' ), '#20803'),
-									array(__( 'Austral' , 'easyReservations' ), '#8371'),
-									array(__( 'Hryvnia' , 'easyReservations' ), '#8372'),
-									array(__( 'Guatemala Quetzal' , 'easyReservations' ), '#81'),
-									array(__( 'Cedi' , 'easyReservations' ), '#8373'),
-									array(__( 'Tugril' , 'easyReservations' ), '#8366'),
-									 array(__( 'Turkish Lira' , 'easyReservations' ), '#84;&#76'),
-									array(__( 'Drachma' , 'easyReservations' ), '#8367'),
-									array(__( 'Honduras Lempira' , 'easyReservations' ), '#76'),
-									array(__( 'Vietnam Dong' , 'easyReservations' ), '#8363'),
-									array(__( 'Naira' , 'easyReservations' ), '#8358'),
-									array(__( 'Azerbaijan New Manat' , 'easyReservations' ), '#1084;&#1072;&#1085'),
-									array(__( 'Macedonia Denar' , 'easyReservations' ), '#1076;&#1077;&#1085'),
-									array(__( 'Mongolia Tughrik' , 'easyReservations' ), '#8366'),
-									array(__( 'Afghanistan Afghani' , 'easyReservations' ), '#1547'),
-									array(__( 'Cruzeiro' , 'easyReservations' ), '#8354'),
-									array(__( 'Omani Rial' , 'easyReservations' ), '#65020'),
-									array(__( 'Won' , 'easyReservations' ), '#65510'),
-									array(__( 'Philippine Peso' , 'easyReservations' ), '#608'),
-									array(__( 'Philippine Peso 2nd' , 'easyReservations' ), '#80;&#104;&#11'),
-									array(__( 'Brazilian Real' , 'easyReservations' ), '#986'),
-									array(__( 'Brazilian Real 2nd' , 'easyReservations' ), '#76;&#115'),
-									array(__( 'Nicaragua Cordoba' , 'easyReservations' ), '#67;&#36'),
-									array(__( 'Mozambique Metical' , 'easyReservations' ), '#77;&#84'),
-									array(__( 'Malaysia Ringgit' , 'easyReservations' ), '#82;&#77'),
-									array(__( 'Latvia Lat' , 'easyReservations' ), '#82;&#36'),
-									array(__( 'Kazakhstan Tenge' , 'easyReservations' ), '#1083;&#1074'),
-									array(__( 'Jamaica Dollar' , 'easyReservations' ), '#74;&#36'),
-									array(__( 'Czech Koruna' , 'easyReservations' ), '#75;&#269'),
-									array(__( 'Danish Krone' , 'easyReservations' ), '#107;&#114'),
-									array(__( 'Croatia Kuna' , 'easyReservations' ), '#107;&#110'),
-									array(__( 'Israeli Sheqel' , 'easyReservations' ), '#122;&#322'),
-									array(__( 'Panamanian Balboa' , 'easyReservations' ), '#66;&#47;&#46'),
-									array(__( 'Dominican Republic Peso' , 'easyReservations' ), '#82;&#68;&#36'),
-									array(__( 'Switzerland Franc' , 'easyReservations' ), '#67;&#72;&#70'),
-									array(__( 'Egyptian Pound' , 'easyReservations' ), '#163'),
-									array(__( 'Romanian Leu' , 'easyReservations' ), '#108;&#101;&#1'),
-									array(__( 'Russian Rouble' , 'easyReservations' ), '#1088;&#1091')
+									array('Euro' , '#8364'),
+									array('Dollar' , '#36'),
+									array('Yen' , '#165'),
+									array('Cent' , '#162'), 
+									array('Florin' , '#402'), 
+									array('Pound' , '#163'), 
+									array('Lire' , '#8356'), 
+									array('Hongkong Dollar' , '#20803') , 
+									array('Tenge' , '#8376'),
+									array('Laos Kip' , '#8365') , 
+									array('Colon' , '#8353'),
+									array('Guarani ' , '#8370'),
+									array('Hungary Forint' , '#70;&#116'),
+									array('Uruguay Peso' , '#8369'),
+									array('Indian Rupee' , '#8360'),
+									array('Indian Rupee 2nd' , '#8377'), 
+									array('Bengali Rupee' , '#2547'),
+									array('Gujarati  Rupee' , '#2801'),
+									array('Tamil Rupee' , '#3065'),
+									array('Thai Baht' , '#3647'),
+									array('Khmer Riel' , '#6107'),
+									array('Belize Dollar' , '#66;&#90;&#36'),
+									array('Bolivia Boliviano' , '#36;&#98'),
+									array('Bosnia and Herzegovina Marka' , '#75;&#77'),
+									array('Botswana Pula' , '#80'),
+									array('Bulgaria Lev' , '#1083;&#1074'),
+									array('Cambodia Riel' , '#6107'),
+									array('China Yuan' , '#20803'),
+									array('Austral' , '#8371'),
+									array('Hryvnia' , '#8372'),
+									array('Guatemala Quetzal' , '#81'),
+									array('Cedi' , '#8373'),
+									array('Tugril' , '#8366'),
+									array('Turkish Lira' , '#84;&#76'),
+									array('Drachma' , '#8367'),
+									array('Honduras Lempira' , '#76'),
+									array('Vietnam Dong' , '#8363'),
+									array('Naira' , '#8358'),
+									array('Azerbaijan New Manat' , '#1084;&#1072;&#1085'),
+									array('Macedonia Denar' , '#1076;&#1077;&#1085'),
+									array('Mongolia Tughrik' , '#8366'),
+									array('Afghanistan Afghani' , '#1547'),
+									array('Cruzeiro' , '#8354'),
+									array('Omani Rial' , '#65020'),
+									array('Won' , '#65510'),
+									array('Philippine Peso' , '#608'),
+									array('Philippine Peso 2nd' , '#80;&#104;&#11'),
+									array('Brazilian Real' , '#986'),
+									array('Brazilian Real 2nd' , '#76;&#115'),
+									array('Nicaragua Cordoba' , '#67;&#36'),
+									array('Mozambique Metical' , '#77;&#84'),
+									array('Malaysia Ringgit' , '#82;&#77'),
+									array('Latvia Lat' , '#82;&#36'),
+									array('Kazakhstan Tenge' , '#1083;&#1074'),
+									array('Jamaica Dollar' , '#74;&#36'),
+									array('Czech Koruna' , '#75;&#269'),
+									array('Danish Krone' , '#107;&#114'),
+									array('Croatia Kuna' , '#107;&#110'),
+									array('Polish Zloty' , '#122;&#322'),
+									array('Israeli Sheqel' , '#122;&#322'),
+									array('Panamanian Balboa' , '#66;&#47;&#46'),
+									array('Dominican Republic Peso' , '#82;&#68;&#36'),
+									array('Switzerland Franc' , '#67;&#72;&#70'),
+									array('Egyptian Pound' , '#163'),
+									array('Romanian Leu' , '#108;&#101;&#1'),
+									array( 'Russian Rouble', '#1088;&#1091')
 								);
 								asort($currencys);
 
@@ -370,11 +377,12 @@ function resteText() {
 					<tr valign="top"  class="alternate">
 						<td style="font-weight:bold"><img style="vertical-align:text-bottom;margin-right:2px;" src="<?php echo RESERVATIONS_IMAGES_DIR; ?>/background.png"> <?php printf ( __( 'Style' , 'easyReservations' ));?></td>
 						<td>
-							<select name="reservations_style" title="<?php printf ( __( 'Select style of admin panel' , 'easyReservations' ));?>">
+							<select name="reservations_style">
 								<option value="widefat" <?php if($easyReservationSyle=='widefat' OR RESERVATIONS_STYLE=='widefat') echo 'selected'; ?>><?php printf ( __( 'Wordpress' , 'easyReservations' ));?></option>
 								<option value="greyfat" <?php if($easyReservationSyle=='greyfat' OR RESERVATIONS_STYLE=='greyfat') echo 'selected'; ?>><?php printf ( __( 'Grey' , 'easyReservations' ));?></option>
 							</select>
 						</td>
+					</tr>
 					<tr valign="top">
 						<td style="font-weight:bold"><img style="vertical-align:text-bottom;margin-right:2px" src="<?php echo RESERVATIONS_IMAGES_DIR; ?>/day.png"> <?php printf ( __( 'Date format' , 'easyReservations' ));?></td>
 						<td>
@@ -394,7 +402,7 @@ function resteText() {
 							</select>
 						</td>
 					</tr>
-					<tr valign="top"  class="alternate">
+					<tr valign="top"  class="alternate" style="height:35px">
 						<td style="font-weight:bold"><img style="vertical-align:text-bottom;margin-right:2px;" src="<?php echo RESERVATIONS_IMAGES_DIR; ?>/database.png"> <?php printf ( __( 'Uninstall' , 'easyReservations' ));?></td>
 						<td><input type="checkbox" name="reservations_uninstall" value="1" <?php echo checked($reservations_uninstall, 1); ?>> <?php printf ( __( 'Delete settings, reservations and resources' , 'easyReservations' ));?></td>
 					</tr>
@@ -416,12 +424,12 @@ function resteText() {
 					</tr>
 					<tr class="alternate">
 						<td>
-							&nbsp;<b><?php printf ( __( 'URL to edit page' , 'easyReservations' ));?></b>: <input type="text" title="<?php printf ( __( 'URL to edit site' , 'easyReservations' ));?>" name="reservations_edit_url" value="<?php echo $reservations_edit_url;?>" style="width:50%">
+							&nbsp;<b><?php printf ( __( 'URL to edit page' , 'easyReservations' ));?></b>: <input type="text" name="reservations_edit_url" value="<?php echo $reservations_edit_url;?>" style="width:50%">
 						</td>
 					</tr>
 					<tr class="alternate">
 						<td>
-							&nbsp;<b><?php printf ( __( 'Text after Submit' , 'easyReservations' ));?></b>: <input type="text" title="<?php printf ( __( 'URL to edit site' , 'easyReservations' ));?>" name="reservations_submit_text" value="<?php echo $reservations_edit_options['submit_text'];?>" style="width:50%">
+							&nbsp;<b><?php printf ( __( 'Text after Submit' , 'easyReservations' ));?></b>: <input type="text" name="reservations_submit_text" value="<?php echo $reservations_edit_options['submit_text'];?>" style="width:50%">
 						</td>
 					</tr>
 					<tr>
@@ -450,9 +458,8 @@ function resteText() {
 								<label><input type="checkbox" name="reservations_edit_table_infos[]" value="persons" <?php checked(in_array('persons', $reservations_edit_options['table_infos']), true); ?>> <?php echo __( 'Persons' , 'easyReservations' ); ?></label><br>
 								<label><input type="checkbox" name="reservations_edit_table_infos[]" value="reservated" <?php checked(in_array('reservated', $reservations_edit_options['table_infos']), true); ?>> <?php echo __( 'Reservated' , 'easyReservations' ); ?></label><br>
 								<label><input type="checkbox" name="reservations_edit_table_infos[]" value="status" <?php checked(in_array('status', $reservations_edit_options['table_infos']), true); ?>> <?php echo __( 'Status' , 'easyReservations' ); ?></label><br>
-								<label><input type="checkbox" name="reservations_edit_table_infos[]" value="room" <?php checked(in_array('room', $reservations_edit_options['table_infos']), true); ?>> <?php echo __( 'Room' , 'easyReservations' ); ?></label><br>
-								<label><input type="checkbox" name="reservations_edit_table_infos[]" value="roomn" <?php checked(in_array('roomn', $reservations_edit_options['table_infos']), true); ?>> <?php echo __( 'Room Number' , 'easyReservations' ); ?></label><br>
-								<label><input type="checkbox" name="reservations_edit_table_infos[]" value="offer" <?php checked(in_array('offer', $reservations_edit_options['table_infos']), true); ?>> <?php echo __( 'Offer' , 'easyReservations' ); ?></label><br>
+								<label><input type="checkbox" name="reservations_edit_table_infos[]" value="room" <?php checked(in_array('room', $reservations_edit_options['table_infos']), true); ?>> <?php echo __( 'Resource' , 'easyReservations' ); ?></label><br>
+								<label><input type="checkbox" name="reservations_edit_table_infos[]" value="roomn" <?php checked(in_array('roomn', $reservations_edit_options['table_infos']), true); ?>> <?php echo __( 'Resource Number' , 'easyReservations' ); ?></label><br>
 								<label><input type="checkbox" name="reservations_edit_table_infos[]" value="price" <?php checked(in_array('price', $reservations_edit_options['table_infos']), true); ?>> <?php echo __( 'Price' , 'easyReservations' ); ?></label>
 							</span>
 							<span style="width:25%;float:left" >
@@ -495,6 +502,30 @@ function resteText() {
 		</form>
 			</td><td style="width:1%;" valign="top">
 			</td><td style="width:29%;" valign="top">
+				<table class="<?php echo RESERVATIONS_STYLE; ?>" style="width:100%;margin-bottom:7px;" cellspacing="0" cellpadding="0" style="background:#fff;">
+					<thead>
+						<tr>
+							<th colspan="2"> <?php printf ( __( 'Status' , 'easyReservations' ));?></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td style="font-weight:bold;padding:10px;text-align:center"><span style="width:20%;display: inline-block">Version: 2.0</span><span style="width:30%;display: inline-block">Last update: 03.05.2012</span><span style="width:30%;display: inline-block">written by Feryaz Beer</span></td>
+						</tr>
+						<tr class="alternate" style="">
+							<td style="font-size:14px;text-align:center;font-weight:bold;padding:10px"><a href="http://easyreservations.org/knowledgebase/" target="_blank"><?php echo __( 'Documentation' , 'easyReservations' );?></a></td>
+						</tr>
+						<tr>
+							<td style="font-size:14px;text-align:center;font-weight:bold;padding:10px"><a href="http://easyreservations.org/forums/forum/general/" target="_blank"><?php echo __( 'Support forums' , 'easyReservations' );?></a></td>
+						</tr>
+						<tr class="alternate">
+							<td style="font-size:14px;text-align:center;font-weight:bold;padding:10px"><a href="http://easyreservations.org/module/" target="_blank"><?php echo __( 'Modules' , 'easyReservations' );?></a></td>
+						</tr>
+						<tr>
+							<td style="font-size:14px;text-align:center;font-weight:bold;padding:10px"><a href="http://wordpress.org/extend/plugins/easyreservations/" target="_blank"><?php echo __( 'Rate Plugin' , 'easyReservations' );?></a></td>
+						</tr>
+					</tbody>
+				</table>
 				<?php do_action( 'er_set_main_side_top' ); ?>
 				<form method="post" action="admin.php?page=reservation-settings" id="reservation_clean_database">
 				<input type="hidden" name="action" value="reservation_clean_database" id="reservation_clean_database">
@@ -554,36 +585,31 @@ function resteText() {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// EDIT RESERVATION /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	$roomsoptions = reservations_get_room_options();
-	$offeroptions =  reservations_get_offer_options();
 	add_action('admin_print_footer_scripts',  'easy_add_my_quicktags'); //add buttons to quicktag
 	?><script>
 			function setDefaultForm(){
 				var Default = '[error]\n';
-					Default += '<h1>Reserve now!</h1>\n';
+					Default += '<h1>Reserve now!<span style="float:right;margin:10px">[show_price]</span></h1>\n';
 					Default += '<p>General informations</p>\n\n';
-					Default += '<label>From\n';
+					Default += '<label>Arrival Date\n';
 					Default += '<span class="small">When do you come?</span>\n';
-					Default += '</label>[date-from]\n\n';
+					Default += '</label><span class="row">[date-from style="width:75px"] [date-from-hour style="width:42px" value="12"]:[date-from-min style="width:42px"]</span>\n\n';
 
-					Default += '<label>To\n';
+					Default += '<label>Departure Date\n';
 					Default += '<span class="small">When do you go?</span>\n';
-					Default += '</label>[date-to]\n\n';
+					Default += '</label><span class="row">[date-to style="width:75px"] [date-to-hour style="width:42px" value="12"]:[date-to-min style="width:42px"]</span>\n\n';
 
-					Default += '<label>Room\n';
+					Default += '<label>Resource\n';
 					Default += '<span class="small">Where you want to sleep?</span>\n';
-					Default += '</label>[rooms]\n\n';
+					Default += '</label>[resources]\n\n';
 
-					Default += '<label>Offer\n';
-					Default += '<span class="small">Do you want an offer?</span>\n';
-					Default += '</label>[offers select]\n\n';
-
-					Default += '<label>Persons\n';
+					Default += '<label>Adults\n';
 					Default += '<span class="small">How many guests?</span>\n';
-					Default += '</label>[persons Select 1 10]\n\n';
+					Default += '</label>[adults 1 10]\n\n';
 
 					Default += '<label>Children&rsquo;s\n';
 					Default += '<span class="small">With children&rsquo;s?</span>\n';
-					Default += '</label>[childs Select 0 10]\n\n';
+					Default += '</label>[childs 0 10]\n\n';
 
 					Default += '<p>Personal informations</p>\n\n';
 
@@ -617,7 +643,7 @@ function resteText() {
 
 					Default += '<label>Message\n';
 					Default += '<span class="small">Any comments?</span>\n';
-					Default += '</label>[message]\n\n';
+					Default += '</label>[custom textarea Message]\n\n';
 
 					Default += '<label>Captcha\n';
 					Default += '<span class="small">Type in code</span>\n';
@@ -637,7 +663,7 @@ function resteText() {
 			</thead>
 			<tbody>
 				<tr valign="top" class="alternate">
-					<td style="width:60%;line-height: 2;" colspan="2"><?php if($formnameget==""){ ?><a href="admin.php?page=reservation-settings&site=form"><b style="color:#000;"><?php printf ( __( 'Standard' , 'easyReservations' ));?></b></a><?php } else { ?><a href="admin.php?page=reservation-settings&site=form"><?php printf ( __( 'Standard' , 'easyReservations' ));?></a><?php } ?><?php echo $forms; ?><div style="float:right"><form method="post" action="admin.php?page=reservation-settings&site=form"  id="reservations_form_add"><input type="hidden" name="action" value="reservations_form_add"/><input name="formname" type="text"><input type="button" onclick="document.getElementById('reservations_form_add').submit(); return false;" class="easySubmitButton-primary" style="margin-top:4px" value="<?php printf ( __( 'Add' , 'easyReservations' ));?>"></form></div> </td>
+					<td style="width:60%;line-height: 2;" colspan="2"><?php if($formnameget==""){ ?><a href="admin.php?page=reservation-settings&site=form"><b style="color:#000;"><?php printf ( __( 'Standard' , 'easyReservations' ));?></b></a><?php } else { ?><a href="admin.php?page=reservation-settings&site=form"><?php printf ( __( 'Standard' , 'easyReservations' ));?></a><?php } ?><?php echo $forms; ?><div style="float:right"><form method="post" action="admin.php?page=reservation-settings&site=form"  id="reservations_form_add"><input type="hidden" name="action" value="reservations_form_add"/><input name="formname" type="text"><input type="button" onclick="document.getElementById('reservations_form_add').submit(); return false;" class="easySubmitButton-primary" value="<?php printf ( __( 'Add' , 'easyReservations' ));?>"></form></div> </td>
 				</tr>
 				<tr valign="top">
 					<td style="width:60%;line-height: 2;vertical-align: top;text-align:left">
@@ -645,22 +671,25 @@ function resteText() {
 						<div style="float: left;">
 							<select name="jumpmenu" id="jumpmenu" onChange="jumpto(document.form1.jumpmenu.options[document.form1.jumpmenu.options.selectedIndex].value)">
 								<option><?php printf ( __( 'Add Field' , 'easyReservations' ));?></option>
-								<option value="error"><?php printf ( __( 'Display Errors' , 'easyReservations' ));?> [error]</option>
-								<option value="show_price"><?php printf ( __( 'Dispay Price' , 'easyReservations' ));?> [show_price]</option>
 								<option value="date-from"><?php printf ( __( 'Arrival Date' , 'easyReservations' ));?> [date-from]</option>
+								<option value="date-from-hour"><?php printf ( __( 'Arrival Hour' , 'easyReservations' ));?> [date-from-min]</option>
+								<option value="date-from-min"><?php printf ( __( 'Arrival Minute' , 'easyReservations' ));?> [date-from-hour]</option>
 								<option value="date-to"><?php printf ( __( 'Departure Date' , 'easyReservations' ));?> [date-to]</option>
+								<option value="units"><?php printf ( __( 'Units' , 'easyReservations' ));?> [units]</option>
+								<option value="date-to-hour"><?php printf ( __( 'Departure Hour' , 'easyReservations' ));?> [date-from]</option>
+								<option value="date-to-min"><?php printf ( __( 'Departure Minute' , 'easyReservations' ));?> [date-from]</option>
+								<option value="rooms"><?php printf ( __( 'Resources' , 'easyReservations' ));?> [resources]</option>
 								<option value="adults"><?php printf ( __( 'Adults' , 'easyReservations' ));?> [adults]</option>
 								<option value="childs"><?php printf ( __( 'Childs' , 'easyReservations' ));?> [childs]</option>
 								<option value="thename"><?php printf ( __( 'Name' , 'easyReservations' ));?> [thename]</option>
 								<option value="email"><?php printf ( __( 'eMail' , 'easyReservations' ));?> [email]</option>
-								<option value="message"><?php printf ( __( 'Message' , 'easyReservations' ));?> [message]</option>
-								<option value="rooms"><?php printf ( __( 'Room' , 'easyReservations' ));?> [rooms]</option>
-								<option value="offers"><?php printf ( __( 'Offer' , 'easyReservations' ));?> [offers]</option>
 								<option value="country"><?php printf ( __( 'Country' , 'easyReservations' ));?> [country]</option>
-								<option value="custom"><?php printf ( __( 'Custom Field' , 'easyReservations' ));?> [custom]</option>
-								<option value="price"><?php printf ( __( 'Price Field' , 'easyReservations' ));?> [price]</option>
-								<option value="hidden"><?php printf ( __( 'Hidden Field' , 'easyReservations' ));?> [hidden]</option>
+								<option value="custom"><?php printf ( __( 'Custom' , 'easyReservations' ));?> [custom]</option>
+								<option value="price"><?php printf ( __( 'Price' , 'easyReservations' ));?> [price]</option>
+								<option value="hidden"><?php printf ( __( 'Hidden' , 'easyReservations' ));?> [hidden]</option>
 								<option value="captcha"><?php printf ( __( 'Captcha' , 'easyReservations' ));?> [captcha]</option>
+								<option value="show_price"><?php printf ( __( 'Display Price' , 'easyReservations' ));?> [show_price]</option>
+								<option value="error"><?php printf ( __( 'Display Errors' , 'easyReservations' ));?> [error]</option>
 								<option value="submit"><?php printf ( __( 'Submit Button' , 'easyReservations' ));?> [submit]</option>
 							</select>
 						</div>
@@ -668,14 +697,14 @@ function resteText() {
 						<div id="Text2" style="float: left;"></div>
 						<div id="Text3" style="float: left;"></div>
 						<div id="Text4" style="float: left;"></div>
-						<a href="javascript:resetform();" class="easySubmitButton-primary" style="margin-top:4px" style="line-height:1;margin:2px 2px 0px 2px"><?php printf ( __( 'Reset' , 'easyReservations' ));?></a>
+						<a href="javascript:resetform();" class="easySubmitButton-primary" style="margin:2px 1px 0px 1px"><?php printf ( __( 'Reset' , 'easyReservations' ));?></a>
 						<div id="formsettings" style="margin-top:2px;"></div>
 					</form>
 					<form method="post" action="admin.php?page=reservation-settings&site=form<?php if($formnameget!=""){ echo '&form='.$formnameget; } ?>"  id="reservations_form_settings" name="reservations_form_settings" style="margin-top:-2px">
 						<input type="hidden" name="action" value="reservations_form_settings"/>
 						<input type="hidden" name="formnamesgets" value="<?php echo $formnameget; ?>"/>
 						<input type='hidden' value='<?php echo stripslashes($reservations_form); ?>' name="resetforrm">
-							<?php wp_editor( stripslashes($reservations_form), 'reservations_formvalue', $settings = array( 'textarea_rows' => 35, 'wpautop' => false, 'tinymce' => false, 'media_buttons' => false, 'quicktags' => array('buttons' => 'strong,em,link,img,ul,ol,li' ) ) ); ?>
+							<?php wp_editor( stripslashes($reservations_form), 'reservations_formvalue', array( 'textarea_rows' => 48, 'wpautop' => false, 'tinymce' => false, 'media_buttons' => false, 'quicktags' => array('buttons' => 'strong,em,link,img,ul,ol,li' ) ) ); ?>
 						<div style="margin:8px 1px;">
 							<input type="button" value="<?php printf ( __( 'Save Changes' , 'easyReservations' ));?>" onclick="document.getElementById('reservations_form_settings').submit(); return false;" class="easySubmitButton-primary" style="margin-top:4px" >
 							<input type="button" value="<?php printf ( __( 'Default Form' , 'easyReservations' ));?>" onClick="setDefaultForm();" class="easySubmitButton-secondary" >
@@ -686,24 +715,120 @@ function resteText() {
 					<td style="width:40%;vertical-align: top;">		
 					<div style="text-align:center;vertical-align:middle;height:30px;font-weight:bold;"><?php printf ( __( 'Include to Page or Post with' , 'easyReservations' ));?> <code class="codecolor">[<?php echo $howload; ?>]</code></div>
 						<div id="Helper"></div>
-						<div class="explainbox">
-							<p><code class="codecolor">[error]</code> <i><?php printf ( __( 'live form validation' , 'easyReservations' ));?></i></p>
-							<p><code class="codecolor">[show_price]</code> <i><?php printf ( __( 'live price calculation' , 'easyReservations' ));?></i></p>
-							<p><code class="codecolor">[date-from]</code> <i><?php printf ( __( 'day of arrival with datepicker' , 'easyReservations' ));?></i> *</p>
-							<p><code class="codecolor">[date-to]</code> <i><?php printf ( __( 'day of departure with datepicker' , 'easyReservations' ));?></i> *</p>
-							<p><code class="codecolor">[adults x]</code> <i><?php printf ( __( 'number of adults' , 'easyReservations' ));?></i> *</p>
-							<p><code class="codecolor">[childs x]</code> <i><?php printf ( __( 'number of children\'s' , 'easyReservations' ));?></i></p>
-							<p><code class="codecolor">[thename]</code> <i><?php printf ( __( 'name of guest' , 'easyReservations' ));?></i> *</p>
-							<p><code class="codecolor">[email]</code> <i><?php printf ( __( 'email of guest' , 'easyReservations' ));?></i> *</p>
-							<p><code class="codecolor">[rooms]</code> <i><?php printf ( __( 'select of rooms' , 'easyReservations' ));?></i>*</p>
-							<p><code class="codecolor">[offers x]</code> <i><?php printf ( __( 'offers as select or box' , 'easyReservations' ));?></i> *</p>
-							<p><code class="codecolor">[country]</code> <i><?php printf ( __( 'countrys as select' , 'easyReservations' ));?></i> *</p>
-							<p><code class="codecolor">[hidden type x]</code> <i><?php printf ( __( 'for fix a room/offer to a form' , 'easyReservations' ));?> </i></p>
-							<p><code class="codecolor">[custom type x]</code> <i><?php printf ( __( 'add custom fields as needed' , 'easyReservations' ));?></i></p>
-							<p><code class="codecolor">[message]</code> <i><?php printf ( __( 'message from guest' , 'easyReservations' ));?></i></p>
-							<p><code class="codecolor">[captcha]</code> <i><?php printf ( __( 'captcha field & image' , 'easyReservations' ));?></i></p>
-							<p><code class="codecolor">[submit x]</code> <i><?php printf ( __( 'submit button' , 'easyReservations' ));?></i> *</p>
-						</div><br>
+						<table class="widefat">
+							<thead>
+								<tr>
+									<th><?php echo  __( 'Information' , 'easyReservations' ); ?></th>
+									<th><?php echo  __( 'Tag' , 'easyReservations' ); ?></th>
+									<th style="text-align:center;"><?php echo  __( 'If unused' , 'easyReservations' ); ?></th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr onclick="resetform();document.form1.jumpmenu.selectedIndex = 1; jumpto(document.form1.jumpmenu.options[1].value)" style="cursor:pointer;">
+									<td><b><?php echo  __( 'Arrival Date' , 'easyReservations' ); ?></b><br><i><?php echo  __( 'Text field with datepicker' , 'easyReservations' ); ?></i></td>
+									<td><code class="codecolor">[date-from]</code></td>
+									<td style="text-align:center;">&#10008;</td>
+								</tr>
+								<tr onclick="resetform();document.form1.jumpmenu.selectedIndex = 2; jumpto(document.form1.jumpmenu.options[2].value)" style="cursor:pointer;">
+									<td><b><?php echo  __( 'Arrival Hour' , 'easyReservations' ); ?></b><br><i><?php echo  __( 'Select from 00-23' , 'easyReservations' ); ?></i></td>
+									<td><code class="codecolor">[date-from-hour]</code></td>
+									<td style="text-align:center;">12:00</td>
+								</tr>
+								<tr onclick="resetform();document.form1.jumpmenu.selectedIndex = 3; jumpto(document.form1.jumpmenu.options[3].value)" style="cursor:pointer;">
+									<td><b><?php echo  __( 'Arrival Minute' , 'easyReservations' ); ?></b><br><i><?php echo  __( 'Select from 00-59' , 'easyReservations' ); ?></i></td>
+									<td><code class="codecolor">[date-from-min]</code></td>
+									<td style="text-align:center;">0</td>
+								</tr>
+								<tr onclick="resetform();document.form1.jumpmenu.selectedIndex = 4; jumpto(document.form1.jumpmenu.options[4].value)" style="cursor:pointer;">
+									<td><b><?php echo  __( 'Departure Date' , 'easyReservations' ); ?></b><br><i><?php echo  __( 'Text field with datepicker' , 'easyReservations' ); ?></i></td>
+									<td><code class="codecolor">[date-to]</code></td>
+									<td style="text-align:center;">Arrival Date + 1 <?php echo ucfirst(easyreservations_interval_infos(0, 0, 1)); ?></td>
+								</tr>
+								<tr onclick="resetform();document.form1.jumpmenu.selectedIndex = 5; jumpto(document.form1.jumpmenu.options[5].value)" style="cursor:pointer;">
+									<td><b>&#10132<?php echo  __( 'Units' , 'easyReservations' ).' ('.easyreservations_interval_infos(0, 0, 1).')'; ?></b> &#10132; <code class="codecolor">[hidden units nr]</code><br><i><?php echo  __( 'Select of definable numbers' , 'easyReservations' ); ?></i></td>
+									<td><code class="codecolor">[units]</code></td>
+									<td style="text-align:center;">1 <?php echo ucfirst(easyreservations_interval_infos(0, 0, 1)); ?></td>
+								</tr>
+								<tr onclick="resetform();document.form1.jumpmenu.selectedIndex = 6; jumpto(document.form1.jumpmenu.options[6].value)" style="cursor:pointer;">
+									<td><b><?php echo  __( 'Departure Hour' , 'easyReservations' ); ?></b><br><i><?php echo  __( 'Select from 00-23' , 'easyReservations' ); ?></i></td>
+									<td><code class="codecolor">[date-to-hour]</code></td>
+									<td style="text-align:center;">12:00</td>
+								</tr>
+								<tr onclick="resetform();document.form1.jumpmenu.selectedIndex = 7; jumpto(document.form1.jumpmenu.options[7].value)" style="cursor:pointer;">
+									<td><b><?php echo  __( 'Departure Minute' , 'easyReservations' ); ?></b><br><i><?php echo  __( 'Select from 00-59' , 'easyReservations' ); ?></i></td>
+									<td><code class="codecolor">[date-to-min]</code></td>
+									<td style="text-align:center;">0</td>
+								</tr>
+								<tr onclick="resetform();document.form1.jumpmenu.selectedIndex = 8; jumpto(document.form1.jumpmenu.options[8].value)" style="cursor:pointer;">
+									<td><b><?php echo  __( 'Resources' , 'easyReservations' ); ?></b> &#10132; <code class="codecolor">[hidden resource id]</code><br><i><?php echo  __( 'Select of excludable resources' , 'easyReservations' ); ?></i></td>
+									<td><code class="codecolor">[resources]</code></td>
+									<td style="text-align:center;">&#10008;</td>
+								</tr>
+								<tr onclick="resetform();document.form1.jumpmenu.selectedIndex = 9; jumpto(document.form1.jumpmenu.options[9].value)" style="cursor:pointer;">
+									<td><b><?php echo  __( 'Adults' , 'easyReservations' ); ?></b> &#10132; <code class="codecolor">[hidden adults nr]</code><br><i><?php echo  __( 'Select of definable numbers' , 'easyReservations' ); ?></i></td>
+									<td><code class="codecolor">[adults]</code></td>
+									<td style="text-align:center;">1</td>
+								</tr>
+								<tr onclick="resetform();document.form1.jumpmenu.selectedIndex = 10; jumpto(document.form1.jumpmenu.options[10].value)" style="cursor:pointer;">
+									<td><b><?php echo  __( 'Children\'s' , 'easyReservations' ); ?></b> &#10132; <code class="codecolor">[hidden childs nr]</code><br><i><?php echo  __( 'Select of definable numbers' , 'easyReservations' ); ?></i></td>
+									<td><code class="codecolor">[childs]</code></td>
+									<td style="text-align:center;">0</td>
+								</tr>
+								<tr onclick="resetform();document.form1.jumpmenu.selectedIndex = 11; jumpto(document.form1.jumpmenu.options[11].value)" style="cursor:pointer;">
+									<td><b><?php echo  __( 'Name' , 'easyReservations' ); ?></b><br><i><?php echo  __( 'Text field' , 'easyReservations' ); ?></i></td>
+									<td><code class="codecolor">[thename]</code></td>
+									<td style="text-align:center;">&#10008;</td>
+								</tr>
+								<tr onclick="resetform();document.form1.jumpmenu.selectedIndex = 12; jumpto(document.form1.jumpmenu.options[12].value)" style="cursor:pointer;">
+									<td><b><?php echo  __( 'eMail' , 'easyReservations' ); ?></b><br><i><?php echo  __( 'Text field' , 'easyReservations' ); ?></i></td>
+									<td><code class="codecolor">[email]</code></td>
+									<td style="text-align:center;">&#10008;</td>
+								</tr>
+								<tr onclick="resetform();document.form1.jumpmenu.selectedIndex = 13; jumpto(document.form1.jumpmenu.options[13].value)" style="cursor:pointer;">
+									<td><b><?php echo  __( 'Country' , 'easyReservations' ); ?></b><br><i><?php echo  __( 'Select of countrys' , 'easyReservations' ); ?></i></td>
+									<td><code class="codecolor">[country]</code></td>
+									<td style="text-align:center;">unknown</td>
+								</tr>
+								<tr onclick="resetform();document.form1.jumpmenu.selectedIndex = 14; jumpto(document.form1.jumpmenu.options[14].value)" style="cursor:pointer;">
+									<td><b><?php echo  __( 'Custom' , 'easyReservations' ); ?></b><br><i><?php echo  __( 'Custom field, area, select, radio or checkbox' , 'easyReservations' ); ?></i></td>
+									<td><code class="codecolor">[custom]</code></td>
+									<td style="text-align:center;"></td>
+								</tr>
+								<tr onclick="resetform();document.form1.jumpmenu.selectedIndex = 15; jumpto(document.form1.jumpmenu.options[15].value)" style="cursor:pointer;">
+									<td><b><?php echo  __( 'Price' , 'easyReservations' ); ?></b><br><i><?php echo  __( 'Custom select, radio or checkbox with effect on price' , 'easyReservations' ); ?></i></td>
+									<td><code class="codecolor">[price]</code></td>
+									<td style="text-align:center;"></td>
+								</tr>
+								<tr onclick="resetform();document.form1.jumpmenu.selectedIndex = 16; jumpto(document.form1.jumpmenu.options[16].value)" style="cursor:pointer;">
+									<td><b><?php echo  __( 'Hidden' , 'easyReservations' ); ?></b><br><i><?php echo  __( 'Fix &amp; hide resource, arrival, departure, persons or childs' , 'easyReservations' ); ?></i></td>
+									<td><code class="codecolor">[hidden]</code></td>
+									<td style="text-align:center;"></td>
+								</tr>
+								<tr onclick="resetform();document.form1.jumpmenu.selectedIndex = 17; jumpto(document.form1.jumpmenu.options[17].value)" style="cursor:pointer;">
+									<td><b><?php echo  __( 'Captcha' , 'easyReservations' ); ?></b><br><i><?php echo  __( 'Text field and captcha image' , 'easyReservations' ); ?></i></td>
+									<td><code class="codecolor">[captcha]</code></td>
+									<td style="text-align:center;"></td>
+								</tr>
+								<tr onclick="resetform();document.form1.jumpmenu.selectedIndex = 18; jumpto(document.form1.jumpmenu.options[18].value)" style="cursor:pointer;">
+									<td><b><?php echo  __( 'Display price' , 'easyReservations' ); ?></b><br><i><?php echo  __( 'Box with live price calculation' , 'easyReservations' ); ?></i></td>
+									<td><code class="codecolor">[show_price]</code></td>
+									<td style="text-align:center;"></td>
+								</tr>
+								<tr onclick="resetform();document.form1.jumpmenu.selectedIndex = 19; jumpto(document.form1.jumpmenu.options[19].value)" style="cursor:pointer;">
+									<td><b><?php echo  __( 'Display Errors' , 'easyReservations' ); ?></b><br><i><?php echo  __( 'Box with errors' , 'easyReservations' ); ?></i></td>
+									<td><code class="codecolor">[error]</code></td>
+									<td style="text-align:center;"></td>
+								</tr>
+								<tr onclick="resetform();document.form1.jumpmenu.selectedIndex = 20; jumpto(document.form1.jumpmenu.options[20].value)" style="cursor:pointer;">
+									<td><b><?php echo  __( 'Submit' , 'easyReservations' ); ?></b><br><i><?php echo  __( 'Submit button with definable text' , 'easyReservations' ); ?></i></td>
+									<td><code class="codecolor">[submit]</code></td>
+									<td style="text-align:center;">&#10008;</td>
+								</tr>
+								<tr>
+									<td colspan="3" style="text-align:center;">&#10132; = <b>alternative</b> &#10008; = <b>required</b></td>
+								</tr>
+							</tbody>
+						</table>
 						<?php
 							$couerrors=0;
 							$gute=0;
@@ -711,36 +836,26 @@ function resteText() {
 							$formerror ='';
 							if(preg_match('/\[date-from/', $reservations_form)) $gute++; else {
 								$couerrors++; $formerror .= '<b>'.$couerrors.'.</b> '.__( 'No' , 'easyReservations' ).' <code class="codecolor">[date-from]</code> '.__( 'Tag in Form' , 'easyReservations' ).'<br>';}
-							if(preg_match('/\[date-to/', $reservations_form) OR preg_match('/\[nights/', $reservations_form)) $gute++; else {
-								$couerrors++; $formerror .= '<b>'.$couerrors.'.</b> '.__( 'No' , 'easyReservations' ).' <code class="codecolor">[date-to]</code> '.__( 'or' , 'easyReservations' ).' <code class="codecolor">[nights x]</code> '.__( 'Tag in Form' , 'easyReservations' ).'<br>'; }
-							if(preg_match('/\[date-to/', $reservations_form) && preg_match('/\[nights/', $reservations_form)){
-								$couerrors++; $formerror .= '<b>'.$couerrors.'.</b> '.__( 'Dont use' , 'easyReservations' ).' <code class="codecolor">[date-to]</code> '.__( 'and' , 'easyReservations' ).' <code class="codecolor">[nights x]</code> '.__( 'in the same Form' , 'easyReservations' ).'<br>'; } else $gute++; 
-							if(preg_match('/\[rooms/', $reservations_form) OR preg_match('/\[hidden room/', $reservations_form)) $gute++; else {
-								$couerrors++; $formerror .= '<b>'.$couerrors.'.</b> '.__( 'No' , 'easyReservations' ).' <code class="codecolor">[rooms]</code> '.__( 'or' , 'easyReservations' ).' <code class="codecolor">[hidden room roomID]</code> '.__( 'Tag in Form' , 'easyReservations' ).'<br>'; }
-							if(preg_match('/\[rooms/', $reservations_form) && preg_match('/\[hidden room/', $reservations_form)){
-								$couerrors++; $formerror .= '<b>'.$couerrors.'.</b> '.__( 'Dont use' , 'easyReservations' ).' <code class="codecolor">[rooms]</code> '.__( 'and' , 'easyReservations' ).' <code class="codecolor">[hidden room roomID]</code> '.__( 'in the same Form' , 'easyReservations' ).'<br>'; } else $gute++; 
-							if(preg_match('/\[offers select/', $reservations_form) OR preg_match('/\[offers box]/', $reservations_form) OR preg_match('/\[hidden offer/', $reservations_form)) $gute++; else {
-								$couerrors++; $formerror .= '<b>'.$couerrors.'.</b> '.__( 'No' , 'easyReservations' ).' <code class="codecolor">[offers select]</code>, <code class="codecolor">[offers box]</code> '.__( 'or' , 'easyReservations' ).' <code class="codecolor">[hidden offer offerID]</code> '.__( 'Tag in Form' , 'easyReservations' ).'<br>'; }
-							if(preg_match('/\[offers box]/', $reservations_form) && preg_match('/\[hidden offer/', $reservations_form)){
-								$couerrors++; $formerror .= '<b>'.$couerrors.'.</b> '.__( 'Dont use' , 'easyReservations' ).' <code class="codecolor">[offers box]</code> '.__( 'and' , 'easyReservations' ).' <code class="codecolor">[hidden offer offerID]</code> '.__( 'in the same Form' , 'easyReservations' ).'<br>'; } else $gute++; 
-							if(preg_match('/\[offers selec/', $reservations_form) && preg_match('/\[hidden offer/', $reservations_form)){
-								$couerrors++; $formerror .= '<b>'.$couerrors.'.</b> '.__( 'Dont use' , 'easyReservations' ).' <code class="codecolor">[offers select]</code> '.__( 'and' , 'easyReservations' ).' <code class="codecolor">[hidden offer offerID]</code> '.__( 'in the same Form' , 'easyReservations' ).'<br>'; } else $gute++; 
-							if(preg_match('/\[offers select/', $reservations_form) && preg_match('/\[offers box/', $reservations_form)){
-								$couerrors++; $formerror .= '<b>'.$couerrors.'.</b> '.__( 'Dont use' , 'easyReservations' ).' <code class="codecolor">[offers select]</code> '.__( 'and' , 'easyReservations' ).' <code class="codecolor">[offers box]</code> '.__( 'in the same Form' , 'easyReservations' ).'<br>'; } else $gute++; 
+							if(preg_match('/\[date-to/', $reservations_form) OR preg_match('/\[units/', $reservations_form)) $gute++; else {
+								$couerrors++; $formerror .= '<b>'.$couerrors.'.</b> '.__( 'No' , 'easyReservations' ).' <code class="codecolor">[date-to]</code> '.__( 'or' , 'easyReservations' ).' <code class="codecolor">[units]</code> '.__( 'Tag in Form' , 'easyReservations' ).'<br>'; }
+							if(preg_match('/\[date-to/', $reservations_form) && preg_match('/\[units/', $reservations_form)){
+								$couerrors++; $formerror .= '<b>'.$couerrors.'.</b> '.__( 'Dont use' , 'easyReservations' ).' <code class="codecolor">[date-to]</code> '.__( 'and' , 'easyReservations' ).' <code class="codecolor">[units]</code> '.__( 'in the same Form' , 'easyReservations' ).'<br>'; } else $gute++; 
+							if(preg_match('/\[resources/', $reservations_form) || preg_match('/\[hidden resource/', $reservations_form)) $gute++; else {
+								$couerrors++; $formerror .= '<b>'.$couerrors.'.</b> '.__( 'No' , 'easyReservations' ).' <code class="codecolor">[resources]</code> '.__( 'or' , 'easyReservations' ).' <code class="codecolor">[hidden resource resourceID]</code> '.__( 'Tag in Form' , 'easyReservations' ).'<br>'; }
+							if(preg_match('/\[resources/', $reservations_form) && preg_match('/\[hidden resource/', $reservations_form)){
+								$couerrors++; $formerror .= '<b>'.$couerrors.'.</b> '.__( 'Dont use' , 'easyReservations' ).' <code class="codecolor">[resources]</code> '.__( 'and' , 'easyReservations' ).' <code class="codecolor">[hidden resources resourceID]</code> '.__( 'in the same Form' , 'easyReservations' ).'<br>'; } else $gute++; 
 							if(preg_match('/\[email/', $reservations_form)) $gute++; else {
 								$couerrors++; $formerror .= '<b>'.$couerrors.'.</b> '.__( 'No' , 'easyReservations' ).' <code class="codecolor">[email]</code> '.__( 'Tag in Form' , 'easyReservations' ).'<br>'; }
 							if(preg_match('/\[thename/', $reservations_form)) $gute++; else {
 								$couerrors++; $formerror .= '<b>'.$couerrors.'.</b> '.__( 'No' , 'easyReservations' ).' <code class="codecolor">[thename]</code> '.__( 'Tag in Form' , 'easyReservations' ).'<br>'; }
-							if(preg_match('/\[adults/', $reservations_form)) $gute++; else {
-								$couerrors++; $formerror .= '<b>'.$couerrors.'.</b> '.__( 'No' , 'easyReservations' ).' <code class="codecolor">[adults x]</code> '.__( 'Tag in Form' , 'easyReservations' ).'<br>'; }
 							if(preg_match('/\[submit/', $reservations_form)) $gute++; else {
 								$couerrors++; $formerror .= '<b>'.$couerrors.'.</b> '.__( 'No' , 'easyReservations' ).' <code class="codecolor">[submit x]</code> '.__( 'Tag in Form' , 'easyReservations' ).'<br>'; }
 							$coutall=$gute+$couerrors;
 							if($couerrors > 0){ ?>
-							<div class="explainbox" style="background:#FCEAEA; border-color:#FF4242;box-shadow: 0 0 2px #F99F9F;">
+							<div class="explainbox" style="background:#FCEAEA; border-color:#FF4242;box-shadow: 0 0 2px #F99F9F;margin-top:5px">
 								<?php echo __( 'This form is not valid' , 'easyReservations' ).' '.$gute.'/'.$coutall.' P.<br>'; echo $formerror; ?>
 							</div><?php } else { ?>
-							<div class="explainbox" style="background:#E8F9E8; border-color:#68FF42;box-shadow: 0 0 2px #9EF7A1;">
+							<div class="explainbox" style="background:#E8F9E8; border-color:#68FF42;box-shadow: 0 0 2px #9EF7A1;margin-top:5px">
 								<?php echo __( 'This form is valid' , 'easyReservations' ).' '.$gute.'/'.$coutall.' P.<br>'; echo $formgood; ?>
 							</div><?php } ?>
 					</td>
@@ -820,9 +935,9 @@ function resteText() {
 		if(checkd && checkd.checked != false )  tag += ' checked="checked"';
 		if(error_title && error_title.value != '')  tag += ' error_title="'+error_title.value+'"';
 		if(error_message && error_message.value != '')  tag += ' error_message="'+error_message.value+'"';
-		if(price1 && price1.checked != false && price2.checked != false)  tag += 'pb';
-		else if(price1 && price1.checked != false) tag += 'pp';
-		else if(price2 && price2.checked != false) tag += 'pn';
+		if(price1 && price1.checked != false && price2.checked != false)  tag += ' pb';
+			else if(price1 && price1.checked != false) tag += ' pp';
+				else if(price2 && price2.checked != false) tag += ' pn';
 
 		tag += ']';
 		var textareaelem = document.getElementById("reservations_formvalue");
@@ -853,29 +968,30 @@ function resteText() {
 		thetext3 = false;
 		thetext4 = false;
 	}
-	
+
 	function addformsettings(typ){
-		
 		//var Settings = 'value style title  maxlength';
 		var Settings = '';
 		if(typ == 'date-from' || typ == 'date-to' ){
-			Settings += 'Value: <input type="text" id="form-value" class="datepicker" style="width:80px" value="+15"> ';
+			Settings += '<?php echo __( 'Value' , 'easyReservations' ); ?>: <input type="text" id="form-value" class="datepicker" style="width:80px" value="+15"> ';
+		} else if(typ == 'date-from-hour' || typ == 'date-to-hour' ){
+			Settings += '<?php echo __( 'Selected' , 'easyReservations' ); ?>:  <select id="form-value"><?php echo easyReservations_num_options("00",23,12); ?></select>';
+		} else if(typ == 'date-from-min' || typ == 'date-to-min' ){
+			Settings += '<?php echo __( 'Selected' , 'easyReservations' ); ?>:  <select id="form-value"><?php echo easyReservations_num_options("00",59); ?></select>';
 		} else if(typ == 'email' || typ == 'message' || typ == 'thename'  || typ == 'input' || typ == 'captcha' || typ == 'submit'){
-			Settings += 'Value: <input type="text" id="form-value" style="width:80px"> ';
+			Settings += '<?php echo __( 'Value' , 'easyReservations' ); ?>: <input type="text" id="form-value" style="width:80px"> ';
 		} else if( typ == "country" ){
-			Settings += 'Selected: <select id="form-value" style="width:100px"><?php echo easyReservations_country_select(); ?></select> ';
+			Settings += '<?php echo __( 'Selected' , 'easyReservations' ); ?>: <select id="form-value" style="width:100px"><?php echo easyReservations_country_select(); ?></select> ';
 		} else if( typ == "rooms" ){
-			Settings += 'Selected: <select id="form-value" style="width:100px"><?php echo $roomsoptions; ?></select> ';
-		} else if( typ == "offers" ){
-			Settings += 'Selected: <select id="form-value" style="width:100px"><?php echo $offeroptions; ?></select> ';
+			Settings += '<?php echo __( 'Selected' , 'easyReservations' ); ?>: <select id="form-value" style="width:100px"><?php echo $roomsoptions; ?></select> ';
 		} else if( typ == "amount" ){
-			Settings += 'Selected: <select id="form-value"><?php echo easyReservations_num_options(1,100,50); ?></select> ';
+			Settings += '<?php echo __( 'Selected' , 'easyReservations' ); ?>: <select id="form-value"><?php echo easyReservations_num_options(1,100,50); ?></select> ';
 		}
 
 		if(typ == 'date-from' || typ == 'date-to' || typ == 'email' || typ == 'message' || typ == 'thename' || typ == 'input'){
 			Settings += 'Maxlength: <select id="form-maxlength"><?php echo easyReservations_num_options(1,100,50); ?></select> ';
 		}
-		
+
 		Settings += 'Style: <input type="text" id="form-style"> ';
 		Settings += 'Title: <input type="text" id="form-title"> ';
 		if(typ != 'error' && typ != 'show_price') Settings += '<input type="checkbox" id="form-disabled"> Disabled ';
@@ -920,38 +1036,32 @@ function jumpto(x){ // Chained inputs;
 			end = 1;
 			thetext1 = true;
 			document.form1.jumpmenu.disabled=true;
-		} else if (x == "date-from" || x == "date-to" || x == "email" || x == "rooms" || x == "message" || x == "thename" || x == "country" || x == 'captcha' || x == 'submit'){
+		} else if(x == "date-from" || x == "date-to" || x == "date-from-hour" || x == "date-to-hour" || x == "date-from-min" || x == "date-to-min" || x == "email" || x == "thename" || x == "country" || x == 'captcha' || x == 'submit'){
 			addformsettings(x);
 			end = 1;
 			thetext1 = true;
 			document.form1.jumpmenu.disabled=true;
+		} else if(x == "rooms"){
+			addformsettings(x);
+			end = 1;
+			thetext1 = true;
+			document.form1.jumpmenu.disabled=true;
+			var Output  = '&nbsp;<?php echo __( 'Exclude by ID' , 'easyReservations' ); ?> <input type="text" name="exclude" id="easy-other" value=""> ';
+			document.getElementById("Text").innerHTML += Output;
 		} else if(x == "show_price") {
 			addformsettings(x);
 			end = 1;
 			thetext1 = true;
 			document.form1.jumpmenu.disabled=true;
-			var Output  = '<input type="text" name="before" id="easy-other" value="Price:">';
+			var Output  = '<?php echo __( 'Exclude by ID' , 'easyReservations' ); ?> <input type="text" name="before" id="easy-other" value="Price:">';
 			document.getElementById("Text").innerHTML += Output;
-		} else if(x == "adults" || x == "childs"){
+		} else if(x == "adults" || x == "childs" || x == "units"){
 			end = 1;
-			if(document.getElementById("jumpmenu").value=="adults"){
-				var Output  = '&nbsp;<b><?php echo __( 'Min' , 'easyReservations' ); ?>:</b> <select name="zwei" id="zwei"><?php echo easyReservations_num_options(1,100,1); ?></select> <b><?php echo __( 'Max' , 'easyReservations' ); ?>:</b> <select name="drei" id="drei"><?php echo easyReservations_num_options(1,100,10); ?></select>';
-				document.getElementById("Text2").innerHTML += Output;
-
-				var Help = '<div class="explainbox"><b>1. <?php echo __( 'Select minimum and maximum number of adults to select' , 'easyReservations' ); ?></b></div><br>';
-				document.getElementById("Helper").innerHTML = Help;
-			} else {
-				var Output  = '&nbsp;<b><?php echo __( 'Min' , 'easyReservations' ); ?>:</b> <select name="zwei" id="zwei"><?php echo easyReservations_num_options(0,100,0); ?></select> <b><?php echo __( 'Max' , 'easyReservations' ); ?>:</b> <select name="drei" id="drei"><?php echo easyReservations_num_options(0,100,10); ?></select>';
-				document.getElementById("Text2").innerHTML += Output;
-
-				var Help = '<div class="explainbox"><b>1. <?php echo __( 'Select minimum and maximum number of childrens to select' , 'easyReservations' ); ?></b></div><br>';
-				document.getElementById("Helper").innerHTML = Help;
-			}
+			var Output  = '&nbsp;<b><?php echo __( 'Min' , 'easyReservations' ); ?>:</b> <select name="zwei" id="zwei"><?php echo easyReservations_num_options(0,100,0); ?></select> <b><?php echo __( 'Max' , 'easyReservations' ); ?>:</b> <select name="drei" id="drei"><?php echo easyReservations_num_options(0,100,10); ?></select>';
+			document.getElementById("Text2").innerHTML += Output;
 			addformsettings('amount');
-
 			thetext1 = true;
 			document.form1.jumpmenu.disabled=true;
-
 		} else if (x == "submit"){
 
 			var Output  = '<input type="text" name="eins" id="eins" value="Name">';
@@ -962,45 +1072,25 @@ function jumpto(x){ // Chained inputs;
 			document.getElementById("Helper").innerHTML = Help;
 
 			document.form1.jumpmenu.disabled=true;
-			var Output  = '<a href="javascript:easy_add_form_tag()" class="easySubmitButton-primary" style="margin-top:4px" style="line-height:1;margin:2px 2px 0px 2px"><b><?php echo __( 'Add' , 'easyReservations' ); ?></b></a>';
+			var Output  = '<a href="javascript:easy_add_form_tag()" class="easySubmitButton-primary" style="margin-top:2px" style="line-height:1;margin:2px 2px 0px 2px"><b><?php echo __( 'Add' , 'easyReservations' ); ?></b></a>';
 
 		} else if (x == "hidden") {
-
 			var Output  = '<select id="eins" name="eins" onChange="jumpto(document.form1.eins.options[document.form1.eins.options.selectedIndex].value)">';
-			Output += '<option>Type</option><option value="room"><?php echo __( 'room' , 'easyReservations' ); ?></option><option value="offer"><?php echo __( 'Offer' , 'easyReservations' ); ?></option><option value="from"><?php echo __( 'Arrival date' , 'easyReservations' ); ?></option><option value="to"><?php echo __( 'Departure date' , 'easyReservations' ); ?></option><option value="persons"><?php echo __( 'Persons' , 'easyReservations' ); ?></option><option value="childs"><?php echo __( 'Childrens' , 'easyReservations' ); ?></option></select>';
+			Output += '<option>Type</option><option value="room"><?php echo __( 'Resource' , 'easyReservations' ); ?></option><option value="from"><?php echo __( 'Arrival date' , 'easyReservations' ); ?></option><option value="to"><?php echo __( 'Departure date' , 'easyReservations' ); ?></option><option value="units"><?php echo __( 'Units' , 'easyReservations' ); ?></option><option value="persons"><?php echo __( 'Persons' , 'easyReservations' ); ?></option><option value="childs"><?php echo __( 'Childrens' , 'easyReservations' ); ?></option></select>';
 			document.getElementById("Text").innerHTML += Output;
 
 			var Help = '<div class="explainbox"><b>1. <?php echo __( 'Select type of hidden input' , 'easyReservations' ); ?></b>';
 			Help += '<br> &emsp; <i><?php echo __( 'for fixing informations to the form & hide it from guest' , 'easyReservations' ); ?></i>';
-			Help += '<br> &emsp; <i><b>Room</b> <?php echo __( 'Fix a room to the form; dont use it with [rooms] in the same form' , 'easyReservations' ); ?></i>';
-			Help += '<br> &emsp; <i><b>Offer</b> <?php echo __( 'Fix an offer to the form; dont use it with [offers] in the same form' , 'easyReservations' ); ?></i>';
-			Help += '<br> &emsp; <i><b>Arrival Date</b> <?php echo __( 'Fix an arrival date to the form; dont use it with [date-from] in the same form' , 'easyReservations' ); ?></i>';
-			Help += '<br> &emsp; <i><b>Departure Date</b> <?php echo __( 'Fix a departure date to the form; dont use it with [date-to] in the same form' , 'easyReservations' ); ?></i>';
-			Help += '<br> &emsp; <i><b>Persons</b> <?php echo __( 'Fix an amount of persons to the form; dont use it with [adults] in the same form' , 'easyReservations' ); ?></i>';
-			Help += '<br> &emsp; <i><b>Childrens</b> <?php echo __( 'Fix an amount of childrens to the form; dont use it with [childs] in the same form' , 'easyReservations' ); ?></i></div><br>';
+			Help += '<br> &emsp; <i><b><?php echo __( 'Resource' , 'easyReservations' ); ?></b> <?php echo __( 'Fix a resource to the form; dont use it with [resources] in the same form' , 'easyReservations' ); ?></i>';
+			Help += '<br> &emsp; <i><b><?php echo __( 'Arrival Date' , 'easyReservations' ); ?></b> <?php echo __( 'Fix an arrival date to the form; dont use it with [date-from] in the same form' , 'easyReservations' ); ?></i>';
+			Help += '<br> &emsp; <i><b><?php echo __( 'Departure Date' , 'easyReservations' ); ?></b> <?php echo __( 'Fix a departure date to the form; dont use it with [date-to] in the same form' , 'easyReservations' ); ?></i>';
+			Help += '<br> &emsp; <i><b><?php echo __( 'Units' , 'easyReservations' ); ?></b> <?php echo __( 'Fix units to the form; dont use it with [date-to] or [units] in the same form' , 'easyReservations' ); ?></i>';
+			Help += '<br> &emsp; <i><b><?php echo __( 'Adults' , 'easyReservations' ); ?></b> <?php echo __( 'Fix an amount of adults to the form; dont use it with [adults] in the same form' , 'easyReservations' ); ?></i>';
+			Help += '<br> &emsp; <i><b><?php echo __( 'Childrens' , 'easyReservations' ); ?></b> <?php echo __( 'Fix an amount of childrens to the form; dont use it with [childs] in the same form' , 'easyReservations' ); ?></i></div><br>';
 			document.getElementById("Helper").innerHTML = Help;
 
 			thetext1 = true;
 			document.form1.jumpmenu.disabled=true;
-
-		} else if (x == "offers") {
-
-			var Output  = '<select id="eins" name="eins">';
-			Output += '<option value="select">Select</option><option value="box">Box</option></select>';
-			document.getElementById("Text").innerHTML += Output;
-
-			addformsettings('offers');
-			thetext1 = true;
-			document.form1.jumpmenu.disabled=true;
-
-			var Help = '<div class="explainbox"><b><?php echo __( 'Select type of offer' , 'easyReservations' ); ?></b>';
-				Help += '<br> &emsp; <i><b>Select</b> <?php echo __( 'A drop-down select of all offers' , 'easyReservations' ); ?></i>';
-				Help += '<br> &emsp; <i><b>Box</b> <?php echo __( 'A box as prompt, if the guest was redirected by an offer post' , 'easyReservations' ); ?></i></div><br>';
-			document.getElementById("Helper").innerHTML = Help;
-
-			var Output  = '<a href="javascript:easy_add_form_tag()" class="easySubmitButton-primary" style="margin-top:4px" style="line-height:1;margin:2px 2px 0px 2px"><b><?php echo __( 'Add' , 'easyReservations' ); ?></b></a>';
-			document.getElementById("Text4").innerHTML += Output;
-
 		}
 	} else if(thetext2 == false){
 		if (x == "textarea" || x == "text" || x == "check"){
@@ -1051,17 +1141,7 @@ function jumpto(x){ // Chained inputs;
 			var Output  = '<select id="zwei" name="zwei"><?php echo $roomsoptions; ?></select>';
 			document.getElementById("Text2").innerHTML += Output;
 
-			var Help = '<div class="explainbox"><b>1. <?php echo __( 'Select a room' , 'easyReservations' ); ?></b></div><br>';
-			document.getElementById("Helper").innerHTML = Help;
-
-			thetext2 = true;
-			document.form1.eins.disabled=true;
-		} else if (x == "offer") {
-			end = 1;
-			var Output  = '<select id="zwei" name="zwei"><option value="0"><?php echo __( 'None' , 'easyReservations' ); ?></option><?php echo $offeroptions; ?></select>';
-			document.getElementById("Text2").innerHTML += Output;
-
-			var Help = '<div class="explainbox"><b>1. <?php echo __( 'Select an Offer' , 'easyReservations' ); ?></b></div><br>';
+			var Help = '<div class="explainbox"><b>1. <?php echo __( 'Select a resource' , 'easyReservations' ); ?></b></div><br>';
 			document.getElementById("Helper").innerHTML = Help;
 
 			thetext2 = true;
@@ -1098,6 +1178,16 @@ function jumpto(x){ // Chained inputs;
 
 			thetext2 = true;
 			document.form1.eins.disabled=true;
+		} else if (x == "units") {
+			end = 1;
+			var Output  = '<select name="zwei" id="zwei"><?php echo easyReservations_num_options(0,100,0); ?></select>';
+			document.getElementById("Text3").innerHTML += Output;
+
+			var Help = '<div class="explainbox" style="font-weight:bold"><?php echo __( 'Select the amount of units  you want to fix' , 'easyReservations' ); ?></div><br>';
+			document.getElementById("Helper").innerHTML = Help;
+
+			thetext2 = true;
+			document.form1.eins.disabled=true;
 		}
 	} else if(thetext3 == false){
 		if (x == "Name") {
@@ -1112,7 +1202,7 @@ function jumpto(x){ // Chained inputs;
 	}
 
 	if (end == 1) {
-		var Output  = '<a href="javascript:easy_add_form_tag()" class="easySubmitButton-primary" style="margin-top:4px" style="line-height:1;margin:2px 2px 0px 2px"><b><?php echo __( 'Add' , 'easyReservations' ); ?></b></a>';
+		var Output  = '<a href="javascript:easy_add_form_tag()" class="easySubmitButton-primary" style="margin-top:2px" style="line-height:1;margin:2px 2px 0px 2px"><b><?php echo __( 'Add' , 'easyReservations' ); ?></b></a>';
 		document.getElementById("Text4").innerHTML += Output;
 	}
 }
@@ -1132,30 +1222,30 @@ function easy_price_checks(){
 
 $emailstandart0="[adminmessage]<br><br>
 Reservation Details:<br>
-ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrivaldate] <br>To: [departuredate] <br>Persons: [adults] <br>Childs: [childs] <br>Room: [rooms] <br>Room Number: [roomnumber] <br>Offer: [offers] <br>Message: [note]<br>Price: [price]<br>[customs]<br>edit your reservation on [editlink]";
+ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrival] <br>To: [departure] <br>Persons: [adults] <br>Childs: [childs] <br>Resource: [resource] <br>Resource Number: [resourcenumber]<br>>Price: [price]<br>[customs]<br>edit your reservation on [editlink]";
 $emailstandart1="New Reservation on Blogname from<br>
-ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrivaldate] <br>To: [departuredate] <br>Persons: [adults] <br>Childs: [childs] <br>Room: [rooms] <br>Offer: [offers] <br>Message: [note]<br>Price: [price]<br>[customs]";
+ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrival] <br>To: [departure] <br>Persons: [adults] <br>Childs: [childs] <br>Resource: [resource]<br>Price: [price]<br>[customs]";
 $emailstandart2="Your Reservation on Blogname has been approved.<br>
 [adminmessage]<br><br>
 Reservation Details:<br>
-ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrivaldate] <br>To: [departuredate] <br>Persons: [adults] <br>Childs: [childs] <br>Room: [rooms] <br>Room Number: [roomnumber] <br>Offer: [offers] <br>Message: [note]<br>Price: [price]<br>[customs]<br>edit your reservation on [editlink]";
+ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrival] <br>To: [departure] <br>Persons: [adults] <br>Childs: [childs] <br>Resource: [resource] <br>Resource Number: [resourcenumber]<br>Price: [price]<br>[customs]<br>edit your reservation on [editlink]";
 $emailstandart3="Your Reservation on Blogname has been rejected.<br>
 [adminmessage]<br> <br>
 Reservation Details:<br>
-ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrivaldate] <br>To: [departuredate] <br>Persons: [adults] <br>Childs: [childs] <br>Room: [rooms] <br>Offer: [offers] <br>Message: [note]<br>Price: [price]<br>[customs]<br>edit your reservation on [editlink]";
+ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrival] <br>To: [departure] <br>Persons: [adults] <br>Childs: [childs] <br>Resource: [resource]<br><br>Price: [price]<br>[customs]<br>edit your reservation on [editlink]";
 $emailstandart4="We've got your reservaion and treat it as soon as possible.<br><br>
 Reservation Details:<br>
-ID: [ID]<br>>Name: [thename] <br>eMail: [email] <br>From: [arrivaldate] <br>To: [departuredate] <br>Persons: [adults] <br>Childs: [childs] <br>Room: [rooms] <br>Offer: [offers] <br>Message: [note]<br>Price: [price]<br>[customs]<br><br>edit your reservation on [editlink]";
+ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrival] <br>To: [departure] <br>Persons: [adults] <br>Childs: [childs] <br>Resource: [resource]<br>Resource Number: [resourcenumber]<br>Price: [price]<br>[customs]<br><br>edit your reservation on [editlink]";
 $emailstandart5="Your reservation got edited from you. If this wasnt you, please contact us through this email address.<br><br>
 New Reservation Details:<br>
-ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrivaldate] <br>To: [departuredate] <br>Persons: [adults] <br>Childs: [childs] <br>Room: [rooms] <br>Room Number: [roomnumber] <br>Offer: [offers] <br>Message: [note]<br>Price: [price]<br>[customs]<br><br>edit your reservation on [editlink]<br><br>[changelog]";
+ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrival] <br>To: [departure] <br>Persons: [adults] <br>Childs: [childs] <br>Resource: [resource] <br>Resource Number: [resourcenumber]<br>Price: [price]<br>[customs]<br><br>edit your reservation on [editlink]<br><br>[changelog]";
 $emailstandart6="Reservation got edited by Guest.<br><br>
 New Reservation Details:<br>
-ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrivaldate] <br>To: [departuredate] <br>Persons: [adults] <br>Childs: [childs] <br>Room: [rooms] <br>Room Number: [roomnumber] <br>Offer: [offers] <br>Message: [note]<br>Price: [price]<br>[customs]<br><br>[changelog]";
+ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrival] <br>To: [departure] <br>Persons: [adults] <br>Childs: [childs] <br>Resource: [resource] <br>Resource Number: [resourcenumber]<br>Price: [price]<br>[customs]<br><br>[changelog]";
 $emailstandart7="Your reservation got edited by admin.<br><br>
 [adminmessage]<br>
 New Reservation Details:<br>
-ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrivaldate] <br>To: [departuredate] <br>Persons: [adults] <br>Childs: [childs] <br>Room: [rooms] <br>Room Number: [roomnumber] <br>Offer: [offers] <br>Message: [note]<br>Price: [price]<br>[customs]<br><br>edit your reservation on [editlink]<br><br>[changelog]";
+ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrival] <br>To: [departure] <br>Persons: [adults] <br>Childs: [childs] <br>Resource: [resource] <br>Resource Number: [resourcenumber]<br>Price: [price]<br>[customs]<br><br>edit your reservation on [editlink]<br><br>[changelog]";
 ?>
 	<form method="post" action="admin.php?page=reservation-settings&site=email"  id="reservations_email_settings" name="reservations_email_settings">
 		<input type="hidden" name="action" value="reservations_email_settings"/>
@@ -1328,17 +1418,15 @@ ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrivaldate] <br>To: [
 							<p><code class="codecolor">[ID]</code> <i><?php printf ( __( 'ID' , 'easyReservations' ));?></i></p>
 							<p><code class="codecolor">[thename]</code> <i><?php printf ( __( 'name' , 'easyReservations' ));?></i></p>
 							<p><code class="codecolor">[email]</code> <i><?php printf ( __( 'email' , 'easyReservations' ));?></i></p>
-							<p><code class="codecolor">[arrivaldate]</code> <i><?php printf ( __( 'arrival date' , 'easyReservations' ));?></i></p>								
-							<p><code class="codecolor">[departuredate]</code> <i><?php printf ( __( 'departure date' , 'easyReservations' ));?></i></p>
-							<p><code class="codecolor">[nights]</code> <i><?php printf ( __( 'nights to stay' , 'easyReservations' ));?></i></p>
-							<p><code class="codecolor">[reserved]</code> <i><?php printf ( __( 'show days from date of reservation' , 'easyReservations' ));?></i></p>
-							<p><code class="codecolor">[adults]</code> <i><?php printf ( __( 'number of adults' , 'easyReservations' ));?></i></p>
-							<p><code class="codecolor">[childs]</code> <i><?php printf ( __( 'number of childs' , 'easyReservations' ));?></i></p>
+							<p><code class="codecolor">[arrival]</code> <i><?php printf ( __( 'arrival date' , 'easyReservations' ));?></i></p>								
+							<p><code class="codecolor">[departure]</code> <i><?php printf ( __( 'departure date' , 'easyReservations' ));?></i></p>
+							<p><code class="codecolor">[units]</code> <i><?php echo __( 'amount of', 'easyReservations' ).' '.easyreservations_interval_infos();?></i></p>
+							<p><code class="codecolor">[reserved]</code> <i><?php printf( __( 'amount of %s from date of reservation' , 'easyReservations' ), easyreservations_interval_infos());?></i></p>
+							<p><code class="codecolor">[adults]</code> <i><?php printf ( __( 'amount of adults' , 'easyReservations' ));?></i></p>
+							<p><code class="codecolor">[childs]</code> <i><?php printf ( __( 'amount of childs' , 'easyReservations' ));?></i></p>
 							<p><code class="codecolor">[country]</code> <i><?php printf ( __( 'country of guest' , 'easyReservations' ));?></i></p>
-							<p><code class="codecolor">[rooms]</code> <i><?php printf ( __( 'choosen room' , 'easyReservations' ));?></i></p>
-							<p><code class="codecolor">[roomnumber]</code> <i><?php printf ( __( 'name of room number' , 'easyReservations' ));?></i></p>
-							<p><code class="codecolor">[offers]</code> <i><?php printf ( __( 'choosen offer' , 'easyReservations' ));?></i></p>
-							<p><code class="codecolor">[note]</code> <i><?php printf ( __( 'message from guest/admin note' , 'easyReservations' ));?></i></p>
+							<p><code class="codecolor">[resource]</code> <i><?php printf ( __( 'name of resource' , 'easyReservations' ));?></i></p>
+							<p><code class="codecolor">[resourcenumber]</code> <i><?php printf ( __( 'name of resource number' , 'easyReservations' ));?></i></p>
 							<p><code class="codecolor">[price]</code> <i><?php printf ( __( 'show price' , 'easyReservations' ));?></i></p>
 							<p><code class="codecolor">[paid]</code> <i><?php printf ( __( 'show paid amount' , 'easyReservations' ));?></i></p>
 							<p><code class="codecolor">[customs]</code> <i><?php printf ( __( 'custom fields' , 'easyReservations' ));?></i></p>
@@ -1379,36 +1467,30 @@ ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrivaldate] <br>To: [
 			</tbody>
 		</table>
 		</td><td style="width:1%;"></td><td style="width:39%;" style="width:49%;"  valign="top">
-		<table class="<?php echo RESERVATIONS_STYLE; ?>" >
-			<thead>
-				<tr>
-					<th style="width:100%;"> <?php printf ( __( 'Links' , 'easyReservations' ));?></th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<td style="width:100%;" align="center">
-						<div class="changebox">
-							<p>
-								<a href="http://www.feryaz.de/dokumentation/"><?php printf ( __( 'Documentation' , 'easyReservations' ));?></a>
-							</p>
-							<div class="fakehr"></div>
-							<p>
-								<a href="http://www.feryaz.de/suggestions/"><?php printf ( __( 'Suggest Ideas' , 'easyReservations' ));?></a>
-							</p>
-							<div class="fakehr"></div>
-							<p>
-								<a href="http://bugs.feryaz.de"><?php printf ( __( 'Report Bugs' , 'easyReservations' ));?></a>
-							</p>
-							<div class="fakehr"></div>
-							<p>
-								<a href="http://wordpress.org/extend/plugins/easyreservations/"><?php printf ( __( 'Wordpress Repository' , 'easyReservations' ));?></a>
-							</p>
-						<div>
-					</td>
-				</tr>	
-			</tbody>
-		</table><br>
+			<table class="<?php echo RESERVATIONS_STYLE; ?>" style="width:100%;margin-bottom:7px;" cellspacing="0" cellpadding="0" style="background:#fff;">
+				<thead>
+					<tr>
+						<th colspan="2"> <?php printf ( __( 'Status' , 'easyReservations' ));?></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td style="font-weight:bold;padding:10px;text-align:center"><span style="width:20%;display: inline-block">Version: 2.0</span><span style="width:30%;display: inline-block">Last update: 03.05.2012</span><span style="width:30%;display: inline-block">written by Feryaz Beer</span></td>
+					</tr>
+					<tr class="alternate" style="">
+						<td style="font-size:14px;text-align:center;font-weight:bold;padding:10px"><a href="http://easyreservations.org/knowledgebase/"><?php echo __( 'Documentation' , 'easyReservations' );?></a></td>
+					</tr>
+					<tr>
+						<td style="font-size:14px;text-align:center;font-weight:bold;padding:10px"><a href="http://easyreservations.org/forums/forum/general/"><?php echo __( 'Support forums' , 'easyReservations' );?></a></td>
+					</tr>
+					<tr class="alternate">
+						<td style="font-size:14px;text-align:center;font-weight:bold;padding:10px"><a href="http://easyreservations.org/module/"><?php echo __( 'Modules' , 'easyReservations' );?></a></td>
+					</tr>
+					<tr>
+						<td style="font-size:14px;text-align:center;font-weight:bold;padding:10px"><a href="http://wordpress.org/extend/plugins/easyreservations/"><?php echo __( 'Rate Plugin' , 'easyReservations' );?></a></td>
+					</tr>
+				</tbody>
+			</table>
 		<table class="<?php echo RESERVATIONS_STYLE; ?>">
 			<thead>
 				<tr>
@@ -1419,9 +1501,11 @@ ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrivaldate] <br>To: [
 				<tr>
 					<td style="width:100%;">
 						<?php // import rss feed
+						include_once(ABSPATH . WPINC . '/class-feed.php');
+
 						if(function_exists('fetch_feed')) {
 						// fetch feed items
-						$rss = fetch_feed('http://feryaz.de/wp-rss2.php');
+						$rss = fetch_feed('http://easyreservations.org/feed');
 						if(!is_wp_error($rss)) : // error check
 							$maxitems = $rss->get_item_quantity(5); // number of items
 							$rss_items = $rss->get_items(0, $maxitems);
@@ -1430,17 +1514,12 @@ ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrivaldate] <br>To: [
 						<dl>
 						<?php if($maxitems == 0) echo '<dt>Feed not available.</dt>'; // if empty
 						else foreach ($rss_items as $item) : ?>
-
 							<dt>
-								<a href="<?php echo $item->get_permalink(); ?>" 
-								title="<?php echo $item->get_date('j F Y @ g:i a'); ?>">
+								<a href="<?php echo $item->get_permalink(); ?>" title="<?php echo $item->get_date('j F Y @ g:i a'); ?>">
 								<?php echo $item->get_title(); ?>
-								</a>
+								</a> <i><?php echo substr($item->get_description(),0,  50); ?></i>
 							</dt>
-							<dd>
-								<?php echo $item->get_description(); ?>
-							</dd>
-
+							<dd></dd>
 						<?php endforeach; ?>
 						</dl>
 						<?php } ?>

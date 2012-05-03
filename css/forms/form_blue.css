@@ -52,6 +52,10 @@
 	text-align:right !important;
 	width:140px;
 }
+#easyFrontendFormular span.row {
+	display:inline-block;
+	min-width:200px;
+}
 #easyFrontendFormular input{
 	font-size:12px !important;
 	padding:4px 5px !important;

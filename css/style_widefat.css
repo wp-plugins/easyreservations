@@ -53,6 +53,7 @@
 	background-color: #F1F1F1;
 	background-image: -moz-linear-gradient(center top , #F9F9F9, #ECECEC);
 }
+
 ul.tabs a { 
 	float:left;
 	font-size:13px;
@@ -120,6 +121,29 @@ td.hover  { background: #C6C6C6; }
 .backgroundhighlight {
 	background:#DBD9D9;
 }
+.overview tbody tr td {
+	padding: 3px 1px 3px !important;
+	cursor: default;
+	text-align:center;
+	color:#fff;
+	border-style:none;
+	border-left: 1px dotted #9E9E9E !important;
+	border-bottom: 1px solid #9E9E9E !important;
+}
+.overview tbody tr td.ov-no-border {
+		border-left: 0px !important;
+}
+.overview tbody tr td.er_overview_cell  {
+	border-left: 0px !important;
+}
+.overview tbody tr td:first-of-type {
+	text-align:left;
+	border-left: 0px !important;
+
+}
+.overview tbody tr td:nth-of-type(2) {
+	border-left-style: solid !important;
+}
 
 .backgroundtoday {
 	background:#EDF0FF;
@@ -134,6 +158,11 @@ td.hover  { background: #C6C6C6; }
 	text-align: center; 
 	border-style:none;
 	border-left:1px solid #C3C3C3 !important;
+}
+.ov-days-hours {
+	background: #BFBFBF;
+	border-left: 1px dashed #000 !important;
+	border-top: 1px solid #000 !important;
 }
 .overviewFooter {
 	border-top:1px solid #DFDFDF !important;
@@ -255,14 +284,14 @@ td.hover  { background: #C6C6C6; }
 }
 /* TABLE IN WIDEFAT TABLE */
 .widefat tbody .little_table {
-	margin:none !important;
-	padding:none !important;
+	margin:0px !important;
+	padding:0px !important;
 	border-spacing:0 !important;
 	width:100%;
 }
 .widefat tbody .little_table thead {
-	margin:none !important;
-	padding:none !important;
+	margin:0px !important;
+	padding:0px !important;
 }
 .widefat tbody .little_table thead tr:first-child {
 	background-color:#E6E6E6 !important;
@@ -271,15 +300,15 @@ td.hover  { background: #C6C6C6; }
 .widefat tbody .little_table th {
 	border:none;
 	border-top: 1px solid #ccc;
-	margin:none !important;
+	margin:0px !important;
 	padding: 5px 7px 3px;
 	
 }
 .widefat tbody .little_table td {
 	border:none !important;
 	border-bottom: 1px solid #ccc;
-	margin:none !important;
-	padding:none !important;
+	margin:0px !important;
+	padding:0px !important;
 }
 .widefat .little_table tbody tr:nth-child(odd) {
 	background:#fff;

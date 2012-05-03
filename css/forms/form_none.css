@@ -40,6 +40,10 @@
 	text-align:right;
 	width:140px;
 }
+#easyFrontendFormular span.row {
+	display:inline-block;
+	min-width:200px;
+}
 #easyFrontendFormular .formblock {
 	font-family:Verdana, Arial, Helvetica, sans-serif;
 	width:60%;
@@ -47,6 +51,12 @@
 	margin:2px 0 10px 10px;
 	display:inline-block;
 }
+#easyFrontendFormular span input ~ input,
+#easyFrontendFormular span select ~ input,
+#easyFrontendFormular span input ~ select {
+	margin: 2px 1px 12px 1px;
+}
+
 #easyFrontendFormular textarea {
 	width: 160px;
 }
@@ -66,7 +76,8 @@
 	border: 1px solid #DDDDDD;
 	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1) inset;
 	color: #888888;
-	padding: 3px;
+	padding: 3px 3px 3px 0px;
+	height:25px;
 }
 
 #easyFrontendFormular select:focus,#easyFrontendFormular input[type=text]:focus {
@@ -256,6 +267,7 @@ label.easy-show-error + label.easy-show-error{
 	font-size:13px;
 	margin-right:auto;
 	text-align:center;
+	color: #727272;
 	padding: 5px 0px;
 	white-space:nowrap;
 }

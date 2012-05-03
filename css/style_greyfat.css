@@ -66,7 +66,7 @@ code p {
 	-webkit-border-bottom-left-radius: 0px;
 	border-bottom-left-radius: 0px;
 }
-.greyfat > tbody td:first-of-type {
+.greyfat > tbody > tr > td:first-of-type {
 	border-left: 1px solid #BABABA;
 }
 .greyfat > tbody td:last-of-type {
@@ -75,8 +75,7 @@ code p {
 .greyfat > thead {
 	border: 1px solid #BABABA;
 }
-
-.greyfat {
+table.greyfat  {
 	-moz-border-radius: 5px;
 	-khtml-border-radius: 5px;
 	-webkit-border-radius: 5px;
@@ -102,7 +101,6 @@ code p {
 	font-family: "Lucida Grande", "Lucida Sans Unicode", "Trebuchet MS", sans-serif;
 	color: #fff;
 	font-weight: normal;
-	shadow:none;
 	border:1px solid #575757 !important;
 }
 .greyfat .tmiddle {
@@ -154,7 +152,6 @@ code p {
 	font-family: "Lucida Grande", "Lucida Sans Unicode", "Trebuchet MS", sans-serif;
 	color: #fff;
 	font-weight: normal;
-	shadow:none;
 }
 .greyfat > tbody td {
 	text-align: left;
@@ -197,14 +194,14 @@ code p {
 	min-width:4px !important;
 }
 .greyfat tbody .little_table {
-	margin:none !important;
-	padding:none !important;
+	margin:0px !important;
+	padding:0px !important;
 	border-spacing:0 !important;
 	width:100%;
 }
 .greyfat tbody .little_table thead {
-	margin:none !important;
-	padding:none !important;
+	margin:0px !important;
+	padding:0px !important;
 }
 .greyfat tbody .little_table thead tr:first-child {
 	background-color:#E6E6E6 !important;
@@ -213,15 +210,15 @@ code p {
 .greyfat tbody .little_table th {
 	border:none;
 	border-top: 1px solid #ccc;
-	margin:none !important;
+	margin:0px !important;
 	padding: 5px 7px 3px;
 	
 }
 .greyfat tbody .little_table td {
 	border:none !important;
 	border-bottom: 1px solid #ccc;
-	margin:none !important;
-	padding:none !important;
+	margin:0px !important;
+	padding:2px !important;
 }
 .greyfat .little_table tbody tr:nth-child(odd) {
 	background:#fff;
@@ -234,7 +231,6 @@ input[type=text], select {
 	background-color:#fff !important;
 	padding:3px !important;
 }
-
 /* 
 
 	Settings Navigation
@@ -242,7 +238,7 @@ input[type=text], select {
 */
 .tabs-box {
 	-webkit-box-shadow: 0px 0px 2px #848484; /* webkit browser*/ -moz-box-shadow: 0px 0px 2px #848484; /* firefox */ box-shadow: 0px 0px 2px #848484;
-	width:99% !important;
+	widh:99% !important;
 	color: #fff;
 	height:40px;
 	border:0px solid #E9E9E9 !important;
@@ -306,9 +302,34 @@ ul.tabs a.current {
 .overview tbody tr {
 	border-color: #fff;
 }
-.overview td{
+.overview tbody tr td {
 	padding: 3px 1px 3px !important;
+	cursor: default;
+	text-align:center;
+	color:#fff;
+	border-style:none;
+	border-left: 1px dashed #777777 !important;
+	border-bottom: 1px solid #777777 !important;
 }
+.overview tbody tr td.er_overview_cell  {
+	border-left: 0px !important;
+}
+.overview tbody tr td.ov-no-border {
+		border-left: 0px !important;
+}
+
+.overview tbody tr td:nth-of-type(2) {
+	border-left-style: solid !important;
+}
+
+.overview > tbody > tr > td:last-of-type {
+	border-right: 1px solid #777777 !important;
+}
+.overview > tbody > tr > td:first-of-type {
+	border-left: 1px solid #777777 !important;
+	text-align:left;
+}
+
 .overviewHeadline {
 }
 .overview tbody td:first-of-type {
@@ -355,11 +376,30 @@ ul.tabs a.current {
 	color:#fff;
 	text-shadow:0 1px 2px rgba(0,0,0,0.5);
 }
+.er_overview_cell {
+	text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+.ov-days-hours {
+	background: #BFBFBF;
+	border-left: 1px dashed #000 !important;
+	border-top: 1px solid #000 !important;
+}
+.ov-days-hours-first {
+	background: #BFBFBF;
+	border-top: 1px solid #000 !important;
+	border-left: 1px solid #000 !important;
+}
+.ov-days-hours:first-of-type {
+	border-left: 1px solid #000 !important;
+}
 .roomhead {
 	color:#8C8C8C !important;
 	text-shadow:none;border-style:none;vertical-align:middle;
 }
 .roomhead:hover {
+	background: #C6C6C6;
+}
+.hover {
 	background: #C6C6C6;
 }
 #overviewTheadTr {

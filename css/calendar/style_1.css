@@ -25,6 +25,11 @@
 		color: #e0e0e0;
 		background: #666;
 		border: 1px solid #666666 !important;
+		border-bottom:1px solid #3F3F3F !important;
+	}
+	
+	.calendarheader th {
+		border-bottom:1px solid #3F3F3F !important;
 	}
 
 	.calendar-cell {
@@ -73,7 +78,7 @@
 
 	.calendar-header-month {
 		cursor:default;
-		background:#AFAFAF;
+		background:#7C7C7C;
 		text-align:center;
 		color:#fff !important;
 		border-top:1px solid #666666 !important;
@@ -88,15 +93,23 @@
 		line-height: 2.6em !important;
 	}
 	
-	.calendar-cell-last .calendar-cell-price,
 	.calendar-cell-last div {
 		display:none;
 	}
+		
+	.calendar-cell-last span {
+		display: block;
+		
+	}
+	td.calendar-cell-last .calendar-cell-price{
+	}
+
 
 	.calendar-cell-last {
 		cursor:default;
 		background: #E2E2E2; 
 		color: #A5A5A5;
+		height: auto !important;
 	}
 	.calendar-cell-full {
 		background: #cc0001; 

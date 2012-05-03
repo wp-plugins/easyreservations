@@ -9,6 +9,7 @@
 	//if (!wp_verify_nonce($_POST['easy-main-export'], 'easy-main-export' )) exit;
 
 	if($_POST['export_tech'] == 'xls' || $_POST['export_tech'] == 'csv'){
+		global $the_rooms_intervals_array;
 		if($_POST['export_tech'] == 'xls'){
 			$export_mode = true;
 			require('./lib/export/export-xls.class.php');
@@ -40,8 +41,8 @@
 		if(isset($_POST['info_persons'])){
 			if($export_mode){
 				$header[] = 'Adults';
-				$header[] = 'Childs';
-			} else $out .= 'Adults, Childs, ';
+				$header[] = 'Childrens';
+			} else $out .= 'Adults, Childrens, ';
 			$selects .= 'number, childs, ';
 		}
 		if(isset($_POST['info_date'])){
@@ -49,11 +50,11 @@
 				$header[] = 'From';
 				$header[] = 'To';
 			} else $out .= 'From, To, ';
-			$selects .= 'arrivalDate, nights, ';
+			$selects .= 'arrival, departure, ';
 		}
 		if(isset($_POST['info_nights'])){
-			if($export_mode) $header[] = 'Nights';
-			else $out .= 'Nights, ';
+			if($export_mode) $header[] =ucfirst(easyreservations_interval_infos());
+			else $out .= ucfirst(easyreservations_interval_infos()).', ';
 		}
 		if(isset($_POST['info_reservated'])){
 			if($export_mode) $header[] = 'Reserved';
@@ -71,24 +72,14 @@
 			$selects .= 'approve, ';
 		}
 		if(isset($_POST['info_room'])){
-			if($export_mode) $header[] = 'Room';
-			else $out .= 'Room, ';
+			if($export_mode) $header[] = 'Resource';
+			else $out .= 'Resource, ';
 			$selects .= 'room, ';
 		}
 		if(isset($_POST['info_roomnumber'])){
-			if($export_mode) $header[] = 'Roomnumber';
-			else $out .= 'Roomnumber, ';
+			if($export_mode) $header[] = 'Resource Number';
+			else $out .= 'Resource Number, ';
 			$selects .= 'roomnumber, ';
-		}
-		if(isset($_POST['info_offer'])){
-			if($export_mode) $header[] = 'Offer';
-			else $out .= 'Offer, ';
-			$selects .= 'special, ';
-		}
-		if(isset($_POST['info_note'])){
-			if($export_mode) $header[] = 'Note';
-			else $out .= 'Note, ';
-			$selects .= 'notes, ';
 		}
 		if(isset($_POST['info_price'])){
 			if($export_mode) {
@@ -118,9 +109,9 @@
 			if(isset($_POST['pending'])) $status .= "OR approve = '' ";
 			$status = substr($status,2);
 
-			if(isset($_POST['past'])) $time .= "OR (arrivalDate < DATE(NOW()) AND DATE(NOW()) NOT BETWEEN arrivalDate AND DATE_ADD(arrivalDate, INTERVAL nights DAY))";
-			if(isset($_POST['present'])) $time .= "OR DATE(NOW()) BETWEEN arrivalDate AND DATE_ADD(arrivalDate, INTERVAL nights DAY) ";
-			if(isset($_POST['future'])) $time .= "OR (arrivalDate > DATE(NOW()) AND DATE(NOW()) NOT BETWEEN arrivalDate AND DATE_ADD(arrivalDate, INTERVAL nights DAY))";
+			if(isset($_POST['past'])) $time .= "OR (arrival < NOW() AND NOW() NOT BETWEEN arrival AND departure)";
+			if(isset($_POST['present'])) $time .= "OR NOW() BETWEEN arrival AND departure ";
+			if(isset($_POST['future'])) $time .= "OR (arrival > NOW() AND NOW() NOT BETWEEN arrival AND departure)";
 			$time = substr($time,2);
 
 			global $wpdb;
@@ -140,13 +131,15 @@
 					}
 				}
 			}
-			$the_customs_titles = array_unique($the_customs_titles);
-			foreach($the_customs_titles as $key => $custom_title){
-				if(!empty($custom_title)){
-					if($export_mode) $header[] = $custom_title;
-					else $out .= $custom_title.', ';
+			if(!empty($the_customs_titles)){
+				$the_customs_titles = array_unique($the_customs_titles);
+				foreach($the_customs_titles as $key => $custom_title){
+					if(!empty($custom_title)){
+						if($export_mode) $header[] = $custom_title;
+						else $out .= $custom_title.', ';
+					}
+					else unset($the_customs_titles[$key]);
 				}
-				else unset($the_customs_titles[$key]);
 			}
 		}
 		if($export_mode){
@@ -158,9 +151,9 @@
 				if(isset($exportReservations->email)) $row[] = $exportReservations->email;
 				if(isset($exportReservations->number)) $row[] = $exportReservations->number;
 				if(isset($exportReservations->childs)) $row[] = $exportReservations->childs;
-				if(isset($exportReservations->arrivalDate)){ $row[] = date(RESERVATIONS_DATE_FORMAT, strtotime($exportReservations->arrivalDate)); $row[] = date(RESERVATIONS_DATE_FORMAT, strtotime($exportReservations->arrivalDate)+(86400*$exportReservations->nights)); }
-				if(isset($_POST['info_nights'])) $row[] = $exportReservations->nights;
-				if(isset($exportReservations->reservated)) $row[] = date(RESERVATIONS_DATE_FORMAT, strtotime($exportReservations->reservated));
+				if(isset($exportReservations->arrival)){ $row[] = date(RESERVATIONS_DATE_FORMAT_SHOW, strtotime($exportReservations->arrival)); $row[] = date(RESERVATIONS_DATE_FORMAT_SHOW, strtotime($exportReservations->departure)); }
+				if(isset($_POST['info_nights'])) $row[] = easyreservations_get_nights($the_rooms_intervals_array[$exportReservations->room],strtotime($exportReservations->arrival), strtotime($exportReservations->departure));
+				if(isset($exportReservations->reservated)) $row[] = date(RESERVATIONS_DATE_FORMAT_SHOW, strtotime($exportReservations->reservated));
 				if(isset($exportReservations->country)) $row[] = easyReservations_country_name($exportReservations->country);
 				if(isset($exportReservations->approve)){
 					if($exportReservations->approve == '') $status='Pending';
@@ -171,12 +164,6 @@
 				}
 				if(isset($exportReservations->room)) $row[] = str_replace("Private: ", "", get_the_title($exportReservations->room));
 				if(isset($exportReservations->roomnumber)) $row[] = easyreservations_get_roomname($exportReservations->roomnumber, $exportReservations->room);
-				if(isset($exportReservations->special)){
-					if($exportReservations->special == 0) $offer='None';
-					else $offer=get_the_title($exportReservations->special);
-					$row[] = $offer;
-				}
-				if(isset($exportReservations->notes)) $row[] = $exportReservations->notes;
 				if(isset($exportReservations->price)){
 					$priceExpl = explode(";", $exportReservations->price);
 					if($priceExpl[0] != '') $exportPrice = $priceExpl[0];
@@ -191,16 +178,17 @@
 					$row[] = $exportPaid;
 				}
 				if(isset($exportReservations->custom)){
-					foreach($the_customs_titles as $key => $custom_title){
-						if(isset($the_customs[$custom_title][$count])) $row[] = $the_customs[$custom_title][$count];
-						else $row[] = '';
+					if(!empty($the_customs_titles)){
+						foreach($the_customs_titles as $key => $custom_title){
+							if(isset($the_customs[$custom_title][$count])) $row[] = $the_customs[$custom_title][$count];
+							else $row[] = '';
+						}
 					}
 				}
 				$xls->addRow($row);
 			}
 			$xls->sendFile();
 		} else {
-			
 			$out = substr($out,0,-2)."\n";
 		foreach($reservationsExportArray as $exportReservations){
 			if(isset($_POST['info_ID'])) $out .= $exportReservations->id .', ';
@@ -208,9 +196,9 @@
 			if(isset($exportReservations->email)) $out .= $exportReservations->email .', ';
 			if(isset($exportReservations->number)) $out .= $exportReservations->number .', ';
 			if(isset($exportReservations->childs)) $out .= $exportReservations->childs .', ';
-			if(isset($exportReservations->arrivalDate)) $out .= date(RESERVATIONS_DATE_FORMAT, strtotime($exportReservations->arrivalDate)).', '.date(RESERVATIONS_DATE_FORMAT, strtotime($exportReservations->arrivalDate)+(86400*$exportReservations->nights)).', ';
-			if(isset($exportReservations->nights)) $out .= $exportReservations->nights .', ';
-			if(isset($exportReservations->reservated)) $out .= $exportReservations->reservated .', ';
+			if(isset($exportReservations->arrival)) $out .= date(RESERVATIONS_DATE_FORMAT_SHOW, strtotime($exportReservations->arrival)).', '.date(RESERVATIONS_DATE_FORMAT_SHOW, strtotime($exportReservations->departure)).', ';
+			if(isset($exportReservations->nights)) $out .= easyreservations_get_nights($the_rooms_intervals_array[$exportReservations->room], strtotime($exportReservations->arrival), strtotime($exportReservations->departure)) .', ';
+			if(isset($exportReservations->reservated)) $out .= date(RESERVATIONS_DATE_FORMAT_SHOW, strtotime($exportReservations->reservated)) .', ';
 			if(isset($exportReservations->country)) $out .= easyReservations_country_name($exportReservations->country) .', ';
 			if(isset($exportReservations->approve)){
 				if($exportReservations->approve == '') $status='Pending';
@@ -219,14 +207,7 @@
 				elseif($exportReservations->approve == 'del') $status='Trashed';
 				$out .= $status.', ';
 			}
-			if(isset($exportReservations->room)) $out .= str_replace("Private: ", "", get_the_title($exportReservations->room)).', ';
-			if(isset($exportReservations->special)){
-				if($exportReservations->special == 0) $offer='None';
-				else $offer=get_the_title($exportReservations->special);
-				$out .= $offer.', ';
-			}
 			if(isset($exportReservations->roomnumber)) $out .= easyreservations_get_roomname($exportReservations->roomnumber, $exportReservations->room).', ';
-			if(isset($exportReservations->notes)) $out .= str_replace(array(',', '/n'), '', $exportReservations->notes ).', ';
 			if(isset($exportReservations->price)){
 				$priceExpl = explode(";", $exportReservations->price);
 				if($priceExpl[0] != '') $exportPrice = $priceExpl[0];
@@ -266,14 +247,14 @@
 
 		$xml = new SimpleXMLElement("<?xml version='1.0' standalone='yes'?><Database/>");
 
-		if(isset($_POST['export_type']) AND $_POST['export_type'] == 'tab'){
+		if(isset($_POST['export_type']) && $_POST['export_type'] == 'tab'){
 			global $wpdb;
 			$IDs = substr($_POST['easy-export-id-field'],0,-2);
 			$sql = "SELECT * FROM ".$wpdb->prefix ."reservations WHERE id in($IDs)";
-		} elseif(isset($_POST['export_type']) AND $_POST['export_type'] == 'all'){
+		} elseif(isset($_POST['export_type']) && $_POST['export_type'] == 'all'){
 			global $wpdb;
 			$sql = "SELECT * FROM ".$wpdb->prefix ."reservations";
-		} elseif(isset($_POST['export_type']) AND $_POST['export_type'] == 'sel'){
+		} elseif(isset($_POST['export_type']) && $_POST['export_type'] == 'sel'){
 			$status = '';
 			
 			if(isset($_POST['approved'])) $status .= "OR approve = 'yes' ";
@@ -286,9 +267,9 @@
 			
 			$time = '';
 
-			if(isset($_POST['past'])) $time .= "OR (arrivalDate < DATE(NOW()) AND DATE(NOW()) NOT BETWEEN arrivalDate AND DATE_ADD(arrivalDate, INTERVAL nights DAY))";
-			if(isset($_POST['present'])) $time .= "OR DATE(NOW()) BETWEEN arrivalDate AND DATE_ADD(arrivalDate, INTERVAL nights DAY) ";
-			if(isset($_POST['future'])) $time .= "OR (arrivalDate > DATE(NOW()) AND DATE(NOW()) NOT BETWEEN arrivalDate AND DATE_ADD(arrivalDate, INTERVAL nights DAY))";
+			if(isset($_POST['past'])) $time .= "OR (arrival < NOW() AND NOW() NOT BETWEEN arrival AND departure)";
+			if(isset($_POST['present'])) $time .= "OR NOW() BETWEEN arrival AND departure ";
+			if(isset($_POST['future'])) $time .= "OR (arrival > NOW() AND NOW() NOT BETWEEN arrival AND departure)";
 			if(!empty($time)){
 				$time = '('.substr($time,2).')';
 			}

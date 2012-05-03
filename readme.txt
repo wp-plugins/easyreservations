@@ -1,38 +1,35 @@
 === easyReservations ===
 Contributors: feryaz
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=D3NW9TDVHBJ9E
-Tags: booking, reservation, form, reservations, rentals, resources, hotel, rooms, motel, apartments, calendar, events
+Tags: booking, reservation, form, reservations, property, resources, hotel, rooms, hostpatility, managment, calendar, events
 Requires at least: 3.3
-Tested up to: 3.3.1
-Stable tag: 1.8.1
-easyReservation is the perfect solution for every over-night rentable content!
+Tested up to: 3.4beta3
+Stable tag: 2.0
+This powerfull property and reservation management plugin that allows you to receive, schedule and handle your bookings easily!
 
 == Description ==
-easyReservation is a reservation or booking plugin to give you a fast, structured and detailed overview over your reservations.
-Its very flexible and inutiv and can be used on any side with over-night rentable content. Its fully translatable and comes with englisch, german, france, turkish and russian.
+easyReservations is the perfect plugin for receiving, managing and handling bookings easily. It's designed to be used for any reservable products like hotels, car rentals, events, B&B’s, appointments or conferences.
+It's very flexible and intuitive and has a more as huge amount of functions and possibilities. Of course it's fully translatable and comes with englisch, german, france, turkish and russian.
 
-[Website](http://feryaz.de/ "Check out the new Demonstration!")
+[Website](http://easyreservations.org/ "Brand new website!")
 
 = Features =
-* interactive monthly Reservation Overview!
-* unlimited customizable Forms
+* Interactive and flexible Reservation Overview
 * Availibility Calendar as Shortcode and Widget
-* adjustable Reservation Table
-* Guests can edit their reservation afterwards
-* add, edit, approve, reject and trash reservations
-* Group and Filter Reservations
-* Resources - Rooms & Offers
-* Live price calculation and error output
-* Price filters and discounts
-* Statistics and Export
+* Adjustable Reservation Table
+* Unlimited customizable Forms
+* Guests can edit their bookings afterwards
+* Add, Edit, Approve, reject and trash reservations
+* Group, Filter and Search Reservations
+* Property Management
+* Hourly, Daily and Weekly billing
+* Live price calculation and errors
+* Flexible Price filters, discounts and availability
+* Statistics
+* Export and Import
+* And alot more!
 
-= Website =
-The Plugin has a website with a documentation to help you.
-Ask Questions on the releated documentation page!
-If you want to suggest a feature or report a Bug use the "Suggestion" page.
-For contacting me use the "Contact" Page.
-
-[Demo](http://demo.feryaz.de/ "Website") | [Documentation](http://doc.feryaz.de/ "Documentation") | [Bug Reporting](http://bugs.feryaz.de/ "Bug reporting")
+[Documentation](http://easyreservations.org/knowledgebase/ "Documentation") | [Support](http://easyreservations.org/forums/forum/general/ "Get help here!") | [Modules](http://easyreservations.org/module/ "Get help here!")
 
 == Installation ==
 
@@ -43,7 +40,7 @@ At installation this Plugin will add two categories and three posts for demonstr
 3. Follow the Instructions in the Dokumentation on the Plugin Page.
 
 == Changelog ==
-See http://www.feryaz.de/changelog/ for a list of changes.
+See http://easyreservations.org/changelog/ for a list of changes.
 
 == Screenshots ==
 

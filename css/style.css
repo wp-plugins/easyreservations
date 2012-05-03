@@ -15,8 +15,6 @@ Maybe unnecasary
 .ui-datepicker select {
 	padding:1px !important;
 }
-
-
 div.pagination {
 	padding: 2px;
 	margin: 0px;
@@ -343,6 +341,14 @@ h2 {
 	background: #F4F4F4;
 	color: #333333;
 }
+.easy-modules-table .deprecated {
+	background: #FFCCCC;
+	color: #333333;
+}
+.easy-modules-table .deprecated td {
+	border-bottom: 1px solid #FF0000;
+	border-top: 1px solid #FF0000;
+}
 .easy-modules-table .inactive a {
 	color: #557799;
 }
@@ -398,12 +404,51 @@ h2 {
 	background-image: url(images/toolbar_hover.png);
 }
 .metabox-prefs label {
-		-moz-user-select: none; 
+	-moz-user-select: none; 
 	-khtml-user-select: none; 
 	-webkit-user-select: none; 
-	-o-user-select: none; 
-
+	-o-user-select: none;
 }
-.er_overview_cell {
-	text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+
+#jqueryTooltip {
+    position:absolute; /* das ist zwingend notwendig, damit der Tooltip der Maus folgen kann */
+    display:none; /* auch wichtig damit der Tooltip leer nicht gezeigt wird */
+    border:1px solid #000;
+    background:#fff;
+    padding:0.25em;
+}
+#contextual-help-link-wrap, .show-settings	{
+	background-color:#575757 !important;
+	color:#fff !important;
+	text-shadow: #c0c0c0 0px 0px 0px !important;
+	padding-bottom:1px !important;
+}
+.metabox-prefs label {
+	line-height: 1.4em !important;
+}
+.easy-welcome-panel {
+	line-height: 1.6em;
+	width:90%;
+	display:block;
+	min-height: 200px;
+}
+.easy-welcome-panel h3 {
+	margin-left: 190px;
+	text-shadow: 1px 1px 1px white;
+	font-family: "HelveticaNeue-Light","Helvetica Neue Light","Helvetica Neue",sans-serif;
+	font-size: 32px;
+	font-weight: normal;
+	line-height: 1.2;
+	margin-top: 0px;
+	margin-bottom:0px;
+}
+.easy-welcome-panel p {
+	color: #777777;
+	margin-left: 190px;	
+	margin-top:10px;
+}
+.easy-badge {
+	background: url(images/easy-badge.png) !important;
+	float:left;
+	margin:0px 1px !important;
 }

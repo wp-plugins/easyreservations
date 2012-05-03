@@ -75,15 +75,15 @@
 	 
 		// response output
 		if($mode == "current"){
-			$query = $wpdb->get_results("SELECT id, name, arrivalDate, nights, room, special, number, childs FROM ".$wpdb->prefix ."reservations WHERE '$dateToday' BETWEEN arrivalDate AND arrivalDate + INTERVAL nights DAY AND approve='yes'"); // Search query
+			$query = $wpdb->get_results("SELECT id, name, arrival, departure, room, number, childs FROM ".$wpdb->prefix ."reservations WHERE '$dateToday' BETWEEN arrival AND departure AND approve='yes'"); // Search query
 		} elseif($mode == "leaving"){
-			$query = $wpdb->get_results("SELECT id, name, arrivalDate, nights, room, special, number, childs FROM ".$wpdb->prefix ."reservations WHERE arrivalDate = '$dateToday'  AND approve='yes'"); // Search query 
+			$query = $wpdb->get_results("SELECT id, name, arrival, departure, room, number, childs FROM ".$wpdb->prefix ."reservations WHERE DATE(arrival) = '$dateToday'  AND approve='yes'"); // Search query 
 		} elseif($mode == "pending"){
-			$query = $wpdb->get_results("SELECT id, name, arrivalDate, nights, room, special, number, childs FROM ".$wpdb->prefix ."reservations WHERE arrivalDate > DATE(NOW()) AND approve=''"); // Search query 
+			$query = $wpdb->get_results("SELECT id, name, arrival, departure, room, number, childs FROM ".$wpdb->prefix ."reservations WHERE arrival > NOW() AND approve=''"); // Search query 
 		} elseif($mode == "arrival"){
-			$query = $wpdb->get_results("SELECT id, name, arrivalDate, nights, room, special, number, childs FROM ".$wpdb->prefix ."reservations WHERE arrivalDate + INTERVAL nights DAY = '$dateToday' AND approve='yes'"); // Search query 
+			$query = $wpdb->get_results("SELECT id, name, arrival, departure, room, number, childs FROM ".$wpdb->prefix ."reservations WHERE DATE(departure) = '$dateToday' AND approve='yes'"); // Search query 
 		} elseif($mode == "future"){
-			$query = $wpdb->get_results("SELECT id, name, arrivalDate, nights, room, special, number, childs FROM ".$wpdb->prefix ."reservations WHERE  arrivalDate > DATE(NOW()) AND approve='yes'"); // Search query 
+			$query = $wpdb->get_results("SELECT id, name, arrival, departure, room, number, childs FROM ".$wpdb->prefix ."reservations WHERE  arrival > NOW() AND approve='yes'"); // Search query 
 		}
 
 		$table = '<table id="er-dash-table" style="width:100%;text-align:left;font-weight:normal;border-spacing:0px">';
@@ -91,7 +91,7 @@
 				$table .= '<tr>';
 					$table .= '<th>'.__( 'Name' , 'easyReservations').'</th>';
 					$table .= '<th>'.__( 'Date' , 'easyReservations').'</th>';
-					$table .= '<th>'.__( 'Room' , 'easyReservations').'</th>';
+					$table .= '<th>'.__( 'Resource' , 'easyReservations').'</th>';
 					$table .= '<th style="text-align:center">'.__( 'Persons' , 'easyReservations').'</th>';
 					$table .= '<th style="text-align:right">'.__( 'Price' , 'easyReservations').'</th>';
 				$table .= '</tr>';
@@ -99,8 +99,8 @@
 			$table .= '<tbody>';
 
 		foreach($query as $num => $res){
-			$dateanf = strtotime($res->arrivalDate);
-			$dateend = strtotime($res->arrivalDate) + ($res->nights * 86400);
+			$dateanf = strtotime($res->arrival);
+			$dateend = strtotime($res->departure);
 			if($num % 2 == 0) $class="odd";
 			else $class="even";
 				$table .= '<tr class="'.$class.'">';

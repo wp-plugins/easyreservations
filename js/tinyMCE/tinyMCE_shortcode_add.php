@@ -125,7 +125,7 @@ function jumpto(x){ // Chained inputs;
 			FieldAdd += '</tr>';
 			FieldAdd += '<tr>';
 			FieldAdd += '<td nowrap="nowrap" valign="top"><label for="easyreservation_show_price"><?php _e("Price", "easyReservations"); ?></label></td>';
-			FieldAdd += '<td><label><select id="easyreservation_show_price" name="easyreservation_show_price" style="width: 100px" onchange="getCalendarInfos()"><option value="0"><?php _e("no", "easyReservations"); ?></option><option value="1">150&<?php echo get_option('reservations_currency'); ?>;</option><option value="2">150</option><option value="3"><?php echo reservations_format_money(150,1); ?></option><option value="4"><?php echo reservations_format_money(150); ?></option></select></label> <?php _e("Show price in calendar", "easyReservations"); ?></td>';
+			FieldAdd += '<td><label><select id="easyreservation_show_price" name="easyreservation_show_price" style="width: 100px" onchange="getCalendarInfos()"><option value="0"><?php _e("no", "easyReservations"); ?></option><option value="1">150&<?php echo RESERVATIONS_CURRENCY; ?>;</option><option value="2">150</option><option value="3"><?php echo reservations_format_money(150,1); ?></option><option value="4"><?php echo reservations_format_money(150); ?></option></select></label> <?php _e("Show price in calendar", "easyReservations"); ?></td>';
 			FieldAdd += '</tr>';
 			FieldAdd += '<tr>';
 			FieldAdd += '<td nowrap="nowrap" valign="top"><label for="easyreservation_calendar_width"><?php _e("Width", "easyReservations"); ?></label></td>';
@@ -152,10 +152,6 @@ function jumpto(x){ // Chained inputs;
 			FieldAdd += '<tr>';
 			FieldAdd += '<td nowrap="nowrap" valign="top"><label for="easyreservation_show_price"><?php _e("Price", "easyReservations"); ?></label></td>';
 			FieldAdd += '<td><label><input type="checkbox"  id="easyreservation_show_price" name="easyreservation_show_price" checked></label> <?php _e("Show price", "easyReservations"); ?></td>';
-			FieldAdd += '</tr>';
-			FieldAdd += '<tr>';
-			FieldAdd += '<td nowrap="nowrap" valign="top"><label for="easyreservation_edit_offers"><?php _e("Offers", "easyReservations"); ?></label></td>';
-			FieldAdd += '<td><label><input type="checkbox"  id="easyreservation_edit_offers" name="easyreservation_edit_offers" checked></label> <?php _e("Offers selectable", "easyReservations"); ?></td>';
 			FieldAdd += '</tr>';
 			FieldAdd += '<tr>';
 			FieldAdd += '<td nowrap="nowrap" valign="top"><label for="easyreservation_edit_roomname"><?php _e("Name for Room", "easyReservations"); ?></label></td>';
@@ -223,7 +219,6 @@ function insertEasyShortcode() {
 		if(document.getElementById('easyreservation_show_status').checked == true) classAttribs += ' status="1"';
 		if(document.getElementById('easyreservation_show_price').checked == true) classAttribs += ' price="1"';
 		if(document.getElementById('easyreservation_edit_table').checked == true) classAttribs += ' table="1"';
-		if(document.getElementById('easyreservation_edit_offers').checked == true) classAttribs += ' offers="1"';
 		classAttribs += ' roomname="' + document.getElementById('easyreservation_edit_roomname').value + '"';
 	} <?php do_action('easy-tinymce-save'); ?>
 
