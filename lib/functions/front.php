@@ -193,7 +193,7 @@
 		return $error;
 	}
 
-	function easyreservations_generate_form($theForm, $price_action, $validate_action, $isCalendar, $the_resource = 0, $error = 0, $local = 'fr_FR'){
+	function easyreservations_generate_form($theForm, $price_action, $validate_action, $isCalendar, $the_resource = 0, $error = 0, $local = false){
 		$theForm = stripslashes($theForm);
 
 		preg_match_all(' /\[.*\]/U', $theForm, $matches);
