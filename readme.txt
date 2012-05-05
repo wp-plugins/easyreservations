@@ -4,11 +4,11 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: booking, reservation, form, reservations, property, resources, hotel, rooms, hostpatility, managment, calendar, events
 Requires at least: 3.3
 Tested up to: 3.4beta3
-Stable tag: 2.0
+Stable tag: 2.0.1
 This powerfull property and reservation management plugin that allows you to receive, schedule and handle your bookings easily!
 
 == Description ==
-easyReservations is the perfect plugin for receiving, managing and handling bookings easily. It's designed to be used for any reservable products like hotels, car rentals, events, B&Bs, appointments or conferences.
+easyReservations is the perfect plugin for receiving, managing and handling bookings easily. It's designed to be used for any reservable products like hotels, car rentals, events, B&B’s, appointments or conferences.
 It's very flexible and intuitive and has a more as huge amount of functions and possibilities. Of course it's fully translatable and comes with englisch, german, france, turkish and russian.
 
 [Website](http://easyreservations.org/ "Brand new website!")

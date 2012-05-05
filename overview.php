@@ -195,7 +195,7 @@
 				$co=0;
 				while($co < $daysshow){
 					if($overview_options['overview_show_avail'] == 1){
-						$roomDayPersons=get_post_meta($roomID, 'roomcount', true)-easyreservations_check_avail($roomID, $timesx+($co*$interval));
+						$roomDayPersons=get_post_meta($roomID, 'roomcount', true)-easyreservations_check_avail($roomID, $timesx+($co*$interval),0,0,0,0,1,0,$interval);
 						if($roomDayPersons <= 0) $textcolor='#FF3B38'; else $textcolor='#118D18';
 					} else $textcolor = '';
 					?><td axis="<?php echo $co+2;?>" style="color:<?php echo $textcolor; ?>" ><?php if($overview_options['overview_show_avail'] == 1)  echo '<small>'.$roomDayPersons.'</small>'; ?></small></td><?php
@@ -267,7 +267,7 @@
 				if($dateToday < time()) $background2="url(".RESERVATIONS_IMAGES_DIR ."/patbg.png) repeat";
 				else $background2='';
 
-				if(reservations_check_avail_filter($roomID, $dateToday-$interval, $dateToday ) > 0) $colorbgfree='#FFEDED';
+				if(reservations_check_avail_filter($roomID, $dateToday-$interval, $dateToday, 0, $interval ) > 0) $colorbgfree='#FFEDED';
 				elseif(date("d.m.Y", $dateToday-$interval)==date("d.m.Y", time())) $colorbgfree = '#EDF0FF';
 				elseif(date("N", $dateToday-$interval)==6 OR date("N", $dateToday-$interval)==7) $colorbgfree = '#FFFFEB';
 				else $colorbgfree='#FFFFFF';

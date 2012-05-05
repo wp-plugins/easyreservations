@@ -49,7 +49,7 @@ function reservation_settings_page() { //Set Settings
 			if(isset($_POST["reservations_email_sendmail_check"])) $reservations_email_sendmail_check = 1; else $reservations_email_sendmail_check = 0;
 			$reservations_email_sendmail = array(
 				'msg' => stripslashes($_POST["reservations_email_sendmail_msg"]),
-				'subj' => $_POST["reservations_email_sendmail_subj"],
+				'subj' => stripslashes($_POST["reservations_email_sendmail_subj"]),
 				'active' => $reservations_email_sendmail_check
 			);
 			update_option("reservations_email_sendmail",$reservations_email_sendmail);
@@ -57,7 +57,7 @@ function reservation_settings_page() { //Set Settings
 			if(isset($_POST["reservations_email_to_admin_check"])) $reservations_email_to_admin_check = 1; else $reservations_email_to_admin_check = 0;
 			$reservations_email_to_admin = array(
 				'msg' => stripslashes($_POST["reservations_email_to_admin_msg"]),
-				'subj' => $_POST["reservations_email_to_admin_subj"],
+				'subj' => stripslashes($_POST["reservations_email_to_admin_subj"]),
 				'active' => $reservations_email_to_admin_check
 			);
 			update_option("reservations_email_to_admin",$reservations_email_to_admin);
@@ -65,7 +65,7 @@ function reservation_settings_page() { //Set Settings
 			if(isset($_POST["reservations_email_to_userapp_check"])) $reservations_email_to_userapp_check = 1; else $reservations_email_to_userapp_check = 0;
 			$reservations_email_to_userapp = array( 
 				'msg' => stripslashes($_POST["reservations_email_to_userapp_msg"]),
-				'subj' => $_POST["reservations_email_to_userapp_subj"],
+				'subj' => stripslashes($_POST["reservations_email_to_userapp_subj"]),
 				'active' => $reservations_email_to_userapp_check
 			);
 			update_option("reservations_email_to_userapp",$reservations_email_to_userapp);
@@ -73,7 +73,7 @@ function reservation_settings_page() { //Set Settings
 			if(isset($_POST["reservations_email_to_userdel_check"])) $reservations_email_to_userdel_check = 1; else $reservations_email_to_userdel_check = 0;
 			$reservations_email_to_userdel = array(
 				'msg' => stripslashes($_POST["reservations_email_to_userdel_msg"]), 
-				'subj' => $_POST["reservations_email_to_userdel_subj"],
+				'subj' => stripslashes($_POST["reservations_email_to_userdel_subj"]),
 				'active' => $reservations_email_to_userdel_check
 			);
 			update_option("reservations_email_to_userdel",$reservations_email_to_userdel);
@@ -81,7 +81,7 @@ function reservation_settings_page() { //Set Settings
 			if(isset($_POST["reservations_email_to_user_check"])) $reservations_email_to_user_check = 1; else $reservations_email_to_user_check = 0;
 			$reservations_email_to_user = array(
 				'msg' => stripslashes($_POST["reservations_email_to_user_msg"]),
-				'subj' => $_POST["reservations_email_to_user_subj"],
+				'subj' => stripslashes($_POST["reservations_email_to_user_subj"]),
 				'active' => $reservations_email_to_user_check
 			);
 			update_option("reservations_email_to_user",$reservations_email_to_user);
@@ -89,7 +89,7 @@ function reservation_settings_page() { //Set Settings
 			if(isset($_POST["reservations_email_to_user_edited_check"])) $reservations_email_to_user_edited_check = 1; else $reservations_email_to_user_edited_check = 0;
 			$reservations_email_to_user_edited = array(
 				'msg' => stripslashes($_POST["reservations_email_to_user_edited_msg"]),
-				'subj' => $_POST["reservations_email_to_user_edited_subj"],
+				'subj' => stripslashes($_POST["reservations_email_to_user_edited_subj"]),
 				'active' => $reservations_email_to_user_edited_check
 			);
 			update_option("reservations_email_to_user_edited",$reservations_email_to_user_edited);
@@ -97,7 +97,7 @@ function reservation_settings_page() { //Set Settings
 			if(isset($_POST["reservations_email_to_admin_edited_check"])) $reservations_email_to_admin_edited_check = 1; else $reservations_email_to_admin_edited_check = 0;
 			$reservations_email_to_admin_edited = array(
 				'msg' => stripslashes($_POST["reservations_email_to_admin_edited_msg"]),
-				'subj' => $_POST["reservations_email_to_admin_edited_subj"],
+				'subj' => stripslashes($_POST["reservations_email_to_admin_edited_subj"]),
 				'active' => $reservations_email_to_admin_edited_check
 			);
 			update_option("reservations_email_to_admin_edited",$reservations_email_to_admin_edited);
@@ -105,7 +105,7 @@ function reservation_settings_page() { //Set Settings
 			if(isset($_POST["reservations_email_to_user_admin_edited_check"])) $reservations_email_to_user_admin_edited_check = 1; else $reservations_email_to_user_admin_edited_check = 0;
 			$reservations_email_to_user_admin_edited = array(
 				'msg' => stripslashes($_POST["reservations_email_to_user_admin_edited_msg"]),
-				'subj' => $_POST["reservations_email_to_user_admin_edited_subj"],
+				'subj' => stripslashes($_POST["reservations_email_to_user_admin_edited_subj"]),
 				'active' => $reservations_email_to_user_admin_edited_check
 			);
 			update_option("reservations_email_to_user_admin_edited",$reservations_email_to_user_admin_edited);
@@ -498,7 +498,7 @@ function resteText() {
 					</tr>
 				</tbody>
 			</table>
-		<input type="button" value="<?php printf ( __( 'Save Changes' , 'easyReservations' ));?>" onclick="document.getElementById('er_main_set').submit(); return false;" style="margin-top:7px;" class="easySubmitButton-primary" style="margin-top:4px" >
+		<input type="button" value="<?php echo __( 'Save Changes' , 'easyReservations' );?>" onclick="document.getElementById('er_main_set').submit(); return false;" style="margin-top:7px;" class="easySubmitButton-primary" style="margin-top:4px" >
 		</form>
 			</td><td style="width:1%;" valign="top">
 			</td><td style="width:29%;" valign="top">
@@ -647,8 +647,7 @@ function resteText() {
 
 					Default += '<label>Captcha\n';
 					Default += '<span class="small">Type in code</span>\n';
-					Default += '</label>[captcha]\n';
-					Default += '[show_price]\n\n';
+					Default += '</label>[captcha]\n\n';
 
 					Default += '<div style="text-align:center;">[submit Send]</div>';
 				document.reservations_form_settings.reservations_formvalue.value = Default;
@@ -667,7 +666,7 @@ function resteText() {
 				</tr>
 				<tr valign="top">
 					<td style="width:60%;line-height: 2;vertical-align: top;text-align:left">
-					<form id="form1" name="form1">
+					<form id="form1" name="form1" style="display:inline-block;">
 						<div style="float: left;">
 							<select name="jumpmenu" id="jumpmenu" onChange="jumpto(document.form1.jumpmenu.options[document.form1.jumpmenu.options.selectedIndex].value)">
 								<option><?php printf ( __( 'Add Field' , 'easyReservations' ));?></option>
@@ -690,6 +689,7 @@ function resteText() {
 								<option value="captcha"><?php printf ( __( 'Captcha' , 'easyReservations' ));?> [captcha]</option>
 								<option value="show_price"><?php printf ( __( 'Display Price' , 'easyReservations' ));?> [show_price]</option>
 								<option value="error"><?php printf ( __( 'Display Errors' , 'easyReservations' ));?> [error]</option>
+								<?php do_action('easy-form-js-select'); ?>
 								<option value="submit"><?php printf ( __( 'Submit Button' , 'easyReservations' ));?> [submit]</option>
 							</select>
 						</div>
@@ -706,7 +706,7 @@ function resteText() {
 						<input type='hidden' value='<?php echo stripslashes($reservations_form); ?>' name="resetforrm">
 							<?php wp_editor( stripslashes($reservations_form), 'reservations_formvalue', array( 'textarea_rows' => 48, 'wpautop' => false, 'tinymce' => false, 'media_buttons' => false, 'quicktags' => array('buttons' => 'strong,em,link,img,ul,ol,li' ) ) ); ?>
 						<div style="margin:8px 1px;">
-							<input type="button" value="<?php printf ( __( 'Save Changes' , 'easyReservations' ));?>" onclick="document.getElementById('reservations_form_settings').submit(); return false;" class="easySubmitButton-primary" style="margin-top:4px" >
+							<input type="button" value="<?php echo __( 'Save Changes' , 'easyReservations' );?>" onclick="document.getElementById('reservations_form_settings').submit(); return false;" class="easySubmitButton-primary" style="margin-top:4px" >
 							<input type="button" value="<?php printf ( __( 'Default Form' , 'easyReservations' ));?>" onClick="setDefaultForm();" class="easySubmitButton-secondary" >
 							<input type="button" value="<?php printf ( __( 'Reset Form' , 'easyReservations' ));?>" onClick="resteText();" class="easySubmitButton-secondary" >
 						</div>
@@ -824,6 +824,7 @@ function resteText() {
 									<td><code class="codecolor">[submit]</code></td>
 									<td style="text-align:center;">&#10008;</td>
 								</tr>
+								<?php do_action('easy-add-forms-table-col'); ?>
 								<tr>
 									<td colspan="3" style="text-align:center;">&#10132; = <b>alternative</b> &#10008; = <b>required</b></td>
 								</tr>
@@ -938,6 +939,8 @@ function resteText() {
 		if(price1 && price1.checked != false && price2.checked != false)  tag += ' pb';
 			else if(price1 && price1.checked != false) tag += ' pp';
 				else if(price2 && price2.checked != false) tag += ' pn';
+				
+		 <?php do_action('easy-form-js-add-func'); ?>
 
 		tag += ']';
 		var textareaelem = document.getElementById("reservations_formvalue");
@@ -1091,7 +1094,7 @@ function jumpto(x){ // Chained inputs;
 
 			thetext1 = true;
 			document.form1.jumpmenu.disabled=true;
-		}
+		} <?php do_action('easy-form-js-1'); ?>
 	} else if(thetext2 == false){
 		if (x == "textarea" || x == "text" || x == "check"){
 			var Output  = '<input type="text" name="zwei" id="zwei" value="Name"> <input type="checkbox" id="req" name="req" value="*"> <?php echo __( 'Required' , 'easyReservations' ); ?> ';
@@ -1212,6 +1215,7 @@ function easy_price_checks(){
 	Output += '<input type="checkbox" id="price2" name="req" value="pn"> <?php echo __( 'price per night' , 'easyReservations' ); ?>';
 	return Output;
 }
+<?php do_action('easy-form-js-function'); ?>
 </script>
 <?php } elseif($settingpage=="email"){
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1272,14 +1276,14 @@ ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrival] <br>To: [depa
 					<td><b style="padding:5px;line-height:2;font-size:13px;text-decoration:underline;"><?php echo __( 'Mail to guest' , 'easyReservations' ); ?></b><input type="button" value="Default Mail" onClick="addtextforemail0();" class="easySubmitButton-secondary" style="float:right;"></td>
 				</tr>	
 				<tr valign="top">
-					<td><input type="text" name="reservations_email_sendmail_subj" style="width:60%;" value="<?php echo $reservations_email_sendmail['subj']; ?>"> <?php echo __( 'Subject' , 'easyReservations' ); ?></td>
+					<td><input type="" name="reservations_email_sendmail_subj" style="width:60%;" value='<?php echo stripslashes($reservations_email_sendmail['subj']); ?>'> <?php echo __( 'Subject' , 'easyReservations' ); ?></td>
 				</tr>	
 				<tr valign="top">
 					<td><textarea name="reservations_email_sendmail_msg" style="width:99%;height:120px;"><?php echo stripslashes($reservations_email_sendmail['msg']); ?></textarea></td>
 				</tr>	
 			</tbody>
 		</table>
-		<input type="button" onclick="document.getElementById('reservations_email_settings').submit(); return false;" class="easySubmitButton-primary" style="margin-top:4px" value="<?php printf ( __( 'Save Changes' , 'easyReservations' ));?>">
+		<input type="button" onclick="document.getElementById('reservations_email_settings').submit(); return false;" class="easySubmitButton-primary" style="margin-top:4px" value="<?php echo __( 'Save Changes' , 'easyReservations' );?>">
 		<table class="<?php echo RESERVATIONS_STYLE; ?>" style="margin-top:7px;">
 			<thead>
 				<tr>
@@ -1291,7 +1295,7 @@ ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrival] <br>To: [depa
 					<td><b style="padding:5px;line-height:2;font-size:13px;text-decoration:underline;"><?php echo __( 'Mail to admin' , 'easyReservations' ); ?> </b><span style=";margin-right:5px"><?php echo __( 'Active' , 'easyReservations' ); ?>: <input type="checkbox" value="1" name="reservations_email_to_admin_check" <?php checked(1, $reservations_email_to_admin['active']); ?> style="margin-top:3px;margin-left:-1px;"></span><input type="button" value="Default Mail" onClick="addtextforemail1();" class="easySubmitButton-secondary" style="float:right;"></td>
 				</tr>	
 				<tr valign="top">
-					<td><input type="text" name="reservations_email_to_admin_subj" style="width:60%;" value="<?php echo $reservations_email_to_admin['subj']; ?>"> <?php echo __( 'Subject' , 'easyReservations' ); ?></td>
+					<td><input type="text" name="reservations_email_to_admin_subj" style="width:60%;" value='<?php echo stripslashes($reservations_email_to_admin['subj']); ?>'> <?php echo __( 'Subject' , 'easyReservations' ); ?></td>
 				</tr>	
 				<tr valign="top">
 					<td><textarea name="reservations_email_to_admin_msg" style="width:99%;height:120px;"><?php echo stripslashes($reservations_email_to_admin['msg']); ?></textarea></td>
@@ -1303,14 +1307,14 @@ ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrival] <br>To: [depa
 					<td><b style="padding:5px;line-height:2;font-size:13px;text-decoration:underline;"><?php echo __( 'Mail to guest' , 'easyReservations' ); ?></b><span style="margin-right:5px"><?php echo __( 'Active' , 'easyReservations' ); ?>: <input type="checkbox" value="1" name="reservations_email_to_user_check" <?php checked(1, $reservations_email_to_user['active']); ?> style="margin-top:3px;margin-left:-1px;"></span><input type="button" value="Default Mail" onClick="addtextforemail4();" class="easySubmitButton-secondary" style="float:right;"></td>
 				</tr>	
 				<tr valign="top">
-					<td><input type="text" name="reservations_email_to_user_subj" style="width:60%;" value="<?php echo $reservations_email_to_user['subj']; ?>"> <?php echo __( 'Subject' , 'easyReservations' ); ?></td>
+					<td><input type="text" name="reservations_email_to_user_subj" style="width:60%;" value='<?php echo stripslashes($reservations_email_to_user['subj']); ?>'> <?php echo __( 'Subject' , 'easyReservations' ); ?></td>
 				</tr>	
 				<tr valign="top">
 					<td><textarea name="reservations_email_to_user_msg" style="width:99%;height:120px;"><?php echo stripslashes($reservations_email_to_user['msg']); ?></textarea></td>
 				</tr>	
 			</tbody>
 		</table>
-		<input type="button" onclick="document.getElementById('reservations_email_settings').submit(); return false;" class="easySubmitButton-primary" style="margin-top:4px" value="<?php printf ( __( 'Save Changes' , 'easyReservations' ));?>">
+		<input type="button" onclick="document.getElementById('reservations_email_settings').submit(); return false;" class="easySubmitButton-primary" style="margin-top:4px" value="<?php echo __( 'Save Changes' , 'easyReservations' );?>">
 		<table class="<?php echo RESERVATIONS_STYLE; ?>" style="margin-top:7px;">
 			<thead>
 				<tr>
@@ -1322,14 +1326,14 @@ ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrival] <br>To: [depa
 					<td><b style="padding:5px;line-height:2;font-size:13px;text-decoration:underline;"><?php echo __( 'Mail to guest' , 'easyReservations' ); ?></b><input type="button" value="Default Mail" onClick="addtextforemail2();" class="easySubmitButton-secondary" style="float:right;"></td>
 				</tr>	
 				<tr valign="top">
-					<td><input type="text" name="reservations_email_to_userapp_subj" style="width:60%;" value="<?php echo $reservations_email_to_userapp['subj']; ?>"> <?php echo __( 'Subject' , 'easyReservations' ); ?></td>
+					<td><input type="text" name="reservations_email_to_userapp_subj" style="width:60%;" value='<?php echo stripslashes($reservations_email_to_userapp['subj']); ?>'> <?php echo __( 'Subject' , 'easyReservations' ); ?></td>
 				</tr>	
 				<tr valign="top">
 					<td><textarea name="reservations_email_to_userapp_msg"  id="reservations_email_to_userapp_msg" style="width:99%;height:120px;"><?php echo stripslashes($reservations_email_to_userapp['msg']); ?></textarea></td>
 				</tr>	
 			</tbody>
 		</table>
-		<input type="button" onclick="document.getElementById('reservations_email_settings').submit(); return false;" class="easySubmitButton-primary" style="margin-top:4px" value="<?php printf ( __( 'Save Changes' , 'easyReservations' ));?>">
+		<input type="button" onclick="document.getElementById('reservations_email_settings').submit(); return false;" class="easySubmitButton-primary" style="margin-top:4px" value="<?php echo __( 'Save Changes' , 'easyReservations' );?>">
 		<table class="<?php echo RESERVATIONS_STYLE; ?>" style="margin-top:7px;">
 			<thead>
 				<tr>
@@ -1341,14 +1345,14 @@ ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrival] <br>To: [depa
 					<td><b style="padding:5px;line-height:2;font-size:13px;text-decoration:underline;"><?php echo __( 'Mail to guest' , 'easyReservations' ); ?></b><input type="button" value="Default Mail" onClick="addtextforemail3();" class="easySubmitButton-secondary" style="float:right;"></td>
 				</tr>	
 				<tr valign="top">
-					<td><input type="text" name="reservations_email_to_userdel_subj" style="width:60%;" value="<?php echo $reservations_email_to_userdel['subj']; ?>"> <?php echo __( 'Subject' , 'easyReservations' ); ?></td>
+					<td><input type="text" name="reservations_email_to_userdel_subj" style="width:60%;" value='<?php echo stripslashes($reservations_email_to_userdel['subj']); ?>'> <?php echo __( 'Subject' , 'easyReservations' ); ?></td>
 				</tr>	
 				<tr valign="top">
 					<td><textarea name="reservations_email_to_userdel_msg" style="width:99%;height:120px;"><?php echo stripslashes($reservations_email_to_userdel['msg']); ?></textarea></td>
 				</tr>	
 			</tbody>
 		</table>
-		<input type="button" onclick="document.getElementById('reservations_email_settings').submit(); return false;" class="easySubmitButton-primary" style="margin-top:4px" value="<?php printf ( __( 'Save Changes' , 'easyReservations' ));?>">
+		<input type="button" onclick="document.getElementById('reservations_email_settings').submit(); return false;" class="easySubmitButton-primary" style="margin-top:4px" value="<?php echo __( 'Save Changes' , 'easyReservations' );?>">
 		<table class="<?php echo RESERVATIONS_STYLE; ?>" style="margin-top:7px;">
 			<thead>
 				<tr>
@@ -1360,14 +1364,14 @@ ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrival] <br>To: [depa
 					<td><b style="padding:5px;line-height:2;font-size:13px;text-decoration:underline;"><?php echo __( 'Mail to guest' , 'easyReservations' ); ?></b><input type="button" value="Default Mail" onClick="addtextforemail7();" class="easySubmitButton-secondary" style="float:right;"></td>
 				</tr>	
 				<tr valign="top">
-					<td><input type="text" name="reservations_email_to_user_admin_edited_subj" style="width:60%;" value="<?php echo $reservations_email_to_user_admin_edited['subj']; ?>"> <?php echo __( 'Subject' , 'easyReservations' ); ?></td>
+					<td><input type="text" name="reservations_email_to_user_admin_edited_subj" style="width:60%;" value='<?php echo stripslashes($reservations_email_to_user_admin_edited['subj']); ?>'> <?php echo __( 'Subject' , 'easyReservations' ); ?></td>
 				</tr>	
 				<tr valign="top">
 					<td><textarea name="reservations_email_to_user_admin_edited_msg" style="width:99%;height:120px;"><?php echo stripslashes($reservations_email_to_user_admin_edited['msg']); ?></textarea></td>
 				</tr>	
 			</tbody>
 		</table>
-		<input type="button" onclick="document.getElementById('reservations_email_settings').submit(); return false;" class="easySubmitButton-primary" style="margin-top:4px" value="<?php printf ( __( 'Save Changes' , 'easyReservations' ));?>">
+		<input type="button" onclick="document.getElementById('reservations_email_settings').submit(); return false;" class="easySubmitButton-primary" style="margin-top:4px" value="<?php echo __( 'Save Changes' , 'easyReservations' );?>">
 		<table class="<?php echo RESERVATIONS_STYLE; ?>" style="margin-top:7px;">
 			<thead>
 				<tr>
@@ -1379,7 +1383,7 @@ ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrival] <br>To: [depa
 					<td><b style="padding:5px;line-height:2;font-size:13px;text-decoration:underline;"><?php echo __( 'Mail to admin' , 'easyReservations' ); ?></b><span style=";margin-right:5px"><?php echo __( 'Active' , 'easyReservations' ); ?>: <input type="checkbox" value="1" name="reservations_email_to_admin_edited_check" <?php checked(1, $reservations_email_to_admin_edited['active']); ?> style="margin-top:3px;margin-left:-1px;"></span><input type="button" value="Default Mail" onClick="addtextforemail6();" class="easySubmitButton-secondary" style="float:right;"></td>
 				</tr>	
 				<tr valign="top">
-					<td><input type="text" name="reservations_email_to_admin_edited_subj" style="width:60%;" value="<?php echo $reservations_email_to_admin_edited['subj']; ?>"> <?php echo __( 'Subject' , 'easyReservations' ); ?></td>
+					<td><input type="text" name="reservations_email_to_admin_edited_subj" style="width:60%;" value='<?php echo stripslashes($reservations_email_to_admin_edited['subj']); ?>'> <?php echo __( 'Subject' , 'easyReservations' ); ?></td>
 				</tr>	
 				<tr valign="top">
 					<td><textarea name="reservations_email_to_admin_edited_msg" style="width:99%;height:120px;"><?php echo stripslashes($reservations_email_to_admin_edited['msg']); ?></textarea></td>
@@ -1391,7 +1395,7 @@ ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrival] <br>To: [depa
 					<td><b style="padding:5px;line-height:2;font-size:13px;text-decoration:underline;"><?php echo __( 'Mail to guest' , 'easyReservations' ); ?></b><span style=";margin-right:5px"><?php echo __( 'Active' , 'easyReservations' ); ?>: <input type="checkbox" value="1" name="reservations_email_to_user_edited_check" <?php checked(1, $reservations_email_to_user_edited['active']); ?> style="margin-top:3px;margin-left:-1px;"></span><input type="button" value="Default Mail" onClick="addtextforemail5();" class="easySubmitButton-secondary" style="float:right;"></td>
 				</tr>	
 				<tr valign="top">
-					<td><input type="text" name="reservations_email_to_user_edited_subj" style="width:60%;" value="<?php echo $reservations_email_to_user_edited['subj']; ?>"> <?php echo __( 'Subject' , 'easyReservations' ); ?></td>
+					<td><input type="text" name="reservations_email_to_user_edited_subj" style="width:60%;" value='<?php echo stripslashes($reservations_email_to_user_edited['subj']); ?>'> <?php echo __( 'Subject' , 'easyReservations' ); ?></td>
 				</tr>	
 				<tr valign="top">
 					<td><textarea name="reservations_email_to_user_edited_msg" style="width:99%;height:120px;"><?php echo stripslashes($reservations_email_to_user_edited['msg']); ?></textarea></td>
@@ -1399,7 +1403,7 @@ ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrival] <br>To: [depa
 			</tbody>
 		</table>
 		<?php do_action('er_set_emails_add_after'); ?>
-		<input type="button" onclick="document.getElementById('reservations_email_settings').submit(); return false;" class="easySubmitButton-primary" style="margin-top:4px" value="<?php printf ( __( 'Save Changes' , 'easyReservations' ));?>">
+		<input type="button" onclick="document.getElementById('reservations_email_settings').submit(); return false;" class="easySubmitButton-primary" style="margin-top:4px" value="<?php echo __( 'Save Changes' , 'easyReservations' );?>">
 		</td>
 		<td  style="width:1%;"></td>
 		<td  style="width:39%;"  valign="top">
@@ -1432,6 +1436,7 @@ ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrival] <br>To: [depa
 							<p><code class="codecolor">[customs]</code> <i><?php printf ( __( 'custom fields' , 'easyReservations' ));?></i></p>
 							<p><code class="codecolor">[changlog]</code> <i><?php printf ( __( 'show changes after edits' , 'easyReservations' ));?></i></p>
 							<p><code class="codecolor">[editlink]</code> <i><?php printf ( __( 'link to user edit' , 'easyReservations' ));?></i></p>
+							<?php do_action('easy-email-list'); ?>
 						</div>
 					</td>
 				</tr>

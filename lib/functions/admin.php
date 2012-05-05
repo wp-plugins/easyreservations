@@ -34,7 +34,6 @@ if(isset($_GET['page'])){
 		wp_register_style('datestyle', WP_PLUGIN_URL . '/easyreservations/css/jquery-ui.css' );
 		wp_register_style('easy-cal-2', WP_PLUGIN_URL . '/easyreservations/css/calendar/style_2.css');
 
-		wp_enqueue_style('datestyle');
 		wp_enqueue_style('easy-cal-2');
 		wp_enqueue_script('jquery-ui-datepicker');
 
@@ -49,9 +48,8 @@ if(isset($_GET['page'])){
 		add_action('wp_ajax_easyreservations_send_cal_admin', 'easyreservations_send_calendar_callback');
 	}
 		
-	function easyreservations_datepicker_load() {  //  Load Scripts and Styles for datepicker
+	function easyreservations_datepicker_load(){  //  Load Scripts and Styles for datepicker
 		wp_register_style('datestyle', WP_PLUGIN_URL . '/easyreservations/css/jquery-ui.css');
-		wp_enqueue_style( 'datestyle');
 		wp_enqueue_script('jquery-ui-datepicker');
 	}
 	if($page == 'reservations'){  //  Only load Styles and Scripts on add Reservation
@@ -417,7 +415,7 @@ if(isset($_GET['page'])){
 	function easyreservations_send_table_callback() {
 		global $wpdb; // this is how you get access to the database
 		check_ajax_referer( 'easy-table', 'security' );
-		$zeichen= '';
+		$zeichen = "AND departure > NOW() ";
 
 		if(isset($_POST['typ'])) $typ=$_POST['typ'];
 		else $typ = 'active';
@@ -815,15 +813,18 @@ if(isset($_GET['page'])){
 
 	add_action('er_set_main_side_top', 'easyreservations_add_warn_notice');
 
-	function easyreservations_get_price_filter_description($filtertype){
+	function easyreservations_get_price_filter_description($filtertype, $res, $type){
+		global $the_rooms_intervals_array;
+		if($type == 0) $interval = easyreservations_get_interval($the_rooms_intervals_array[$res], 0, 1);
+		else $interval = $the_rooms_intervals_array[$res];
 		if($filtertype['cond'] == 'range'){
-			$the_condtion = sprintf(__( 'If the day to calculate is beween %1$s and %2$s else' , 'easyReservations' ), '<b>'.date(RESERVATIONS_DATE_FORMAT_SHOW, $filtertype['from']).'</b>', '<b>'.date(RESERVATIONS_DATE_FORMAT_SHOW, $filtertype['to']).'</b>' ).' <b style="font-size:17px">&#8595;</b>';
+			$the_condtion = sprintf(__( 'If the %3$s to calculate is beween %1$s and %2$s else' , 'easyReservations' ), '<b>'.date(RESERVATIONS_DATE_FORMAT_SHOW, $filtertype['from']).'</b>', '<b>'.date(RESERVATIONS_DATE_FORMAT_SHOW, $filtertype['to']).'</b>', easyreservations_interval_infos($interval), 0 ,1 ).' <b style="font-size:17px">&#8595;</b>';
 		} elseif($filtertype['cond'] == 'date'){
-			$the_condtion = sprintf(__( 'If the day to calculate is %1$s else' , 'easyReservations' ), '<b>'.date(str_replace(':i', ':00', RESERVATIONS_DATE_FORMAT_SHOW), $filtertype['date']).'</b>' ).' <b style="font-size:17px">&#8595;</b>';
+			$the_condtion = sprintf(__( 'If the %3$s to calculate is %1$s else' , 'easyReservations' ), '<b>'.date(str_replace(':i', ':00', RESERVATIONS_DATE_FORMAT_SHOW), $filtertype['date']).'</b>', easyreservations_interval_infos($interval),  0 ,1 ).' <b style="font-size:17px">&#8595;</b>';
 		} else {
-			if(isset($filtertype['time']) && !empty($filtertype['time'])){
+			if(isset($filtertype['hour']) && !empty($filtertype['hour'])){
 				$timecondition = '';
-				$times = explode(',', $filtertype['time']);
+				$times = explode(',', $filtertype['hour']);
 				foreach($times as $time){
 					$timecondition .= $time.'h, ';
 				}
@@ -859,7 +860,7 @@ if(isset($_GET['page'])){
 				$ycondition = $filtertype['year'];
 			}
 
-			$itcondtion=__("If day to calculate is ", "easyReservations");
+			$itcondtion=sprintf(__("If %s to calculate is ", "easyReservations"),easyreservations_interval_infos($interval,  0 ,1) );
 			if(isset($timecondition) && $timecondition != '') $itcondtion .= '<b>'.substr($timecondition, 0, -2).'</b> '.__('and', 'easyReservations').' ';
 			if(isset($daycondition) && $daycondition != '') $itcondtion .= '<b>'.substr($daycondition, 0, -2).'</b> '.__('and', 'easyReservations').' ';
 			if(isset($cwcondition) && $cwcondition != '') $itcondtion .= __('in calendar week', 'easyReservations')." <b>".$cwcondition.'</b> '.__('and', 'easyReservations').' ';
@@ -1100,7 +1101,7 @@ if(isset($_GET['page'])){
 	}
 
 	function easyreservations_add_module_notice($mode=false){
-		$warn = html_entity_decode( '&#79;nly u&#115;e &#102;ile&#115; fr&#111;m &#60;a &#104;re&#102;="h&#116;&#116;p&#58;&#47;&#47;w&#119;&#119;.e&#97;sy&#114;eserv&#97;ti&#111;ns.&#111;rg" t&#97;rget="_bl&#97;nk"&#62;easyre&#115;er&#118;ation&#115;.org&#60;&#47;a&#62; or &#60;a &#104;re&#102;="mailto:c&#111;ntact&#64;e&#97;&#115;yreser&#118;&#97;ti&#111;ns.&#111;rg"&#62;&#64;e&#97;sy&#114;eser&#118;ati&#111;ns.&#111;rg&#60;&#47;a&#62; h&#101;re. Y&#111;u &#103;i&#121;e &#116;h&#101;m f&#117;ll&#121; &#97;c&#99;e&#115;s to y&#111;u&#114; se&#114;ve&#114; and dat&#97;ba&#115;e s&#111; &#118;e&#114;ify the &#115;&#111;u&#114;ce &#116;o &#98;e &#60;b&#62;&#115;e&#99;ure&#60;&#47;b&#62;&#33;' );
+		$warn = html_entity_decode( '&#79;nly u&#115;e &#102;ile&#115; fr&#111;m &#60;a &#104;re&#102;="h&#116;&#116;p&#58;&#47;&#47;w&#119;&#119;.e&#97;sy&#114;eserv&#97;ti&#111;ns.&#111;rg" t&#97;rget="_bl&#97;nk"&#62;easyre&#115;er&#118;ation&#115;.org&#60;&#47;a&#62; or &#60;a &#104;re&#102;="mailto:c&#111;ntact&#64;e&#97;&#115;yreser&#118;&#97;ti&#111;ns.&#111;rg"&#62;&#64;e&#97;sy&#114;eser&#118;ati&#111;ns.&#111;rg&#60;&#47;a&#62; h&#101;re. Y&#111;u &#103;i&#118;e &#116;h&#101;m f&#117;ll&#121; &#97;c&#99;e&#115;s to y&#111;u&#114; se&#114;ve&#114; and dat&#97;ba&#115;e s&#111; &#118;e&#114;ify the &#115;&#111;u&#114;ce &#116;o &#98;e &#60;b&#62;&#115;e&#99;ure&#60;&#47;b&#62;&#33;' );
 		if($mode) return $warn;
 		else echo $warn;
 	}

@@ -42,7 +42,7 @@ License:GPL2
 					$uploads = wp_upload_dir();
 					$saved_file_location = $uploads['basedir'].'/'. $file_name;
 
-					if(preg_match("/(PayPal|Import|GuestContact|Calendar|extendedCalendar|Search|)/i", $file_name) && ($file_type == 'application/zip'  || $file_type == 'application/x-zip' || $file_type == 'application/x-zip-compressed'  || isset($_GET['file_name']))){
+					if(preg_match("/(PayPal|Import|datepicker|GuestContact|Calendar|extendedCalendar|Search|)/i", $file_name) && ($file_type == 'application/zip'  || $file_type == 'application/x-zip' || $file_type == 'application/x-zip-compressed'  || isset($_GET['file_name']))){
 						if(move_uploaded_file($file_tmp_name, $saved_file_location) || isset($_GET['file_name'])) {
 							$url = 'admin.php?page=reservation-settings&site=plugins&file_name='.$file_name;
 							if (false === ($creds = request_filesystem_credentials($url, 'ftp', false, false) ) ) {
@@ -83,15 +83,18 @@ License:GPL2
 				if(get_option('easyreservations-notifier-cache')) $xml = easyreservations_latest_modules_versions(86400);
 				else {
 					$xml = new stdClass();
-					$xml->latestc = '1.1'; //Calendar
-					$xml->latestd = '1.0'; //Chat
+					$xml->latestc = '1.1.1'; //Calendar
+					$xml->latestd = '1.0.1'; //Chat
 					$xml->latestp = '1.0'; //PayPal
+					$xml->latestlang = '1.0'; //language
 					$xml->latests = '1.1'; //searchFrom
 				}
 
 				$import_avail_version = "1.1";
-				$chat_current_version = "1.0";
-				$multical_current_version = "1.1";
+				$datepicker_avail_version = "1.0";
+				$chat_current_version = "1.0.1";
+				$lang_current_version = "1.0";
+				$multical_current_version = "1.1.1";
 				$paypal_current_version = "1.0";
 				$search_current_version = "1.1";
 				$deprecated = 0; ?>
@@ -146,6 +149,61 @@ License:GPL2
 								<td style="font-weight:bold;text-align:right"><?php if($import > 0) echo  '<a href="http://easyreservations.org/module/import/" target="_blank">'.__( 'Download' , 'easyReservations' ).'</a>'; else echo '<a href="http://easyreservations.org/module/import/" target="_blank">'.__( 'Download' , 'easyReservations' ).'</a>'; ?></td>
 							</tr>
 							<?php
+								$color = '';$action ='';
+								if(function_exists('easyreservations_register_datepicker_style')){
+									$datepicker = 2;
+									$datepicker_data = get_plugin_data(WP_PLUGIN_DIR.'/easyreservations/lib/modules/datepicker/datepicker.php', false);
+									$datepicker_current_version = $datepicker_data['Version'];
+									if(version_compare($datepicker_current_version, $datepicker_avail_version) == -1) $color = 'color:#FF3B38';
+									$action = '<form action="'.WP_PLUGIN_URL.'/easyreservations/lib/modules/core/activate.php" method="post"><input type="hidden" name="deactivate" value="datepicker"><a onclick="javascript:this.parentNode.submit()" href="#">'.__( 'Deactivate' , 'easyReservations' ).'</a></form>';
+								} else{
+									if(file_exists(WP_PLUGIN_DIR.'/easyreservations/lib/modules/datepicker/datepicker.php')){
+										$datepicker = 1;
+										$datepicker_data = get_plugin_data(WP_PLUGIN_DIR.'/easyreservations/lib/modules/datepicker/datepicker.php', false);
+										$datepicker_current_version = $datepicker_data['Version'];
+										if(version_compare($datepicker_current_version, $datepicker_avail_version) == -1) $color = 'color:#FF3B38';
+										$action = '<form action="'.WP_PLUGIN_URL.'/easyreservations/lib/modules/core/activate.php" method="post"><input type="hidden" name="activate" value="datepicker"><a onclick="javascript:this.parentNode.submit()" href="#">'.__( 'Activate' , 'easyReservations' ).'</a></form>';
+									} else $datepicker = 0;
+								}
+								if($datepicker > 0){
+							?>
+							<tr <?php if($datepicker != 2) echo 'class="inactive"'; ?>>
+								<td style="text-align:center"><img style="vertical-align:text-bottom ;" src="<?php echo RESERVATIONS_IMAGES_DIR; ?>/to.png"></td>
+								<td><b><a href="http://easyreservations.org/module/datepicker/" target="_blank"><?php printf ( __( 'Datepicker Styles' , 'easyReservations' ));?></a></b><br><?php echo $action; ?></td>
+								<td><?php printf ( __( 'Choose from two new styles for the datepickers in forms and admin.' , 'easyReservations' ));?></td>
+								<td style="font-weight:bold;text-align:center"><?php if($datepicker > 0) echo '<a style="color:#118D18">'.$datepicker_current_version.'</a>'; else echo '<a style="color:#FF3B38">'.__( 'None' , 'easyReservations' ).'</a>'; ?></td>
+								<td style="text-align:center;font-weight:bold;<?php echo $color; ?>"><?php echo $datepicker_avail_version; ?></td>
+								<td style="font-weight:bold;text-align:center"><b><?php echo '3,00 &euro;'; ?></b></td>
+								<td style="font-weight:bold;text-align:right"><?php if($datepicker > 0) echo  '<a href="http://easyreservations.org/module/datepicker/" target="_blank">'.__( 'Download' , 'easyReservations' ).'</a>'; else echo '<a href="http://easyreservations.org/module/datepicker/" target="_blank">'.__( 'More info' , 'easyReservations' ).'</a>'; ?></td>
+							</tr>
+							<?php
+								}
+								$action= ''; $color = ''; 
+								if(function_exists('easyreservations_translate_content')){
+									$lang = 2;
+									$lang_data = get_plugin_data(WP_PLUGIN_DIR.'/easyreservations/lib/modules/lang/lang.php', false);
+									$lang_current_version = $lang_data['Version'];
+									if(version_compare($lang_data['Version'], $xml->latestlang) == -1) $color = 'color:#FF3B38';
+									$action = '<form action="'.WP_PLUGIN_URL.'/easyreservations/lib/modules/core/activate.php" method="post"><input type="hidden" name="deactivate" value="lang"><a onclick="javascript:this.parentNode.submit()" href="#">'.__( 'Deactivate' , 'easyReservations' ).'</a></form>';
+								} else {
+									if(file_exists(WP_PLUGIN_DIR.'/easyreservations/lib/modules/lang/lang.php')){
+										$lang = 1;
+										$lang_data = get_plugin_data(WP_PLUGIN_DIR.'/easyreservations/lib/modules/lang/lang.php', false);
+										$lang_current_version = $lang_data['Version'];
+										if(version_compare($lang_data['Version'], $xml->latestlang) == -1) $color = 'color:#FF3B38';
+										$action = '<form action="'.WP_PLUGIN_URL.'/easyreservations/lib/modules/core/activate.php" method="post"><input type="hidden" name="activate" value="lang"><a onclick="javascript:this.parentNode.submit()" href="#">'.__( 'Activate' , 'easyReservations' ).'</a></form>';
+									} else $lang = 0;
+								} if($lang > 0){ ?>
+							<tr <?php if($lang != 2) echo 'class="inactive"'; ?>>
+								<td style="text-align:center"><img style="vertical-align:text-bottom ;" src="<?php echo RESERVATIONS_IMAGES_DIR; ?>/country.png"></td>
+								<td><b><a href="http://easyreservations.org/module/lang/" target="_blank"><?php printf ( __( 'Translation Module' , 'easyReservations' ));?></a></b><br><?php echo $action; ?></td>
+								<td><?php printf ( __( 'Function to make texts in forms and emails translatable.' , 'easyReservations' ));?></td>
+								<td style="font-weight:bold;text-align:center"><?php if($lang) echo '<a style="color:#118D18">'.$lang_current_version.'</a>'; else echo '<a style="color:#FF3B38">'.__( 'None' , 'easyReservations' ).'</a>'; ?></td>
+								<td style="text-align:center;font-weight:bold;<?php echo $color; ?>"><?php echo $xml->latestlang; ?></td>
+								<td style="font-weight:bold;text-align:center"><?php echo '5,00 &euro;'; ?></td>
+								<td style="font-weight:bold;text-align:right"><?php if($lang) echo '<a href="http://easyreservations.org/module/lang/">'.__( 'Download' , 'easyReservations' ).'</a>'; else echo '<a href="http://easyreservations.org/module/lang/" target="_blank">'.__( 'More info' , 'easyReservations' ).'</a>'; ?></td>
+							</tr>
+							<?php }
 								$action= ''; $color = ''; 
 								if(function_exists('easyreservations_generate_chat')){
 									$chat = 2;
@@ -350,6 +408,9 @@ License:GPL2
 				} elseif($plugin[$key] == 'search'){
 					$number = $xml->latests;
 					$name = $xml->names;
+				}  elseif($plugin[$key] == 'lang'){
+					$number = $xml->latestlang;
+					$name = $xml->namelang;
 				}
 
 				if(version_compare($upd['Version'], $number) == -1){
@@ -431,6 +492,18 @@ License:GPL2
 	function easyreservation_is_import(){
 		$active = get_option('reservations_active_modules');
 		if(file_exists(WP_PLUGIN_DIR.'/easyreservations/lib/modules/import/import.php') && is_array($active) && in_array('import', $active)) return true;
+		else return false;
+	}
+
+	function easyreservation_is_datepicker(){
+		$active = get_option('reservations_active_modules');
+		if(file_exists(WP_PLUGIN_DIR.'/easyreservations/lib/modules/datepicker/datepicker.php') && is_array($active) && in_array('datepicker', $active)) return true;
+		else return false;
+	}
+
+	function easyreservation_is_language(){
+		$active = get_option('reservations_active_modules');
+		if(file_exists(WP_PLUGIN_DIR.'/easyreservations/lib/modules/lang/lang.php') && is_array($active) && in_array('lang', $active)) return true;
 		else return false;
 	}
 

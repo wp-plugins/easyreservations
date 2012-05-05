@@ -387,23 +387,27 @@
 		return $customparray;
 	}
 
-	function easyreservations_check_avail($resourceID, $arrival, $exactly=0, $departure = 0, $mode=0, $id=0, $avail=1, $status = 0){
+	function easyreservations_check_avail($resourceID, $arrival, $exactly=0, $departure = 0, $mode=0, $id=0, $avail=1, $status = 0, $interval = false){
 		global $wpdb;
 		$error=null;
 
 		$date_format = date("Y-m-d H:i:s", $arrival);
 		$roomcount = get_post_meta($resourceID, 'roomcount', true);
-		$resource_interval = get_post_meta($resourceID, 'easy-resource-interval', TRUE);
-		$interval = 86400; $date_pattern = RESERVATIONS_DATE_FORMAT;
-		if($resource_interval == 3600){
-			$interval = 3600; $date_pattern = RESERVATIONS_DATE_FORMAT.' H';	
+		if(!$interval){
+			global $the_rooms_intervals_array;
+			$resource_interval = $the_rooms_intervals_array[$resourceID];
+			$interval = 86400;
+			if($resource_interval == 3600) $interval = 3600;
 		}
+
+		if($interval == 3600) $date_pattern = RESERVATIONS_DATE_FORMAT.' H';
+		else $date_pattern = RESERVATIONS_DATE_FORMAT;
 
 		if($id > 0 && ($status == 0 || $status == 'yes')) $idsql = " id != '$id' AND";
 		else  $idsql = '';
 
 		if($resourceID > 0){
-			if($avail !== 0) $error .= reservations_check_avail_filter($resourceID, $arrival, $departure, $mode);
+			if($avail !== 0) $error .= reservations_check_avail_filter($resourceID, $arrival, $departure, $mode,$interval);
 			if($departure > 0){
 				if($exactly > 0){
 					if($mode == 0){
@@ -441,7 +445,6 @@
 		}
 
 		if($mode == 1) $error = substr($error,0,-2);
-
 		return $error;
 	}
 
@@ -453,13 +456,18 @@
 	*	$times = (optional) number - to check for more as one day
 	*/
 
-	function reservations_check_avail_filter($resourceID, $arrival, $departure=0, $mode=0){ //Check if a resource is Avail or Full
+	function reservations_check_avail_filter($resourceID, $arrival, $departure=0, $mode=0, $interval = false){ //Check if a resource is Avail or Full
 		$filters = get_post_meta($resourceID, 'easy_res_filter', true);
 		$roomcount = get_post_meta($resourceID, 'roomcount', true);
-		global $the_rooms_intervals_array;
-		$resource_interval = $the_rooms_intervals_array[$resourceID];
-		$interval = 86400; $date_pattern = RESERVATIONS_DATE_FORMAT;
-		if($resource_interval == 3600) $interval = 3600; $date_pattern = RESERVATIONS_DATE_FORMAT.' H';	
+		if(!$interval){
+			global $the_rooms_intervals_array;
+			$resource_interval = $the_rooms_intervals_array[$resourceID];
+			$interval = 86400;
+			if($resource_interval == 3600) $interval = 3600;
+		}
+
+		if($interval == 3600) $date_pattern = RESERVATIONS_DATE_FORMAT.' H';
+		else $date_pattern = RESERVATIONS_DATE_FORMAT;
 
 		if($departure < 1) $departure = $arrival+$interval;
 		$error = '';
@@ -473,7 +481,7 @@
 									if(empty($filter['month']) || ( in_array(date("n", $i), explode(",", $filter['month'])))){
 										if(empty($filter['cw']) || ( in_array(date("W", $i), explode(",", $filter['cw'])))){
 											if(empty($filter['day']) || ( in_array(date("N", $i), explode(",", $filter['day'])))){
-												if(!isset($filter['hour']) || empty($filter['hour']) || ( in_array(date("H", $i), explode(",", $filter['hour'])))){
+												if(!isset($filter['hour']) || empty($filter['hour']) || ($interval == 3600 && in_array(date("H", $i), explode(",", $filter['hour'])))){
 													if($mode == 1) $error .= date($date_pattern, $i).', ';
 													elseif($mode == 2)  $error[$i] = $roomcount;
 													else $error += $roomcount;
@@ -755,7 +763,7 @@
 				$num = '0'.$num;
 			}
 
-			$return .= '<option value="'.$num.'"'.$isel.'>'.$num.'</option>';
+			$return .= '<option value="'.$num.'" '.$isel.'>'.$num.'</option>';
 
 		}
 
@@ -843,6 +851,12 @@
 				$theForm=str_replace('['.$field[0].']', $theCustominMail, $theForm);
 			}
 		}
+		
+		$local = false;
+		if(isset($_POST['easy-set-local'])) $local = $_POST['easy-set-local'];
+
+		$theForm = apply_filters( 'easy-email-content', $theForm, $local);
+		$mailSubj = apply_filters( 'easy-email-subj', $mailSubj, $local);
 
 		$makebrtobreak=str_replace('<br>', "\n",str_replace(']', '',  str_replace('[', '', $theForm)));
 		$msg=$makebrtobreak;
@@ -998,6 +1012,8 @@
 		else $interval = 1;
 		if(isset($explodeSize[3]) && $explodeSize[3] != '') $header = $explodeSize[3];
 		else $header = 0;
+
+		$room_count = get_post_meta($_POST['room'], 'roomcount', true);
 		$month_names = easyreservations_get_date_name(1);
 		$day_names = easyreservations_get_date_name(0,2);
 		if($width == 0 || empty($width)) $width=300;
@@ -1018,7 +1034,7 @@
 			$explode_monthes = explode('x', $_POST['monthes']);
 			$monthes = $explode_monthes[0] * $explode_monthes[1];
 			$divider = $explode_monthes[0];
-		} 
+		}
 
 		if(function_exists('easyreservations_generate_multical') && $where == 'shortcode' && $monthes != 1){
 			$timenows = easyreservations_generate_multical($_POST['date'], $monthes);
@@ -1054,7 +1070,7 @@
 			$width = $width / $divider;
 			$percent = 100 / $divider;
 		} else $percent = 100;
-			$rand = rand(1,999);
+		$rand = rand(1,999);
 
 		$month_count=0;
 		foreach($timenows as $timenow){
@@ -1131,7 +1147,7 @@
 					if(isset($_POST['childs'])) $childs = $_POST['childs']; else $childs = 0;
 					if(isset($_POST['reservated'])) $reservated = $_POST['reservated']*86400; else $reservated = 0;
 
-					$fake_res = array( 'arrival' => date("Y-m-d H:i:s", $dateofeachday), 'departure' => date("Y-m-d H:i:s", $dateofeachday+$the_rooms_intervals_array[$_POST['room']]), 'reservated' => date("d.m.Y H:i", $dateofeachday-$reservated), 'room' => $_POST['room'], 'number' => $persons, 'childs' => $childs, 'email' => 'test@test.deve', 'price' => '', 'customp' => '' );
+					$fake_res = array( 'arrival' => date("Y-m-d H:i:s", $dateofeachday), 'departure' => date("Y-m-d H:i:s", $dateofeachday+$the_rooms_intervals_array[$_POST['room']]), 'reservated' => date("d.m.Y H:i", time()), 'room' => $_POST['room'], 'number' => $persons, 'childs' => $childs, 'email' => 'test@test.deve', 'price' => '', 'customp' => '' );
 					$fake_res_object = (object) $fake_res;
 					$calculate_price = easyreservations_price_calculation( '', array($fake_res_object) );
 					if($price == 1 || $price == 2){ $explode = explode('.', $calculate_price['price']); $calculate_price['price'] = $explode[0]; }
@@ -1146,16 +1162,17 @@
 				if(date("d.m.Y", $dateofeachday) == date("d.m.Y", time())) $todayClass=" today";
 				else $todayClass="";
 
-				$avail = easyreservations_check_avail($_POST['room'], $dateofeachday);
+				$avail = easyreservations_check_avail($_POST['room'], $dateofeachday, 0,0,0,0,1,0,86400);
 
-				if($avail >= get_post_meta($_POST['room'], 'roomcount', true)){
+				if($avail >= $room_count){
 					$backgroundtd=" calendar-cell-full";
 				} elseif($avail > 0){
 					$backgroundtd=" calendar-cell-occupied";
 				} else {
 					$backgroundtd=" calendar-cell-empty";
 				}
-				echo '<td class="calendar-cell'.$todayClass.$backgroundtd.'" onclick="easyreservations_click_calendar(this,\''.date(RESERVATIONS_DATE_FORMAT, $dateofeachday).'\', \''.$rand.'\', \''.$key.'\')" id="easy-cal-'.$rand.'-'.$diff.'-'.$key.'" axis="'.$diff.'">'.$diff.''.$final_price.'</td>'; $setet++; $diff++;
+				if($dateofeachday > time()) $onclick = 'onclick="easyreservations_click_calendar(this,\''.date(RESERVATIONS_DATE_FORMAT, $dateofeachday).'\', \''.$rand.'\', \''.$key.'\')"'; else $onclick ='style="cursor:default"';
+				echo '<td class="calendar-cell'.$todayClass.$backgroundtd.'" '.$onclick.' id="easy-cal-'.$rand.'-'.$diff.'-'.$key.'" axis="'.$diff.'">'.$diff.''.$final_price.'</td>'; $setet++; $diff++;
 				if($setet==0 || $setet==7 || $setet==14 || $setet==21 || $setet==28){ echo '</tr>'; }
 			}
 

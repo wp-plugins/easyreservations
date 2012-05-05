@@ -1,6 +1,7 @@
 <?php
 
 function reservation_main_page() {
+	wp_enqueue_style( 'datestyle');
 	$main_options = get_option("reservations_main_options");
 	$show = $main_options['show'];
 	$overview_options = $main_options['overview'];
@@ -402,7 +403,7 @@ function reservation_main_page() {
 	<a class="add-new-h2" href="admin.php?page=reservations&add"><?php echo __( 'Add New' , 'easyReservations' );?></a>
 </h2>
 <?php 	if(isset($prompt)) echo $prompt; 
-if(!isset($show['show_welcome']) || $show['show_welcome'] != 0){ ?>
+if(!isset($show['show_welcome']) || $show['show_welcome'] != 0){?>
 <div id="wrap">
 <div class="easy-welcome-panel" id="easy-welcome-panel">
 	<div class="wp-badge easy-badge">Version 2.0</div>
@@ -1425,6 +1426,7 @@ if(isset($edit)){
 						<tr class="alternate">
 							<td nowrap> &nbsp;<input type="checkbox" name="sendthemail" value="on"> <i><?php printf ( __( 'Send mail to user on edit' , 'easyReservations' ));?></i></td>
 						</tr>
+						<?php do_action('easy-mail-add-input'); ?>
 						<tr>
 							<td><textarea type="text" name="approve_message" id="approve_message" value="Value" style="width:260px;margin-top:2px;" onfocus="if (this.value == 'Message') this.value = '';" onblur="if (this.value == '') this.value = 'Message';">Message</textarea></td>
 						</tr>
@@ -1677,6 +1679,7 @@ if(isset($approve) || isset($delete)) {
 					<td><?php printf ( __( 'Resource' , 'easyReservations' ));?>: <?php echo __($room_name);?> # <select id="roomexactly" name="roomexactly">
 					<?php echo easyReservations_num_options(1,$roomcount,$exactlyroom); ?></td>
 				</tr><?php } ?>
+				<?php do_action('easy-mail-add-input'); ?>
 				<tr>
 					<td>
 							<p><input type="checkbox" name="sendthemail" checked><small> <?php printf ( __( 'Send mail to guest' , 'easyReservations' ));  ?></small> <input type="checkbox" name="hasbeenpayed"><small>  <?php printf ( __( 'Has been paid' , 'easyReservations' ));  ?></small></p>
@@ -1710,6 +1713,7 @@ if(isset($sendmail)) {
 				<tr>
 					<td nowrap><?php echo easyreservations_reservation_info_box($sendmail, 'sendmail', $reservationStatus); ?></td>
 				</tr>
+				<?php do_action('easy-mail-add-input'); ?>
 				<tr>
 					<td>
 							<textarea cols="60" rows="4" name="approve_message" class="er-mail-textarea" width="100px"></textarea>

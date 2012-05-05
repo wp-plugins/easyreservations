@@ -3,7 +3,7 @@
 Plugin Name: easyReservations
 Plugin URI: http://www.easyreservations.org
 Description: This powerfull property and reservation management plugin allows you to receive, schedule and handle your bookings easily!
-Version: 2.0
+Version: 2.0.1
 Author: Feryaz Beer
 Author URI: http://www.feryaz.de
 License:GPL2
@@ -513,6 +513,12 @@ ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrival] <br>To: [depa
 	}
 	if(function_exists('easyreservation_is_search') && easyreservation_is_search()){
 		include_once(dirname(__FILE__)."/lib/modules/search/search.php");
+	}
+	if(function_exists('easyreservation_is_language') && easyreservation_is_language()){
+		include_once(dirname(__FILE__)."/lib/modules/lang/lang.php");
+	}
+	if(function_exists('easyreservation_is_datepicker') && easyreservation_is_datepicker()){
+		include_once(dirname(__FILE__)."/lib/modules/datepicker/datepicker.php");
 	}
 
 ?>

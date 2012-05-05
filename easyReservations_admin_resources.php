@@ -249,6 +249,7 @@ if(!isset($site) || $site=='' || $site =='main'){
 		echo '</table>';
 
 	} elseif($site=='rooms'){
+		wp_enqueue_style('datestyle');
 		$get_role = get_post_meta($resourceID, 'easy-resource-permission', true);
 		if(!empty($get_role) && !current_user_can($get_role)) die('You havnt the rights to view this resource');
 		$right = '';
@@ -383,7 +384,7 @@ if(!isset($site) || $site=='' || $site =='main'){
 											<td class="resourceType"><code  style="color:#30B24A;font-weight:bold;display:inline-block">[<?php echo $filter['type']; ?>]</code> <?php echo $filter['name']; ?></td>
 											<td style="vertical-align:middle;text-align:center;width:40px"><?php echo $filter['imp']; ?></td>
 											<td>
-												<?php echo easyreservations_get_price_filter_description($filter); ?>
+												<?php echo easyreservations_get_price_filter_description($filter, $resourceID, 1); ?>
 											</td>
 												<td>
 													<?php if(isset($filter['price']) && $filter['price'] > 0){ ?>
@@ -426,7 +427,7 @@ if(!isset($site) || $site=='' || $site =='main'){
 										$condition_string = sprintf(__('If guest stays %s days or more the price changes by','easyReservations'), '<b>'.$filter['cond'].'</b>');
 									} elseif($filter['type'] =="unavail"){
 										$bgcolor='#D8211E';
-										$condition_string =str_replace(__("calculate", 'easyReservations'), __("check", 'easyReservations'),substr(easyreservations_get_price_filter_description($filter),0,-42)).' '.__('resource is unavailable','easyReservations');
+										$condition_string =str_replace(__("calculate", 'easyReservations'), __("check", 'easyReservations'),substr(easyreservations_get_price_filter_description($filter, $resourceID, 0),0,-42)).' '.__('resource is unavailable','easyReservations');
 									} elseif($filter['type'] =="pers"){
 										$bgcolor='#3059C1';
 										$condition_string = sprintf(__('If %s or more persons reservating the price changes by','easyReservations'), '<b>'.$filter['cond'].'</b>');
@@ -529,7 +530,6 @@ if(!isset($site) || $site=='' || $site =='main'){
 										<option value="3600" <?php selected($reservations_current_int, 3600); ?>><?php  echo __( 'Hourly billing' , 'easyReservations' );?></option>
 										<option value="86400" <?php selected($reservations_current_int, 86400); ?>><?php  echo __( 'Daily billing' , 'easyReservations' );?></option>
 										<option value="604800" <?php selected($reservations_current_int, 604800); ?>><?php  echo __( 'Weekly billing' , 'easyReservations' );?></option>
-										<option value="2592000" <?php selected($reservations_current_int, 604800); ?>><?php  echo __( 'Monthly billing' , 'easyReservations' );?></option>
 									</select><br>
 									<?php echo  __( 'Price per person' , 'easyReservations' );?> <input type="checkbox" name="easy-resource-price" value="1" <?php checked($reservations_current_price_set, 1); ?>>
 								</td>
@@ -605,7 +605,7 @@ if(!isset($site) || $site=='' || $site =='main'){
 											<input type="radio" name="price_filter_cond" id="price_filter_cond_unit" value="unit"> <b><?php echo __( 'Unit' , 'easyReservations' ); ?></b><br>
 											<div class="fakehr"></div>
 											<label for="price_filter_cond_unit" id="price_filter_cond_unit">
-											<?php if($reservations_current_int <= 3600){ ?>
+										
 											<span style="padding:2px 0px 2px 18px;margin-top:5px;float:none"><b><u><?php echo __( 'Hours' , 'easyReservations' ); ?></u></b></span><br>
 											<span style="padding:2px 0px 2px 18px;"><i><?php echo __( 'select nothing to change price/availability for entire' , 'easyReservations' ).' '.__( 'day' , 'easyReservations' );?></i></span><br>
 											<span style="min-width:99%;display:block;float:left">
@@ -643,7 +643,7 @@ if(!isset($site) || $site=='' || $site =='main'){
 												</div>
 											</span>
 											
-											<?php } ?>
+											
 
 											<span style="padding:2px 0px 2px 18px;"><b><u><?php echo __( 'Days' , 'easyReservations' ); ?></u></b></span><br>
 											<span style="padding:2px 0px 2px 18px;"><i><?php echo __( 'select nothing to change price/availability for entire' , 'easyReservations' ).' '.__( 'calendar week' , 'easyReservations' );
@@ -858,13 +858,14 @@ if(!isset($site) || $site=='' || $site =='main'){
 				document.getElementById('price_filter_range_to').value = filter[i]['to'];
 			} else {
 				document.getElementsByName('price_filter_cond')[2].checked = true;
-				var hour_checkboxes = document.getElementsByName('price_filter_unit_hours[]');
+				var hour_checkboxes = document.getElementsByName('price_filter_unit_hour[]');
 				if(hour_checkboxes && filter[i]['hour'] != ''){
 					var hours =  filter[i]['hour'];
 					var explode_hours = hours.split(",");
+					var nr = 0;
 					for(var x = 0; x < explode_hours.length; x++){
-						var nr = explode_hours[x];
-						hour_checkboxes[nr-1].checked = true;
+						nr = explode_hours[x];
+						hour_checkboxes[nr].checked = true;
 					}
 				}
 				var day_checkboxes = document.getElementsByName('price_filter_unit_days[]');

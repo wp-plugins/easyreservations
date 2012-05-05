@@ -28,7 +28,7 @@ class easyReservations_form_widget extends WP_Widget {
 		if($calendar_price == "on") $showPrice = 1;
 		else $showPrice = 0;
 
-		if($calendar_width == 0 OR empty($calendar_width)) $calendar_width = 180;
+		if($calendar_width == 0 || empty($calendar_width)) $calendar_width = 180;
 		$theForm = stripslashes($form_editor);
 
 		preg_match_all(' /\[.*\]/U', $theForm, $matches);
@@ -57,6 +57,7 @@ class easyReservations_form_widget extends WP_Widget {
 				$start = 1;
 				if(isset($field[1])) $end = $field[1]; else $end = 6;
 				if(isset($field[2])){ $start = $field[1]; $end = $field[2]; }
+				$theForm=preg_replace('/\['.$fields.'\]/', '<select name="persons">'.easyReservations_num_options($start,$end).'</select>', $theForm);
 			} elseif($field[0]=="childs"){
 				if(isset($field[1])) $end = $field[1]; else $end = 6;
 				if(isset($field[2])){ $start = $field[1]; $end = $field[2]; }
@@ -169,7 +170,7 @@ class easyReservations_form_widget extends WP_Widget {
 			<label for="<?php echo $this->get_field_id('form_editor'); ?>"><?php _e('Edit form:', 'easyReservations'); ?><br>
 			<textarea id="<?php echo $this->get_field_id('form_editor'); ?>" name="<?php echo $this->get_field_name('form_editor'); ?>" cols="34" rows="10"><?php echo $form_editor; ?></textarea></label> 
 		</p>
-		<code style="cursor:pointer" onclick="document.getElementById('<?php echo $this->get_field_id('form_editor'); ?>').value += '[date-from]';">[date-from]</code>, <code style="cursor:pointer" onclick="document.getElementById('<?php echo $this->get_field_id('form_editor'); ?>').value += '[date-to]';">[date-to]</code>, <code style="cursor:pointer" onclick="document.getElementById('<?php echo $this->get_field_id('form_editor'); ?>').value += '[persons Select]';">[persons *]</code>, <code style="cursor:pointer" onclick="document.getElementById('<?php echo $this->get_field_id('form_editor'); ?>').value += '[childs Select]';">[childs *]</code>, <code style="cursor:pointer" onclick="document.getElementById('<?php echo $this->get_field_id('form_editor'); ?>').value += '[rooms]';">[rooms]</code>, <code style="cursor:pointer" onclick="document.getElementById('<?php echo $this->get_field_id('form_editor'); ?>').value += '[country]';">[country]</code>, <code style="cursor:pointer" onclick="document.getElementById('<?php echo $this->get_field_id('form_editor'); ?>').value += '[email]';">[email]</code>, <code style="cursor:pointer" onclick="document.getElementById('<?php echo $this->get_field_id('form_editor'); ?>').value += '[thename]';">[thename]</code>
+		<code style="cursor:pointer" onclick="document.getElementById('<?php echo $this->get_field_id('form_editor'); ?>').value += '[date-from]';">[date-from]</code>, <code style="cursor:pointer" onclick="document.getElementById('<?php echo $this->get_field_id('form_editor'); ?>').value += '[date-to]';">[date-to]</code>, <code style="cursor:pointer" onclick="document.getElementById('<?php echo $this->get_field_id('form_editor'); ?>').value += '[adults 1 5]';">[adults *]</code>, <code style="cursor:pointer" onclick="document.getElementById('<?php echo $this->get_field_id('form_editor'); ?>').value += '[childs Select]';">[childs *]</code>, <code style="cursor:pointer" onclick="document.getElementById('<?php echo $this->get_field_id('form_editor'); ?>').value += '[rooms]';">[rooms]</code>, <code style="cursor:pointer" onclick="document.getElementById('<?php echo $this->get_field_id('form_editor'); ?>').value += '[country]';">[country]</code>, <code style="cursor:pointer" onclick="document.getElementById('<?php echo $this->get_field_id('form_editor'); ?>').value += '[email]';">[email]</code>, <code style="cursor:pointer" onclick="document.getElementById('<?php echo $this->get_field_id('form_editor'); ?>').value += '[thename]';">[thename]</code>
 		<p>
 			<label for="<?php echo $this->get_field_id('form_url'); ?>"><?php _e('Form URL:', 'easyReservations'); ?></label> 
 			<input class="widefat" id="<?php echo $this->get_field_id('form_url'); ?>" name="<?php echo $this->get_field_name('form_url'); ?>" type="text" value="<?php echo $form_url; ?>" />

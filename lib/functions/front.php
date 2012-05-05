@@ -193,7 +193,7 @@
 		return $error;
 	}
 
-	function easyreservations_generate_form($theForm, $price_action, $validate_action, $isCalendar, $the_resource = 0, $error = 0){
+	function easyreservations_generate_form($theForm, $price_action, $validate_action, $isCalendar, $the_resource = 0, $error = 0, $local = 'fr_FR'){
 		$theForm = stripslashes($theForm);
 
 		preg_match_all(' /\[.*\]/U', $theForm, $matches);
@@ -306,13 +306,13 @@
 				if($field[1]=="text"){
 					$theForm=str_replace('['.$fields.']', '<input title="'.$title.'" style="'.$style.'" '.$disabled.' type="text" name="easy-custom-'.$field[2].'" id="easy-custom-'.$req.'-'.$field[2].'" value="'.$value.'">', $theForm);
 				} elseif($field[1]=="textarea"){
-					$theForm=str_replace($fields, '<textarea title="'.$title.'" style="'.$style.'" '.$disabled.' name="easy-custom-'.$field[2].'" id="easy-custom-'.$req.'-'.$field[2].'" value="'.$value.'"></textarea>', $theForm);
+					$theForm=str_replace('['.$fields.']', '<textarea title="'.$title.'" style="'.$style.'" '.$disabled.' name="easy-custom-'.$field[2].'" id="easy-custom-'.$req.'-'.$field[2].'" value="'.$value.'"></textarea>', $theForm);
 				} elseif($field[1]=="check"){
 					if(isset($field['checked'])) $checked = ' checked="'.$field['checked'].'"'; else $checked = '';
-					$theForm=str_replace($fields, '<input type="checkbox" title="'.$title.'" '.$disabled.$checked.' style="'.$style.'" name="easy-custom-'.$field[2].'" id="easy-custom-'.$req.'-'.$field[2].'">', $theForm);
+					$theForm=str_replace('['.$fields.']', '<input type="checkbox" title="'.$title.'" '.$disabled.$checked.' style="'.$style.'" name="easy-custom-'.$field[2].'" id="easy-custom-'.$req.'-'.$field[2].'">', $theForm);
 				} elseif($field[1]=="radio"){
 					if(preg_match("/^[a-zA-Z0-9_]+$/", $valuefield)){
-						$theForm=str_replace($fields, '<input type="radio" title="'.$title.'" '.$disabled.' style="'.$style.'" name="easy-custom-'.$field[2].'" id="easy-custom-'.$req.'-'.$field[2].'" value="'.$valuefield.'"> '.$valuefield, $theForm);
+						$theForm=str_replace('['.$fields.']', '<input type="radio" title="'.$title.'" '.$disabled.' style="'.$style.'" name="easy-custom-'.$field[2].'" id="easy-custom-'.$req.'-'.$field[2].'" value="'.$valuefield.'"> '.$valuefield, $theForm);
 					} elseif(preg_match("/^[a-zA-Z0-9_ \\,\\t]+$/", $valuefield)){
 						$valueexplodes=explode(",", $valuefield);
 						$custom_radio='';
@@ -389,12 +389,12 @@
 			}
 		}
 
-		if($roomfield == 0 && $the_resource > 0) $finalformedgesremoved .= '<input type="hidden" name="room" value="'.$the_resource.'">';
-
+		if($roomfield == 0 && $the_resource > 0) $theForm .= '<input type="hidden" name="room" value="'.$the_resource.'">';
+		///$theForm = do_action('easy-form-content', $theForm);
+		$theForm = apply_filters( 'easy-form-content', $theForm, $local);
 		$finalformedgeremove1=str_replace('[', '', $theForm);
 		$finalformedgesremoved=str_replace(']', '', $finalformedgeremove1);
 
 		return $finalformedgesremoved;
-
 	}
 ?>
