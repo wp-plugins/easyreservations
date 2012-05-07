@@ -129,14 +129,13 @@
 										}
 									}
 								}
-							} elseif($resource_interval < 86500 &&  $filter['cond'] == 'date'){ // Date price filter
-								$date = strtotime($filter['date']);
-								if($i == $date){
+							} elseif($filter['cond'] == 'date'){ // Date price filter
+								if(date("d.m.Y", $i) == date("d.m.Y", $filter['date']) && ($resource_interval > 3600 || date("H",$i) == date("H", $filter['date']))){
 									$price_add = 1;
 								}
 							} else { // Range price filter
-								$from = strtotime($filter['from']);
-								$to = strtotime($filter['to']);
+								$from = $filter['from'];
+								$to = $filter['to'];
 								if($i >= $from && $i  <= $to){
 									$price_add = 1;
 								}
@@ -492,16 +491,13 @@
 								}
 							}
 						} elseif($filter['cond'] == 'date'){ // Date price filter
-							if(!is_numeric($filter['date'])) $filter['date'] = strtotime($filter['date']);
-							if(date($date_pattern, $i) == $filter['date']){
+							if(date("d.m.Y", $i) == date("d.m.Y", $filter['date']) && ($resource_interval > 3600 || date("H",$i) == date("H", $filter['date']))){
 								if($mode == 1) $error .= date(RESERVATIONS_DATE_FORMAT_REAL, $i).', ';
 								elseif($mode == 2) $error[$i] = $roomcount;
 								else $error += $roomcount;
 							}
 						} else {// Range price filter
-							if(!is_numeric($filter['from'])) $filter['from'] = strtotime($filter['from']);
-							if(!is_numeric($filter['to'])) $filter['to'] = strtotime($filter['to']);
-							if($arrival >= $filter['from'] && $arrival <= $filter['to']){
+							if($i >= $filter['from'] && $i <= $filter['to']){
 								if($mode == 1) $error .= date($date_pattern, $i).', ';
 								elseif($mode == 2) $error[$i] = $roomcount;
 								else $error += $roomcount;
