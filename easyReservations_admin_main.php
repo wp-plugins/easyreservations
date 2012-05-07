@@ -406,12 +406,12 @@ function reservation_main_page() {
 if(!isset($show['show_welcome']) || $show['show_welcome'] != 0){?>
 <div id="wrap">
 <div class="easy-welcome-panel" id="easy-welcome-panel">
-	<div class="wp-badge easy-badge">Version 2.0</div>
-	<h3>Welcome to easyReservations 2.0!</h3>
+	<div class="wp-badge easy-badge">Version 2.0.2</div>
+	<h3>Welcome to easyReservations 2.0.2!</h3>
 	<p class="about-description">
 		Now with hourly and weekly billing, reservations in any amount of time and many improvements!<br>
 		Visit the brand new website at easyreservations.org with a better <a href="http://easyreservations.org/knowledgebase/" target="_blank">Documentation</a> and the <a href="http://easyreservations.org/forum/" target="_blank">Support Forum</a> - the only place to get support from now.<br>
-		The first <a href="http://easyreservations.org/module/	" target="_blank">Modules</a> got released to purchase: guestContact, extendedCalendar and the searchForm. PayPal will follow in the next days!<br>
+		The first <a href="http://easyreservations.org/module/" target="_blank">Modules</a> got released to purchase: guestContact, extendedCalendar and the searchForm. <a href="http://easyreservations.org/module/paypal" target="_blank">>PayPal</a> Module is available too now!<br>
 		Please think about supporting the development by getting a <a href="http://easyreservations.org/module/lifetime/" target="_blank">Life-Time Member</a>. You wont regret it. [<a href="#" onclick="document.getElementById('easy-welcome-panel').style.display = 'none';">dissmiss</a>]
 	</p>
 </div>
@@ -529,6 +529,7 @@ if($show['show_overview']==1){ //Hide Overview completly
 		jQuery("#dayPicker").datepicker({
 			changeMonth: true,
 			changeYear: true,
+			firstDay: 1,
 			buttonText: '<?php echo __( 'choose date' , 'easyReservations' ); ?>',
 			showOn: 'both',
 			buttonImage: '<?php echo RESERVATIONS_IMAGES_DIR; ?>/day.png',
@@ -954,6 +955,7 @@ if(!isset($approve) && !isset($delete) && !isset($view) && !isset($edit) && !iss
 				changeMonth: true,
 				changeYear: true,
 				showOn: 'both',
+				firstDay: 1,
 				buttonText: '<?php echo __( 'choose date' , 'easyReservations' ); ?>',
 				buttonImage: '<?php echo RESERVATIONS_IMAGES_DIR; ?>/day.png',
 				buttonImageOnly: true,
@@ -1294,7 +1296,7 @@ if(isset($edit)){
 	}
 ?><script>
 	jQuery(document).ready(function() {
-		jQuery("#datepicker, #datepicker2, #reservation_date").datepicker({ dateFormat: 'dd.mm.yy' });
+		jQuery("#datepicker, #datepicker2, #reservation_date").datepicker({ dateFormat: 'dd.mm.yy',firstDay: 1 });
 	});
 
 	var Add = 1 + <?php echo $thenumber1; ?>;
@@ -1480,7 +1482,7 @@ $highestRoomCount=easyreservations_get_highest_roomcount();
 ?> <!-- // Content will only show on edit Reservation -->
 	<script>
 	  jQuery(document).ready(function() {
-		jQuery("#datepicker, #datepicker2, #reservation_date").datepicker({ dateFormat: 'dd.mm.yy' });
+		jQuery("#datepicker, #datepicker2, #reservation_date").datepicker({ firstDay: 1,dateFormat: 'dd.mm.yy' });
 	});
 
 	var Add = 0;

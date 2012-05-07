@@ -9,6 +9,7 @@ function easyreservations_build_datepicker(){
 	var dates = jQuery( "#easy-form-from, #easy-form-to" ).datepicker({
 		dateFormat: dateformatse,
 		minDate: 0,
+		firstDay: 1,
 		onSelect: function( selectedDate ) {
 			if(this.id == 'easy-form-from'){
 				var option = this.id == "easy-form-from" ? "minDate" : "maxDate",
@@ -23,3 +24,4 @@ function easyreservations_build_datepicker(){
 	});
 }
 easyreservations_build_datepicker();
+jQuery('.ui-datepicker-calendar').style.cellSpacing = 0;

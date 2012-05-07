@@ -3,18 +3,7 @@ Maybe unnecasary
 .full { height:36px; padding:-5px; width:10%;  }
 .full:hover { background: #ffba00;  }
 .fulle { text-shadow: 0px; border-style:none; } */
-.ui-datepicker{
-	font-size:11px !important;
-	padding:0.1em;
-}
-.ui-state-default{
-	font-size:10px !important;
-	text-align:center !important;
-	font-weight:bold !important;
-}
-.ui-datepicker select {
-	padding:1px !important;
-}
+
 div.pagination {
 	padding: 2px;
 	margin: 0px;

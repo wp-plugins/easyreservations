@@ -269,7 +269,7 @@
 			} elseif($field[0]=="country"){
 				$theForm=str_replace('['.$fields.']', '<select id="easy-form-country" '.$disabled.' title="'.$title.'" name="country">'.easyReservations_country_select($value).'</select>', $theForm);
 			} elseif($field[0]=="show_price"){
-				if(isset($field['before '])) $before = $field['before '];
+				if(isset($field['before'])) $before = $field['before'];
 				else $before ='';
 				$theForm=preg_replace('/\['.$fields.'\]/', '<span class="easy-form-price" title="'.$title.'" style="'.$style.'">'.$before.'<span id="showPrice" style="font-weight:bold;"><b>0,00</b></span> &'.RESERVATIONS_CURRENCY.';</span>', $theForm);
 			} elseif($field[0]=="captcha"){

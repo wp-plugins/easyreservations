@@ -851,7 +851,7 @@
 				$theForm=str_replace('['.$field[0].']', $theCustominMail, $theForm);
 			}
 		}
-		
+
 		$local = false;
 		if(isset($_POST['easy-set-local'])) $local = $_POST['easy-set-local'];
 
@@ -884,6 +884,7 @@
 			if(easyreservations_check_price($amount) != 'error'){
 				$getprice = $wpdb->query( $wpdb->prepare("SELECT price ".$wpdb->prefix ."reservations WHERE id='%s' ", $id));
 				$explode = explode(";", $getprice[0]['price']);
+				if(isset($explode[1]) && $explode[1] > 0) $amount = $amount + $explode[1];
 				$newprice = $explode[0].';'.$amount;
 
 				$wpdb->query( $wpdb->prepare("UPDATE ".$wpdb->prefix ."reservations SET price='$newprice' WHERE id='%s' ", $id) );
@@ -1094,8 +1095,12 @@
 
 			if($divider % 2 != 0) $thewidth = ($width-0.33).'px';
 			else $thewidth = $percent.'%';
+			
+			if($month_count % $divider == 0){
+				$float = '';
+			} else $float = 'float:left';
 
-			echo '<table class="calendar-direct-table" style="width:'.$thewidth.';margin:0px;float:left">';
+			echo '<table class="calendar-direct-table" style="width:'.$thewidth.';margin:0px;'.$float.'">';
 				echo '<thead>';
 				if($header == 1){
 					echo '<tr>';

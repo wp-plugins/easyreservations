@@ -23,7 +23,7 @@
 		font-size:14px !important;
 		text-transform: capitalize !important;
 		color: #e0e0e0;
-		background: #666;
+		background: #666 !important;
 		border: 1px solid #666666 !important;
 		border-bottom:1px solid #3F3F3F !important;
 	}

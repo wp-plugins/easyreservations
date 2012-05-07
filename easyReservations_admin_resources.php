@@ -91,11 +91,11 @@ if(isset($_POST['filter_form_name_field'])){
 			} elseif($cond == 'range'){
 				$filter['cond'] = 'range';
 				if(isset($_POST['price_filter_range_from'])){
-					$from = strtotime($_POST['price_filter_range_from'] + (((int) $_POST['price_filter_range_from_h']*60) + (int) $_POST['price_filter_range_from_m'])*60);
+					$from = strtotime($_POST['price_filter_range_from']) + (((int) $_POST['price_filter_range_from_h']*60) + (int) $_POST['price_filter_range_from_m'])*60;
 					$filter['from'] = $from;
 				} else $prompt='<div class="error"><p>'.__( 'Enter a starting date' , 'easyReservations' ).'</p></div>';
 				if(isset($_POST['price_filter_range_to'])){
-					$to = strtotime($_POST['price_filter_range_to'] + (((int) $_POST['price_filter_range_to_h']*60) + (int) $_POST['price_filter_range_to_m'])*60);
+					$to = strtotime($_POST['price_filter_range_to']) + (((int) $_POST['price_filter_range_to_h']*60) + (int) $_POST['price_filter_range_to_m'])*60;
 					$filter['to'] = $to;
 				} else $prompt='<div class="error"><p>'.__( 'Enter an ending date' , 'easyReservations' ).'</p></div>';
 			} else {
@@ -295,7 +295,7 @@ if(!isset($site) || $site=='' || $site =='main'){
 			if(isset($_POST['easy-resource-price'])) $reservations_res_price_set = $_POST['easy-resource-price'];
 			else $reservations_res_price_set = 0;
 			if($reservations_current_price_set != $reservations_res_price_set){/* SET PRICE SETTINGS */
-				if(is_numeric($_POST['easy-resource-price'])){
+				if(is_numeric($reservations_res_price_set)){
 					update_post_meta($resourceID, 'easy-resource-price', $reservations_res_price_set);
 					$right.=__( 'Price setting changed' , 'easyReservations' ).', ';
 				} else $error.='Price setting has to be a number, ';

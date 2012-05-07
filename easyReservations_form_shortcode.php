@@ -30,7 +30,7 @@ function reservations_form_shortcode($atts){
 		wp_enqueue_script( 'easyreservations_send_price' );
 		add_action('wp_print_footer_scripts', 'easyreservtions_send_price_script'); //get price directily after loading
 	} else $price_action = '';
-	
+
 	if(strpos(get_the_content($post->ID), '[easy_calendar') !== false) $isCalendar = true;
 	else $isCalendar = false;
 
@@ -123,7 +123,7 @@ function reservations_form_shortcode($atts){
 		$finalform.= '<div class="easy_form_success"><b>'.$atts['submit'].'!</b>';
 		if($atts['price'] == 1) $finalform.= '<span class="easy_show_price_submit">'.__('Price','easyReservations').': <b>'.easyreservations_get_price($theID, '').'</b></span>';
 		if(function_exists('easyreservations_generate_paypal_button')){
-			$finalform .= easyreservations_generate_paypal_button($theID, strtotime($from), round((strtotime($to)-strtotime($from))/86400), $room, $email, $persons, $childs);
+			$finalform .= easyreservations_generate_paypal_button($theID, strtotime($from), strtotime($to), $room, $email, $persons, $childs);
 		}
 		$finalform.='</div>';
 	}

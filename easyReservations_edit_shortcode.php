@@ -252,7 +252,7 @@ function reservations_edit_shortcode($atts){
 
 			$left = reservations_check_pay_status($theID);
 			if(function_exists('easyreservations_generate_paypal_button') && $left > 0){
-				$paypal = easyreservations_generate_paypal_button($theID, strtotime($edit_querie[0]->arrival), $edit_querie[0]->departure, $edit_querie[0]->room, $edit_querie[0]->email, $persons, $childs, 0);
+				$paypal = easyreservations_generate_paypal_button($theID, strtotime($edit_querie[0]->arrival), strtotime($edit_querie[0]->departure), $edit_querie[0]->room, $edit_querie[0]->email, $persons, $childs, $left);
 			} else {
 				$paypal = '';
 			}

@@ -42,7 +42,7 @@ License:GPL2
 					$uploads = wp_upload_dir();
 					$saved_file_location = $uploads['basedir'].'/'. $file_name;
 
-					if(preg_match("/(PayPal|Import|datepicker|GuestContact|Calendar|extendedCalendar|Search|)/i", $file_name) && ($file_type == 'application/zip'  || $file_type == 'application/x-zip' || $file_type == 'application/x-zip-compressed'  || isset($_GET['file_name']))){
+					if(preg_match("/(PayPal|Import|datepicker|GuestContact|Calendar|extendedCalendar|Search|translation|Multilingual|style)/i", $file_name) && ($file_type == 'application/zip'  || $file_type == 'application/x-zip' || $file_type == 'application/x-zip-compressed'  || isset($_GET['file_name']))){
 						if(move_uploaded_file($file_tmp_name, $saved_file_location) || isset($_GET['file_name'])) {
 							$url = 'admin.php?page=reservation-settings&site=plugins&file_name='.$file_name;
 							if (false === ($creds = request_filesystem_credentials($url, 'ftp', false, false) ) ) {
@@ -85,7 +85,7 @@ License:GPL2
 					$xml = new stdClass();
 					$xml->latestc = '1.1.1'; //Calendar
 					$xml->latestd = '1.0.1'; //Chat
-					$xml->latestp = '1.0'; //PayPal
+					$xml->latestp = '1.1'; //PayPal
 					$xml->latestlang = '1.0'; //language
 					$xml->latests = '1.1'; //searchFrom
 				}
@@ -95,7 +95,7 @@ License:GPL2
 				$chat_current_version = "1.0.1";
 				$lang_current_version = "1.0";
 				$multical_current_version = "1.1.1";
-				$paypal_current_version = "1.0";
+				$paypal_current_version = "1.1";
 				$search_current_version = "1.1";
 				$deprecated = 0; ?>
 					<input type="hidden" name="action" value="reservation_core_settings">
@@ -196,7 +196,7 @@ License:GPL2
 								} if($lang > 0){ ?>
 							<tr <?php if($lang != 2) echo 'class="inactive"'; ?>>
 								<td style="text-align:center"><img style="vertical-align:text-bottom ;" src="<?php echo RESERVATIONS_IMAGES_DIR; ?>/country.png"></td>
-								<td><b><a href="http://easyreservations.org/module/lang/" target="_blank"><?php printf ( __( 'Translation Module' , 'easyReservations' ));?></a></b><br><?php echo $action; ?></td>
+								<td><b><a href="http://easyreservations.org/module/lang/" target="_blank"><?php printf ( __( 'Multilingual Module' , 'easyReservations' ));?></a></b><br><?php echo $action; ?></td>
 								<td><?php printf ( __( 'Function to make texts in forms and emails translatable.' , 'easyReservations' ));?></td>
 								<td style="font-weight:bold;text-align:center"><?php if($lang) echo '<a style="color:#118D18">'.$lang_current_version.'</a>'; else echo '<a style="color:#FF3B38">'.__( 'None' , 'easyReservations' ).'</a>'; ?></td>
 								<td style="text-align:center;font-weight:bold;<?php echo $color; ?>"><?php echo $xml->latestlang; ?></td>
@@ -359,7 +359,7 @@ License:GPL2
 			} else $multical = false;
 
 			if(function_exists('easyreservations_search_add_tinymce')){ 
-				$search = true; $search_data = get_plugin_data(WP_PLUGIN_DIR.'/easyreservations/lib/modules/multical/multical.php', false, false);
+				$search = true; $search_data = get_plugin_data(WP_PLUGIN_DIR.'/easyreservations/lib/modules/search/search.php', false, false);
 			} else $search = false;
 
 			if($paypal === true || $chat === true || $multical === true || $search === true){
