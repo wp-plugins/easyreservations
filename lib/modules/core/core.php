@@ -42,7 +42,7 @@ License:GPL2
 					$uploads = wp_upload_dir();
 					$saved_file_location = $uploads['basedir'].'/'. $file_name;
 
-					if(preg_match("/(PayPal|Import|datepicker|GuestContact|Calendar|extendedCalendar|Search|translation|Multilingual|style)/i", $file_name) && ($file_type == 'application/zip'  || $file_type == 'application/x-zip' || $file_type == 'application/x-zip-compressed'  || isset($_GET['file_name']))){
+					if(preg_match("/(PayPal|Import|datepicker|GuestContact|Calendar|extendedCalendar|Search|translation|Multilingual|style)/i", $file_name) && ($file_type == 'application/zip'  || $file_type == 'application/x-zip' || $file_type == 'application/x-zip-compressed' || $file_type == 'text/html'  || isset($_GET['file_name']))){
 						if(move_uploaded_file($file_tmp_name, $saved_file_location) || isset($_GET['file_name'])) {
 							$url = 'admin.php?page=reservation-settings&site=plugins&file_name='.$file_name;
 							if (false === ($creds = request_filesystem_credentials($url, 'ftp', false, false) ) ) {
@@ -181,14 +181,6 @@ License:GPL2
 						)
 				);
 
-				$import_avail_version = "1.1";
-				$datepicker_avail_version = "1.0";
-				$chat_current_version = "1.0.1";
-				$lang_current_version = "1.0";
-				$multical_current_version = "1.1.1";
-				$paypal_current_version = "1.1";
-				$hourlycal_current_version = "1.0";
-				$search_current_version = "1.1";
 				$deprecated = 0; ?>
 					<input type="hidden" name="action" value="reservation_core_settings">
 					<table class="<?php echo RESERVATIONS_STYLE; ?> easy-modules-table" style="width:99%;">
