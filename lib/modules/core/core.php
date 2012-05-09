@@ -87,8 +87,99 @@ License:GPL2
 					$xml->latestd = '1.0.1'; //Chat
 					$xml->latestp = '1.1'; //PayPal
 					$xml->latestlang = '1.0'; //language
-					$xml->latests = '1.1'; //searchFrom
+					$xml->latests = '1.1.2'; //searchFrom
+					$xml->latesthc = '1.0'; //hourlyCal
 				}
+				$the_modules = array(
+						array(
+								'slug' => 'import',
+								'title' => __( 'Import Module' , 'easyReservations' ),
+								'content' => __( 'Import reservations from .XML backup files.' , 'easyReservations' ),
+								'xml' => '',
+								'function' => 'easyreservations_generate_import',
+								'vers' => '1.1',
+								'price' => '0',
+								'image' => 'import',
+								'beta' => 0
+						),
+						array(
+								'slug' => 'datepicker',
+								'title' => __( 'Datepicker Styles' , 'easyReservations' ),
+								'content' => __( 'Choose from two new styles for the datepickers in forms and admin.' , 'easyReservations' ),
+								'xml' => '',
+								'function' => 'easyreservations_register_datepicker_style',
+								'vers' => '1.0',
+								'price' => '3',
+								'image' => 'to',
+								'beta' => 1
+						),
+						array(
+								'slug' => 'lang',
+								'title' => __( 'Multilingual Module' , 'easyReservations' ),
+								'content' => __( 'Function to make texts in forms and emails translatable.' , 'easyReservations' ),
+								'xml' => 'latestlang',
+								'function' => 'easyreservations_translate_content',
+								'vers' => '1.0',
+								'price' => '5',
+								'image' => 'country',
+								'beta' => 1
+						),
+						array(
+								'slug' => 'chat',
+								'title' => __( 'GuestContact Module' , 'easyReservations' ),
+								'content' => __( 'Be in contact with your guest. Provides a chat-like feature to user-edit and admin. New messages in table, dummy message at start, admin notices, avatars and fully AJAX driven.' , 'easyReservations' ),
+								'xml' => 'latestd',
+								'function' => 'easyreservations_generate_chat',
+								'vers' => '1.0.1',
+								'price' => '7.5',
+								'image' => 'chat',
+								'beta' => 0
+						),
+						array(
+								'slug' => 'multical',
+								'title' => __( 'extentedCalendar Module' , 'easyReservations' ),
+								'content' => __( 'Extend the calendar shortcode to show multiple months by an flexible grid (x*y) at once. Includes a new boxed calendar style.' , 'easyReservations' ),
+								'xml' => 'latestc',
+								'function' => 'easyreservations_generate_multical',
+								'vers' => '1.1.1',
+								'price' => '10',
+								'image' => 'day',
+								'beta' => 0
+						),
+						array(
+								'slug' => 'paypal',
+								'title' => __( 'PayPal Module' , 'easyReservations' ),
+								'content' => __( 'Your guest can pay their reservations directly through PayPal! Adds the PayPal Buy Now Button after form submits and to userCP if not paid. Automatically approve new reservations and/or paid reservations. Payment verification by IPN.' , 'easyReservations' ),
+								'xml' => 'latestp',
+								'function' => 'easyreservations_validate_payment',
+								'vers' => '1.1',
+								'price' => '15',
+								'image' => 'paypal',
+								'beta' => 0
+						),
+						array(
+								'slug' => 'hourlycal',
+								'title' => __( 'hourlyCalendar Module' , 'easyReservations' ),
+								'content' => __( 'For hourly.' , 'easyReservations' ),
+								'xml' => 'latesthc',
+								'function' => 'easyreservations_send_hourlycal_callback',
+								'vers' => '1.0',
+								'price' => '15',
+								'image' => 'time',
+								'beta' => 1
+						),
+						array(
+								'slug' => 'search',
+								'title' => __( 'searchForm Module' , 'easyReservations' ),
+								'content' => __( 'New shortcode to let your guests search for available resources. No reload for searching, compatible to calendar, show price, show unavailable resources too, link to form with automatically selection. Each resource can have a small one-column calendar to show when its availble.' , 'easyReservations' ),
+								'xml' => 'latests',
+								'function' => 'easyreservations_search_add_tinymce',
+								'vers' => '1.1.2',
+								'price' => '15',
+								'image' => 'search',
+								'beta' => 0
+						)
+				);
 
 				$import_avail_version = "1.1";
 				$datepicker_avail_version = "1.0";
@@ -96,6 +187,7 @@ License:GPL2
 				$lang_current_version = "1.0";
 				$multical_current_version = "1.1.1";
 				$paypal_current_version = "1.1";
+				$hourlycal_current_version = "1.0";
 				$search_current_version = "1.1";
 				$deprecated = 0; ?>
 					<input type="hidden" name="action" value="reservation_core_settings">
@@ -114,204 +206,44 @@ License:GPL2
 						<tbody>
 							<tr>
 								<td style="text-align:center"><img style="vertical-align:text-bottom ;" src="<?php echo RESERVATIONS_IMAGES_DIR; ?>/plugin.png"></td>
-								<td><b><?php echo $core_data['Name'] ?></b></td>
-								<td><?php echo $core_data['Description'] ?></td>
-								<td style="font-weight:bold;text-align:center"><?php echo $core_data['Version'] ?></td>
-								<td style="font-weight:bold;text-align:center"><?php echo $core_data['Version'] ?></td>
+								<td><b><?php echo $core_data['Name']; ?></b></td>
+								<td><?php echo $core_data['Description']; ?></td>
+								<td style="font-weight:bold;text-align:center"><?php echo $core_data['Version']; ?></td>
+								<td style="font-weight:bold;text-align:center"><?php echo $core_data['Version']; ?></td>
 								<td style="text-align:center"><b>free</b></td>
 								<td style="font-weight:bold;text-align:right"></td>
 							</tr>
-							<?php
-								$color = '';$action ='';
-								if(function_exists('easyreservations_generate_import')){
-									$import = 2;
-									$import_data = get_plugin_data(WP_PLUGIN_DIR.'/easyreservations/lib/modules/import/import.php', false);
-									$import_current_version = $import_data['Version'];
-									if(version_compare($import_current_version, $import_avail_version) == -1) $color = 'color:#FF3B38';
-									$action = '<form action="'.WP_PLUGIN_URL.'/easyreservations/lib/modules/core/activate.php" method="post"><input type="hidden" name="deactivate" value="import"><a onclick="javascript:this.parentNode.submit()" href="#">'.__( 'Deactivate' , 'easyReservations' ).'</a></form>';
-								} else{
-									if(file_exists(WP_PLUGIN_DIR.'/easyreservations/lib/modules/import/import.php')){
-										$import = 1;
-										$import_data = get_plugin_data(WP_PLUGIN_DIR.'/easyreservations/lib/modules/import/import.php', false);
-										$import_current_version = $import_data['Version'];
-										if(version_compare($import_current_version, $import_avail_version) == -1) $color = 'color:#FF3B38';
-										$action = '<form action="'.WP_PLUGIN_URL.'/easyreservations/lib/modules/core/activate.php" method="post"><input type="hidden" name="activate" value="import"><a onclick="javascript:this.parentNode.submit()" href="#">'.__( 'Activate' , 'easyReservations' ).'</a></form>';
-									} else $import = 0;
+							<?php 
+								foreach($the_modules as $module){
+									$status = 0;
+									if(function_exists($module['function'])) $status = 2;
+									elseif(file_exists(WP_PLUGIN_DIR.'/easyreservations/lib/modules/'.$module['slug'].'/'.$module['slug'].'.php')) $status = 1;
+									if(!empty($module['xml']) && isset($xml) && isset($xml->$module['xml'])) $actual_version = $xml->$module['xml'];
+									else $actual_version = $module['vers'];
+									if($status > 0){
+										$data = get_plugin_data(WP_PLUGIN_DIR.'/easyreservations/lib/modules/'.$module['slug'].'/'.$module['slug'].'.php', false);
+										$installed_version = $data['Version'];
+										if(version_compare($installed_version, $actual_version) == -1) $color = 'color:#FF3B38';
+										else $color = '';
+										if($status == 1) $action = '<form action="'.WP_PLUGIN_URL.'/easyreservations/lib/modules/core/activate.php" method="post"><input type="hidden" name="activate" value="'.$module['slug'].'"><a onclick="javascript:this.parentNode.submit()" href="#">'.__( 'Activate' , 'easyReservations' ).'</a></form>';
+										else $action = '<form action="'.WP_PLUGIN_URL.'/easyreservations/lib/modules/core/activate.php" method="post"><input type="hidden" name="deactivate" value="'.$module['slug'].'"><a onclick="javascript:this.parentNode.submit()" href="#">'.__( 'Deactivate' , 'easyReservations' ).'</a></form>';
+									}
+									if($module['beta'] == 0 || $status > 0){
+									?>
+									<tr <?php if($status != 2) echo 'class="inactive"'; ?>>
+										<td style="text-align:center"><img style="vertical-align:text-bottom ;" src="<?php echo RESERVATIONS_IMAGES_DIR.'/'.$module['image']; ?>.png"></td>
+										<td><b><a href="http://easyreservations.org/module/<?php echo $module['slug']; ?>/" target="_blank"><?php echo $module['title'];?></a></b><br><?php echo $action; ?></td>
+										<td><?php echo $module['content'];?></td>
+										<td style="font-weight:bold;text-align:center"><?php if($status > 0) echo '<a style="color:#118D18">'.$installed_version.'</a>'; else echo '<a style="color:#FF3B38">'.__( 'None' , 'easyReservations' ).'</a>'; ?></td>
+										<td style="text-align:center;font-weight:bold;<?php echo $color; ?>"><?php echo $actual_version; ?></td>
+										<td style="font-weight:bold;text-align:center"><b><?php if($module['price'] > 0) echo reservations_format_money($module['price']).' &euro;'; else echo __('free', 'easyReservations'); ?></b></td>
+										<td style="font-weight:bold;text-align:right"><?php if($status > 0) echo  '<a href="http://easyreservations.org/module/'.$module['slug'].'/" target="_blank">'.__( 'Download' , 'easyReservations' ).'</a>'; else echo '<a href="http://easyreservations.org/module/'.$module['slug'].'/" target="_blank">'.__( 'Download' , 'easyReservations' ).'</a>'; ?></td>
+									</tr><?php
+									}
 								}
-							?>
-							<tr <?php if($import > 0 && version_compare($import_current_version, $import_avail_version)){ echo 'class="deprecated"'; $deprecated++; } elseif($import != 2) echo 'class="inactive"'; ?>>
-								<td style="text-align:center"><img style="vertical-align:text-bottom ;" src="<?php echo RESERVATIONS_IMAGES_DIR; ?>/import.png"></td>
-								<td><b><a href="http://easyreservations.org/module/import/" target="_blank"><?php printf ( __( 'Import Module' , 'easyReservations' ));?></a></b><br><?php echo $action; ?></td>
-								<td><?php printf ( __( 'Import reservations from .XML backup files.' , 'easyReservations' ));?></td>
-								<td style="font-weight:bold;text-align:center"><?php if($import > 0) echo '<a style="color:#118D18">'.$import_current_version.'</a>'; else echo '<a style="color:#FF3B38">'.__( 'None' , 'easyReservations' ).'</a>'; ?></td>
-								<td style="text-align:center;font-weight:bold;<?php echo $color; ?>"><?php echo $import_avail_version; ?></td>
-								<td style="font-weight:bold;text-align:center"><b>free</b></td>
-								<td style="font-weight:bold;text-align:right"><?php if($import > 0) echo  '<a href="http://easyreservations.org/module/import/" target="_blank">'.__( 'Download' , 'easyReservations' ).'</a>'; else echo '<a href="http://easyreservations.org/module/import/" target="_blank">'.__( 'Download' , 'easyReservations' ).'</a>'; ?></td>
-							</tr>
-							<?php
-								$color = '';$action ='';
-								if(function_exists('easyreservations_register_datepicker_style')){
-									$datepicker = 2;
-									$datepicker_data = get_plugin_data(WP_PLUGIN_DIR.'/easyreservations/lib/modules/datepicker/datepicker.php', false);
-									$datepicker_current_version = $datepicker_data['Version'];
-									if(version_compare($datepicker_current_version, $datepicker_avail_version) == -1) $color = 'color:#FF3B38';
-									$action = '<form action="'.WP_PLUGIN_URL.'/easyreservations/lib/modules/core/activate.php" method="post"><input type="hidden" name="deactivate" value="datepicker"><a onclick="javascript:this.parentNode.submit()" href="#">'.__( 'Deactivate' , 'easyReservations' ).'</a></form>';
-								} else{
-									if(file_exists(WP_PLUGIN_DIR.'/easyreservations/lib/modules/datepicker/datepicker.php')){
-										$datepicker = 1;
-										$datepicker_data = get_plugin_data(WP_PLUGIN_DIR.'/easyreservations/lib/modules/datepicker/datepicker.php', false);
-										$datepicker_current_version = $datepicker_data['Version'];
-										if(version_compare($datepicker_current_version, $datepicker_avail_version) == -1) $color = 'color:#FF3B38';
-										$action = '<form action="'.WP_PLUGIN_URL.'/easyreservations/lib/modules/core/activate.php" method="post"><input type="hidden" name="activate" value="datepicker"><a onclick="javascript:this.parentNode.submit()" href="#">'.__( 'Activate' , 'easyReservations' ).'</a></form>';
-									} else $datepicker = 0;
-								}
-								if($datepicker > 0){
-							?>
-							<tr <?php if($datepicker != 2) echo 'class="inactive"'; ?>>
-								<td style="text-align:center"><img style="vertical-align:text-bottom ;" src="<?php echo RESERVATIONS_IMAGES_DIR; ?>/to.png"></td>
-								<td><b><a href="http://easyreservations.org/module/datepicker/" target="_blank"><?php printf ( __( 'Datepicker Styles' , 'easyReservations' ));?></a></b><br><?php echo $action; ?></td>
-								<td><?php printf ( __( 'Choose from two new styles for the datepickers in forms and admin.' , 'easyReservations' ));?></td>
-								<td style="font-weight:bold;text-align:center"><?php if($datepicker > 0) echo '<a style="color:#118D18">'.$datepicker_current_version.'</a>'; else echo '<a style="color:#FF3B38">'.__( 'None' , 'easyReservations' ).'</a>'; ?></td>
-								<td style="text-align:center;font-weight:bold;<?php echo $color; ?>"><?php echo $datepicker_avail_version; ?></td>
-								<td style="font-weight:bold;text-align:center"><b><?php echo '3,00 &euro;'; ?></b></td>
-								<td style="font-weight:bold;text-align:right"><?php if($datepicker > 0) echo  '<a href="http://easyreservations.org/module/datepicker/" target="_blank">'.__( 'Download' , 'easyReservations' ).'</a>'; else echo '<a href="http://easyreservations.org/module/datepicker/" target="_blank">'.__( 'More info' , 'easyReservations' ).'</a>'; ?></td>
-							</tr>
-							<?php
-								}
-								$action= ''; $color = ''; 
-								if(function_exists('easyreservations_translate_content')){
-									$lang = 2;
-									$lang_data = get_plugin_data(WP_PLUGIN_DIR.'/easyreservations/lib/modules/lang/lang.php', false);
-									$lang_current_version = $lang_data['Version'];
-									if(version_compare($lang_data['Version'], $xml->latestlang) == -1) $color = 'color:#FF3B38';
-									$action = '<form action="'.WP_PLUGIN_URL.'/easyreservations/lib/modules/core/activate.php" method="post"><input type="hidden" name="deactivate" value="lang"><a onclick="javascript:this.parentNode.submit()" href="#">'.__( 'Deactivate' , 'easyReservations' ).'</a></form>';
-								} else {
-									if(file_exists(WP_PLUGIN_DIR.'/easyreservations/lib/modules/lang/lang.php')){
-										$lang = 1;
-										$lang_data = get_plugin_data(WP_PLUGIN_DIR.'/easyreservations/lib/modules/lang/lang.php', false);
-										$lang_current_version = $lang_data['Version'];
-										if(version_compare($lang_data['Version'], $xml->latestlang) == -1) $color = 'color:#FF3B38';
-										$action = '<form action="'.WP_PLUGIN_URL.'/easyreservations/lib/modules/core/activate.php" method="post"><input type="hidden" name="activate" value="lang"><a onclick="javascript:this.parentNode.submit()" href="#">'.__( 'Activate' , 'easyReservations' ).'</a></form>';
-									} else $lang = 0;
-								} if($lang > 0){ ?>
-							<tr <?php if($lang != 2) echo 'class="inactive"'; ?>>
-								<td style="text-align:center"><img style="vertical-align:text-bottom ;" src="<?php echo RESERVATIONS_IMAGES_DIR; ?>/country.png"></td>
-								<td><b><a href="http://easyreservations.org/module/lang/" target="_blank"><?php printf ( __( 'Multilingual Module' , 'easyReservations' ));?></a></b><br><?php echo $action; ?></td>
-								<td><?php printf ( __( 'Function to make texts in forms and emails translatable.' , 'easyReservations' ));?></td>
-								<td style="font-weight:bold;text-align:center"><?php if($lang) echo '<a style="color:#118D18">'.$lang_current_version.'</a>'; else echo '<a style="color:#FF3B38">'.__( 'None' , 'easyReservations' ).'</a>'; ?></td>
-								<td style="text-align:center;font-weight:bold;<?php echo $color; ?>"><?php echo $xml->latestlang; ?></td>
-								<td style="font-weight:bold;text-align:center"><?php echo '5,00 &euro;'; ?></td>
-								<td style="font-weight:bold;text-align:right"><?php if($lang) echo '<a href="http://easyreservations.org/module/lang/">'.__( 'Download' , 'easyReservations' ).'</a>'; else echo '<a href="http://easyreservations.org/module/lang/" target="_blank">'.__( 'More info' , 'easyReservations' ).'</a>'; ?></td>
-							</tr>
-							<?php }
-								$action= ''; $color = ''; 
-								if(function_exists('easyreservations_generate_chat')){
-									$chat = 2;
-									$chat_data = get_plugin_data(WP_PLUGIN_DIR.'/easyreservations/lib/modules/chat/chat.php', false);
-									$chat_current_version = $chat_data['Version'];
-									if(version_compare($chat_data['Version'], $xml->latestd) == -1) $color = 'color:#FF3B38';
-									$action = '<form action="'.WP_PLUGIN_URL.'/easyreservations/lib/modules/core/activate.php" method="post"><input type="hidden" name="deactivate" value="chat"><a onclick="javascript:this.parentNode.submit()" href="#">'.__( 'Deactivate' , 'easyReservations' ).'</a></form>';
-								} else {
-									if(file_exists(WP_PLUGIN_DIR.'/easyreservations/lib/modules/chat/chat.php')){
-										$chat = 1;
-										$chat_data = get_plugin_data(WP_PLUGIN_DIR.'/easyreservations/lib/modules/chat/chat.php', false);
-										$chat_current_version = $chat_data['Version'];
-										if(version_compare($chat_data['Version'], $xml->latestd) == -1) $color = 'color:#FF3B38';
-										$action = '<form action="'.WP_PLUGIN_URL.'/easyreservations/lib/modules/core/activate.php" method="post"><input type="hidden" name="activate" value="chat"><a onclick="javascript:this.parentNode.submit()" href="#">'.__( 'Activate' , 'easyReservations' ).'</a></form>';
-									} else $chat = 0;
-								} ?>
-							<tr <?php if($chat != 2) echo 'class="inactive"'; ?>>
-								<td style="text-align:center"><img style="vertical-align:text-bottom ;" src="<?php echo RESERVATIONS_IMAGES_DIR; ?>/chat.png"></td>
-								<td><b><a href="http://easyreservations.org/module/chat/" target="_blank"><?php printf ( __( 'GuestContact Module' , 'easyReservations' ));?></a></b><br><?php echo $action; ?></td>
-								<td><?php printf ( __( 'Be in contact with your guest. Provides a chat-like feature to user-edit and admin. New messages in table, dummy message at start, admin notices, avatars and fully AJAX driven.' , 'easyReservations' ));?></td>
-								<td style="font-weight:bold;text-align:center"><?php if($chat) echo '<a style="color:#118D18">'.$chat_current_version.'</a>'; else echo '<a style="color:#FF3B38">'.__( 'None' , 'easyReservations' ).'</a>'; ?></td>
-								<td style="text-align:center;font-weight:bold;<?php echo $color; ?>"><?php echo $xml->latestd; ?></td>
-								<td style="font-weight:bold;text-align:center"><?php echo '7,50 &euro;'; ?></td>
-								<td style="font-weight:bold;text-align:right"><?php if($chat) echo '<a href="http://easyreservations.org/module/chat/">'.__( 'Download' , 'easyReservations' ).'</a>'; else echo '<a href="http://easyreservations.org/module/chat/" target="_blank">'.__( 'More info' , 'easyReservations' ).'</a>'; ?></td>
-							</tr>
-							<?php
-								$color = ''; $action = '';
-								if(function_exists('easyreservations_generate_multical')){
-									$multical = 2;
-									$multical_data = get_plugin_data(WP_PLUGIN_DIR.'/easyreservations/lib/modules/multical/multical.php', false);
-									$multical_current_version = $multical_data['Version'];
-									if(version_compare($multical_data['Version'], $xml->latestc) == -1) $color = 'color:#FF3B38';
-									$action = '<form action="'.WP_PLUGIN_URL.'/easyreservations/lib/modules/core/activate.php" method="post"><input type="hidden" name="deactivate" value="multical"><a onclick="javascript:this.parentNode.submit()" href="#">'.__( 'Deactivate' , 'easyReservations' ).'</a></form>';
-								} else{
-									if(file_exists(WP_PLUGIN_DIR.'/easyreservations/lib/modules/multical/multical.php')){
-										$multical = 1;
-										$multical_data = get_plugin_data(WP_PLUGIN_DIR.'/easyreservations/lib/modules/multical/multical.php', false);
-										$multical_current_version = $multical_data['Version'];
-										if(version_compare($multical_data['Version'], $xml->latestc) == -1) $color = 'color:#FF3B38';
-										$action = '<form action="'.WP_PLUGIN_URL.'/easyreservations/lib/modules/core/activate.php" method="post"><input type="hidden" name="activate" value="multical"><a onclick="javascript:this.parentNode.submit()" href="#">'.__( 'Activate' , 'easyReservations' ).'</a></form>';
-									} else $multical = 0;
-								}
-							?>
-							<tr <?php if($multical != 2) echo 'class="inactive"'; ?>>
-								<td style="text-align:center"><img style="vertical-align:text-bottom ;" src="<?php echo RESERVATIONS_IMAGES_DIR; ?>/day.png"></td>
-								<td><b><a href="http://easyreservations.org/module/multical/" target="_blank"><?php printf ( __( 'ExtentedCalendar Module' , 'easyReservations' ));?></a></b><?php echo $action; ?></td>
-								<td><?php printf ( __( 'Extend the calendar shortcode to show multiple months by an flexible grid (x*y) at once. Includes a new boxed calendar style.' , 'easyReservations' ));?></td>
-								<td style="font-weight:bold;text-align:center"><?php if($multical > 0) echo '<a style="color:#118D18">'.$multical_current_version.'</a>'; else echo '<a style="color:#FF3B38">'.__( 'None' , 'easyReservations' ).'</a>'; ?></td>
-								<td style="text-align:center;font-weight:bold;<?php echo $color; ?>"><?php echo $xml->latestc; ?></td>
-								<td style="font-weight:bold;text-align:center"><?php echo '10,00 &euro;'; ?></td>
-								<td style="font-weight:bold;text-align:right"><?php if($multical > 0) echo '<a href="http://easyreservations.org/module/multical/">'.__( 'Download' , 'easyReservations' ).'</a>'; else echo '<a href="http://easyreservations.org/module/multical/" target="_blank">'.__( 'More info' , 'easyReservations' ).'</a>'; ?></td>
-							</tr>
-							<?php
-								$action =''; $color = '';
-								if(function_exists('easyreservations_validate_payment')){
-									$paypal = 2;
-									$paypal_data = get_plugin_data(WP_PLUGIN_DIR.'/easyreservations/lib/modules/paypal/paypal.php', false);
-									$paypal_current_version = $paypal_data['Version'];
-									if(version_compare($paypal_data['Version'], $xml->latestp) == -1) $color = 'color:#FF3B38';
-									$action = '<form action="'.WP_PLUGIN_URL.'/easyreservations/lib/modules/core/activate.php" method="post"><input type="hidden" name="deactivate" value="paypal"><a onclick="javascript:this.parentNode.submit()" href="#">'.__( 'Deactivate' , 'easyReservations' ).'</a></form>';
-								} elseif(file_exists(WP_PLUGIN_DIR.'/easyreservations/lib/modules/paypal/paypal.php')){
-									$paypal = 1;
-									$paypal_data = get_plugin_data(WP_PLUGIN_DIR.'/easyreservations/lib/modules/paypal/paypal.php', false);
-									$paypal_current_version = $paypal_data['Version'];
-									if(version_compare($paypal_data['Version'], $xml->latestp) == -1) $color = 'color:#FF3B38';
-									$action = '<form action="'.WP_PLUGIN_URL.'/easyreservations/lib/modules/core/activate.php" method="post"><input type="hidden" name="activate" value="paypal"><a onclick="javascript:this.parentNode.submit()" href="#">'.__( 'Activate' , 'easyReservations' ).'</a></form>';
-								} else $paypal = 0;
-								if($paypal > 0){
-								?>
-								<tr <?php if($paypal != 2) echo 'class="inactive"'; ?>>
-									<td style="text-align:center"><img style="vertical-align:text-bottom ;" src="<?php echo RESERVATIONS_IMAGES_DIR; ?>/paypal.png"></td>
-									<td><b><a href="http://easyreservations.org/module/paypal/" target="_blank"><?php printf ( __( 'PayPal Module' , 'easyReservations' ));?></a></b><br><?php echo $action; ?></td>
-									<td><?php printf ( __( 'Your guest can pay their reservations directly through PayPal! Adds the PayPal Buy Now Button after form submits and to userCP if not paid. Automatically approve new reservations and/or paid reservations. Payment verification by IPN.' , 'easyReservations' ));?></td>
-									<td style="font-weight:bold;text-align:center"><?php if($paypal > 0) echo '<a style="color:#118D18">'.$paypal_current_version.'</a>'; else echo '<a style="color:#FF3B38">'.__( 'None' , 'easyReservations' ).'</a>';; ?></td>
-									<td style="text-align:center;font-weight:bold;<?php echo $color; ?>"><?php echo $xml->latestp; ?></td>
-									<td style="font-weight:bold;text-align:center"><?php echo '15,00 &euro;'; ?></td>
-									<td style="font-weight:bold;text-align:right"><?php if($paypal > 0) echo '<a href="admin.php?page=reservation-settings&site=pay">'.__( 'Settings' , 'easyReservations' ).'</a> | <a href="http://easyreservations.org/module/paypal/">'.__( 'Download' , 'easyReservations' ).'</a>'; else echo '<a href="http://easyreservations.org/module/paypal/" target="_blank">'.__( 'More info' , 'easyReservations' ).'</a>'; ?></td>
-								</tr>
-							<?php
-								}
-								$action =''; $color = '';
-								if(function_exists('easyreservations_search_add_tinymce')){
-									$search = 2;
-									$search_data = get_plugin_data(WP_PLUGIN_DIR.'/easyreservations/lib/modules/search/search.php', false);
-									$search_current_version = $search_data['Version'];
-									if(version_compare($search_data['Version'], $xml->latests) == -1) $color = 'color:#FF3B38';
-									$action = '<form action="'.WP_PLUGIN_URL.'/easyreservations/lib/modules/core/activate.php" method="post"><input type="hidden" name="deactivate" value="search"><a onclick="javascript:this.parentNode.submit()" href="#">'.__( 'Deactivate' , 'easyReservations' ).'</a></form>';
-								} else{
-									if(file_exists(WP_PLUGIN_DIR.'/easyreservations/lib/modules/search/search.php')){
-										$search = 1;
-										$search_data = get_plugin_data(WP_PLUGIN_DIR.'/easyreservations/lib/modules/search/search.php', false);
-										$search_current_version = $search_data['Version'];
-										if(version_compare($search_data['Version'], $xml->latests) == -1) $color = 'color:#FF3B38';
-										$action = '<form action="'.WP_PLUGIN_URL.'/easyreservations/lib/modules/core/activate.php" method="post"><input type="hidden" name="activate" value="search"><a onclick="javascript:this.parentNode.submit()" href="#">'.__( 'Activate' , 'easyReservations' ).'</a></form>';
-									} else $search = 0;
-								} ?>
-								<tr <?php if($search != 2) echo 'class="inactive"'; ?>>
-									<td style="text-align:center"><img style="vertical-align:text-bottom ;" src="<?php echo RESERVATIONS_IMAGES_DIR; ?>/search.png"></td>
-									<td><b><a href="http://easyreservations.org/module/search/" target="_blank"><?php printf ( __( 'Search Module' , 'easyReservations' ));?></a></b><br><?php echo $action; ?></td>
-									<td><?php printf ( __( 'New shortcode to let your guests search for available resources. No reload for searching, compatible to calendar, show price, show unavailable resources too, link to form with automatically selection. Each resource can have a small one-column calendar to show when its availble.' , 'easyReservations' ));?></td>
-									<td style="font-weight:bold;text-align:center"><?php if($search) echo '<a style="color:#118D18">'.$search_current_version.'</a>'; else echo '<a style="color:#FF3B38">'.__( 'None' , 'easyReservations' ).'</a>';; ?></td>
-									<td style="text-align:center;font-weight:bold;<?php echo $color; ?>"><?php echo $xml->latests; ?></td>
-									<td style="font-weight:bold;text-align:center"><?php echo '25,00 &euro;'; ?></td>
-									<td style="font-weight:bold;text-align:right"><?php if($search) echo '<a href="http://easyreservations.org/module/search/">'.__( 'Download' , 'easyReservations' ).'</a>'; else echo '<a href="http://easyreservations.org/module/search/" target="_blank">'.__( 'More info' , 'easyReservations' ).'</a>'; ?></td>
-								</tr>
-						</tbody>
-					</table>
-					<?php if($deprecated > 0){
+							echo '</table>';
+
+					if(isset($deprecated) && $deprecated > 0){
 						echo '<p><div class="error"><p>'.$deprecated.' '. _n('Module is', 'Modules are', $deprecated, 'easyReservations').' '.__('deprecated and wont work anymore. Please update  from', 'easyReservations' ).' <a href="http://easyreservations.org/module/">easyreservations.org</a>!</p></div></p>';
 					} ?>
 				<div style="float:right;text-align:right;margin:7px;padding:5px">
@@ -504,6 +436,12 @@ License:GPL2
 	function easyreservation_is_language(){
 		$active = get_option('reservations_active_modules');
 		if(file_exists(WP_PLUGIN_DIR.'/easyreservations/lib/modules/lang/lang.php') && is_array($active) && in_array('lang', $active)) return true;
+		else return false;
+	}
+
+	function easyreservation_is_hourlycal(){
+		$active = get_option('reservations_active_modules');
+		if(file_exists(WP_PLUGIN_DIR.'/easyreservations/lib/modules/hourlycal/hourlycal.php') && is_array($active) && in_array('hourlycal', $active)) return true;
 		else return false;
 	}
 

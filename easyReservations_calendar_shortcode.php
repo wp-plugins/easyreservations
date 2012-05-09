@@ -21,7 +21,7 @@
 			$return .= '<input type="hidden" name="size" value="'.$width.','.$price.','. $interval.','.$header.'">';
 			$return .= '<input type="hidden" name="monthes" value="'.$monthes.'">';
 			$return .= '<input type="hidden" name="calendarnonce" value="'.wp_create_nonce( 'easy-calendar' ).'">';
-		$return .= '</form><!-- Provided by easyReservations free Wordpress Plugin http://www.feryaz.de -->';
+		$return .= '</form><!-- Provided by easyReservations free Wordpress Plugin http://www.easyreservations.org -->';
 		$return .= '<div id="showCalender" style="margin-right:auto;margin-left:auto;vertical-align:middle;padding:0;width:'.$width.'px"></div>';
 
 		add_action('wp_print_footer_scripts', 'easyreservtions_send_cal_script');

@@ -241,8 +241,8 @@ function reservation_main_page() {
 		$ADDstatus=$_POST["reservationStatus"];
 		$ADDreservation_date=$_POST["reservation_date"];
 		$ADDuser=$_POST["edit_user"];
-		if(isset($_POST['from-time-hour'])) $from_hour = ((int) $_POST['from-time-hour']*60)+(int) $_POST['from-time-min']; else $from_hour = 43200;
-		if(isset($_POST['to-time-hour']))  $to_hour = ((int) $_POST['to-time-hour']*60)+(int)$_POST['to-time-min'];else $to_hour = 43200;
+		if(isset($_POST['from-time-hour'])) $from_hour = ((int) $_POST['from-time-hour']*60)+(int) $_POST['from-time-min']; else $from_hour = 12*60;
+		if(isset($_POST['to-time-hour']))  $to_hour = ((int) $_POST['to-time-hour']*60)+(int)$_POST['to-time-min'];else $to_hour = 12*60;
 		$theInputPOSTs=array($_POST["date"], $_POST["name"], $_POST["email"], $_POST["room"], $_POST["dateend"], $_POST["persons"]);
 
 		foreach($theInputPOSTs as $input){
@@ -402,6 +402,26 @@ function reservation_main_page() {
 	<?php echo __( 'Reservations Dashboard' , 'easyReservations' );?>
 	<a class="add-new-h2" href="admin.php?page=reservations&add"><?php echo __( 'Add New' , 'easyReservations' );?></a>
 </h2>
+<script>
+	function get_the_select(selected, resourceId){
+		var selects = new Array(); <?php
+		foreach($all_rooms as $room){
+			$roomcount = get_post_meta($room->ID, 'roomcount', true);
+			$select = '<select name="roomexactly" id="roomexactly" onchange="changer();';
+			if($overview_options['overview_autoselect'] == 1){ $select .= 'dofakeClick(2);';  }
+			$select .= '">';
+				$select.= easyreservations_get_roomname_options(1, $roomcount, $room->ID);
+			$select.= '<option value="0">'.__('None', 'easyReservations').'</option>';
+			$select.= '</select>';
+			?>
+			selects[<?php echo $room->ID; ?>] = new Array(<?php echo $select; ?>);<?php
+		} ?>
+		document.getElementById('the_room_exactly').innerHTML = selects[resourceId];
+
+		if(selected != 0) document.getElementById('roomexactly').selectedIndex = selected-1;
+		else document.getElementById('roomexactly').selectedIndex = document.getElementById('roomexactly-select').length;
+	}
+</script>
 <?php 	if(isset($prompt)) echo $prompt; 
 if(!isset($show['show_welcome']) || $show['show_welcome'] != 0){?>
 <div id="wrap">
@@ -773,6 +793,7 @@ if($show['show_overview']==1){ //Hide Overview completly
 		<?php if(isset($edit) || isset($add)){ ?>
 		var x = document.getElementById("room");
 		var y = document.getElementById("roomexactly");
+		get_the_select(roomex, roomid);
 
 		for (var i = 0; i < x.options.length; i++){
 			if (x.options[i].value == roomid){
@@ -1361,8 +1382,8 @@ if(isset($edit)){
 						<tr class="alternate">
 							<td nowrap><img style="vertical-align:text-bottom;" src="<?php echo RESERVATIONS_IMAGES_DIR; ?>/room.png"> <?php printf ( __( 'Resource' , 'easyReservations' ));?></td> 
 							<td>
-								<select  name="room" id="room"  onchange="easyreservations_send_price_admin();changer();<?php if($overview_options['overview_autoselect'] == 1){ ?>dofakeClick(2);<?php }?>"><?php echo reservations_get_room_options($room,1); ?></select> 
-								<select id="roomexactly" name="roomexactly" onchange="changer();<?php if($overview_options['overview_autoselect'] == 1){ ?>dofakeClick(2);<?php }?>"><?php echo easyReservations_num_options(1,$highestRoomCount,$exactlyroom); ?></select>
+								<select  name="room" id="room"  onchange="easyreservations_send_price_admin();changer();get_the_select(1, this.value);<?php if($overview_options['overview_autoselect'] == 1){ ?>dofakeClick(2);<?php }?>"><?php echo reservations_get_room_options($room,1); ?></select> 
+								<span id="the_room_exactly"></span>
 							</td>
 						</tr>
 						<tr class="alternate">
@@ -1467,7 +1488,8 @@ if(isset($edit)){
 			</td>
 	</table>
 		</tr>
-</form><script>easyreservations_send_price_admin();</script>
+</form><script>easyreservations_send_price_admin();
+get_the_select('<?php echo $exactlyroom; ?>', '<?php echo $approvequerie[0]->room; ?>');</script>
 <?php
 }
 
@@ -1569,7 +1591,7 @@ $highestRoomCount=easyreservations_get_highest_roomcount();
 					if(isset($_POST['roomexactly'])) $resoex = $_POST['roomexactly']; else $resoex = 1;?></td>
 					<td>
 						<select id="room" name="room" onchange="easyreservations_send_price_admin();changer();<?php if($overview_options['overview_autoselect'] == 1){ ?>dofakeClick(2);<?php }?>"><?php echo reservations_get_room_options($reso, 1); ?></select>
-						<select id="roomexactly" name="roomexactly" onchange="changer();<?php if($overview_options['overview_autoselect'] == 1){ ?>dofakeClick(2);<?php }?>"><?php echo easyReservations_num_options(1,$highestRoomCount, $resoex); ?><option value=""><?php printf ( __( 'None' , 'easyReservations' ));?></option></select>
+						<span id="the_room_exactly"></span>
 					</td>
 				</tr>
 				<tr  class="alternate" >
@@ -1653,7 +1675,9 @@ $highestRoomCount=easyreservations_get_highest_roomcount();
 		</td>
 	</tr>
 </table>
-</form><?php if(isset($_POST['room-saver-to'])){ ?><script>jQuery(document).ready(function(){ fakeClick('<?php echo $_POST['room-saver-from']; ?>','<?php echo $_POST['room-saver-to']; ?>','<?php echo $_POST['room']; ?>','<?php echo $_POST['roomexactly']; ?>', '');setVals2(<?php echo $_POST['room'].','.$_POST['roomexactly']; ?>);document.getElementById('datepicker').value='<?php echo date("d.m.Y", $_POST['room-saver-from']); ?>';document.getElementById('datepicker2').value='<?php echo date("d.m.Y", $_POST['room-saver-to']); ?>';easyreservations_send_price_admin();});</script><?php } //Set Room and Roomexactly after click on Overview and redirected to add 
+</form>
+<script>get_the_select(<?php echo $resoex; ?>, document.getElementById('room').value);</script>
+<?php if(isset($_POST['room-saver-to'])){ ?><script>jQuery(document).ready(function(){ fakeClick('<?php echo $_POST['room-saver-from']; ?>','<?php echo $_POST['room-saver-to']; ?>','<?php echo $_POST['room']; ?>','<?php echo $_POST['roomexactly']; ?>', '');setVals2(<?php echo $_POST['room'].','.$_POST['roomexactly']; ?>);document.getElementById('datepicker').value='<?php echo date("d.m.Y", $_POST['room-saver-from']); ?>';document.getElementById('datepicker2').value='<?php echo date("d.m.Y", $_POST['room-saver-to']); ?>';easyreservations_send_price_admin();});</script><?php } //Set Room and Roomexactly after click on Overview and redirected to add 
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -1678,9 +1702,7 @@ if(isset($approve) || isset($delete)) {
 				<td nowrap><?php echo easyreservations_reservation_info_box($delorapp, $delorapptext, $reservationStatus); ?></td>
 			</tr>
 				<?php if(isset($approve)){ ?><tr>
-					<td><?php printf ( __( 'Resource' , 'easyReservations' ));?>: <?php echo __($room_name);?> # <select id="roomexactly" name="roomexactly">
-					<?php echo easyReservations_num_options(1,$roomcount,$exactlyroom); ?></td>
-				</tr><?php } ?>
+					<td><?php printf ( __( 'Resource' , 'easyReservations' ));?>: <?php echo __($room_name);?> # <span id="the_room_exactly"></span><?php } ?>
 				<?php do_action('easy-mail-add-input'); ?>
 				<tr>
 					<td>
@@ -1693,7 +1715,7 @@ if(isset($approve) || isset($delete)) {
 		</table>
 			<?php if(isset($approve)) { ?><p style="float:right"><a href="javascript:{}" onclick="document.getElementById('reservation_approve').submit(); return false;"  class="easySubmitButton-primary"><span><?php printf ( __( 'Approve' , 'easyReservations' ));?></span></a></p><?php } ?>
 			<?php if(isset($delete)) { ?><p style="float:right"><a href="javascript:{}" onclick="document.getElementById('reservation_approve').submit(); return false;" class="easySubmitButton-primary"><span><?php printf ( __( 'Reject' , 'easyReservations' ));?></span></a></p><?php } ?>
-	</form><td></tr></table>
+	</form><td></tr></table><script>get_the_select(1, <?php echo $approvequerie[0]->room; ?>);</script>
 <?php }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

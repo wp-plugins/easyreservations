@@ -179,7 +179,7 @@
 				$countpriceadd++;
 			}
 
-			if(!empty($res[0]->childs) && $res[0]->childs != 0){
+			if(!empty($res[0]->childs) && $res[0]->childs > 0){
 				$childprice = get_post_meta($resource, 'reservations_child_price', true);
 				if(substr($childprice, -1) == "%"){
 						$percent=$checkprice/100*(str_replace("%", "", $childprice)*$nights);
@@ -269,6 +269,7 @@
 				}
 			}
 		}
+		}
 
 		if(!empty($res[0]->customp)){
 			if(isset($fake)) $customps = easyreservations_get_custom_price_array($res[0]->customp);
@@ -285,7 +286,6 @@
 				}
 			}
 			$price+=$customprices; //Price plus Custom prices
-		}
 		}
 
 		$paid=0;
@@ -411,8 +411,9 @@
 				if($exactly > 0){
 					if($mode == 0){
 						$startdate = date("Y-m-d H:i:s", $arrival+60);
+						$middledate = date("Y-m-d H:i:s", ($arrival+$departure)/2);
 						$enddate = date("Y-m-d H:i:s", $departure-60);
-						$count = $wpdb->get_var($wpdb->prepare("SELECT COUNT(*) FROM ".$wpdb->prefix."reservations WHERE approve='yes' AND room='$resourceID' AND roomnumber='$exactly' AND $idsql (arrival BETWEEN '$startdate' AND '$enddate' OR departure BETWEEN '$startdate' AND '$enddate' )"));
+						$count = $wpdb->get_var($wpdb->prepare("SELECT COUNT(*) FROM ".$wpdb->prefix."reservations WHERE approve='yes' AND room='$resourceID' AND roomnumber='$exactly' AND $idsql (arrival BETWEEN '$startdate' AND '$enddate' OR departure BETWEEN '$startdate' AND '$enddate' OR '$middledate' BETWEEN arrival AND departure)"));
 						$error += $count;
 					} else {
 						for($i=$arrival; $departure - $i >= $interval/2 ; $i+=$interval){
@@ -426,19 +427,21 @@
 						$date_format=date("Y-m-d H:i:s", $i);
 						$date_format_end=date("Y-m-d H:i:s", $i+$interval);
 						$count = $wpdb->get_var($wpdb->prepare("SELECT COUNT(*) FROM ".$wpdb->prefix ."reservations WHERE approve='yes' AND room='$resourceID' AND $idsql (arrival BETWEEN '$date_format' AND '$date_format_end' OR departure BETWEEN '$date_format' AND '$date_format_end')"));
-						if($mode==1 && $count > $roomcount) $error .= date($date_pattern, $i).', ';
-						elseif($mode==0 && $count > $roomcount)  $error += $roomcount;
+						if($mode==1 && $count >= $roomcount) $error .= date($date_pattern, $i).', ';
+						elseif($mode==0 && $count >= $roomcount)  $error += $roomcount;
 					}
 				}
 			} else {
 				if($exactly > 0){
 					$count = $wpdb->get_var($wpdb->prepare("SELECT COUNT(*) FROM ".$wpdb->prefix ."reservations WHERE approve='yes' AND room='$resourceID' AND roomnumber='$exactly' AND '$idsql' '$date_format' BETWEEN arrival AND departure "));
 					if($mode==1 &&  $count > 0) $error .= date($date_pattern, $arrival).', ';
-					elseif($mode==0)  $error += $count;
+					elseif($mode==0) $error += $count;
 				} else {
-					$count = $wpdb->get_var("SELECT COUNT(*) as cnt FROM ".$wpdb->prefix ."reservations WHERE approve='yes' AND room='$resourceID' AND $idsql DATE('$date_format') BETWEEN DATE(arrival) AND DATE(departure - INTERVAL 1 DAY)");
+					$date_format=date("Y-m-d H:i:s", $arrival);
+					$date_format_end=date("Y-m-d H:i:s", $i+$interval);
+					$count = $wpdb->get_var("SELECT COUNT(*) FROM ".$wpdb->prefix ."reservations WHERE approve='yes' AND room='$resourceID' AND $idsql DATE('$date_format') BETWEEN DATE(arrival) AND DATE(departure)");
 					if($mode==1 && $count > $roomcount) $error .= date($date_pattern, $arrival).', ';
-					elseif($mode==0)  $error += $count;
+					elseif($mode==0) $error += $count;
 				}
 			}
 		}
