@@ -325,6 +325,8 @@ if(!isset($site) || $site=='' || $site =='main'){
 					$right.=__( 'Children\'s discount edited' , 'easyReservations' ).', ';
 				} else $error.=__( 'Insert right money format' , 'easyReservations' ).', ';
 			}
+
+			do_action('er_res_main_save', $resourceID);
 		}
 
 		$counroooms=0;
@@ -546,6 +548,7 @@ if(!isset($site) || $site=='' || $site =='main'){
 									<?php	 echo  __( 'Min' , 'easyReservations' );?>: <select name="easy-resource-min-pers"><?php echo easyReservations_num_options(1, 99, $reservations_current_req['pers-min']); ?></select><br><?php echo __( 'Max' , 'easyReservations' );?>: <select name="easy-resource-max-pers"><option value="0" <?php echo selected($reservations_current_req['pers-max'], 0); ?>>&infin;</option><?php echo easyReservations_num_options(1,99,$reservations_current_req['pers-max']); ?></select>
 								</td>
 							</tr>
+							<?php do_action('er_add_res_main_table_row', $resourceID); ?>
 						</tbody>
 					</table>
 					</form>

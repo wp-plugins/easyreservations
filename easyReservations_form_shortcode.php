@@ -12,7 +12,8 @@ function reservations_form_shortcode($atts){
 		'room' => 0,
 		'price' => 1,
 		'submit' => __( 'Your reservation was sent' , 'easyReservations' ),
-		'style' => 'none'
+		'style' => 'none',
+		'redirect' => ''
 	), $atts);
 
 	wp_enqueue_script('jquery-ui-datepicker');
@@ -101,8 +102,8 @@ function reservations_form_shortcode($atts){
 				if(isset($_POST[$field[2]])){
 					$explodeprice = explode(":",$_POST[$field[2]]);
 					if(isset($explodeprice[2]) && $explodeprice[2] == 1) $theprice = $explodeprice[1] * ($persons+$childs);
-					elseif(isset($explodeprice[2]) && $explodeprice[2] == 2) $theprice = $explodeprice[1] * round((strtotime($to)+$toplus-strtotime($from)+$fromplus)/$the_rooms_intervals_array[$room]);
-					elseif(isset($explodeprice[2]) && $explodeprice[2] == 3) $theprice = $explodeprice[1] * round((strtotime($to)+$toplus-strtotime($from)+$fromplus)/$the_rooms_intervals_array[$room]) * ($persons+$childs);
+					elseif(isset($explodeprice[2]) && $explodeprice[2] == 2) $theprice = $explodeprice[1] * easyreservations_get_nights($the_rooms_intervals_array[$room], strtotime($from)+$fromplus,strtotime($to)+$toplus);
+					elseif(isset($explodeprice[2]) && $explodeprice[2] == 3) $theprice = $explodeprice[1] * easyreservations_get_nights($the_rooms_intervals_array[$room], strtotime($from)+$fromplus,strtotime($to)+$toplus) * ($persons+$childs);
 					else $theprice = $explodeprice[1];
 					$custom_price[] = array( 'type' => 'cstm', 'mode' => 'edit', 'title' => $field[2], 'value' => $explodeprice[0], 'amount' => $theprice );
 				}
@@ -112,7 +113,7 @@ function reservations_form_shortcode($atts){
 		$custom_forms = maybe_serialize($custom_form);
 		$custom_prices = maybe_serialize($custom_price);
 
-		if($error == '') $error .= easyreservations_check_reservation( array( 'captcha' => $captcha, 'thename' => $name_form, 'from' => $from, 'fromplus' => $fromplus, 'to' => $to, 'toplus' => $toplus, 'nights' => $nights, 'email' => $email, 'persons' => $persons, 'childs' => $childs, 'country' => $country, 'room' => $room, 'custom' => $custom_forms, 'customp' => $custom_prices), 'user-add');
+		if($error == '') $error .= easyreservations_check_reservation( array( 'captcha' => $captcha, 'thename' => $name_form, 'from' => $from, 'fromplus' => $fromplus, 'to' => $to, 'toplus' => $toplus, 'nights' => $nights, 'email' => $email, 'persons' => $persons, 'childs' => $childs, 'country' => $country, 'room' => $room, 'custom' => $custom_forms, 'customp' => $custom_prices, 'redirect' => $atts['redirect']), 'user-add');
 		if(is_numeric($error)){
 			$theID = $error;
 			$error = '';

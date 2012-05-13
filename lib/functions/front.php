@@ -53,7 +53,10 @@
 		} elseif(!empty($res['nights'])){
 			$val_nights = $res['nights'];
 			$val_to = $val_from + ($val_nights * $the_rooms_intervals_array[$val_room] ) + $res['toplus'];
-		} else $val_nights = 1;
+		} else {
+			$val_nights = 1;
+			$val_to = $val_from + ($val_nights * $the_rooms_intervals_array[$val_room] ) + $res['toplus'];
+		}
 		$val_todate_sql = date("Y-m-d H:i:s", $val_to);
 		$val_name = $res['thename'];
 		$val_email = $res['email'];
@@ -154,6 +157,8 @@
 
 				if($emailformation['active'] == 1)	easyreservations_send_mail($emailformation['msg'], $reservation_support_mail, $emailformation['subj'], '', $newID, '');
 				if($emailformation2['active'] == 1)	easyreservations_send_mail($emailformation2['msg'], $val_email, $emailformation2['subj'], '', $newID, '');
+
+				if(isset($_POST['redirect']) && !empty($_POST['redirect'])) wp_redirect($_POST['redirect']);
 
 			} elseif($where == "user-edit"){
 
@@ -299,7 +304,7 @@
 				$roomfield=1;
 				if(isset($field['exclude'])) $exclude = explode(',', $field['exclude']); else $exclude = '';
 				if($isCalendar == true) $calendar_action = "document.CalendarFormular.room.value=this.value;easyreservations_send_calendar('shortcode');"; else $calendar_action = '';
-				$theForm=str_replace('['.$fields.']', '<select name="room" id="form_room" '.$disabled.' onChange="'.$calendar_action.$price_action.'">'.reservations_get_room_options($value, 0, $exclude).'</select>', $theForm);
+				$theForm=str_replace('['.$fields.']', '<select name="room" id="form_room" '.$disabled.' onchange="'.$calendar_action.$price_action.'">'.reservations_get_room_options($value, 0, $exclude).'</select>', $theForm);
 			} elseif($field[0]=="custom"){
 				if(isset($field[3])) $valuefield=str_replace('"', '', $field[3]);
 				if($field[count($field)-1] == "*") $req = 'req'; else $req = '';

@@ -114,7 +114,7 @@
 				if($filter['type'] == 'price'){
 					for($i=$arrival; $departure - $i >= $resource_interval/2 ; $i+=$resource_interval){
 						$price_add = 0;
-						if(!is_array($datearray) || !In_array($i, $datearray)){			
+						if(!is_array($datearray) || !In_array($i, $datearray)){
 							if($filter['cond'] == 'unit'){ // Unit price filter
 								if(empty($filter['year']) || ( in_array(date("Y", $i), explode(",", $filter['year'])))){
 									if(empty($filter['quarter']) || ( in_array(ceil(date("m", $i) / 3), explode(",", $filter['quarter'])))){
@@ -173,7 +173,7 @@
 		$checkprice=$price;		
 		if($price_per_person == 1 && ($res[0]->number > 1 || $res[0]->childs > 0)) {  // Calculate Price if  "Calculate per person"  was choosen
 
-			if($nights > 1){
+			if($res[0]->number > 1){
 				$price=$price*$res[0]->number; 
 				if($exact == 1) $exactlyprice[] = array('date'=>$arrival+($countpriceadd*$resource_interval), 'priceday'=>$price-$checkprice, 'type'=>__( 'Price for  persons' , 'easyReservations' ).' x'.$res[0]->number);
 				$countpriceadd++;
@@ -399,7 +399,7 @@
 			if($resource_interval == 3600) $interval = 3600;
 		}
 
-		if($interval == 3600) $date_pattern = RESERVATIONS_DATE_FORMAT.' H';
+		if($interval == 3600) $date_pattern = RESERVATIONS_DATE_FORMAT.' H:00';
 		else $date_pattern = RESERVATIONS_DATE_FORMAT;
 
 		if($id > 0 && ($status == 0 || $status == 'yes')) $idsql = " id != '$id' AND";
@@ -468,7 +468,7 @@
 			if($resource_interval == 3600) $interval = 3600;
 		}
 
-		if($interval == 3600) $date_pattern = RESERVATIONS_DATE_FORMAT.' H';
+		if($interval == 3600) $date_pattern = RESERVATIONS_DATE_FORMAT.' H:00';
 		else $date_pattern = RESERVATIONS_DATE_FORMAT;
 
 		if($departure < 1) $departure = $arrival+$interval;
@@ -835,7 +835,7 @@
 				if(!empty($infos->custom)){
 					$customs=easyreservations_get_customs($infos->custom, 0, 'cstm', 'edit');
 					foreach($customs as $custom){
-						$theCustominMail  .= $custom['title'].': '.$custom['value'].'<br>';
+						if(!isset($field[1]) || $field[1] == $custom['title']) $theCustominMail .= $custom['title'].': '.$custom['value'].'<br>';
 					}
 				}
 				$theForm=str_replace('['.$field[0].']', $theCustominMail, $theForm);
@@ -844,7 +844,7 @@
 				if(!empty($infos->customp)){
 					$customs=easyreservations_get_customs($infos->customp, 0, 'cstm', 'edit');
 					foreach($customs as $custom){
-						$theCustominMail  .= $custom['title'].' - '.$custom['value'].': '.$custom['amount'].'<br>';
+						if(!isset($field[1]) || $field[1] == $custom['title']) $theCustominMail  .= $custom['title'].' - '.$custom['value'].': '.$custom['amount'].'<br>';
 					}
 				}
 				$theForm=str_replace('['.$field[0].']', $theCustominMail, $theForm);
@@ -1255,7 +1255,7 @@
 		$val_from = strtotime($_POST['from']) + (int) $_POST['fromplus'] ;
 		if(!empty($_POST['to'])){
 			$val_to = strtotime($_POST['to']) + (int) $_POST['toplus'] ;
-			$val_nights = easyreservations_get_nights($the_rooms_intervals_array[$val_room], $val_from, $val_to + (int) $_POST['toplus']);
+			$val_nights = easyreservations_get_nights($the_rooms_intervals_array[$val_room], $val_from, $val_to);
 			if($val_nights == 0) $val_nights = 1;
 			$field = 'easy-form-to';
 		} else {
@@ -1266,7 +1266,7 @@
 
 		$error = "";
 
-		if((strlen($val_name) > 30 || strlen($val_name) <= 1 ||  !preg_match('/^[A-Za-z\s]+$/i',$val_name)) && $val_name != ""){ /* check name */
+		if((strlen($val_name) > 30 || strlen($val_name) <= 1 ||  !preg_match('/^[A-Za-zöüäßąęśłóńźćż\s]+$/i',$val_name)) && $val_name != ""){ /* check name */
 			$error[] = 'easy-form-thename';
 			$error[] = __( 'Please enter a correct name' , 'easyReservations' );
 		}
@@ -1291,7 +1291,6 @@
 			$error[] = __( 'Persons has to be a number' , 'easyReservations' );
 		}
 
-//		if($val_from > time()) $numbererrors=easyreservations_check_avail($_POST['room'], $val_from, 0, $val_to , 1 ); /* check rooms availability */
 		$numbererrors=easyreservations_check_avail($_POST['room'], $val_from, 0, $val_to , 1 ); /* check rooms availability */
 
 		if($numbererrors > 0){
@@ -1360,7 +1359,7 @@
 		wp_register_script('easyreservations_send_price', WP_PLUGIN_URL.'/easyreservations/js/ajax/send_price.js' , array( "jquery" ));
 		wp_register_script('easyreservations_send_validate', WP_PLUGIN_URL.'/easyreservations/js/ajax/send_validate.js' , array( "jquery" ));
 		wp_register_script('easy-form-js', WP_PLUGIN_URL . '/easyreservations/js/form.js');
-		
+
 		global $the_rooms_intervals_array;
 
 		wp_localize_script( 'easyreservations_send_calendar', 'easyAjax', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ), 'plugin_url' => WP_PLUGIN_URL, 'interval' => json_encode($the_rooms_intervals_array) ) );

@@ -1214,7 +1214,8 @@ if(!isset($approve) && !isset($delete) && !isset($view) && !isset($edit) && !iss
 				</tr>
 				<tr class="alternate">
 					<td nowrap><img style="vertical-align:text-bottom;" src="<?php echo RESERVATIONS_IMAGES_DIR; ?>/day.png"> <?php printf ( __( 'Date' , 'easyReservations' ));?></td> 
-					<td><b><?php echo date(RESERVATIONS_DATE_FORMAT_SHOW,$reservation_arrival_stamp);?> - <?php echo date(RESERVATIONS_DATE_FORMAT_SHOW, $reservation_departure_stamp);?> <small>(<?php echo $reservationNights.' '.easyreservations_interval_infos($the_rooms_intervals_array[$room], 0, $reservationNights);?>)</small></b></td>
+					<td><b><?php echo date(RESERVATIONS_DATE_FORMAT_SHOW,$reservation_arrival_stamp);?> - <?php echo date(RESERVATIONS_DATE_FORMAT_SHOW, $reservation_departure_stamp);?> 
+							<small>(<?php echo $reservationNights.' '.easyreservations_interval_infos($the_rooms_intervals_array[$approvequerie[0]->room], 0, $reservationNights); ?>)</small></b></td>
 				</tr>
 				<tr>
 					<td nowrap><img style="vertical-align:text-bottom;" src="<?php echo RESERVATIONS_IMAGES_DIR; ?>/email.png"> <?php printf ( __( 'eMail' , 'easyReservations' ));?></td> 
