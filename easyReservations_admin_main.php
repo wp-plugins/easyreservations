@@ -62,7 +62,6 @@ function reservation_main_page() {
 			if ($to!=1) { $linkundo=implode("&bulkArr[]=", $listes); } else { $linkundo=$liste; }
 			if ($to==1) { $anzahl=__('Reservation', 'easyReservations'); } else { $anzahl=$to.' '.__('Reservations', 'easyReservations');  }
 			$prompt='<div class="updated" style="margin-top:-5px !important"><p>'.$anzahl.' '.__( 'moved to trash' , 'easyReservations' ).'. <a href="'.wp_nonce_url('admin.php?page=reservations&bulkArr[]='.$linkundo.'&bulk=2', 'easy-main-bulk').'">'.__( 'Undo' , 'easyReservations' ).'</a></p></div>';
-
 			}
 			if($_GET['bulk']=="2"){ //  If Undo Trashing
 				if(count($listes)  > "1" ) { 
@@ -414,7 +413,7 @@ function reservation_main_page() {
 			$select.= '<option value="0">'.__('None', 'easyReservations').'</option>';
 			$select.= '</select>';
 			?>
-			selects[<?php echo $room->ID; ?>] = new Array(<?php echo $select; ?>);<?php
+			selects[<?php echo $room->ID; ?>] = new Array('<?php echo $select; ?>');<?php
 		} ?>
 		document.getElementById('the_room_exactly').innerHTML = selects[resourceId];
 
@@ -426,8 +425,8 @@ function reservation_main_page() {
 if(!isset($show['show_welcome']) || $show['show_welcome'] != 0){?>
 <div id="wrap">
 <div class="easy-welcome-panel" id="easy-welcome-panel">
-	<div class="wp-badge easy-badge">Version 2.0.2</div>
-	<h3>Welcome to easyReservations 2.0.2!</h3>
+	<div class="wp-badge easy-badge">Version 2.0.5</div>
+	<h3>Welcome to easyReservations 2.0.5!</h3>
 	<p class="about-description">
 		Now with hourly and weekly billing, reservations in any amount of time and many improvements!<br>
 		Visit the brand new website at easyreservations.org with a better <a href="http://easyreservations.org/knowledgebase/" target="_blank">Documentation</a> and the <a href="http://easyreservations.org/forum/" target="_blank">Support Forum</a> - the only place to get support from now.<br>
@@ -1193,7 +1192,6 @@ if(!isset($approve) && !isset($delete) && !isset($view) && !isset($edit) && !iss
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// EDIT RESERVATION /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	if(isset($approve) || isset($delete) || isset($view) || isset($sendmail)){ ?> <!-- // Content will only show on delete, view or approve Reservation -->
-
 	<?php if(!isset($view) || function_exists('easyreservations_generate_chat')){ ?><table style="width:99%;" cellspacing="0"><tr><td style="width:30%;" valign="top"><br><?php } else { $width='style="width:480px;"'; echo '<br>'; } ?>
 		<table class="<?php echo RESERVATIONS_STYLE; ?>" <?php if(isset($width)) echo $width; ?>>
 			<thead>
@@ -1203,10 +1201,10 @@ if(!isset($approve) && !isset($delete) && !isset($view) && !isset($edit) && !iss
 				</tr>
 			</thead>
 			<tbody>
-			<?php if(isset($view)){ ?>
-				<tr>
-					<td colspan="2" nowrap><?php echo easyreservations_reservation_info_box($view, 'view', $reservationStatus); ?></td>
-				</tr>
+				<?php if(isset($view)){ ?>
+					<tr>
+						<td colspan="2" nowrap><?php echo easyreservations_reservation_info_box($view, 'view', $reservationStatus); ?></td>
+					</tr>
 				<?php } ?>
 				<tr>
 					<td nowrap style="width:45%"><img style="vertical-align:text-bottom;" src="<?php echo RESERVATIONS_IMAGES_DIR; ?>/user.png"> <?php printf ( __( 'Name' , 'easyReservations' ));?>:</td> 
@@ -1263,7 +1261,7 @@ if(!isset($approve) && !isset($delete) && !isset($view) && !isset($edit) && !iss
 				}
 				?>
 			</tbody>
-		</table><br><div <?php if(isset($width)) echo $width; ?>><?php echo easyreservations_detailed_price($id, $room); ?></div>
+		</table><br><div <?php if(isset($width)) echo $width; ?>><?php echo easyreservations_detailed_price($id, $approvequerie[0]->room); ?></div>
 		<?php if(isset($view) && function_exists('easyreservations_generate_chat')){ ?></td><td  style="width:1%;"></td><td  style="width:35%;" valign="top" style="vertical-align:top;">
 		<table class="<?php echo RESERVATIONS_STYLE; ?>" style="width:350px;margin-top:18px">
 			<thead>
@@ -1403,7 +1401,7 @@ if(isset($edit)){
 					</tbody>
 				</table>
 				<input type="button" onclick="document.getElementById('editreservation').submit(); return false;" class="easySubmitButton-primary" value="<?php printf ( __( 'Edit reservation' , 'easyReservations' ));?>"><span class="showPrice" style="float:right;"><?php echo __( 'Price' , 'easyReservations' ); ?>: <span id="showPrice" style="font-weight:bold;"><b>0,00</b></span> &<?php echo RESERVATIONS_CURRENCY; ?>;</span></div>
-				<div style="width:550px;margin-top:10px;"><?php echo easyreservations_detailed_price($id); ?><?php echo $information; ?></div>
+				<div style="width:550px;margin-top:10px;"><?php echo easyreservations_detailed_price($id, $approvequerie[0]->room); ?><?php echo $information; ?></div>
 			</td>
 			<td style="width:1%"></td>
 			<td valign="top">

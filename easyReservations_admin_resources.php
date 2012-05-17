@@ -834,9 +834,9 @@ if(!isset($site) || $site=='' || $site =='main'){
 				if(is_int(timestamp_date)){
 					timestamp_date = parseFloat(timestamp_date + '000');
 					var date_date = new Date (timestamp_date);
-					document.getElementById('price_filter_date_h').selectedIndex = date_date.getHours() - 1;
+					document.getElementById('price_filter_date_h').selectedIndex = date_date.getHours() - 2;
 					document.getElementById('price_filter_date_m').selectedIndex = date_date.getMinutes();
-					document.getElementById('price_filter_date').value = (( date_date.getDate() < 10) ? '0'+ date_date.getDate() : date_date.getDate()) + '.' +(( date_date.getMonth() < 10) ? '0'+ date_date.getMonth() : date_date.getMonth()) + '.' + (( date_date.getYear() < 999) ? date_date.getYear() + 1900 : date_date.getYear());
+					document.getElementById('price_filter_date').value = (( date_date.getDate() < 10) ? '0'+ date_date.getDate() : date_date.getDate()) + '.' +(( (date_date.getMonth()+1) < 10) ? '0'+ (date_date.getMonth()+1) : (date_date.getMonth()+1)) + '.' + (( date_date.getYear() < 999) ? date_date.getYear() + 1900 : date_date.getYear());
 				} else document.getElementById('price_filter_date').value = filter[i]['date'];
 			} else if(cond == 'range'){
 				document.getElementsByName('price_filter_cond')[1].checked = true;
@@ -844,21 +844,19 @@ if(!isset($site) || $site=='' || $site =='main'){
 				if(is_int(timestamp_from)){
 					timestamp_from = parseFloat(timestamp_from + '000');
 					var date_from = new Date (timestamp_from);
-					document.getElementById('price_filter_range_from_h').selectedIndex = date_from.getHours() - 1;
+					document.getElementById('price_filter_range_from_h').selectedIndex = date_from.getHours() - 2;
 					document.getElementById('price_filter_range_from_m').selectedIndex = date_from.getMinutes();
-					document.getElementById('price_filter_range_from').value = (( date_from.getDate() < 10) ? '0'+ date_from.getDate() : date_from.getDate()) + '.' +(( date_from.getMonth() < 10) ? '0'+ date_from.getMonth() : date_from.getMonth()) + '.' + (( date_from.getYear() < 999) ? date_from.getYear() + 1900 : date_from.getYear());
+					document.getElementById('price_filter_range_from').value = (( date_from.getDate() < 10) ? '0'+ date_from.getDate() : date_from.getDate()) + '.' +(( (date_from.getMonth()+1) < 10) ? '0'+ (date_from.getMonth()+1) : (date_from.getMonth()+1)) + '.' + (( date_from.getYear() < 999) ? date_from.getYear() + 1900 : date_from.getYear());
 				} else document.getElementById('price_filter_range_from').value = filter[i]['date'];
-				
+
 				var timestamp_to = filter[i]['to'];
 				if(is_int(timestamp_to)){
-					timestamp_to = parseFloat(timestamp_to + '000');
+					timestamp_to = parseFloat(timestamp_to*1000);
 					var date_to = new Date (timestamp_to);
-					document.getElementById('price_filter_range_to_h').selectedIndex = date_to.getHours() - 1;
+					document.getElementById('price_filter_range_to_h').selectedIndex = date_to.getHours() - 2;
 					document.getElementById('price_filter_range_to_m').selectedIndex = date_to.getMinutes();
-					document.getElementById('price_filter_range_to').value = (( date_to.getDate() < 10) ? '0'+ date_to.getDate() : date_to.getDate()) + '.' +(( date_to.getMonth() < 10) ? '0'+ date_to.getMonth() : date_to.getMonth()) + '.' + (( date_to.getYear() < 999) ? date_to.getYear() + 1900 : date_to.getYear());
+					document.getElementById('price_filter_range_to').value = (( date_to.getDate() < 10) ? '0'+ date_to.getDate() : date_to.getDate()) + '.' + (((date_to.getMonth()+1) < 10) ? '0'+ (date_to.getMonth()+1) : (date_to.getMonth()+1)) + '.' + (( date_to.getYear() < 999) ? date_to.getYear() + 1900 : date_to.getYear());
 				} else document.getElementById('price_filter_range_to').value = filter[i]['date'];
-
-				document.getElementById('price_filter_range_to').value = filter[i]['to'];
 			} else {
 				document.getElementsByName('price_filter_cond')[2].checked = true;
 				var hour_checkboxes = document.getElementsByName('price_filter_unit_hour[]');

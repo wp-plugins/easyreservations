@@ -426,23 +426,17 @@
 					for($i=$arrival; $departure - $i >= $interval/2 ; $i+=$interval){
 						$date_format=date("Y-m-d H:i:s", $i);
 						$date_format_end=date("Y-m-d H:i:s", $i+$interval);
-						$count = $wpdb->get_var($wpdb->prepare("SELECT COUNT(*) FROM ".$wpdb->prefix ."reservations WHERE approve='yes' AND room='$resourceID' AND $idsql (arrival BETWEEN '$date_format' AND '$date_format_end' OR departure BETWEEN '$date_format' AND '$date_format_end')"));
+						$count = $wpdb->get_var($wpdb->prepare("SELECT COUNT(*) FROM ".$wpdb->prefix ."reservations WHERE approve='yes' AND room='$resourceID' AND $idsql (arrival BETWEEN '$date_format' AND '$date_format_end' OR departure - INTERVAL '$interval' SECOND BETWEEN '$date_format' AND '$date_format_end')"));
 						if($mode==1 && $count >= $roomcount) $error .= date($date_pattern, $i).', ';
 						elseif($mode==0 && $count >= $roomcount)  $error += $roomcount;
 					}
 				}
 			} else {
-				if($exactly > 0){
-					$count = $wpdb->get_var($wpdb->prepare("SELECT COUNT(*) FROM ".$wpdb->prefix ."reservations WHERE approve='yes' AND room='$resourceID' AND roomnumber='$exactly' AND '$idsql' '$date_format' BETWEEN arrival AND departure "));
-					if($mode==1 &&  $count > 0) $error .= date($date_pattern, $arrival).', ';
-					elseif($mode==0) $error += $count;
-				} else {
-					$date_format=date("Y-m-d H:i:s", $arrival);
-					$date_format_end=date("Y-m-d H:i:s", $i+$interval);
-					$count = $wpdb->get_var("SELECT COUNT(*) FROM ".$wpdb->prefix ."reservations WHERE approve='yes' AND room='$resourceID' AND $idsql DATE('$date_format') BETWEEN DATE(arrival) AND DATE(departure)");
-					if($mode==1 && $count > $roomcount) $error .= date($date_pattern, $arrival).', ';
-					elseif($mode==0) $error += $count;
-				}
+				$date_format=date("Y-m-d H:i:s", $arrival);
+				$date_format_end=date("Y-m-d H:i:s", $i+$interval);
+				$count = $wpdb->get_var("SELECT COUNT(*) FROM ".$wpdb->prefix ."reservations WHERE approve='yes' AND room='$resourceID' AND $idsql DATE('$date_format') BETWEEN DATE(arrival) AND DATE(departure - INTERVAL '$interval' SECOND) AND TIMESTAMPDIFF(SECOND, arrival, departure) >= $interval");
+				if($mode==1 && $count > $roomcount) $error .= date($date_pattern, $arrival).', ';
+				elseif($mode==0) $error += $count;
 			}
 		}
 
@@ -571,7 +565,7 @@
 
 		return $rooms;
 	}
-	
+
 	$the_rooms_array = easyreservations_get_rooms();
 
 	function reservations_get_room_options($selected='', $check=0, $exclude= ''){
@@ -838,7 +832,7 @@
 						if(!isset($field[1]) || $field[1] == $custom['title']) $theCustominMail .= $custom['title'].': '.$custom['value'].'<br>';
 					}
 				}
-				$theForm=str_replace('['.$field[0].']', $theCustominMail, $theForm);
+				$theForm=str_replace('['.$fieldsx.']', $theCustominMail, $theForm);
 			} elseif($field[0]=="customprices" || $field[0]=="prices"){
 				$theCustominMail = '';
 				if(!empty($infos->customp)){
@@ -847,7 +841,7 @@
 						if(!isset($field[1]) || $field[1] == $custom['title']) $theCustominMail  .= $custom['title'].' - '.$custom['value'].': '.$custom['amount'].'<br>';
 					}
 				}
-				$theForm=str_replace('['.$field[0].']', $theCustominMail, $theForm);
+				$theForm=str_replace('['.$fieldsx.']', $theCustominMail, $theForm);
 			}
 		}
 
@@ -857,8 +851,10 @@
 		$theForm = apply_filters( 'easy-email-content', $theForm, $local);
 		$mailSubj = apply_filters( 'easy-email-subj', $mailSubj, $local);
 
-		$makebrtobreak=str_replace('<br>', "\n",str_replace(']', '',  str_replace('[', '', $theForm)));
-		$msg=$makebrtobreak;
+		if(!function_exists('easyreservations_send_multipart_mail')){
+			$makebrtobreak=str_replace('<br>', "\n",str_replace(array(']', ']'), '', $theForm));
+			$msg=$makebrtobreak;
+		} else $msg = $theForm;
 
 		$reservation_support_mail = get_option("reservations_support_mail");
 
@@ -869,9 +865,10 @@
 				$send_from = $implode[0];
 			} else $send_from = $reservation_support_mail;
 		}
-		$headers = "From: ".get_bloginfo('name')." <".$send_from.">\n";
-		$headers .= "Message-ID: <".time()."-".$send_from.">\n";
 
+		$headers = "From: ".get_bloginfo('name')." <".$send_from.">\r\n";
+		$headers .= "Message-ID: <".time()."-".$send_from.">\n"; 
+ 
 		wp_mail($mailTo,$mailSubj,$msg,$headers);
 	}
 
@@ -1368,13 +1365,24 @@
 		wp_localize_script( 'easy-form-js', 'easyDate', array( 'easydateformat' => RESERVATIONS_DATE_FORMAT, 'interval' => json_encode($the_rooms_intervals_array) ) );
 
 		wp_register_style('easy-form-little', WP_PLUGIN_URL . '/easyreservations/css/forms/form_little.css');
-		wp_register_style('easy-form-blue', WP_PLUGIN_URL . '/easyreservations/css/forms/form_blue.css');
-		wp_register_style('easy-form-none', WP_PLUGIN_URL . '/easyreservations/css/forms/form_none.css');
+		if(file_exists(WP_PLUGIN_DIR . '/easyreservations/css/custom/form.css')){
+			$form1 = 'custom/form.css'; $form2 = $form1;
+		} else {
+			$form1 = 'forms/form_blue.css'; $form2 = 'forms/form_none.css';
+		}
+		wp_register_style('easy-form-blue', WP_PLUGIN_URL . '/easyreservations/css/'.$form1);
+		wp_register_style('easy-form-none', WP_PLUGIN_URL . '/easyreservations/css/'.$form2);
 
-		wp_register_style('easy-cal-1', WP_PLUGIN_URL . '/easyreservations/css/calendar/style_1.css');
-		wp_register_style('easy-cal-2', WP_PLUGIN_URL . '/easyreservations/css/calendar/style_2.css');
+		if(file_exists(WP_PLUGIN_DIR . '/easyreservations/css/custom/calendar.css')){
+			$form1 = 'custom/calendar.css'; $form2 = $form1;
+		} else {
+			$form1 = 'calendar/style_1.css'; $form2 = 'calendar/style_2.css';
+		}
+		wp_register_style('easy-cal-1', WP_PLUGIN_URL . '/easyreservations/css/'.$form1);
+		wp_register_style('easy-cal-2', WP_PLUGIN_URL . '/easyreservations/css/'.$form2);
 
-		wp_register_style('datestyle', WP_PLUGIN_URL . '/easyreservations/css/jquery-ui.css');
+		if(file_exists(WP_PLUGIN_DIR . '/easyreservations/css/custom/datepicker.css')) $form1 = 'custom/datepicker.css'; else $form1 = 'jquery-ui.css';
+		wp_register_style('datestyle', WP_PLUGIN_URL . '/easyreservations/css/'.$form1);
 	}
 
 	add_action('wp_enqueue_scripts', 'easyreservations_register_scripts');

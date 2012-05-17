@@ -42,7 +42,7 @@ License:GPL2
 					$uploads = wp_upload_dir();
 					$saved_file_location = $uploads['basedir'].'/'. $file_name;
 
-					if(preg_match("/(PayPal|Import|datepicker|GuestContact|Calendar|extendedCalendar|Search|translation|Multilingual|style)/i", $file_name) && ($file_type == 'application/zip'  || $file_type == 'application/x-zip' || $file_type == 'application/x-zip-compressed' || $file_type == 'text/html'  || isset($_GET['file_name']))){
+					if(preg_match("/(PayPal|Import|datepicker|GuestContact|Calendar|lifetime|extendedCalendar|Search|translation|Multilingual|style)/i", $file_name) && ($file_type == 'application/zip'  || $file_type == 'application/x-zip' || $file_type == 'application/x-zip-compressed' || $file_type == 'text/html'  || isset($_GET['file_name']))){
 						if(move_uploaded_file($file_tmp_name, $saved_file_location) || isset($_GET['file_name'])) {
 							$url = 'admin.php?page=reservation-settings&site=plugins&file_name='.$file_name;
 							if (false === ($creds = request_filesystem_credentials($url, 'ftp', false, false) ) ) {
@@ -156,6 +156,17 @@ License:GPL2
 								'price' => '15',
 								'image' => 'paypal',
 								'beta' => 0
+						),
+						array(
+								'slug' => 'htmlmails',
+								'title' => __( 'htmlMails Module' , 'easyReservations' ),
+								'content' => __( 'Mails with html formats.' , 'easyReservations' ),
+								'xml' => '',
+								'function' => 'easyreservations_send_multipart_mail',
+								'vers' => '1.0',
+								'price' => '15',
+								'image' => 'email',
+								'beta' => 1
 						),
 						array(
 								'slug' => 'hourlycal',
@@ -434,6 +445,12 @@ License:GPL2
 	function easyreservation_is_hourlycal(){
 		$active = get_option('reservations_active_modules');
 		if(file_exists(WP_PLUGIN_DIR.'/easyreservations/lib/modules/hourlycal/hourlycal.php') && is_array($active) && in_array('hourlycal', $active)) return true;
+		else return false;
+	}
+
+	function easyreservation_is_htmlmails(){
+		$active = get_option('reservations_active_modules');
+		if(file_exists(WP_PLUGIN_DIR.'/easyreservations/lib/modules/htmlmails/htmlmails.php') && is_array($active) && in_array('htmlmails', $active)) return true;
 		else return false;
 	}
 

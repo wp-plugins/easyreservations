@@ -52,10 +52,10 @@
 			$val_nights = easyreservations_get_nights($the_rooms_intervals_array[$val_room], $val_from, $val_to);
 		} elseif(!empty($res['nights'])){
 			$val_nights = $res['nights'];
-			$val_to = $val_from + ($val_nights * $the_rooms_intervals_array[$val_room] ) + $res['toplus'];
+			$val_to = $val_from + ($val_nights * $the_rooms_intervals_array[$val_room] );
 		} else {
 			$val_nights = 1;
-			$val_to = $val_from + ($val_nights * $the_rooms_intervals_array[$val_room] ) + $res['toplus'];
+			$val_to = $val_from + ($val_nights * $the_rooms_intervals_array[$val_room] );
 		}
 		$val_todate_sql = date("Y-m-d H:i:s", $val_to);
 		$val_name = $res['thename'];
@@ -158,7 +158,9 @@
 				if($emailformation['active'] == 1)	easyreservations_send_mail($emailformation['msg'], $reservation_support_mail, $emailformation['subj'], '', $newID, '');
 				if($emailformation2['active'] == 1)	easyreservations_send_mail($emailformation2['msg'], $val_email, $emailformation2['subj'], '', $newID, '');
 
-				if(isset($_POST['redirect']) && !empty($_POST['redirect'])) wp_redirect($_POST['redirect']);
+				if(isset($res['redirect']) && !empty($res['redirect'])){
+					?><script type="text/javascript">window.location = "<?php echo $res['redirect']; ?>"</script><?php
+				}
 
 			} elseif($where == "user-edit"){
 
@@ -252,7 +254,7 @@
 				$start = 0;
 				if(isset($field[2])) $end = $field[2]; else $end = 6;
 				if(isset($field[3])){ $start = $field[2]; $end = $field[3]; }
-				$theForm=preg_replace('/\['.$fields.'\]/', '<select name="childs" '.$disabled.' style="'.$style.'" title="'.$title.'" onchange="'.$price_action.'">'.easyReservations_num_options($start,$end,$value).'</select>', $theForm);
+				$theForm=preg_replace('/\['.$fields.'\]/', '<select name="childs" '.$disabled.' style="'.$style.'" title="'.$title.'" onchange="'.$price_action.$validate_action.'">'.easyReservations_num_options($start,$end,$value).'</select>', $theForm);
 			} elseif($field[0]=="thename"){
 				$theForm=preg_replace('/\['.$fields.'\]/', '<input type="text" id="easy-form-thename" name="thename" '.$disabled.' value="'.$value.'" style="'.$style.'" title="'.$title.'" onchange="'.$validate_action.'">', $theForm);
 			} elseif($field[0]=="error"){
