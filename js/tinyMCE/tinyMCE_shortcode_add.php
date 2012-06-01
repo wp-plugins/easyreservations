@@ -138,8 +138,8 @@ function jumpto(x){ // Chained inputs;
 		document.getElementById("tiny_Field").innerHTML = '<tr><td colspan="2"><?php _e("The shortcodes wont work if more then one of the same type are on the same site", "easyReservations"); ?>. <?php _e("This can happen with posts in category-views or on homepage", "easyReservations"); ?>.<br><?php _e("To prevent this add the shortcodes after the [more] tag", "easyReservations"); ?>.<br></td></tr>';
 	} else if(x == "edit"){
 		var FieldAdd = '<tr>';
-			FieldAdd += '<td colspan="2" nowrap="nowrap" valign="top"><label for="easyreservation_edit_daysback"><?php _e("Days between arrival and last chance to edt", "easyReservations"); ?>: </label>';
-			FieldAdd += '<label><input type="text" id="easyreservation_edit_daysback" name="easyreservation_edit_daysback" style="width: 40px" value="10"> d</label></td>';
+			FieldAdd += '<td colspan="2" nowrap="nowrap" valign="top"><label for="easyreservation_edit_daysback"><?php _e("Days between arrival and today for last chance to edit", "easyReservations"); ?>: ';
+			FieldAdd += '<select id="easyreservation_edit_daysback" name="easyreservation_edit_daysback" style="width: 55px"><?php echo easyReservations_num_options(-100,100,1); ?></select> d</label></td>';
 			FieldAdd += '</tr>';
 			FieldAdd += '<tr>';
 			FieldAdd += '<td nowrap="nowrap" valign="top"><label for="easyreservation_edit_table"><?php _e("Table", "easyReservations"); ?></label></td>';

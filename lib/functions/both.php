@@ -288,13 +288,28 @@
 			$price+=$customprices; //Price plus Custom prices
 		}
 
+		if(function_exists('easyreservations_calculate_coupon')){
+			if(isset($res[0]->coupon) && !empty($res[0]->coupon)){
+				$explode = explode(',', $res[0]->coupon);
+				$coupons = '';
+				foreach($explode as $code){
+					if(!empty($code))	$coupons[] = array('type' => 'coup','value'=>$code);
+				}
+				$save = easyreservations_calculate_coupon($coupons, $arrival, $countpriceadd, $resource_interval);
+			}
+			else $save = easyreservations_calculate_coupon($res[0]->customp, $arrival, $countpriceadd, $resource_interval);
+			if(!empty($save)){
+				$price += $save['price'];
+				$exactlyprice = array_merge($exactlyprice, $save['exactly']);
+				$countpriceadd = $save['countpriceadd'];
+			}
+		}
+
 		$paid=0;
 
 		if($res[0]->price != ''){
 			$pricexpl=explode(";", $res[0]->price);
-			if($pricexpl[0]!=0 AND $pricexpl[0]!=''){
-				$price=$pricexpl[0];
-			}
+			if($pricexpl[0]!=0 && $pricexpl[0]!='') $price=$pricexpl[0];
 			if(isset($pricexpl[1]) && $pricexpl[1] > 0) $paid=$pricexpl[1];
 			if(!is_numeric($paid) || $paid <= 0) $paid = 0;
 		}
@@ -416,7 +431,7 @@
 						$count = $wpdb->get_var($wpdb->prepare("SELECT COUNT(*) FROM ".$wpdb->prefix."reservations WHERE approve='yes' AND room='$resourceID' AND roomnumber='$exactly' AND $idsql (arrival BETWEEN '$startdate' AND '$enddate' OR departure BETWEEN '$startdate' AND '$enddate' OR '$middledate' BETWEEN arrival AND departure)"));
 						$error += $count;
 					} else {
-						for($i=$arrival; $departure - $i >= $interval/2 ; $i+=$interval){
+						for($i=$arrival; $departure - $i >= $interval/2; $i+=$interval){
 							$date_format=date("Y-m-d H:i:s", $i);
 							$count = $wpdb->get_var($wpdb->prepare("SELECT COUNT(*) FROM ".$wpdb->prefix."reservations WHERE approve='yes' AND room='$resourceID' AND roomnumber='$exactly' AND $idsql ('$date_format' BETWEEN arrival AND departure OR DATE(arrival) = '".date("Y-m-d", $i)."') "));
 							$error .= date($date_pattern, $i).', ';
@@ -424,9 +439,9 @@
 					}
 				} else {
 					for($i=$arrival; $departure - $i >= $interval/2 ; $i+=$interval){
-						$date_format=date("Y-m-d H:i:s", $i);
-						$date_format_end=date("Y-m-d H:i:s", $i+$interval);
-						$count = $wpdb->get_var($wpdb->prepare("SELECT COUNT(*) FROM ".$wpdb->prefix ."reservations WHERE approve='yes' AND room='$resourceID' AND $idsql (arrival BETWEEN '$date_format' AND '$date_format_end' OR departure - INTERVAL '$interval' SECOND BETWEEN '$date_format' AND '$date_format_end')"));
+						$date_format=date("Y-m-d H:i:s", $arrival+60);
+						$date_format_end=date("Y-m-d H:i:s", $departure-60);
+						$count = $wpdb->get_var($wpdb->prepare("SELECT COUNT(*) FROM ".$wpdb->prefix ."reservations WHERE approve='yes' AND room='$resourceID' AND $idsql (arrival BETWEEN '$date_format' AND '$date_format_end' OR departure BETWEEN '$date_format' AND '$date_format_end')"));
 						if($mode==1 && $count >= $roomcount) $error .= date($date_pattern, $i).', ';
 						elseif($mode==0 && $count >= $roomcount)  $error += $roomcount;
 					}
@@ -951,7 +966,6 @@
 
 		if(!empty($all_customs)){
 			$all_customs_save  = maybe_unserialize($all_customs);
-			
 			if($mass == 0){
 				if(!is_numeric($thekey)){
 					$all_customs_save = $all_customs_save;
@@ -973,7 +987,6 @@
 		foreach($new_custom as $newcustom){
 			$all_customs_save[] = $newcustom;
 		}
-
 		$all_customs_serial = maybe_serialize($all_customs_save);
 
 		if($direct == 0) return $all_customs_serial;
@@ -982,7 +995,7 @@
 			else $wpdb->query($wpdb->prepare("UPDATE ".$wpdb->prefix ."reservations SET customp='$all_customs_serial' WHERE id='$id' "));
 			return $all_customs_save;
 		}
-	}
+	}	
 
 	function easyreservations_get_customs($custom, $ser = 0, $type = 0, $modus = 0){
 		if($ser == 0 && is_serialized( $custom )) $custom = maybe_unserialize($custom);
@@ -1148,7 +1161,7 @@
 					if(isset($_POST['childs'])) $childs = $_POST['childs']; else $childs = 0;
 					if(isset($_POST['reservated'])) $reservated = $_POST['reservated']*86400; else $reservated = 0;
 
-					$fake_res = array( 'arrival' => date("Y-m-d H:i:s", $dateofeachday), 'departure' => date("Y-m-d H:i:s", $dateofeachday+$the_rooms_intervals_array[$_POST['room']]), 'reservated' => date("d.m.Y H:i", time()), 'room' => $_POST['room'], 'number' => $persons, 'childs' => $childs, 'email' => 'test@test.deve', 'price' => '', 'customp' => '' );
+					$fake_res = array( 'arrival' => date("Y-m-d H:i:s", $dateofeachday), 'departure' => date("Y-m-d H:i:s", $dateofeachday+easyreservations_get_interval($the_rooms_intervals_array[$_POST['room']], 0, 1)), 'reservated' => date("d.m.Y H:i", time()), 'room' => $_POST['room'], 'number' => $persons, 'childs' => $childs, 'email' => 'test@test.deve', 'price' => '', 'customp' => '' );
 					$fake_res_object = (object) $fake_res;
 					$calculate_price = easyreservations_price_calculation( '', array($fake_res_object) );
 					if($price == 1 || $price == 2){ $explode = explode('.', $calculate_price['price']); $calculate_price['price'] = $explode[0]; }
@@ -1225,7 +1238,7 @@
 		if($email == "") $email = "test@test.de";
 		if($persons == "") $persons = 1;
 
-		$Array = array( 'arrival' => date("Y-m-d H:i:s", $val_from), 'departure' => date("Y-m-d H:i:s", $val_to), 'reservated' => date("Y-m-d H:i:s", time()), 'room' => $room, 'number' => $persons, 'childs' => $childs, 'email' => $email, 'price' => '', 'customp' => $customp );
+		$Array = array( 'arrival' => date("Y-m-d H:i:s", $val_from), 'departure' => date("Y-m-d H:i:s", $val_to), 'reservated' => date("Y-m-d H:i:s", time()), 'room' => $room, 'number' => $persons, 'childs' => $childs, 'email' => $email, 'price' => '', 'customp' => $customp, 'coupon' => $_POST['coupon']);
 		$obj = (object) $Array;
 		$resArray = array($obj);
 		$thePrice = easyreservations_price_calculation('', $resArray);
@@ -1263,7 +1276,7 @@
 
 		$error = "";
 
-		if((strlen($val_name) > 30 || strlen($val_name) <= 1 ||  !preg_match('/^[A-Za-zöüäßąęśłóńźćż\s]+$/i',$val_name)) && $val_name != ""){ /* check name */
+		if((strlen($val_name) > 30 || strlen($val_name) <= 1 ||  !preg_match('/^[A-Za-zöüäßąęśłóńźćżíűáéúőŰÁÉÚŐÓÜÖ\s]+$/i',$val_name)) && $val_name != ""){ /* check name */
 			$error[] = 'easy-form-thename';
 			$error[] = __( 'Please enter a correct name' , 'easyReservations' );
 		}

@@ -356,7 +356,7 @@ if(!isset($site) || $site=='' || $site =='main'){
 							<tbody>
 								<tr>
 									<td style="width:90px;" valign="top"><?php if(function_exists('get_the_post_thumbnail')){ $pic = get_the_post_thumbnail($resourceID, array(90,90)); if(!empty($pic)) echo $pic.'<br>'; } ?><?php echo __( 'Status' , 'easyReservations' ).': <b>'; echo __($allrooms->post_status).'</b><br>'; echo __( 'Comments' , 'easyReservations' ).': <b>'; echo __($allrooms->comment_count).'</b>'; ?></td>
-									<td><?php echo htmlentities(__($allrooms->post_content)); ?></td>
+									<td style="background:#fff;border-left:1px solid #BABABA;vertical-align: top;"><?php echo htmlentities(__($allrooms->post_content)); ?></td>
 								</tr>
 							</tbody>
 					</table>

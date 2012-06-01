@@ -1,6 +1,5 @@
 <?php
 function easyreservation_start_session() {
-
 	@session_cache_limiter('private, must-revalidate'); //private_no_expire
 	@session_cache_expire(0);
 	@session_start();
@@ -36,9 +35,9 @@ function reservations_edit_shortcode($atts){
 			$_SESSION['easy-user-edit-id'] =  $theID;
 			$_SESSION['easy-user-edit-email'] =  $theMail;
 			if(isset($_POST['captcha_value'])){
-				 if(!class_exists('ReallySimpleCaptcha')) require_once(dirname(__FILE__).'/lib/captcha/captcha.php');
+				require_once(dirname(__FILE__).'/lib/captcha/captcha.php');
 				$prefix = $_POST['captcha_prefix'];
-				$captcha_instance = new ReallySimpleCaptcha();
+				$captcha_instance = new easy_ReallySimpleCaptcha();
 				$correct = $captcha_instance->check($prefix, $_POST['captcha_value']);
 				$captcha_instance->remove($prefix);
 				$captcha_instance->cleanup(); // delete all >1h old captchas image & .php file; is the submit a right place for this or should it be in admin?
@@ -239,10 +238,7 @@ function reservations_edit_shortcode($atts){
 			$childs=$edit_querie[0]->childs;
 			$approve=$edit_querie[0]->approve;
 
-			if(strtotime($edit_querie[0]->arrival) < time()){
-				$resPast = 1;
-				$pastError = '<li>'.__( 'Your arrival date is past' , 'easyReservations' ).'</li>';
-			} elseif(strtotime($edit_querie[0]->arrival) < time()+(86400*$daysbeforearival)){
+			if(strtotime($edit_querie[0]->arrival) < time()+(86400*$daysbeforearival)){
 				$resPast = 1;
 				$pastError = '<li>'.__( 'Please contact us to edit your reservation' , 'easyReservations' ).'</li>';
 			} else {
@@ -330,8 +326,8 @@ function reservations_edit_shortcode($atts){
 			return $return;
 		} else return '<div style="text-align:center;">'.__(  'Wrong ID or eMail' , 'easyReservations' ).' - <a href="'.$_SERVER['referer_url'].'">'.__( 'back' , 'easyReservations' ).'</a></div>';
 	} else {
-		if(!class_exists('ReallySimpleCaptcha')) include_once(dirname(__FILE__).'/lib/captcha/captcha.php');
-		$captcha_instance = new ReallySimpleCaptcha();
+		include_once(dirname(__FILE__).'/lib/captcha/captcha.php');
+		$captcha_instance = new easy_ReallySimpleCaptcha();
 		$word = $captcha_instance->generate_random_word();
 		$prefix = mt_rand();
 		$url = $captcha_instance->generate_image($prefix, $word);

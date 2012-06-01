@@ -135,7 +135,7 @@ function reservation_settings_page() { //Set Settings
 		}
 
 		if(isset($namtetodelete)){
-			delete_option('reservations_form_'.$namtetodelete.'');
+			delete_option('reservations_form_'.$namtetodelete);
 			$prompt = '<div class="updated"><p>'.sprintf(__( 'Form %s has been deleted' , 'easyReservations' ), '<b>'.$namtetodelete.'</b>' ).'</p></div>';
 		}
 
@@ -156,8 +156,6 @@ function reservation_settings_page() { //Set Settings
 		if($settingpage=="form"){//Get current form Options
 			$forms = '';
 			$ifformcurrent='class="current"';
-			//form Options
-		//$items3 = $wpdb->get_var($wpdb->prepare("SELECT COUNT(id) FROM ".$wpdb->prefix ."reservations WHERE approve='' $zeichen $selectors $searchstr", '%' . like_escape($search) . '%')); // number of total rows in the database
 
 			$formresult = $wpdb->get_results($wpdb->prepare("SELECT option_name, option_value FROM ".$wpdb->prefix ."options WHERE option_name like '%1\$s' ", like_escape("reservations_form_") . '%'));
 			foreach( $formresult as $result ){
@@ -239,8 +237,7 @@ function resteText() {
 </h2>
 <?php if(isset($prompt)) echo $prompt; ?>
 <div id="wrap">
-
-<div class="tabs-box widefat" style="margin-bottom:10px">
+<div class="tabs-box widefat" style="margin-bottom:10px;width:99%">
 	<ul class="tabs">
 		<li><a <?php if(isset($ifgeneralcurrent)) echo $ifgeneralcurrent; ?> href="admin.php?page=reservation-settings"><img style="vertical-align:text-bottom ;" src="<?php echo RESERVATIONS_IMAGES_DIR; ?>/pref.png"> <?php printf ( __( 'General' , 'easyReservations' ));?></a></li>
 		<li><a <?php if(isset($ifformcurrent)) echo $ifformcurrent; ?> href="admin.php?page=reservation-settings&site=form"><img style="vertical-align:text-bottom ;" src="<?php echo RESERVATIONS_IMAGES_DIR; ?>/form.png"> <?php printf ( __( 'Form' , 'easyReservations' ));?></a></li>
@@ -397,7 +394,7 @@ function resteText() {
 
 								foreach($date_formats as $date_format){
 									if($date_format[1] == $reservations_date_format) $select = ' selected="selected" '; else $select = '';
-									echo '<option '.$select.' value="'.$date_format[1].'">'.$date_format[0].'</option>';										
+									echo '<option '.$select.' value="'.$date_format[1].'">'.date($date_format[1], strtotime($date_format[0])).'</option>';										
 								}?>
 							</select>
 						</td>
@@ -510,7 +507,7 @@ function resteText() {
 					</thead>
 					<tbody>
 						<tr>
-							<td style="font-weight:bold;padding:10px;text-align:center"><span style="width:20%;display: inline-block">Version: 2.0</span><span style="width:30%;display: inline-block">Last update: 03.05.2012</span><span style="width:30%;display: inline-block">written by Feryaz Beer</span></td>
+							<td style="font-weight:bold;padding:10px;text-align:center"><span style="width:20%;display: inline-block">Version: 2.0.6</span><span style="width:30%;display: inline-block">Last update: 01.06.2012</span><span style="width:30%;display: inline-block">written by Feryaz Beer</span></td>
 						</tr>
 						<tr class="alternate" style="">
 							<td style="font-size:14px;text-align:center;font-weight:bold;padding:10px"><a href="http://easyreservations.org/knowledgebase/" target="_blank"><?php echo __( 'Documentation' , 'easyReservations' );?></a></td>
@@ -1039,7 +1036,7 @@ function jumpto(x){ // Chained inputs;
 			end = 1;
 			thetext1 = true;
 			document.form1.jumpmenu.disabled=true;
-		} else if(x == "date-from" || x == "date-to" || x == "date-from-hour" || x == "date-to-hour" || x == "date-from-min" || x == "date-to-min" || x == "email" || x == "thename" || x == "country" || x == 'captcha' || x == 'submit'){
+		} else if(x == "date-from" || x == "date-to" || x == "date-from-hour" || x == "date-to-hour" || x == "date-from-min" || x == "date-to-min" || x == "email" || x == "thename" || x == "country" || x == 'captcha' || x == 'submit' || x == 'coupon'){
 			addformsettings(x);
 			end = 1;
 			thetext1 = true;
@@ -1553,12 +1550,4 @@ ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrival] <br>To: [depa
 	</tr>
 </table>
 <?php } do_action( 'er_set_add' ); ?>
-</div><?php
-
-//		array(__( date('Y/m/d', time()), 'easyReservations' ), 'Y/m/d'),
-//		array(__( date('Y-m-d', time()), 'easyReservations' ), 'Y-m-d'),
-//		array(__( date('m/d/Y', time()), 'easyReservations' ), 'm/d/Y'),
-//		array(__( date('d-m-Y', time()), 'easyReservations' ), 'd/m/Y'),
-//		array(__( date('d.m.Y', time()), 'easyReservations' ), 'd.m.Y'), 
-
-} ?>
+</div><?php } ?>

@@ -441,3 +441,18 @@ h2 {
 	float:left;
 	margin:0px 1px !important;
 }
+.coupon {
+	padding:2px 4px;
+	color:#fff;
+	margin-left: 2px;
+}
+.coupon-red {
+	background:#F26868;
+}
+.coupon-green {
+	background:#5EE06B;
+}
+.coupon-yellow {
+	background:#FFBD54;
+	margin-top: 15px;
+}

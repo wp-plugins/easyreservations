@@ -25,9 +25,9 @@ Author URI: http://ideasilo.wordpress.com/
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-class ReallySimpleCaptcha {
+class easy_ReallySimpleCaptcha {
 
-	function ReallySimpleCaptcha() {
+	function easy_ReallySimpleCaptcha() {
 
 		/* Characters available in images */
 		$this->chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';

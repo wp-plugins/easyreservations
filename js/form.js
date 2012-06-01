@@ -3,7 +3,7 @@ function easyreservations_build_datepicker(){
 	if(easyDate.easydateformat == 'Y/m/d') dateformatse = 'yy/mm/dd';
 	else if(easyDate.easydateformat == 'm/d/Y') dateformatse = 'mm/dd/yy';
 	else if(easyDate.easydateformat == 'Y-m-d') dateformatse = 'yy-mm-dd';
-	else if(easyDate.easydateformat == 'd/m/Y') dateformatse = 'dd/mm/yy';
+	else if(easyDate.easydateformat == 'd-m-Y') dateformatse = 'dd-mm-yy';
 	else if(easyDate.easydateformat == 'd.m.Y') dateformatse = 'dd.mm.yy';
 
 	var dates = jQuery( "#easy-form-from, #easy-form-to" ).datepicker({

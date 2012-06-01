@@ -115,6 +115,7 @@ function reservation_main_page() {
 		else echo '<div class="updated" style="margin-top:-5px !important"><p>error #23 no key exist</p></div>';
 	}
 
+	do_action('easy-dash-header');
 /* - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + EDIT RESERVATION BY ADMIN + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + */
 
 	if(isset($editthereservation) && check_admin_referer( 'easy-main-edit', 'easy-main-edit' )){
@@ -177,11 +178,8 @@ function reservation_main_page() {
 			$theNewEditPrice = '';
 		}
 
-		if(easyreservations_check_price($EDITwaspaid) != 'error'){
-			$theNewEditPaid = easyreservations_check_price($EDITwaspaid);
-		} else {
-			$moneyerrors++;
-		}
+		if(easyreservations_check_price($EDITwaspaid) != 'error') $theNewEditPaid = easyreservations_check_price($EDITwaspaid);
+		else $moneyerrors++;
 
 		$settepricei = $theNewEditPrice.';'.$theNewEditPaid;
 
@@ -215,6 +213,8 @@ function reservation_main_page() {
 			}
 
 			$wpdb->query($wpdb->prepare("UPDATE ".$wpdb->prefix ."reservations SET arrival='$rightdate', departure='$reservation_end_sql', name='$res_the_name', email='$email', room='$EDITroom', number='$persons', childs='$childs', roomnumber='$EDITroomex', price='$settepricei', approve='$EDITreservationStatus', country='$country', reservated='$reservation_date_sql', user='$edit_user' WHERE id='$edit' "));
+
+			do_action('easy-edit-res', $edit);
 
 			if(isset($sendthemail) && $sendthemail=="on"){
 				$emailformation=get_option('reservations_email_to_user_admin_edited');
@@ -425,8 +425,8 @@ function reservation_main_page() {
 if(!isset($show['show_welcome']) || $show['show_welcome'] != 0){?>
 <div id="wrap">
 <div class="easy-welcome-panel" id="easy-welcome-panel">
-	<div class="wp-badge easy-badge">Version 2.0.5</div>
-	<h3>Welcome to easyReservations 2.0.5!</h3>
+	<div class="wp-badge easy-badge">Version 2.0.6</div>
+	<h3>Welcome to easyReservations 2.0.6!</h3>
 	<p class="about-description">
 		Now with hourly and weekly billing, reservations in any amount of time and many improvements!<br>
 		Visit the brand new website at easyreservations.org with a better <a href="http://easyreservations.org/knowledgebase/" target="_blank">Documentation</a> and the <a href="http://easyreservations.org/forum/" target="_blank">Support Forum</a> - the only place to get support from now.<br>
@@ -604,7 +604,7 @@ if($show['show_overview']==1){ //Hide Overview completly
 			jqueryTooltip.css({ 'top':_t, 'left':_l });
 		});
 	}
-	
+
 	function formDate(str){
 		if(str < 2082585600){
 			str = str * 1000;
@@ -965,11 +965,12 @@ if(!isset($approve) && !isset($delete) && !isset($view) && !isset($edit) && !iss
 
 		function createTablePickers(context){
 			var easydateformat = '<?php echo RESERVATIONS_DATE_FORMAT; ?>';
-			if(easydateformat == 'Y/m/d') var dateformate = 'yy/mm/dd';
-			else if(easydateformat == 'm/d/Y') var dateformate = 'mm/dd/yy';
-			else if(easydateformat  == 'Y-m-d') var dateformate = 'yy-mm-dd';
-			else if(easydateformat == 'd/m/Y') var dateformate = 'dd/mm/yy';
-			else var dateformate = 'dd.mm.yy';
+			var dateformate = 'dd.mm.yy';
+			if(easydateformat == 'Y/m/d') dateformate = 'yy/mm/dd';
+			else if(easydateformat == 'm/d/Y') dateformate = 'mm/dd/yy';
+			else if(easydateformat == 'Y-m-d') dateformate = 'yy-mm-dd';
+			else if(easydateformat == 'd-m-Y') dateformate = 'dd-mm-yy';
+			else if(easydateformat == 'd.m.Y') dateformate = 'dd.mm.yy';
 
 			jQuery("#easy-table-search-date", context || document).datepicker({
 				changeMonth: true,
@@ -1484,9 +1485,10 @@ if(isset($edit)){
 						</tr>
 					</tbody>
 				</table>
+				<?php do_action('easy-dash-edit-side-bottom', $edit, $reservation_arrival_stamp, $approvequerie[0]->customp);?>
 			</td>
 	</table>
-		</tr>
+</tr>
 </form><script>easyreservations_send_price_admin();
 get_the_select('<?php echo $exactlyroom; ?>', '<?php echo $approvequerie[0]->room; ?>');</script>
 <?php
@@ -1714,7 +1716,7 @@ if(isset($approve) || isset($delete)) {
 		</table>
 			<?php if(isset($approve)) { ?><p style="float:right"><a href="javascript:{}" onclick="document.getElementById('reservation_approve').submit(); return false;"  class="easySubmitButton-primary"><span><?php printf ( __( 'Approve' , 'easyReservations' ));?></span></a></p><?php } ?>
 			<?php if(isset($delete)) { ?><p style="float:right"><a href="javascript:{}" onclick="document.getElementById('reservation_approve').submit(); return false;" class="easySubmitButton-primary"><span><?php printf ( __( 'Reject' , 'easyReservations' ));?></span></a></p><?php } ?>
-	</form><td></tr></table><script>get_the_select(1, <?php echo $approvequerie[0]->room; ?>);</script>
+	</form><td></tr></table><?php if(isset($approve)) { if($approvequerie[0]->roomnumber < 1) $ex = 1; else $ex = $approvequerie[0]->roomnumber;?><script>get_the_select(<?php echo $ex; ?>, <?php echo $approvequerie[0]->room; ?>);</script><?php } ?>
 <?php }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

@@ -3,7 +3,7 @@ function easyreservations_send_price(){
 	else alert('no room field - correct that')
 	var interval_array = eval("(" + easyAjax.interval + ")");
 	var interval = interval_array[room];
-	var error = 0; var addprice = 0; var price = 0; var nights = 1; var childs = 0;	var persons = 1; var to = ''; var toplus = 0; var fromplus = 0; var captcha = 'x!'; var tom = 0; var toh = 12; var fromm = 0; var fromh = 12;
+	var error = 0; var addprice = 0; var price = 0; var nights = 1; var childs = 0;	var persons = 1; var to = ''; var toplus = 0; var fromplus = 0; var captcha = 'x!'; var tom = 0; var toh = 12; var fromm = 0; var fromh = 12; coupon = '';
 	var customPrices = '';
 
 	var loading = '<img style="vertical-align:text-bottom" src="' + easyAjax.plugin_url + '/easyreservations/images/loading.gif">';
@@ -58,7 +58,7 @@ function easyreservations_send_price(){
 	if(document.easyFrontendFormular.captcha_value) captcha = document.easyFrontendFormular.captcha_value.value;
 	if(document.easyFrontendFormular.thename) var thename = document.easyFrontendFormular.thename.value;
 	else alert('no name field - correct that');
-	
+	if(document.easyFrontendFormular.coupon) var coupon = document.easyFrontendFormular.coupon.value;
 	for(var i = 0; i < 16; i++){
 		addprice = 0;
 		if(document.getElementById('custom_price'+i)){
@@ -105,6 +105,7 @@ function easyreservations_send_price(){
 		persons:persons,
 		room: room,
 		email:email,
+		coupon:coupon,
 		customp:customPrices
 	};
 

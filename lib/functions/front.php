@@ -96,10 +96,10 @@
 
 			$captcha = $res['captcha'];
 
-			if(!class_exists('ReallySimpleCaptcha')) require_once(WP_PLUGIN_DIR.'/easyreservations/lib/captcha/captcha.php');
+			require_once(WP_PLUGIN_DIR.'/easyreservations/lib/captcha/captcha.php');
 			$prefix = $captcha['captcha_prefix'];
 			$the_answer_from_respondent = $captcha['captcha_value'];
-			$captcha_instance = new ReallySimpleCaptcha();
+			$captcha_instance = new easy_ReallySimpleCaptcha();
 			$correct = $captcha_instance->check($prefix, $the_answer_from_respondent);
 			$captcha_instance->remove($prefix);
 			$captcha_instance->cleanup(); // delete all >1h old captchas image & .php file; is the submit a right place for this or should it be in admin?
@@ -280,8 +280,8 @@
 				else $before ='';
 				$theForm=preg_replace('/\['.$fields.'\]/', '<span class="easy-form-price" title="'.$title.'" style="'.$style.'">'.$before.'<span id="showPrice" style="font-weight:bold;"><b>0,00</b></span> &'.RESERVATIONS_CURRENCY.';</span>', $theForm);
 			} elseif($field[0]=="captcha"){
-				if(!isset($chaptchaFileAdded) && !class_exists('ReallySimpleCaptcha')) require_once(WP_PLUGIN_DIR.'/easyreservations/lib/captcha/captcha.php');
-				$captcha_instance = new ReallySimpleCaptcha();
+				require_once(WP_PLUGIN_DIR.'/easyreservations/lib/captcha/captcha.php');
+				$captcha_instance = new easy_ReallySimpleCaptcha();
 				$word = $captcha_instance->generate_random_word();
 				$prefix = mt_rand();
 				$url = $captcha_instance->generate_image($prefix, $word);
@@ -393,11 +393,12 @@
 				if(!empty($validate_action)) $action = 'easyreservations_send_validate(\'send\'); ';
 				else $action = 'document.getElementById(\'easyFrontendFormular\').submit();';
 				$theForm=preg_replace('/\['.$fields.'\]/', '<input title="'.$title.'" style="'.$style.'" type="button" class="easy-button" onclick="'.$action.'" '.$disabled.' value="'.$value.'">', $theForm);
+			} else {
+				$theForm = apply_filters('easy-form-tag', $theForm, $fields);
 			}
 		}
 
 		if($roomfield == 0 && $the_resource > 0) $theForm .= '<input type="hidden" name="room" value="'.$the_resource.'">';
-		///$theForm = do_action('easy-form-content', $theForm);
 		$theForm = apply_filters( 'easy-form-content', $theForm, $local);
 		$finalformedgeremove1=str_replace('[', '', $theForm);
 		$finalformedgesremoved=str_replace(']', '', $finalformedgeremove1);

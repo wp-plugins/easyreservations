@@ -81,7 +81,7 @@ if(isset($_GET['page'])){
 				$count++;
 				if(is_int($count/2)) $class=' class="alternate"'; else $class='';
 				$date=$pricefor['date'];
-				if(preg_match("/(stay|loyal|custom price|early|pers|child)/i", $pricefor['type'])) $dateposted=' '; else $dateposted=date($date_pat, $date);
+				if(preg_match("/(stay|loyal|custom price|early|pers|child|coupon)/i", $pricefor['type'])) $dateposted=' '; else $dateposted=date($date_pat, $date);
 				$pricetotal+=$pricefor['priceday'];
 				if($count == $arraycount) $onlastprice=' style="border-bottom: double 3px #000000;"';  else $onlastprice='';
 				$pricetable.= '<tr'.$class.'><td nowrap>'.$dateposted.'</td><td nowrap>'.$pricefor['type'].'</td><td style="text-align:right;" nowrap>'.reservations_format_money($pricefor['priceday'], 1).'</td><td style="text-align:right;" nowrap><b'.$onlastprice.'>'.reservations_format_money($pricetotal, 1).'</b></td></tr>';
@@ -880,7 +880,7 @@ if(isset($_GET['page'])){
 				var loading = '<img style="vertical-align:text-bottom" src="<?php echo RESERVATIONS_IMAGES_DIR; ?>/loading.gif">';
 				jQuery("#showPrice").html(loading);
 				
-				var customPrices = '';
+				var customPrices = ''; var coupons = '';
 
 				var fromfield = document.editreservation.date;
 				if(fromfield) var from = fromfield.value;
@@ -920,12 +920,20 @@ if(isset($_GET['page'])){
 					}
 				}
 
+				if(document.getElementsByName('allcoupon')){
+					var couponfield = document.getElementsByName('allcoupon[]');
+					for(var i=0; i < couponfield.length;i++){
+						coupons += couponfield[i].value + ',';
+					}
+				}
+
 				var data = {
 					action: 'easyreservations_send_price',
 					security:'<?php echo $nonce; ?>',
 					from:from,
 					fromplus:fromplus,
 					to:to,
+					coupon:coupons,
 					toplus:toplus,
 					childs:childs,
 					persons:persons,

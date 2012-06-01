@@ -3,7 +3,7 @@
 Plugin Name: easyReservations
 Plugin URI: http://www.easyreservations.org
 Description: This powerfull property and reservation management plugin allows you to receive, schedule and handle your bookings easily!
-Version: 2.0.5
+Version: 2.0.6
 Author: Feryaz Beer
 Author URI: http://www.feryaz.de
 License:GPL2
@@ -443,6 +443,60 @@ ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrival] <br>To: [depa
 		}
 	}
 
+	function easyreservations_rmdirr($dirname){
+		if (!file_exists($dirname)) return false; // Sanity check
+		if (is_file($dirname)) return unlink($dirname);	// Simple delete for a file
+
+		// Loop through the folder
+		$dir = dir($dirname);
+		while (false !== $entry = $dir->read()) {
+			if ($entry == '.' || $entry == '..') continue; // Skip pointers
+			easyreservations_rmdirr("$dirname/$entry"); // Recurse
+		}
+ 
+		$dir->close(); // Clean up
+		return rmdir($dirname);
+	}
+
+	function easyreservations_copyr($source, $dest){
+
+		if (is_link($source)) return symlink(readlink($source), $dest); // Check for symlinks
+		if (is_file($source)) return copy($source, $dest); // Simple copy for a file	
+		if (!is_dir($dest)) mkdir($dest); // Make destination directory
+
+		// Loop through the folder
+		$dir = dir($source);
+		while (false !== $entry = $dir->read()) {
+			if ($entry == '.' || $entry == '..') continue; // Skip pointers
+			easyreservations_copyr("$source/$entry", "$dest/$entry"); // Deep copy directories
+		}
+
+		$dir->close(); // Clean up
+		return true;
+	}
+
+	function easyreservations_backup(){
+		$to = dirname(__FILE__)."/../easy_modules_backup/";
+		$to2 = dirname(__FILE__)."/../easy_css_backup/";
+		$from = dirname(__FILE__)."/lib/modules/";
+		$from2 = dirname(__FILE__)."/css/custom/";
+		easyreservations_copyr($from, $to);
+		easyreservations_copyr($from2, $to2);
+	}
+
+	function easyreservations_recover(){
+		$from = dirname(__FILE__)."/../easy_modules_backup/";
+		$from2 = dirname(__FILE__)."/../easy_css_backup/";
+		$to = dirname(__FILE__)."/lib/modules/";
+		$to2 = dirname(__FILE__)."/css/custom/";
+		easyreservations_copyr($from, $to);
+		easyreservations_copyr($from2, $to2);
+		if(is_dir($from)) easyreservations_rmdirr($from);#http://putraworks.wordpress.com/2006/02/27/php-delete-a-file-or-a-folder-and-its-contents/
+		if(is_dir($from2)) easyreservations_rmdirr($from2);
+	}
+
+	add_filter('upgrader_pre_install', 'easyreservations_backup', 10, 2);
+	add_filter('upgrader_post_install', 'easyreservations_recover', 10, 2);
 	$reservations_settings = get_option("reservations_settings");
 
 	define('RESERVATIONS_STYLE', $reservations_settings['style']);
@@ -464,9 +518,7 @@ ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrival] <br>To: [depa
 
 	require_once(dirname(__FILE__)."/lib/functions/both.php");
 
-	if(file_exists(dirname(__FILE__).'/lib/modules/core/core.php')){
-		require_once(dirname(__FILE__)."/lib/modules/core/core.php");
-	}
+	if(file_exists(dirname(__FILE__).'/lib/core/core.php')) require_once(dirname(__FILE__)."/lib/core/core.php");
 
 	if(is_admin()){
 		require_once(dirname(__FILE__)."/pagination.class.php");
@@ -474,21 +526,15 @@ ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrival] <br>To: [depa
 		require_once(dirname(__FILE__)."/lib/widgets/dashboard.php");
 
 		if(isset($_GET['page']) && $_GET['page'] == 'reservations') require_once(dirname(__FILE__)."/easyReservations_admin_main.php");
-
 		if(isset($_GET['page']) && $_GET['page'] == 'reservation-resources') require_once(dirname(__FILE__)."/easyReservations_admin_resources.php");
-
 		if(isset($_GET['page']) && $_GET['page'] == 'reservation-statistics') require_once(dirname(__FILE__)."/easyReservations_admin_statistics.php");
-
 		if(isset($_GET['page']) && $_GET['page'] == 'reservation-settings') require_once(dirname(__FILE__)."/easyReservations_admin_settings.php");
 
 	} else {
 
 		require_once(dirname(__FILE__)."/lib/functions/front.php");
-
 		require_once(dirname(__FILE__)."/easyReservations_form_shortcode.php");
-
 		require_once(dirname(__FILE__)."/easyReservations_edit_shortcode.php");
-
 		require_once(dirname(__FILE__)."/easyReservations_calendar_shortcode.php");
 
 		add_shortcode('easy_calendar', 'reservations_calendar_shortcode');
@@ -497,34 +543,15 @@ ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrival] <br>To: [depa
 	}
 
 	require_once(dirname(__FILE__)."/lib/widgets/form_widget.php");
-
-	if(function_exists('easyreservation_is_paypal') && easyreservation_is_paypal()){
-		include_once(dirname(__FILE__)."/lib/modules/paypal/paypal.php");
-	}
-	if(function_exists('easyreservation_is_chat') && easyreservation_is_chat()){
-		include_once(dirname(__FILE__)."/lib/modules/chat/chat.php");
-	}
-	if(function_exists('easyreservation_is_import') && easyreservation_is_import()){
-		include_once(dirname(__FILE__)."/lib/modules/import/import.php");
-	}
-	if(function_exists('easyreservation_is_multical') && easyreservation_is_multical()){
-		include_once(dirname(__FILE__)."/lib/modules/multical/multical.php");
-	}
-	if(function_exists('easyreservation_is_search') && easyreservation_is_search()){
-		include_once(dirname(__FILE__)."/lib/modules/search/search.php");
-	}
-	if(function_exists('easyreservation_is_language') && easyreservation_is_language()){
-		include_once(dirname(__FILE__)."/lib/modules/lang/lang.php");
-	}
-	if(function_exists('easyreservation_is_datepicker') && easyreservation_is_datepicker()){
-		include_once(dirname(__FILE__)."/lib/modules/datepicker/datepicker.php");
-	}
-	if(function_exists('easyreservation_is_hourlycal') && easyreservation_is_hourlycal()){
-		include_once(dirname(__FILE__)."/lib/modules/hourlycal/hourlycal.php");
-	}
-
-	if(function_exists('easyreservation_is_htmlmails') && easyreservation_is_htmlmails()){
-		include_once(dirname(__FILE__)."/lib/modules/htmlmails/htmlmails.php");
-	}
+	if(function_exists('easyreservation_is_paypal') && easyreservation_is_paypal()) include_once(dirname(__FILE__)."/lib/modules/paypal/paypal.php");
+	if(function_exists('easyreservation_is_chat') && easyreservation_is_chat()) include_once(dirname(__FILE__)."/lib/modules/chat/chat.php");
+	if(function_exists('easyreservation_is_import') && easyreservation_is_import()) include_once(dirname(__FILE__)."/lib/modules/import/import.php");
+	if(function_exists('easyreservation_is_multical') && easyreservation_is_multical()) include_once(dirname(__FILE__)."/lib/modules/multical/multical.php");
+	if(function_exists('easyreservation_is_search') && easyreservation_is_search()) include_once(dirname(__FILE__)."/lib/modules/search/search.php");
+	if(function_exists('easyreservation_is_language') && easyreservation_is_language()) include_once(dirname(__FILE__)."/lib/modules/lang/lang.php");
+	if(function_exists('easyreservation_is_datepicker') && easyreservation_is_datepicker()) include_once(dirname(__FILE__)."/lib/modules/datepicker/datepicker.php");
+	if(function_exists('easyreservation_is_hourlycal') && easyreservation_is_hourlycal()) include_once(dirname(__FILE__)."/lib/modules/hourlycal/hourlycal.php");
+	if(function_exists('easyreservation_is_htmlmails') && easyreservation_is_htmlmails()) include_once(dirname(__FILE__)."/lib/modules/htmlmails/htmlmails.php");
+	if(function_exists('easyreservation_is_coupons') && easyreservation_is_coupons()) include_once(dirname(__FILE__)."/lib/modules/coupons/coupons.php");
 
 ?>
