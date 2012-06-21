@@ -122,8 +122,11 @@ function reservations_form_shortcode($atts){
 
 	if(isset($_POST['easynonce']) && empty($error) && isset($from)) { //When Check gives no error Insert into Database and send mail
 		$finalform.= '<div class="easy_form_success"><b>'.$atts['submit'].'!</b>';
-		if($atts['price'] == 1) $finalform.= '<span class="easy_show_price_submit">'.__('Price','easyReservations').': <b>'.easyreservations_get_price($theID, '').'</b></span>';
+		$price = easyreservations_price_calculation($theID, '');
+		$price = str_replace(",", ".", $price['price']);
+		if($atts['price'] == 1) $finalform.= '<span class="easy_show_price_submit">'.__('Price','easyReservations').': <b>'.reservations_format_money($price, 1).'</b></span>';
 		if(function_exists('easyreservations_generate_paypal_button')){
+			$finalform .= easyreservation_deposit_function($price);
 			$finalform .= easyreservations_generate_paypal_button($theID, strtotime($from), strtotime($to), $room, $email, $persons, $childs);
 		}
 		$finalform.='</div>';

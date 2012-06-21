@@ -404,16 +404,16 @@ function reservation_main_page() {
 <script>
 	function get_the_select(selected, resourceId){
 		var selects = new Array(); <?php
-		foreach($all_rooms as $room){
-			$roomcount = get_post_meta($room->ID, 'roomcount', true);
+		foreach($all_rooms as $roome){
+			$roomcount2 = get_post_meta($roome->ID, 'roomcount', true);
 			$select = '<select name="roomexactly" id="roomexactly" onchange="changer();';
 			if($overview_options['overview_autoselect'] == 1){ $select .= 'dofakeClick(2);';  }
 			$select .= '">';
-				$select.= easyreservations_get_roomname_options(1, $roomcount, $room->ID);
+				$select.= easyreservations_get_roomname_options(1, $roomcount2, $roome->ID);
 			$select.= '<option value="0">'.__('None', 'easyReservations').'</option>';
 			$select.= '</select>';
 			?>
-			selects[<?php echo $room->ID; ?>] = new Array('<?php echo $select; ?>');<?php
+			selects[<?php echo $roome->ID; ?>] = new Array('<?php echo $select; ?>');<?php
 		} ?>
 		document.getElementById('the_room_exactly').innerHTML = selects[resourceId];
 
@@ -1382,7 +1382,7 @@ if(isset($edit)){
 						<tr class="alternate">
 							<td nowrap><img style="vertical-align:text-bottom;" src="<?php echo RESERVATIONS_IMAGES_DIR; ?>/room.png"> <?php printf ( __( 'Resource' , 'easyReservations' ));?></td> 
 							<td>
-								<select  name="room" id="room"  onchange="easyreservations_send_price_admin();changer();get_the_select(1, this.value);<?php if($overview_options['overview_autoselect'] == 1){ ?>dofakeClick(2);<?php }?>"><?php echo reservations_get_room_options($room,1); ?></select> 
+								<select  name="room" id="room"  onchange="easyreservations_send_price_admin();changer();get_the_select(1, this.value);<?php if($overview_options['overview_autoselect'] == 1){ ?>dofakeClick(2);<?php }?>"><?php echo reservations_get_room_options($approvequerie[0]->room,1); ?></select> 
 								<span id="the_room_exactly"></span>
 							</td>
 						</tr>

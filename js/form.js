@@ -9,6 +9,13 @@ function easyreservations_build_datepicker(){
 	var dates = jQuery( "#easy-form-from, #easy-form-to" ).datepicker({
 		dateFormat: dateformatse,
 		minDate: 0,
+		beforeShowDay: function(date){
+			if(window.easydisabledays && document.easyFrontendFormular.room){
+				return easydisabledays(date,document.easyFrontendFormular.room.value);
+			} else {
+				return [true];
+			}
+		},
 		firstDay: 1,
 		onSelect: function( selectedDate ) {
 			if(this.id == 'easy-form-from'){

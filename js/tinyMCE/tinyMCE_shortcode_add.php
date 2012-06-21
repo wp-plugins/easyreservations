@@ -131,7 +131,7 @@ function jumpto(x){ // Chained inputs;
 			FieldAdd += '<td nowrap="nowrap" valign="top"><label for="easyreservation_calendar_width"><?php _e("Width", "easyReservations"); ?></label></td>';
 			FieldAdd += '<td><label><input type="text" id="easyreservation_calendar_width" name="easyreservation_calendar_width" style="width: 90px" value="148"> px</label> <?php _e("Min width", "easyReservations"); ?>: <span id="easyreservation_calendar_min_width" onclick="document.getElementById(\'easyreservation_calendar_width\').value = this.innerHTML">148</span>px</td>';
 			FieldAdd += '</tr>';
-			FieldAdd += '<?php do_action('easy-tinymce-cal'); ?>';
+			FieldAdd += '<?php do_action('easy-tinymce-cal',1); ?>';
 			FieldAdd += '<tr><td colspan="2"><?php _e("This shortcode adds an availability calendar to the post or page", "easyReservations"); ?>. <?php _e("You can combine it with a form or the edit-form by add it to the same page", "easyReservations"); ?>.<br><b><?php _e("Only add the calendar once per page or post", "easyReservations"); ?>.</b></td></tr>';
 		document.getElementById("tiny_Field").innerHTML = FieldAdd;
 	} else if(x == "choose"){
@@ -160,7 +160,7 @@ function jumpto(x){ // Chained inputs;
 			FieldAdd += '<tr><td colspan="2"><?php _e("This shortcode adds the function for your guests to edit their reservations afterwards", "easyReservations"); ?>. <?php _e("You have to copy the URL of this site to the easyReservations general settings", "easyReservations"); ?>.<br><b><?php _e("Only add the edit-form on one page or post", "easyReservations"); ?>.</b></td></tr>';
 
 		document.getElementById("tiny_Field").innerHTML = FieldAdd;
-	} <?php do_action('easy-tinymce-add'); ?>
+	} <?php do_action('easy-tinymce-add', $roomsoptions); ?>
 }
 
 function getCalendarInfos(){

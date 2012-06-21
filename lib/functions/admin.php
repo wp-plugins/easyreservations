@@ -235,7 +235,7 @@ if(isset($_GET['page'])){
 						$current .= '<label><input type="checkbox" name="table_name" value="1" '.checked($table['table_name'], 1, false).'> '.__( 'Name' , 'easyReservations').'</label><br>';
 						$current .= '<label><input type="checkbox" name="table_from" value="1" '.checked($table['table_from'], 1, false).'> '.__( 'Arrival  ' , 'easyReservations').'</label><br>';
 						$current .= '<label><input type="checkbox" name="table_to" value="1" '.checked($table['table_to'], 1, false).'> '.__( 'Departure  ' , 'easyReservations').'</label><br>';
-						$current .= '<label><input type="checkbox" name="table_nights" value="1" '.checked($table['table_nights'], 1, false).'> '.__( 'Units  ' , 'easyReservations').'</label><br>';
+						$current .= '<label><input type="checkbox" name="table_nights" value="1" '.checked($table['table_nights'], 1, false).'> '.__( 'Times  ' , 'easyReservations').'</label><br>';
 						$current .= '<label><input type="checkbox" name="table_reservated" value="1" '.checked($table['table_reservated'], 1, false).'> '.__( 'Reserved ' , 'easyReservations').'</label><br>';
 					$current .= '</span>';
 					$current .= '<span style="float:left;margin-right:10px">';
@@ -1074,7 +1074,7 @@ if(isset($_GET['page'])){
 		die();
 	}
 
-	function easy_add_my_quicktags(){ ?>
+	function easy_add_my_quicktags(){ ?>	
 		<script type="text/javascript">
 			QTags.addButton( 'label', 'label', '<label>', '</label>' );
 			QTags.addButton( 'p', 'p', '<p>', '</p>' );
@@ -1085,7 +1085,6 @@ if(isset($_GET['page'])){
 			QTags.addButton( 'small', 'small', '<span class="small">', '</span>' );
 			QTags.addButton( 'row', 'row', '<span class="row">', '</span>' );
 			QTags.addButton( 'custom', 'custom', '<label>Name\n<span class="small">Description</span>\n</label><div class="formblock">\n', '</div>' );
-			
 		</script>
 	<?php }
 

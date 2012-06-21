@@ -42,7 +42,7 @@ License:GPL2
 					$uploads = wp_upload_dir();
 					$saved_file_location = $uploads['basedir'].'/'. $file_name;
 
-					if(preg_match("/(PayPal|Import|datepicker|GuestContact|Calendar|lifetime|extendedCalendar|Search|translation|Multilingual|style)/i", $file_name) && ($file_type == 'application/zip'  || $file_type == 'application/x-zip' || $file_type == 'application/x-zip-compressed' || $file_type == 'text/html'  || isset($_GET['file_name']))){
+					if(preg_match("/(PayPal|Import|datepicker|GuestContact|Calendar|lifetime|extendedCalendar|Search|translation|Multilingual|coupon|style)/i", $file_name) && ($file_type == 'application/zip'  || $file_type == 'application/x-zip' || $file_type == 'application/x-zip-compressed' || $file_type == 'text/html'  || isset($_GET['file_name']))){
 						if(move_uploaded_file($file_tmp_name, $saved_file_location) || isset($_GET['file_name'])) {
 							$url = 'admin.php?page=reservation-settings&site=plugins&file_name='.$file_name;
 							if (false === ($creds = request_filesystem_credentials($url, 'ftp', false, false) ) ) {
@@ -108,8 +108,8 @@ License:GPL2
 								'content' => __( 'Choose from two new styles for the datepickers in forms and admin.' , 'easyReservations' ),
 								'xml' => '',
 								'function' => 'easyreservations_register_datepicker_style',
-								'vers' => '1.0.1',
-								'price' => '3',
+								'vers' => '1.1',
+								'price' => '5',
 								'image' => 'to',
 								'beta' => 1
 						),
@@ -119,7 +119,7 @@ License:GPL2
 								'content' => __( 'Function to make texts in forms and emails translatable.' , 'easyReservations' ),
 								'xml' => 'latestlang',
 								'function' => 'easyreservations_translate_content',
-								'vers' => '1.0.1',
+								'vers' => '1.0.2',
 								'price' => '5',
 								'image' => 'country',
 								'beta' => 0
@@ -127,7 +127,7 @@ License:GPL2
 						array(
 								'slug' => 'coupons',
 								'title' => __( 'Coupon Module' , 'easyReservations' ),
-								'content' => __( '.' , 'easyReservations' ),
+								'content' => __( 'Let your Guest enter coupon codes for discounts.' , 'easyReservations' ),
 								'xml' => 'latestcoupons',
 								'function' => 'easyreservations_coupon_admin',
 								'vers' => '1.0',
@@ -152,7 +152,7 @@ License:GPL2
 								'content' => __( 'Extend the calendar shortcode to show multiple months by an flexible grid (x*y) at once. Includes a new boxed calendar style.' , 'easyReservations' ),
 								'xml' => 'latestc',
 								'function' => 'easyreservations_generate_multical',
-								'vers' => '1.1.1',
+								'vers' => '1.1.3',
 								'price' => '10',
 								'image' => 'day',
 								'beta' => 0
@@ -163,7 +163,7 @@ License:GPL2
 								'content' => __( 'Your guest can pay their reservations directly through PayPal! Adds the PayPal Buy Now Button after form submits and to userCP if not paid. Automatically approve new reservations and/or paid reservations. Payment verification by IPN.' , 'easyReservations' ),
 								'xml' => 'latestp',
 								'function' => 'easyreservations_validate_payment',
-								'vers' => '1.1.2',
+								'vers' => '1.2',
 								'price' => '15',
 								'image' => 'paypal',
 								'beta' => 0
@@ -171,22 +171,22 @@ License:GPL2
 						array(
 								'slug' => 'htmlmails',
 								'title' => __( 'htmlMails Module' , 'easyReservations' ),
-								'content' => __( 'Mails with html formats.' , 'easyReservations' ),
+								'content' => __( 'Style your eMails with HTML to increase the appereance of your hospitality.' , 'easyReservations' ),
 								'xml' => '',
 								'function' => 'easyreservations_send_multipart_mail',
 								'vers' => '1.0',
-								'price' => '15',
+								'price' => '20',
 								'image' => 'email',
 								'beta' => 1
 						),
 						array(
 								'slug' => 'hourlycal',
 								'title' => __( 'hourlyCalendar Module' , 'easyReservations' ),
-								'content' => __( 'For hourly.' , 'easyReservations' ),
+								'content' => __( 'Show your guests the availability on a hourly basis.' , 'easyReservations' ),
 								'xml' => 'latesthc',
 								'function' => 'easyreservations_send_hourlycal_callback',
 								'vers' => '1.0',
-								'price' => '15',
+								'price' => '20',
 								'image' => 'time',
 								'beta' => 1
 						),
@@ -196,8 +196,8 @@ License:GPL2
 								'content' => __( 'New shortcode to let your guests search for available resources. No reload for searching, compatible to calendar, show price, show unavailable resources too, link to form with automatically selection. Each resource can have a small one-column calendar to show when its availble.' , 'easyReservations' ),
 								'xml' => 'latests',
 								'function' => 'easyreservations_search_add_tinymce',
-								'vers' => '1.1.4',
-								'price' => '15',
+								'vers' => '1.1.5',
+								'price' => '25',
 								'image' => 'search',
 								'beta' => 0
 						)

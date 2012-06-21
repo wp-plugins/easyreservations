@@ -621,28 +621,28 @@ if(!isset($site) || $site=='' || $site =='main'){
 													<label><input type="checkbox" name="price_filter_unit_hour[]" value="5"> 05:00</label>
 												</div>
 												<div style="margin:3px;width:52px;float:left;">
-													<label><input type="checkbox" name="price_filter_unit_hour[]" value="0"> 06:00</label>
-													<label><input type="checkbox" name="price_filter_unit_hour[]" value="1"> 07:00</label>
-													<label><input type="checkbox" name="price_filter_unit_hour[]" value="2"> 08:00</label>
-													<label><input type="checkbox" name="price_filter_unit_hour[]" value="3"> 09:00</label>
-													<label><input type="checkbox" name="price_filter_unit_hour[]" value="4"> 10:00</label>
-													<label><input type="checkbox" name="price_filter_unit_hour[]" value="5"> 11:00</label>
+													<label><input type="checkbox" name="price_filter_unit_hour[]" value="6"> 06:00</label>
+													<label><input type="checkbox" name="price_filter_unit_hour[]" value="7"> 07:00</label>
+													<label><input type="checkbox" name="price_filter_unit_hour[]" value="8"> 08:00</label>
+													<label><input type="checkbox" name="price_filter_unit_hour[]" value="9"> 09:00</label>
+													<label><input type="checkbox" name="price_filter_unit_hour[]" value="10"> 10:00</label>
+													<label><input type="checkbox" name="price_filter_unit_hour[]" value="11"> 11:00</label>
 												</div>
 												<div style="margin:3px;width:52px;float:left;">
-													<label><input type="checkbox" name="price_filter_unit_hour[]" value="0"> 12:00</label>
-													<label><input type="checkbox" name="price_filter_unit_hour[]" value="1"> 13:00</label>
-													<label><input type="checkbox" name="price_filter_unit_hour[]" value="2"> 14:00</label>
-													<label><input type="checkbox" name="price_filter_unit_hour[]" value="3"> 15:00</label>
-													<label><input type="checkbox" name="price_filter_unit_hour[]" value="4"> 16:00</label>
-													<label><input type="checkbox" name="price_filter_unit_hour[]" value="5"> 17:00</label>
+													<label><input type="checkbox" name="price_filter_unit_hour[]" value="12"> 12:00</label>
+													<label><input type="checkbox" name="price_filter_unit_hour[]" value="13"> 13:00</label>
+													<label><input type="checkbox" name="price_filter_unit_hour[]" value="14"> 14:00</label>
+													<label><input type="checkbox" name="price_filter_unit_hour[]" value="15"> 15:00</label>
+													<label><input type="checkbox" name="price_filter_unit_hour[]" value="16"> 16:00</label>
+													<label><input type="checkbox" name="price_filter_unit_hour[]" value="17"> 17:00</label>
 												</div>
 												<div style="margin:3px;width:52px;float:left;">
-													<label><input type="checkbox" name="price_filter_unit_hour[]" value="0"> 18:00</label>
-													<label><input type="checkbox" name="price_filter_unit_hour[]" value="1"> 19:00</label>
-													<label><input type="checkbox" name="price_filter_unit_hour[]" value="2"> 20:00</label>
-													<label><input type="checkbox" name="price_filter_unit_hour[]" value="3"> 21:00</label>
-													<label><input type="checkbox" name="price_filter_unit_hour[]" value="4"> 22:00</label>
-													<label><input type="checkbox" name="price_filter_unit_hour[]" value="5"> 23:00</label>
+													<label><input type="checkbox" name="price_filter_unit_hour[]" value="18"> 18:00</label>
+													<label><input type="checkbox" name="price_filter_unit_hour[]" value="19"> 19:00</label>
+													<label><input type="checkbox" name="price_filter_unit_hour[]" value="20"> 20:00</label>
+													<label><input type="checkbox" name="price_filter_unit_hour[]" value="21"> 21:00</label>
+													<label><input type="checkbox" name="price_filter_unit_hour[]" value="22"> 22:00</label>
+													<label><input type="checkbox" name="price_filter_unit_hour[]" value="23"> 23:00</label>
 												</div>
 											</span>
 											
@@ -863,9 +863,8 @@ if(!isset($site) || $site=='' || $site =='main'){
 				if(hour_checkboxes && filter[i]['hour'] != ''){
 					var hours =  filter[i]['hour'];
 					var explode_hours = hours.split(",");
-					var nr = 0;
 					for(var x = 0; x < explode_hours.length; x++){
-						nr = explode_hours[x];
+						var nr = explode_hours[x];
 						hour_checkboxes[nr].checked = true;
 					}
 				}

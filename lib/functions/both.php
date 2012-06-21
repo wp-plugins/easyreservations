@@ -106,6 +106,7 @@
 		$price_per_person = get_post_meta($resource, 'easy-resource-price', true);
 		$resource_interval = $the_rooms_intervals_array[$resource];
 		$nights = easyreservations_get_nights( $resource_interval, $arrival, $departure );
+		if(!$resource_groundprice) return array('price'=>-1, 'getusage'=>'','paid'=>0);
 
 		if(!empty($filters)) $countfilter=count($filters); else $countfilter=0; // count the filter-array element
 
@@ -300,7 +301,7 @@
 			else $save = easyreservations_calculate_coupon($res[0]->customp, $arrival, $countpriceadd, $resource_interval);
 			if(!empty($save)){
 				$price += $save['price'];
-				$exactlyprice = array_merge($exactlyprice, $save['exactly']);
+				$exactlyprice = array_merge((array) $exactlyprice, (array) $save['exactly']);
 				$countpriceadd = $save['countpriceadd'];
 			}
 		}
@@ -448,7 +449,7 @@
 				}
 			} else {
 				$date_format=date("Y-m-d H:i:s", $arrival);
-				$date_format_end=date("Y-m-d H:i:s", $i+$interval);
+				$date_format_end=date("Y-m-d H:i:s", $arrival+$interval);
 				$count = $wpdb->get_var("SELECT COUNT(*) FROM ".$wpdb->prefix ."reservations WHERE approve='yes' AND room='$resourceID' AND $idsql DATE('$date_format') BETWEEN DATE(arrival) AND DATE(departure - INTERVAL '$interval' SECOND) AND TIMESTAMPDIFF(SECOND, arrival, departure) >= $interval");
 				if($mode==1 && $count > $roomcount) $error .= date($date_pattern, $arrival).', ';
 				elseif($mode==0) $error += $count;
@@ -542,10 +543,10 @@
 		else {
 			$thepriceArray = easyreservations_price_calculation($id, '');
 			$thePricetoAdd = $thepriceArray['price'];
-			$ispayed = easyreservations_check_price($thePricetoAdd)-$payed;
+			$waspayed = easyreservations_check_price($thePricetoAdd)-$payed;
 		}
 		
-		if($mode == 0) return $ispayed;
+		if($mode == 0) return $waspayed;
 		else return $payed;
 	}
 
@@ -635,7 +636,7 @@
 			$string = _n('day', 'days', $singular, 'easyReservations');
 		} elseif($interval == 604800){
 			$string = _n('week', 'weeks', $singular, 'easyReservations');
-		} else $string = _n('unit', 'units', $singular, 'easyReservations');
+		} else $string = _n('time', 'times', $singular, 'easyReservations');
 
 		return $string;
 	}
@@ -808,7 +809,7 @@
 				$theForm=preg_replace('/\['.$fieldsx.']/U', $theChangelog, $theForm);
 			} elseif($field[0]=="departuredate" || $field[0]=="departure"){
 				$theForm=preg_replace('/\['.$fieldsx.']/U', date(RESERVATIONS_DATE_FORMAT_SHOW, $departureDate), $theForm);
-			} elseif($field[0]=="units"){
+			} elseif($field[0]=="units" || $field[0]=="times"){
 				$theForm=preg_replace('/\['.$fieldsx.']/U', easyreservations_get_nights($the_rooms_intervals_array[$infos->room], $arrivalDate, $departureDate), $theForm);
 			} elseif($field[0]=="nights" || $field[0]=="days"){
 				$theForm=preg_replace('/\['.$fieldsx.']/U', easyreservations_get_nights(86400, strtotime($infos->reservated), time() ), $theForm);
@@ -866,10 +867,11 @@
 		$theForm = apply_filters( 'easy-email-content', $theForm, $local);
 		$mailSubj = apply_filters( 'easy-email-subj', $mailSubj, $local);
 
-		if(!function_exists('easyreservations_send_multipart_mail')){
-			$makebrtobreak=str_replace('<br>', "\n",str_replace(array(']', ']'), '', $theForm));
-			$msg=$makebrtobreak;
-		} else $msg = $theForm;
+		if(function_exists('easyreservations_send_multipart_mail')) $msg = easyreservations_send_multipart_mail($theForm);
+		else{
+			$theForm = explode('<--HTML-->', $theForm);
+			$msg = str_replace('<br>', "\n",str_replace(']', '',  str_replace('[', '', $theForm[0])));
+		}
 
 		$reservation_support_mail = get_option("reservations_support_mail");
 
@@ -880,10 +882,14 @@
 				$send_from = $implode[0];
 			} else $send_from = $reservation_support_mail;
 		}
+		
+		if($send_from == $mailTo){
+			//$headers = "From: ".$infos->name." <".$infos->email.">\n";
+			$headers = "From: ".get_bloginfo('name')." <".$send_from.">\n";
+		} else {
+			$headers = "From: ".get_bloginfo('name')." <".$send_from.">\n";
+		}
 
-		$headers = "From: ".get_bloginfo('name')." <".$send_from.">\r\n";
-		$headers .= "Message-ID: <".time()."-".$send_from.">\n"; 
- 
 		wp_mail($mailTo,$mailSubj,$msg,$headers);
 	}
 
@@ -1276,7 +1282,7 @@
 
 		$error = "";
 
-		if((strlen($val_name) > 30 || strlen($val_name) <= 1 ||  !preg_match('/^[A-Za-zöüäßąęśłóńźćżíűáéúőŰÁÉÚŐÓÜÖ\s]+$/i',$val_name)) && $val_name != ""){ /* check name */
+		if((strlen($val_name) > 30 || strlen($val_name) <= 1 ||  preg_match('/^[0-9]+$/i',$val_name)) && $val_name != ""){ /* check name */
 			$error[] = 'easy-form-thename';
 			$error[] = __( 'Please enter a correct name' , 'easyReservations' );
 		}

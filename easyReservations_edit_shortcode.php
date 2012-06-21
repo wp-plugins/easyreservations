@@ -258,7 +258,7 @@ function reservations_edit_shortcode($atts){
 				if(isset($atts['status'])) $return .= __( 'Status' , 'easyReservations' ).': '.ucfirst(reservations_status_output($approve)).'';
 				if(isset($atts['price']) && isset($atts['status'])) $return .= ' | ';
 				if(isset($atts['price'])) $return .= __( 'Price' , 'easyReservations' ).': '.easyreservations_get_price($theID,1).' | '.__( 'Left' , 'easyReservations' ).': '.reservations_format_money($left, 1);
-			$return .= '</b>'.$paypal.' - <a style="color:#ff0000" href="'.$the_link.'?edit&logout">'.__( 'logout' , 'easyReservations' ).'</a></div>';
+			$return .= '</b>'.$paypal.' <a style="color:#ff0000;text-decoration:underline" href="'.$the_link.'?edit&logout">'.__( 'logout' , 'easyReservations' ).'</a></div>';
 
 			$return .= '<form method="post" id="easyFrontendFormular" name="easyFrontendFormular" style="width:99%;margin-left:auto;margin-right:auto;margin-top:10px;">';
 			if(function_exists('easyreservations_generate_chat')){

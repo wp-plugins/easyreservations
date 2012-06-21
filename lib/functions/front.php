@@ -241,7 +241,7 @@
 				$theForm=str_replace('['.$fields.']', '<select id="'.$field[0].'" name="'.$field[0].'" '.$disabled.' title="'.$title.'" style="'.$style.'" onchange="'.$price_action.$validate_action.'">'.easyReservations_num_options("00", 23, $value).'</select>', $theForm);
 			} elseif($field[0]=="date-from-min" || $field[0]=="date-to-min"){
 				$theForm=str_replace('['.$fields.']', '<select id="'.$field[0].'" name="'.$field[0].'" '.$disabled.' title="'.$title.'" style="'.$style.'" onchange="'.$price_action.$validate_action.'">'.easyReservations_num_options("00", 59, $value).'</select>', $theForm);
-			} elseif($field[0]=="units" || $field[0]=="nights"){
+			} elseif($field[0]=="units" || $field[0]=="nights" || $field[0]=="times"){
 				if(isset($field[2])) $end = $field[2]; else $end = 6;
 				if(isset($field[3])){ $start = $field[2]; $end = $field[3]; }
 				$theForm=str_replace('['.$fields.']', '<select id="easy-form-units" name="nights" '.$disabled.' title="'.$title.'" style="'.$style.'" onchange="'.$price_action.$validate_action.'">'.easyReservations_num_options($start, $end, $value).'</select>', $theForm);
@@ -295,12 +295,14 @@
 					$theForm=preg_replace('/\['.$fields.'\]/', '<input type="hidden" name="from" value="'.$field[2].'">', $theForm);
 				} elseif($field[1]=="to"){
 					$theForm=preg_replace('/\['.$fields.'\]/', '<input type="hidden" name="to" value="'.$field[2].'">', $theForm);
-				} elseif($field[1]=="units"){
+				} elseif($field[1]=="units" || $field[1]=="times"){
 					$theForm=preg_replace('/\['.$fields.'\]/', '<input type="hidden" name="nights" value="'.$field[2].'">', $theForm);
 				} elseif($field[1]=="persons" || $field[1]=="adults"){
 					$theForm=preg_replace('/\['.$fields.'\]/', '<input type="hidden" name="persons" value="'.$field[2].'">', $theForm);
 				} elseif($field[1]=="childs"){
 					$theForm=preg_replace('/\['.$fields.'\]/', '<input type="hidden" name="childs" value="'.$field[2].'">', $theForm);
+				} else {
+					$theForm=preg_replace('/\['.$fields.'\]/', '<input type="hidden" name="'.$field[1].'" value="'.$field[2].'">', $theForm);
 				}
 			} elseif($field[0]=="rooms" || $field[0]=="resources"){
 				$roomfield=1;
