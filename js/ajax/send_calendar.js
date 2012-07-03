@@ -69,7 +69,7 @@ function easyreservations_send_calendar(where, e ){
     if(e){ e = e.target || e.srcElement; }
 	if(where == 'shortcode'){
 		var tsecurity = document.CalendarFormular.calendarnonce.value;
-		var room = document.CalendarFormular.room.value;
+		var room = document.CalendarFormular.easyroom.value;
 		var sizefield = document.CalendarFormular.size;
 		if(sizefield) var size = sizefield.value;
 		else var size = '300,260,0,1';
@@ -81,7 +81,7 @@ function easyreservations_send_calendar(where, e ){
 		else var monthes = 1;
 	} else {
 		var tsecurity = document.widget_formular.calendarnonce.value;
-		var room = document.widget_formular.room.value;
+		var room = document.widget_formular.easyroom.value;
 		var sizefield = document.widget_formular.size;
 		if(sizefield) var size = sizefield.value;
 		else var size = '300,0,1';

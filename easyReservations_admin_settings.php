@@ -25,7 +25,6 @@ function reservation_settings_page() { //Set Settings
 		if(isset($action) && $action == "er_main_set"){ //Set Reservation settings 
 			if(isset($_POST["reservations_uninstall"])) $reservations_uninstall = 1; else $reservations_uninstall = 0;
 			if(isset($_POST["reservations_time"])) $reservations_time = 1; else $reservations_time = 0;
-			if( $_POST["reservations_interval"] == 3600 ) $reservations_time = 1;
 			update_option("reservations_uninstall", $reservations_uninstall);
 			$settings_array = array( 'style' => $_POST["reservations_style"], 'currency' => $_POST["reservations_currency"], 'date_format' => $_POST["reservations_date_format"], 'time' => $reservations_time );
 			update_option("reservations_settings", $settings_array);
@@ -249,7 +248,7 @@ function resteText() {
 </h2>
 <?php if(isset($prompt)) echo $prompt; ?>
 <div id="wrap">
-<div class="tabs-box widefat" style="margin-bottom:10px;width:99%">
+<div class="tabs-box" style="margin-bottom:10px;width:99%">
 	<ul class="tabs">
 		<li><a <?php if(isset($ifgeneralcurrent)) echo $ifgeneralcurrent; ?> href="admin.php?page=reservation-settings"><img style="vertical-align:text-bottom ;" src="<?php echo RESERVATIONS_IMAGES_DIR; ?>/pref.png"> <?php printf ( __( 'General' , 'easyReservations' ));?></a></li>
 		<li><a <?php if(isset($ifformcurrent)) echo $ifformcurrent; ?> href="admin.php?page=reservation-settings&site=form"><img style="vertical-align:text-bottom ;" src="<?php echo RESERVATIONS_IMAGES_DIR; ?>/form.png"> <?php printf ( __( 'Form' , 'easyReservations' ));?></a></li>
@@ -314,7 +313,7 @@ function resteText() {
 									array('Florin' , '#402'), 
 									array('Pound' , '#163'), 
 									array('Lire' , '#8356'), 
-									array('Hongkong Dollar' , '#20803') , 
+									array('Hongkong Dollar' , '#20803'),
 									array('Tenge' , '#8376'),
 									array('Laos Kip' , '#8365') , 
 									array('Colon' , '#8353'),
@@ -519,7 +518,7 @@ function resteText() {
 					</thead>
 					<tbody>
 						<tr>
-							<td style="font-weight:bold;padding:10px;text-align:center"><span style="width:20%;display: inline-block">Version: 2.0.6</span><span style="width:30%;display: inline-block">Last update: 01.06.2012</span><span style="width:30%;display: inline-block">written by Feryaz Beer</span></td>
+							<td style="font-weight:bold;padding:10px;text-align:center"><span style="width:20%;display: inline-block">Version: 2.1</span><span style="width:30%;display: inline-block">Last update: 03.07.2012</span><span style="width:30%;display: inline-block">written by Feryaz Beer</span></td>
 						</tr>
 						<tr class="alternate" style="">
 							<td style="font-size:14px;text-align:center;font-weight:bold;padding:10px"><a href="http://easyreservations.org/knowledgebase/" target="_blank"><?php echo __( 'Documentation' , 'easyReservations' );?></a></td>
@@ -683,7 +682,7 @@ function resteText() {
 								<option value="date-from-hour"><?php printf ( __( 'Arrival Hour' , 'easyReservations' ));?> [date-from-min]</option>
 								<option value="date-from-min"><?php printf ( __( 'Arrival Minute' , 'easyReservations' ));?> [date-from-hour]</option>
 								<option value="date-to"><?php printf ( __( 'Departure Date' , 'easyReservations' ));?> [date-to]</option>
-								<option value="units"><?php printf ( __( 'Times' , 'easyReservations' ));?> [units]</option>
+								<option value="units"><?php printf ( __( 'Times of stay' , 'easyReservations' ));?> [times]</option>
 								<option value="date-to-hour"><?php printf ( __( 'Departure Hour' , 'easyReservations' ));?> [date-from]</option>
 								<option value="date-to-min"><?php printf ( __( 'Departure Minute' , 'easyReservations' ));?> [date-from]</option>
 								<option value="rooms"><?php printf ( __( 'Resources' , 'easyReservations' ));?> [resources]</option>
@@ -1513,7 +1512,7 @@ ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrival] <br>To: [depa
 				</thead>
 				<tbody>
 					<tr>
-						<td style="font-weight:bold;padding:10px;text-align:center"><span style="width:20%;display: inline-block">Version: 2.0</span><span style="width:30%;display: inline-block">Last update: 03.05.2012</span><span style="width:30%;display: inline-block">written by Feryaz Beer</span></td>
+						<td style="font-weight:bold;padding:10px;text-align:center"><span style="width:20%;display: inline-block">Version: 2.1</span><span style="width:30%;display: inline-block">Last update: 03.07.2012</span><span style="width:30%;display: inline-block">written by Feryaz Beer</span></td>
 					</tr>
 					<tr class="alternate" style="">
 						<td style="font-size:14px;text-align:center;font-weight:bold;padding:10px"><a href="http://easyreservations.org/knowledgebase/"><?php echo __( 'Documentation' , 'easyReservations' );?></a></td>
@@ -1586,4 +1585,6 @@ ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrival] <br>To: [depa
 	</tr>
 </table>
 <?php } do_action( 'er_set_add' ); ?>
-</div><?php } ?>
+</div><?php }
+
+?>

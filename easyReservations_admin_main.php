@@ -218,7 +218,7 @@ function reservation_main_page() {
 
 			if(isset($sendthemail) && $sendthemail=="on"){
 				$emailformation=get_option('reservations_email_to_user_admin_edited');
-				if($emailformation['active'] == 1) easyreservations_send_mail($emailformation['msg'], $email, $emailformation['subj'], $approve_message, $edit, $changelog);
+				if($emailformation['active'] == 1) easyreservations_send_mail($emailformation['msg'], $email, $emailformation['subj'], $approve_message, $edit, $changelog, 'to_user_admin_edited');
 			}
 
 			$prompt = '<div class="updated" style="margin-top:-5px !important"><p>'.__( 'Reservation edited!' , 'easyReservations' ).'</p><p><a href="admin.php?page=reservations">&#8592; Back to Dashboard</a></p></div>';
@@ -363,7 +363,7 @@ function reservation_main_page() {
 	if(isset($sendmail) && isset($_POST['thesendmail'])){
 		$emailformation=get_option('reservations_email_sendmail');
 
-		if($emailformation['active'] == 1) easyreservations_send_mail($emailformation['msg'], $mail_to, $emailformation['subj'], $approve_message, $id, '');
+		if($emailformation['active'] == 1) easyreservations_send_mail($emailformation['msg'], $mail_to, $emailformation['subj'], $approve_message, $id, '', 'sendmail');
 		$prompt='<div class="updated" style="margin-top:-5px !important"><p>'.__( 'eMail sent successfully' , 'easyReservations' ).'</p></div>';
 	}
 
@@ -378,7 +378,7 @@ function reservation_main_page() {
 
 			if(isset($sendthemail) && $sendthemail=="on"){
 				$emailformation=get_option('reservations_email_to_userapp');
-				if($emailformation['active'] == 1) easyreservations_send_mail($emailformation['msg'], $mail_to, $emailformation['subj'], $approve_message, $id, '');
+				if($emailformation['active'] == 1) easyreservations_send_mail($emailformation['msg'], $mail_to, $emailformation['subj'], $approve_message, $id, '', 'to_userapp');
 			}
 			$prompt='<div class="updated" style="margin-top:-5px !important"><p> '.__( 'Reservation approved' , 'easyReservations' ).'</p></div>';
 			?><meta http-equiv="refresh" content="0; url=admin.php?page=reservations"><?php
@@ -392,7 +392,7 @@ function reservation_main_page() {
 		$wpdb->query( $wpdb->prepare("UPDATE ".$wpdb->prefix ."reservations SET approve='no' WHERE id=$delete"  ) ); 
 		if(isset($sendthemail) && $sendthemail=="on"){
 			$emailformation=get_option('reservations_email_to_userdel');
-			if($emailformation['active'] == 1) easyreservations_send_mail($emailformation['msg'], $mail_to, $emailformation['subj'], $approve_message, $id, '');
+			if($emailformation['active'] == 1) easyreservations_send_mail($emailformation['msg'], $mail_to, $emailformation['subj'], $approve_message, $id, '', 'to_userdel');
 		}
 		$prompt='<div class="updated" style="margin-top:-5px !important"><p>'.$anzahl.' '.__( 'Reservations rejected' , 'easyReservations' ).'</p></div>';
 		?><meta http-equiv="refresh" content="0; url=admin.php?page=reservations"><?php
@@ -425,11 +425,11 @@ function reservation_main_page() {
 if(!isset($show['show_welcome']) || $show['show_welcome'] != 0){?>
 <div id="wrap">
 <div class="easy-welcome-panel" id="easy-welcome-panel">
-	<div class="wp-badge easy-badge">Version 2.0.6</div>
-	<h3>Welcome to easyReservations 2.0.6!</h3>
+	<div class="wp-badge easy-badge">Version 2.1</div>
+	<h3>Welcome to easyReservations 2.1!</h3>
 	<p class="about-description">
-		Now with hourly and weekly billing, reservations in any amount of time and many improvements!<br>
-		Visit the brand new website at easyreservations.org with a better <a href="http://easyreservations.org/knowledgebase/" target="_blank">Documentation</a> and the <a href="http://easyreservations.org/forum/" target="_blank">Support Forum</a> - the only place to get support from now.<br>
+		Now with taxes!<br>
+		Visit the new website at easyreservations.org with a better <a href="http://easyreservations.org/knowledgebase/" target="_blank">Documentation</a> and the <a href="http://easyreservations.org/forum/" target="_blank">Support Forum</a> - the only place to get support from now.<br>
 		The first <a href="http://easyreservations.org/module/" target="_blank">Modules</a> got released to purchase: guestContact, extendedCalendar and the searchForm. <a href="http://easyreservations.org/module/paypal" target="_blank">>PayPal</a> Module is available too now!<br>
 		Please think about supporting the development by getting a <a href="http://easyreservations.org/module/lifetime/" target="_blank">Life-Time Member</a>. You wont regret it. [<a href="#" onclick="document.getElementById('easy-welcome-panel').style.display = 'none';">dissmiss</a>]
 	</p>
@@ -947,11 +947,11 @@ if($show['show_overview']==1){ //Hide Overview completly
 			}<?php
 		} ?></script><div id="theOverviewDiv"></div><script>
 			jQuery.holdReady(true);
+			<?php if(isset($main_options['overview']['overview_hourly_stand']) && $main_options['overview']['overview_hourly_stand'] == 1){  ?> the_ov_interval = 3600;<?php } ?>
 
 		easyRes_sendReq_Overview('<?php echo $moreget; ?>','no', '',the_ov_interval);
 </script><?php
 	}
-if(isset($edit) || isset($add)) echo '<br>'; 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 																			//START LIST//
@@ -1193,11 +1193,11 @@ if(!isset($approve) && !isset($delete) && !isset($view) && !isset($edit) && !iss
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// EDIT RESERVATION /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	if(isset($approve) || isset($delete) || isset($view) || isset($sendmail)){ ?> <!-- // Content will only show on delete, view or approve Reservation -->
-	<?php if(!isset($view) || function_exists('easyreservations_generate_chat')){ ?><table style="width:99%;" cellspacing="0"><tr><td style="width:30%;" valign="top"><br><?php } else { $width='style="width:480px;"'; echo '<br>'; } ?>
-		<table class="<?php echo RESERVATIONS_STYLE; ?>" <?php if(isset($width)) echo $width; ?>>
+	<table style="width:99%;margin-top:8px" cellspacing="0"><tr><td style="width:30%;" valign="top">
+		<table class="<?php echo RESERVATIONS_STYLE; ?>">
 			<thead>
 				<tr>
-					<th colspan="2"><?php if(isset($approve)) { echo __( 'Approve' , 'easyReservations' ); } elseif(isset($delete)) { echo __( 'Reject' , 'easyReservations' );  } elseif(isset($view)) { echo __( 'View' , 'easyReservations' ); } echo ' '.__( 'Reservation' , 'easyReservations' ); ?> <span style="background:#DB2000;padding:2px;text-shadow:0 1px 2px rgba(0,0,0,0.5);">#<?php echo $id; ?></span>
+					<th colspan="2"><?php if(isset($approve)) { echo __( 'Approve' , 'easyReservations' ); } elseif(isset($delete)) { echo __( 'Reject' , 'easyReservations' );  } elseif(isset($view)) { echo __( 'View' , 'easyReservations' ); } echo ' '.__( 'Reservation' , 'easyReservations' ); ?> <span style="background:#DB2000;padding:2px;text-shadow:0 1px 2px rgba(0,0,0,0.5);"><span style="background:#DB2000;padding:2px;text-shadow:0 1px 2px rgba(0,0,0,0.5);"><a href="admin.php?page=reservations&edit=<?php echo $id; ?>">#<?php echo $id; ?></a></span>
 					<div style="float:right"><a href="admin.php?page=reservations&edit=<?php if(isset($view)) echo $view; if(isset($delete)) echo $delete; if(isset($approve)) echo $approve; ?>" title="<?php echo __( 'edit' , 'easyReservations' ); ?>"><img style="vertical-align:text-bottom;" src="<?php echo RESERVATIONS_IMAGES_DIR; ?>/message.png"></a></div> </th>
 				</tr>
 			</thead>
@@ -1263,24 +1263,26 @@ if(!isset($approve) && !isset($delete) && !isset($view) && !isset($edit) && !iss
 				?>
 			</tbody>
 		</table><br><div <?php if(isset($width)) echo $width; ?>><?php echo easyreservations_detailed_price($id, $approvequerie[0]->room); ?></div>
-		<?php if(isset($view) && function_exists('easyreservations_generate_chat')){ ?></td><td  style="width:1%;"></td><td  style="width:35%;" valign="top" style="vertical-align:top;">
-		<table class="<?php echo RESERVATIONS_STYLE; ?>" style="width:350px;margin-top:18px">
-			<thead>
-				<tr>
-					<th><?php echo __( 'GuestContact' , 'easyReservations' );?></th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<td style="margin:0px;padding:0px">
-						<?php echo easyreservations_generate_chat( $view, 'admin' ); ?>
-					</td>
-				</tr>
-			</tbody>
-		</table>
-		</td></tr></table><?php } ?><br>
-	
-<?php 
+		</td>
+		<td  style="width:1%;"></td>
+		<td  style="width:35%;" valign="top" style="vertical-align:top;">
+		<?php do_action('easy-admin-view', $id, $mail_to);
+			if(isset($view) && function_exists('easyreservations_generate_chat')){ ?>
+			<table class="<?php echo RESERVATIONS_STYLE; ?>" style="width:350px;margin-top:18px">
+				<thead>
+					<tr>
+						<th><?php echo __( 'GuestContact' , 'easyReservations' );?></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td style="margin:0px;padding:0px">
+							<?php echo easyreservations_generate_chat( $view, 'admin' ); ?>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		<?php }
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -1345,7 +1347,7 @@ if(isset($edit)){
 <form id="editreservation" name="editreservation" method="post" action="admin.php?page=reservations&edit=<?php echo $edit; ?>">
 <?php wp_nonce_field('easy-main-edit','easy-main-edit'); ?>
 <input type="hidden" name="editthereservation" id="editthereservation" value="editthereservation">
-	<table  style="width:99%;" cellspacing="0">
+	<table  style="width:99%;margin-top:8px" cellspacing="0">
 		<tr>
 			<td style="width:550px;" valign="top">
 				<table class="<?php echo RESERVATIONS_STYLE; ?>" style="width:550px; margin-bottom:10px;">
@@ -1370,7 +1372,7 @@ if(isset($edit)){
 							<td nowrap><img style="vertical-align:text-bottom;" src="<?php echo RESERVATIONS_IMAGES_DIR; ?>/to.png"> <?php printf ( __( 'To' , 'easyReservations' ));?>:</td> 
 							<td><input type="text" id="datepicker2" style="width:73px" name="dateend" value="<?php echo date(RESERVATIONS_DATE_FORMAT,$reservation_departure_stamp); ?>" onchange="easyreservations_send_price_admin();changer();<?php if($overview_options['overview_autoselect'] == 1){ ?>dofakeClick(2);<?php }?>"><?php if(RESERVATIONS_USE_TIME == 1){ ?> <select name="to-time-hour" id="to-time-hour" onchange="easyreservations_send_price_admin();<?php if($overview_options['overview_autoselect'] == 1){ ?>dofakeClick(0);<?php }?>"><?php echo easyReservations_num_options("00",23,date("H",$reservation_departure_stamp)); ?></select>:<select name="to-time-min"><?php echo easyReservations_num_options("00",59,date("i",$reservation_departure_stamp)); ?></select><?php }?></td>
 						</tr>
-						<tr>
+						<tr class="alternate">
 							<td nowrap><img style="vertical-align:text-bottom;" src="<?php echo RESERVATIONS_IMAGES_DIR; ?>/persons.png"> <?php echo __( 'Persons' , 'easyReservations' );?></td> 
 							<td>
 								<?php printf ( __( 'Adult\'s' , 'easyReservations' ));?>:
@@ -1379,7 +1381,7 @@ if(isset($edit)){
 								<select name="childs" onchange="easyreservations_send_price_admin();"><?php echo easyReservations_num_options(0,50,$childs); ?></select>
 							</td>
 						</tr>
-						<tr class="alternate">
+						<tr>
 							<td nowrap><img style="vertical-align:text-bottom;" src="<?php echo RESERVATIONS_IMAGES_DIR; ?>/room.png"> <?php printf ( __( 'Resource' , 'easyReservations' ));?></td> 
 							<td>
 								<select  name="room" id="room"  onchange="easyreservations_send_price_admin();changer();get_the_select(1, this.value);<?php if($overview_options['overview_autoselect'] == 1){ ?>dofakeClick(2);<?php }?>"><?php echo reservations_get_room_options($approvequerie[0]->room,1); ?></select> 
@@ -1549,7 +1551,7 @@ $highestRoomCount=easyreservations_get_highest_roomcount();
 <form id="editreservation" name="editreservation" method="post" action=""> 
 <?php wp_nonce_field('easy-main-add','easy-main-add'); ?>
 <input type="hidden" name="addreservation" id="addreservation" value="addreservation">
-<table  style="width:99%;" cellspacing="0">
+<table  style="width:99%;margin-top:8px" cellspacing="0">
 	<tr>
 	<td style="width:350px;" valign="top">
 		<table class="<?php echo RESERVATIONS_STYLE; ?>">
@@ -1687,12 +1689,10 @@ $highestRoomCount=easyreservations_get_highest_roomcount();
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 if(isset($approve) || isset($delete)) {
 	if(isset($delete)){ $delorapp=$delete; $delorapptext='reject'; } elseif(isset($approve)){ $delorapp=$approve; $delorapptext='approve'; } ?>  <!-- Content will only show on delete or approve Reservation //--> 
-	</td><td  style="width:1%;"></td><td  style="width:35%;" valign="top" style="vertical-align:top;"><br>
 	<form method="post" action="admin.php?page=reservations<?php if(isset($approve)) echo "&approve=".$approve ;  if(isset($delete)) echo "&delete=".$delete ;?>"  id="reservation_approve" name="reservation_approve">
 		<input type="hidden" name="action" value="reservation_approve"/>
-		<?php if(isset($approve)) { ?><input type="hidden" name="approve" value="yes" /><?php } ?>
-		<?php if(isset($delete)) { ?><input type="hidden" name="delete" value="yes" /><?php } ?><br>
-		<table class="<?php echo RESERVATIONS_STYLE; ?>" style="margin-top:-18px;" cellspacing="0" cellpadding="0">
+		<input type="hidden" name="<?php if(isset($approve)) echo 'approve'; else 'delete' ?>" value="yes" />
+		<table class="<?php echo RESERVATIONS_STYLE; ?>" cellspacing="0" cellpadding="0">
 			<thead>
 				<tr>
 					<th><?php if(isset($approve)) {  printf ( __( 'Approve the reservation' , 'easyReservations' ));  }  if(isset($delete)) {  printf ( __( 'Reject the reservation' , 'easyReservations' ));  } ?><b/></th>
@@ -1716,7 +1716,7 @@ if(isset($approve) || isset($delete)) {
 		</table>
 			<?php if(isset($approve)) { ?><p style="float:right"><a href="javascript:{}" onclick="document.getElementById('reservation_approve').submit(); return false;"  class="easySubmitButton-primary"><span><?php printf ( __( 'Approve' , 'easyReservations' ));?></span></a></p><?php } ?>
 			<?php if(isset($delete)) { ?><p style="float:right"><a href="javascript:{}" onclick="document.getElementById('reservation_approve').submit(); return false;" class="easySubmitButton-primary"><span><?php printf ( __( 'Reject' , 'easyReservations' ));?></span></a></p><?php } ?>
-	</form><td></tr></table><?php if(isset($approve)) { if($approvequerie[0]->roomnumber < 1) $ex = 1; else $ex = $approvequerie[0]->roomnumber;?><script>get_the_select(<?php echo $ex; ?>, <?php echo $approvequerie[0]->room; ?>);</script><?php } ?>
+	</form><?php if(isset($approve)) { if($approvequerie[0]->roomnumber < 1) $ex = 1; else $ex = $approvequerie[0]->roomnumber;?><script>get_the_select(<?php echo $ex; ?>, <?php echo $approvequerie[0]->room; ?>);</script><?php } ?>
 <?php }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -1725,10 +1725,9 @@ if(isset($approve) || isset($delete)) {
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 if(isset($sendmail)) {
 ?>  <!-- Content will only show on delete or approve Reservation //--> 
-	</td><td  style="width:1%;"></td><td  style="width:35%;" valign="top" style="vertical-align:top;"><br><br>
 	<form method="post" action=""  id="reservation_sendmail" name="reservation_sendmail">
 		<input type="hidden" name="thesendmail" value="thesendmail"/>
-		<table class="<?php echo RESERVATIONS_STYLE; ?>" style="margin-top:-18px;" cellspacing="0" cellpadding="0">
+		<table class="<?php echo RESERVATIONS_STYLE; ?>" cellspacing="0" cellpadding="0">
 			<thead>
 				<tr>
 					<th><?php echo __( 'Send mail to guest' , 'easyReservations' ); ?><b/></th>
@@ -1747,6 +1746,7 @@ if(isset($sendmail)) {
 			</tbody>
 		</table>
 		<p style="float:right"><a href="javascript:{}" onclick="document.getElementById('reservation_sendmail').submit(); return false;" class="easySubmitButton-primary"><span><?php echo __( 'Send' , 'easyReservations' ); ?></span></a></p>
-	</form><td></tr></table>
+	</form
 <?php }
+	if(isset($approve) || isset($delete) || isset($view) || isset($sendmail)) echo '</td></tr></table>';
 } ?>

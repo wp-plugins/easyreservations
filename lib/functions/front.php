@@ -111,7 +111,7 @@
 			$error.=  '<li><labe for="easy-form-thename">'.__( 'Please enter a correct name' , 'easyReservations' ).'<br>';
 		}
 
-		if($val_from < time()){ /* check arrival Date */
+		if($val_from < time()+604800){ /* check arrival Date */
 			$error.=  '<li><labe for="easy-form-from">'.__( 'The arrival date has to be in future' , 'easyReservations' ).'</label></li>';
 		}
 
@@ -155,8 +155,8 @@
 				$emailformation=get_option('reservations_email_to_admin');
 				$emailformation2=get_option('reservations_email_to_user');
 
-				if($emailformation['active'] == 1)	easyreservations_send_mail($emailformation['msg'], $reservation_support_mail, $emailformation['subj'], '', $newID, '');
-				if($emailformation2['active'] == 1)	easyreservations_send_mail($emailformation2['msg'], $val_email, $emailformation2['subj'], '', $newID, '');
+				if($emailformation['active'] == 1)	easyreservations_send_mail($emailformation['msg'], $reservation_support_mail, $emailformation['subj'], '', $newID, '', 'to_admin');
+				if($emailformation2['active'] == 1)	easyreservations_send_mail($emailformation2['msg'], $val_email, $emailformation2['subj'], '', $newID, '', 'to_user');
 
 				if(isset($res['redirect']) && !empty($res['redirect'])){
 					?><script type="text/javascript">window.location = "<?php echo $res['redirect']; ?>"</script><?php
@@ -183,20 +183,20 @@
 
 				$wpdb->query($wpdb->prepare("UPDATE ".$wpdb->prefix ."reservations SET arrival='$val_fromdate_sql', departure='$val_todate_sql', name='$val_name', email='$val_email', room='$val_room', number='$val_persons', childs='$val_childs', custom='$customfields', customp='$custompfields', country='$val_country', ".$newPrice." approve='' WHERE id='$val_id' ")) or trigger_error('mySQL-Fehler: '.mysql_error(), E_USER_ERROR);
 
-				$emailformation=get_option('reservations_email_to_admin');
+				$emailformation=get_option('reservations_email_to_admin_edited');
 				$emailformation2=get_option('reservations_email_to_user_edited');
 
 				if($checkQuerry[0]->email == $val_email){
-					if($emailformation['active'] == 1)	easyreservations_send_mail($emailformation['msg'],		$reservation_support_mail,	$emailformation['subj'],	'', $val_id, $changelog);
-					if($emailformation2['active'] == 1)	easyreservations_send_mail($emailformation2['msg'],	$val_email,							$emailformation2['subj'],	'', $val_id, $changelog);
+					if($emailformation['active'] == 1)	easyreservations_send_mail($emailformation['msg'],		$reservation_support_mail,	$emailformation['subj'],	'', $val_id, $changelog, 'to_admin_edited');
+					if($emailformation2['active'] == 1)	easyreservations_send_mail($emailformation2['msg'],	$val_email,							$emailformation2['subj'],	'', $val_id, $changelog, 'to_user_edited');
 				} else {
-					if($emailformation['active'] == 1) 	easyreservations_send_mail($emailformation['msg'],		$reservation_support_mail,	$emailformation['subj'],	'', $val_id, $changelog);
-					if($emailformation2['active'] == 1)	easyreservations_send_mail($emailformation2['msg'],	$val_email,							$emailformation2['subj'],	'', $val_id, $changelog);
-					if($emailformation2['active'] == 1)	easyreservations_send_mail($emailformation2['msg'],	$checkQuerry[0]->email,		$emailformation2['subj'],	'', $val_id, $changelog);
+					if($emailformation['active'] == 1) 	easyreservations_send_mail($emailformation['msg'],		$reservation_support_mail,	$emailformation['subj'],	'', $val_id, $changelog, 'to_admin_edited');
+					if($emailformation2['active'] == 1)	easyreservations_send_mail($emailformation2['msg'],	$val_email,							$emailformation2['subj'],	'', $val_id, $changelog, 'to_user_edited');
+					if($emailformation2['active'] == 1)	easyreservations_send_mail($emailformation2['msg'],	$checkQuerry[0]->email,		$emailformation2['subj'],	'', $val_id, $changelog, 'to_user_edited');
 				}
 			}
 		}
-		
+
 		return $error;
 	}
 
@@ -308,15 +308,15 @@
 				$roomfield=1;
 				if(isset($field['exclude'])) $exclude = explode(',', $field['exclude']); else $exclude = '';
 				if($isCalendar == true) $calendar_action = "document.CalendarFormular.room.value=this.value;easyreservations_send_calendar('shortcode');"; else $calendar_action = '';
-				$theForm=str_replace('['.$fields.']', '<select name="room" id="form_room" '.$disabled.' onchange="'.$calendar_action.$price_action.'">'.reservations_get_room_options($value, 0, $exclude).'</select>', $theForm);
+				$theForm=str_replace('['.$fields.']', '<select name="easyroom" id="form_room" '.$disabled.' onchange="'.$calendar_action.$price_action.'">'.reservations_get_room_options($value, 0, $exclude).'</select>', $theForm);
 			} elseif($field[0]=="custom"){
 				if(isset($field[3])) $valuefield=str_replace('"', '', $field[3]);
-				if($field[count($field)-1] == "*") $req = 'req'; else $req = '';
+				if(end($field) == "*") $req = 'req'; else $req = '';
 				if($field[1]=="text"){
 					$theForm=str_replace('['.$fields.']', '<input title="'.$title.'" style="'.$style.'" '.$disabled.' type="text" name="easy-custom-'.$field[2].'" id="easy-custom-'.$req.'-'.$field[2].'" value="'.$value.'">', $theForm);
 				} elseif($field[1]=="textarea"){
 					$theForm=str_replace('['.$fields.']', '<textarea title="'.$title.'" style="'.$style.'" '.$disabled.' name="easy-custom-'.$field[2].'" id="easy-custom-'.$req.'-'.$field[2].'" value="'.$value.'"></textarea>', $theForm);
-				} elseif($field[1]=="check"){
+				} elseif($field[1]=="check" || $field[1]=="checkbox"){
 					if(isset($field['checked'])) $checked = ' checked="'.$field['checked'].'"'; else $checked = '';
 					$theForm=str_replace('['.$fields.']', '<input type="checkbox" title="'.$title.'" '.$disabled.$checked.' style="'.$style.'" name="easy-custom-'.$field[2].'" id="easy-custom-'.$req.'-'.$field[2].'">', $theForm);
 				} elseif($field[1]=="radio"){
@@ -359,7 +359,7 @@
 					$personfield = '';
 					$personfields = '';
 				}
-				if($field[1]=="checkbox"){
+				if($field[1]=="check" || $field[1]=="checkbox"){
 					if(isset($field['checked'])) $checked = 'checked="'.$field['checked'].'"'; else $checked = '';
 					$theForm=preg_replace('/\['.$fields.'\]/', '<input title="'.$title.'" style="'.$style.'" '.$disabled.' id="custom_price'.$customPrices.'" '.$personfield.' type="checkbox" '.$checked.' onchange="'.$price_action.'" name="'.$field[2].'" value="'.$valuefield.$personfields.'">', $theForm);
 				} elseif($field[1]=="radio"){

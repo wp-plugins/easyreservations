@@ -287,9 +287,9 @@ function reservations_edit_shortcode($atts){
 				$return .= '<label>'.__( 'Persons' , 'easyReservations' ).'<span class="small">'.__( 'The amount of persons' , 'easyReservations' ).'</span></label><select name="persons" id="easy-form-persons" onchange="easyreservations_send_price(\'front\');easyreservations_send_validate();">'.easyReservations_num_options(1,50,$persons).'</select>';
 				if(isset($childs) && $childs != "") $return .= '<label>'.__( 'Children\'s' , 'easyReservations' ).'<span class="small">'.__( 'The amount of children\'s' , 'easyReservations' ).'</span></label><select name="childs" onchange="easyreservations_send_price(\'front\');easyreservations_send_validate();">'.easyReservations_num_options(0,50,$childs).'</select>';
 				$return .= '<label>'.__( 'Country' , 'easyReservations' ).'<span class="small">'.__( 'Select your county' , 'easyReservations' ).'</span></label><select name="country">'.easyReservations_country_select($country).'</select>';
-				if($isCalendar) $calendar_js = 'document.CalendarFormular.room.value=this.value;easyreservations_send_calendar(\'shortcode\');';
+				if($isCalendar) $calendar_js = 'document.CalendarFormular.easyroom.value=this.value;easyreservations_send_calendar(\'shortcode\');';
 				else $calendar_js = '';
-				$return .= '<label>'.$atts['roomname'].'<span class="small">'.__( 'Choose the' , 'easyReservations' ).' '.$atts['roomname'].'</span></label><select  name="room" id="room" onChange="'.$calendar_js.'easyreservations_send_price(\'front\');easyreservations_send_validate();">'.reservations_get_room_options($edit_querie[0]->room).'</select>';
+				$return .= '<label>'.$atts['roomname'].'<span class="small">'.__( 'Choose the' , 'easyReservations' ).' '.$atts['roomname'].'</span></label><select  name="easyroom" id="room" onChange="'.$calendar_js.'easyreservations_send_price(\'front\');easyreservations_send_validate();">'.reservations_get_room_options($edit_querie[0]->room).'</select>';
 				if(!empty($edit_querie[0]->custom)){
 					$customs=easyreservations_get_customs($edit_querie[0]->custom, 0, 'cstm', 'edit');
 					if(!empty($customs)){

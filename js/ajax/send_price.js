@@ -1,5 +1,5 @@
 function easyreservations_send_price(){
-	if(document.easyFrontendFormular.room) var room = document.easyFrontendFormular.room.value;
+	if(document.easyFrontendFormular.easyroom) var room = document.easyFrontendFormular.easyroom.value;
 	else alert('no room field - correct that')
 	var interval_array = eval("(" + easyAjax.interval + ")");
 	var interval = interval_array[room];

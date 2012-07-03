@@ -174,7 +174,7 @@ License:GPL2
 								'content' => __( 'Style your eMails with HTML to increase the appereance of your hospitality.' , 'easyReservations' ),
 								'xml' => '',
 								'function' => 'easyreservations_send_multipart_mail',
-								'vers' => '1.0',
+								'vers' => '1.1',
 								'price' => '20',
 								'image' => 'email',
 								'beta' => 1
@@ -200,6 +200,17 @@ License:GPL2
 								'price' => '25',
 								'image' => 'search',
 								'beta' => 0
+						),
+						array(
+								'slug' => 'invoice',
+								'title' => __( 'Invoice Module' , 'easyReservations' ),
+								'content' => __( 'Invoice Module text.' , 'easyReservations' ),
+								'xml' => '',
+								'function' => 'easyreservations_generate_invoice',
+								'vers' => '1.0',
+								'price' => '50',
+								'image' => 'invoice',
+								'beta' => 1
 						)
 				);
 
@@ -468,6 +479,12 @@ License:GPL2
 	function easyreservation_is_coupons(){
 		$active = get_option('reservations_active_modules');
 		if(file_exists(WP_PLUGIN_DIR.'/easyreservations/lib/modules/coupons/coupons.php') && is_array($active) && in_array('coupons', $active)) return true;
+		else return false;
+	}
+
+	function easyreservation_is_invoice(){
+		$active = get_option('reservations_active_modules');
+		if(file_exists(WP_PLUGIN_DIR.'/easyreservations/lib/modules/coupons/coupons.php') && is_array($active) && in_array('invoice', $active)) return true;
 		else return false;
 	}
 

@@ -81,10 +81,43 @@ if(isset($_GET['page'])){
 				$count++;
 				if(is_int($count/2)) $class=' class="alternate"'; else $class='';
 				$date=$pricefor['date'];
-				if(preg_match("/(stay|loyal|custom price|early|pers|child|coupon)/i", $pricefor['type'])) $dateposted=' '; else $dateposted=date($date_pat, $date);
 				$pricetotal+=$pricefor['priceday'];
 				if($count == $arraycount) $onlastprice=' style="border-bottom: double 3px #000000;"';  else $onlastprice='';
-				$pricetable.= '<tr'.$class.'><td nowrap>'.$dateposted.'</td><td nowrap>'.$pricefor['type'].'</td><td style="text-align:right;" nowrap>'.reservations_format_money($pricefor['priceday'], 1).'</td><td style="text-align:right;" nowrap><b'.$onlastprice.'>'.reservations_format_money($pricetotal, 1).'</b></td></tr>';
+				if($pricefor['type'] == 'customp_p'){
+					$dateposted = '';
+					$type = __(sprintf('Custom price %s', $pricefor['amount'].'%'),'easyReservations').' '.$pricefor['name'];
+				} elseif($pricefor['type'] == 'customp_n'){
+					$dateposted = '';
+					$type = __('Custom price','easyReservations').' '.$pricefor['name'];
+				} elseif($pricefor['type'] == 'coupon'){
+					$dateposted = '';
+					$type = __('Coupon','easyReservations').' '.$pricefor['name'];
+				} elseif($pricefor['type'] == 'stay'){
+					$dateposted = '';
+					$type = __('Stay filter','easyReservations').' '.$pricefor['name'];
+				} elseif($pricefor['type'] == 'loyal'){
+					$dateposted = '';
+					$type = __('Loyal filter','easyReservations').' '.$pricefor['name'];
+				} elseif($pricefor['type'] == 'pers'){
+					$dateposted = '';
+					$type = __('Person filter','easyReservations').' '.$pricefor['name'];
+				} elseif($pricefor['type'] == 'early'){
+					$dateposted = '';
+					$type = __('Earlybird filter','easyReservations').' '.$pricefor['name'];
+				} elseif($pricefor['type'] == 'persons'){
+					$dateposted = '';
+					$type = __('Price per Person','easyReservations').' x'.$pricefor['name'];
+				} elseif($pricefor['type'] == 'childs'){
+					$dateposted = '';
+					$type = __('Price per Children','easyReservations').' x'.$pricefor['name'];
+				} elseif($pricefor['type'] == 'tax'){
+					$dateposted = '';
+					$type = __('Tax','easyReservations').' '.$pricefor['name']. ' ('.$pricefor['amount'].'%)';
+				} else {
+					$dateposted=date($date_pat, $date);
+					$type = __('Groundprice','easyReservations');
+				}
+				$pricetable.= '<tr'.$class.'><td nowrap>'.$dateposted.'</td><td nowrap>'.$type.'</td><td style="text-align:right;" nowrap>'.reservations_format_money($pricefor['priceday'], 1).'</td><td style="text-align:right;" nowrap><b'.$onlastprice.'>'.reservations_format_money($pricetotal, 1).'</b></td></tr>';
 				unset($priceforarray[$count-1]);
 			}
 
@@ -182,7 +215,6 @@ if(isset($_GET['page'])){
 				if(isset($_POST['table_childs'])) $table_childs = 1; else $table_childs = 0;
 				if(isset($_POST['table_status'])) $table_status = 1; else $table_status = 0;
 				if(isset($_POST['table_country'])) $table_country = 1; else $table_country = 0;
-				if(isset($_POST['table_message'])) $table_message = 1; else $table_message = 0;
 				if(isset($_POST['table_custom'])) $table_custom = 1; else $table_custom = 0;
 				if(isset($_POST['table_customp'])) $table_customp = 1; else $table_customp = 0;
 				if(isset($_POST['table_paid'])) $table_paid = 1; else $table_paid = 0;
@@ -196,15 +228,16 @@ if(isset($_GET['page'])){
 				if(isset($_POST['table_fav'])) $table_fav = 1; else $table_fav = 0;
 				if(isset($_POST['table_onmouseover'])) $table_onmouseover = 1; else $table_onmouseover = 0;
 				
-				$table = array( 'table_color' => $table_color, 'table_id' => $table_id, 'table_name' => $table_name, 'table_from' => $table_from, 'table_fav' => $table_fav, 'table_to' => $table_to, 'table_nights' => $table_nights, 'table_email' => $table_email, 'table_room' => $table_room, 'table_exactly' => $table_exactly, 'table_persons' => $table_persons, 'table_childs' => $table_childs, 'table_country' => $table_country, 'table_message' => $table_message, 'table_custom' => $table_custom, 'table_customp' => $table_customp, 'table_paid' => $table_paid, 'table_price' => $table_price, 'table_filter_month' => $table_filter_month, 'table_filter_room' => $table_filter_room, 'table_filter_offer' => $table_filter_offer, 'table_filter_days' => $table_filter_days, 'table_search' => $table_search, 'table_bulk' => $table_bulk, 'table_onmouseover' => $table_onmouseover, 'table_reservated' => $table_reservated, 'table_status' => $table_status );
+				$table = array( 'table_color' => $table_color, 'table_id' => $table_id, 'table_name' => $table_name, 'table_from' => $table_from, 'table_fav' => $table_fav, 'table_to' => $table_to, 'table_nights' => $table_nights, 'table_email' => $table_email, 'table_room' => $table_room, 'table_exactly' => $table_exactly, 'table_persons' => $table_persons, 'table_childs' => $table_childs, 'table_country' => $table_country, 'table_custom' => $table_custom, 'table_customp' => $table_customp, 'table_paid' => $table_paid, 'table_price' => $table_price, 'table_filter_month' => $table_filter_month, 'table_filter_room' => $table_filter_room, 'table_filter_offer' => $table_filter_offer, 'table_filter_days' => $table_filter_days, 'table_search' => $table_search, 'table_bulk' => $table_bulk, 'table_onmouseover' => $table_onmouseover, 'table_reservated' => $table_reservated, 'table_status' => $table_status );
 
 				if(isset($_POST['overview_onmouseover'])) $overview_onmouseover = 1; else $overview_onmouseover = 0;
 				if(isset($_POST['overview_autoselect'])) $overview_autoselect = 1; else $overview_autoselect = 0;
 				if(isset($_POST['overview_show_days'])) $overview_show_days = $_POST['overview_show_days']; else $overview_show_days = 30;
-				if(isset($_POST['overview_show_rooms'])) $overview_show_rooms = implode(",", $_POST['overview_show_rooms']); else $overview_show_rooms = 30;
+				if(isset($_POST['overview_show_rooms'])) $overview_show_rooms = implode(",", $_POST['overview_show_rooms']); else $overview_show_rooms = '';
 				if(isset($_POST['overview_show_avail'])) $overview_show_avail = 1; else $overview_show_avail = 0;
+				if(isset($_POST['overview_hourly_stand'])) $overview_hourly_stand = 1; else $overview_hourly_stand = 0;
 
-				$overview = array( 'overview_onmouseover' => $overview_onmouseover, 'overview_autoselect' => $overview_autoselect, 'overview_show_days' => $overview_show_days, 'overview_show_rooms' => $overview_show_rooms, 'overview_show_avail' => $overview_show_avail );
+				$overview = array( 'overview_onmouseover' => $overview_onmouseover, 'overview_autoselect' => $overview_autoselect, 'overview_show_days' => $overview_show_days, 'overview_show_rooms' => $overview_show_rooms, 'overview_show_avail' => $overview_show_avail, 'overview_hourly_stand' => $overview_hourly_stand );
 
 				update_option('reservations_main_options', array('show' => $showhide, 'table' => $table, 'overview' => $overview ));
 				if(isset($_POST['daybutton'])) update_option("reservations_show_days",$_POST['daybutton']);
@@ -248,7 +281,6 @@ if(isset($_GET['page'])){
 					$current .= '</span>';
 					$current .= '<span style="float:left;">';
 						$current .= '<label><input type="checkbox" name="table_country" value="1" '.checked($table['table_country'], 1, false).'> '.__( 'Country' , 'easyReservations').'</label><br>';
-						$current .= '<label><input type="checkbox" name="table_message" value="1" '.checked($table['table_message'], 1, false).'> '.__( 'Note' , 'easyReservations').'</label><br>';
 						$current .= '<label><input type="checkbox" name="table_custom" value="1" '.checked($table['table_custom'], 1, false).'> '.__( 'Custom fields' , 'easyReservations').'</label><br>';
 						$current .= '<label><input type="checkbox" name="table_customp" value="1" '.checked($table['table_customp'], 1, false).'> '.__( 'Custom prices' , 'easyReservations').'</label><br>';
 						$current .= '<label><input type="checkbox" name="table_paid" value="1" '.checked($table['table_paid'], 1, false).'> '.__( 'Paid' , 'easyReservations').'</label><br>';
@@ -277,11 +309,11 @@ if(isset($_GET['page'])){
 					}
 				$current .= '</p>';
 				$current .= '<p style="float:left;">';
-					$current .= '<b><u>'.__( 'Overview effects' , 'easyReservations').'</u></b><br>';
+					$current .= '<b><u>'.__( 'Overview' , 'easyReservations').'</u></b><br>';
 					$current .= '<label><input type="checkbox" name="overview_onmouseover" value="1" '.checked($overview['overview_onmouseover'], 1, false).'> '.__( 'Overview onMouseOver Date & Select animation' , 'easyReservations').'</label><br>';
 					$current .= '<label><input type="checkbox" name="overview_autoselect" value="1" '.checked($overview['overview_autoselect'], 1, false).'> '.__( 'Overview autoselect with inputs on add/edit' , 'easyReservations').'</label><br>';
 					$current .= '<label><input type="checkbox" name="overview_show_avail" value="1" '.checked($overview['overview_show_avail'], 1, false).'> '.__( 'Show empty space for each room and day (+20% load)' , 'easyReservations').'</label><br>';
-					$current.='<b><u>'.__( 'Show Days' , 'easyReservations' ).':</u></b><br>';
+					$current .= '<label><input type="checkbox" name="overview_hourly_stand" value="1" '.checked($overview['overview_hourly_stand'], 1, false).'> '.__( 'Hourly mode as standard' , 'easyReservations').'</label><br>';
 					$current.='<input type="text" name="overview_show_days" style="width:50px" value="'.$overview['overview_show_days'].'"> '.__( 'Days' , 'easyReservations' );
 				$current .= '</p>';
 				$current .= '<input type="submit" value="Save Changes" class="button-primary" style="float:right;margin-top:120px !important">';
@@ -526,14 +558,14 @@ if(isset($_GET['page'])){
 			$pagination = 0;
 			$p->currentPage($pagination); // Gets and validates the current page
 			$p->calculate(); // Calculates what to show
+			$p->first(1);
+			$p->last(1);
+			$p->numbers(0);
+			$p->field(array(1, __('of', 'easyReservations')));
 			$p->parameterName('paging');
 			$p->adjacents(1); //No. of page away from the current page
 
-			if(isset($_POST['paging'])) {
-				$pagei = $_POST['paging'];
-			} else {
-				$pagei = 1;
-			}
+			if(isset($_POST['paging'])) $pagei = $_POST['paging']; else $pagei = 1;
 
 			$p->page = $pagei;
 
@@ -724,8 +756,7 @@ if(isset($_GET['page'])){
 							<?php if(isset($favourite)){ ?><div class="easy-favourite <?php echo $favclass; ?>" id="<?php echo $favid; ?>" onclick="easyreservations_send_fav(this)"></div><?php } ?>
 						</td>
 					<?php } if($table_options['table_name'] == 1 || $table_options['table_id'] == 1){ ?>
-						<td  valign="top" class="row-title" valign="top" nowrap>
-							<div class="test">
+						<td  valign="top" class="row-title test" valign="top" nowrap>
 								<?php if($table_options['table_name'] == 1){ ?>
 									<a href="admin.php?page=reservations&view=<?php echo $id;?>"><?php echo $name;?></a>
 								<?php } if($table_options['table_id'] == 1) echo ' (#'.$id.')'; ?>
@@ -735,8 +766,8 @@ if(isset($_GET['page'])){
 									<?php if(isset($typ) && ($typ=="deleted" || $typ=="pending")) { ?>| <a style="color:#28a70e;" href="admin.php?page=reservations&approve=<?php echo $id;?>"><?php printf ( __( 'Approve' , 'easyReservations' ));?></a>
 									<?php } if(!isset($typ) || (isset($typ) && ($typ=="active" || $typ=="pending"))) { ?> | <a style="color:#bc0b0b;" href="admin.php?page=reservations&delete=<?php echo $id;?>"><?php printf ( __( 'Reject' , 'easyReservations' ));?></a>
 									<?php } if(isset($typ) && $typ=="trash") { ?>| <a href="admin.php?page=reservations&bulkArr[]=<?php echo $id;?>&bulk=2"><?php printf ( __( 'Restore' , 'easyReservations' ));?></a> | <a style="color:#bc0b0b;" href="admin.php?page=reservations&easy-main-bulk=&bulkArr[]=<?php echo $id;?>&bulk=3&easy-main-bulk=<?php echo wp_create_nonce('easy-main-bulk'); ?>"><?php printf ( __( 'Delete Permanently' , 'easyReservations' ));?></a><?php } ?> | <a href="admin.php?page=reservations&sendmail=<?php echo $id;?>"><?php echo __( 'Mail' , 'easyReservations' );?></a>
+									<?php if(function_exists('easyreservations_generate_invoice_form')) echo easyreservations_generate_invoice_form($id, $res->email, '', false); ?>
 								</div>
-							</div>
 						</td>
 					<?php } if($table_options['table_from'] == 1 || $table_options['table_to'] == 1 || $table_options['table_nights'] == 1){ ?>
 						<td nowrap><?php if($table_options['table_from'] == 1) echo date(RESERVATIONS_DATE_FORMAT_SHOW,$timpstampanf); if($table_options['table_from'] == 1 && $table_options['table_to'] == 1) echo ' - ';  if($table_options['table_to'] == 1) echo date(RESERVATIONS_DATE_FORMAT_SHOW,$timestampend);?><?php if($table_options['table_nights'] == 1){ ?> <small>(<?php echo $nights.' '.ucfirst(easyreservations_interval_infos($the_rooms_intervals_array[$room], 0, $nights)); ?>)</small><?php } ?></td>

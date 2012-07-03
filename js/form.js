@@ -10,8 +10,8 @@ function easyreservations_build_datepicker(){
 		dateFormat: dateformatse,
 		minDate: 0,
 		beforeShowDay: function(date){
-			if(window.easydisabledays && document.easyFrontendFormular.room){
-				return easydisabledays(date,document.easyFrontendFormular.room.value);
+			if(window.easydisabledays && document.easyFrontendFormular.easyroom){
+				return easydisabledays(date,document.easyFrontendFormular.easyroom.value);
 			} else {
 				return [true];
 			}
@@ -31,4 +31,3 @@ function easyreservations_build_datepicker(){
 	});
 }
 easyreservations_build_datepicker();
-jQuery('.ui-datepicker-calendar').style.cellSpacing = 0;

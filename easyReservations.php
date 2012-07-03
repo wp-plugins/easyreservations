@@ -3,7 +3,7 @@
 Plugin Name: easyReservations
 Plugin URI: http://www.easyreservations.org
 Description: This powerfull property and reservation management plugin allows you to receive, schedule and handle your bookings easily!
-Version: 2.0.7
+Version: 2.1
 Author: Feryaz Beer
 Author URI: http://www.feryaz.de
 License:GPL2
@@ -521,6 +521,7 @@ ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrival] <br>To: [depa
 	if(file_exists(dirname(__FILE__).'/lib/core/core.php')) require_once(dirname(__FILE__)."/lib/core/core.php");
 
 	if(is_admin()){
+
 		require_once(dirname(__FILE__)."/pagination.class.php");
 		require_once(dirname(__FILE__)."/lib/functions/admin.php");
 		require_once(dirname(__FILE__)."/lib/widgets/dashboard.php");
@@ -553,5 +554,6 @@ ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrival] <br>To: [depa
 	if(function_exists('easyreservation_is_hourlycal') && easyreservation_is_hourlycal()) include_once(dirname(__FILE__)."/lib/modules/hourlycal/hourlycal.php");
 	if(function_exists('easyreservation_is_htmlmails') && easyreservation_is_htmlmails()) include_once(dirname(__FILE__)."/lib/modules/htmlmails/htmlmails.php");
 	if(function_exists('easyreservation_is_coupons') && easyreservation_is_coupons()) include_once(dirname(__FILE__)."/lib/modules/coupons/coupons.php");
+	if(function_exists('easyreservation_is_invoice') && easyreservation_is_invoice()) include_once(dirname(__FILE__)."/lib/modules/invoice/invoice.php");
 
 ?>

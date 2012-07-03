@@ -70,7 +70,7 @@ class easyReservations_form_widget extends WP_Widget {
 				$theForm=str_replace('['.$fields.']', '<select id="easy-widget-country" name="country">'.easyReservations_country_select('').'</select>', $theForm);
 			} elseif($field[0]=="rooms" || $field[0]=="resources"){		
 				if($calendar == true) $calendar_action = "document.widget_formular.room.value=this.value;easyreservations_send_calendar('widget');"; else $calendar_action = '';
-				$theForm=str_replace('['.$fields.']', '<select name="room" id="form_room" onchange="'.$calendar_action.'">'.reservations_get_room_options().'</select>', $theForm);
+				$theForm=str_replace('['.$fields.']', '<select name="easyroom" id="form_room" onchange="'.$calendar_action.'">'.reservations_get_room_options().'</select>', $theForm);
 			}
 		}
 
@@ -194,8 +194,8 @@ function easyreservatons_call_datepickers(){?>
 			jQuery("#easy-widget-datepicker-from, #easy-widget-datepicker-to").datepicker( { 
 				dateFormat: dateformatse, 		
 				beforeShowDay: function(date){
-					if(window.easydisabledays && document.easy_widget_form.room){
-						return easydisabledays(date,document.easy_widget_form.room.value);
+					if(window.easydisabledays && document.easy_widget_form.easyroom){
+						return easydisabledays(date,document.easy_widget_form.easyroom.value);
 					} else {
 						return [true];
 					}

@@ -4,65 +4,33 @@ Maybe unnecasary
 .full:hover { background: #ffba00;  }
 .fulle { text-shadow: 0px; border-style:none; } */
 
-div.pagination {
-	padding: 2px;
-	margin: 0px;
-	float: center;
-	border:0px;
-}
-div.pagination a {
-	padding: 2px 5px 2px 5px;
-	margin: 2px;
-	border: 1px solid #AAAADD;
-	text-decoration: none;
-	color: #21759b;
+div.easy_pagination a {
+	margin:2px;
+	padding: -3px 6px 10px !important;
+	line-height: 30px;
 	cursor:pointer;
 }
-div.pagination a:hover, div.pagination a:active {
-	border: 1px solid #EEE;
-	color: #000;
+div.easy_pagination a.disabled {
+	cursor: default;
 }
-.pagination .disabled{
-	border: 1px solid #dfdfdf;
-	background:-moz-linear-gradient(top, #f8f8f8, #ececec);
-	padding: 5px 5px 5px 5px;
-	text-decoration:none;
-	-webkit-border-radius: 3px;
-	-khtml-border-radius: 3px;
-	-moz-border-radius: 3px;
-	border-radius: 3px;
-}
-div.pagination span.current {
-	padding: 2px 5px 2px 5px;
-	margin: 2px;
-	border: 1px solid #000099;
-	font-weight: bold;
-	background-color: #000099;
-	color: #FFF;
-}
-div.pagination span.disabled {
-	padding: 2px 5px 2px 5px;
-	margin: 2px;
-	border: 1px solid #EEE;
-	color: #DDD;
-}
+
 .navnavnav { padding:0 950px 0 0 ; } 
 .tablenav { background:#ffffff; }
 .test2 {
-  text-decoration:none;
-  font-weight:normal;
-  visibility:hidden;
-  font-size:12px;
-  line-height: 1.4em;
-}
-.displaying-nums {
- color: #777777;
-  font-family: Georgia,"Times New Roman","Bitstream Charter",Times,serif;
-  font-size: 12px;
-  font-style: italic;
-
+	text-decoration:none;
+	font-weight:normal;
+	visibility:hidden;
+	font-size:12px;
+	line-height: 1.4em;
+	height:100%;
 }
 .test:hover .test2 { visibility:visible; }
+.displaying-nums {
+	color: #777777;
+	font-family: Georgia,"Times New Roman","Bitstream Charter",Times,serif;
+	font-size: 12px;
+	font-style: italic;
+}
 .asc2 {
   background-image:url(images/sortup.gif);
   background-repeat:no-repeat;

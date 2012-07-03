@@ -67,7 +67,7 @@ function reservations_form_shortcode($atts){
 		if(isset($_POST['country'])) $country=$_POST['country'];
 		else $country = "";
 
-		if(isset($_POST['room'])) $room=$_POST['room'];
+		if(isset($_POST['easyroom'])) $room=$_POST['easyroom'];
 		else $room = "";
 
 		$fromplus = 0;
@@ -153,7 +153,7 @@ function reservations_form_shortcode($atts){
 		if(isset($_POST['persons']))	$finalform .= '<script>if(document.easyFrontendFormular) document.easyFrontendFormular.persons.selectedIndex='.($_POST['persons']-1).';</script>';
 		if(isset($_POST['childs'])) $finalform .= '<script>if(document.easyFrontendFormular) document.easyFrontendFormular.childs.selectedIndex='.$_POST['childs'].';</script>';
 		if(isset($_POST['country'])) $finalform .= '<script>function setCountry(country) {var x = document.easyFrontendFormular.country;if(x){for (var i = 0; i < x.options.length; i++) {if (x.options[i].value == country){x.options[i].selected = true;break;}}}}setCountry("'.$_POST['country'].'");</script>';
-		if(isset($_POST['room'])) $finalform .= '<script>function setRoom(roomid){var x=document.easyFrontendFormular.room;if(x){for (var i = 0; i < x.options.length; i++){if(x.options[i].value == roomid){x.options[i].selected = true;break;}}}}setRoom('.$_POST['room'].');</script>';
+		if(isset($_POST['room'])) $finalform .= '<script>function setRoom(roomid){var x=document.easyFrontendFormular.easyroom;if(x){for (var i = 0; i < x.options.length; i++){if(x.options[i].value == roomid){x.options[i].selected = true;break;}}}}setRoom('.$_POST['room'].');</script>';
 	add_action('wp_print_footer_scripts', 'easyreservations_make_datepicker');
 	return $finalform;
 }

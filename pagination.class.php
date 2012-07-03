@@ -1,5 +1,4 @@
 <?php
-class easy_pagination{
 /*
 Script Name: *Digg Style Paginator Class
 Script URI: http://www.mis-algoritmos.com/2007/05/27/digg-style-pagination-class/
@@ -8,11 +7,16 @@ Script Version: 0.4
 Author: Victor De la Rocha
 Author URI: http://www.mis-algoritmos.com
 */
+class easy_pagination{
+
 		/*Default values*/
 		var $total_pages = -1;//items
 		var $limit = null;
 		var $target = ""; 
 		var $page = 1;
+		var $numbers = 1;
+		var $first = 0;
+		var $last = 0;
 		var $adjacents = 2;
 		var $showCounter = false;
 		var $className = "easy_pagination";
@@ -20,14 +24,17 @@ Author URI: http://www.mis-algoritmos.com
 		var $urlF = false;//urlFriendly
 
 		/*Buttons next and previous*/
-		var $nextT = "Next";
-		var $nextI = "&#187;"; //&#9658;
-		var $prevT = "Previous";
-		var $prevI = "&#171;"; //&#9668;
+		var $nextT = "";
+		var $nextI = "&#8250;"; //&#9658;
+		var $prevT = "";
+		var $prevI = "&#8249;"; //&#9668;
+
+		var $field = 0;
+		var $fieldLegend = "from";
 
 		/*****/
 		var $calculate = false;
-		
+
 		#Total items
 		function items($value){$this->total_pages = (int) $value;}
 		
@@ -42,6 +49,7 @@ Author URI: http://www.mis-algoritmos.com
 
 		#How many adjacent pages should be shown on each side of the current page?
 		function adjacents($value){$this->adjacents = (int) $value;}
+		function numbers($value){$this->numbers = (int) $value;}
 		
 		#show counter?
 		function showCounter($value=""){$this->showCounter=($value===true)?true:false;}
@@ -56,6 +64,9 @@ Author URI: http://www.mis-algoritmos.com
 
 		#to change the class name of the pagination div
 		function parameterName($value=""){$this->parameterName=$value;}
+		function first($value){$this->first = (int) $value;}
+		function last($value){$this->last = (int) $value;}
+		function field($value){$this->field = (int) $value[0]; $this->fieldLegend = $value[1];}
 
 		#to change urlFriendly
 		function urlFriendly($value="%"){
@@ -98,7 +109,7 @@ Author URI: http://www.mis-algoritmos.com
 						echo "Especificaste un wildcard para sustituir, pero no existe en el target<br />";
 						$error = true;
 					}elseif($this->urlF and $this->urlF == '%' and strpos($this->target,$this->urlF)===false){
-						echo "Es necesario especificar en el target el comodin % para sustituir el número de página<br />";
+						echo "Es necesario especificar en el target el comodin % para sustituir el nï¿½mero de pï¿½gina<br />";
 						$error = true;
 					}
 
@@ -131,6 +142,12 @@ Author URI: http://www.mis-algoritmos.com
 					Now we apply our rules and draw the pagination object. 
 					We're actually saving the code to a variable in case we want to draw it more than once.
 				*/
+				if($this->first == 1 && $lastpage > 1){
+					if($this->page != 1)
+						$this->pagination .= "<a onclick=\"".$this->get_pagenum_link(1)."\">&#171;</a>";
+					else
+						$this->pagination .= "<a class=\"disabled\">&#171;</a>";
+				}
 				
 				if($lastpage > 1){
 						if($this->page){
@@ -138,9 +155,10 @@ Author URI: http://www.mis-algoritmos.com
 								if($this->page > 1)
 										$this->pagination .= "<a onclick=\"".$this->get_pagenum_link($prev)."\" class=\"prev\">$p</a>";
 									else
-										$this->pagination .= "<span class=\"disabled\">$p</span>";
+										$this->pagination .= "<a class=\"disabled\">$p</a>";
 							}
 						//pages	
+						if($this->numbers == 1){
 						if ($lastpage < 7 + ($this->adjacents * 2)){//not enough pages to bother breaking it up
 								for ($counter = 1; $counter <= $lastpage; $counter++){
 										if ($counter == $this->page)
@@ -189,16 +207,25 @@ Author URI: http://www.mis-algoritmos.com
 													$this->pagination .= "<a onclick=\"".$this->get_pagenum_link($counter)."\">$counter</a>";
 									}
 							}
+						}
+						if($this->field == 1){
+							$this->pagination .= '<input type="text" style="width:40px;text-align: center;" value="'.$this->page.'" onchange="easyreservation_send_table(\''.$this->target.'\',this.value);"> '.$this->fieldLegend.' '.$lastpage.' ';
+						}
 						if($this->page){
 								//siguiente button
-								if ($this->page < $counter - 1)
+								if ($this->page < $lastpage)
 										$this->pagination .= "<a onclick=\"".$this->get_pagenum_link($next)."\" class=\"next\">$n</a>";
 									else
-										$this->pagination .= "<span class=\"disabled\">$n</span>";
+										$this->pagination .= "<a class=\"disabled\">$n</a>";
 									if($this->showCounter)$this->pagination .= "<div class=\"pagination_data\">($this->total_pages Pages)</div>";
-							}
+						}
 					}
-
+					if($this->last == 1 && $lastpage > 1){
+						if($this->page != $lastpage)
+							$this->pagination .= "<a onclick=\"".$this->get_pagenum_link($lastpage)."\">&#187;</a>";
+						else
+							$this->pagination .= "<a class=\"disabled\">&#187;</a>";
+					}
 				return true;
 			}
 	}

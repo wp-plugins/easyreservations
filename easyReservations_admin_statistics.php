@@ -40,14 +40,14 @@ function reservation_statistics_page(){
 		$roomquery.="['".__($my_post->post_title)."', ".$percent."], ";
 	}
 
-	$sql_personnights = "SELECT id, number, arrival, departure FROM ".$wpdb->prefix ."reservations WHERE approve='yes'";
+	$sql_personnights = "SELECT id, number, arrival, departure, room FROM ".$wpdb->prefix ."reservations WHERE approve='yes'";
 	$results_personnights = $wpdb->get_results($sql_personnights );
 	$pricesall=0;
 	$personsall=0;
 	$nightsall=0;
 	foreach($results_personnights as $results_personnight){
 		$personsall+=$results_personnight->number;
-		$nightsall+=easyreservations_get_nights(86400, $results_personnight->arrival, $results_personnight->departure);
+		$nightsall+=easyreservations_get_nights($the_rooms_intervals_array[$results_personnight->room], strtotime($results_personnight->arrival), strtotime($results_personnight->departure), 1);
 		$pricecalculation=easyreservations_price_calculation($results_personnight->id, '');
 		$pricesall+=$pricecalculation['price'];
 	}
@@ -318,7 +318,7 @@ function reservation_statistics_page(){
 								<td style="text-align:right;"><b><?php echo round($personsperreservation, 2); ?></b></td>
 							</tr>
 							<tr  class="alternate" style="font-size:13px;">
-								<td>&#216; <?php echo __( 'Days per reservations' , 'easyReservations' );?>:</td>
+								<td>&#216; <?php echo __( 'Times per reservations' , 'easyReservations' );?>:</td>
 								<td style="text-align:right;"><b><?php echo round($nightsperreservation, 2); ?></b></td>
 							</tr><br>
 							<tr style="font-size:13px;">

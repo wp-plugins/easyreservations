@@ -42,7 +42,10 @@
 	$reservations_show_rooms = $overview_options['overview_show_rooms'];
 
 	if(!isset($reservations_show_rooms) || empty($reservations_show_rooms)) $show_rooms=easyreservations_get_rooms(0,1);
-	else $show_rooms = $wpdb->get_results("SELECT ID, post_title FROM wp_posts WHERE ID in($reservations_show_rooms) ");
+	else {
+		global $wpdb;
+		$show_rooms = $wpdb->get_results("SELECT ID, post_title FROM ".$wpdb->prefix."posts WHERE ID in($reservations_show_rooms) ");
+	}
 
 	/* - - - - - - - - - - - - - - - - *\
 	|
@@ -179,7 +182,7 @@
 		$roomcounty = get_post_meta($roomID, 'roomcount', TRUE);
 		$resource_names = get_post_meta($roomID, 'easy-resource-roomnames', TRUE);
 		$rowcount=0;
-		
+
 		$room_sql = $wpdb->get_results($wpdb->prepare("SELECT id, name, departure, arrival, roomnumber FROM ".$wpdb->prefix ."reservations WHERE approve='yes' AND room='$roomID' AND (arrival BETWEEN '$stardate' AND '$enddate' OR departure BETWEEN '$stardate' AND '$enddate' OR '$stardate'  BETWEEN arrival AND departure) ORDER BY room ASC, roomnumber ASC, arrival ASC"));
 
 		unset($reservations);
@@ -268,7 +271,7 @@
 				else $background2='';
 
 				if(reservations_check_avail_filter($roomID, $dateToday-$interval, $dateToday, 0, $interval ) > 0) $colorbgfree='#FFEDED';
-				elseif(date("d.m.Y", $dateToday-$interval)==date("d.m.Y", time())) $colorbgfree = '#EDF0FF';
+				elseif(date($date_pat, $dateToday-$interval)==date($date_pat, time())) $colorbgfree = '#EDF0FF';
 				elseif(date("N", $dateToday-$interval)==6 OR date("N", $dateToday-$interval)==7) $colorbgfree = '#FFFFEB';
 				else $colorbgfree='#FFFFFF';
 

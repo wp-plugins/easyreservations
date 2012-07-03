@@ -25,72 +25,55 @@ code p {
 	Table
 	
 */
-.greyfat > thead tr th,
-.greyfat > tfoot tr th
- {
+.greyfat > thead tr th, .greyfat > tfoot tr th {
 	background-color: #575757; /* Fallback */
-	background-image: -ms-linear-gradient(top, #575757, #575757); /* IE10 */
-	background-image: -moz-linear-gradient(top, #575757, #575757); /* Firefox */
-	background-image: -o-linear-gradient(top, #575757, #575757); /* Opera */
-	background-image: -webkit-gradient(linear, left top, left bottom, from(#575757), to(#575757)); /* old Webkit */
-	background-image: -webkit-linear-gradient(top, #575757, #575757); /* new Webkit */
-	background-image: linear-gradient(top, #575757, #575757); /* proposed W3C Markup */
 }
-.greyfat > thead th:last-of-type {
-	-moz-border-radius-topright: 3px;
-	-khtml-border-top-right-radius: 3px;
-	-webkit-border-top-right-radius: 3px;
-	border-top-right-radius: 3px;
+.greyfat > thead > th:last-of-type, table.greyfat {
+	-moz-border-radius-topright: 5px;
+	-khtml-border-top-right-radius: 5px;
+	-webkit-border-top-right-radius: 5px;
+	border-top-right-radius: 5px;
 }
-.greyfat > thead th:first-of-type {
-	-moz-border-radius-topleft: 3px;
-	-khtml-border-top-left-radius: 3px;
-	-webkit-border-top-left-radius: 3px;
-	border-top-left-radius: 3px;
+.greyfat > thead > th:first-of-type, table.greyfat {
+	-moz-border-radius-topleft: 5px;
+	-khtml-border-top-left-radius: 5px;
+	-webkit-border-top-left-radius: 5px;
+	border-top-left-radius: 5px;
 }
-.greyfat > tfoot th:last-of-type {
+.greyfat > tfoot > th:last-of-type {
 	-moz-border-radius-bottomright: 3px;
 	-khtml-border-bottom-right-radius: 3px;
 	-webkit-border-bottom-right-radius: 3px;
 	border-bottom-right-radius: 3px;
 }
-.greyfat > tfoot th:first-of-type {
+.greyfat > tfoot > th:first-of-type {
 	-moz-border-radius-bottomleft: 3px;
 	-khtml-border-bottom-left-radius: 3px;
 	-webkit-border-bottom-left-radius: 3px;
 	border-bottom-left-radius: 3px;
 }
-.reservationTable > tbody tr:last-of-type td:first-of-type, .reservationTable > tbody tr:last-of-type td:last-of-type {
-	-moz-border-radius-bottomleft: 0px;
-	-khtml-border-bottom-left-radius: 0px;
-	-webkit-border-bottom-left-radius: 0px;
-	border-bottom-left-radius: 0px;
-}
 .greyfat > tbody > tr > td:first-of-type {
 	border-left: 1px solid #BABABA;
 }
-.greyfat > tbody td:last-of-type {
+.greyfat > tbody > tr > td:last-of-type {
 	border-right: 1px solid #BABABA;
 }
-.greyfat > thead {
-	border: 1px solid #BABABA;
-}
+
 table.greyfat  {
-	-moz-border-radius: 5px;
-	-khtml-border-radius: 5px;
-	-webkit-border-radius: 5px;
-	border-radius: 5px;
 	border: 0px;
 	border-spacing: 0;
 	width: 100%;
 	margin: 0;
 	text-align: center;
-	-webkit-box-shadow: 0px 0px 2px #848484; /* webkit browser*/ -moz-box-shadow: 0px 0px 2px #848484; /* firefox */ box-shadow: 0px 0px 2px #848484;
+	-webkit-box-shadow: 0px 1px 1px #B7B7B7; /* webkit browser*/
+	-moz-box-shadow: 0px 4px 1px #B7B7B7; /* firefox */
+	box-shadow: 0px 2px 2px #B7B7B7;
 }
-.greyfat > tbody tr {
-	background-color: #f8f8f7;
 
+.greyfat > tbody > tr {
+	background-color: #f8f8f7;
 }
+
 .greyfat .tmiddle td {
 	background-color: #575757;
 	height: 30px;
@@ -114,7 +97,6 @@ table.greyfat  {
 }
 .greyfat a {
 	text-decoration: none;
-
 }
 .greyfat input,select,textarea,radio {
 	margin-top: -1px;
@@ -122,7 +104,7 @@ table.greyfat  {
 .greyfat > thead a, .greyfat tfoot a {
 	color: #fff;
 }
-.greyfat > tbody td p {
+.greyfat > tbody > td > p {
 	margin: 2px 0 0.8em;
 }
 .overview > tbody tr:hover {
@@ -131,16 +113,16 @@ table.greyfat  {
 .greyfat > tfoot th {
 	border-bottom: none;
 }
-.greyfat > thead th input {
+.greyfat > thead > th input {
 	margin: 0 0 0 8px;
 	padding: 0;
 	vertical-align: text-top;
 }
 
-.greyfat > tbody th.check-column {
+.greyfat > tbody > th.check-column {
 	padding: 9px 0 22px;
 }
-.greyfat > tbody th#comments {
+.greyfat > tbody > th#comments {
 	vertical-align: middle;
 }
 .greyfat > thead th, .greyfat > tfoot th {
@@ -153,7 +135,7 @@ table.greyfat  {
 	color: #fff;
 	font-weight: normal;
 }
-.greyfat > tbody td {
+.greyfat > tbody > tr > td {
 	text-align: left;
 	color: #555;
 	font-size: 12px;
@@ -161,7 +143,7 @@ table.greyfat  {
 	vertical-align: middle;
 	border-bottom:1px solid #e5e5e5;
 }
-.greyfat > tbody tr:last-of-type td {
+.greyfat > tbody > tr:last-of-type > td {
 	border-bottom:none;
 }
 .greyfat td p,
@@ -169,7 +151,7 @@ table.greyfat  {
 .greyfat td ul {
 	font-size: 12px;
 }
-.greyfat tbody .er_res_old {
+.greyfat > tbody .er_res_old {
 	background:#2A78D8;
 	border-bottom:1px solid #2A78D8;
 	max-width:4px !important;
@@ -177,7 +159,7 @@ table.greyfat  {
 	border-left:0px !important;
 	padding:0px !important;
 }
-.greyfat tbody .er_res_now {
+.greyfat > tbody .er_res_now {
 	background:#118D18;
 	border-bottom:1px solid #118D18;
 	max-width:4px !important;
@@ -185,7 +167,7 @@ table.greyfat  {
 	border-left:0px !important;
 	padding:0px !important;
 }
-.greyfat tbody .er_res_future {
+.greyfat > tbody .er_res_future {
 	background:#CC3333;
 	border-bottom:1px solid #CC3333;
 	max-width:4px !important;
@@ -199,22 +181,22 @@ table.greyfat  {
 	border-spacing:0 !important;
 	width:100%;
 }
-.greyfat tbody .little_table thead {
+.greyfat > tbody .little_table thead {
 	margin:0px !important;
 	padding:0px !important;
 }
-.greyfat tbody .little_table thead tr:first-child {
+.greyfat > tbody .little_table thead tr:first-child {
 	background-color:#E6E6E6 !important;
 	padding: 5px 7px 3px;
 }
-.greyfat tbody .little_table th {
+.greyfat > tbody .little_table th {
 	border:none;
 	border-top: 1px solid #ccc;
 	margin:0px !important;
 	padding: 5px 7px 3px;
 	
 }
-.greyfat tbody .little_table td {
+.greyfat > tbody .little_table td {
 	border:none !important;
 	border-bottom: 1px solid #ccc;
 	margin:0px !important;
@@ -237,17 +219,17 @@ input[type=text], select {
 	
 */
 .tabs-box {
-	-webkit-box-shadow: 0px 0px 2px #848484; /* webkit browser*/ -moz-box-shadow: 0px 0px 2px #848484; /* firefox */ box-shadow: 0px 0px 2px #848484;
-	widh:99% !important;
+	width:99% !important;
 	color: #fff;
+	border:1px solid #575757 !important;
 	height:40px;
 	border:0px solid #E9E9E9 !important;
-	-moz-border-radius:3px;
-	-webkit-border-radius:3px;
-	border-radius:3px ;
-	background-color: #575757;
-	background-image: -moz-linear-gradient(center top , #575757, #575757);
-	background-image: -webkit-gradient(linear, left top, left bottom, from(#575757), to(#575757));
+	background: #575757;
+	border-radius: 0px;
+	overflow:hidden;
+	-webkit-box-shadow: 0px 0px 1px #848484; /* webkit browser*/ 
+	-moz-box-shadow: 0px 0px 1px #848484; /* firefox */
+	box-shadow: 0px 0px 1px #848484;
 }
 /* link inside the tab. uses a background image */
 ul.tabs a { 
@@ -302,7 +284,7 @@ ul.tabs a.current {
 .overview tbody tr {
 	border-color: #fff;
 }
-.overview tbody tr td {
+.overview > tbody > tr > td {
 	padding: 3px 1px 3px !important;
 	cursor: default;
 	text-align:center;
@@ -311,11 +293,14 @@ ul.tabs a.current {
 	border-left: 1px dashed #777777 !important;
 	border-bottom: 1px solid #777777 !important;
 }
+.overview >  tbody > tr:last-of-type td {
+	border-bottom:none !important;
+}
 .overview tbody tr td.er_overview_cell  {
 	border-left: 0px !important;
 }
 .overview tbody tr td.ov-no-border {
-		border-left: 0px !important;
+	border-left: 0px !important;
 }
 
 .overview tbody tr td:nth-of-type(2) {
