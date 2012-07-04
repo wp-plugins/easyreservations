@@ -111,7 +111,7 @@
 			$error.=  '<li><labe for="easy-form-thename">'.__( 'Please enter a correct name' , 'easyReservations' ).'<br>';
 		}
 
-		if($val_from < time()+604800){ /* check arrival Date */
+		if($val_from < time()){ /* check arrival Date */
 			$error.=  '<li><labe for="easy-form-from">'.__( 'The arrival date has to be in future' , 'easyReservations' ).'</label></li>';
 		}
 
