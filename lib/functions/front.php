@@ -395,7 +395,9 @@
 				if(isset($field[1])) $value=$field[1];
 				if(!empty($validate_action)) $action = 'easyreservations_send_validate(\'send\'); ';
 				else $action = 'document.getElementById(\'easyFrontendFormular\').submit();';
-				$theForm=preg_replace('/\['.$fields.'\]/', '<input title="'.$title.'" style="'.$style.'" type="button" class="easy-button" onclick="'.$action.'" '.$disabled.' value="'.$value.'">', $theForm);
+				global $is_iphone;
+				if($is_iphone) $theForm=preg_replace('/\['.$fields.'\]/', '<input title="'.$title.'" style="'.$style.'" type="sumit" class="easy-button" '.$disabled.' value="'.$value.'">', $theForm);
+				else $theForm=preg_replace('/\['.$fields.'\]/', '<input title="'.$title.'" style="'.$style.'" type="button" class="easy-button" onclick="'.$action.'" '.$disabled.' value="'.$value.'">', $theForm);
 			} else {
 				$theForm = apply_filters('easy-form-tag', $theForm, $fields);
 			}
