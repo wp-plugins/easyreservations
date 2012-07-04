@@ -11,7 +11,7 @@ class easyReservations_form_widget extends WP_Widget {
 	/** @see WP_Widget::widget */
 	function widget( $args, $instance ) {
 		wp_enqueue_style('datestyle');
-		wp_enqueue_style('easy-form-little');
+		wp_enqueue_style('easy-form-little', false, array(), false, 'all');
 		wp_enqueue_script('jquery-ui-datepicker');
 
 		extract( $args );
@@ -69,7 +69,7 @@ class easyReservations_form_widget extends WP_Widget {
 			} elseif($field[0]=="country"){
 				$theForm=str_replace('['.$fields.']', '<select id="easy-widget-country" name="country">'.easyReservations_country_select('').'</select>', $theForm);
 			} elseif($field[0]=="rooms" || $field[0]=="resources"){		
-				if($calendar == true) $calendar_action = "document.widget_formular.room.value=this.value;easyreservations_send_calendar('widget');"; else $calendar_action = '';
+				if($calendar == true) $calendar_action = "document.widget_formular.easyroom.value=this.value;easyreservations_send_calendar('widget');"; else $calendar_action = '';
 				$theForm=str_replace('['.$fields.']', '<select name="easyroom" id="form_room" onchange="'.$calendar_action.'">'.reservations_get_room_options().'</select>', $theForm);
 			}
 		}
@@ -78,10 +78,10 @@ class easyReservations_form_widget extends WP_Widget {
 		if($title) echo $before_title . $title . $after_title;
 		if($calendar == "on"){
 			wp_enqueue_script( 'easyreservations_send_calendar' );
-			wp_enqueue_style('easy-cal-'.$calendar_style); ?>
+			wp_enqueue_style('easy-cal-'.$calendar_style, false, array(), false, 'all'); ?>
 			<form name="widget_formular" id="widget_formular">
 				<input type="hidden" name="calendarnonce" value="<?php echo wp_create_nonce( 'easy-calendar' ); ?>">
-				<input type="hidden" name="room" onChange="easyreservations_send_calendar('widget')" value="<?php echo $calendar_room; ?>">
+				<input type="hidden" name="easyroom" onChange="easyreservations_send_calendar('widget')" value="<?php echo $calendar_room; ?>">
 				<input type="hidden" name="date" onChange="easyreservations_send_calendar('widget')" value="0">
 				<input type="hidden" name="size" value="<?php if($calendar_style == 3) $a = 1; else $a =0; echo $calendar_width.','.$showPrice.',1,'.$a; ?>">
 			</form>

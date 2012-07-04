@@ -13,7 +13,7 @@ function reservations_edit_shortcode($atts){
 	$return .= '<script>var dateformat = \''.RESERVATIONS_DATE_FORMAT.'\';if(dateformat == \'Y/m/d\') var dateformate = \'yy/mm/dd\';else if(dateformat == \'m/d/Y\') var dateformate = \'mm/dd/yy\';else if(dateformat == \'Y-m-d\') var dateformate = \'yy-mm-dd\';else if(dateformat == \'d-m-Y\') var dateformate = \'dd-mm-yy\';else if(dateformat == \'d.m.Y\') var dateformate = \'dd.mm.yy\';function easyreservations_build_datepicker(){ jQuery("#easy-form-from, #easy-form-to").datepicker( { dateFormat: dateformate }); } </script>';
 
 	wp_enqueue_script('jquery-ui-datepicker');
-	wp_enqueue_style('datestyle');
+	wp_enqueue_style('datestyle' , false, array(), false, 'all');
 	
 	if(isset($_GET['logout'])){
 		session_destroy();

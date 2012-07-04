@@ -17,9 +17,9 @@ function reservations_form_shortcode($atts){
 	), $atts);
 
 	wp_enqueue_script('jquery-ui-datepicker');
-	wp_enqueue_style('datestyle');
+	wp_enqueue_style('datestyle' , false, array(), false, 'all');
 	wp_enqueue_script('easy-form-js');
-	wp_enqueue_style('easy-form-'.$atts['style']);
+	wp_enqueue_style('easy-form-'.$atts['style'] , false, array(), false, 'all');
 
 	if(strpos($theForm, '[error') !== false){
 		$validate_action = 'easyreservations_send_validate();';

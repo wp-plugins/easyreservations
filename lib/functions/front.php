@@ -111,11 +111,11 @@
 			$error.=  '<li><labe for="easy-form-thename">'.__( 'Please enter a correct name' , 'easyReservations' ).'<br>';
 		}
 
-		if($val_from < time()){ /* check arrival Date */
+		if($val_from < time()-86400){ /* check arrival Date */
 			$error.=  '<li><labe for="easy-form-from">'.__( 'The arrival date has to be in future' , 'easyReservations' ).'</label></li>';
 		}
 
-		if($val_to < time()){ /* check departure Date */
+		if($val_to < time()-86400){ /* check departure Date */
 			$error.= '<li><labe for="easy-form-to">'. __( 'The departure date has to be in future' , 'easyReservations' ).'</label></li>';
 		}
 
@@ -202,8 +202,9 @@
 
 	function easyreservations_generate_form($theForm, $price_action, $validate_action, $isCalendar, $the_resource = 0, $error = 0, $local = false){
 		$theForm = stripslashes($theForm);
+		$theForm = apply_filters( 'easy-form-content', $theForm, $local);
 
-		preg_match_all(' /\[.*\]/U', $theForm, $matches);
+		preg_match_all('/\[.*\]/U', $theForm, $matches );
 		$mergearray=array_merge($matches[0], array());
 		$edgeoneremove=str_replace('[', '', $mergearray);
 		$edgetworemoves=str_replace(']', '', $edgeoneremove);
@@ -307,7 +308,7 @@
 			} elseif($field[0]=="rooms" || $field[0]=="resources"){
 				$roomfield=1;
 				if(isset($field['exclude'])) $exclude = explode(',', $field['exclude']); else $exclude = '';
-				if($isCalendar == true) $calendar_action = "document.CalendarFormular.room.value=this.value;easyreservations_send_calendar('shortcode');"; else $calendar_action = '';
+				if($isCalendar == true) $calendar_action = "document.CalendarFormular.easyroom.value=this.value;easyreservations_send_calendar('shortcode');"; else $calendar_action = '';
 				$theForm=str_replace('['.$fields.']', '<select name="easyroom" id="form_room" '.$disabled.' onchange="'.$calendar_action.$price_action.'">'.reservations_get_room_options($value, 0, $exclude).'</select>', $theForm);
 			} elseif($field[0]=="custom"){
 				if(isset($field[3])) $valuefield=str_replace('"', '', $field[3]);
@@ -401,7 +402,6 @@
 		}
 
 		if($roomfield == 0 && $the_resource > 0) $theForm .= '<input type="hidden" name="room" value="'.$the_resource.'">';
-		$theForm = apply_filters( 'easy-form-content', $theForm, $local);
 		$finalformedgeremove1=str_replace('[', '', $theForm);
 		$finalformedgesremoved=str_replace(']', '', $finalformedgeremove1);
 

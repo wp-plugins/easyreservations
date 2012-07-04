@@ -518,7 +518,7 @@ function resteText() {
 					</thead>
 					<tbody>
 						<tr>
-							<td style="font-weight:bold;padding:10px;text-align:center"><span style="width:20%;display: inline-block">Version: 2.1</span><span style="width:30%;display: inline-block">Last update: 03.07.2012</span><span style="width:30%;display: inline-block">written by Feryaz Beer</span></td>
+							<td style="font-weight:bold;padding:10px;text-align:center"><span style="width:20%;display: inline-block">Version: 2.1.1</span><span style="width:30%;display: inline-block">Last update: 04.07.2012</span><span style="width:30%;display: inline-block">written by Feryaz Beer</span></td>
 						</tr>
 						<tr class="alternate" style="">
 							<td style="font-size:14px;text-align:center;font-weight:bold;padding:10px"><a href="http://easyreservations.org/knowledgebase/" target="_blank"><?php echo __( 'Documentation' , 'easyReservations' );?></a></td>
@@ -530,7 +530,7 @@ function resteText() {
 							<td style="font-size:14px;text-align:center;font-weight:bold;padding:10px"><a href="http://easyreservations.org/module/" target="_blank"><?php echo __( 'Modules' , 'easyReservations' );?></a></td>
 						</tr>
 						<tr>
-							<td style="font-size:14px;text-align:center;font-weight:bold;padding:10px"><a href="http://wordpress.org/extend/plugins/easyreservations/" target="_blank"><?php echo __( 'Rate Plugin' , 'easyReservations' );?></a></td>
+							<td style="font-size:14px;text-align:center;font-weight:bold;padding:10px"><a href="http://wordpress.org/extend/plugins/easyreservations/" target="_blank"><?php echo __( 'Rate the Plugin' , 'easyReservations' );?>, please!</a></td>
 						</tr>
 					</tbody>
 				</table>
@@ -1512,7 +1512,7 @@ ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrival] <br>To: [depa
 				</thead>
 				<tbody>
 					<tr>
-						<td style="font-weight:bold;padding:10px;text-align:center"><span style="width:20%;display: inline-block">Version: 2.1</span><span style="width:30%;display: inline-block">Last update: 03.07.2012</span><span style="width:30%;display: inline-block">written by Feryaz Beer</span></td>
+						<td style="font-weight:bold;padding:10px;text-align:center"><span style="width:20%;display: inline-block">Version: 2.1.1</span><span style="width:30%;display: inline-block">Last update: 04.07.2012</span><span style="width:30%;display: inline-block">written by Feryaz Beer</span></td>
 					</tr>
 					<tr class="alternate" style="">
 						<td style="font-size:14px;text-align:center;font-weight:bold;padding:10px"><a href="http://easyreservations.org/knowledgebase/"><?php echo __( 'Documentation' , 'easyReservations' );?></a></td>

@@ -12,7 +12,7 @@
 		if(isset($atts['header'])) $header = $atts['header']; else $header = 0;
 		if(isset($atts['interval'])) $interval = $atts['interval']; else $interval = 1;
 		if(empty($width)) $width = 300;
-		wp_enqueue_style('easy-cal-'.$style);
+		wp_enqueue_style('easy-cal-'.$style, false, array(), false, 'all');
 		if(isset($_POST['room']) && is_numeric($_POST['room'])) $room = $_POST['room'];
                 
 		$return = '<form name="CalendarFormular" id="CalendarFormular">';
