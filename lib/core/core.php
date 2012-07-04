@@ -289,7 +289,7 @@ License:GPL2
 											<?php do_action('er_mod_inst'); ?>
 										</p>
 										<input type="hidden" name="action" value="reservation_core_upload_plugin">
-										<input type="hidden" name="max_file_size" value="100000">
+										<input type="hidden" name="max_file_size" value="1000000000">
 										<input name="reservation_core_upload_file" type="file" size="50" maxlength="100000" accept="text/*"><br>
 										<input type="button" value="<?php printf ( __( 'Install' , 'easyReservations' ));?>" onclick="document.getElementById('reservation_core_upload').submit(); return false;" style="margin-top:7px;" class="easySubmitButton-primary" >
 									</form>
