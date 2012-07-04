@@ -16,7 +16,7 @@
 		if(isset($_POST['room']) && is_numeric($_POST['room'])) $room = $_POST['room'];
                 
 		$return = '<form name="CalendarFormular" id="CalendarFormular">';
-			$return .= '<input type="hidden" name="room" onChange="easyreservations_send_calendar(\'shortcode\')" value="'.$room.'">';
+			$return .= '<input type="hidden" name="easyroom" onChange="easyreservations_send_calendar(\'shortcode\')" value="'.$room.'">';
 			$return .= '<input type="hidden" name="date" onChange="easyreservations_send_calendar(\'shortcode\')" value="0">';
 			$return .= '<input type="hidden" name="size" value="'.$width.','.$price.','. $interval.','.$header.'">';
 			$return .= '<input type="hidden" name="monthes" value="'.$monthes.'">';
