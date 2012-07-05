@@ -145,8 +145,8 @@
 
 			if($where == "user-add"){
 
-				$wpdb->query( $wpdb->prepare("INSERT INTO ".$wpdb->prefix ."reservations(name, email, arrival, departure, room, number, childs, country, custom, customp, reservated ) 
-				VALUES (%s, %s, %s, %s, %d, %d, %d, %s, %s, %s, NOW() )", $val_name, $val_email, $val_fromdate_sql, $val_todate_sql, $val_room, $val_persons, $val_childs, $val_country, $val_custom, $val_customp ) );
+				$wpdb->query( $wpdb->prepare("INSERT INTO ".$wpdb->prefix ."reservations(name, email, arrival, departure, room, number, childs, country, custom, customp, reservated, user ) 
+				VALUES (%s, %s, %s, %s, %d, %d, %d, %s, %s, %s, NOW() )", $val_name, $val_email, $val_fromdate_sql, $val_todate_sql, $val_room, $val_persons, $val_childs, $val_country, $val_custom, $val_customp, 0 ) );
 
 				$newID = mysql_insert_id();
 				$error = $newID;
@@ -403,7 +403,7 @@
 			}
 		}
 
-		if($roomfield == 0 && $the_resource > 0) $theForm .= '<input type="hidden" name="room" value="'.$the_resource.'">';
+		if($roomfield == 0 && $the_resource > 0) $theForm .= '<input type="hidden" name="easyroom" value="'.$the_resource.'">';
 		$finalformedgeremove1=str_replace('[', '', $theForm);
 		$finalformedgesremoved=str_replace(']', '', $finalformedgeremove1);
 
