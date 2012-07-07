@@ -425,8 +425,8 @@ function reservation_main_page() {
 if(!isset($show['show_welcome']) || $show['show_welcome'] != 0){?>
 <div id="wrap">
 <div class="easy-welcome-panel" id="easy-welcome-panel">
-	<div class="wp-badge easy-badge">Version 2.1.1</div>
-	<h3>Welcome to easyReservations 2.1.1!</h3>
+	<div class="wp-badge easy-badge">Version 2.1.2</div>
+	<h3>Welcome to easyReservations 2.1.2!</h3>
 	<p class="about-description">
 		Now with taxes!<br>
 		Visit the new website at easyreservations.org with a better <a href="http://easyreservations.org/knowledgebase/" target="_blank">Documentation</a> and the <a href="http://easyreservations.org/forum/" target="_blank">Support Forum</a> - the only place to get support from now.<br>

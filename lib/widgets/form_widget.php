@@ -136,7 +136,7 @@ class easyReservations_form_widget extends WP_Widget {
 			$form_url = __( 'type in URL to a form', 'easyReservations' );
 			$form_button = __( 'Reserve now!', 'easyReservations' );
 			$form_editor = '[date-from] [date-from-hour] [date-from-min]<br>[date-to] [date-to-hour] [date-to-min]<br>
-<label>Room:</label> [rooms]<br>
+<label>Res:</label> [resource]<br>
 <label>Name:</label> [thename]<br>
 <label>eMail:</label> [email]<br><label>Country:</label> [country]';
 		} //<?php checked( (bool) $instance['calendar_room'], true );

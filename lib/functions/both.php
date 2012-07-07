@@ -330,6 +330,8 @@
 			if(isset($pricexpl[1]) && $pricexpl[1] > 0) $paid=$pricexpl[1];
 			if(!is_numeric($paid) || $paid <= 0) $paid = 0;
 		}
+		
+		$price = round($price, 2);
 
 		//return $price;
 		return array('price'=>$price, 'getusage'=>$exactlyprice,'paid'=>$paid);
@@ -799,6 +801,7 @@
 
 	function easyreservations_send_mail($theForm, $mailTo, $mailSubj, $theMessage, $theID, $theChangelog, $where = false, $attachment = false){ //Send formatted Mails from anywhere
 		global $wpdb, $the_rooms_intervals_array;
+		
 		preg_match_all(' /\[.*\]/U', $theForm, $matchers);
 		$mergearrays=array_merge($matchers[0], array());
 		$edgeoneremoave=str_replace('[', '', $mergearrays);
@@ -833,7 +836,7 @@
 			} elseif($field[0]=="hours"){
 				$theForm=preg_replace('/\['.$fieldsx.']/U', easyreservations_get_nights(3600, strtotime($infos->reservated), time() ), $theForm);
 			} elseif($field[0]=="weeks"){
-				$theForm=preg_replace('/\['.$fieldsx.']/U', easyreservations_get_nights(604800, strtotime($infos->reservated), time() ), $theForm);
+				$theForm=preg_replace('/\['.$fieldsx.']/U', easyreservations_get_nights(604800, strtotime($infos->reservated), time(), 0), $theForm);
 			} elseif($field[0]=="adults"){
 				$theForm=preg_replace('/\['.$fieldsx.']/U', $infos->number, $theForm);
 			} elseif($field[0]=="childs"){
@@ -881,11 +884,17 @@
 					}
 				}
 				$theForm=str_replace('['.$fieldsx.']', $theCustominMail, $theForm);
+			} elseif($field[0]=="paypal"){
+				$link = '';
+				if(function_exists('easyreservations_generate_paypal_button')){
+					$link = esc_url_raw(str_replace(' ', '%20', easyreservations_generate_paypal_button($infos->id, strtotime($infos->arrival), strtotime($infos->departure), $infos->room, $infos->email, $infos->number, $infos->childs, 0, true)));
+				} 
+				$theForm = str_replace('['.$fieldsx.']', $link, $theForm);
 			}
 		}
+		
 		$local = false;
 		if(isset($_POST['easy-set-local'])) $local = $_POST['easy-set-local'];
-
 		$theForm = apply_filters( 'easy-email-content', $theForm, $local);
 		$mailSubj = apply_filters( 'easy-email-subj', $mailSubj, $local);
 
@@ -916,8 +925,7 @@
 		
 		$mail = @wp_mail($mailTo,$mailSubj,$msg,$headers, $attachment);
 	
-		if($attachment) unlink($attachment);
-	
+		if($attachment) unlink($attachment);	
 		return $mail;
 	}
 

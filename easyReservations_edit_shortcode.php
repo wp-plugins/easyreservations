@@ -110,7 +110,7 @@ function reservations_edit_shortcode($atts){
 			if(isset($_POST['country'])) $country=$_POST['country'];
 			else $country = "";
 
-			if(isset($_POST['room'])) $room=$_POST['room'];
+			if(isset($_POST['easyroom'])) $room=$_POST['easyroom'];
 			else $room = "";
 
 			$fromplus = 0;

@@ -146,7 +146,7 @@
 			if($where == "user-add"){
 
 				$wpdb->query( $wpdb->prepare("INSERT INTO ".$wpdb->prefix ."reservations(name, email, arrival, departure, room, number, childs, country, custom, customp, reservated, user ) 
-				VALUES (%s, %s, %s, %s, %d, %d, %d, %s, %s, %s, NOW() )", $val_name, $val_email, $val_fromdate_sql, $val_todate_sql, $val_room, $val_persons, $val_childs, $val_country, $val_custom, $val_customp, 0 ) );
+				VALUES (%s, %s, %s, %s, %d, %d, %d, %s, %s, %s, NOW(), %d )", $val_name, $val_email, $val_fromdate_sql, $val_todate_sql, $val_room, $val_persons, $val_childs, $val_country, $val_custom, $val_customp, 0 ) );
 
 				$newID = mysql_insert_id();
 				$error = $newID;
@@ -291,7 +291,7 @@
 			} elseif($field[0]=="hidden"){
 				if($field[1]=="room" || $field[1]=="resource"){
 					$roomfield=1;
-					$theForm=preg_replace('/\['.$fields.'\]/', '<input type="hidden" name="room" value="'.$field[2].'">', $theForm);
+					$theForm=preg_replace('/\['.$fields.'\]/', '<input type="hidden" name="easyroom" value="'.$field[2].'">', $theForm);
 				} elseif($field[1]=="from"){
 					$theForm=preg_replace('/\['.$fields.'\]/', '<input type="hidden" name="from" value="'.$field[2].'">', $theForm);
 				} elseif($field[1]=="to"){
