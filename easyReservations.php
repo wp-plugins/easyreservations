@@ -28,8 +28,6 @@ License:GPL2
 		if($count != 0) $pending = '<span class="update-plugins count-'.$count.'"><span class="plugin-count">'.$count.'</span></span>';
 		else $pending = '';
 
-		if(current_user_can($dashboard)) add_action('wp_dashboard_setup', 'easyreservations_add_dashboard_widgets' );
-
 		add_menu_page(__('easyReservation','easyReservations'), __('Reservation','easyReservations').' '.$pending, $dashboard, 'reservations', 'reservation_main_page', RESERVATIONS_IMAGES_DIR.'/logo.png' );
 		add_submenu_page('reservations', __('Dashboard','easyReservations'), __('Dashboard','easyReservations'), $dashboard, 'reservations', 'reservation_main_page');
 		add_submenu_page('reservations', __('Resources','easyReservations'), __('Resources','easyReservations'), $resources, 'reservation-resources', 'reservation_resources_page');
