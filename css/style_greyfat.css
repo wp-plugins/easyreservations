@@ -230,6 +230,7 @@ input[type=text], select {
 	-webkit-box-shadow: 0px 0px 1px #848484; /* webkit browser*/ 
 	-moz-box-shadow: 0px 0px 1px #848484; /* firefox */
 	box-shadow: 0px 0px 1px #848484;
+	margin-bottom:10px
 }
 /* link inside the tab. uses a background image */
 ul.tabs a { 

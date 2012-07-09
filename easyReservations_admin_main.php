@@ -424,14 +424,18 @@ function reservation_main_page() {
 <?php 	if(isset($prompt)) echo $prompt; 
 if(!isset($show['show_welcome']) || $show['show_welcome'] != 0){?>
 <div id="wrap">
+<style>.premiumcontent a { background:#EAEAEA; text-decoration: none;} </style>
 <div class="easy-welcome-panel" id="easy-welcome-panel">
-	<div class="wp-badge easy-badge">Version 2.1.2</div>
-	<h3>Welcome to easyReservations 2.1.2!</h3>
+	<div class="wp-badge easy-badge">Version 2.1.3</div>
+	<h3>Welcome to easyReservations 2.1.3!</h3>
 	<p class="about-description">
-		Now with taxes!<br>
-		Visit the new website at easyreservations.org with a better <a href="http://easyreservations.org/knowledgebase/" target="_blank">Documentation</a> and the <a href="http://easyreservations.org/forum/" target="_blank">Support Forum</a> - the only place to get support from now.<br>
-		The first <a href="http://easyreservations.org/module/" target="_blank">Modules</a> got released to purchase: guestContact, extendedCalendar and the searchForm. <a href="http://easyreservations.org/module/paypal" target="_blank">>PayPal</a> Module is available too now!<br>
-		Please think about supporting the development by getting a <a href="http://easyreservations.org/module/lifetime/" target="_blank">Life-Time Member</a>. You wont regret it. [<a href="#" onclick="document.getElementById('easy-welcome-panel').style.display = 'none';">dissmiss</a>]
+		Improve your reservations system and get support by upgrading to <b><a href="http://easyreservations.org/premium/">easyReservations Premium</a></b>!<br>
+		<span class="premiumcontent" style="font-size:18px">
+			With over <b>twenty</b> additional functions like <a href="http://easyreservations.org/module/paypal/">PayPal integration</a>, <a href="http://easyreservations.org/module/invoice/">automatically Invoice generation</a>, <a href="http://easyreservations.org/module/htmlmails/">HTML eMails with templates</a>, <a href="http://easyreservations.org/module/search/">Search for available Resources</a>, <a href="http://easyreservations.org/modules/hourlycal/">hourly Calendars</a>, <a href="http://easyreservations.org/module/import/">Export (xls/xml/csv) &amp; Import Reservations</a>, <a href="http://easyreservations.org/module/lang/">Multilingual Form &amp; Email Content</a>,
+			<a href="http://easyreservations.org/module/useredit/">Reservation editing for guests &amp; a communication system</a>, <a href="http://easyreservations.org/module/coupons/">a Coupon Code system</a>, <a href="http://easyreservations.org/module/multical/">Multiple months by grid for Calendar</a>, <a href="http://easyreservations.org/module/statistics/">Statistics</a> and <a href="http://easyreservations.org/module/styles/">more Styles</a>.
+		</span>
+		<br>
+		<a href="http://easyreservations.org/premium/" style="text-decoration:underline">Check out all Features now!</a>
 	</p>
 </div>
 <?php
@@ -631,7 +635,7 @@ if($show['show_overview']==1){ //Hide Overview completly
 					if(the_ov_interval == 3600) document.getElementById('from-time-hour').selectedIndex = theDate.getHours();
 					else document.getElementById('from-time-hour').selectedIndex = 12;
 				}
-				document.getElementById('resetdiv').innerHTML='<img src="<?php echo RESERVATIONS_IMAGES_DIR; ?>/refreshBlack.png" style="vertical-align:bottom;cursor:pointer;" onclick="resetSet()">';
+				if(document.getElementById('resetdiv')) document.getElementById('resetdiv').innerHTML='<img src="<?php echo RESERVATIONS_IMAGES_DIR; ?>/refreshBlack.png" style="vertical-align:bottom;cursor:pointer;" onclick="resetSet()">';
 				Click = 1;
 			}
 		}
@@ -674,7 +678,7 @@ if($show['show_overview']==1){ //Hide Overview completly
 					while(theid != Last){
 						if(jQuery(t).is('.er_overview_cell') && t.name != "activeres" && color == "black"){
 							resetSet();
-							document.getElementById('resetdiv').innerHTML += "<?php echo __( 'full' , 'easyReservations' ); ?>!";
+							if(document.getElementById('resetdiv')) document.getElementById('resetdiv').innerHTML += "<?php echo __( 'full' , 'easyReservations' ); ?>!";
 							document.getElementById('overview').style.boxShadow = "0 0 4px #ED2828";
 							var field = document.getElementById('datepicker2');
 							if(field && field.type == "text" ){
@@ -764,7 +768,7 @@ if($show['show_overview']==1){ //Hide Overview completly
 					testa.style.background=t.abbr;
 
 					Click = 0;
-					document.getElementById('resetdiv').innerHTML='';
+					if(document.getElementById('resetdiv')) document.getElementById('resetdiv').innerHTML='';
 					document.getElementById("hiddenfieldclick2").value="";
 					document.getElementById("hiddenfieldclick").value="";
 				} else Click = 0;
@@ -773,7 +777,7 @@ if($show['show_overview']==1){ //Hide Overview completly
 			var First = document.getElementById("hiddenfieldclick").value;
 			var t = document.getElementById(First);
 			if(t){
-				document.getElementById('resetdiv').innerHTML='';
+				if(document.getElementById('resetdiv')) document.getElementById('resetdiv').innerHTML='';
 				t.style.background=t.abbr;
 			}
 			Click = 0;
@@ -1048,39 +1052,10 @@ if(!isset($approve) && !isset($delete) && !isset($view) && !isset($edit) && !iss
 					</td>
 				</tr>
 			</tbody>
-		</table>
-		<?php } if($show['show_export']==1){ ?>
-		<table  class="<?php echo RESERVATIONS_STYLE; ?>" style="width:320px;float:left;margin:0px 10px 10px 0px;clear:none;">
-			<thead>
-				<tr>
-					<th>
-						 <?php echo __( 'Export' , 'easyReservations' ); ?>
-					</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<td style="background-color:#fff">
-						<?php /* - + - + - + - + EXPORT + - + - + - + - */ ?>
-						<form  name="export" action="<?php echo WP_PLUGIN_URL; ?>/easyreservations/export.php" method="post" nowrap><?php wp_nonce_field('easy-main-export','easy-main-export'); ?>
-						<input id="easy-export-id-field" name="easy-export-id-field" type="hidden">
-							<select style="margin-top:2px;" name="export_type" onchange="exportSelect(this.value);"><option value="tab"><?php printf ( __( 'Reservations in table' , 'easyReservations' ));?></option><option value="all"><?php printf ( __( 'All reservations' , 'easyReservations' ));?></option><option value="sel"><?php printf ( __( 'Select reservations' , 'easyReservations' ));?></option></select> <select name="export_tech"><option value="xls"><?php printf ( __( 'Exel File' , 'easyReservations' ));?></option><option value="xml"><?php printf ( __( 'Backup (XML)' , 'easyReservations' ));?></option><option value="csv"><?php printf ( __( 'CSV File' , 'easyReservations' ));?></option></select>
-							<div id="exportDiv">
-								</div><div class="fakehr"></div>
-								<b><?php echo __( 'Informations' , 'easyReservations' );?></b><br>
-								<span style="float:left;width:80px;"><input type="checkbox" name="info_ID" checked> <?php echo __( 'ID' , 'easyReservations' );?><br><input type="checkbox" name="info_name" checked> <?php echo __( 'Name' , 'easyReservations' );?><br><input type="checkbox" name="info_email" checked> <?php echo __( 'eMail' , 'easyReservations' );?><br><input type="checkbox" name="info_persons" checked> <?php echo __( 'Persons' , 'easyReservations' );?><br><input type="checkbox" name="info_custom"> <?php echo __( 'Customs' , 'easyReservations' );?></span>
-								<span style="float:left;width:100px;wrap:no-wrap;"><input type="checkbox" name="info_date" checked> <?php echo __( 'Date' , 'easyReservations' );?><br><input type="checkbox" name="info_nights" checked> <?php echo ucfirst(easyreservations_interval_infos(0, 0, 2));?><br><input type="checkbox" name="info_reservated" checked> <?php echo __( 'Reserved' , 'easyReservations' );?><br><input type="checkbox" name="info_status" checked> <?php echo __( 'Status' , 'easyReservations' );?></span>
-								<span nowrap><input type="checkbox" name="info_country" checked> <?php echo __( 'Country', 'easyReservations' );?><br><input type="checkbox" name="info_room" checked> <?php echo __( 'Resource' , 'easyReservations' );?><br><input type="checkbox" name="info_roomnumber" checked> <?php echo __( 'Resource Number' , 'easyReservations' );?><br><input type="checkbox" name="info_price" checked> <?php echo __( 'Price/Paid' , 'easyReservations' );?></span><br>
-								<br>
-								<div class="fakehr"></div>
-								<input class="easySubmitButton-secondary" style="margin-top:5px;" type="submit" value="<?php printf ( __( 'Export reservations' , 'easyReservations' ));?>">
-							</div>
-						</form>
-					</td>
-				</tr>
-			</tbody>
-		</table>
-		<?php } if($show['show_today']==1){ ?>
+		</table><?php
+		} if($show['show_export']==1){ 
+			do_action('easy-add-export-widget');
+		} if($show['show_today']==1){ ?>
 		<?php
 			$rooms = 0;
 			foreach ( $all_rooms as $room ) {
@@ -1468,7 +1443,7 @@ if(isset($edit)){
 							<td nowrap>
 							<select name="custommodus" style="margin-bottom:4px" id="custommodus"><option value="edit"><?php printf ( __( 'Editable' , 'easyReservations' ));?></option><option value="visible"><?php printf ( __( 'Visible' , 'easyReservations' ));?></option><option value="hidden"><?php printf ( __( 'Hidden' , 'easyReservations' ));?></option></select> <?php printf ( __( 'for Guest' , 'easyReservations' ));?><br>
 							<input type="text" name="customtitle" id="customtitle" style="width:260px" value="Title" onfocus="if (this.value == 'Title') this.value = '';" onblur="if (this.value == '') this.value = 'Title';"><br><textarea type="text" name="customvalue" id="customvalue" value="Value" style="width:260px;margin-top:2px;" onfocus="if (this.value == 'Value') this.value = '';" onblur="if (this.value == '') this.value = 'Value';">Value</textarea>
-							<br><input type="button" onclick="addtoForm();" style="margin-top:3px" class="easySubmitButton-secondary" value="<?php printf ( __( 'Add custom Field' , 'easyReservations' ));?>"></td>
+							<br><input type="button" onclick="addtoForm();" class="easySubmitButton-secondary" value="<?php printf ( __( 'Add custom Field' , 'easyReservations' ));?>"></td>
 						</tr>
 					</tbody>
 				</table>
@@ -1483,7 +1458,7 @@ if(isset($edit)){
 							<td nowrap>
 							<select name="customPmodus" style="margin-bottom:4px" id="customPmodus"><option value="edit"><?php printf ( __( 'Selectable' , 'easyReservations' ));?></option><option value="visible"><?php printf ( __( 'Visible' , 'easyReservations' ));?></option><option value="hidden"><?php printf ( __( 'Hidden' , 'easyReservations' ));?></option></select> <?php printf ( __( 'for Guest' , 'easyReservations' ));?><br>
 							<input type="text" name="customPtitle" id="customPtitle" style="width:260px" value="Title" onfocus="if (this.value == 'Title') this.value = '';" onblur="if (this.value == '') this.value = 'Title';"><br><input type="text" name="customPvalue" id="customPvalue" value="Value" style="width:190px;margin-top:2px;" value="Value" onfocus="if (this.value == 'Value') this.value = '';" onblur="if (this.value == '') this.value = 'Value';"><input type="text" name="customPamount" id="customPamount" style="width:60px;margin-top:2px;text-align:right;" value="Amount" onfocus="if (this.value == 'Amount') this.value = '';" onblur="if (this.value == '') this.value = 'Amount';"><?php echo '&'.RESERVATIONS_CURRENCY.';'; ?>
-							<br><input type="button" onclick="addPtoForm();" style="margin-top:3px" class="easySubmitButton-secondary" value="<?php printf ( __( 'Add custom Price Field' , 'easyReservations' ));?>"></td>
+							<br><input type="button" onclick="addPtoForm();" class="easySubmitButton-secondary" value="<?php printf ( __( 'Add custom Price Field' , 'easyReservations' ));?>"></td>
 						</tr>
 					</tbody>
 				</table>
@@ -1671,7 +1646,7 @@ $highestRoomCount=easyreservations_get_highest_roomcount();
 						<td nowrap>
 						<select name="customPmodus" style="margin-bottom:4px" id="customPmodus"><option value="edit"><?php printf ( __( 'Selectable' , 'easyReservations' ));?></option><option value="visible"><?php printf ( __( 'Visible' , 'easyReservations' ));?></option><option value="hidden"><?php printf ( __( 'Hidden' , 'easyReservations' ));?></option></select> <?php printf ( __( 'for Guest' , 'easyReservations' ));?><br>
 						<input type="text" name="customPtitle" id="customPtitle" style="width:260px" value="Title" onfocus="if (this.value == 'Title') this.value = '';" onblur="if (this.value == '') this.value = 'Title';"><br><input type="text" name="customPvalue" id="customPvalue" value="Value" style="width:190px;margin-top:2px;" value="Value" onfocus="if (this.value == 'Value') this.value = '';" onblur="if (this.value == '') this.value = 'Value';"><input type="text" name="customPamount" id="customPamount" style="width:60px;margin-top:2px;text-align:right;" value="Amount" onfocus="if (this.value == 'Amount') this.value = '';" onblur="if (this.value == '') this.value = 'Amount';"><?php echo '&'.RESERVATIONS_CURRENCY.';'; ?>
-						<br><input type="button" onclick="addPtoForm();" style="margin-top:3px" class="easySubmitButton-secondary" value="<?php printf ( __( 'Add custom Price Field' , 'easyReservations' ));?>"></td>
+						<br><input type="button" onclick="addPtoForm();" class="easySubmitButton-secondary" value="<?php printf ( __( 'Add custom Price Field' , 'easyReservations' ));?>"></td>
 					</tr>
 				</tbody>
 			</table>

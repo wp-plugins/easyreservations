@@ -62,13 +62,11 @@
 	$dateshow=date("d. ", $timesx).$monthes[date("n", $timesx)-1].date(" Y", $timesx).' - '.date("d. ", $timesy-$interval).$monthes[date("n", $timesy-$interval)-1].date(" Y", $timesy-$interval);											
 	$stardate=date("Y-m-d H:i", $timesx); // Formated Startdate
 	$enddate=date("Y-m-d H:i", $timesy-$interval); // Formated Enddate
-
 	if(!isset($daysbetween)) $daysbetween = ($timesx/$interval)-(strtotime(date("d.m.Y", time()))/$interval);
 
 	if(isset($reservation_arrival_stamp)){
 		$numberhighstart=ceil(($reservation_arrival_stamp-$timesx)/$interval);
 		$numberlaststart=ceil(($reservation_departure_stamp-$timesx)/$interval);
-		
 		if($numberlaststart<10) $numberlaststart='0'.$numberlaststart;
 		if($numberhighstart<10) $numberhighstart='0'.$numberhighstart;
 	}
@@ -109,7 +107,7 @@
 				</th>
 			</tr>
 		<tr id="overviewTheadTr">
-			<td style="width:126px;vertical-align:middle;text-align:center;font-size:18px;border-bottom: 1px solid #000000;" class="h1overview" <?php if($interval == 3600) echo 'rowspan="2"'; ?>>
+			<td style="width:126px;vertical-align:middle;text-align:center;font-size:18px;" class="h1overview" <?php if($interval == 3600) echo 'rowspan="2"'; ?>>
 				<a onclick="easyRes_sendReq_Overview('<?php echo $moreget-($daysshow);?>','no', '<?php echo $daysshow; ?>', <?php echo $interval; ?>);" title="-<?php echo ($daysshow).' '.__( 'Days' , 'easyReservations' ); ?>" style="cursor:pointer;"><b style="letter-spacing:-4px">&lsaquo; &lsaquo; &lsaquo; &nbsp;&nbsp;</b></a> 
 				<a onclick="easyRes_sendReq_Overview('<?php echo $moreget-round($daysshow/2);?>','no', '<?php echo $daysshow; ?>',<?php echo $interval; ?>);" title="-<?php echo round($daysshow/2).' '.__( 'Days' , 'easyReservations' ); ?>" style="cursor:pointer;"><b>&laquo;</b></a> 
 				<a onclick="easyRes_sendReq_Overview('<?php echo $moreget-round($daysshow/3);?>','no', '<?php echo $daysshow; ?>',<?php echo $interval; ?>);" title="-<?php echo round($daysshow/3).' '.__( 'Days' , 'easyReservations' ); ?>" style="cursor:pointer;"><b>&lsaquo;</b></a> 

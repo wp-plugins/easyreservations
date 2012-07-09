@@ -424,13 +424,15 @@ if(!isset($site) || $site=='' || $site =='main'){
 							if($numberoffilter == 0)  echo '<td colspan="5">'.__( 'No price filter set' , 'easyReservations' ).'</td>';
 							?>
 							</tbody>
-							<tbody>
+							<thead>
 								<tr class="tmiddle">
-									<td><?php echo __( 'Filter' , 'easyReservations' ); ?></td>
-									<td colspan="2"><?php echo __( 'Condition' , 'easyReservations' ); ?></td>
-									<td><?php echo __( 'Price' , 'easyReservations' ); ?></td>
-									<td></td>
+									<th class="tmiddle"><?php echo __( 'Filter' , 'easyReservations' ); ?></td>
+									<th class="tmiddle" colspan="2"><?php echo __( 'Condition' , 'easyReservations' ); ?></td>
+									<th class="tmiddle"><?php echo __( 'Price' , 'easyReservations' ); ?></td>
+									<th class="tmiddle"></td>
 								</tr>
+							</thead>
+							<tbody>
 							<?php
 							$numberoffilter2 = 0;
 							if(!empty($theFilters)) $countfilter=count($theFilters); else $countfilter=0; // count the filter-array element
@@ -519,7 +521,7 @@ if(!isset($site) || $site=='' || $site =='main'){
 					<table class="<?php echo RESERVATIONS_STYLE; ?>">
 						<thead>
 							<tr>
-								<th colspan="2"><?php printf ( __( 'Resource settings' , 'easyReservations' ));?>	<input type="button" style="float:right;margin-top:3px" onclick="document.getElementById('set_groundprice').submit(); return false;" class="easySubmitButton-secondary" value="<?php printf ( __( 'Set' , 'easyReservations' ));?>"></th>
+								<th colspan="2"><?php printf ( __( 'Resource settings' , 'easyReservations' ));?>	<input type="button" style="float:right;" onclick="document.getElementById('set_groundprice').submit(); return false;" class="easySubmitButton-secondary" value="<?php printf ( __( 'Set' , 'easyReservations' ));?>"></th>
 							</tr>
 						</thead>
 						<tbody>
@@ -582,7 +584,7 @@ if(!isset($site) || $site=='' || $site =='main'){
 					<table class="<?php echo RESERVATIONS_STYLE; ?>" style="margin-top:7px">
 						<thead>
 							<tr>
-								<th colspan="2"><?php printf ( __( 'Resources Numbers/Names' , 'easyReservations' ));?><input type="button" style="float:right;margin-top:3px" onclick="document.getElementById('set_roomsnames').submit(); return false;" class="easySubmitButton-secondary" value="<?php printf ( __( 'Set' , 'easyReservations' ));?>"></th>
+								<th colspan="2"><?php printf ( __( 'Resources Numbers/Names' , 'easyReservations' ));?><input type="button" style="float:right;" onclick="document.getElementById('set_roomsnames').submit(); return false;" class="easySubmitButton-secondary" value="<?php printf ( __( 'Set' , 'easyReservations' ));?>"></th>
 							</tr>
 						</thead>
 						<tbody>

@@ -3,27 +3,25 @@
 Plugin Name: easyReservations
 Plugin URI: http://www.easyreservations.org
 Description: This powerfull property and reservation management plugin allows you to receive, schedule and handle your bookings easily!
-Version: 2.1.2
+Version: 2.1.3
 Author: Feryaz Beer
 Author URI: http://www.feryaz.de
 License:GPL2
 */
 
-	add_action('admin_menu', 'easyReservations_add_pages');
+	add_action('admin_menu', 'easyreservations_add_pages');
 
-	function easyReservations_add_pages(){  //  Add Pages Admincenter and Order them
+	function easyreservations_add_pages(){  //  Add Pages Admincenter and Order them
 		$reservation_main_permission=get_option("reservations_main_permission");
 		if($reservation_main_permission && is_array($reservation_main_permission)){
 			if(isset($reservation_main_permission['dashboard']) && !empty($reservation_main_permission['dashboard'])) $dashboard = $reservation_main_permission['dashboard'];
-			else $dashboard == 'edit_posts';
+			else $dashboard = 'edit_posts';
 			if(isset($reservation_main_permission['resources']) && !empty($reservation_main_permission['resources'])) $resources = $reservation_main_permission['resources'];
-			else $resources == 'edit_posts';
-			if(isset($reservation_main_permission['statistics']) && !empty($reservation_main_permission['statistics'])) $statistics = $reservation_main_permission['statistics'];
-			else $statistics == 'edit_posts';
+			else $resources = 'edit_posts';
 			if(isset($reservation_main_permission['settings']) && !empty($reservation_main_permission['settings'])) $settings = $reservation_main_permission['settings'];
-			else $settings == 'edit_posts';
+			else $settings = 'edit_posts';
 		} else {
-			$settings = 'edit_posts'; $statistics = 'edit_posts'; $resources = 'edit_posts'; $dashboard = 'edit_posts';
+			$settings = 'edit_posts';  $resources = 'edit_posts'; $dashboard = 'edit_posts';
 		}
 
 		$count = easyreservations_get_pending();
@@ -35,7 +33,7 @@ License:GPL2
 		add_menu_page(__('easyReservation','easyReservations'), __('Reservation','easyReservations').' '.$pending, $dashboard, 'reservations', 'reservation_main_page', RESERVATIONS_IMAGES_DIR.'/logo.png' );
 		add_submenu_page('reservations', __('Dashboard','easyReservations'), __('Dashboard','easyReservations'), $dashboard, 'reservations', 'reservation_main_page');
 		add_submenu_page('reservations', __('Resources','easyReservations'), __('Resources','easyReservations'), $resources, 'reservation-resources', 'reservation_resources_page');
-		add_submenu_page('reservations', __('Statistics','easyReservations'), __('Statistics','easyReservations'), $statistics, 'reservation-statistics', 'reservation_statistics_page');
+		do_action('easy-add-submenu-page');
 		add_submenu_page('reservations', __('Settings','easyReservations'), __('Settings','easyReservations'), $settings, 'reservation-settings', 'reservation_settings_page');
 	}
 
@@ -524,36 +522,34 @@ ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrival] <br>To: [depa
 
 		require_once(dirname(__FILE__)."/pagination.class.php");
 		require_once(dirname(__FILE__)."/lib/functions/admin.php");
-		require_once(dirname(__FILE__)."/lib/widgets/dashboard.php");
 
 		if(isset($_GET['page']) && $_GET['page'] == 'reservations') require_once(dirname(__FILE__)."/easyReservations_admin_main.php");
 		if(isset($_GET['page']) && $_GET['page'] == 'reservation-resources') require_once(dirname(__FILE__)."/easyReservations_admin_resources.php");
-		if(isset($_GET['page']) && $_GET['page'] == 'reservation-statistics') require_once(dirname(__FILE__)."/easyReservations_admin_statistics.php");
 		if(isset($_GET['page']) && $_GET['page'] == 'reservation-settings') require_once(dirname(__FILE__)."/easyReservations_admin_settings.php");
 
 	} else {
 
 		require_once(dirname(__FILE__)."/lib/functions/front.php");
 		require_once(dirname(__FILE__)."/easyReservations_form_shortcode.php");
-		require_once(dirname(__FILE__)."/easyReservations_edit_shortcode.php");
 		require_once(dirname(__FILE__)."/easyReservations_calendar_shortcode.php");
 
 		add_shortcode('easy_calendar', 'reservations_calendar_shortcode');
-		add_shortcode('easy_edit', 'reservations_edit_shortcode');
 		add_shortcode('easy_form', 'reservations_form_shortcode');
 	}
 
 	require_once(dirname(__FILE__)."/lib/widgets/form_widget.php");
-	if(function_exists('easyreservation_is_paypal') && easyreservation_is_paypal()) include_once(dirname(__FILE__)."/lib/modules/paypal/paypal.php");
-	if(function_exists('easyreservation_is_chat') && easyreservation_is_chat()) include_once(dirname(__FILE__)."/lib/modules/chat/chat.php");
-	if(function_exists('easyreservation_is_import') && easyreservation_is_import()) include_once(dirname(__FILE__)."/lib/modules/import/import.php");
-	if(function_exists('easyreservation_is_multical') && easyreservation_is_multical()) include_once(dirname(__FILE__)."/lib/modules/multical/multical.php");
-	if(function_exists('easyreservation_is_search') && easyreservation_is_search()) include_once(dirname(__FILE__)."/lib/modules/search/search.php");
-	if(function_exists('easyreservation_is_language') && easyreservation_is_language()) include_once(dirname(__FILE__)."/lib/modules/lang/lang.php");
-	if(function_exists('easyreservation_is_datepicker') && easyreservation_is_datepicker()) include_once(dirname(__FILE__)."/lib/modules/datepicker/datepicker.php");
-	if(function_exists('easyreservation_is_hourlycal') && easyreservation_is_hourlycal()) include_once(dirname(__FILE__)."/lib/modules/hourlycal/hourlycal.php");
-	if(function_exists('easyreservation_is_htmlmails') && easyreservation_is_htmlmails()) include_once(dirname(__FILE__)."/lib/modules/htmlmails/htmlmails.php");
-	if(function_exists('easyreservation_is_coupons') && easyreservation_is_coupons()) include_once(dirname(__FILE__)."/lib/modules/coupons/coupons.php");
-	if(function_exists('easyreservation_is_invoice') && easyreservation_is_invoice()) include_once(dirname(__FILE__)."/lib/modules/invoice/invoice.php");
+	if(file_exists(dirname(__FILE__).'/lib/modules/premium/premium.php')) require_once(dirname(__FILE__)."/lib/modules/premium/premium.php");
+	if(easyreservations_is_module('paypal')) include_once(dirname(__FILE__)."/lib/modules/paypal/paypal.php");
+	if(easyreservations_is_module('useredit')) include_once(dirname(__FILE__)."/lib/modules/useredit/useredit.php");
+	if(easyreservations_is_module('import')) include_once(dirname(__FILE__)."/lib/modules/import/import.php");
+	if(easyreservations_is_module('multical')) include_once(dirname(__FILE__)."/lib/modules/multical/multical.php");
+	if(easyreservations_is_module('search')) include_once(dirname(__FILE__)."/lib/modules/search/search.php");
+	if(easyreservations_is_module('lang')) include_once(dirname(__FILE__)."/lib/modules/lang/lang.php");
+	if(easyreservations_is_module('styles')) include_once(dirname(__FILE__)."/lib/modules/styles/styles.php");
+	if(easyreservations_is_module('hourlycal')) include_once(dirname(__FILE__)."/lib/modules/hourlycal/hourlycal.php");
+	if(easyreservations_is_module('htmlmails')) include_once(dirname(__FILE__)."/lib/modules/htmlmails/htmlmails.php");
+	if(easyreservations_is_module('coupons')) include_once(dirname(__FILE__)."/lib/modules/coupons/coupons.php");
+	if(easyreservations_is_module('invoice')) include_once(dirname(__FILE__)."/lib/modules/invoice/invoice.php");
+	if(easyreservations_is_module('statistics')) include_once(dirname(__FILE__)."/lib/modules/statistics/statistics.php");
 
 ?>

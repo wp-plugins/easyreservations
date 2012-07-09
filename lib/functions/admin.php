@@ -669,7 +669,7 @@ if(isset($_GET['page'])){
 					<?php if($table_options['table_color'] == 1){ ?>
 						<th style="max-width:4px;padding:0px;"></th>
 					<?php } if($table_options['table_bulk'] == 1){ ?>
-						<th><input type="hidden" name="page" value="reservations"><input type="checkbox" id="bulkArr[]" onclick="checkAllController(document.frmAdd,this,'bulkArr')"></th>
+						<th><input type="hidden" name="page" value="reservations" style="text-align:center"><input type="checkbox" id="bulkArr[]" onclick="checkAllController(document.frmAdd,this,'bulkArr')"></th>
 					<?php } if($table_options['table_name'] == 1 || $table_options['table_id'] == 1){ ?>
 						<th><?php if($order=="ASC" and $orderby=="name") { ?><a class="asc2" onclick="easyreservation_send_table('<?php echo $typ; ?>', 1, 'DESC', 'name' )">
 						<?php } elseif($order=="DESC" and $orderby=="name") { ?><a class="desc2" onclick="easyreservation_send_table('<?php echo $typ; ?>', 1, 'ASC', 'name' )">
@@ -834,6 +834,34 @@ if(isset($_GET['page'])){
 			if(field) field.value = '<?php echo $export_ids; ?>';
 		</script><?php
 		exit;
+	}
+
+	add_action('er_add_settings_top', 'easyreserations_prem_box_set', 10, 0);
+
+	function easyreserations_prem_box_set(){ ?>
+			<table class="<?php echo RESERVATIONS_STYLE; ?>" style="width:99%;margin-bottom: 7px">
+				<thead>
+					<tr>
+						<th colspan="2"><?php printf ( __( 'easyReservations Premium' , 'easyReservations' ));?> </th>
+					</tr>
+				</thead>
+				<tbody style="border:0px">
+					<tr valign="top">
+						<td style="font-weight:bold;background-image:url('<?php echo WP_PLUGIN_URL; ?>/easyreservations/images/lifetime_slide.png');height: 200px;width:230px;border-right: 1px solid #CCCCCC"></td>
+						<td class="s" style="font-family: Helvetica Neue-Light,Helvetica Neue Light,Helvetica Neue,sans-serif; font-size: 20px; font-weight: normal;   line-height: 1.6em;vertical-align:top;padding:20px;">
+							Improve your reservations system and get support by upgrading to <b><a href="http://easyreservations.org/premium/">easyReservations Premium</a></b>!<br>
+							<span class="premiumcontent" style="font-size:18px">
+								With over <b>twenty</b> additional functions like <a href="http://easyreservations.org/module/paypal/">PayPal integration</a>, <a href="http://easyreservations.org/module/invoice/">automatically Invoice generation</a>, <a href="http://easyreservations.org/module/htmlmails/">HTML eMails with templates</a>, <a href="http://easyreservations.org/module/search/">Search for available Resources</a>, <a href="http://easyreservations.org/modules/hourlycal/">hourly Calendars</a>, <a href="http://easyreservations.org/module/import/">Export (xls/xml/csv) &amp; Import Reservations</a>, <a href="http://easyreservations.org/module/lang/">Multilingual Form &amp; Email Content</a>,
+								<a href="http://easyreservations.org/module/useredit/">Reservation editing for guests &amp; a communication system</a>, <a href="http://easyreservations.org/module/coupons/">a Coupon Code system</a>, <a href="http://easyreservations.org/module/multical/">Multiple months by grid for Calendar</a>, <a href="http://easyreservations.org/module/statistics/">Statistics</a> and <a href="http://easyreservations.org/module/styles/">more Styles</a>.
+							</span>
+							<br>
+							<a href="http://easyreservations.org/premium/" style="text-decoration:underline">Check out all Features now!</a>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		<style>.premiumcontent a { background:#EAEAEA;} </style>
+		<?php
 	}
 
 	add_action('wp_ajax_easyreservations_send_table', 'easyreservations_send_table_callback');

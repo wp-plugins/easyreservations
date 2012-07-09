@@ -2,7 +2,7 @@
 	margin-top: -2px;
 }
 .widefat .tmiddle td {
-    background-image: -moz-linear-gradient(center top , #F9F9F9, #ECECEC);
+	background-image: -moz-linear-gradient(center top , #F9F9F9, #ECECEC);
 	background-image: -ms-linear-gradient(top, #F9F9F9, #ECECEC); /* IE10 */
 	background-image: -moz-linear-gradient(top, #F9F9F9, #ECECEC); /* Firefox */
 	background-image: -o-linear-gradient(top, #F9F9F9, #ECECEC); /* Opera */
@@ -52,6 +52,7 @@
 	border:1px solid #E9E9E9;-moz-border-radius:3px 3px 3px 3px;border-radius:3px 3px 3px 3px;
 	background-color: #F1F1F1;
 	background-image: -moz-linear-gradient(center top , #F9F9F9, #ECECEC);
+	margin-bottom:7px;
 }
 
 ul.tabs a { 

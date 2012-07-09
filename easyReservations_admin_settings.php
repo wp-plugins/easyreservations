@@ -30,14 +30,6 @@ function reservation_settings_page() { //Set Settings
 			update_option("reservations_settings", $settings_array);
 			update_option("reservations_regular_guests", $_POST["regular_guests"]);
 			update_option("reservations_support_mail", $_POST["reservations_support_mail"]);
-			update_option("reservations_edit_url", $_POST["reservations_edit_url"]);
-			if(isset( $_POST["reservations_edit_table_infos"])) $table_infos = $_POST["reservations_edit_table_infos"]; else $table_infos = array();
-			if(isset( $_POST["reservations_edit_table_status"])) $table_status = $_POST["reservations_edit_table_status"]; else $table_status = array();
-			if(isset( $_POST["reservations_edit_table_time"])) $table_time = $_POST["reservations_edit_table_time"]; else $table_time = array();
-			if(isset( $_POST["reservations_edit_table_style"])) $table_style = 1; else $table_style = 0;
-			if(isset( $_POST["reservations_edit_table_more"])) $table_more = 1; else $table_more = 0;
-			$edit_options = array( 'login_text' => stripslashes($_POST["reservations_edit_login_text"]), 'edit_text' => stripslashes($_POST["reservations_edit_text"]), 'submit_text' => stripslashes($_POST["reservations_submit_text"]), 'table_infos' => $table_infos, 'table_status' => $table_status, 'table_time' => $table_time, 'table_style' => $table_style, 'table_more' => $table_more );
-			update_option('reservations_edit_options', $edit_options);
 			do_action( 'er_set_main_save' );
 			$prompt = '<div class="updated"><p>'.__( 'General settings saved' , 'easyReservations' ).'</p></div>';
 		}
@@ -248,7 +240,7 @@ function resteText() {
 </h2>
 <?php if(isset($prompt)) echo $prompt; ?>
 <div id="wrap">
-<div class="tabs-box" style="margin-bottom:10px;width:99%">
+<div class="tabs-box" style="width:99%">
 	<ul class="tabs">
 		<li><a <?php if(isset($ifgeneralcurrent)) echo $ifgeneralcurrent; ?> href="admin.php?page=reservation-settings"><img style="vertical-align:text-bottom ;" src="<?php echo RESERVATIONS_IMAGES_DIR; ?>/pref.png"> <?php printf ( __( 'General' , 'easyReservations' ));?></a></li>
 		<li><a <?php if(isset($ifformcurrent)) echo $ifformcurrent; ?> href="admin.php?page=reservation-settings&site=form"><img style="vertical-align:text-bottom ;" src="<?php echo RESERVATIONS_IMAGES_DIR; ?>/form.png"> <?php printf ( __( 'Form' , 'easyReservations' ));?></a></li>
@@ -257,8 +249,8 @@ function resteText() {
 		<li><a <?php if(isset($ifaboutcurrent)) echo $ifaboutcurrent; ?> href="admin.php?page=reservation-settings&site=about"><img style="vertical-align:text-bottom ;" src="<?php echo RESERVATIONS_IMAGES_DIR; ?>/logo.png"> <?php printf ( __( 'About' , 'easyReservations' ));?></a></li>
 	</ul>
 </div>
-
-<?php if($settingpage=="general"){
+<?php do_action( 'er_add_settings_top' );
+if($settingpage=="general"){
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /* - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + GENERAL SETTINGS + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + */
@@ -273,12 +265,7 @@ function resteText() {
 	$reservation_support_mail = get_option("reservations_support_mail");
 	$reservations_regular_guests = get_option('reservations_regular_guests');
 	$permission_options=get_option("reservations_main_permission");
-	$reservations_edit_url=get_option("reservations_edit_url");
-	$reservations_edit_options=get_option("reservations_edit_options");
-	if(!$reservations_edit_options) $reservations_edit_options = array();
-	$reservations_uninstall=get_option("reservations_uninstall");
-
-	?>
+	$reservations_uninstall=get_option("reservations_uninstall");?>
 
 <table cellspacing="0" style="width:99%">
 	<tr cellspacing="0">
@@ -309,10 +296,10 @@ function resteText() {
 									array('Euro' , '#8364'),
 									array('Dollar' , '#36'),
 									array('Yen' , '#165'),
-									array('Cent' , '#162'), 
-									array('Florin' , '#402'), 
-									array('Pound' , '#163'), 
-									array('Lire' , '#8356'), 
+									array('Cent' , '#162'),
+									array('Florin' , '#402'),
+									array('Pound' , '#163'),
+									array('Lire' , '#8356'),
 									array('Hongkong Dollar' , '#20803'),
 									array('Tenge' , '#8376'),
 									array('Laos Kip' , '#8365') , 
@@ -388,6 +375,7 @@ function resteText() {
 							<select name="reservations_style">
 								<option value="widefat" <?php if($easyReservationSyle=='widefat' OR RESERVATIONS_STYLE=='widefat') echo 'selected'; ?>><?php printf ( __( 'Wordpress' , 'easyReservations' ));?></option>
 								<option value="greyfat" <?php if($easyReservationSyle=='greyfat' OR RESERVATIONS_STYLE=='greyfat') echo 'selected'; ?>><?php printf ( __( 'Grey' , 'easyReservations' ));?></option>
+								<option value="premium" <?php if($easyReservationSyle=='premium' OR RESERVATIONS_STYLE=='premium') echo 'selected'; ?>><?php printf ( __( 'Premium' , 'easyReservations' ));?></option>
 							</select>
 						</td>
 					</tr>
@@ -415,78 +403,6 @@ function resteText() {
 						<td><input type="checkbox" name="reservations_uninstall" value="1" <?php echo checked($reservations_uninstall, 1); ?>> <?php printf ( __( 'Delete settings, reservations and resources' , 'easyReservations' ));?></td>
 					</tr>
 					<?php do_action( 'er_add_set_main_table_row' ); ?>
-					</tr>
-				</tbody>
-			</table>
-			<table class="<?php echo RESERVATIONS_STYLE; ?>" style="width:100%;margin-top:7px">
-				<thead>
-					<tr>
-						<th> <?php printf ( __( 'User ControlPanel settings' , 'easyReservations' ));?> </th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td>
-							&nbsp;<i><?php printf ( __( 'To let users edit their reservations on your site add a page or post with the shortcode' , 'easyReservations' ));?>:</i> <code>[easy_edit]</code>
-						</td>
-					</tr>
-					<tr class="alternate">
-						<td>
-							&nbsp;<b><?php printf ( __( 'URL to edit page' , 'easyReservations' ));?></b>: <input type="text" name="reservations_edit_url" value="<?php echo $reservations_edit_url;?>" style="width:50%">
-						</td>
-					</tr>
-					<tr class="alternate">
-						<td>
-							&nbsp;<b><?php printf ( __( 'Text after Submit' , 'easyReservations' ));?></b>: <input type="text" name="reservations_submit_text" value="<?php echo $reservations_edit_options['submit_text'];?>" style="width:50%">
-						</td>
-					</tr>
-					<tr>
-						<td>
-							&nbsp;<i><?php printf ( __( 'Text over login area - optional' , 'easyReservations' ));?>:</i>
-							<textarea name="reservations_edit_login_text" style="width:100%;height:80px;margin-top:4px"><?php echo $reservations_edit_options['login_text']; ?></textarea>
-						</td>
-					</tr>
-					<tr class="alternate">
-						<td>
-							&nbsp;<i><?php echo __( 'Text over edit area - optional' , 'easyReservations' ); ?>:</i>
-							<textarea name="reservations_edit_text" style="width:100%;height:80px;margin-top:4px"><?php echo $reservations_edit_options['edit_text']; ?></textarea>
-						</td>
-					</tr>
-					<tr  id="easy-edit-table-cols">
-						<td>
-							<span style="width:25%;float:left" >
-								<b><?php echo __( 'Table Settings' , 'easyReservations' ); ?></b><br>
-								<i><?php echo __( 'Table of other reservations from the same email' , 'easyReservations' ); ?></i><br>
-							</span>
-							<span style="width:25%;float:left" >
-								<b><?php echo __( 'Informations' , 'easyReservations' ); ?></b><br>
-								<label><input type="checkbox" name="reservations_edit_table_infos[]" value="id" <?php checked(in_array('id', $reservations_edit_options['table_infos']), true); ?>> <?php echo __( 'ID' , 'easyReservations' ); ?></label><br>
-								<label><input type="checkbox" name="reservations_edit_table_infos[]" value="name" <?php checked(in_array('name', $reservations_edit_options['table_infos']), true); ?>> <?php echo __( 'Name' , 'easyReservations' ); ?></label><br>
-								<label><input type="checkbox" name="reservations_edit_table_infos[]" value="date" <?php checked(in_array('date', $reservations_edit_options['table_infos']), true); ?>> <?php echo __( 'Date' , 'easyReservations' ); ?></label><br>
-								<label><input type="checkbox" name="reservations_edit_table_infos[]" value="persons" <?php checked(in_array('persons', $reservations_edit_options['table_infos']), true); ?>> <?php echo __( 'Persons' , 'easyReservations' ); ?></label><br>
-								<label><input type="checkbox" name="reservations_edit_table_infos[]" value="reservated" <?php checked(in_array('reservated', $reservations_edit_options['table_infos']), true); ?>> <?php echo __( 'Reservated' , 'easyReservations' ); ?></label><br>
-								<label><input type="checkbox" name="reservations_edit_table_infos[]" value="status" <?php checked(in_array('status', $reservations_edit_options['table_infos']), true); ?>> <?php echo __( 'Status' , 'easyReservations' ); ?></label><br>
-								<label><input type="checkbox" name="reservations_edit_table_infos[]" value="room" <?php checked(in_array('room', $reservations_edit_options['table_infos']), true); ?>> <?php echo __( 'Resource' , 'easyReservations' ); ?></label><br>
-								<label><input type="checkbox" name="reservations_edit_table_infos[]" value="roomn" <?php checked(in_array('roomn', $reservations_edit_options['table_infos']), true); ?>> <?php echo __( 'Resource Number' , 'easyReservations' ); ?></label><br>
-								<label><input type="checkbox" name="reservations_edit_table_infos[]" value="price" <?php checked(in_array('price', $reservations_edit_options['table_infos']), true); ?>> <?php echo __( 'Price' , 'easyReservations' ); ?></label>
-							</span>
-							<span style="width:25%;float:left" >
-								<b><?php echo __( 'Status' , 'easyReservations' ); ?></b><br>
-								<label><input type="checkbox" name="reservations_edit_table_status[]" value="yes" <?php checked(in_array('yes', $reservations_edit_options['table_status']), true); ?>> <?php echo __( 'approved' , 'easyReservations' ); ?></label><br>
-								<label><input type="checkbox" name="reservations_edit_table_status[]" value="" <?php checked(in_array('', $reservations_edit_options['table_status']), true); ?>> <?php echo __( 'pending' , 'easyReservations' ); ?></label><br>
-								<label><input type="checkbox" name="reservations_edit_table_status[]" value="no" <?php checked(in_array('no', $reservations_edit_options['table_status']), true); ?>> <?php echo __( 'rejected' , 'easyReservations' ); ?></label><br>
-								<label><input type="checkbox" name="reservations_edit_table_status[]" value="del" <?php checked(in_array('del', $reservations_edit_options['table_status']), true); ?>> <?php echo __( 'trashed' , 'easyReservations' ); ?></label><br>
-								<b><?php echo __( 'Time' , 'easyReservations' ); ?></b><br>
-								<label><input type="checkbox" name="reservations_edit_table_time[]" value="past" <?php checked(in_array('past', $reservations_edit_options['table_time']), true); ?>> <?php echo __( 'Past' , 'easyReservations' ); ?></label><br>
-								<label><input type="checkbox" name="reservations_edit_table_time[]" value="current" <?php checked(in_array('current', $reservations_edit_options['table_time']), true); ?>> <?php echo __( 'Current' , 'easyReservations' ); ?></label><br>
-								<label><input type="checkbox" name="reservations_edit_table_time[]" value="future" <?php checked(in_array('future', $reservations_edit_options['table_time']), true); ?>> <?php echo __( 'Future' , 'easyReservations' ); ?></label><br>
-							</span>
-							<span style="width:25%;float:left" >
-								<b><?php echo __( 'Other' , 'easyReservations' ); ?></b><br>
-								<label><input type="checkbox" name="reservations_edit_table_style" <?php checked($reservations_edit_options['table_style'], 1); ?>> <?php echo __( 'use style' , 'easyReservations' ); ?></label><br>
-								<label><input type="checkbox" name="reservations_edit_table_more" value="" <?php checked($reservations_edit_options['table_more'], 1); ?>> <?php echo __( 'only show for guest with >1 reservations' , 'easyReservations' ); ?></label><br>
-							</span>
-						</td>
 					</tr>
 				</tbody>
 			</table>
@@ -518,16 +434,16 @@ function resteText() {
 					</thead>
 					<tbody>
 						<tr>
-							<td style="font-weight:bold;padding:10px;text-align:center"><span style="width:20%;display: inline-block">Version: 2.1.2</span><span style="width:30%;display: inline-block">Last update: 07.07.2012</span><span style="width:30%;display: inline-block">written by Feryaz Beer</span></td>
+							<td style="font-weight:bold;padding:10px;text-align:center"><span style="width:20%;display: inline-block">Version: 2.1.3</span><span style="width:30%;display: inline-block">Last update: 09.07.2012</span><span style="width:30%;display: inline-block">written by Feryaz Beer</span></td>
 						</tr>
 						<tr class="alternate" style="">
 							<td style="font-size:14px;text-align:center;font-weight:bold;padding:10px"><a href="http://easyreservations.org/knowledgebase/" target="_blank"><?php echo __( 'Documentation' , 'easyReservations' );?></a></td>
 						</tr>
 						<tr>
-							<td style="font-size:14px;text-align:center;font-weight:bold;padding:10px"><a href="http://easyreservations.org/forums/forum/general/" target="_blank"><?php echo __( 'Support forums' , 'easyReservations' );?></a></td>
+							<td style="font-size:14px;text-align:center;font-weight:bold;padding:10px"><a href="http://easyreservations.org/forums/" target="_blank"><?php echo __( 'Support forums' , 'easyReservations' );?></a></td>
 						</tr>
 						<tr class="alternate">
-							<td style="font-size:14px;text-align:center;font-weight:bold;padding:10px"><a href="http://easyreservations.org/module/" target="_blank"><?php echo __( 'Modules' , 'easyReservations' );?></a></td>
+							<td style="font-size:14px;text-align:center;font-weight:bold;padding:10px"><a href="http://easyreservations.org/premium/" target="_blank"><?php echo __( 'Premium' , 'easyReservations' );?></a></td>
 						</tr>
 						<tr>
 							<td style="font-size:14px;text-align:center;font-weight:bold;padding:10px"><a href="http://wordpress.org/extend/plugins/easyreservations/" target="_blank"><?php echo __( 'Rate the Plugin' , 'easyReservations' );?>, please!</a></td>
@@ -1286,9 +1202,7 @@ ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrival] <br>To: [depa
 			$reservations_email_sendmail=get_option("reservations_email_sendmail");
 			$reservations_email_to_admin=get_option("reservations_email_to_admin");
 			$reservations_email_to_user=get_option("reservations_email_to_user");
-			$reservations_email_to_user_edited=get_option("reservations_email_to_user_edited");
 			$reservations_email_to_user_admin_edited=get_option("reservations_email_to_user_admin_edited");
-			$reservations_email_to_admin_edited=get_option("reservations_email_to_admin_edited");
 			$reservations_email_to_userapp=get_option("reservations_email_to_userapp");
 			$reservations_email_to_userdel=get_option("reservations_email_to_userdel"); ?>
 		<table style="width:99%;" cellspacing="0">
@@ -1402,36 +1316,6 @@ ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrival] <br>To: [depa
 			</tbody>
 		</table>
 		<input type="button" onclick="document.getElementById('reservations_email_settings').submit(); return false;" class="easySubmitButton-primary" style="margin-top:4px" value="<?php echo __( 'Save Changes' , 'easyReservations' );?>">
-		<table class="<?php echo RESERVATIONS_STYLE; ?>" style="margin-top:7px;">
-			<thead>
-				<tr>
-					<th> <?php printf ( __( 'Mails on edit from user' , 'easyReservations' ));?></th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr valign="top">
-					<td><b style="padding:5px;line-height:2;font-size:13px;text-decoration:underline;"><?php echo __( 'Mail to admin' , 'easyReservations' ); ?></b><span style=";margin-right:5px"><?php echo __( 'Active' , 'easyReservations' ); ?>: <input type="checkbox" value="1" name="reservations_email_to_admin_edited_check" <?php checked(1, $reservations_email_to_admin_edited['active']); ?> style="margin-top:3px;margin-left:-1px;"></span><input type="button" value="Default Mail" onClick="addtextforemail6();" class="easySubmitButton-secondary" style="float:right;"></td>
-				</tr>	
-				<tr valign="top">
-					<td><input type="text" name="reservations_email_to_admin_edited_subj" style="width:60%;" value='<?php echo stripslashes($reservations_email_to_admin_edited['subj']); ?>'> <?php echo __( 'Subject' , 'easyReservations' ); ?></td>
-				</tr>	
-				<tr valign="top">
-					<td><textarea name="reservations_email_to_admin_edited_msg" style="width:99%;height:120px;"><?php echo stripslashes($reservations_email_to_admin_edited['msg']); ?></textarea></td>
-				</tr>	
-				<tr valign="top">
-					<td><div class="fakehr"></td>
-				</tr>	
-				<tr valign="top">
-					<td><b style="padding:5px;line-height:2;font-size:13px;text-decoration:underline;"><?php echo __( 'Mail to guest' , 'easyReservations' ); ?></b><span style=";margin-right:5px"><?php echo __( 'Active' , 'easyReservations' ); ?>: <input type="checkbox" value="1" name="reservations_email_to_user_edited_check" <?php checked(1, $reservations_email_to_user_edited['active']); ?> style="margin-top:3px;margin-left:-1px;"></span><input type="button" value="Default Mail" onClick="addtextforemail5();" class="easySubmitButton-secondary" style="float:right;"></td>
-				</tr>	
-				<tr valign="top">
-					<td><input type="text" name="reservations_email_to_user_edited_subj" style="width:60%;" value='<?php echo stripslashes($reservations_email_to_user_edited['subj']); ?>'> <?php echo __( 'Subject' , 'easyReservations' ); ?></td>
-				</tr>	
-				<tr valign="top">
-					<td><textarea name="reservations_email_to_user_edited_msg" style="width:99%;height:120px;"><?php echo stripslashes($reservations_email_to_user_edited['msg']); ?></textarea></td>
-				</tr>	
-			</tbody>
-		</table>
 		<?php do_action('er_set_emails_add_after'); ?>
 		<input type="button" onclick="document.getElementById('reservations_email_settings').submit(); return false;" class="easySubmitButton-primary" style="margin-top:4px" value="<?php echo __( 'Save Changes' , 'easyReservations' );?>">
 		</td>
@@ -1512,16 +1396,16 @@ ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrival] <br>To: [depa
 				</thead>
 				<tbody>
 					<tr>
-						<td style="font-weight:bold;padding:10px;text-align:center"><span style="width:20%;display: inline-block">Version: 2.1.2</span><span style="width:30%;display: inline-block">Last update: 07.07.2012</span><span style="width:30%;display: inline-block">written by Feryaz Beer</span></td>
+						<td style="font-weight:bold;padding:10px;text-align:center"><span style="width:20%;display: inline-block">Version: 2.1.3</span><span style="width:30%;display: inline-block">Last update: 09.07.2012</span><span style="width:30%;display: inline-block">written by Feryaz Beer</span></td>
 					</tr>
 					<tr class="alternate" style="">
 						<td style="font-size:14px;text-align:center;font-weight:bold;padding:10px"><a href="http://easyreservations.org/knowledgebase/"><?php echo __( 'Documentation' , 'easyReservations' );?></a></td>
 					</tr>
 					<tr>
-						<td style="font-size:14px;text-align:center;font-weight:bold;padding:10px"><a href="http://easyreservations.org/forums/forum/general/"><?php echo __( 'Support forums' , 'easyReservations' );?></a></td>
+						<td style="font-size:14px;text-align:center;font-weight:bold;padding:10px"><a href="http://easyreservations.org/forums/"><?php echo __( 'Forums' , 'easyReservations' );?></a></td>
 					</tr>
 					<tr class="alternate">
-						<td style="font-size:14px;text-align:center;font-weight:bold;padding:10px"><a href="http://easyreservations.org/module/"><?php echo __( 'Modules' , 'easyReservations' );?></a></td>
+						<td style="font-size:14px;text-align:center;font-weight:bold;padding:10px"><a href="http://easyreservations.org/premium/"><?php echo __( 'Premium' , 'easyReservations' );?></a></td>
 					</tr>
 					<tr>
 						<td style="font-size:14px;text-align:center;font-weight:bold;padding:10px"><a href="http://wordpress.org/extend/plugins/easyreservations/"><?php echo __( 'Rate Plugin' , 'easyReservations' );?></a></td>

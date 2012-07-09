@@ -65,7 +65,6 @@ if ( !is_user_logged_in() || !current_user_can('edit_posts') )
 								<option value="choose"><?php _e("choose", "easyReservations"); ?></option>
 								<option value="form"><?php _e("Formular", "easyReservations"); ?></option>
 								<option value="calendar"><?php _e("Calendar", "easyReservations"); ?></option>
-								<option value="edit"><?php _e("Edit", "easyReservations"); ?></option>
 								<?php do_action('easy-tinymce-add-name'); ?>
 							 </select> <?php _e("Choose type of shortcode", "easyReservations"); ?>
 						</td>
@@ -136,31 +135,7 @@ function jumpto(x){ // Chained inputs;
 		document.getElementById("tiny_Field").innerHTML = FieldAdd;
 	} else if(x == "choose"){
 		document.getElementById("tiny_Field").innerHTML = '<tr><td colspan="2"><?php _e("The shortcodes wont work if more then one of the same type are on the same site", "easyReservations"); ?>. <?php _e("This can happen with posts in category-views or on homepage", "easyReservations"); ?>.<br><?php _e("To prevent this add the shortcodes after the [more] tag", "easyReservations"); ?>.<br></td></tr>';
-	} else if(x == "edit"){
-		var FieldAdd = '<tr>';
-			FieldAdd += '<td colspan="2" nowrap="nowrap" valign="top"><label for="easyreservation_edit_daysback"><?php _e("Days between arrival and today for last chance to edit", "easyReservations"); ?>: ';
-			FieldAdd += '<select id="easyreservation_edit_daysback" name="easyreservation_edit_daysback" style="width: 55px"><?php echo easyReservations_num_options(-100,100,1); ?></select> d</label></td>';
-			FieldAdd += '</tr>';
-			FieldAdd += '<tr>';
-			FieldAdd += '<td nowrap="nowrap" valign="top"><label for="easyreservation_edit_table"><?php _e("Table", "easyReservations"); ?></label></td>';
-			FieldAdd += '<td><label><input type="checkbox"  id="easyreservation_edit_table" name="easyreservation_edit_table" checked></label> <?php _e("Show table with other reservations by the same email", "easyReservations"); ?></td>';
-			FieldAdd += '</tr>';
-			FieldAdd += '<tr>';
-			FieldAdd += '<td nowrap="nowrap" valign="top"><label for="easyreservation_show_status"><?php _e("Status", "easyReservations"); ?></label></td>';
-			FieldAdd += '<td><label><input type="checkbox" id="easyreservation_show_status" name="easyreservation_show_status" checked></label> <?php _e("Show status", "easyReservations"); ?></td>';
-			FieldAdd += '</tr>';
-			FieldAdd += '<tr>';
-			FieldAdd += '<td nowrap="nowrap" valign="top"><label for="easyreservation_show_price"><?php _e("Price", "easyReservations"); ?></label></td>';
-			FieldAdd += '<td><label><input type="checkbox"  id="easyreservation_show_price" name="easyreservation_show_price" checked></label> <?php _e("Show price", "easyReservations"); ?></td>';
-			FieldAdd += '</tr>';
-			FieldAdd += '<tr>';
-			FieldAdd += '<td nowrap="nowrap" valign="top"><label for="easyreservation_edit_roomname"><?php _e("Name for Room", "easyReservations"); ?></label></td>';
-			FieldAdd += '<td><label><input type="text"  id="easyreservation_edit_roomname" name="easyreservation_edit_roomname" value="Room"></label> <?php _e("e.g. Apartment", "easyReservations"); ?></td>';
-			FieldAdd += '</tr>';
-			FieldAdd += '<tr><td colspan="2"><?php _e("This shortcode adds the function for your guests to edit their reservations afterwards", "easyReservations"); ?>. <?php _e("You have to copy the URL of this site to the easyReservations general settings", "easyReservations"); ?>.<br><b><?php _e("Only add the edit-form on one page or post", "easyReservations"); ?>.</b></td></tr>';
-
-		document.getElementById("tiny_Field").innerHTML = FieldAdd;
-	} <?php do_action('easy-tinymce-add', $roomsoptions); ?>
+	}  <?php do_action('easy-tinymce-add', $roomsoptions); ?>
 }
 
 function getCalendarInfos(){
@@ -214,12 +189,6 @@ function insertEasyShortcode() {
 		if(intervalfield) classAttribs += ' interval="' + intervalfield.value + '"';
 		var headerfield = document.getElementById('easyreservation_calendar_header');
 		if(headerfield && headerfield.checked == true) classAttribs += ' header="1"';
-	} else if(y == "edit"){
-		classAttribs += ' daysbefore="' + document.getElementById('easyreservation_edit_daysback').value + '"';
-		if(document.getElementById('easyreservation_show_status').checked == true) classAttribs += ' status="1"';
-		if(document.getElementById('easyreservation_show_price').checked == true) classAttribs += ' price="1"';
-		if(document.getElementById('easyreservation_edit_table').checked == true) classAttribs += ' table="1"';
-		classAttribs += ' roomname="' + document.getElementById('easyreservation_edit_roomname').value + '"';
 	} <?php do_action('easy-tinymce-save'); ?>
 
 	if(y != "choose") tinyMCEPopup.editor.execCommand('mceInsertContent', false, tagtext+classAttribs+']');
