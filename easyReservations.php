@@ -535,7 +535,7 @@ ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrival] <br>To: [depa
 		add_shortcode('easy_form', 'reservations_form_shortcode');
 	}
 
-	require_once(dirname(__FILE__)."/lib/widgets/form_widget.php");
+	if(file_exists(dirname(__FILE__).'/lib/widgets/form_widget.php')) require_once(dirname(__FILE__)."/lib/widgets/form_widget.php");
 	if(file_exists(dirname(__FILE__).'/lib/modules/premium/premium.php')) require_once(dirname(__FILE__)."/lib/modules/premium/premium.php");
 	if(easyreservations_is_module('paypal')) include_once(dirname(__FILE__)."/lib/modules/paypal/paypal.php");
 	if(easyreservations_is_module('useredit')) include_once(dirname(__FILE__)."/lib/modules/useredit/useredit.php");
