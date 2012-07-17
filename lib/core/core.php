@@ -42,7 +42,7 @@ License:GPL2
 					$uploads = wp_upload_dir();
 					$saved_file_location = $uploads['basedir'].'/'. $file_name;
 
-					if(preg_match("/(easyreservations|module|premium)/i", $file_name) && ($file_type == 'application/zip'  || $file_type == 'application/x-zip' || $file_type == 'application/x-zip-compressed' || $file_type == 'text/html'  || isset($_GET['file_name']))){
+					if(preg_match("/(easyreservations|module|premium)/i", $file_name) && ($file_type == 'application/zip'  || $file_type == 'application/x-zip' || $file_type == 'application/x-zip-compressed' || $file_type == 'text/html' || $file_type == 'application/octet-stream' || isset($_GET['file_name']))){
 						if(move_uploaded_file($file_tmp_name, $saved_file_location) || isset($_GET['file_name'])) {
 							$url = 'admin.php?page=reservation-settings&site=plugins&file_name='.$file_name;
 							if (false === ($creds = request_filesystem_credentials($url, 'ftp', false, false) ) ) {
