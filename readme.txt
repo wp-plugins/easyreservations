@@ -29,7 +29,7 @@ It's very flexible and intuitive and has a more as huge amount of functions and 
 * Export and Import
 * And alot more!
 
-[Documentation](http://easyreservations.org/knowledgebase/ "Documentation") | [Report bugs](http://easyreservations.org/forums/forum/bug-reports/ "Report bugs") | [Modules](http://easyreservations.org/module/ "Get help here!")
+[Documentation](http://easyreservations.org/knowledgebase/ "Documentation") | [Report bugs](http://easyreservations.org/forums/forum/bug-reports/ "Report bugs") | [Premium](http://easyreservations.org/premium/ "Support the development")
 
 == Installation ==
 
