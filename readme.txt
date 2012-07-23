@@ -1,10 +1,10 @@
 === easyReservations ===
 Contributors: feryaz
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=D3NW9TDVHBJ9E
-Tags: booking, reservation, form, reservations, property, resources, hotel, rooms, hostpatility, managment, calendar, events
+Tags: booking, reservation, form, reservations, property, resources, hotel, restaurant, hostpatility, managment, calendar, event
 Requires at least: 3.3
-Tested up to: 3.4
-Stable tag: 2.1.3
+Tested up to: 3.4.1
+Stable tag: 3.0
 This powerfull property and reservation management plugin that allows you to receive, schedule and handle your bookings easily!
 
 == Description ==

@@ -19,7 +19,7 @@
 	width:60px;
 	float:left !important;
 }
-.easybutton {
+.easy-button {
 	-moz-box-shadow:inset 0px 1px 0px 0px #fff;
 	-webkit-box-shadow:inset 0px 1px 0px 0px #fff;
 	box-shadow:inset 0px 1px 0px 0px #575757;
@@ -38,6 +38,13 @@
 	text-decoration:none;
 	text-shadow:1px 1px 0px #000;
 	cursor:pointer;
+}
+
+.easy-button:hover {
+	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #636363), color-stop(1, #636363) );
+	background:-moz-linear-gradient( center top, #636363 5%, #636363 100% );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#636363', endColorstr='#444444');
+	color:#ffffff;
 }
 
 #easy_widget_form input, #easy_widget_form select {

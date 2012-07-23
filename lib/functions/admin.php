@@ -1,11 +1,17 @@
 <?php
 if(isset($_GET['page'])){
-		$page=$_GET['page'];
+	$page=$_GET['page'];
+	if(isset($_GET['tutorial_histoy'])){
+		if(!function_exists('wp_get_current_user')) include(ABSPATH . "wp-includes/pluggable.php"); 
+		set_user_setting( 'easy_tutorial', '' );
+	}
+
 
 	function easyreservations_load_mainstyle() {  //  Load Scripts and Styles
 
 		wp_register_style('myStyleSheets', WP_PLUGIN_URL . '/easyreservations/css/style.css');
-		wp_register_style('chosenStyle', WP_PLUGIN_URL . '/easyreservations/css/style_'.RESERVATIONS_STYLE.'.css');
+		if(RESERVATIONS_STYLE == 'premium') wp_register_style('chosenStyle', WP_PLUGIN_URL . '/easyreservations/lib/modules/styles/admin/style_premium.css');
+		else wp_register_style('chosenStyle', WP_PLUGIN_URL . '/easyreservations/css/style_'.RESERVATIONS_STYLE.'.css');
 
 		wp_enqueue_style( 'myStyleSheets');
 		wp_enqueue_style( 'chosenStyle');
@@ -17,13 +23,11 @@ if(isset($_GET['page'])){
 	}
 
 	function easyreservations_statistics_load() {  //  Load Scripts and Styles
-		wp_register_style('jqplot_style', RESERVATIONS_JS_DIR . '/jQplot/jquery.jqplot.min.css' );
-		wp_register_script('jqplot', RESERVATIONS_JS_DIR . '/jQplot/jquery.jqplot.min.js');
-		wp_register_script('jqplot_plugin_pieRenderer', RESERVATIONS_JS_DIR . '/jQplot/plugins/jqplot.pieRenderer.min.js' );
-		wp_register_script('jqplot_plugin_barRenderer', RESERVATIONS_JS_DIR . '/jQplot/plugins/jqplot.barRenderer.min.js' );
-		wp_register_script('jqplot_plugin_highlighter', RESERVATIONS_JS_DIR . '/jQplot/plugins/jqplot.highlighter.min.js' );
-		wp_register_script('jqplot_plugin_dateAxisRenderer', RESERVATIONS_JS_DIR . '/jQplot/plugins/jqplot.dateAxisRenderer.min.js' );
-		wp_register_script('jqplot_plugin_categoryAxisRenderer', RESERVATIONS_JS_DIR . '/jQplot/plugins/jqplot.categoryAxisRenderer.min.js' );
+		wp_register_script('jquery-flot', RESERVATIONS_URL . 'js/flot/jquery.flot.min.js' );
+		wp_register_script('jquery-flot-stack', RESERVATIONS_URL . 'js/flot/jquery.flot.stack.min.js' );
+		wp_register_script('jquery-flot-pie', RESERVATIONS_URL . 'js/flot/jquery.flot.pie.min.js' );
+		wp_register_script('jquery-flot-crosshair', RESERVATIONS_URL . 'js/flot/jquery.flot.crosshair.min.js' );
+		wp_register_script('jquery-flot-resize', RESERVATIONS_URL . 'js/flot/jquery.flot.resize.min.js' );
 	}
 
 	if($page == 'reservation-statistics' || $page == 'reservations'){  //  Only load Styles and Scripts on Statistics Page
@@ -31,10 +35,8 @@ if(isset($_GET['page'])){
 	}
 
 	function easyreservations_scripts_resources_load() {  //  Load Scripts and Styles
-		wp_register_style('datestyle', WP_PLUGIN_URL . '/easyreservations/css/jquery-ui.css' );
-		wp_register_style('easy-cal-2', WP_PLUGIN_URL . '/easyreservations/css/calendar/style_2.css');
-
-		wp_enqueue_style('easy-cal-2');
+		if(RESERVATIONS_STYLE == 'premium') wp_enqueue_style('easy-cal-premium', WP_PLUGIN_URL . '/easyreservations/lib/modules/styles/calendar/calendar_premium.css');
+		else wp_enqueue_style('easy-cal-2',WP_PLUGIN_URL . '/easyreservations/css/calendar/style_1.css');
 		wp_enqueue_script('jquery-ui-datepicker');
 
 		wp_enqueue_style('thickbox');
@@ -49,7 +51,6 @@ if(isset($_GET['page'])){
 	}
 		
 	function easyreservations_datepicker_load(){  //  Load Scripts and Styles for datepicker
-		wp_register_style('datestyle', WP_PLUGIN_URL . '/easyreservations/css/jquery-ui.css');
 		wp_enqueue_script('jquery-ui-datepicker');
 	}
 	if($page == 'reservations'){  //  Only load Styles and Scripts on add Reservation
@@ -61,22 +62,18 @@ if(isset($_GET['page'])){
 	*
 	*	$id = reservations id
 	*/
-	function easyreservations_detailed_price($id, $resource = 0){
+	function easyreservations_detailed_price($priceforarray, $resource = 0){
 		$date_pat = RESERVATIONS_DATE_FORMAT;
 		if($resource > 0){
 			global $the_rooms_intervals_array;
 			if($the_rooms_intervals_array[$resource] == 3600) $date_pat .= ' H:i';
 		}
-		$pricearray=easyreservations_price_calculation($id, '', 1);
-		$priceforarray=$pricearray['getusage'];
 		if(count($priceforarray) > 0){
 			$arraycount=count($priceforarray);
-
 			$pricetable='<table class="'.RESERVATIONS_STYLE.'"><thead><tr><th colspan="4" style="border-right:1px">'.__('Price calculation', 'easyReservations').'</th></tr></thead><tr style="background:#fff;"><td><b>'.__('Date', 'easyReservations').'</b></td><td><b>'.__('Description', 'easyReservations').'</b></td><td style="text-align:right"><b>'.__('Price', 'easyReservations').'</b></td><td style="text-align:right"><b>'.__('Total', 'easyReservations').'</b></td></tr>';
 			$count=0;
 			$pricetotal=0;
 
-			sort($priceforarray);
 			foreach( $priceforarray as $pricefor){
 				$count++;
 				if(is_int($count/2)) $class=' class="alternate"'; else $class='';
@@ -89,9 +86,6 @@ if(isset($_GET['page'])){
 				} elseif($pricefor['type'] == 'customp_n'){
 					$dateposted = '';
 					$type = __('Custom price','easyReservations').' '.$pricefor['name'];
-				} elseif($pricefor['type'] == 'coupon'){
-					$dateposted = '';
-					$type = __('Coupon','easyReservations').' '.$pricefor['name'];
 				} elseif($pricefor['type'] == 'stay'){
 					$dateposted = '';
 					$type = __('Stay filter','easyReservations').' '.$pricefor['name'];
@@ -107,17 +101,23 @@ if(isset($_GET['page'])){
 				} elseif($pricefor['type'] == 'persons'){
 					$dateposted = '';
 					$type = __('Price per Person','easyReservations').' x'.$pricefor['name'];
+				} elseif($pricefor['type'] == 'coupon'){
+					$dateposted = '';
+					$type = __('Coupon','easyReservations').' '.$pricefor['name'];
 				} elseif($pricefor['type'] == 'childs'){
 					$dateposted = '';
 					$type = __('Price per Children','easyReservations').' x'.$pricefor['name'];
 				} elseif($pricefor['type'] == 'tax'){
 					$dateposted = '';
 					$type = __('Tax','easyReservations').' '.$pricefor['name']. ' ('.$pricefor['amount'].'%)';
+				} elseif($pricefor['type'] == 'pricefilter'){
+					$dateposted=date($date_pat, $date);
+					$type = __('Price filter','easyReservations').' '.$pricefor['name'];
 				} else {
 					$dateposted=date($date_pat, $date);
 					$type = __('Groundprice','easyReservations');
 				}
-				$pricetable.= '<tr'.$class.'><td nowrap>'.$dateposted.'</td><td nowrap>'.$type.'</td><td style="text-align:right;" nowrap>'.reservations_format_money($pricefor['priceday'], 1).'</td><td style="text-align:right;" nowrap><b'.$onlastprice.'>'.reservations_format_money($pricetotal, 1).'</b></td></tr>';
+				$pricetable.= '<tr'.$class.'><td nowrap>'.$dateposted.'</td><td nowrap>'.$type.'</td><td style="text-align:right;" nowrap>'.easyreservations_format_money($pricefor['priceday'], 1).'</td><td style="text-align:right;" nowrap><b'.$onlastprice.'>'.easyreservations_format_money($pricetotal, 1).'</b></td></tr>';
 				unset($priceforarray[$count-1]);
 			}
 
@@ -128,34 +128,65 @@ if(isset($_GET['page'])){
 	}
 
 	/**
-	*	Return ids of all rooms
-	*
-	*	$id = reservations id
-	*/
-
-	function easyreservations_get_highest_roomcount(){ //Get highest Count of Room
-		global $wpdb;
-
-		$res = $wpdb->get_results( $wpdb->prepare("SELECT meta_value FROM ".$wpdb->prefix ."postmeta WHERE meta_key='roomcount' AND meta_value > 0 ORDER BY meta_value DESC LIMIT 1")); // Get Higest Roomcount
-		return $res[0]->meta_value;
-
-	}
-
-	/**
 	*	Returns info box
 	*
 	*	$id = reservations id
 	*	$where = place to display info box
 	*/
 
-	function easyreservations_reservation_info_box($id, $where, $status){
-		$payStatus = reservations_check_pay_status($id);
-		if($payStatus == 0) $paid = ' - <b style="text-transform: capitalize;color:#1FB512;">'. __( 'paid' , 'easyReservations' ).'</b>';
-		else $paid = ' - <b style="text-transform: capitalize;color:#FF3B38;">'. __( 'unpaid' , 'easyReservations' ).'</b>';
+	function easyreservations_reservation_info_box($res, $where, $status){
 
-		$infoBox = '<div class="explainbox" style="width:96%; margin-bottom:2px;"><div id="left" style=""><b><img style="vertical-align:text-bottom;" src="'.RESERVATIONS_IMAGES_DIR.'/money.png"> '.easyreservations_get_price($id).'</b></div><div id="right"><span style="float:right">'.reservations_get_administration_links($id, $where, $status).'</span></div><div id="center">'.easyreservations_format_status($status,1).' '.$paid.'</div></div>';
+		if($res->paid > 0){
+			$percent = round(100/$res->price*$res->paid, 2);
+			if($percent == 100) $color = '#1FB512';
+			elseif($percent > 100) $color = '#ab2ad6	';
+			else $color = '#F7B500';
+		} else {
+			$percent = '0';
+			$color = '#BC0B0B';
+		}
+		
+		if(time() >= $res->arrival && time() <= $res->departure){
+			$text = __( 'active' , 'easyReservations' );
+			$text_color = '#1FB512';
+			$time = round(($res->departure-time())/86400);
+			$text .= '<small style="font-weight:normal;font-size:11px;">+'.$time.'</small>';
+		} elseif(time() < $res->arrival){
+			$text = __( 'future' , 'easyReservations' );
+			$text_color = '#BC0B0B';
+			$time = round(($res->arrival - time())/86400);
+			$text .= '<small style="font-weight:normal;font-size:11px;">+'.$time.'</small>';
+		} else {
+			$text = __( 'past' , 'easyReservations' );
+			$text_color = '#2A78D8';
+			$time = round((time()-$res->departure)/86400);
+			$text .= '<small style="font-weight:normal;font-size:11px;">-'.$time.'</small>';
+		}
 
-		return $infoBox;
+		$box = '<div class="explainbox">';
+			$box .= '<span>';
+				$box .= __( 'price' , 'easyReservations' );
+				if($res->fixed) $box .= ' <img style="vertical-align:text-bottom;display:inline-block !Important;" src="'.RESERVATIONS_URL.'/images/lock.png">';
+				$box .= '<b>'.$res->formatPrice().'</b>';
+			$box .= '</span>';
+			$box .= '<span>';
+				$box .= __( 'paid' , 'easyReservations' );
+				$box .= '<b><span style="color:'.$color.'">'.easyreservations_format_money($res->paid, true).'</span> <small>'.$percent.'%</small></b>';
+			$box .= '</span>';
+			$box .= '<span>';
+				$box .= __( 'time' , 'easyReservations' );
+				$box .= '<b style="color:'.$text_color.'">'.$text.'</b>';
+			$box .= '</span>';
+			$box .= '<span>';
+				$box .= __( 'status' , 'easyReservations' );
+				$box .= '<b>'.$res->getStatus(true).'</b>';
+			$box .= '</span>';
+			$box .= '<span>';
+				$box .= reservations_get_administration_links($res->id, $where, $status);
+			$box .= '</span>';
+		$box .= '</div>';
+	
+		return $box;
 	}
 
 	/**
@@ -165,18 +196,19 @@ if(isset($_GET['page'])){
 	*	$where = place to display info box
 	*/
 
-	function reservations_get_administration_links($id, $where, $status){ //Get Links for approve, edit, trash, delete, view...
+	function reservations_get_administration_links($id, $where, $status){
 
 		$countits=0;
-		$checkID = easyreservations_format_status($status);
 		$administration_links = "";
-		if($where != "approve" && $checkID != __("approved")) { $administration_links.='<a href="admin.php?page=reservations&approve='.$id.'">'.__( 'Approve' , 'easyReservations' ).'</a>'; $countits++; }
-		if($countits > 0){ $administration_links.=' | '; $countits=0; }
-		if($where != "reject" && $checkID != __("rejected")) { $administration_links.='<a href="admin.php?page=reservations&delete='.$id.'">'.__( 'Reject' , 'easyReservations' ).'</a>'; $countits++; }
-		if($countits > 0){ $administration_links.=' | '; $countits=0; }
+		if($where != "approve" && $status != 'yes') { $administration_links.='<a href="admin.php?page=reservations&approve='.$id.'">'.__( 'Approve' , 'easyReservations' ).'</a>'; $countits++; }
+		if($countits > 0){ $administration_links.=' ';}
+		if($where != "reject" && $status !='no') { $administration_links.='<a href="admin.php?page=reservations&delete='.$id.'">'.__( 'Reject' , 'easyReservations' ).'</a>'; $countits++; }
+		if($countits > 0){ $administration_links.='DASD';}
 		if($where != "edit") { $administration_links.='<a href="admin.php?page=reservations&edit='.$id.'">'.__( 'Edit' , 'easyReservations' ).'</a>'; $countits++; }
-		if($countits > 0){ $administration_links.=' | '; $countits=0; }
+		if($countits > 0){ $administration_links.=' '; }
 		$administration_links.='<a href="admin.php?page=reservations&sendmail='.$id.'">'.__( 'Mail' , 'easyReservations' ).'</a>'; $countits++;
+		if($countits > 3) $administration_links = str_replace('DASD', '</span><span style="padding-left:0px;">', $administration_links);
+		else $administration_links = str_replace('DASD', '', $administration_links);
 		//if($countits > 0){ $administration_links.=' | '; $countits=0; }
 		//if($where != "trash" AND $checkID != "trashed") { $administration_links.='<a href="admin.php?page=reservations&bulkArr[]='.$id.'&bulk=1">'.__( 'Trash' , 'easyReservations' ).'</a>'; $countits++; }
 
@@ -197,27 +229,24 @@ if(isset($_GET['page'])){
 				if(isset($_POST['show_new'])) $show_new = 1; else $show_new = 0;
 				if(isset($_POST['show_export'])) $show_export = 1; else $show_export = 0;
 				if(isset($_POST['show_today'])) $show_today = 1; else $show_today = 0;
+				if(isset($_POST['show_statistics'])) $show_statistics = 1; else $show_statistics = 0;
 				if(isset($_POST['show_welcome'])) $show_welcome = 1; else $show_welcome = 0;
-				
-				$showhide = array( 'show_overview' => $show_overview, 'show_table' => $show_table, 'show_upcoming' => $show_upcoming, 'show_new' => $show_new, 'show_export' => $show_export, 'show_today' => $show_today, 'show_welcome' => $show_welcome  );
+
+				$showhide = array( 'show_overview' => $show_overview, 'show_table' => $show_table, 'show_upcoming' => $show_upcoming, 'show_new' => $show_new, 'show_export' => $show_export, 'show_today' => $show_today, 'show_welcome' => $show_welcome, 'show_statistics' => $show_statistics  );
 
 				if(isset($_POST['table_color'])) $table_color = 1; else $table_color = 0;
 				if(isset($_POST['table_id'])) $table_id = 1; else $table_id = 0;
 				if(isset($_POST['table_name'])) $table_name = 1; else $table_name = 0;
 				if(isset($_POST['table_from'])) $table_from = 1; else $table_from = 0;
-				if(isset($_POST['table_to'])) $table_to = 1; else $table_to = 0;
-				if(isset($_POST['table_nights'])) $table_nights = 1; else $table_nights = 0;
 				if(isset($_POST['table_email'])) $table_email = 1; else $table_email = 0;
 				if(isset($_POST['table_room'])) $table_room = 1; else $table_room = 0;
 				if(isset($_POST['table_exactly'])) $table_exactly = 1; else $table_exactly = 0;
 				if(isset($_POST['table_reservated'])) $table_reservated = 1; else $table_reservated = 0;
 				if(isset($_POST['table_persons'])) $table_persons = 1; else $table_persons = 0;
-				if(isset($_POST['table_childs'])) $table_childs = 1; else $table_childs = 0;
 				if(isset($_POST['table_status'])) $table_status = 1; else $table_status = 0;
 				if(isset($_POST['table_country'])) $table_country = 1; else $table_country = 0;
 				if(isset($_POST['table_custom'])) $table_custom = 1; else $table_custom = 0;
 				if(isset($_POST['table_customp'])) $table_customp = 1; else $table_customp = 0;
-				if(isset($_POST['table_paid'])) $table_paid = 1; else $table_paid = 0;
 				if(isset($_POST['table_price'])) $table_price = 1; else $table_price = 0;
 				if(isset($_POST['table_filter_month'])) $table_filter_month = 1; else $table_filter_month = 0;
 				if(isset($_POST['table_filter_room'])) $table_filter_room = 1; else $table_filter_room = 0;
@@ -228,7 +257,7 @@ if(isset($_GET['page'])){
 				if(isset($_POST['table_fav'])) $table_fav = 1; else $table_fav = 0;
 				if(isset($_POST['table_onmouseover'])) $table_onmouseover = 1; else $table_onmouseover = 0;
 				
-				$table = array( 'table_color' => $table_color, 'table_id' => $table_id, 'table_name' => $table_name, 'table_from' => $table_from, 'table_fav' => $table_fav, 'table_to' => $table_to, 'table_nights' => $table_nights, 'table_email' => $table_email, 'table_room' => $table_room, 'table_exactly' => $table_exactly, 'table_persons' => $table_persons, 'table_childs' => $table_childs, 'table_country' => $table_country, 'table_custom' => $table_custom, 'table_customp' => $table_customp, 'table_paid' => $table_paid, 'table_price' => $table_price, 'table_filter_month' => $table_filter_month, 'table_filter_room' => $table_filter_room, 'table_filter_offer' => $table_filter_offer, 'table_filter_days' => $table_filter_days, 'table_search' => $table_search, 'table_bulk' => $table_bulk, 'table_onmouseover' => $table_onmouseover, 'table_reservated' => $table_reservated, 'table_status' => $table_status );
+				$table = array( 'table_color' => $table_color, 'table_id' => $table_id, 'table_name' => $table_name, 'table_from' => $table_from, 'table_fav' => $table_fav, 'table_email' => $table_email, 'table_room' => $table_room, 'table_exactly' => $table_exactly, 'table_persons' => $table_persons, 'table_country' => $table_country, 'table_custom' => $table_custom, 'table_customp' => $table_customp, 'table_price' => $table_price, 'table_filter_month' => $table_filter_month, 'table_filter_room' => $table_filter_room, 'table_filter_offer' => $table_filter_offer, 'table_filter_days' => $table_filter_days, 'table_search' => $table_search, 'table_bulk' => $table_bulk, 'table_onmouseover' => $table_onmouseover, 'table_reservated' => $table_reservated, 'table_status' => $table_status );
 
 				if(isset($_POST['overview_onmouseover'])) $overview_onmouseover = 1; else $overview_onmouseover = 0;
 				if(isset($_POST['overview_autoselect'])) $overview_autoselect = 1; else $overview_autoselect = 0;
@@ -241,6 +270,8 @@ if(isset($_GET['page'])){
 
 				update_option('reservations_main_options', array('show' => $showhide, 'table' => $table, 'overview' => $overview ));
 				if(isset($_POST['daybutton'])) update_option("reservations_show_days",$_POST['daybutton']);
+				global $easy_errors;
+				$easy_errors[] = array( 'updated', __( 'Reservations dashboard settings saved' , 'easyReservations' ));
 			}
 
 			$main_options = get_option("reservations_main_options");
@@ -254,6 +285,7 @@ if(isset($_GET['page'])){
 					$current .= '<b><u>'.__( 'Show/Hide content' , 'easyReservations').'</u></b><br>';
 					$current .= '<label><input type="checkbox" name="show_welcome" value="1" '.checked($show['show_welcome'], 1, false).'> '.__( 'Show welcome message' , 'easyReservations').'</label><br>';
 					$current .= '<label><input type="checkbox" name="show_overview" value="1" '.checked($show['show_overview'], 1, false).'> '.__( 'Overview' , 'easyReservations').'</label><br>';
+					if(function_exists('easyreservations_statistics_mini')) $current .= '<label><input type="checkbox" name="show_statistics" value="1" '.checked($show['show_statistics'], 1, false).'> '.__( 'Statistics' , 'easyReservations').'</label><br>';
 					$current .= '<label><input type="checkbox" name="show_table" value="1" '.checked($show['show_table'], 1, false).'> '.__( 'Table' , 'easyReservations').'</label><br>';
 					$current .= '<label><input type="checkbox" name="show_upcoming" value="1" '.checked($show['show_upcoming'], 1, false).'> '.__( 'Upcoming reservations' , 'easyReservations').'</label><br>';
 					$current .= '<label><input type="checkbox" name="show_new" value="1" '.checked($show['show_new'], 1, false).'> '.__( 'New reservations' , 'easyReservations').'</label><br>';
@@ -266,24 +298,20 @@ if(isset($_GET['page'])){
 						$current .= '<label><input type="checkbox" name="table_color" value="1" '.checked($table['table_color'], 1, false).'> '.__( 'Color' , 'easyReservations').'</label><br>';
 						$current .= '<label><input type="checkbox" name="table_id" value="1" '.checked($table['table_id'], 1, false).'> '.__( 'ID' , 'easyReservations').'</label><br>';
 						$current .= '<label><input type="checkbox" name="table_name" value="1" '.checked($table['table_name'], 1, false).'> '.__( 'Name' , 'easyReservations').'</label><br>';
-						$current .= '<label><input type="checkbox" name="table_from" value="1" '.checked($table['table_from'], 1, false).'> '.__( 'Arrival  ' , 'easyReservations').'</label><br>';
-						$current .= '<label><input type="checkbox" name="table_to" value="1" '.checked($table['table_to'], 1, false).'> '.__( 'Departure  ' , 'easyReservations').'</label><br>';
-						$current .= '<label><input type="checkbox" name="table_nights" value="1" '.checked($table['table_nights'], 1, false).'> '.__( 'Times  ' , 'easyReservations').'</label><br>';
+						$current .= '<label><input type="checkbox" name="table_from" value="1" '.checked($table['table_from'], 1, false).'> '.__( 'Date  ' , 'easyReservations').'</label><br>';
 						$current .= '<label><input type="checkbox" name="table_reservated" value="1" '.checked($table['table_reservated'], 1, false).'> '.__( 'Reserved ' , 'easyReservations').'</label><br>';
 					$current .= '</span>';
 					$current .= '<span style="float:left;margin-right:10px">';
 						$current .= '<label><input type="checkbox" name="table_email" value="1" '.checked($table['table_email'], 1, false).'> '.__( 'eMail' , 'easyReservations').'</label><br>';
 						$current .= '<label><input type="checkbox" name="table_room" value="1" '.checked($table['table_room'], 1, false).'> '.__( 'Resource' , 'easyReservations').'</label><br>';
 						$current .= '<label><input type="checkbox" name="table_exactly" value="1" '.checked($table['table_exactly'], 1, false).'> '.__( 'Resource number' , 'easyReservations').'</label><br>';
-						$current .= '<label><input type="checkbox" name="table_persons" value="1" '.checked($table['table_persons'], 1, false).'> '.__( 'Adults' , 'easyReservations').'</label><br>';
-						$current .= '<label><input type="checkbox" name="table_childs" value="1" '.checked($table['table_childs'], 1, false).'> '.__( 'Children' , 'easyReservations').'</label><br>';
+						$current .= '<label><input type="checkbox" name="table_persons" value="1" '.checked($table['table_persons'], 1, false).'> '.__( 'Persons' , 'easyReservations').'</label><br>';
 						$current .= '<label><input type="checkbox" name="table_status" value="1" '.checked($table['table_status'], 1, false).'> '.__( 'Status' , 'easyReservations').'</label><br>';
 					$current .= '</span>';
 					$current .= '<span style="float:left;">';
 						$current .= '<label><input type="checkbox" name="table_country" value="1" '.checked($table['table_country'], 1, false).'> '.__( 'Country' , 'easyReservations').'</label><br>';
 						$current .= '<label><input type="checkbox" name="table_custom" value="1" '.checked($table['table_custom'], 1, false).'> '.__( 'Custom fields' , 'easyReservations').'</label><br>';
 						$current .= '<label><input type="checkbox" name="table_customp" value="1" '.checked($table['table_customp'], 1, false).'> '.__( 'Custom prices' , 'easyReservations').'</label><br>';
-						$current .= '<label><input type="checkbox" name="table_paid" value="1" '.checked($table['table_paid'], 1, false).'> '.__( 'Paid' , 'easyReservations').'</label><br>';
 						$current .= '<label><input type="checkbox" name="table_price" value="1" '.checked($table['table_price'], 1, false).'> '.__( 'Price' , 'easyReservations').'</label><br>';
 						$current .= '<label><input type="checkbox" name="table_fav" value="1" '.checked($table['table_fav'], 1, false).'> '.__( 'Favourites' , 'easyReservations').'</label><br>';
 					$current .= '</span>';
@@ -358,6 +386,16 @@ if(isset($_GET['page'])){
 		return $options;
 	}
 
+	function easyreservations_dashboard_message(){
+		global $easy_errors;
+		if(!empty($easy_errors)){
+			foreach($easy_errors as $error){
+				if(!is_array($error)) $error = array('error', $error);
+				elseif(!isset($error[1])){ $error[1] = $error[0]; $error[0] = 'error'; }
+				echo '<div class="'.$error[0].'" style="margin-top:-5px !important"><p>'.$error[1].'</p></div>';
+			}
+		}
+	}
 }
 	/* *
 	*	Table ajax request
@@ -367,7 +405,7 @@ if(isset($_GET['page'])){
 		$nonce = wp_create_nonce( 'easy-table' );
 		?><script type="text/javascript" >	
 			function easyreservation_send_table(typ, paging, order, orderby){
-				if(document.getElementById('easy-table-refreshimg')) document.getElementById('easy-table-refreshimg').src = '<?php echo RESERVATIONS_IMAGES_DIR; ?>/loading1.gif'
+				if(document.getElementById('easy-table-refreshimg')) document.getElementById('easy-table-refreshimg').src = '<?php echo RESERVATIONS_URL; ?>/images/loading1.gif'
 				
 				if(!order){
 					var orderfield = document.getElementById('easy-table-order');
@@ -505,7 +543,7 @@ if(isset($_GET['page'])){
 
 		if(!empty($search)){
 			if(preg_match('/^([0-9]+[\,]{1})+[0-9]+$/i', $search)) $searchstr = "AND id in($search)";
-			else $searchstr = "AND (name like '%1\$s' OR id like '%1\$s' OR email like '%1\$s' OR arrival like '%1\$s')";
+			else $searchstr = "AND (name like '%1\$s' OR id like '%1\$s' OR email like '%1\$s' OR arrival like '%1\$s OR custom like '%1\$s')";
 		}
 		else $searchstr = "";
 
@@ -532,7 +570,10 @@ if(isset($_GET['page'])){
 
 		if($orderby=="date") $ordersby="arrival";
 		elseif($orderby=="name") $ordersby="name";
-		elseif($orderby=="room") $ordersby="room";
+		elseif($orderby=="room"){
+			$ordersby="room";
+			$orders.=", roomnumber ".$orders;
+		}
 		elseif($orderby=="reservated") $ordersby="reservated";
 
 		if(empty($orderby) && $typ=="pending") { $ordersby="id"; $orders="DESC"; }
@@ -587,7 +628,7 @@ if(isset($_GET['page'])){
 					</ul>
 				</td>
 				<td style="width:22px"><span style="float:left;" id="er-table-loading"></span></td>
-				<td style="text-align:center; font-size:12px;" nowrap><!-- Begin of Filter //--> 
+				<td style="text-align:center; font-size:12px;" id="idstatusbar" nowrap><!-- Begin of Filter //--> 
 				<?php if($table_options['table_filter_offer'] == 1){
 					?>
 					<select name="statusselector" id="easy-table-statusselector" class="postform" onchange="easyreservation_send_table('<?php echo $typ; ?>', 1)"><option value="0"><?php printf ( __( 'View all statuses' , 'easyReservations' ));?></option><option value="yes" <?php selected('yes', $statusselector) ?>><?php printf ( __( 'Approved' , 'easyReservations' ));?></option><option value=" <?php selected('', $statusselector) ?>"><?php printf ( __( 'Pending' , 'easyReservations' ));?></option><option value="no" <?php selected('no', $statusselector) ?> ><?php printf ( __( 'Rejected' , 'easyReservations' ));?></option><option value="del" <?php selected('del', $statusselector) ?>><?php printf ( __( 'Trashed' , 'easyReservations' ));?></option></select>
@@ -606,13 +647,13 @@ if(isset($_GET['page'])){
 						} ?>
 					</select>
 					<?php } if($table_options['table_filter_room'] == 1){ ?>
-						<select name="roomselector" id="easy-table-roomselector" class="postform" onchange="easyreservation_send_table('<?php echo $typ; ?>', 1)"><option value="0"><?php printf ( __( 'View all Rooms' , 'easyReservations' ));?></option><?php echo reservations_get_room_options($roomselector); ?></select>
+						<select name="roomselector" id="easy-table-roomselector" class="postform" onchange="easyreservation_send_table('<?php echo $typ; ?>', 1)"><option value="0"><?php printf ( __( 'View all Resources' , 'easyReservations' ));?></option><?php echo easyreservations_resource_options($roomselector); ?></select>
 					<?php } if($table_options['table_filter_days'] == 1){ ?><input size="1px" type="text" id="easy-table-perpage-field" name="perpage" value="<?php echo $perpage; ?>" maxlength="3" onchange="easyreservation_send_table('<?php echo $typ; ?>', 1)"></input>
-					<img src=" <?php echo RESERVATIONS_IMAGES_DIR; ?>/list.png" style="vertical-align:text-bottom;cursor:pointer" onclick="easyreservation_send_table('all', 1)">
+					<img src=" <?php echo RESERVATIONS_URL; ?>/images/list.png" style="vertical-align:text-bottom;cursor:pointer" onclick="easyreservation_send_table('all', 1)">
 					<?php } ?>
 				</td>
 				<td style="width:33%; margin-left: auto; margin-right:0px; text-align:right;" nowrap>
-					<img id="easy-table-refreshimg" src="<?php echo RESERVATIONS_IMAGES_DIR; ?>/refresh.png" style="vertical-align:text-bottom" onclick="resetTableValues()">
+					<img id="easy-table-refreshimg" src="<?php echo RESERVATIONS_URL; ?>/images/refresh.png" style="vertical-align:text-bottom" onclick="resetTableValues()">
 					<?php if($table_options['table_search'] == 1){ ?>
 						<input type="text" onchange="easyreservation_send_table('all', 1)" style="width:77px;text-align:center" id="easy-table-search-date" value="<?php if(isset($search_date)) echo $search_date; ?>">
 						<input type="text" onchange="easyreservation_send_table('all', 1)" style="width:130px;" id="easy-table-search-field" name="search" value="<?php if(isset($search)) echo $search;?>" class="all-options"></input>
@@ -625,24 +666,22 @@ if(isset($_GET['page'])){
 		<table  class="reservationTable <?php echo RESERVATIONS_STYLE; ?>" style="width:99%;"> <!-- Main Table //-->
 			<thead> <!-- Main Table Header //-->
 				<tr><?php $countrows = 0; ?>
-					<?php if($table_options['table_color'] == 1){ $countrows++; ?>
-						<th style="max-width:4px;padding:0px;"></th>
-					<?php } if($table_options['table_bulk'] == 1){ $countrows++; ?>
-						<th><input type="hidden" name="page" value="reservations"><input type="checkbox" id="bulkArr[]" onclick="checkAllController(document.frmAdd,this,'bulkArr')" style="margin-top:2px"></th>
+					<?php if($table_options['table_bulk'] == 1){ $countrows++; ?>
+						<th style="text-align:center"><input type="hidden" name="page" value="reservations"><input type="checkbox" name="themainbulk" id="bulkArr[]" onclick="checkAllController(document.frmAdd,this,'bulkArr')" style="margin-top:2px"></th>
+					<?php } if($table_options['table_from'] == 1){ $countrows++; ?>
+						<th colspan="2"><?php if($order=="ASC" and $orderby=="date") { ?><a class="asc2" onclick="easyreservation_send_table('<?php echo $typ; ?>', 1, 'DESC', 'date' )">
+						<?php } elseif($order=="DESC" and $orderby=="date") { ?><a class="desc2" onclick="easyreservation_send_table('<?php echo $typ; ?>', 1, 'ASC', 'date' )">
+						<?php } else { ?><a class="stand2" onclick="easyreservation_send_table('<?php echo $typ; ?>', 1, 'ASC', 'date' )"><?php } ?><?php printf ( __( 'Date' , 'easyReservations' ));?></a></th>
 					<?php } if($table_options['table_name'] == 1 || $table_options['table_id'] == 1){ $countrows++; ?>
 						<th><?php if($order=="ASC" and $orderby=="name") { ?><a class="asc2" onclick="easyreservation_send_table('<?php echo $typ; ?>', 1, 'DESC', 'name' )">
 						<?php } elseif($order=="DESC" and $orderby=="name") { ?><a class="desc2" onclick="easyreservation_send_table('<?php echo $typ; ?>', 1, 'ASC', 'name' )">
 						<?php } else { ?><a class="stand2" onclick="easyreservation_send_table('<?php echo $typ; ?>', 1, 'ASC', 'name' )"><?php } ?><?php printf ( __( 'Name' , 'easyReservations' ));?></a></th>
-					<?php } if($table_options['table_from'] == 1 || $table_options['table_to'] == 1 || $table_options['table_nights'] == 1){ $countrows++; ?>
-						<th><?php if($order=="ASC" and $orderby=="date") { ?><a class="asc2" onclick="easyreservation_send_table('<?php echo $typ; ?>', 1, 'DESC', 'date' )">
-						<?php } elseif($order=="DESC" and $orderby=="date") { ?><a class="desc2" onclick="easyreservation_send_table('<?php echo $typ; ?>', 1, 'ASC', 'date' )">
-						<?php } else { ?><a class="stand2" onclick="easyreservation_send_table('<?php echo $typ; ?>', 1, 'ASC', 'date' )"><?php } ?><?php printf ( __( 'Date' , 'easyReservations' ));?></a></th>
 					<?php }  if($table_options['table_reservated'] == 1 || $table_options['table_reservated'] == 1){ $countrows++; ?>
 						<th style="text-align:center"><?php if($order=="ASC" and $orderby=="reservad") { ?><a class="asc2" onclick="easyreservation_send_table('<?php echo $typ; ?>', 1, 'DESC', 'reservated' )">
 						<?php } elseif($order=="DESC" and $orderby=="reservated") { ?><a class="desc2" onclick="easyreservation_send_table('<?php echo $typ; ?>', 1, 'ASC', 'reservated' )">
 						<?php } else { ?><a class="stand2" onclick="easyreservation_send_table('<?php echo $typ; ?>', 1, 'DESC', 'reservated' )"><?php } ?><?php printf ( __( 'Reserved' , 'easyReservations' ));?></a></th>
 					<?php }  if($table_options['table_status'] == 1){ $countrows++; ?>
-						<th><?php printf ( __( 'Status' , 'easyReservations' )); ?></th>
+						<th style="text-align:center"><?php printf ( __( 'Status' , 'easyReservations' )); ?></th>
 					<?php } if($table_options['table_email'] == 1){ $countrows++; ?>
 						<th><?php printf ( __( 'eMail' , 'easyReservations' ));?></th>
 					<?php } if($table_options['table_persons'] == 1 || $table_options['table_childs'] == 1){ $countrows++; ?>
@@ -657,8 +696,6 @@ if(isset($_GET['page'])){
 						<th><?php printf ( __( 'Custom fields' , 'easyReservations' )); ?></th>
 					<?php }  if($table_options['table_customp'] == 1){ $countrows++; ?>
 						<th><?php printf ( __( 'Custom prices' , 'easyReservations' )); ?></th>
-					<?php }  if($table_options['table_paid'] == 1){ $countrows++; ?>
-						<th style="text-align:right"><?php printf ( __( 'Paid' , 'easyReservations' ));?></th>
 					<?php }  if($table_options['table_price'] == 1){ $countrows++; ?>
 						<th style="text-align:right"><?php printf ( __( 'Price' , 'easyReservations' ));?></th>
 					<?php } ?>
@@ -666,24 +703,22 @@ if(isset($_GET['page'])){
 			</thead>
 			<tfoot>
 				<tr>
-					<?php if($table_options['table_color'] == 1){ ?>
-						<th style="max-width:4px;padding:0px;"></th>
-					<?php } if($table_options['table_bulk'] == 1){ ?>
-						<th><input type="hidden" name="page" value="reservations" style="text-align:center"><input type="checkbox" id="bulkArr[]" onclick="checkAllController(document.frmAdd,this,'bulkArr')"></th>
+					<?php if($table_options['table_bulk'] == 1){ ?>
+						<th style="text-align:center"><input type="hidden" name="page" value="reservations" style="text-align:center"><input type="checkbox" id="bulkArr[]" onclick="checkAllController(document.frmAdd,this,'bulkArr')"></th>
+					<?php } if($table_options['table_from'] == 1){ ?>
+						<th colspan="2"><?php if($order=="ASC" and $orderby=="date") { ?><a class="asc2" onclick="easyreservation_send_table('<?php echo $typ; ?>', 1, 'DESC', 'date' )">
+						<?php } elseif($order=="DESC" and $orderby=="date") { ?><a class="desc2" onclick="easyreservation_send_table('<?php echo $typ; ?>', 1, 'ASC', 'date' )">
+						<?php } else { ?><a class="stand2" onclick="easyreservation_send_table('<?php echo $typ; ?>', 1, 'ASC', 'date' )"><?php } ?><?php printf ( __( 'Date' , 'easyReservations' ));?></a></th>
 					<?php } if($table_options['table_name'] == 1 || $table_options['table_id'] == 1){ ?>
 						<th><?php if($order=="ASC" and $orderby=="name") { ?><a class="asc2" onclick="easyreservation_send_table('<?php echo $typ; ?>', 1, 'DESC', 'name' )">
 						<?php } elseif($order=="DESC" and $orderby=="name") { ?><a class="desc2" onclick="easyreservation_send_table('<?php echo $typ; ?>', 1, 'ASC', 'name' )">
 						<?php } else { ?><a class="stand2" onclick="easyreservation_send_table('<?php echo $typ; ?>', 1, 'ASC', 'name' )"><?php } ?><?php printf ( __( 'Name' , 'easyReservations' ));?></a></th>
-					<?php } if($table_options['table_from'] == 1 || $table_options['table_to'] == 1 || $table_options['table_nights'] == 1){ ?>
-						<th><?php if($order=="ASC" and $orderby=="date") { ?><a class="asc2" onclick="easyreservation_send_table('<?php echo $typ; ?>', 1, 'DESC', 'date' )">
-						<?php } elseif($order=="DESC" and $orderby=="date") { ?><a class="desc2" onclick="easyreservation_send_table('<?php echo $typ; ?>', 1, 'ASC', 'date' )">
-						<?php } else { ?><a class="stand2" onclick="easyreservation_send_table('<?php echo $typ; ?>', 1, 'ASC', 'date' )"><?php } ?><?php printf ( __( 'Date' , 'easyReservations' ));?></a></th>
 					<?php }  if($table_options['table_reservated'] == 1 || $table_options['table_reservated'] == 1){ ?>
 						<th style="text-align:center"><?php if($order=="ASC" and $orderby=="reservad") { ?><a class="asc2" onclick="easyreservation_send_table('<?php echo $typ; ?>', 1, 'DESC', 'reservated' )">
 						<?php } elseif($order=="DESC" and $orderby=="reservated") { ?><a class="desc2" onclick="easyreservation_send_table('<?php echo $typ; ?>', 1, 'ASC', 'reservated' )">
 						<?php } else { ?><a class="stand2" onclick="easyreservation_send_table('<?php echo $typ; ?>', 1, 'DESC', 'reservated' )"><?php } ?><?php printf ( __( 'Reserved' , 'easyReservations' ));?></a></th>
 					<?php }  if($table_options['table_status'] == 1){ ?>
-						<th><?php printf ( __( 'Status' , 'easyReservations' )); ?></th>
+						<th style="text-align:center"><?php printf ( __( 'Status' , 'easyReservations' )); ?></th>
 					<?php } if($table_options['table_email'] == 1){ ?>
 						<th><?php printf ( __( 'eMail' , 'easyReservations' ));?></th>
 					<?php } if($table_options['table_persons'] == 1 || $table_options['table_childs'] == 1){ ?>
@@ -698,8 +733,6 @@ if(isset($_GET['page'])){
 						<th><?php printf ( __( 'Custom fields' , 'easyReservations' )); ?></th>
 					<?php }  if($table_options['table_customp'] == 1){ ?>
 						<th><?php printf ( __( 'Custom prices' , 'easyReservations' )); ?></th>
-					<?php }  if($table_options['table_paid'] == 1){ ?>
-						<th style="text-align:right"><?php printf ( __( 'Paid' , 'easyReservations' ));?></th>
 					<?php }  if($table_options['table_price'] == 1){ ?>
 						<th style="text-align:right"><?php printf ( __( 'Price' , 'easyReservations' ));?></th>
 					<?php } ?>
@@ -714,94 +747,113 @@ if(isset($_GET['page'])){
 				$result = $wpdb->get_results( $wpdb->prepare($sql, '%' . like_escape($search) . '%'));
 
 				if(count($result) > 0 ){
-					global $the_rooms_intervals_array;
+					global $the_rooms_array;
 
 					foreach($result as $res){
-						$room=$res->room;
-						$id=$res->id;
-						$name = $res->name;
-						$person=$res->number;
-						$childs=$res->childs;
-						$rooms=__(get_the_title($room));
+						$res = new Reservation($res->id, (array) $res);
+						$res->Calculate();
 
 						if($nr%2==0) $class="alternate"; else $class="";
 						$nr++;
-						$timpstampanf=strtotime($res->arrival);
-						$timestampend=strtotime($res->departure);
-						$nights = easyreservations_get_nights($the_rooms_intervals_array[$room], $timpstampanf, $timestampend);
 
 						if(in_array($res->email, $regular_guest_array)) $highlightClass='highlighter';
 						else $highlightClass='';
-						$export_ids .= $id.', ';
+						$export_ids .= $res->id.', ';
 
-						if(time() - $timpstampanf > 0 && time() - $timestampend > 0) $sta = "er_res_old";
-						elseif(time() - $timpstampanf > 0 && time() - $timestampend <= 0) $sta = "er_res_now";
+						if(time() - $res->arrival > 0 && time() - $res->departure > 0) $sta = "er_res_old";
+						elseif(time() - $res->arrival > 0 && time() - $res->departure <= 0) $sta = "er_res_now";
 						else $sta = "er_res_future";
 						if(isset($favourite)){
-							if(in_array($id, $favourite)){
+							if(in_array($res->id, $favourite)){
 								$favclass = ' easy-fav';
-								$favid = 'fav-'.$id;
+								$favid = 'fav-'.$res->id;
 								if($typ != 'favourite')$highlightClass = 'highlighter';
 							} else {
 								$favclass = ' easy-unfav';
-								$favid = 'unfav-'.$id;
+								$favid = 'unfav-'.$res->id;
 							}
 						} ?>
 				<tr class="<?php echo $class.' '.$highlightClass; ?>" height="47px"><!-- Main Table Body //-->
-					<?php if($table_options['table_color'] == 1){ ?>
-						<td class="<?php echo $sta; ?>" style="max-width:4px !important;padding:0px !important;"></td>
-					<?php } if($table_options['table_bulk'] == 1 || isset($favourite)){ ?>
+					<?php if($table_options['table_bulk'] == 1 || isset($favourite)){ ?>
 						<td width="2%" style="text-align:center;vertical-align:middle;">
-							<?php if($table_options['table_bulk'] == 1){ ?><input name="bulkArr[]" id="bulkArr[]" type="checkbox" style="margin-left: 8px;" value="<?php echo $id;?>"><?php } ?>
-							<?php if(isset($favourite)){ ?><div class="easy-favourite <?php echo $favclass; ?>" id="<?php echo $favid; ?>" onclick="easyreservations_send_fav(this)"></div><?php } ?>
+							<?php if($table_options['table_bulk'] == 1){ ?><input name="bulkArr[]" id="bulkArr[]" type="checkbox" style="margin-left: 8px;" value="<?php echo $res->id;?>"><?php } ?>
+							<?php if(isset($favourite)){ ?><div class="easy-favourite <?php echo $favclass; ?>" id="<?php echo $favid; ?>" onclick="easyreservations_send_fav(this)"> </div><?php } ?>
+						</td>
+					<?php } if($table_options['table_from'] == 1){ 
+						if(date('Y', $res->arrival) != date('Y') || date('Y', $res->departure) != date('Y')) $year = true; else $year = false; ?>
+						<td class="<?php echo $sta; ?>" style="width:20px;text-align: center;">
+							<div style="margin-bottom:5px;">
+								<span style=";font-weight: bold;font-size: 11px;"><?php $round = round(($res->arrival-time())/86400, 0); If($round > 0) $round = '+'.$round; echo $round; ?></span>
+							</div>
+							<div>
+								<span style=";font-weight: bold;font-size: 11px;"><?php $round = round(($res->departure-time())/86400, 0); If($round > 0) $round = '+'.$round; echo $round; ?></span>
+							</div>
+						</td>
+						<td class="<?php echo $sta; ?>" style="padding-left:0px;padding-right:0px;width:70px;white-space: nowrap;">
+							<div style="margin-bottom:5px;">
+								<span style="color:#444;font-weight: bold;font-size:15px;"><?php echo date('d', $res->arrival); ?></span>
+								<span style="color:#777;font-weight: bold;font-size: 13px;"><?php echo date('M', $res->arrival); ?></span>
+								<?php if($year){ ?><span style="color:#777;font-weight: bold;font-size: 14px;"><?php echo date('Y', $res->arrival); ?></span><?php } ?>
+								<?php if(RESERVATIONS_USE_TIME == 1){ ?><span style="color:#999;font-weight: bold;font-size: 11px;"><?php echo date('H:i', $res->arrival); ?></span><?php } ?>
+							</div>
+							<div>
+								<span style="color:#444;font-weight: bold;font-size: 15px;"><?php echo date('d', $res->departure); ?></span>
+								<span style="color:#777;font-weight: bold;font-size: 13px;"><?php echo date('M', $res->departure); ?></span>
+								<?php if($year){ ?><span style="color:#777;font-weight: bold;font-size: 14px;"><?php echo date('Y', $res->departure); ?></span><?php } ?>
+								<?php if(RESERVATIONS_USE_TIME == 1){ ?><span style="color:#999;font-weight: bold;font-size: 11px;"><?php echo date('H:i', $res->departure); ?></span><?php } ?>
+							</div>
 						</td>
 					<?php } if($table_options['table_name'] == 1 || $table_options['table_id'] == 1){ ?>
 						<td  valign="top" class="row-title test" valign="top" nowrap>
+								<b style="font-weight: bold">
 								<?php if($table_options['table_name'] == 1){ ?>
-									<a href="admin.php?page=reservations&view=<?php echo $id;?>"><?php echo $name;?></a>
-								<?php } if($table_options['table_id'] == 1) echo ' (#'.$id.')'; ?>
-								<?php do_action('er_table_name_custom', $res->custom, $id); ?>
+									<a href="admin.php?page=reservations&view=<?php echo $res->id;?>"><?php echo $res->name;?></a>
+								<?php } if($table_options['table_id'] == 1) echo ' (#'.$res->id.')'; ?>
+								</b>
+								<?php do_action('er_table_name_custom', $res); ?>
 								<div class="test2" style="margin:5px 0 0px 0;">
-									<a href="admin.php?page=reservations&edit=<?php echo $id;?>"><?php printf ( __( 'Edit' , 'easyReservations' ));?></a> 
-									<?php if(isset($typ) && ($typ=="deleted" || $typ=="pending")) { ?>| <a style="color:#28a70e;" href="admin.php?page=reservations&approve=<?php echo $id;?>"><?php printf ( __( 'Approve' , 'easyReservations' ));?></a>
-									<?php } if(!isset($typ) || (isset($typ) && ($typ=="active" || $typ=="pending"))) { ?> | <a style="color:#bc0b0b;" href="admin.php?page=reservations&delete=<?php echo $id;?>"><?php printf ( __( 'Reject' , 'easyReservations' ));?></a>
-									<?php } if(isset($typ) && $typ=="trash") { ?>| <a href="admin.php?page=reservations&bulkArr[]=<?php echo $id;?>&bulk=2"><?php printf ( __( 'Restore' , 'easyReservations' ));?></a> | <a style="color:#bc0b0b;" href="admin.php?page=reservations&easy-main-bulk=&bulkArr[]=<?php echo $id;?>&bulk=3&easy-main-bulk=<?php echo wp_create_nonce('easy-main-bulk'); ?>"><?php printf ( __( 'Delete Permanently' , 'easyReservations' ));?></a><?php } ?> | <a href="admin.php?page=reservations&sendmail=<?php echo $id;?>"><?php echo __( 'Mail' , 'easyReservations' );?></a>
-									<?php if(function_exists('easyreservations_generate_invoice_form')) echo easyreservations_generate_invoice_form($id, $res->email, '', false); ?>
+									<a href="admin.php?page=reservations&edit=<?php echo $res->id;?>"><?php printf ( __( 'Edit' , 'easyReservations' ));?></a> 
+									<?php if(isset($typ) && ($typ=="deleted" || $typ=="pending")) { ?>| <a style="color:#28a70e;" href="admin.php?page=reservations&approve=<?php echo $res->id;?>"><?php printf ( __( 'Approve' , 'easyReservations' ));?></a>
+									<?php } if(!isset($typ) || (isset($typ) && ($typ=="active" || $typ=="pending"))) { ?> | <a style="color:#bc0b0b;" href="admin.php?page=reservations&delete=<?php echo $res->id;?>"><?php printf ( __( 'Reject' , 'easyReservations' ));?></a>
+									<?php } if(isset($typ) && $typ=="trash") { ?>| <a href="admin.php?page=reservations&bulkArr[]=<?php echo $res->id;?>&bulk=2"><?php printf ( __( 'Restore' , 'easyReservations' ));?></a> | <a style="color:#bc0b0b;" href="admin.php?page=reservations&easy-main-bulk=&bulkArr[]=<?php echo $res->id;?>&bulk=3&easy-main-bulk=<?php echo wp_create_nonce('easy-main-bulk'); ?>"><?php printf ( __( 'Delete Permanently' , 'easyReservations' ));?></a><?php } ?> | <a href="admin.php?page=reservations&sendmail=<?php echo $res->id;?>"><?php echo __( 'Mail' , 'easyReservations' );?></a>
+									<?php if(function_exists('easyreservations_generate_invoice_form')) echo easyreservations_generate_invoice_form($res, '', false); ?>
 								</div>
 						</td>
-					<?php } if($table_options['table_from'] == 1 || $table_options['table_to'] == 1 || $table_options['table_nights'] == 1){ ?>
-						<td nowrap><?php if($table_options['table_from'] == 1) echo date(RESERVATIONS_DATE_FORMAT_SHOW,$timpstampanf); if($table_options['table_from'] == 1 && $table_options['table_to'] == 1) echo ' - ';  if($table_options['table_to'] == 1) echo date(RESERVATIONS_DATE_FORMAT_SHOW,$timestampend);?><?php if($table_options['table_nights'] == 1){ ?> <small>(<?php echo $nights.' '.ucfirst(easyreservations_interval_infos($the_rooms_intervals_array[$room], 0, $nights)); ?>)</small><?php } ?></td>
 					<?php } if($table_options['table_reservated'] == 1){ ?>
-						<td style="text-align:center"><b><?php echo human_time_diff( strtotime($res->reservated) );?></b></td>
-					<?php } if($table_options['table_status'] == 1){
-									$status = easyreservations_format_status($res->approve, 1); ?>
-						<td><b style="color:<?php if(isset($color)) echo $color; ?>"><?php echo $status; ?></b></td>
+						<td style="text-align:center"><?php echo human_time_diff( $res->reservated ).' '.__('ago', 'easyReservations');?></td>
+					<?php } if($table_options['table_status'] == 1){ ?>
+						<td style="text-align:center;vertical-align: middle"><span class="table-status-<?php echo $res->status; ?>"><?php echo $res->getStatus(false); ?></span></td>
 					<?php } if($table_options['table_email'] == 1){ ?>
-						<td><a href="admin.php?page=reservations&sendmail=<?php echo $id; ?>"><?php echo $res->email;?></a></td>
-					<?php } if($table_options['table_persons'] == 1 || $table_options['table_childs'] == 1){ ?>
-						<td style="text-align:center;"><?php if($table_options['table_name'] == 1) echo $person; if($table_options['table_from'] == 1 && $table_options['table_to'] == 1) echo ' / '; if($table_options['table_childs'] == 1) echo $childs; ?></td>
+						<td><a href="admin.php?page=reservations&sendmail=<?php echo $res->id; ?>"><?php echo $res->email;?></a></td>
+					<?php } if($table_options['table_persons'] == 1){ ?>
+						<td style="text-align:center;color:#777;font-weight: bold !important;font-size:14px"><?php echo $res->adults; ?> +<?php echo $res->childs; ?></td>
 					<?php }  if($table_options['table_room'] == 1 || $table_options['table_exactly'] == 1){  ?>
-						<td nowrap><?php if($table_options['table_room'] == 1) echo '<a href="admin.php?page=reservation-resources&room='.$room.'">'.__($rooms).'</a> '; if($table_options['table_exactly'] == 1 && isset($res->roomnumber)) echo easyreservations_get_roomname($res->roomnumber, $room); ?></td>
+						<td nowrap><?php if($table_options['table_room'] == 1) echo '<a href="admin.php?page=reservation-resources&room='.$res->resource.'">'.__($the_rooms_array[$res->resource]->post_title).'</a> '; if($table_options['table_exactly'] == 1 && isset($res->resourcenumber)) echo '<b>'.easyreservations_get_roomname($res->resourcenumber, $res->resource).'</b>'; ?></td>
 					<?php }  if($table_options['table_country'] == 1){  ?>
-						<td nowrap><?php if($res->country > 0) echo easyReservations_country_name( $res->country); ?></td>
+						<td nowrap><?php echo easyreservations_country_name( $res->country); ?></td>
 					<?php }  if($table_options['table_custom'] == 1){ ?>
-						<td><?php $customs = easyreservations_get_customs($res->custom, 0, 'cstm');
+						<td><?php $customs = $res->getCustoms($res->custom, 'cstm');
 								if(!empty($customs)){
 									foreach($customs as $custom){
 										echo '<b>'.$custom['title'].':</b> '.$custom['value'].'<br>';
 									}
 								}?></td>
 					<?php }  if($table_options['table_customp'] == 1){ ?>
-						<td><?php $customs = easyreservations_get_customs($res->customp, 0, 'cstm');
+						<td><?php $customs = $res->getCustoms($res->prices, 'cstm');
 								if(!empty($customs)){
 									foreach($customs as $custom){
-										echo '<b>'.$custom['title'].':</b> '.$custom['value'].' - '.reservations_format_money($custom['amount'], 1).'<br>';
+										echo '<b>'.$custom['title'].':</b> '.$custom['value'].' - '.easyreservations_format_money($custom['amount'], 1).'<br>';
 									}
 								}?></td>
-					<?php } if($table_options['table_paid'] == 1){  ?>
-						<td nowrap style="text-align:right"><?php $theExplode = explode(";", $res->price); if(isset($theExplode[1]) && $theExplode[1] > 0) echo reservations_format_money( $theExplode[1], 1); else echo reservations_format_money( '0', 1); ?></td>
-					<?php }  if($table_options['table_price'] == 1){  ?>
-						<td nowrap style="text-align:right"><?php echo easyreservations_get_price($id, 1); ?></td>
+					<?php }  if($table_options['table_price'] == 1){ ?>
+						<td nowrap style="text-align:right">
+							<div style="margin-bottom:6px;">
+								<span style="font-weight: bold;font-size:12px;color:#555;;"><?php echo $res->formatPrice(true, 1); ?></span>
+							</div>
+							<div>
+								<span style="font-weight: bold !important;font-size:12px;"><?php echo round(100/$res->price*$res->paid, 0); ?>% Paid</span>
+							</div>
+						</td>
 					<?php } ?>
 				</tr>
 			<?php }
@@ -818,7 +870,7 @@ if(isset($_GET['page'])){
 					<?php if($table_options['table_bulk'] == 1){ ?><select name="bulk" id="bulk"><option select="selected" value="0"><?php echo __( 'Bulk Actions' ); ?></option><?php if((isset($typ) AND $typ!="trash") OR !isset($typ)) { ?><option value="1"><?php printf ( __( 'Move to Trash' , 'easyReservations' ));?></option><?php }  if(isset($typ) AND $typ=="trash") { ?><option value="2"><?php printf ( __( 'Restore' , 'easyReservations' ));?></option><option value="3"><?php printf ( __( 'Delete Permanently' , 'easyReservations' ));?></option><?php } ;?></select>  <input class="easySubmitButton-secondary" type="submit" value="<?php printf ( __( 'Apply' , 'easyReservations' ));?>" /></form><?php } ?>
 				</td>
 				<td style="width:33%;" nowrap> <!-- Pagination  //-->
-					<?php if($items > 0) { ?><div class="tablenav" style="text-align:center; margin:0 115px 4px 0;"><div style="background:#ffffff;" class='tablenav-pages'><?php echo $p->show(); ?></div></div><?php } ?>
+					<?php if($items > 0) { ?><div class="tablenav" style="text-align:center; margin:0 115px 4px 0;"><div class='tablenav-pages'><?php echo $p->show(); ?></div></div><?php } ?>
 				</td>
 				<td style="width:33%;margin-left: auto; margin-right: 0pt; text-align: right;"> <!-- Num Elements //-->
 					<span class="displaying-nums"><?php echo $nr;?> <?php printf ( __( 'Elements' , 'easyReservations' ));?></span>
@@ -852,7 +904,7 @@ if(isset($_GET['page'])){
 							Improve your reservations system and get support by upgrading to <b><a href="http://easyreservations.org/premium/">easyReservations Premium</a></b>!<br>
 							<span class="premiumcontent" style="font-size:18px">
 								With over <b>twenty</b> additional functions like <a href="http://easyreservations.org/module/paypal/">PayPal integration</a>, <a href="http://easyreservations.org/module/invoice/">automatically Invoice generation</a>, <a href="http://easyreservations.org/module/htmlmails/">HTML eMails with templates</a>, <a href="http://easyreservations.org/module/search/">Search for available Resources</a>, <a href="http://easyreservations.org/modules/hourlycal/">hourly Calendars</a>, <a href="http://easyreservations.org/module/import/">Export (xls/xml/csv) &amp; Import Reservations</a>, <a href="http://easyreservations.org/module/lang/">Multilingual Form &amp; Email Content</a>,
-								<a href="http://easyreservations.org/module/useredit/">Reservation editing for guests &amp; a communication system</a>, <a href="http://easyreservations.org/module/coupons/">a Coupon Code system</a>, <a href="http://easyreservations.org/module/multical/">Multiple months by grid for Calendar</a>, <a href="http://easyreservations.org/module/statistics/">Statistics</a> and <a href="http://easyreservations.org/module/styles/">more Styles</a>.
+								<a href="http://easyreservations.org/module/useredit/">Reservation editing for guests &amp; a communication system</a>, <a href="http://easyreservations.org/module/coupons/">a Coupon Code system</a>, <a href="http://easyreservations.org/module/multical/">Multiple months by grid for Calendar</a>, <a href="http://easyreservations.org/module/statistics/">Statistics</a> and <a href="http://easyreservations.org/module/styles/">more Form, Admin, Calendar and Datepicker Styles</a>.
 							</span>
 							<br>
 							<a href="http://easyreservations.org/premium/" style="text-decoration:underline">Check out all Features now!</a>
@@ -936,7 +988,7 @@ if(isset($_GET['page'])){
 		$nonce = wp_create_nonce( 'easy-price' );
 		?><script type="text/javascript" >	
 			function easyreservations_send_price_admin(){
-				var loading = '<img style="vertical-align:text-bottom" src="<?php echo RESERVATIONS_IMAGES_DIR; ?>/loading.gif">';
+				var loading = '<img style="vertical-align:text-bottom" src="<?php echo RESERVATIONS_URL; ?>/images/loading.gif">';
 				jQuery("#showPrice").html(loading);
 				
 				var customPrices = ''; var coupons = '';
@@ -1219,6 +1271,13 @@ if(isset($_GET['page'])){
 
 		$plugin_array['easyReservations'] = $url;
 		return $plugin_array;
+	}
+
+	function easyreservations_get_color($round){
+		if($round >= 200) return '#ab2ad6';
+		if($round >= 1) return '#52d646';
+		elseif($round < 0) return '#BC0B0B';
+		else return '#ffcb49';
 	}
 
 ?>

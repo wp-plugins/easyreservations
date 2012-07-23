@@ -42,31 +42,30 @@
 
 	function easyreservations_admin_bar() {
 		global $wp_admin_bar;
-		
-		$c = easyreservations_get_pending();
-		
-		if($c != 0) $pending = '<span class="ab-label">'.$c.'</span>';
+
+		$pending_reservations_cnt = easyreservations_get_pending();
+		if($pending_reservations_cnt != 0) $pending = '<span class="ab-label">'.$pending_reservations_cnt.'</span>';
 		else $pending = '';
 
-		$wp_admin_bar->add_menu( array(
+		$wp_admin_bar->add_node( array(
 			'id' => 'reservations',
 			'title' => '<span class="er-adminbar-icon"></span>'.$pending,
 			'href' => admin_url( 'admin.php?page=reservations#pending'),
 			'meta' => array('class' => 'er-adminbar-item')
 		) );
-		$wp_admin_bar->add_menu( array(
+		$wp_admin_bar->add_node( array(
 			'parent' => 'reservations',
 			'id' => 'reservations-new',
 			'title' => 'New',
 			'href' => admin_url( 'admin.php?page=reservations&add'),
 		) );
-		$wp_admin_bar->add_menu( array(
+		$wp_admin_bar->add_node( array(
 			'parent' => 'reservations',
 			'id' => 'reservations-pending',
 			'title' => 'Pending',
 			'href' => admin_url( 'admin.php?page=reservations#pending'),
 		) );
-		$wp_admin_bar->add_menu( array(
+		$wp_admin_bar->add_node( array(
 			'parent' => 'reservations',
 			'id' => 'reservations-nurrent',
 			'title' => 'Current',
@@ -74,268 +73,7 @@
 		) );
 	}
 
-	add_action( 'wp_before_admin_bar_render', 'easyreservations_admin_bar' );
-
-	function easyreservations_price_calculation($id, $newRes='', $exact=0){
-		global $wpdb, $the_rooms_intervals_array;
-
-		if(!isset($newRes) || $newRes == ""){
-			$reservation = "SELECT arrival, departure, room, email, number, childs, price, customp, reservated FROM ".$wpdb->prefix ."reservations WHERE id='$id' LIMIT 1";
-			$res = $wpdb->get_results( $reservation );
-		} else {
-			$res = $newRes; // newRes is an array with a db fake of a reservaton. for new reservations, testing purposes or the price in calendars | need to have theese format but you can enter fake emails ect: array(room => '', arrival => '', departure => '', email => '', number => '', childs => '', price => '', customp => '', reservated => '');
-			$fake = 1;
-		}
-
-		$price=0; // This will be the Price
-		$countpriceadd=0; // Count times (=days) a sum gets added to price
-		$countgroundpriceadd=0; // Count times (=days) a groundprice is added to price
-		$arrival = strtotime($res[0]->arrival);
-		$departure = strtotime($res[0]->departure);
-		$exactlyprice = "";
-		$resources = $res[0]->room;
-
-		if(preg_match('/\,/', $resources)) $resources = explode(',', $resources);
-		elseif(!is_array($resources)) $resources = array($resources);
-
-		foreach($resources as $resource){
-		$datearray = '';
-		$resource = $res[0]->room;
-		$filters = get_post_meta($resource, 'easy_res_filter', true);
-		$resource_groundprice = get_post_meta($resource, 'reservations_groundprice', true);
-		$price_per_person = get_post_meta($resource, 'easy-resource-price', true);
-		$taxes = get_post_meta($resource, 'easy-resource-taxes', true);
-
-		$resource_interval = $the_rooms_intervals_array[$resource];
-		$nights = easyreservations_get_nights( $resource_interval, $arrival, $departure, 0 );
-		if(!$resource_groundprice) return array('price'=>-1, 'getusage'=>'','paid'=>0);
-
-		if(!empty($filters)) $countfilter=count($filters); else $countfilter=0; // count the filter-array element
-
-		if($countfilter > 0){
-			foreach($filters as $num => $filter){	
-				if($filter['type'] == 'price'){
-					for($i=$arrival; $departure - $i >= $resource_interval/2 ; $i+=$resource_interval){
-						$price_add = 0;
-						if(!is_array($datearray) || !In_array($i, $datearray)){
-							if($filter['cond'] == 'unit'){ // Unit price filter
-								if(empty($filter['year']) || ( in_array(date("Y", $i), explode(",", $filter['year'])))){
-									if(empty($filter['quarter']) || ( in_array(ceil(date("m", $i) / 3), explode(",", $filter['quarter'])))){
-										if(empty($filter['month']) || ( in_array(date("n", $i), explode(",", $filter['month'])))){
-											if(empty($filter['cw']) || ( in_array(date("W", $i), explode(",", $filter['cw'])))){
-												if(empty($filter['day']) || ($resource_interval < 86500 &&  in_array(date("N", $i), explode(",", $filter['day'])))){
-													if( !isset($filter['hour']) || empty($filter['hour']) || ($resource_interval < 3650 &&   in_array(date("H", $i), explode(",", $filter['hour'])))){
-														$price_add = 1;
-													}
-												}
-											}
-										}
-									}
-								}
-							} elseif($filter['cond'] == 'date'){ // Date price filter
-								if(date("d.m.Y", $i) == date("d.m.Y", $filter['date']) && ($resource_interval > 3600 || date("H",$i) == date("H", $filter['date']))){
-									$price_add = 1;
-								}
-							} else { // Range price filter
-								$from = $filter['from'];
-								$to = $filter['to'];
-								if($i >= $from && $i  <= $to){
-									$price_add = 1;
-								}
-							}
-						}
-						if($price_add == 1){
-							$price+=$filter['price']; $countpriceadd++;
-							if($exact == 1) $exactlyprice[] = array('date'=>$i, 'priceday'=>$filter['price'], 'type'=> 'pricefilter', 'name' => __($filter['name']));
-							$datearray[] = $i;
-						}
-					}
-					unset($filters[$num]);
-				}
-			}
-		}
-
-		while($countpriceadd < $nights){
-			$price+=$resource_groundprice;		
-			$ifDateHasToBeAdded=0;
-			if(isset($datearray)){ $getrightday=0;
-				while($getrightday==0){
-					if(is_array($datearray) && in_array($arrival+($countgroundpriceadd*$resource_interval)+($ifDateHasToBeAdded*$resource_interval), $datearray)){
-						$ifDateHasToBeAdded++;
-					} else {
-						$getrightday++;
-					}
-				}
-				$datearray[]=$arrival+($countgroundpriceadd*$resource_interval)+($ifDateHasToBeAdded*$resource_interval);
-			}
-			if($exact == 1) $exactlyprice[] = array('date'=>$arrival+($countgroundpriceadd*$resource_interval)+($ifDateHasToBeAdded*$resource_interval), 'priceday'=>$resource_groundprice, 'type'=> 'groundprice');
-			$countgroundpriceadd++;
-			$countpriceadd++;
-		}
-
-		$checkprice=$price;		
-		if($price_per_person == 1 && ($res[0]->number > 1 || $res[0]->childs > 0)) {  // Calculate Price if  "Calculate per person"  was choosen
-
-			if($res[0]->number > 1){
-				$price=$price*$res[0]->number; 
-				if($exact == 1) $exactlyprice[] = array('date'=>$arrival+($countpriceadd*$resource_interval), 'priceday'=>$price-$checkprice,'type'=> 'persons', 'name' => $res[0]->number);
-				$countpriceadd++;
-			}
-
-			if(!empty($res[0]->childs) && $res[0]->childs > 0){
-				$childprice = get_post_meta($resource, 'reservations_child_price', true);
-				if(substr($childprice, -1) == "%"){
-						$percent=$checkprice/100*(str_replace("%", "", $childprice)*$nights);
-					$childsPrice = ($checkprice - $percent);
-				} else {
-					$childsPrice = ($checkprice - $childprice*$nights);
-				}
-
-				if($price_per_person == 1) $childsPrice = $childsPrice*$res[0]->childs;
-				$price += $childsPrice;
-				if($exact == 1) $exactlyprice[] = array('date'=>$arrival+($countpriceadd*$resource_interval), 'priceday'=>$childsPrice, 'type'=> 'childs', 'name' => $res[0]->childs);
-				$countpriceadd++;
-			}
-		}
-
-		if(!empty($filters)) $countfilter=count($filters); else $countfilter=0; // count the filter-array element
-
-		if($countfilter > 0){  //IF Filter array has elemts left they should be discounts or unavails or nonsense
-			$staywasfull=0; $loyalwasfull=0; $perswasfull=0; $earlywasfull=0;
-			$staywasfull_charge=0; $loyalwasfull_charge=0; $perswasfull_charge=0; $earlywasfull_charge=0;
-			foreach($filters as $filter){
-				$discount_add = 0;
-				if($filter['type'] == 'stay'){// Stay Filter
-					if($staywasfull==0 || $staywasfull_charge == 0){
-						if($filter['cond'] <= $nights){
-							$discount_add = 1;
-						}
-					}
-				} elseif($filter['type'] == 'loyal'){// Loyal Filter
-					if($loyalwasfull==0 || $loyalwasfull_charge == 0){
-						if(is_email($res[0]->email)){
-							$items1 = $wpdb->get_var($wpdb->prepare("SELECT COUNT(*) FROM ".$wpdb->prefix ."reservations WHERE approve='yes' AND email='".$res[0]->email."' AND departure < NOW()")); //number of total rows in the database
-							if($filter['cond'] <= $items1){
-								$discount_add = 1;
-							}
-						}
-					}
-				} elseif($filter['type'] == 'pers'){// Persons Filter
-					if($perswasfull==0 || $perswasfull_charge == 0){
-						if($filter['cond'] <= ($res[0]->number + $res[0]->childs)){
-							$discount_add = 1;
-						}
-					}
-				} elseif($filter['type'] == 'early'){// Early Bird Discount Filter
-					if($earlywasfull==0 || $earlywasfull_charge == 0){
-						$dayBetween=round(($arrival/$resource_interval)-(strtotime($res[0]->reservated)/$resource_interval)); // cals days between booking and arrival
-						if($filter['cond'] <= $dayBetween){
-							$discount_add = 1;
-						}
-					}
-				}
-
-				if($discount_add == 1){
-					$discount_amount = $filter['price'];
-					$countpriceadd++;
-					if(!isset($discount_amount)) break;
-
-					if($discount_amount > 0){
-						if($filter['type'] == 'stay' && $staywasfull_charge == 0) $staywasfull_charge++;
-						elseif($filter['type'] == 'loyal' && $loyalwasfull_charge == 0) $loyalwasfull_charge++;
-						elseif($filter['type'] == 'pers' && $perswasfull_charge == 0) $perswasfull_charge++;
-						elseif($filter['type'] == 'early' && $earlywasfull_charge == 0) $earlywasfull_charge++;
-						else break;
-					} else {
-						if($filter['type'] == 'stay' && $staywasfull == 0) $staywasfull++;
-						elseif($filter['type'] == 'loyal' && $loyalwasfull == 0) $loyalwasfull++;
-						elseif($filter['type'] == 'pers' && $perswasfull == 0) $perswasfull++;
-						elseif($filter['type'] == 'early' && $earlywasfull == 0) $earlywasfull++;
-					}
-
-					if($filter['modus'] == '%'){
-						$percent=$price/100* (int) $discount_amount;
-						$price+=$percent;
-						if($exact == 1) $exactlyprice[] = array('date'=>$arrival+($countpriceadd*$resource_interval), 'priceday'=>$percent, 'type'=>$filter['type'], 'name' => __($filter['name']), 'cond' => $filter['cond'] );
-					} elseif($filter['modus'] == "price_res"){
-						$price+=$discount_amount;
-						if($exact == 1) $exactlyprice[] = array('date'=>$arrival+($countpriceadd*$resource_interval), 'priceday'=>$discount_amount, 'type'=>$filter['type'], 'name' => __($filter['name']), 'cond' => $filter['cond'] );
-					} elseif($filter['modus'] == "price_pers"){
-						$the_discount = $discount_amount * ($res[0]->number + $res[0]->childs);
-						$price += $the_discount;
-						if($exact == 1) $exactlyprice[] = array('date'=>$arrival+($countpriceadd*$resource_interval), 'priceday'=>$the_discount, 'type'=>$filter['type'], 'name' => __($filter['name']), 'cond' => $filter['cond'] );
-					} elseif($filter['modus'] == "price_both"){
-						$the_discount = $discount_amount * ($res[0]->number + $res[0]->childs) * $nights;
-						$price += $the_discount;
-						if($exact == 1) $exactlyprice[] = array('date'=>$arrival+($countpriceadd*$resource_interval), 'priceday'=>$the_discount, 'type'=>$filter['type'], 'name' => __($filter['name']), 'cond' => $filter['cond'] );
-					} else { // $filter['modus'] == price_day
-						$the_discount = $discount_amount *  $nights;
-						$price+= $the_discount;
-						if($exact == 1) $exactlyprice[] = array('date'=>$arrival+($countpriceadd*$resource_interval), 'priceday'=>$the_discount, 'type'=>$filter['type'], 'name' => __($filter['name']), 'cond' => $filter['cond'] );
-					}
-				}
-			}
-		}
-
-
-		if(!empty($res[0]->customp)){
-			if(isset($fake)) $customps = easyreservations_get_custom_price_array($res[0]->customp);
-			else $customps = easyreservations_get_customs($res[0]->customp, 0, 'cstm');
-			$customprices = 0;
-			foreach($customps as $customprice){
-				if(substr($customprice['amount'], -1) == "%"){
-					$percent=$price/100*str_replace("%", "", $customprice['amount']);
-					$customprices+=$percent;
-					if($exact == 1) $exactlyprice[] = array('date'=>$arrival+($countpriceadd*$resource_interval), 'priceday'=>$percent, 'type' => 'customp_p', 'name' => __($customprice['title']), 'value' => __($customprice['value']), 'amount' => $customprice['amount']);
-				} else {
-					$customprices+=$customprice['amount'];
-					if($exact == 1) $exactlyprice[] = array('date'=>$arrival+($countpriceadd*$resource_interval), 'priceday'=>$customprice['amount'], 'type' => 'customp_n', 'name' => __($customprice['title']),'value' => __($customprice['value']), 'amount' => $customprice['amount']);
-				}
-			}
-			$price+=$customprices; //Price plus Custom prices
-		}
-
-		if(function_exists('easyreservations_calculate_coupon')){
-			if(isset($res[0]->coupon) && !empty($res[0]->coupon)){
-				$explode = explode(',', $res[0]->coupon);
-				$coupons = '';
-				foreach($explode as $code){
-					if(!empty($code))	$coupons[] = array('type' => 'coup','value'=>$code);
-				}
-				$save = easyreservations_calculate_coupon($coupons, $arrival, $countpriceadd, $resource_interval);
-			}
-			else $save = easyreservations_calculate_coupon($res[0]->customp, $arrival, $countpriceadd, $resource_interval);
-			if(!empty($save)){
-				$price += $save['price'];
-				$exactlyprice = array_merge((array) $exactlyprice, (array) $save['exactly']);
-				$countpriceadd = $save['countpriceadd'];
-			}
-		}
-		
-		$checkprice = $price ;
-		if($taxes && !empty($taxes)){
-			foreach($taxes as $tax){
-				$taxamount = $checkprice / 100 * $tax[1];
-				$price += $taxamount;
-				$countpriceadd++;
-				if($exact == 1) $exactlyprice[] = array('date'=>$arrival+($countpriceadd*$resource_interval), 'priceday'=>$taxamount, 'type' => 'tax', 'name' => __($tax[0]), 'amount' => $tax[1]);
-			}
-		}
-		}
-		$paid=0;
-
-		if($res[0]->price != ''){
-			$pricexpl=explode(";", $res[0]->price);
-			if($pricexpl[0]!=0 && $pricexpl[0]!='') $price=$pricexpl[0];
-			if(isset($pricexpl[1]) && $pricexpl[1] > 0) $paid=$pricexpl[1];
-			if(!is_numeric($paid) || $paid <= 0) $paid = 0;
-		}
-		
-		$price = round($price, 2);
-
-		//return $price;
-		return array('price'=>$price, 'getusage'=>$exactlyprice,'paid'=>$paid);
-	}
+	add_action( 'admin_bar_menu', 'easyreservations_admin_bar', 999 );
 
 	/**
 	* Format string into money
@@ -347,7 +85,7 @@
 	* @return string formated money
 	*/
 
-	function reservations_format_money($amount, $mode=0){
+	function easyreservations_format_money($amount, $mode=0, $dig = 2){
 		if($amount == '') $amount = 0;
 
 		if(RESERVATIONS_CURRENCY == "#8364") $separator = true;
@@ -362,11 +100,11 @@
 		$money =
 		(true===$separator?
 			(false===$simple?
-				number_format($amount,2,',','.'):
+				number_format($amount,$dig,',','.'):
 				str_replace(',00','',money($amount))
 			):
 			(false===$simple?
-				number_format($amount,2,'.','.'):
+				number_format($amount,$dig,'.','.'):
 				str_replace(',00','',money($amount,false))
 			)
 		);
@@ -374,40 +112,11 @@
 		$money = $add.$money;
 
 		if($mode == 1){
-			if(RESERVATIONS_CURRENCY == "#8364") $money = $money.' &'.RESERVATIONS_CURRENCY.';';
-			else  $money = '&'.RESERVATIONS_CURRENCY.'; '.$money;
+			if(RESERVATIONS_CURRENCY == "#8364") $money = $money.'&'.RESERVATIONS_CURRENCY.';';
+			else  $money = '&'.RESERVATIONS_CURRENCY.';'.$money;
 		}
 
 		return $money;
-	}
-
-	/**
-	* Get formated price for an reservation
-	*
-	* @since 1.2
-	*
-	* @param int $id Id of reservation
-	* @param int $paid 1 for coloring amount by paid amounr
-	* @param bool $currency show currency or not; default = true
-	* @return string Price of reservation
-	*/
-
-	function easyreservations_get_price($id,$paids='', $cur = true){
-		$getprice = easyreservations_price_calculation($id, '');
-		$price = $getprice['price'];
-		$paid = $getprice['paid'];
-		if($price < 0) $rightprice = __( 'Wrong Price/Filter' , 'easyReservations' );
-		else{
-			if($cur) $rightprice = reservations_format_money(str_replace(",", ".", $price), 1);
-			else $rightprice = reservations_format_money(str_replace(",", ".", $price), 0);
-		}
-
-		if(str_replace(",",".",$paid) == intval($price)) $pricebgcolor='color:#3A9920;padding:1px;';
-		elseif(intval($paid)  > 0) $pricebgcolor='color:#F7B500;padding:1px;';
-		else $pricebgcolor='color:#FF3B38;padding:1px;';
-
-		if(!empty($paids)) $rightprice = '<b style="'.$pricebgcolor.'">'.$rightprice.'</b>';
-		return $rightprice;
 	}
 
 	function easyreservations_get_custom_price_array($customp){
@@ -422,154 +131,6 @@
 		return $customparray;
 	}
 
-	function easyreservations_check_avail($resourceID, $arrival, $exactly=0, $departure = 0, $mode=0, $id=0, $avail=1, $status = 0, $interval = false){
-		global $wpdb;
-		$error=null;
-
-		$date_format = date("Y-m-d H:i:s", $arrival);
-		$roomcount = get_post_meta($resourceID, 'roomcount', true);
-		if(!$interval){
-			global $the_rooms_intervals_array;
-			$resource_interval = $the_rooms_intervals_array[$resourceID];
-			$interval = 86400;
-			if($resource_interval == 3600) $interval = 3600;
-		}
-
-		if($interval == 3600) $date_pattern = RESERVATIONS_DATE_FORMAT.' H:00';
-		else $date_pattern = RESERVATIONS_DATE_FORMAT;
-
-		if($id > 0 && ($status == 0 || $status == 'yes')) $idsql = " id != '$id' AND";
-		else  $idsql = '';
-
-		if($resourceID > 0){
-			if($avail !== 0) $error .= reservations_check_avail_filter($resourceID, $arrival, $departure, $mode,$interval);
-			if($departure > 0){
-				if($exactly > 0){
-					if($mode == 0){
-						$startdate = date("Y-m-d H:i:s", $arrival+60);
-						$middledate = date("Y-m-d H:i:s", ($arrival+$departure)/2);
-						$enddate = date("Y-m-d H:i:s", $departure-60);
-						$count = $wpdb->get_var($wpdb->prepare("SELECT COUNT(*) FROM ".$wpdb->prefix."reservations WHERE approve='yes' AND room='$resourceID' AND roomnumber='$exactly' AND $idsql (arrival BETWEEN '$startdate' AND '$enddate' OR departure BETWEEN '$startdate' AND '$enddate' OR '$middledate' BETWEEN arrival AND departure)"));
-						$error += $count;
-					} else {
-						for($i=$arrival; $departure - $i >= $interval/2; $i+=$interval){
-							$date_format=date("Y-m-d H:i:s", $i);
-							$count = $wpdb->get_var($wpdb->prepare("SELECT COUNT(*) FROM ".$wpdb->prefix."reservations WHERE approve='yes' AND room='$resourceID' AND roomnumber='$exactly' AND $idsql ('$date_format' BETWEEN arrival AND departure OR DATE(arrival) = '".date("Y-m-d", $i)."') "));
-							$error .= date($date_pattern, $i).', ';
-						}
-					}
-				} else {
-					for($i=$arrival; $departure - $i >= $interval/2 ; $i+=$interval){
-						$date_format=date("Y-m-d H:i:s", $arrival+60);
-						$date_format_end=date("Y-m-d H:i:s", $departure-60);
-						$count = $wpdb->get_var($wpdb->prepare("SELECT COUNT(*) FROM ".$wpdb->prefix ."reservations WHERE approve='yes' AND room='$resourceID' AND $idsql (arrival BETWEEN '$date_format' AND '$date_format_end' OR departure BETWEEN '$date_format' AND '$date_format_end')"));
-						if($mode==1 && $count >= $roomcount) $error .= date($date_pattern, $i).', ';
-						elseif($mode==0 && $count >= $roomcount)  $error += $roomcount;
-					}
-				}
-			} else {
-				$date_format=date("Y-m-d H:i:s", $arrival);
-				$date_format_end=date("Y-m-d H:i:s", $arrival+$interval);
-				$count = $wpdb->get_var("SELECT COUNT(*) FROM ".$wpdb->prefix ."reservations WHERE approve='yes' AND room='$resourceID' AND $idsql DATE('$date_format') BETWEEN DATE(arrival) AND DATE(departure - INTERVAL '$interval' SECOND) AND TIMESTAMPDIFF(SECOND, arrival, departure) >= $interval");
-				if($mode==1 && $count > $roomcount) $error .= date($date_pattern, $arrival).', ';
-				elseif($mode==0) $error += $count;
-			}
-		}
-
-		if($mode == 1) $error = substr($error,0,-2);
-		return $error;
-	}
-
-	/**
-	*	Checks room for avail filter
-	*
-	*	$roomid = id of room
-	*	$date = date as timestamp
-	*	$times = (optional) number - to check for more as one day
-	*/
-
-	function reservations_check_avail_filter($resourceID, $arrival, $departure=0, $mode=0, $interval = false){ //Check if a resource is Avail or Full
-		$filters = get_post_meta($resourceID, 'easy_res_filter', true);
-		$roomcount = get_post_meta($resourceID, 'roomcount', true);
-		if(!$interval){
-			global $the_rooms_intervals_array;
-			$resource_interval = $the_rooms_intervals_array[$resourceID];
-			$interval = 86400;
-			if($resource_interval == 3600) $interval = 3600;
-		}
-
-		if($interval == 3600) $date_pattern = RESERVATIONS_DATE_FORMAT.' H:00';
-		else $date_pattern = RESERVATIONS_DATE_FORMAT;
-
-		if($departure < 1) $departure = $arrival+$interval;
-		$error = '';
-		if(!empty($filters)){
-			foreach($filters as $filter){
-				if($filter['type'] == 'unavail'){
-					for($i=$arrival; $departure - $i >= $interval/2 ; $i+=$interval){
-						if($filter['cond'] == 'unit'){ // Unit price filter
-							if(empty($filter['year']) || ( in_array(date("Y", $i), explode(",", $filter['year'])))){
-								if(empty($filter['quarter']) || ( in_array(ceil(date("m", $i) / 3), explode(",", $filter['quarter'])))){
-									if(empty($filter['month']) || ( in_array(date("n", $i), explode(",", $filter['month'])))){
-										if(empty($filter['cw']) || ( in_array(date("W", $i), explode(",", $filter['cw'])))){
-											if(empty($filter['day']) || ( in_array(date("N", $i), explode(",", $filter['day'])))){
-												if(!isset($filter['hour']) || empty($filter['hour']) || ($interval == 3600 && in_array(date("H", $i), explode(",", $filter['hour'])))){
-													if($mode == 1) $error .= date($date_pattern, $i).', ';
-													elseif($mode == 2)  $error[$i] = $roomcount;
-													else $error += $roomcount;
-												}
-											}
-										}
-									}
-								}
-							}
-						} elseif($filter['cond'] == 'date'){ // Date price filter
-							if(date("d.m.Y", $i) == date("d.m.Y", $filter['date']) && ($resource_interval > 3600 || date("H",$i) == date("H", $filter['date']))){
-								if($mode == 1) $error .= date(RESERVATIONS_DATE_FORMAT_REAL, $i).', ';
-								elseif($mode == 2) $error[$i] = $roomcount;
-								else $error += $roomcount;
-							}
-						} else {// Range price filter
-							if($i >= $filter['from'] && $i <= $filter['to']){
-								if($mode == 1) $error .= date($date_pattern, $i).', ';
-								elseif($mode == 2) $error[$i] = $roomcount;
-								else $error += $roomcount;
-							}
-						}
-					}
-				}
-			}
-		}
-		return $error;
-	}
-
-	/**
-	*	Returns amount of paid money for reservations
-	*
-	*	$id = id of reservation
-	*	$mode = 0: get amount to pay left - 1: get amount paid
-	*/
-
-	function reservations_check_pay_status($id, $mode = 0){
-		global $wpdb;
-
-		$checkpaid = "SELECT price FROM ".$wpdb->prefix ."reservations WHERE id='$id'";
-		$res = $wpdb->get_results( $checkpaid  );
-		$explodetheprice = explode(";", $res[0]->price);
-		if(!isset($explodetheprice[1]) || empty($explodetheprice[1])) $payed = 0;
-		else $payed = $explodetheprice[1];
-
-		if($explodetheprice[0] != '') $waspayed = $explodetheprice[0]-$payed;
-		else {
-			$thepriceArray = easyreservations_price_calculation($id, '');
-			$thePricetoAdd = $thepriceArray['price'];
-			$waspayed = easyreservations_check_price($thePricetoAdd)-$payed;
-		}
-		
-		if($mode == 0) return $waspayed;
-		else return $payed;
-	}
-
 	/**
 	*	Repair incorrect input, checks if string can be a price (money) -> returns the price or error
 	*
@@ -578,24 +139,21 @@
 
 	function easyreservations_check_price($price){
 		$newPrice = str_replace(",", ".", $price);
-		if(preg_match("/^[\-]{0,1}[0-9]+[\.]?[0-9]*$/", $newPrice)){
-			$finalPrice = $newPrice;
-		} else {
-			$finalPrice = 'error';
-		}
-		return $finalPrice;
+		return ( preg_match("/^[\-]{0,1}[0-9]+[\.]?[0-9]*$/", $newPrice)) ? $newPrice : false;
 	}
 
-	function easyreservations_get_rooms($content=0, $check=0){
+	function easyreservations_get_rooms($content=false, $check=false){
 		global $wpdb;
-		if($content == 1) $con = ", post_content"; else $con = "";
+		if($content) $con = ", post_content"; else $con = "";
 
-		$rooms = $wpdb->get_results("SELECT ID, post_title $con FROM ".$wpdb->prefix ."posts WHERE post_type='easy-rooms'");
+		$rooms = $wpdb->get_results("SELECT ID, post_title $con FROM ".$wpdb->prefix ."posts WHERE post_type='easy-rooms' AND post_status!='auto-draft'");
 
-		if($check != 0){
-			foreach($rooms as $key => $room){
+		foreach($rooms as $key => $room){
+			$rooms[$room->ID] = $room;
+			unset($rooms[$key]);
+			if($check){
 				$get_role = get_post_meta($room->ID, 'easy-resource-permission', true);
-				if(!empty($get_role) && !current_user_can($get_role)) unset($rooms[$key]);
+				if(!empty($get_role) && !current_user_can($get_role)) unset($rooms[$room->ID]);
 			}
 		}
 
@@ -604,7 +162,7 @@
 
 	$the_rooms_array = easyreservations_get_rooms();
 
-	function reservations_get_room_options($selected='', $check=0, $exclude= ''){
+	function easyreservations_resource_options($selected='', $check=0, $exclude= ''){
 		$rooms = easyreservations_get_rooms(0, $check);
 		$rooms_options='';
 		foreach( $rooms as $room ){
@@ -632,20 +190,14 @@
 	
 	$the_rooms_intervals_array = easyreservations_get_rooms_intervals();
 
-	function easyreservations_get_the_title($id, $resources=''){
+	function easyreservations_get_the_title($id, $resources=false){
 		if($id > 0){
-			if(empty($resources)){
-				global $wpdb;
-				$resource = $wpdb->get_results("SELECT post_title FROM ".$wpdb->prefix ."posts WHERE ID='$id'", ARRAY_N);
-				$res = current($resource);
-				return $res[0];
-			} else {
-				foreach($resources as $resource){
-					if($resource->ID == $id) return $resource->post_title;
-				}
+			if(!$resources){
+				global $the_rooms_array;
+				$resources = $the_rooms_array;
 			}
-		} else {
-			return __('None', 'easyReservations');
+			if(isset($resources[$id]))	return __($resources[$id]->post_title);
+			else return false;
 		}
 	}
 
@@ -746,7 +298,7 @@
 	*
 	*	$sel = (optional) selected country
 	*/
-	function easyReservations_country_select($sel = ''){
+	function easyreservations_country_options($sel = ''){
 
 		$countryArray = easyReservations_country_array();
 		$country_options = '';
@@ -765,7 +317,7 @@
 	*	$country = Index of country
 	*/
 
-	function easyReservations_country_name($country){
+	function easyreservations_country_name($country){
 
 		if(!empty($country)){
 			$countryArray = easyReservations_country_array();
@@ -781,275 +333,73 @@
 	*	$sel = (optional) selected option
 	*/
 
-    function easyReservations_num_options($start,$end,$sel=''){
+    function easyreservations_num_options($start,$end,$sel=''){
 
 		$return = '';
 
 		for($num = (int) $start; $num <= $end; $num++){
-
+			
+			$numdisplay = $num;
 			if(!empty($sel) && $num == $sel ) $isel = 'selected="selected"'; else $isel = '';
 			if(strlen($start) == strlen($end) && $start < 10 && $end > 9 && $num < 10){
-				$num = '0'.$num;
+				$numdisplay = '0'.$num;
 			}
 
-			$return .= '<option value="'.$num.'" '.$isel.'>'.$num.'</option>';
+			$return .= '<option value="'.$num.'" '.$isel.'>'.$numdisplay.'</option>';
 
 		}
 
 		return $return;
 	}
-
-	function easyreservations_send_mail($theForm, $mailTo, $mailSubj, $theMessage, $theID, $theChangelog, $where = false, $attachment = false){ //Send formatted Mails from anywhere
-		global $wpdb, $the_rooms_intervals_array;
-		
-		preg_match_all(' /\[.*\]/U', $theForm, $matchers);
-		$mergearrays=array_merge($matchers[0], array());
-		$edgeoneremoave=str_replace('[', '', $mergearrays);
-		$edgetworemovess=str_replace(']', '', $edgeoneremoave);
-
-		$sql = "SELECT id, name, approve, departure, arrival, room, roomnumber, number, childs, country, email, custom, customp, price, reservated FROM ".$wpdb->prefix ."reservations WHERE id='%s'";
-		$infos = $wpdb->get_row($wpdb->prepare($sql, $theID));
-
-		$get_price = easyreservations_price_calculation($theID);
-		$arrivalDate = strtotime($infos->arrival);
-		$departureDate = strtotime($infos->departure);
-		foreach($edgetworemovess as $fieldsx){
-			$field=explode(" ", $fieldsx);
-			if($field[0]=="adminmessage"){
-				$theForm=preg_replace('/\['.$fieldsx.']/U', $theMessage, $theForm);
-			} elseif($field[0]=="ID"){
-				$theForm=preg_replace('/\['.$fieldsx.']/U', $theID, $theForm);
-			} elseif($field[0]=="thename"){
-				$theForm=preg_replace('/\['.$fieldsx.']/U', $infos->name, $theForm);
-			} elseif($field[0]=="email"){
-				$theForm=preg_replace('/\['.$fieldsx.']/U', $infos->email, $theForm);
-			} elseif($field[0]=="arrivaldate" || $field[0]=="arrival" || $field[0]=="date-from"){
-				$theForm=preg_replace('/\['.$fieldsx.']/U', date(RESERVATIONS_DATE_FORMAT_SHOW, $arrivalDate), $theForm);
-			} elseif($field[0]=="changelog"){
-				$theForm=preg_replace('/\['.$fieldsx.']/U', $theChangelog, $theForm);
-			} elseif($field[0]=="departuredate" || $field[0]=="departure"){
-				$theForm=preg_replace('/\['.$fieldsx.']/U', date(RESERVATIONS_DATE_FORMAT_SHOW, $departureDate), $theForm);
-			} elseif($field[0]=="units" || $field[0]=="times"){
-				$theForm=preg_replace('/\['.$fieldsx.']/U', easyreservations_get_nights($the_rooms_intervals_array[$infos->room], $arrivalDate, $departureDate), $theForm);
-			} elseif($field[0]=="nights" || $field[0]=="days"){
-				$theForm=preg_replace('/\['.$fieldsx.']/U', easyreservations_get_nights(86400, strtotime($infos->reservated), time() ), $theForm);
-			} elseif($field[0]=="hours"){
-				$theForm=preg_replace('/\['.$fieldsx.']/U', easyreservations_get_nights(3600, strtotime($infos->reservated), time() ), $theForm);
-			} elseif($field[0]=="weeks"){
-				$theForm=preg_replace('/\['.$fieldsx.']/U', easyreservations_get_nights(604800, strtotime($infos->reservated), time(), 0), $theForm);
-			} elseif($field[0]=="adults"){
-				$theForm=preg_replace('/\['.$fieldsx.']/U', $infos->number, $theForm);
-			} elseif($field[0]=="childs"){
-				$theForm=preg_replace('/\['.$fieldsx.']/U', $infos->childs, $theForm);
-			} elseif($field[0]=="date"){
-				if(isset($field[1])) $date = date($field[1], time());
-				else $date = date(RESERVATIONS_DATE_FORMAT_SHOW, time());
-				$theForm=preg_replace('/\['.$fieldsx.']/U', $date, $theForm);
-			} elseif($field[0]=="persons"){
-				$theForm=preg_replace('/\['.$fieldsx.']/U', $infos->childs+$infos->number, $theForm);
-			} elseif($field[0]=="rooms" || $field[0]=="resource"){
-				$theForm=preg_replace('/\['.$fieldsx.']/U', easyreservations_get_the_title($infos->room), $theForm);
-			} elseif($field[0]=="roomnumber" || $field[0]=="resource-number" || $field[0]=="resource-nr"){
-				$theForm=preg_replace('/\['.$fieldsx.']/U', __(easyreservations_get_roomname($infos->roomnumber, $infos->room)), $theForm);
-			} elseif($field[0]=="country"){
-				$theForm=preg_replace('/\['.$fieldsx.']/U', easyReservations_country_name($infos->country), $theForm);
-			} elseif($field[0]=="price"){
-				$theForm=str_replace('[price]', reservations_format_money($get_price['price']), $theForm);
-			} elseif($field[0]=="paid"){
-				$theForm=str_replace('[paid]', reservations_format_money($get_price['paid']), $theForm);
-			} elseif($field[0]=="editlink"){
-				$the_link = get_option("reservations_edit_url");
-				$i = wp_nonce_tick();
-				$nonce =  substr(wp_hash($i .'easyusereditlink0', 'nonce'), -12, 10);
-				$the_edit_link = trim($the_link).'?edit&id='.$theID.'&email='.$infos->email.'&ernonce='.$nonce;
-				if(!empty($the_link)) $theForm=str_replace('[editlink]', $the_edit_link, $theForm);
-				else  $theForm=str_replace('[editlink]', '', $theForm);
-			} elseif($field[0]=="customs"){
-				$theCustominMail = '';
-				if(!empty($infos->custom)){
-					$customs=easyreservations_get_customs($infos->custom, 0, 'cstm', 'edit');
-					foreach($customs as $custom){
-						if(!isset($field[1])) $theCustominMail .= $custom['title'].': '.$custom['value'].'<br>';
-						elseif(isset($field[1]) && $field[1] == $custom['title']) $theCustominMail .= $custom['value'];
-					}
-				}
-				$theForm=str_replace('['.$fieldsx.']', $theCustominMail, $theForm);
-			} elseif($field[0]=="customprices" || $field[0]=="prices"){
-				$theCustominMail = '';
-				if(!empty($infos->customp)){
-					$customs=easyreservations_get_customs($infos->customp, 0, 'cstm', 'edit');
-					foreach($customs as $custom){
-						if(!isset($field[1])) $theCustominMail .= $custom['title'].' - '.$custom['value'].': '.$custom['amount'].'<br>';
-						elseif(isset($field[1]) && $field[1] == $custom['title']) $theCustominMail .= $custom['value'].': '.$custom['amount'];
-					}
-				}
-				$theForm=str_replace('['.$fieldsx.']', $theCustominMail, $theForm);
-			} elseif($field[0]=="paypal"){
-				$link = '';
-				if(function_exists('easyreservations_generate_paypal_button')){
-					$link = esc_url_raw(str_replace(' ', '%20', easyreservations_generate_paypal_button($infos->id, strtotime($infos->arrival), strtotime($infos->departure), $infos->room, $infos->email, $infos->number, $infos->childs, 0, true)));
-				} 
-				$theForm = str_replace('['.$fieldsx.']', $link, $theForm);
+	
+	function easyreservations_shortcode_parser($content, $usepattern = false, $define = false){
+		if($usepattern){
+			$pattern = '\\[';						 // Opening bracket
+			if($define){
+				$pattern.= '(\\[?)'					 // 1: Optional second opening bracket for escaping shortcodes: [[tag]]
+					.	'('.$define.')';					 // 2: Shortcode name
 			}
-		}
-		
-		$local = false;
-		if(isset($_POST['easy-set-local'])) $local = $_POST['easy-set-local'];
-		$theForm = apply_filters( 'easy-email-content', $theForm, $local);
-		$mailSubj = apply_filters( 'easy-email-subj', $mailSubj, $local);
-
-		if(function_exists('easyreservations_send_multipart_mail')) $msg = easyreservations_send_multipart_mail($theForm);
-		else{
-			$theForm = explode('<--HTML-->', $theForm);
-			$msg = str_replace('<br>', "\n",str_replace(']', '',  str_replace('[', '', $theForm[0])));
-		}
-
-		$reservation_support_mail = get_option("reservations_support_mail");
-
-		if(is_array($reservation_support_mail)) $send_from = $reservation_support_mail[0];
-		else{
-			if(preg_match('/[\,]/', $reservation_support_mail)){
-				$implode  = implode(',', $reservation_support_mail);
-				$send_from = $implode[0];
-			} else $send_from = $reservation_support_mail;
-		}
-		
-		if($send_from == $mailTo){
-			//$headers = "From: ".$infos->name." <".$infos->email.">\n";
-			$headers = "From: ".get_bloginfo('name')." <$send_from>\n";
+			$pattern .= '\\b'                        // Word boundary
+					. '('                                // 3: Unroll the loop: Inside the opening shortcode tag
+					.     '[^\\]\\/]*'                   // Not a closing bracket or forward slash
+					.     '(?:'
+					.         '\\/(?!\\])'               // A forward slash not followed by a closing bracket
+					.         '[^\\]\\/]*'               // Not a closing bracket or forward slash
+					.     ')*?'
+					. ')'
+					. '(?:'
+					.     '(\\/)'                        // 4: Self closing tag ...
+					.     '\\]'                          // ... and closing bracket
+					. '|'
+					.     '\\]'                          // Closing bracket
+					.     '(?:'
+					.         '('                        // 5: Unroll the loop: Optionally, anything between the opening and closing shortcode tags
+					.             '[^\\[]*+'             // Not an opening bracket
+					.             '(?:'
+					.                 '\\[(?!\\/\\2\\])' // An opening bracket not followed by the closing shortcode tag
+					.                 '[^\\[]*+'         // Not an opening bracket
+					.             ')*+'
+					.         ')'
+					.         '\\[\\/\\2\\]'             // Closing shortcode tag
+					.     ')?'
+					. ')'
+					. '(\\]?)';                          // 6: Optional second closing brocket for escaping shortcodes: [[tag]]
+			preg_match_all( '/'. $pattern .'/s', $content, $match);
+			if($define) $return = $match[3];
+			else $return = $match[1];
+			$return = array_merge($return, array());
 		} else {
-			$headers = "From: ".get_bloginfo('name')." <$send_from>\n";
+			preg_match_all( '/\[.*\]/U', $content, $match);
+			$return = $match[0];
 		}
-		
-		if(function_exists('easyreservations_insert_attachment')) $attachment = easyreservations_insert_attachment($theID, $where);
-		
-		$mail = @wp_mail($mailTo,$mailSubj,$msg,$headers, $attachment);
-	
-		if($attachment) unlink($attachment);	
-		return $mail;
+		$return = str_replace(array('[',']'), '', $return);
+
+		return $return;
 	}
 
-	function easyreservations_set_paid($id,$amount){
-		global $wpdb;
-		$error = '';
-
-		if(is_numeric($id)){
-			if(easyreservations_check_price($amount) != 'error'){
-				$getprice = $wpdb->query( $wpdb->prepare("SELECT price ".$wpdb->prefix ."reservations WHERE id='%s' ", $id));
-				$explode = explode(";", $getprice[0]['price']);
-				if(isset($explode[1]) && $explode[1] > 0) $amount = $amount + $explode[1];
-				$newprice = $explode[0].';'.$amount;
-
-				$wpdb->query( $wpdb->prepare("UPDATE ".$wpdb->prefix ."reservations SET price='$newprice' WHERE id='%s' ", $id) );
-			} else $error = __( 'Money format error' , 'easyReservations' );
-		} else $error = __( 'Wrong Identification' , 'easyReservations' );
-
-		return $error;
-	}
-	
 	function easyreservations_check_val(){
-		if(has_action( 'er_mod_inst', 'easyreservations_add_module_notice') && strlen((string) easyreservations_add_module_notice(true)) == 280){
-			return true;
-		}
-		return false;
-	}
-
-	function easyreservations_format_status($status, $color = 0){
-		$statuse = array('yes' => array(
-			__('approved', 'easyReservations' ), '#1FB512'
-			),
-			'no' => array(
-			__('rejected', 'easyReservations' ), '#D61111'
-			),
-			'del' => array(
-			__('trashed', 'easyReservations' ), '#870A0A'
-			),
-			'' => array(
-			__('pending', 'easyReservations' ), '#3BB0E2'
-			)
-		);
-
-		$formated_status = $statuse[$status][0];
-		if($color == 1) $formated_status = '<b style="color:'.$statuse[$status][1].';text-transform:capitalize">'.$formated_status.'</b>';
-
-		return $formated_status;
-	}
-	
-	/**
-	 *	Edit/Delete/Add custom informations to reservation
-	 * 
-	 * @global type $wpdb
-	 * @param array $new_custom  one or multiple custom fields
-	 * @param int $id ID of reservation
-	 * @param array $customs current customs if  present to prevent multiple mysql queries
-	 * @param type $mass 1 for delete all customs with $type $modus  and $check and add $new_custom afterwards
-	 * @param int $thekey key of custom to edit or delete
-	 * @param int $price  1 for price field 0 for custom field
-	 * @param string $type check type of customs to edit/delete
-	 * @param string $modus check modus of customs to edit/delete
-	 * @param string $direct 1 to edit change the customs directly
-	 * @param string $check check another information of customs to edit/delete
-	 * @return array/int new customs /  key of custom
-	 */
-
-	function easyreservations_edit_custom($new_custom, $id, $customs = 0, $mass = 0, $thekey = false, $price = 0, $type = 0, $modus = 0, $direct = 0, $check = 0){
-		if($customs == 0){
-			global $wpdb;
-			if($price == 0){
-				$customs = $wpdb->get_results($wpdb->prepare("SELECT custom FROM ".$wpdb->prefix ."reservations WHERE id='$id' LIMIT 1"));
-				$all_customs = $customs[0]->custom;
-			} else {
-				$customs = $wpdb->get_results("SELECT customp FROM ".$wpdb->prefix ."reservations WHERE id='$id' LIMIT 1");
-				$all_customs = $customs[0]->customp;
-			}
-		} else $all_customs = $customs;
-
-		$all_customs_save = '';
-
-		if(!empty($all_customs)){
-			$all_customs_save  = maybe_unserialize($all_customs);
-			if($mass == 0){
-				if(!is_numeric($thekey)){
-					$all_customs_save = $all_customs_save;
-				} else {
-					if(isset($all_customs_save[$thekey]) && ($type === 0 || $all_customs_save[$thekey]['type'] == $type) && ($modus === 0 || $all_customs_save[$thekey]['mode'] == $modus) && ($check == 0 || $all_customs_save[$thekey][$check[0]] == $check[1])) unset($all_customs_save[$thekey]);
-					else return '';
-				}
-			} else {
-				if(!empty($all_customs_save)){
-					foreach($all_customs_save as $key => $cstm){
-						if(($type === 0 || $cstm['type'] == $type) && ($modus === 0 || $cstm['mode'] == $modus || $cstm['mode'] == 'visible') && ($check == 0 || $cstm[$check[0]] == $check[1])) unset($all_customs_save[$key]);
-					}
-				}
-			}
-		}
-
-		if(empty($all_customs_save) || !isset($all_customs_save[0])) $all_customs_save = array();
-
-		foreach($new_custom as $newcustom){
-			$all_customs_save[] = $newcustom;
-		}
-		$all_customs_serial = maybe_serialize($all_customs_save);
-
-		if($direct == 0) return $all_customs_serial;
-		else {
-			if($price == 0) $wpdb->query($wpdb->prepare("UPDATE ".$wpdb->prefix ."reservations SET custom='$all_customs_serial' WHERE id='$id' "));
-			else $wpdb->query($wpdb->prepare("UPDATE ".$wpdb->prefix ."reservations SET customp='$all_customs_serial' WHERE id='$id' "));
-			return $all_customs_save;
-		}
-	}	
-
-	function easyreservations_get_customs($custom, $ser = 0, $type = 0, $modus = 0){
-		if($ser == 0 && is_serialized( $custom )) $custom = maybe_unserialize($custom);
-		elseif($ser == 1 && is_serialized( $custom )) $custom = maybe_serialize($custom);
-
-		if(!empty($custom)){
-			foreach($custom as $key => $cstm){
-				if( ( $type != 0 || $cstm['type'] != $type ) || ( $modus != 0 || ( isset($cstm['mode']) && $cstm['mode'] != $modus && $cstm['mode'] != 'visible' ) ) ) unset($custom[$key]);
-			}
-		}
-
-		return $custom;
+		if(has_action( 'er_mod_inst', 'easyreservations_add_module_notice') && strlen((string) easyreservations_add_module_notice(true)) == 280) return true;
+		else return false;
 	}
 
 	function easyreservations_send_calendar_callback(){
@@ -1088,15 +438,11 @@
 			$divider = $explode_monthes[0];
 		}
 
-		if(function_exists('easyreservations_generate_multical') && $where == 'shortcode' && $monthes != 1){
-			$timenows = easyreservations_generate_multical($_POST['date'], $monthes);
-		} else {
-			$timenows=array(time()+($_POST['date']*86400*30));
-		}
+		if(function_exists('easyreservations_generate_multical') && $where == 'shortcode' && $monthes != 1) $timenows = easyreservations_generate_multical($_POST['date'], $monthes);
+		else $timenows=array(time()+($_POST['date']*86400*30));
 
-		if(!isset($timenows[1])){
-			$month = $month_names[date("n", $timenows[0])-1].' '.date("Y", $timenows[0]);
-		} else {
+		if(!isset($timenows[1])) $month = $month_names[date("n", $timenows[0])-1].' '.date("Y", $timenows[0]);
+		else {
 			$anf =  $timenows[0];
 			$end = $timenows[count($timenows)-1];
 			if(date("Y", $anf) == date("Y", $end) ){
@@ -1116,7 +462,7 @@
 				echo '</thead>';
 				echo '<tbody style="text-align:center;white-space:nowrap;padding:0px">';
 					echo '<tr>';
-					echo '<td colspan="7" style="white-space:nowrap;padding:0px;margin:0px;">';
+					echo '<td colspan="7" style="white-space:nowrap;padding:0px;margin:0px">';
 
 		if(count($timenows) > 1){
 			$width = $width / $divider;
@@ -1143,15 +489,11 @@
 			}
 
 			$num2 = cal_days_in_month(CAL_GREGORIAN, $monthnowFix-1, $yearnowFix); // 31
-
 			if($divider % 2 != 0) $thewidth = ($width-0.33).'px';
 			else $thewidth = $percent.'%';
-			
-			if($month_count % $divider == 0){
-				$float = '';
-			} else $float = 'float:left';
-
-			echo '<table class="calendar-direct-table" style="width:'.$thewidth.';margin:0px;'.$float.'">';
+			if($month_count % $divider == 0) $float = '';
+			else $float = 'float:left';
+			echo '<table class="calendar-direct-table '.str_replace(':left', '', $float).'" style="width:'.$thewidth.';margin:0px;'.$float.'">';
 				echo '<thead>';
 				if($header == 1){
 					echo '<tr>';
@@ -1198,38 +540,39 @@
 					}
 				}
 
-				if($price > 0){
-					if(isset($_POST['persons'])) $persons = $_POST['persons']; else $persons = 1;
-					if(isset($_POST['childs'])) $childs = $_POST['childs']; else $childs = 0;
-					if(isset($_POST['reservated'])) $reservated = $_POST['reservated']*86400; else $reservated = 0;
+				$res = new Reservation(false, array('email' => 'mail@test.com', 'arrival' => $dateofeachday+43200, 'departure' =>  $dateofeachday+easyreservations_get_interval($the_rooms_intervals_array[$_POST['room']], 0, 1)+43200,'resource' => (int) $_POST['room'], 'adults' => 1, 'childs' => 0,'reservated' => time()), false);
+				try {
+					if($price > 0){
+						$res->Calculate();
 
-					$fake_res = array( 'arrival' => date("Y-m-d H:i:s", $dateofeachday), 'departure' => date("Y-m-d H:i:s", $dateofeachday+easyreservations_get_interval($the_rooms_intervals_array[$_POST['room']], 0, 1)), 'reservated' => date("d.m.Y H:i", time()), 'room' => $_POST['room'], 'number' => $persons, 'childs' => $childs, 'email' => 'test@test.deve', 'price' => '', 'customp' => '' );
-					$fake_res_object = (object) $fake_res;
-					$calculate_price = easyreservations_price_calculation( '', array($fake_res_object) );
-					if($price == 1 || $price == 2){ $explode = explode('.', $calculate_price['price']); $calculate_price['price'] = $explode[0]; }
-					if($price == 1) $formated_price = $calculate_price['price'].$currency;
-					elseif($price == 2) $formated_price = $calculate_price['price'];
-					elseif($price == 3) $formated_price = reservations_format_money($calculate_price['price'], 1);
-					elseif($price == 4) $formated_price = reservations_format_money($calculate_price['price']);
+						if($price == 1 || $price == 2){ $explode = explode('.', $res->price); $res->price = $explode[0]; }
+						if($price == 1) $formated_price = $res->price.$currency;
+						elseif($price == 2) $formated_price = $res->price;
+						elseif($price == 3) $formated_price = easyreservations_format_money($res->price, 1);
+						elseif($price == 4) $formated_price = easyreservations_format_money($res->price);
 
-					$final_price = '<span class="calendar-cell-price">'.$formated_price.'</b>';
-				} else $final_price = '';
+						$final_price = '<span class="calendar-cell-price">'.$formated_price.'</b>';
+					} else $final_price = '';
 
-				if(date("d.m.Y", $dateofeachday) == date("d.m.Y", time())) $todayClass=" today";
-				else $todayClass="";
+					if(date("d.m.Y", $dateofeachday) == date("d.m.Y", time())) $todayClass=" today";
+					else $todayClass="";
 
-				$avail = easyreservations_check_avail($_POST['room'], $dateofeachday, 0,0,0,0,1,0,86400);
+					$avail = floor($res->checkAvailability(3));
 
-				if($avail >= $room_count){
-					$backgroundtd=" calendar-cell-full";
-				} elseif($avail > 0){
-					$backgroundtd=" calendar-cell-occupied";
-				} else {
-					$backgroundtd=" calendar-cell-empty";
+					if($avail >= $room_count){
+						$backgroundtd=" calendar-cell-full";
+					} elseif($avail > 0){
+						$backgroundtd=" calendar-cell-occupied";
+					} else {
+						$backgroundtd=" calendar-cell-empty";
+					}
+					if($dateofeachday > time()) $onclick = 'onclick="easyreservations_click_calendar(this,\''.date(RESERVATIONS_DATE_FORMAT, $dateofeachday).'\', \''.$rand.'\', \''.$key.'\')"'; else $onclick ='style="cursor:default"';
+					echo '<td class="calendar-cell'.$todayClass.$backgroundtd.'" '.$onclick.' id="easy-cal-'.$rand.'-'.$diff.'-'.$key.'" axis="'.$diff.'">'.$diff.''.$final_price.'</td>'; $setet++; $diff++;
+					if($setet==0 || $setet==7 || $setet==14 || $setet==21 || $setet==28) echo '</tr>';
+					$res->destroy();
+				} catch(easyException $e){
+					return false;
 				}
-				if($dateofeachday > time()) $onclick = 'onclick="easyreservations_click_calendar(this,\''.date(RESERVATIONS_DATE_FORMAT, $dateofeachday).'\', \''.$rand.'\', \''.$key.'\')"'; else $onclick ='style="cursor:default"';
-				echo '<td class="calendar-cell'.$todayClass.$backgroundtd.'" '.$onclick.' id="easy-cal-'.$rand.'-'.$diff.'-'.$key.'" axis="'.$diff.'">'.$diff.''.$final_price.'</td>'; $setet++; $diff++;
-				if($setet==0 || $setet==7 || $setet==14 || $setet==21 || $setet==28){ echo '</tr>'; }
 			}
 
 			if(!empty($final_price)) $final_price =  '<span class="calendar-cell-price">&nbsp;</b>';
@@ -1267,24 +610,24 @@
 		} else {
 			$val_to = $val_from + ($_POST['nights'] * $the_rooms_intervals_array[$room]);
 		}
-		$email = $_POST['email'];
-		$persons = $_POST['persons'];
+		if(!empty($_POST['email'])) $email = $_POST['email'];
+		else $email = "test@test.de";
+		if(!empty($_POST['persons'])) $persons = $_POST['persons'];
+		else $persons = 1;
 
 		if(isset($_POST['customp'])){
 			$customp = str_replace("!", "&", $_POST['customp']);
 		} else $customp = '';
 
-		if(isset($_POST['childs'])) $childs = $_POST['childs'];
+		if(isset($_POST['childs']) && !empty($_POST['childs'])) $childs = $_POST['childs'];
 		else $childs = 0;
 
-		if($email == "") $email = "test@test.de";
-		if($persons == "") $persons = 1;
-
-		$Array = array( 'arrival' => date("Y-m-d H:i:s", $val_from), 'departure' => date("Y-m-d H:i:s", $val_to), 'reservated' => date("Y-m-d H:i:s", time()), 'room' => $room, 'number' => $persons, 'childs' => $childs, 'email' => $email, 'price' => '', 'customp' => $customp, 'coupon' => $_POST['coupon']);
-		$obj = (object) $Array;
-		$resArray = array($obj);
-		$thePrice = easyreservations_price_calculation('', $resArray);
-		echo reservations_format_money($thePrice['price']);
+		$res = new Reservation(false, array('name' => 'abv', 'email' => $email, 'arrival' => $val_from,'departure' => $val_to,'resource' => (int) $room, 'adults' => (int) $persons, 'childs' => $childs,'reservated' => time(),'status' => '', 'prices' => $customp, 'coupon' => $_POST['coupon']), false);
+		try {
+			echo easyreservations_format_money($res->Calculate(true));
+		} catch(easyException $e){
+			echo 'Error:'. $e;
+		}
 
 		exit;
 	}
@@ -1299,87 +642,27 @@
 		check_ajax_referer( 'easy-price', 'security' );
 		$mode = $_POST['mode'];
 		global $the_rooms_intervals_array;
-		$val_room = $_POST['room'];
-		$val_name = $_POST['thename'];
-		$val_persons = (int) $_POST['persons'];
-		$val_childs = (int) $_POST['childs'];
-		$val_room = (int) $_POST['room'];
 		$val_from = strtotime($_POST['from']) + (int) $_POST['fromplus'] ;
 		if(!empty($_POST['to'])){
 			$val_to = strtotime($_POST['to']) + (int) $_POST['toplus'] ;
-			$val_nights = easyreservations_get_nights($the_rooms_intervals_array[$val_room], $val_from, $val_to);
-			if($val_nights == 0) $val_nights = 1;
 			$field = 'easy-form-to';
 		} else {
-			$val_nights = $_POST['nights'];
-			$val_to = $val_from + ($val_nights * $the_rooms_intervals_array[$val_room]);
+			$val_to = $val_from + ($_POST['nights'] * $the_rooms_intervals_array[$val_room]);
 			$field = 'easy-form-units';
 		}
-
+		if(isset($_POST['id'])) $id = $_POST['id'];
+		else $id = false;
 		$error = "";
 
-		if((strlen($val_name) > 30 || strlen($val_name) <= 1 ||  preg_match('/^[0-9]+$/i',$val_name)) && $val_name != ""){ /* check name */
-			$error[] = 'easy-form-thename';
-			$error[] = __( 'Please enter a correct name' , 'easyReservations' );
+		$res = new Reservation($id, array('name' =>  $_POST['thename'], 'email' => $_POST['email'], 'arrival' => $val_from,'departure' => $val_to,'resource' => (int) $_POST['room'], 'adults' => (int) $_POST['persons'], 'childs' => (int) $_POST['childs'],'reservated' => time(),'status' => ''), false);
+		try {
+			$error = $res->Validate($mode);
+		} catch(easyException $e){
+			$error[] = '';
+			$error[] = $e;
 		}
-
-		if($val_from-time() < 0){ /* check arrival Date */
-			$error[] = 'easy-form-from';
-			$error[] =  __( 'The arrival date has to be in future' , 'easyReservations' );
-		}
-
-		if($val_to < $val_from){ /* check difference between arrival and departure date */
-			$error[] = $field;
-			$error[] = __( 'Departure before arrival' , 'easyReservations' );
-		}
-
-		if(!is_email( $_POST['email']) && $_POST['email'] != ""){ /* check email */
-			$error[] = 'easy-form-email';
-			$error[] =  __( 'Please enter a correct eMail' , 'easyReservations' );
-		}
-
-		if (!is_numeric($_POST['persons'])){ /* check persons */
-			$error[] = 'easy-form-persons';
-			$error[] = __( 'Persons has to be a number' , 'easyReservations' );
-		}
-
-		$numbererrors=easyreservations_check_avail($_POST['room'], $val_from, 0, $val_to , 1 ); /* check rooms availability */
-
-		if($numbererrors > 0){
-			$error[] = 'date';
-			$error[] = __( 'Isn\'t available at' , 'easyReservations' ).' '.$numbererrors;
-		}
-
-		$resource_req = get_post_meta($_POST['room'], 'easy-resource-req', TRUE);
-		if(!$resource_req || !is_array($resource_req)) $resource_req = array('nights-min' => 0, 'nights-max' => 0, 'pers-min' => 1, 'pers-max' => 0);
-		$rooms = easyreservations_get_rooms();
-
-		if($resource_req['pers-min'] > ($val_persons+$val_childs)){
-			$error[] = 'easy-form-persons';
-			$error[] =  sprintf(__( 'At least %1$s persons in %2$s' , 'easyReservations' ), $resource_req['pers-min'], __(easyreservations_get_the_title($val_room, $rooms)));
-		}
-		if($resource_req['pers-max'] != 0 && $resource_req['pers-max'] < ($val_persons+$val_childs)){
-			$error[] = 'easy-form-persons';
-			$error[] =  sprintf(__( 'Maximum %1$s persons in %2$s' , 'easyReservations' ), $resource_req['pers-max'], __(easyreservations_get_the_title($val_room, $rooms)));
-		}
-		if($resource_req['nights-min'] != 0 && $resource_req['nights-min'] > $val_nights){
-			$error[] = 'date';
-			$error[] =  sprintf(__( 'At least %1$s %2$s in %3$s' , 'easyReservations' ), $resource_req['nights-min'], easyreservations_interval_infos($the_rooms_intervals_array[$val_room], 0, $resource_req['nights-min']), __(easyreservations_get_the_title($val_room, $rooms)));
-		}
-		if($resource_req['nights-max'] != 0 && $resource_req['nights-max'] < $val_nights){
-			$error[] = 'date';
-			$error[] =  sprintf(__( 'Maximum %1$s %2$s in %3$s' , 'easyReservations' ), $resource_req['nights-max'], easyreservations_interval_infos($the_rooms_intervals_array[$val_room], 0, $resource_req['nights-max']), __(easyreservations_get_the_title($val_room, $rooms)));
-		}
-
-		if($mode == 'send' ){
-			if(empty($val_name)){
-				$error[] = 'easy-form-thename';
-				$error[] =  __( 'Name is required' , 'easyReservations' );
-			}
-			if(empty($_POST['email'])){
-				$error[] = 'easy-form-email';
-				$error[] =  __( 'eMail is required' , 'easyReservations' );
-			}
+		
+		if($mode == 'send'){
 			$explode_customs = explode(',', substr($_POST['customs'],0,-1));
 			foreach($explode_customs as $cstm){
 				if(!empty($cstm)){
@@ -1418,23 +701,16 @@
 		wp_localize_script( 'easyreservations_send_price', 'easyAjax', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ), 'plugin_url' => WP_PLUGIN_URL, 'interval' => json_encode($the_rooms_intervals_array) ) );
 		wp_localize_script( 'easyreservations_send_validate', 'easyAjax', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ), 'plugin_url' => WP_PLUGIN_URL, 'interval' => json_encode($the_rooms_intervals_array) ) );
 		wp_localize_script( 'easy-form-js', 'easyDate', array( 'easydateformat' => RESERVATIONS_DATE_FORMAT, 'interval' => json_encode($the_rooms_intervals_array) ) );
+		
+		// register form styles
+		if(file_exists(WP_PLUGIN_DIR . '/easyreservations/css/custom/form.css'))wp_register_style('easy-form-custom', WP_PLUGIN_URL . '/easyreservations/css/custom/form.css'); // custom form style override
+		wp_register_style('easy-form-little', WP_PLUGIN_URL . '/easyreservations/css/forms/form_little.css'); // widget form style
+		wp_register_style('easy-form-none', WP_PLUGIN_URL . '/easyreservations/css/forms/form_none.css'); // default (white) form style
+		wp_register_style('easy-form-blue', WP_PLUGIN_URL . '/easyreservations/css/forms/form_blue.css'); // blue form style
 
-		wp_register_style('easy-form-little', WP_PLUGIN_URL . '/easyreservations/css/forms/form_little.css');
-		if(file_exists(WP_PLUGIN_DIR . '/easyreservations/css/custom/form.css')){
-			$form1 = 'custom/form.css'; $form2 = $form1;
-		} else {
-			$form1 = 'forms/form_blue.css'; $form2 = 'forms/form_none.css';
-		}
-		wp_register_style('easy-form-blue', WP_PLUGIN_URL . '/easyreservations/css/'.$form1);
-		wp_register_style('easy-form-none', WP_PLUGIN_URL . '/easyreservations/css/'.$form2);
-
-		if(file_exists(WP_PLUGIN_DIR . '/easyreservations/css/custom/calendar.css')){
-			$form1 = 'custom/calendar.css'; $form2 = $form1;
-		} else {
-			$form1 = 'calendar/style_1.css'; $form2 = 'calendar/style_2.css';
-		}
-		wp_register_style('easy-cal-1', WP_PLUGIN_URL . '/easyreservations/css/'.$form1);
-		wp_register_style('easy-cal-2', WP_PLUGIN_URL . '/easyreservations/css/'.$form2);
+		if(file_exists(WP_PLUGIN_DIR . '/easyreservations/css/custom/calendar.css'))wp_register_style('easy-cal-custom', WP_PLUGIN_URL . '/easyreservations/css/custom/calendar.css'); // custom form style override
+		wp_register_style('easy-cal-1', WP_PLUGIN_URL . '/easyreservations/css/calendar/style_1.css');
+		wp_register_style('easy-cal-2', WP_PLUGIN_URL . '/easyreservations/css/calendar/style_2.css');
 
 		if(file_exists(WP_PLUGIN_DIR . '/easyreservations/css/custom/datepicker.css')) $form1 = 'custom/datepicker.css'; else $form1 = 'jquery-ui.css';
 		wp_register_style('datestyle', WP_PLUGIN_URL . '/easyreservations/css/'.$form1);
@@ -1505,4 +781,14 @@
 		if($date !== false) return $name[$date];
 		else return $name;
 	}
+	
+	function easyreservations_add_icons_stylesheet() {
+		if(is_user_logged_in()){?><style type="text/css">
+			.er-adminbar-item .er-adminbar-icon {background-image: url('<?php echo RESERVATIONS_URL; ?>images/toolbar.png');background-repeat: no-repeat;float: left;height: 16px !important;margin-top: 6px !important;margin-right: 1px !important;position: absolute; width: 16px !important;}
+			.hover .er-adminbar-icon {background-image: url('<?php echo RESERVATIONS_URL; ?>images/toolbar_hover.png'); }
+	    </style><?php }
+	}
+
+	add_action('wp_print_styles', 'easyreservations_add_icons_stylesheet');
+	add_action('admin_print_styles', 'easyreservations_add_icons_stylesheet');
 ?>

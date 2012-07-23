@@ -14,12 +14,12 @@ License:GPL2
 		function easyreservations_core_add_settings_tab(){ 
 
 			if(isset($_GET['site']) && $_GET['site'] == "plugins") $current = 'current'; else $current = '';
-			$tab = '<li ><a href="admin.php?page=reservation-settings&site=plugins" class="'.$current.'"><img style="vertical-align:text-bottom ;" src="'.RESERVATIONS_IMAGES_DIR.'/plugin.png"> '. __( 'Premium' , 'easyReservations' ).'</a></li>';
+			$tab = '<li ><a href="admin.php?page=reservation-settings&site=plugins" class="'.$current.'"><img style="vertical-align:text-bottom ;" src="'.RESERVATIONS_URL.'/images/plugin.png"> '. __( 'Premium' , 'easyReservations' ).'</a></li>';
 
 			echo $tab;
 
 		}
-
+		
 		add_action('er_set_save', 'easyreservations_core_save_settings');
 
 		function easyreservations_core_save_settings(){
@@ -83,12 +83,12 @@ License:GPL2
 				if(get_option('easyreservations-notifier-cache')) $xml = easyreservations_latest_modules_versions(86400);
 				else {
 					$xml = new stdClass();
-					$xml->latestc = '1.1.4'; //Calendar
-					$xml->latestd = '1.2'; //Chat
-					$xml->latestp = '1.2.1'; //PayPal
-					$xml->latestlang = '1.1'; //language
-					$xml->latests = '1.1.6'; //searchFrom
-					$xml->latesthc = '1.0.1'; //hourlyCal
+					$xml->latestc = '1.1.5'; //Calendar
+					$xml->latestd = '1.2.1'; //Chat
+					$xml->latestp = '1.2.2'; //PayPal
+					$xml->latestlang = '1.1.1'; //language
+					$xml->latests = '1.1.7'; //searchFrom
+					$xml->latesthc = '1.0.2'; //hourlyCal
 				}
 				$the_modules = array(
 						array(
@@ -97,7 +97,7 @@ License:GPL2
 								'content' => __( 'Generate totally customazible Invoices automatically from predefined templates. Including an editor for admins, invoices as email attachments and correct A4 Letter formats.' , 'easyReservations' ),
 								'xml' => '',
 								'function' => 'easyreservations_generate_invoice',
-								'vers' => '1.0.1',
+								'vers' => '1.0.2',
 								'image' => 'invoice',
 								'beta' => 0
 						),
@@ -107,7 +107,7 @@ License:GPL2
 								'content' => __( 'Style your eMails with HTML to increase the appereance of your hospitality.' , 'easyReservations' ),
 								'xml' => '',
 								'function' => 'easyreservations_send_multipart_mail',
-								'vers' => '1.1.1',
+								'vers' => '1.1.2',
 								'image' => 'email',
 								'beta' => 0
 						),
@@ -117,7 +117,7 @@ License:GPL2
 								'content' => __( 'Your guest can pay their reservations directly through PayPal! Adds the PayPal Buy Now Button after form submits and to userCP if not paid. Automatically approve new reservations and/or paid reservations. Payment verification by IPN.' , 'easyReservations' ),
 								'xml' => 'latestp',
 								'function' => 'easyreservations_validate_payment',
-								'vers' => '1.2.1',
+								'vers' => '1.2.2',
 								'image' => 'paypal',
 								'beta' => 0
 						),
@@ -127,7 +127,7 @@ License:GPL2
 								'content' => __( 'New shortcode to let your guests search for available resources. No reload for searching, compatible to calendar, show price, show unavailable resources too, link to form with automatically selection. Each resource can have a small one-column calendar to show when its availble.' , 'easyReservations' ),
 								'xml' => 'latests',
 								'function' => 'easyreservations_search_add_tinymce',
-								'vers' => '1.1.6',
+								'vers' => '1.1.7',
 								'image' => 'search',
 								'beta' => 0
 						),
@@ -137,7 +137,7 @@ License:GPL2
 								'content' => __( 'Show your guests the availability on a hourly basis.' , 'easyReservations' ),
 								'xml' => 'latesthc',
 								'function' => 'easyreservations_send_hourlycal_callback',
-								'vers' => '1.0.1',
+								'vers' => '1.0.2',
 								'image' => 'time',
 								'beta' => 0
 						),
@@ -147,7 +147,7 @@ License:GPL2
 								'content' => __( 'Export selectable reservations informations by time, selection or all as .xls, .csv or .xml and Import them from back from the .xml files.' , 'easyReservations' ),
 								'xml' => '',
 								'function' => 'easyreservations_generate_import',
-								'vers' => '1.2',
+								'vers' => '1.2.1',
 								'image' => 'import',
 								'beta' => 0
 						),
@@ -157,7 +157,7 @@ License:GPL2
 								'content' => __( 'Function to make texts in forms and emails translatable.' , 'easyReservations' ),
 								'xml' => 'latestlang',
 								'function' => 'easyreservations_translate_content',
-								'vers' => '1.1',
+								'vers' => '1.1.1',
 								'image' => 'country',
 								'beta' => 0
 						),
@@ -167,7 +167,7 @@ License:GPL2
 								'content' => __( ' Let your guests login with their reservations ID and email to edit their reservation afterwards. They can switch between their reservations in a table. In addition it provides a chat-like feature to user-edit and admin. New messages in table, dummy message at start, admin notices, avatars and fully AJAX driven.' , 'easyReservations' ),
 								'xml' => 'latestd',
 								'function' => 'easyreservations_generate_chat',
-								'vers' => '1.2',
+								'vers' => '1.2.1',
 								'image' => 'chat',
 								'beta' => 0
 						),
@@ -177,7 +177,7 @@ License:GPL2
 								'content' => __( 'Let your guests enter coupon codes for discounts.' , 'easyReservations' ),
 								'xml' => 'latestcoupons',
 								'function' => 'easyreservations_coupon_admin',
-								'vers' => '1.0',
+								'vers' => '1.0.1',
 								'image' => 'money',
 								'beta' => 0
 						),
@@ -187,7 +187,7 @@ License:GPL2
 								'content' => __( 'Extend the calendar shortcode to show multiple months by an flexible grid (x*y) at once. Includes a new boxed calendar style.' , 'easyReservations' ),
 								'xml' => 'latestc',
 								'function' => 'easyreservations_generate_multical',
-								'vers' => '1.1.4',
+								'vers' => '1.1.5',
 								'image' => 'day',
 								'beta' => 0
 						),
@@ -197,17 +197,17 @@ License:GPL2
 								'content' => __( 'Detailed statistics, charts, resources usage and a dashboards widget.' , 'easyReservations' ),
 								'xml' => '',
 								'function' => 'easyreservations_add_statistics_submenu',
-								'vers' => '1.0',
+								'vers' => '1.1',
 								'image' => 'statistics',
 								'beta' => 0
 						),
 						array(
 								'slug' => 'styles',
-								'title' => __( 'Datepicker Styles' , 'easyReservations' ),
-								'content' => __( 'Changes your datepickers style and disable unavailble dates in it..' , 'easyReservations' ),
+								'title' => __( 'Styles' , 'easyReservations' ),
+								'content' => __( 'New Admin, Calendar and Form stlye. In addition it changes your datepickers style and disable unavailble dates in it.' , 'easyReservations' ),
 								'xml' => '',
 								'function' => 'easyreservations_register_datepicker_style',
-								'vers' => '1.1',
+								'vers' => '1.2',
 								'image' => 'to',
 								'beta' => 0
 						)
@@ -227,7 +227,7 @@ License:GPL2
 						</thead>
 						<tbody>
 							<tr>
-								<td style="text-align:center"><img style="vertical-align:text-bottom ;" src="<?php echo RESERVATIONS_IMAGES_DIR; ?>/plugin.png"></td>
+								<td style="text-align:center"><img style="vertical-align:text-bottom ;" src="<?php echo RESERVATIONS_URL; ?>/images/plugin.png"></td>
 								<td><b><?php echo $core_data['Name']; ?></b></td>
 								<td><?php echo $core_data['Description']; ?></td>
 								<td style="font-weight:bold;text-align:center"><?php echo $core_data['Version']; ?></td>
@@ -252,7 +252,7 @@ License:GPL2
 									if($module['beta'] == 0 || $status > 0){
 									?>
 									<tr <?php if($status != 2) echo 'class="inactive"'; ?>>
-										<td style="text-align:center"><img style="vertical-align:text-bottom ;" src="<?php echo RESERVATIONS_IMAGES_DIR.'/'.$module['image']; ?>.png"></td>
+										<td style="text-align:center"><img style="vertical-align:text-bottom ;" src="<?php echo RESERVATIONS_URL.'/images/'.$module['image']; ?>.png"></td>
 										<td><b><a href="http://easyreservations.org/module/<?php echo $module['slug']; ?>/" target="_blank"><?php echo $module['title'];?></a></b><br><?php echo $action; ?></td>
 										<td><?php echo $module['content'];?></td>
 										<td style="font-weight:bold;text-align:center"><?php if($status > 0) echo '<a style="color:#118D18">'.$installed_version.'</a>'; else echo '<a style="color:#FF3B38">'.__( 'None' , 'easyReservations' ).'</a>'; ?></td>

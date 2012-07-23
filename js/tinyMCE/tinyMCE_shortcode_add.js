@@ -17,10 +17,10 @@
 			// Register example button
 			ed.addButton('easyReservations', {
 				title : 'easyReservations',
-				cmd : 'shtb_adv_insert_cmd',
+				cmd : 'mceReservations',
                 image: url + "/logo.png",
 				onclick : function() {
-								ed.windowManager.open({
+					ed.windowManager.open({
 					file : url + '/tinyMCE_shortcode_add.php',
 					width : 600,
 					height : 400,
@@ -30,6 +30,16 @@
 				});
 				}
 			});
+		ed.addCommand('mceOpenReservation', function() {
+			ed.windowManager.open({
+				file : url + '/tinyMCE_shortcode_add.php',
+				width : 600,
+				height : 400,
+				inline : 1
+			}, {
+				plugin_url : url // Plugin absolute URL
+			});		
+		});
         },
 
         getInfo : function() {

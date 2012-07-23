@@ -180,31 +180,6 @@ td.hover  { background: #C6C6C6; }
 	padding: 0px 3px;
 	margin:-2.2px;
 }
-.widefat tbody .er_res_old {
-	background:#2A78D8;
-	border-bottom:1px solid #2A78D8 !important;
-	max-width:4px !important;
-	min-width:4px !important;
-	border-left:0px !important;
-	padding:0px !important;
-}
-.widefat tbody .er_res_now {
-	background:#118D18;
-	border-bottom:1px solid #118D18 !important;
-	max-width:4px !important;
-	min-width:4px !important;
-	border-left:0px !important;
-	padding:0px !important;
-}
-.widefat tbody .er_res_future {
-	background:#CC3333;
-	border-bottom:1px solid #CC3333 !important;
-	max-width:4px !important;
-	border-left:0px !important;
-	padding:0px !important;
-	min-width:4px !important;
-}
-
 /* 
 
 	Submit Button
@@ -316,4 +291,7 @@ td.hover  { background: #C6C6C6; }
 }
 .widefat .little_table tbody tr:nth-child(even) {
 	background:#f8f8f7;
+}
+.headerlink {
+	background:#DB2000;padding:2px;text-shadow:0 1px 2px rgba(0,0,0,0.5);
 }

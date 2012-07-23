@@ -5,6 +5,7 @@
 		wp_enqueue_script( 'easyreservations_send_calendar' );
 	
 		if(isset($atts['room'])) $room = $atts['room']; else $room = 0;
+		if($room == 0 && isset($atts['resource'])) $room = $atts['resource']; else $room = 0;
 		if(isset($atts['width'])) $width = $atts['width']; else $width = 300;
 		if(isset($atts['price'])) $price = $atts['price']; else $price = 0;
 		if(isset($atts['style'])) $style = $atts['style']; else $style = 1;
@@ -12,7 +13,10 @@
 		if(isset($atts['header'])) $header = $atts['header']; else $header = 0;
 		if(isset($atts['interval'])) $interval = $atts['interval']; else $interval = 1;
 		if(empty($width)) $width = 300;
-		wp_enqueue_style('easy-cal-'.$style, false, array(), false, 'all');
+		
+		if (wp_style_is('easy-cal-'.$style, 'registered')) wp_enqueue_style('easy-cal-'.$style, false, array(), false, 'all');
+		else wp_enqueue_style('easy-form-none' , false, array(), false, 'all');	
+
 		if(isset($_POST['room']) && is_numeric($_POST['room'])) $room = $_POST['room'];
                 
 		$return = '<form name="CalendarFormular" id="CalendarFormular">';

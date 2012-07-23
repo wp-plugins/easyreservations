@@ -1,9 +1,12 @@
 <?php
-	require('../../../wp-blog-header.php');
+	require('../../../wp-config.php');
+	$wp->init(); $wp->parse_request(); $wp->query_posts();
+	$wp->register_globals(); $wp->send_headers();
+
 	$moreget = $_POST['more'];
 	$main_options = get_option("reservations_main_options");
 	$overview_options = $main_options['overview'];
-	
+
 	if(isset($_POST['interval'])) $interval = $_POST['interval'];
 	else $interval = 86400;
 
@@ -15,8 +18,6 @@
 
 	if(isset($_POST['dayPicker'])){
 		$dayPicker=$_POST['dayPicker'];
-		require('../../../wp-blog-header.php');
-
 		$daysbetween=(strtotime($dayPicker)-strtotime(date("d.m.Y", time())))/$interval;
 		$moreget=round($daysbetween/$interval*$interval)+2;
 		$main_options = get_option("reservations_main_options");
@@ -100,9 +101,9 @@
 						<?php } else { ?>
 							<input name="daybutton" class="easySubmitButton-secondary" value="Hours" type="button" onclick="easyRes_sendReq_Overview('<?php echo $moreget; ?>','no','<?php echo $daysshow; ?>',3600);resetSet();">
 						<?php } ?>
-						<input name="daybutton" class="easySubmitButton-secondary" value="15" type="button" onclick="easyRes_sendReq_Overview('<?php echo $moreget; ?>','',15,<?php echo $interval; ?>);resetSet();">
-						<input name="daybutton" class="easySubmitButton-secondary" value="30" type="button" onclick="easyRes_sendReq_Overview('<?php echo $moreget; ?>','',30,<?php echo $interval; ?>);resetSet();">
-						<input name="daybutton" class="easySubmitButton-secondary" value="45" type="button" onclick="easyRes_sendReq_Overview('<?php echo $moreget; ?>','',45,<?php echo $interval; ?>);resetSet();">
+						<input name="settimes" class="easySubmitButton-secondary" value="15" type="button" onclick="easyRes_sendReq_Overview('<?php echo $moreget; ?>','',15,<?php echo $interval; ?>);resetSet();">
+						<input name="settimes" class="easySubmitButton-secondary" value="30" type="button" onclick="easyRes_sendReq_Overview('<?php echo $moreget; ?>','',30,<?php echo $interval; ?>);resetSet();">
+						<input name="settimes" class="easySubmitButton-secondary" value="45" type="button" onclick="easyRes_sendReq_Overview('<?php echo $moreget; ?>','',45,<?php echo $interval; ?>);resetSet();">
 					</span>
 				</th>
 			</tr>
@@ -162,41 +163,44 @@
 		<th colspan="<?php echo $daysshow+1; ?>" class="overviewFooter">
 			<span style="vertical-align:middle;" id="resetdiv"></span>
 			<span style="float:right;">
-				<img style="vertical-align:text-bottom;" src="<?php echo RESERVATIONS_IMAGES_DIR.'/blue_dot.png'; ?>">&nbsp;<small><?php echo __( 'Past' , 'easyReservations' ); ?></small> 
-				<img style="vertical-align:text-bottom;" src="<?php echo RESERVATIONS_IMAGES_DIR.'/green_dot.png'; ?>">&nbsp;<small><?php echo __( 'Present' , 'easyReservations' ); ?></small> 
-				<img style="vertical-align:text-bottom;" src="<?php echo RESERVATIONS_IMAGES_DIR.'/red_dot.png'; ?>">&nbsp;<small><?php echo __( 'Future' , 'easyReservations' ); ?></small>
-				<?php if(isset($id)){ ?> <img style="vertical-align:text-bottom;" src="<?php echo RESERVATIONS_IMAGES_DIR.'/yellow_dot.png'; ?>">&nbsp;<small><?php echo __( 'Active' , 'easyReservations' ); ?></small><?php } ?>
+				<img style="vertical-align:text-bottom;" src="<?php echo RESERVATIONS_URL.'/images/blue_dot.png'; ?>">&nbsp;<small><?php echo __( 'Past' , 'easyReservations' ); ?></small> 
+				<img style="vertical-align:text-bottom;" src="<?php echo RESERVATIONS_URL.'/images/green_dot.png'; ?>">&nbsp;<small><?php echo __( 'Present' , 'easyReservations' ); ?></small> 
+				<img style="vertical-align:text-bottom;" src="<?php echo RESERVATIONS_URL.'/images/red_dot.png'; ?>">&nbsp;<small><?php echo __( 'Future' , 'easyReservations' ); ?></small>
+				<?php if(isset($id)){ ?> <img style="vertical-align:text-bottom;" src="<?php echo RESERVATIONS_URL.'/images/yellow_dot.png'; ?>">&nbsp;<small><?php echo __( 'Active' , 'easyReservations' ); ?></small><?php } ?>
 			</span>
 		</th>
 	</tr>
 </tfoot>
 <tbody>
 <?php
-	if(isset($roomwhere)) $roomcategories = $wpdb->get_results("SELECT ID, post_title FROM wp_posts WHERE ID='$roomwhere'");
-	else $roomcategories = $show_rooms;
+	if(isset($roomwhere)) $all_resources = $wpdb->get_results("SELECT ID, post_title FROM wp_posts WHERE ID='$roomwhere'");
+	else $all_resources = $show_rooms;
 
-	foreach( $roomcategories as $key => $roomcategorie ){ /* - + - FOREACH ROOM - + - */
-		$roomID=$roomcategorie->ID;
+	foreach( $all_resources as $key => $resource ){ /* - + - FOREACH ROOM - + - */
+		$res = new Reservation(false, array('dontclean', 'arrival' => $timesx, 'resource' => (int) $resource->ID ));
+		$res->interval = $interval;
+		$roomID=$resource->ID;
 		$roomcounty = get_post_meta($roomID, 'roomcount', TRUE);
 		$resource_names = get_post_meta($roomID, 'easy-resource-roomnames', TRUE);
 		$rowcount=0;
 
-		$room_sql = $wpdb->get_results($wpdb->prepare("SELECT id, name, departure, arrival, roomnumber FROM ".$wpdb->prefix ."reservations WHERE approve='yes' AND room='$roomID' AND (arrival BETWEEN '$stardate' AND '$enddate' OR departure BETWEEN '$stardate' AND '$enddate' OR '$stardate'  BETWEEN arrival AND departure) ORDER BY room ASC, roomnumber ASC, arrival ASC"));
+		$resource_sql = $wpdb->get_results($wpdb->prepare("SELECT id, name, departure, arrival, roomnumber FROM ".$wpdb->prefix ."reservations WHERE approve='yes' AND room='$roomID' AND (arrival BETWEEN '$stardate' AND '$enddate' OR departure BETWEEN '$stardate' AND '$enddate' OR '$stardate'  BETWEEN arrival AND departure) ORDER BY room ASC, roomnumber ASC, arrival ASC"));
 
 		unset($reservations);
-		foreach($room_sql as $res){
-			if(!empty($res->roomnumber)){
-				$reservations[$res->roomnumber][] = array($res);
+		foreach($resource_sql as $resourc){
+			if(!empty($resourc->roomnumber)){
+				$reservations[$resourc->roomnumber][] = array($resourc);
 				$co=0;
 			}
 		} ?>
-		<tr style="background:#EAE8E8">
-			<td><span>&nbsp;<a href="admin.php?page=reservation-resources&room=<?php echo $roomcategorie->ID; ?>" style="color: #6B6B6B;"><?php echo __( $roomcategorie->post_title); ?></a></td>
+		<tr class="ov_resource_row" style="background:#EAE8E8">
+			<td><span>&nbsp;<a href="admin.php?page=reservation-resources&room=<?php echo $resource->ID; ?>" style="color: #6B6B6B;"><?php echo __( $resource->post_title); ?></a></td>
 				<?php
 				$co=0;
 				while($co < $daysshow){
 					if($overview_options['overview_show_avail'] == 1){
-						$roomDayPersons=get_post_meta($roomID, 'roomcount', true)-easyreservations_check_avail($roomID, $timesx+($co*$interval),0,0,0,0,1,0,$interval);
+						$res->arrival = $timesx+($co*$interval);
+						$roomDayPersons=$roomcounty-$res->checkAvailability(3);
 						if($roomDayPersons <= 0) $textcolor='#FF3B38'; else $textcolor='#118D18';
 					} else $textcolor = '';
 					?><td axis="<?php echo $co+2;?>" style="color:<?php echo $textcolor; ?>" ><?php if($overview_options['overview_show_avail'] == 1)  echo '<small>'.$roomDayPersons.'</small>'; ?></small></td><?php
@@ -265,10 +269,13 @@
 				if($cellcount < 10) $preparedCellcount='0'.$cellcount;
 				else $preparedCellcount=$cellcount;
 
-				if($dateToday < time()) $background2="url(".RESERVATIONS_IMAGES_DIR ."/patbg.png) repeat";
+				if($dateToday < time()) $background2="url(".RESERVATIONS_URL ."/images/patbg.png) repeat";
 				else $background2='';
 
-				if(reservations_check_avail_filter($roomID, $dateToday-$interval, $dateToday, 0, $interval ) > 0) $colorbgfree='#FFEDED';
+				$res->arrival = $dateToday-$interval;
+				$avail = $res->availFilter($roomcounty, 0, (int) $interval);
+
+				if($avail > 0) $colorbgfree='#FFEDED';
 				elseif(date($date_pat, $dateToday-$interval)==date($date_pat, time())) $colorbgfree = '#EDF0FF';
 				elseif(date("N", $dateToday-$interval)==6 OR date("N", $dateToday-$interval)==7) $colorbgfree = '#FFFFEB';
 				else $colorbgfree='#FFFFFF';
@@ -286,19 +293,19 @@
 						if(isset($daysOccupied[$CoutResNights3+1]) && isset($numberOccupied[$CoutResNights3-1]) && $numberOccupied[$CoutResNights3-1] != $daysOccupied[$CoutResNights3] && $numberOccupied[$CoutResNights3-1] != $numberOccupied[$CoutResNights3]) $wasFullTwo=1;
 
 						if(($CoutResNights2 == 0 && $cellcount != 1) || ($wasFullTwo == 1 && $cellcount != 1) || $dateToday - $arrival <= $interval){
-							$farbe2="url(".RESERVATIONS_IMAGES_DIR ."/DERSTRING_start.png) right top no-repeat, ".$background2." ".$colorbgfree; 
+							$farbe2="url(".RESERVATIONS_URL ."/images/DERSTRING_start.png) right top no-repeat, ".$background2." ".$colorbgfree; 
 							$itIS=0;
 						} elseif($CoutResNights2 != 0 || $cellcount == 1 || (isset($daysOccupied[$CoutResNights3]) && $lastDay==$daysOccupied[$CoutResNights3])){
-							$farbe2="url(".RESERVATIONS_IMAGES_DIR ."/DERSTRING_middle.png) top repeat-x";
+							$farbe2="url(".RESERVATIONS_URL ."/images/DERSTRING_middle.png) top repeat-x";
 							if($cellcount != 1) $borderside=0;
 							$itIS++;
 						}
 						if(isset($daysOccupied[$CoutResNights3+1]) AND $daysOccupied[$CoutResNights3] != $daysOccupied[$CoutResNights3+1] && $numberOccupied[$CoutResNights3] != $numberOccupied[$CoutResNights3+1]){
-							$farbe2="url(".RESERVATIONS_IMAGES_DIR ."/DERSTRING_end.png) left top no-repeat, ".$background2." ".$colorbgfree; 
+							$farbe2="url(".RESERVATIONS_URL ."/images/DERSTRING_end.png) left top no-repeat, ".$background2." ".$colorbgfree; 
 							$itIS=0;
 						}
 						if(isset($daysOccupied[$CoutResNights3+1]) && $daysOccupied[$CoutResNights3] == $daysOccupied[$CoutResNights3+1] && array_key_exists($CoutResNights3+1, $daysOccupied)){
-							$farbe2='url('.RESERVATIONS_IMAGES_DIR .'/DERSTRING_cross.png) left top no-repeat DERZEWEITESTRING';
+							$farbe2='url('.RESERVATIONS_URL .'/images/DERSTRING_cross.png) left top no-repeat DERZEWEITESTRING';
 							$CoutResNights2=0;
 							$CoutResNights3++;
 							$CountNumberOfAdd++;
@@ -308,7 +315,7 @@
 							$itIS=0;
 							$onClick=1;
 						}
-						if(!in_array(date($date_pat, $dateToday+$interval), $daysOccupied)) $farbe2="url(".RESERVATIONS_IMAGES_DIR ."/DERSTRING_end.png) left top no-repeat, ".$background2." ".$colorbgfree; 
+						if(!in_array(date($date_pat, $dateToday+$interval), $daysOccupied)) $farbe2="url(".RESERVATIONS_URL ."/images/DERSTRING_end.png) left top no-repeat, ".$background2." ".$colorbgfree; 
 
 						$CoutResNights2++;
 						$CoutResNights3++;
@@ -414,5 +421,6 @@
 			unset($reservationarray);
 			echo '</tr>';
 		}
+		$res->destroy();
 	} ?></tbody>
 </table>

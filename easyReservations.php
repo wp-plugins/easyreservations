@@ -3,7 +3,7 @@
 Plugin Name: easyReservations
 Plugin URI: http://www.easyreservations.org
 Description: This powerfull property and reservation management plugin allows you to receive, schedule and handle your bookings easily!
-Version: 2.1.3
+Version: 3.0
 Author: Feryaz Beer
 Author URI: http://www.feryaz.de
 License:GPL2
@@ -24,11 +24,11 @@ License:GPL2
 			$settings = 'edit_posts';  $resources = 'edit_posts'; $dashboard = 'edit_posts';
 		}
 
-		$count = easyreservations_get_pending();
-		if($count != 0) $pending = '<span class="update-plugins count-'.$count.'"><span class="plugin-count">'.$count.'</span></span>';
+		$pending_reservations_cnt = easyreservations_get_pending();
+		if($pending_reservations_cnt != 0) $pending = '<span class="update-plugins count-'.$pending_reservations_cnt.'"><span class="plugin-count">'.$pending_reservations_cnt.'</span></span>';
 		else $pending = '';
 
-		add_menu_page(__('easyReservation','easyReservations'), __('Reservation','easyReservations').' '.$pending, $dashboard, 'reservations', 'reservation_main_page', RESERVATIONS_IMAGES_DIR.'/logo.png' );
+		add_menu_page(__('easyReservation','easyReservations'), __('Reservation','easyReservations').' '.$pending, $dashboard, 'reservations', 'reservation_main_page', RESERVATIONS_URL.'/images/logo.png' );
 		add_submenu_page('reservations', __('Dashboard','easyReservations'), __('Dashboard','easyReservations'), $dashboard, 'reservations', 'reservation_main_page');
 		add_submenu_page('reservations', __('Resources','easyReservations'), __('Resources','easyReservations'), $resources, 'reservation-resources', 'reservation_resources_page');
 		do_action('easy-add-submenu-page');
@@ -182,7 +182,7 @@ ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrival] <br>To: [depa
 		add_option('reservations_main_options', array('show' => $showhide, 'table' => $table, 'overview' => $overview ), '', 'no');
 		$edit_options = array( 'login_text' => '', 'edit_text' => '', 'submit_text' => 'Reservation successfully edited',  'table_infos' => array('date', 'status', 'price', 'room'), 'table_status' => array('','yes','no'), 'table_time' => array('past','current','future'), 'table_style' => 1, 'table_more' => 1 );
 		add_option('reservations_edit_options', $edit_options, '', 'no');
-		add_option('reservations_settings', array( 'style' => "greyfat", 'interval' => 86400, 'currency' => '#36', 'date_format' => 'd.m.Y', 'time' => 1 ), '', 'yes');
+		add_option('reservations_settings', array( 'style' => "greyfat", 'interval' => 86400, 'currency' => '#36', 'date_format' => 'd.m.Y', 'time' => 1, 'tutorial' => 1 ), '', 'yes');
 
 		/*
 
@@ -495,11 +495,11 @@ ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrival] <br>To: [depa
 	add_filter('upgrader_post_install', 'easyreservations_recover', 10, 2);
 	$reservations_settings = get_option("reservations_settings");
 
+	define('RESERVATIONS_VERSION', '3.0');
+	define('RESERVATIONS_DIR', WP_PLUGIN_DIR.'/easyreservations/');
+	define('RESERVATIONS_URL', WP_PLUGIN_URL.'/easyreservations/');
 	define('RESERVATIONS_STYLE', $reservations_settings['style']);
 	define('RESERVATIONS_CURRENCY', $reservations_settings['currency']);
-	define('RESERVATIONS_IMAGES_DIR', WP_PLUGIN_URL.'/easyreservations/images');
-	define('RESERVATIONS_LIB_DIR', WP_PLUGIN_URL.'/easyreservations/lib/');
-	define('RESERVATIONS_JS_DIR', WP_PLUGIN_URL.'/easyreservations/js');
 	define('RESERVATIONS_DATE_FORMAT', $reservations_settings['date_format']);
 	define('RESERVATIONS_USE_TIME', $reservations_settings['time']);
 	if(RESERVATIONS_USE_TIME == 1) $usetime = ' H:i'; else $usetime = '';
@@ -515,18 +515,16 @@ ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrival] <br>To: [depa
 	require_once(dirname(__FILE__)."/lib/functions/both.php");
 
 	if(file_exists(dirname(__FILE__).'/lib/core/core.php')) require_once(dirname(__FILE__)."/lib/core/core.php");
+	require_once(dirname(__FILE__)."/lib/classes/reservation.class.php");
 
 	if(is_admin()){
-
 		require_once(dirname(__FILE__)."/pagination.class.php");
 		require_once(dirname(__FILE__)."/lib/functions/admin.php");
 
 		if(isset($_GET['page']) && $_GET['page'] == 'reservations') require_once(dirname(__FILE__)."/easyReservations_admin_main.php");
 		if(isset($_GET['page']) && $_GET['page'] == 'reservation-resources') require_once(dirname(__FILE__)."/easyReservations_admin_resources.php");
 		if(isset($_GET['page']) && $_GET['page'] == 'reservation-settings') require_once(dirname(__FILE__)."/easyReservations_admin_settings.php");
-
 	} else {
-
 		require_once(dirname(__FILE__)."/lib/functions/front.php");
 		require_once(dirname(__FILE__)."/easyReservations_form_shortcode.php");
 		require_once(dirname(__FILE__)."/easyReservations_calendar_shortcode.php");
@@ -535,7 +533,7 @@ ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrival] <br>To: [depa
 		add_shortcode('easy_form', 'reservations_form_shortcode');
 	}
 
-	if(file_exists(dirname(__FILE__).'/lib/widgets/form_widget.php')) require_once(dirname(__FILE__)."/lib/widgets/form_widget.php");
+	require_once(dirname(__FILE__)."/lib/widgets/form_widget.php");
 	if(file_exists(dirname(__FILE__).'/lib/modules/premium/premium.php')) require_once(dirname(__FILE__)."/lib/modules/premium/premium.php");
 	if(easyreservations_is_module('paypal')) include_once(dirname(__FILE__)."/lib/modules/paypal/paypal.php");
 	if(easyreservations_is_module('useredit')) include_once(dirname(__FILE__)."/lib/modules/useredit/useredit.php");
@@ -549,5 +547,5 @@ ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrival] <br>To: [depa
 	if(easyreservations_is_module('coupons')) include_once(dirname(__FILE__)."/lib/modules/coupons/coupons.php");
 	if(easyreservations_is_module('invoice')) include_once(dirname(__FILE__)."/lib/modules/invoice/invoice.php");
 	if(easyreservations_is_module('statistics')) include_once(dirname(__FILE__)."/lib/modules/statistics/statistics.php");
-
+	if(is_admin()) if(!isset($reservations_settings['tutorial'] ) || $reservations_settings['tutorial'] == 1) include_once(dirname(__FILE__)."/lib/tutorials/handle.tutorials.php");
 ?>

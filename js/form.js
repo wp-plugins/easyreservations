@@ -30,4 +30,3 @@ function easyreservations_build_datepicker(){
 		}
 	});
 }
-easyreservations_build_datepicker();
