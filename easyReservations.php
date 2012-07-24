@@ -3,7 +3,7 @@
 Plugin Name: easyReservations
 Plugin URI: http://www.easyreservations.org
 Description: This powerfull property and reservation management plugin allows you to receive, schedule and handle your bookings easily!
-Version: 3.0
+Version: 3.0.1
 Author: Feryaz Beer
 Author URI: http://www.feryaz.de
 License:GPL2
@@ -458,16 +458,18 @@ ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrival] <br>To: [depa
 
 		if (is_link($source)) return symlink(readlink($source), $dest); // Check for symlinks
 		if (is_file($source)) return copy($source, $dest); // Simple copy for a file	
-		if (!is_dir($dest)) mkdir($dest); // Make destination directory
+		if (!is_dir($dest)) mkdir($dest, 0777);
 
-		// Loop through the folder
-		$dir = dir($source);
-		while (false !== $entry = $dir->read()) {
-			if ($entry == '.' || $entry == '..') continue; // Skip pointers
-			easyreservations_copyr("$source/$entry", "$dest/$entry"); // Deep copy directories
+		if(is_dir($source) && is_dir($dest)){
+			// Loop through the folder
+			$dir = dir($source);
+			while (false !== $entry = $dir->read()) {
+				if ($entry == '.' || $entry == '..') continue; // Skip pointers
+				easyreservations_copyr("$source/$entry", "$dest/$entry"); // Deep copy directories
+			}
+
+			$dir->close(); // Clean up
 		}
-
-		$dir->close(); // Clean up
 		return true;
 	}
 
@@ -495,7 +497,7 @@ ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrival] <br>To: [depa
 	add_filter('upgrader_post_install', 'easyreservations_recover', 10, 2);
 	$reservations_settings = get_option("reservations_settings");
 
-	define('RESERVATIONS_VERSION', '3.0');
+	define('RESERVATIONS_VERSION', '3.0.1');
 	define('RESERVATIONS_DIR', WP_PLUGIN_DIR.'/easyreservations/');
 	define('RESERVATIONS_URL', WP_PLUGIN_URL.'/easyreservations/');
 	define('RESERVATIONS_STYLE', $reservations_settings['style']);

@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: booking, reservation, form, reservations, property, resources, hotel, restaurant, hostpatility, managment, calendar, event
 Requires at least: 3.3
 Tested up to: 3.4.1
-Stable tag: 3.0
+Stable tag: 3.0.1
 This powerfull property and reservation management plugin that allows you to receive, schedule and handle your bookings easily!
 
 == Description ==
@@ -29,7 +29,7 @@ It's very flexible and intuitive and has a more as huge amount of functions and 
 * Export and Import
 * And alot more!
 
-[Documentation](http://easyreservations.org/knowledgebase/ "Documentation") | [Report bugs](http://easyreservations.org/forums/forum/bug-reports/ "Report bugs") | [Premium](http://easyreservations.org/premium/ "Support the development")
+[Documentation](http://easyreservations.org/knowledgebase/ "Documentation") | [Report bugs](http://easyreservations.org/forums/forum/bug-reports/ "Report bugs") | [Premium](http://easyreservations.org/premium/ "Support the development!")
 
 == Installation ==
 
