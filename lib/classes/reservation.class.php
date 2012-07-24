@@ -56,7 +56,7 @@
 			} elseif($id && $array){
 				$this->ArrayToReservation($this->cleanSqlContent($array));
 			} elseif($this->id){
-				$this->getInformations($this->id);
+				return $this->getInformations($this->id);
 			} elseif($array){
 				$this->fake = true;
 				if(isset($array[0]) && $array[0] == 'dontclean'){
@@ -80,8 +80,10 @@
 
 			if(isset($reservation[0]) && $reservation[0] && $reservation[0] !== 0){
 				$this->ArrayToReservation($this->cleanSqlContent((array) $reservation[0]));
+				return true;
 			} else {
 				throw new easyException( 'Reservation isn\' existing ID: '.$id, 3 );
+				return false;
 			}
 		}
 
@@ -347,7 +349,7 @@
 				}
 			}
 			
-			if($history){
+			if($history && !empty($this->history)){
 				$dates = null;
 				foreach ($this->history as $key => $row) {
 					$dates[$key]  = $row['date']; 

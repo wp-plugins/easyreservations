@@ -624,7 +624,7 @@
 
 		$res = new Reservation(false, array('name' => 'abv', 'email' => $email, 'arrival' => $val_from,'departure' => $val_to,'resource' => (int) $room, 'adults' => (int) $persons, 'childs' => $childs,'reservated' => time(),'status' => '', 'prices' => $customp, 'coupon' => $_POST['coupon']), false);
 		try {
-			echo easyreservations_format_money($res->Calculate(true));
+			echo easyreservations_format_money($res->Calculate());
 		} catch(easyException $e){
 			echo 'Error:'. $e;
 		}
