@@ -13,7 +13,6 @@
 		if(isset($atts['header'])) $header = $atts['header']; else $header = 0;
 		if(isset($atts['interval'])) $interval = $atts['interval']; else $interval = 1;
 		if(empty($width)) $width = 300;
-		var_dump($atts);
 		
 		if (wp_style_is('easy-cal-'.$style, 'registered')) wp_enqueue_style('easy-cal-'.$style, false, array(), false, 'all');
 		else wp_enqueue_style('easy-form-none' , false, array(), false, 'all');	
