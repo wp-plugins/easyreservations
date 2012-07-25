@@ -32,10 +32,7 @@
 		public $paid = 0;
 		public $history = array(); // If called Calculate(true); this will contain a calculation history
 		public $pricepaid = ''; // row price from database - contains price;paid if the price is fixed or paid
-		
-		private $fake = false;
 		public $admin = true; 
-		public $fixed = false; 
 
 		//----------------------------------------- Initialize -------------------------------------------------//
 
@@ -64,7 +61,7 @@
 					$this->ArrayToReservation($array);
 				} else $this->ArrayToReservation($this->cleanSqlContent($array));
 			} else {
-				throw new easyException( 'Need either ID or array with informations', 2 );
+				throw new easyException( 'Need either reservations ID or array with informations', 2 );
 			}
 		}
 
@@ -82,7 +79,7 @@
 				$this->ArrayToReservation($this->cleanSqlContent((array) $reservation[0]));
 				return true;
 			} else {
-				throw new easyException( 'Reservation isn\' existing ID: '.$id, 3 );
+				throw new easyException( 'Reservation isn\'t existing ID: '.$id, 3 );
 				return false;
 			}
 		}
@@ -112,12 +109,12 @@
 		private function ArrayToReservation($array){
 			if(!empty($array)){
 				foreach($array as $key => $information){
-					$this->$key = $information;
+					if(isset($this->$key) || in_array($key, array('fake', 'fixed'))) $this->$key = $information;
 				}
 			}
 
 			if($this->resource){
-				if($this->resource && is_integer($this->resource) && $this->resource  > 0){
+				if($this->resource && is_numeric($this->resource) && $this->resource  > 0){
 					global $the_rooms_intervals_array;
 					if(isset($the_rooms_intervals_array[$this->resource])){
 						$this->interval = $the_rooms_intervals_array[$this->resource];
@@ -305,7 +302,7 @@
 			}
 
 			if(!empty($this->prices)){
-				if($this->fake && !is_array($this->prices)) $customps = easyreservations_get_custom_price_array($this->prices);
+				if(isset($this->fake )&& !is_array($this->prices)) $customps = easyreservations_get_custom_price_array($this->prices);
 				else $customps = $this->getCustoms($this->prices, 'cstm');
 				$customprices = 0;
 				foreach($customps as $customprice){
@@ -334,7 +331,7 @@
 				elseif(!empty($this->prices)) $save = easyreservations_calculate_coupon($this->prices, $this, $countpriceadd);
 				if(!empty($save)){
 					$this->price += $save['price'];
-					$this->history = array_merge((array) $this->history, (array) $save['exactly']);
+					if($history) $this->history = array_merge((array) $this->history, (array) $save['exactly']);
 					$countpriceadd = $save['countpriceadd'];
 				}
 			}
@@ -849,7 +846,8 @@
 				foreach($informations as $information){
 					if(isset($this->$information)) $array[$information] = $this->$information;
 				}
-				$theval = $this->Validate('send', 0);
+				if($this->admin && $this->status != 'yes') $theval = false;
+				else $theval = $this->Validate('send', 0);
 				if(!$validate || !$theval){
 					if($mail){
 						if(!is_array($mail)) $mail = array($mail); 
@@ -868,7 +866,8 @@
 		 * @return int ID of new reservation
 		 */
 		public function addReservation($mail = false, $to = false){
-			$validate = $this->Validate('send', 0);
+			if($this->admin && $this->status != 'yes') $validate = false;
+			else $validate = $this->Validate('send', 0);
 			if(!$validate){
 				$array = array();
 				foreach($this as $key => $information){

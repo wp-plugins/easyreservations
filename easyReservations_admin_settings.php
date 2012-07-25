@@ -365,7 +365,8 @@ if($settingpage=="general"){
 									array('Switzerland Franc' , '#67;&#72;&#70'),
 									array('Egyptian Pound' , '#163'),
 									array('Romanian Leu' , '#108;&#101;&#1'),
-									array( 'Russian Rouble', '#1088;&#1091')
+									array( 'Russian Rouble', '#1088;&#1091'),
+									array( 'South African ZAR', '#82')
 								);
 								asort($currencys);
 
@@ -401,7 +402,7 @@ if($settingpage=="general"){
 								foreach($date_formats as $date_format){
 									if($date_format[1] == $reservations_date_format) $select = ' selected="selected" '; else $select = '';
 									echo '<option '.$select.' value="'.$date_format[1].'">'.date($date_format[1], strtotime($date_format[0])).'</option>';										
-								}?>
+								} ?>
 							</select>
 						</td>
 					</tr>
@@ -451,7 +452,7 @@ if($settingpage=="general"){
 					</thead>
 					<tbody>
 						<tr>
-							<td style="font-weight:bold;padding:10px;text-align:center"><span style="width:20%;display: inline-block">Version: <?php echo RESERVATIONS_VERSION; ?></span><span style="width:30%;display: inline-block">Last update: 23.07.2012</span><span style="width:30%;display: inline-block">written by Feryaz Beer</span></td>
+							<td style="font-weight:bold;padding:10px;text-align:center"><span style="width:20%;display: inline-block">Version: <?php echo RESERVATIONS_VERSION; ?></span><span style="width:30%;display: inline-block">Last update: 26.07.2012</span><span style="width:30%;display: inline-block">written by Feryaz Beer</span></td>
 						</tr>
 						<tr class="alternate">
 							<td style="font-size:14px;text-align:center;font-weight:bold;padding:10px"><a href="http://easyreservations.org/knowledgebase/" target="_blank" id="iddocumentation"><?php echo __( 'Documentation' , 'easyReservations' );?></a></td>
@@ -531,8 +532,8 @@ if($settingpage=="general"){
 	?><script>
 			function setDefaultForm(){
 				var Default = '[error]\n';
-					Default += '<h1>Reserve now!<span style="float:right;margin:10px">[show_price]</span></h1>\n';
-					Default += '<p>General informations</p>\n\n';
+					Default += '<h1>Reserve now!<span style="float:right;">[show_price]</span></h1>\n';
+					Default += '<h2>General informations</h2>\n\n';
 					Default += '<label>Arrival Date\n';
 					Default += '<span class="small">When do you come?</span>\n';
 					Default += '</label><span class="row">[date-from style="width:75px"] [date-from-hour style="width:42px" value="12"]:[date-from-min style="width:42px"]</span>\n\n';
@@ -553,7 +554,7 @@ if($settingpage=="general"){
 					Default += '<span class="small">With children&rsquo;s?</span>\n';
 					Default += '</label>[childs 0 10]\n\n';
 
-					Default += '<p>Personal informations</p>\n\n';
+					Default += '<h2>Personal informations</h2>\n\n';
 
 					Default += '<label>Name\n';
 					Default += '<span class="small">Whats your name?</span>\n';
@@ -1416,7 +1417,7 @@ ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrival] <br>To: [depa
 				</thead>
 				<tbody>
 					<tr>
-						<td style="font-weight:bold;padding:10px;text-align:center"><span style="width:20%;display: inline-block">Version: <?php echo RESERVATIONS_VERSION; ?></span><span style="width:30%;display: inline-block">Last update: 23.07.2012</span><span style="width:30%;display: inline-block">written by Feryaz Beer</span></td>
+						<td style="font-weight:bold;padding:10px;text-align:center"><span style="width:20%;display: inline-block">Version: <?php echo RESERVATIONS_VERSION; ?></span><span style="width:30%;display: inline-block">Last update: 26.07.2012</span><span style="width:30%;display: inline-block">written by Feryaz Beer</span></td>
 					</tr>
 					<tr class="alternate">
 						<td style="font-size:14px;text-align:center;font-weight:bold;padding:10px"><a href="http://easyreservations.org/knowledgebase/" target="_blank" id="iddocumentation"><?php echo __( 'Documentation' , 'easyReservations' );?></a></td>

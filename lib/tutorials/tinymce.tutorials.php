@@ -1,5 +1,7 @@
 <?php
 	function easyreservations_tinymce_tutorial() {
+		$settting = get_user_setting('easy_tutorial', '');
+		$settting = $settting.'Xtinymce';
 		$handler = array('#easyreservation_type_select','#easyreservation_form_chooser', '#easyreservation_form_submit_message','#easyreservation_type_select', '#easyreservation_calendar_room', '#easyreservation_calendar_monthesx');
 		$content = array(
 				'<h3>Select type of shortcode</h3><p>Select the type of content you want to add to your website.</p>',
@@ -11,7 +13,8 @@
 		);
 		$offset = array('-55 0', '-75 0', '-75 0', '-75 0', '-75 0', '-75 0');
 		$at = array('center bottom', 'center bottom', 'center bottom', 'center bottom', 'center bottom', 'center bottom');
-		$execute = array('jQuery(\'#easyreservation_type_select\').attr(\'value\', \'form\');jumpto(\'form\');', '', 'jQuery(\'#easyreservation_type_select\').attr(\'value\', \'calendar\');jumpto(\'calendar\');', '', '', '');
+		$execute = array('jQuery(\'#easyreservation_type_select\').attr(\'value\', \'form\');jumpto(\'form\');', '', 'jQuery(\'#easyreservation_type_select\').attr(\'value\', \'calendar\');jumpto(\'calendar\');', 'alert(setUserSetting( \'easy_tutorial\', \''.$settting.'\' ));', '', '');
+		$nr = 6;
 
 		if(function_exists('easyreservations_send_search_callback')){
 			$handler[] = '#easyreservation_type_select';
@@ -39,6 +42,7 @@
 			$offset[] =  '-75 0';
 			$at[] = 'center bottom';
 			$execute[] = 'jQuery(window).scrollTop(0);';
+			$nr += 4;
 		}
 		if(function_exists('easyreservations_send_hourlycal_callback')){
 			$handler[] = '#easyreservation_type_select';
@@ -48,6 +52,7 @@
 			end($execute);
 			$execute[key($execute)] .= 'jQuery(\'#easyreservation_type_select\').attr(\'value\', \'hourlycalendar\');jumpto(\'hourlycalendar\');';
 			$execute[] = '';
+			$nr++;
 		}
 		echo easyreservations_execute_pointer(11, $handler, $content, $offset, $at, $execute);
 	}

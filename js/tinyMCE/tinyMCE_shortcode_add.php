@@ -1,7 +1,7 @@
 <?php
 //Load bootstrap file
 require('../../../../../wp-config.php');
-$wp->init(); $wp->parse_request(); $wp->query_posts();
+$wp->init(); $wp->parse_request();
 $wp->register_globals(); $wp->send_headers();
 
 global $wpdb;
@@ -23,17 +23,17 @@ if ( !is_user_logged_in() || !current_user_can('edit_posts') )
 ?><html xmlns="http://www.w3.org/1999/xhtml" style="background:#fff">
 	<head>
 	<title><?php _e("easyReservations Shortcodes", "easyReservations"); ?></title>
+	<script language="javascript" type='text/javascript' src='<?php echo get_option('siteurl'); ?>/wp-includes/js/jquery/jquery.js?ver=1.7.2'></script>
+	<script language="javascript" type='text/javascript' src='<?php echo get_option('siteurl'); ?>/wp-admin/js/common.dev.js?ver=3.4.1'></script>
+	<script language="javascript" type='text/javascript' src='<?php echo get_option('siteurl'); ?>/wp-admin/js/utils.dev.js?ver=3.4.1'></script>
 	<script language="javascript" type="text/javascript" src="<?php echo get_option('siteurl'); ?>/wp-includes/js/tinymce/tiny_mce_popup.js"></script>
 	<script language="javascript" type="text/javascript" src="<?php echo get_option('siteurl'); ?>/wp-includes/js/tinymce/utils/form_utils.js"></script>
-	<script type='text/javascript' src='<?php echo get_option('siteurl'); ?>/wp-includes/js/jquery/jquery.js?ver=1.7.2'></script>
-	<script type='text/javascript' src='<?php echo get_option('siteurl'); ?>/wp-admin/js/utils.dev.js?ver=3.4.1'></script>
-	<script type='text/javascript' src='<?php echo get_option('siteurl'); ?>/wp-includes/js/hoverIntent.dev.js?ver=r6'></script>
+	<script language="javascript" type='text/javascript' src='<?php echo get_option('siteurl'); ?>/wp-includes/js/hoverIntent.dev.js?ver=r6'></script>
 	<script type='text/javascript'>
 	/* <![CDATA[ */
 	var commonL10n = {"warnDelete":"You are about to permanently delete the selected items.\n  'Cancel' to stop, 'OK' to delete."};
 	/* ]]> */
 	</script>
-	<script type='text/javascript' src='<?php echo get_option('siteurl'); ?>/wp-admin/js/common.dev.js?ver=3.4.1'></script>
 	<script type='text/javascript' src='<?php echo get_option('siteurl'); ?>/wp-includes/js/jquery/jquery.color.dev.js?ver=2.0-4561m'></script>
 	<script type='text/javascript' src='<?php echo get_option('siteurl'); ?>/wp-includes/js/jquery/ui/jquery.ui.widget.min.js?ver=1.8.20'></script>
 	<script type='text/javascript' src='<?php echo get_option('siteurl'); ?>/wp-includes/js/jquery/ui/jquery.ui.position.min.js?ver=1.8.20'></script>
@@ -228,6 +228,21 @@ function insertEasyShortcode() {
 	return;
 }
 </script>
+<script type="text/javascript">
+var userSettings = {
+		'url': '<?php echo SITECOOKIEPATH; ?>',
+		'uid': '<?php if ( ! isset($current_user) ) $current_user = wp_get_current_user(); echo $current_user->ID; ?>',
+		'time':'<?php echo time() ?>'
+	},
+	ajaxurl = '<?php echo admin_url( 'admin-ajax.php', 'relative' ); ?>',
+	pagenow = '<?php echo $current_screen->id; ?>',
+	typenow = '<?php echo $current_screen->post_type; ?>',
+	adminpage = '<?php echo $admin_body_class; ?>',
+	thousandsSeparator = '<?php echo addslashes( $wp_locale->number_format['thousands_sep'] ); ?>',
+	decimalPoint = '<?php echo addslashes( $wp_locale->number_format['decimal_point'] ); ?>',
+	isRtl = <?php echo (int) is_rtl(); ?>;
+</script>
+
 <?php 
 require_once(WP_PLUGIN_DIR."/easyreservations/lib/tutorials/handle.tutorials.php");
 easyreservations_load_pointer('tinymce');

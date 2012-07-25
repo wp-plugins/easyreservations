@@ -45,7 +45,7 @@
 	if(!isset($reservations_show_rooms) || empty($reservations_show_rooms)) $show_rooms=easyreservations_get_rooms(0,1);
 	else {
 		global $wpdb;
-		$show_rooms = $wpdb->get_results("SELECT ID, post_title FROM ".$wpdb->prefix."posts WHERE ID in($reservations_show_rooms) ");
+		$show_rooms = $wpdb->get_results("SELECT ID, post_title FROM ".$wpdb->prefix."posts WHERE ID in($reservations_show_rooms) ORDER BY menu_order");
 	}
 
 	/* - - - - - - - - - - - - - - - - *\

@@ -19,14 +19,14 @@
 
 		if(isset($_POST['room']) && is_numeric($_POST['room'])) $room = $_POST['room'];
                 
-		$return = '<form name="CalendarFormular" id="CalendarFormular">';
+		$return = '<form name="CalendarFormular" id="CalendarFormular" style="margin:0px !important;padding:0px !important;display:inline-block">';
 			$return .= '<input type="hidden" name="easyroom" onChange="easyreservations_send_calendar(\'shortcode\')" value="'.$room.'">';
 			$return .= '<input type="hidden" name="date" onChange="easyreservations_send_calendar(\'shortcode\')" value="0">';
 			$return .= '<input type="hidden" name="size" value="'.$width.','.$price.','. $interval.','.$header.'">';
 			$return .= '<input type="hidden" name="monthes" value="'.$monthes.'">';
 			$return .= '<input type="hidden" name="calendarnonce" value="'.wp_create_nonce( 'easy-calendar' ).'">';
+			$return .= '<div id="showCalender" style="margin-right:auto;margin-left:auto;vertical-align:middle;padding:0;width:'.$width.'px"></div>';
 		$return .= '</form><!-- Provided by easyReservations free Wordpress Plugin http://www.easyreservations.org -->';
-		$return .= '<div id="showCalender" style="margin-right:auto;margin-left:auto;vertical-align:middle;padding:0;width:'.$width.'px"></div>';
 
 		add_action('wp_print_footer_scripts', 'easyreservtions_send_cal_script');
 		return $return;

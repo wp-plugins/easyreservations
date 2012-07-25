@@ -172,7 +172,7 @@ function reservations_form_shortcode($atts){
 			$theForm=str_replace('['.$fields.']', '<select id="'.$field[0].'" name="'.$field[0].'" '.$disabled.' title="'.$title.'" style="'.$style.'" onchange="'.$price_action.$validate_action.'">'.easyreservations_num_options("00", 59, $value).'</select>', $theForm);
 		} elseif($field[0]=="units" || $field[0]=="nights" || $field[0]=="times"){
 			if(isset($field[2])) $end = $field[2]; else $end = 6;
-			if(isset($field[3])){ $start = $field[2]; $end = $field[3]; }
+			if(isset($field[3])){ $start = $field[2]; $end = $field[3]; } else $start = 1;
 			$theForm=str_replace('['.$fields.']', '<select id="easy-form-units" name="nights" '.$disabled.' title="'.$title.'" style="'.$style.'" onchange="'.$price_action.$validate_action.'">'.easyreservations_num_options($start, $end, $value).'</select>', $theForm);
 		} elseif($field[0]=="persons" || $field[0]=="adults"){
 			$start = 1;

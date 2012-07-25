@@ -6,7 +6,6 @@ if(isset($_GET['page'])){
 		set_user_setting( 'easy_tutorial', '' );
 	}
 
-
 	function easyreservations_load_mainstyle() {  //  Load Scripts and Styles
 
 		wp_register_style('myStyleSheets', WP_PLUGIN_URL . '/easyreservations/css/style.css');
@@ -166,7 +165,7 @@ if(isset($_GET['page'])){
 		$box = '<div class="explainbox">';
 			$box .= '<span>';
 				$box .= __( 'price' , 'easyReservations' );
-				if($res->fixed) $box .= ' <img style="vertical-align:text-bottom;display:inline-block !Important;" src="'.RESERVATIONS_URL.'/images/lock.png">';
+				if(isset($res->fixed)) $box .= ' <img style="vertical-align:text-bottom;display:inline-block !Important;" src="'.RESERVATIONS_URL.'/images/lock.png">';
 				$box .= '<b>'.$res->formatPrice().'</b>';
 			$box .= '</span>';
 			$box .= '<span>';
@@ -509,7 +508,7 @@ if(isset($_GET['page'])){
 			$current_user = wp_get_current_user();
 			$user = $current_user->ID;
 			$favourite = get_user_meta($user, 'reservations-fav', true);
-			if(!empty($favourite) && is_array($favourite)) $favourite_sql = 'id in('.implode(",", $favourite).')'; 
+			if($favourite && !empty($favourite) && is_array($favourite)) $favourite_sql = 'id in('.implode(",", $favourite).')'; 
 			else $favourite = array();
 		}
 
@@ -569,6 +568,8 @@ if(isset($_GET['page'])){
 		elseif($order=="DESC") $orders="DESC";
 
 		if($orderby=="date") $ordersby="arrival";
+		if($orderby=="persons") $ordersby="number+(childs*0.5)";
+		if($orderby=="status") $ordersby="approve";
 		elseif($orderby=="name") $ordersby="name";
 		elseif($orderby=="room"){
 			$ordersby="room";
@@ -681,11 +682,15 @@ if(isset($_GET['page'])){
 						<?php } elseif($order=="DESC" and $orderby=="reservated") { ?><a class="desc2" onclick="easyreservation_send_table('<?php echo $typ; ?>', 1, 'ASC', 'reservated' )">
 						<?php } else { ?><a class="stand2" onclick="easyreservation_send_table('<?php echo $typ; ?>', 1, 'DESC', 'reservated' )"><?php } ?><?php printf ( __( 'Reserved' , 'easyReservations' ));?></a></th>
 					<?php }  if($table_options['table_status'] == 1){ $countrows++; ?>
-						<th style="text-align:center"><?php printf ( __( 'Status' , 'easyReservations' )); ?></th>
+						<th style="text-align:center"><?php if($order=="ASC" and $orderby=="status") { ?><a class="asc2" onclick="easyreservation_send_table('<?php echo $typ; ?>', 1, 'DESC', 'status' )">
+						<?php } elseif($order=="DESC" and $orderby=="status") { ?><a class="desc2" onclick="easyreservation_send_table('<?php echo $typ; ?>', 1, 'ASC', 'status' )">
+						<?php } else { ?><a class="stand2" onclick="easyreservation_send_table('<?php echo $typ; ?>', 1, 'DESC', 'status' )"><?php } ?><?php printf ( __( 'Status' , 'easyReservations' ));?></a></th>
 					<?php } if($table_options['table_email'] == 1){ $countrows++; ?>
 						<th><?php printf ( __( 'eMail' , 'easyReservations' ));?></th>
-					<?php } if($table_options['table_persons'] == 1 || $table_options['table_childs'] == 1){ $countrows++; ?>
-						<th style="text-align:center"><?php if($table_options['table_persons'] == 1 && $table_options['table_childs'] == 1) printf ( __( 'Persons' , 'easyReservations' )); elseif($table_options['table_persons'] == 1) echo __( 'Adults' , 'easyReservations' ); else echo __( 'Children\'s' , 'easyReservations' );?></th>
+					<?php } if($table_options['table_persons'] == 1){ $countrows++; ?>
+						<th style="text-align:center"><?php if($order=="ASC" and $orderby=="persons") { ?><a class="asc2" onclick="easyreservation_send_table('<?php echo $typ; ?>', 1, 'DESC', 'persons' )">
+						<?php } elseif($order=="DESC" and $orderby=="persons") { ?><a class="desc2" onclick="easyreservation_send_table('<?php echo $typ; ?>', 1, 'ASC', 'persons' )">
+						<?php } else { ?><a class="stand2" onclick="easyreservation_send_table('<?php echo $typ; ?>', 1, 'DESC', 'persons' )"><?php } ?><?php printf ( __( 'Persons' , 'easyReservations' ));?></a></th>
 					<?php }  if($table_options['table_room'] == 1 || $table_options['table_exactly'] == 1){ $countrows++; ?>
 						<th><?php if($order=="ASC" and $orderby=="room") { ?><a class="asc2" onclick="easyreservation_send_table('<?php echo $typ; ?>', 1, 'DESC', 'room' )">
 						<?php } elseif($order=="DESC" and $orderby=="room") { ?><a class="desc2" onclick="easyreservation_send_table('<?php echo $typ; ?>', 1, 'ASC', 'room' )">
@@ -718,11 +723,15 @@ if(isset($_GET['page'])){
 						<?php } elseif($order=="DESC" and $orderby=="reservated") { ?><a class="desc2" onclick="easyreservation_send_table('<?php echo $typ; ?>', 1, 'ASC', 'reservated' )">
 						<?php } else { ?><a class="stand2" onclick="easyreservation_send_table('<?php echo $typ; ?>', 1, 'DESC', 'reservated' )"><?php } ?><?php printf ( __( 'Reserved' , 'easyReservations' ));?></a></th>
 					<?php }  if($table_options['table_status'] == 1){ ?>
-						<th style="text-align:center"><?php printf ( __( 'Status' , 'easyReservations' )); ?></th>
+						<th style="text-align:center"><?php if($order=="ASC" and $orderby=="status") { ?><a class="asc2" onclick="easyreservation_send_table('<?php echo $typ; ?>', 1, 'DESC', 'status' )">
+						<?php } elseif($order=="DESC" and $orderby=="status") { ?><a class="desc2" onclick="easyreservation_send_table('<?php echo $typ; ?>', 1, 'ASC', 'status' )">
+						<?php } else { ?><a class="stand2" onclick="easyreservation_send_table('<?php echo $typ; ?>', 1, 'DESC', 'status' )"><?php } ?><?php printf ( __( 'Status' , 'easyReservations' ));?></a></th>
 					<?php } if($table_options['table_email'] == 1){ ?>
 						<th><?php printf ( __( 'eMail' , 'easyReservations' ));?></th>
-					<?php } if($table_options['table_persons'] == 1 || $table_options['table_childs'] == 1){ ?>
-						<th style="text-align:center"><?php if($table_options['table_persons'] == 1 && $table_options['table_childs'] == 1) printf ( __( 'Persons' , 'easyReservations' )); elseif($table_options['table_persons'] == 1) echo __( 'Adults' , 'easyReservations' ); else echo __( 'Children\'s' , 'easyReservations' );?></th>
+					<?php } if($table_options['table_persons'] == 1){ ?>
+						<th style="text-align:center"><?php if($order=="ASC" and $orderby=="persons") { ?><a class="asc2" onclick="easyreservation_send_table('<?php echo $typ; ?>', 1, 'DESC', 'persons' )">
+						<?php } elseif($order=="DESC" and $orderby=="persons") { ?><a class="desc2" onclick="easyreservation_send_table('<?php echo $typ; ?>', 1, 'ASC', 'persons' )">
+						<?php } else { ?><a class="stand2" onclick="easyreservation_send_table('<?php echo $typ; ?>', 1, 'DESC', 'persons' )"><?php } ?><?php printf ( __( 'Persons' , 'easyReservations' ));?></a></th>
 					<?php }  if($table_options['table_room'] == 1 || $table_options['table_exactly'] == 1){ ?>
 						<th><?php if($order=="ASC" and $orderby=="room") { ?><a class="asc2" onclick="easyreservation_send_table('<?php echo $typ; ?>', 1, 'DESC', 'room' )">
 						<?php } elseif($order=="DESC" and $orderby=="room") { ?><a class="desc2" onclick="easyreservation_send_table('<?php echo $typ; ?>', 1, 'ASC', 'room' )">

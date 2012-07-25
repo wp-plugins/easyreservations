@@ -24,9 +24,9 @@
 			'rewrite' => true,
 			'capability_type' => 'post',
 			'has_archive' => false, 
-			'hierarchical' => false,
+			'hierarchical' => true,
 			'menu_position' => null,
-			'supports' => array( 'title', 'editor', 'author', 'thumbnail', 'excerpt', 'comments', 'custom-fields', 'categorys' )
+			'supports' => array( 'title', 'editor', 'author', 'thumbnail', 'excerpt', 'comments', 'custom-fields', 'categorys', 'page-attributes' )
 		); 
 		register_post_type('easy-rooms',$args);
 		register_post_type('easy-offers');
@@ -142,18 +142,18 @@
 		return ( preg_match("/^[\-]{0,1}[0-9]+[\.]?[0-9]*$/", $newPrice)) ? $newPrice : false;
 	}
 
-	function easyreservations_get_rooms($content=false, $check=false){
+	function easyreservations_get_rooms($content=false, $check=false, $user = false){
 		global $wpdb;
 		if($content) $con = ", post_content"; else $con = "";
 
-		$rooms = $wpdb->get_results("SELECT ID, post_title $con FROM ".$wpdb->prefix ."posts WHERE post_type='easy-rooms' AND post_status!='auto-draft'");
+		$rooms = $wpdb->get_results("SELECT ID, post_title, menu_order $con FROM ".$wpdb->prefix ."posts WHERE post_type='easy-rooms' AND post_status!='auto-draft' ORDER BY menu_order ASC");
 
 		foreach($rooms as $key => $room){
 			$rooms[$room->ID] = $room;
 			unset($rooms[$key]);
 			if($check){
 				$get_role = get_post_meta($room->ID, 'easy-resource-permission', true);
-				if(!empty($get_role) && !current_user_can($get_role)) unset($rooms[$room->ID]);
+				if(!empty($get_role) && ((!$user && !current_user_can($get_role)) || ($user && !user_can($user, $get_role))) ) unset($rooms[$room->ID]);
 			}
 		}
 
@@ -310,7 +310,7 @@
 
 		return $country_options;
 	}
-	
+
 	/**
 	*	Returns full name of a country
 	*
@@ -642,6 +642,8 @@
 		check_ajax_referer( 'easy-price', 'security' );
 		$mode = $_POST['mode'];
 		global $the_rooms_intervals_array;
+		
+		$val_room = $_POST['room'];
 		$val_from = strtotime($_POST['from']) + (int) $_POST['fromplus'] ;
 		if(!empty($_POST['to'])){
 			$val_to = strtotime($_POST['to']) + (int) $_POST['toplus'] ;
@@ -791,4 +793,5 @@
 
 	add_action('wp_print_styles', 'easyreservations_add_icons_stylesheet');
 	add_action('admin_print_styles', 'easyreservations_add_icons_stylesheet');
+
 ?>

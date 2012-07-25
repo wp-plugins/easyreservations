@@ -17,12 +17,13 @@
 	float:left !important;
 }
 
-#easyFrontendFormular p {
+#easyFrontendFormular h2 {
 	font-size:11px;
 	color:#666666;
 	margin: 0px 10px 20px 10px;
 	border-bottom:solid 1px #EAEAEA;
 	padding-bottom:10px;
+	font-weight: normal;
 }
 
 #easyFrontendFormular h1 {

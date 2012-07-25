@@ -3,7 +3,7 @@
 Plugin Name: easyReservations
 Plugin URI: http://www.easyreservations.org
 Description: This powerfull property and reservation management plugin allows you to receive, schedule and handle your bookings easily!
-Version: 3.0.1
+Version: 3.0.2
 Author: Feryaz Beer
 Author URI: http://www.feryaz.de
 License:GPL2
@@ -90,7 +90,7 @@ ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrival] <br>To: [depa
 
 		$formstandart = '[error]
 <h1>Reserve now!<span style="float:right;margin:10px">[show_price]</span></h1>
-<p>General informations</p>
+<h2>General informations</h2>
 
 <label>Arrival Date
 <span class="small">When do you come?</span>
@@ -112,7 +112,7 @@ ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrival] <br>To: [depa
 <span class="small">With children&rsquo;s?</span>
 </label>[childs 0 10]
 
-<p>Personal information&rsquo;s</p>
+<h2>Personal information&rsquo;s</h2>
 
 <label>Name
 <span class="small">Whats your name?</span>
@@ -476,8 +476,8 @@ ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrival] <br>To: [depa
 	function easyreservations_backup(){
 		$to = dirname(__FILE__)."/../easy_modules_backup/";
 		$to2 = dirname(__FILE__)."/../easy_css_backup/";
-		$from = dirname(__FILE__)."/lib/modules/";
-		$from2 = dirname(__FILE__)."/css/custom/";
+		$from = dirname(__FILE__)."/lib/modules";
+		$from2 = dirname(__FILE__)."/css/custom";
 		easyreservations_copyr($from, $to);
 		easyreservations_copyr($from2, $to2);
 	}
@@ -485,8 +485,8 @@ ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrival] <br>To: [depa
 	function easyreservations_recover(){
 		$from = dirname(__FILE__)."/../easy_modules_backup/";
 		$from2 = dirname(__FILE__)."/../easy_css_backup/";
-		$to = dirname(__FILE__)."/lib/modules/";
-		$to2 = dirname(__FILE__)."/css/custom/";
+		$to = dirname(__FILE__)."/lib/modules";
+		$to2 = dirname(__FILE__)."/css/custom";
 		easyreservations_copyr($from, $to);
 		easyreservations_copyr($from2, $to2);
 		if(is_dir($from)) easyreservations_rmdirr($from);#http://putraworks.wordpress.com/2006/02/27/php-delete-a-file-or-a-folder-and-its-contents/
@@ -497,7 +497,7 @@ ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrival] <br>To: [depa
 	add_filter('upgrader_post_install', 'easyreservations_recover', 10, 2);
 	$reservations_settings = get_option("reservations_settings");
 
-	define('RESERVATIONS_VERSION', '3.0.1');
+	define('RESERVATIONS_VERSION', '3.0.2');
 	define('RESERVATIONS_DIR', WP_PLUGIN_DIR.'/easyreservations/');
 	define('RESERVATIONS_URL', WP_PLUGIN_URL.'/easyreservations/');
 	define('RESERVATIONS_STYLE', $reservations_settings['style']);
@@ -515,7 +515,6 @@ ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrival] <br>To: [depa
 	}
 
 	require_once(dirname(__FILE__)."/lib/functions/both.php");
-
 	if(file_exists(dirname(__FILE__).'/lib/core/core.php')) require_once(dirname(__FILE__)."/lib/core/core.php");
 	require_once(dirname(__FILE__)."/lib/classes/reservation.class.php");
 

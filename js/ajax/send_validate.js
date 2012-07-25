@@ -44,6 +44,7 @@ function easyreservations_send_validate(y){
 			if(document.getElementById('date-to-min')) tom = parseInt(document.getElementById('date-to-min').value);
 		} else { 
 			if(document.easyFrontendFormular.nights){
+			alert(document.easyFrontendFormular.nights.value);
 				nights = document.easyFrontendFormular.nights.value;
 			}
 		}

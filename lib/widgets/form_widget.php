@@ -66,7 +66,7 @@ class easyReservations_form_widget extends WP_Widget {
 				$theForm=str_replace('['.$fields.']', '<select id="easy-widget-country" name="country">'.easyreservations_country_options('').'</select>', $theForm);
 			} elseif($field[0]=="rooms" || $field[0]=="resources"){		
 				if($calendar == true) $calendar_action = "document.widget_formular.easyroom.value=this.value;easyreservations_send_calendar('widget');"; else $calendar_action = '';
-				$theForm=str_replace('['.$fields.']', '<select name="easyroom" id="form_room" onchange="'.$calendar_action.'">'.easyreservations_resource_options().'</select>', $theForm);
+				$theForm=str_replace('['.$fields.']', '<select name="easyroom" id="form_room" onchange="'.$calendar_action.'">'.easyreservations_resource_options($calendar_room).'</select>', $theForm);
 			}
 		}
 
