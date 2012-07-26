@@ -13,7 +13,7 @@
 		);
 		$offset = array('-55 0', '-75 0', '-75 0', '-75 0', '-75 0', '-75 0');
 		$at = array('center bottom', 'center bottom', 'center bottom', 'center bottom', 'center bottom', 'center bottom');
-		$execute = array('jQuery(\'#easyreservation_type_select\').attr(\'value\', \'form\');jumpto(\'form\');', '', 'jQuery(\'#easyreservation_type_select\').attr(\'value\', \'calendar\');jumpto(\'calendar\');', 'alert(setUserSetting( \'easy_tutorial\', \''.$settting.'\' ));', '', '');
+		$execute = array('jQuery(\'#easyreservation_type_select\').attr(\'value\', \'form\');jumpto(\'form\');', '', 'jQuery(\'#easyreservation_type_select\').attr(\'value\', \'calendar\');jumpto(\'calendar\');', '', '', '');
 		$nr = 6;
 
 		if(function_exists('easyreservations_send_search_callback')){

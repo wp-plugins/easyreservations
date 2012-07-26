@@ -42,9 +42,8 @@ function easyreservations_send_validate(y){
 			to = tofield.value;
 			if(document.getElementById('date-to-hour')) toh = parseInt(document.getElementById('date-to-hour').value) * 60;
 			if(document.getElementById('date-to-min')) tom = parseInt(document.getElementById('date-to-min').value);
-		} else { 
+		} else {
 			if(document.easyFrontendFormular.nights){
-			alert(document.easyFrontendFormular.nights.value);
 				nights = document.easyFrontendFormular.nights.value;
 			}
 		}
