@@ -312,7 +312,7 @@ function reservation_main_page() {
 		document.getElementById('the_room_exactly').innerHTML = selects[resourceId];
 
 		if(selected != 0) document.getElementById('roomexactly').selectedIndex = selected-1;
-		else document.getElementById('roomexactly').selectedIndex = document.getElementById('roomexactly-select').length;
+		else document.getElementById('roomexactly').selectedIndex = document.getElementById('roomexactly').length;
 	}
 </script>
 <?php

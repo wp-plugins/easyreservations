@@ -95,8 +95,8 @@
 			if(isset($array['number'])) $array['adults'] = (int) $array['number'];
 			if(isset($array['childs'])) $array['childs'] = (int) $array['childs'];
 			if(isset($array['price'])) $array['pricepaid'] = $array['price'];
-			if(!is_int($array['arrival'])) $array['arrival'] = strtotime($array['arrival']);
-			if(!is_int($array['departure'])) $array['departure'] = strtotime($array['departure']);
+			if(!is_numeric($array['arrival'])) $array['arrival'] = strtotime($array['arrival']);
+			if(!is_numeric($array['departure'])) $array['departure'] = strtotime($array['departure']);
 			if(isset($array['reservated']) && !is_int($array['reservated'])) $array['reservated'] = strtotime($array['reservated']);
 			unset($array['room'], $array['roomnumber'], $array['customp'], $array['approve'], $array['price'], $array['number']);
 			return $array;
@@ -106,7 +106,7 @@
 		 * Informations from fake/db array to class infromations; check if resource exists; get resource interval
 		 * @throws easyException #4, #5
 		 */
-		private function ArrayToReservation($array){
+		public function ArrayToReservation($array){
 			if(!empty($array)){
 				foreach($array as $key => $information){
 					if(isset($this->$key) || in_array($key, array('fake', 'fixed'))) $this->$key = $information;
@@ -115,9 +115,10 @@
 
 			if($this->resource){
 				if($this->resource && is_numeric($this->resource) && $this->resource  > 0){
-					global $the_rooms_intervals_array;
+					global $the_rooms_intervals_array, $the_rooms_array;
 					if(isset($the_rooms_intervals_array[$this->resource])){
 						$this->interval = $the_rooms_intervals_array[$this->resource];
+						$this->resourcename = __($the_rooms_array[$this->resource]->post_title);
 						$this->times = $this->getTimes( 0 );
 					} else {
 						throw new easyException( 'Resource isn\' existing ID: '.$this->resource, 4 );
@@ -302,20 +303,26 @@
 			}
 
 			if(!empty($this->prices)){
-				if(isset($this->fake )&& !is_array($this->prices)) $customps = easyreservations_get_custom_price_array($this->prices);
-				else $customps = $this->getCustoms($this->prices, 'cstm');
-				$customprices = 0;
-				foreach($customps as $customprice){
-					if(substr($customprice['amount'], -1) == "%"){
-						$percent=$this->price/100*str_replace("%", "", $customprice['amount']);
-						$customprices+=$percent;
-						if($history) $this->history[] = array('date'=>$this->arrival+($countpriceadd*$this->interval), 'priceday'=>$percent, 'type' => 'customp_p', 'name' => __($customprice['title']), 'value' => __($customprice['value']), 'amount' => $customprice['amount']);
-					} else {
-						$customprices+=$customprice['amount'];
-						if($history) $this->history[] = array('date'=>$this->arrival+($countpriceadd*$this->interval), 'priceday'=>$customprice['amount'], 'type' => 'customp_n', 'name' => __($customprice['title']),'value' => __($customprice['value']), 'amount' => $customprice['amount']);
+				if(is_numeric($this->prices)){
+					$this->price += $this->prices;
+				} else {
+					$customps = $this->getCustoms($this->prices, 'cstm');
+					$customprices = 0;
+					foreach($customps as $customprice){
+						if(isset($customprice['type']) && $customprice['type'] == "cstm"){
+							if(!isset($customprice['amount'])) continue;
+							if(substr($customprice['amount'], -1) == "%"){
+								$percent=$this->price/100*str_replace("%", "", $customprice['amount']);
+								$customprices+=$percent;
+								if($history) $this->history[] = array('date'=>$this->arrival+($countpriceadd*$this->interval), 'priceday'=>$percent, 'type' => 'customp_p', 'name' => __($customprice['title']), 'value' => __($customprice['value']), 'amount' => $customprice['amount']);
+							} else {
+								$customprices+=$customprice['amount'];
+								if($history) $this->history[] = array('date'=>$this->arrival+($countpriceadd*$this->interval), 'priceday'=>$customprice['amount'], 'type' => 'customp_n', 'name' => __($customprice['title']),'value' => __($customprice['value']), 'amount' => $customprice['amount']);
+							}
+						}
 					}
+					$this->price+=$customprices; //Price plus Custom prices
 				}
-				$this->price+=$customprices; //Price plus Custom prices
 			}
 
 			if(function_exists('easyreservations_calculate_coupon')){
@@ -545,7 +552,7 @@
 
 			if(!empty($custom) && is_array($custom)){
 				foreach($custom as $key => $cstm){
-					if( empty($cstm) || ( $type != 0 || $cstm['type'] != $type ) || ( $modus != 0 || ( isset($cstm['mode']) && $cstm['mode'] != $modus && $cstm['mode'] != 'visible' ) ) ) unset($custom[$key]);
+					if( empty($cstm) || ( $type != 0 || ( isset($cstm['mode'])  && $cstm['type'] != $type )) || ( $modus != 0 || ( isset($cstm['mode']) && $cstm['mode'] != $modus && $cstm['mode'] != 'visible' ) ) ) unset($custom[$key]);
 				}
 			}
 
@@ -590,11 +597,13 @@
 			if($this->departure < 1000000 ||  $this->arrival < 1000000){
 				if(!$this->admin) $errors[] = 'date';
 				$errors[] =  __( 'Please enter correct dates' , 'easyReservations' );
+				$daterror = true;
 			}
 
 			if($this->departure < $this->arrival){ /* check arrival Date */
 				if(!$this->admin)  $errors[] = 'easy-form-to';
 				$errors[] = __( 'The departure date has to be after the arrival date' , 'easyReservations');
+				$daterror = true;
 			}
 			
 			if(!is_numeric($this->adults) || $this->adults < 1){ /* check persons */
@@ -609,13 +618,14 @@
 			}
 			$this->childs = (int) $this->childs;
 
-			$availability = $this->checkAvailability($avail, ($this->admin) ? false : true);
-			if($availability){
-				if(!$this->admin){
-					$errors[] = 'date';
-					$errors[] = __( 'Not available at' , 'easyReservations' ).' '.$availability;
-				} else $errors[] = __( 'Selected time is occupied' , 'easyReservations' );
-				
+			if(!isset($daterror)){
+				$availability = $this->checkAvailability($avail, ($this->admin) ? false : true);
+				if($availability){
+					if(!$this->admin){
+						$errors[] = 'date';
+						$errors[] = __( 'Not available at' , 'easyReservations' ).' '.$availability;
+					} else $errors[] = __( 'Selected time is occupied' , 'easyReservations' );
+				}
 			}
 
 			if(!$this->admin){
@@ -747,7 +757,7 @@
 								elseif(isset($field[1]) && $field[1] == $custom['title']) $theCustominMail .= $custom['value'];
 							}
 						}
-						$theForm=str_replace('['.$fieldsx.']', $this->prices, $theForm);
+						$theForm=str_replace('['.$fieldsx.']', $theCustominMail, $theForm);
 					} elseif($field[0]=="customprices" || $field[0]=="prices"){
 						$theCustominMail = '';
 						if(!empty($this->prices)){
@@ -761,7 +771,7 @@
 					} elseif($field[0]=="paypal"){
 						$link = '';
 						if(function_exists('easyreservations_generate_paypal_button')){
-							$link = esc_url_raw(str_replace(' ', '%20', easyreservations_generate_paypal_button($this->id, $this->arrival, $this->departure, $this->resource, $this->email, $this->adults, $this->childs, 0, true)));
+							$link = esc_url_raw(str_replace(' ', '%20', easyreservations_generate_paypal_button($this, $this->id, 0, true)));
 						} 
 						$theForm = str_replace('['.$fieldsx.']', $link, $theForm);
 					}

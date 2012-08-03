@@ -1,7 +1,5 @@
 <?php
 	require('../../../wp-config.php');
-	$wp->init(); $wp->parse_request(); $wp->query_posts();
-	$wp->register_globals(); $wp->send_headers();
 
 	$moreget = $_POST['more'];
 	$main_options = get_option("reservations_main_options");

@@ -126,6 +126,9 @@
 	margin-left: 4px;
 	line-height :1.2em;
 }
+span.radio {
+	display: block;
+}
 
 .showPrice {
 	padding:6px;

@@ -3,8 +3,8 @@ function easyreservations_send_price(){
 	else alert('no room field - correct that')
 	var interval_array = eval("(" + easyAjax.interval + ")");
 	var interval = interval_array[room];
-	var error = 0; var addprice = 0; var price = 0; var nights = 1; var childs = 0;	var persons = 1; var to = ''; var toplus = 0; var fromplus = 0; var captcha = 'x!'; var tom = 0; var toh = 12; var fromm = 0; var fromh = 12; coupon = '';
-	var customPrices = '';
+	var error = 0;var addprice = 0;var price = 0;var nights = 1;var childs = 0;var persons = 1;var to = '';var toplus = 0;var fromplus = 0;var captcha = 'x!';var tom = 0;var toh = 12;var fromm = 0;var fromh = 12;coupon = '';
+	var customPrices = 0;
 
 	var loading = '<img style="vertical-align:text-bottom" src="' + easyAjax.plugin_url + '/easyreservations/images/loading.gif">';
 	jQuery("#showPrice").html(loading);
@@ -53,45 +53,51 @@ function easyreservations_send_price(){
 
 	if(document.easyFrontendFormular.childs) childs = document.easyFrontendFormular.childs.value;
 	if(document.easyFrontendFormular.persons) persons = document.easyFrontendFormular.persons.value;
+	var allpersons = parseFloat(persons)+parseFloat(childs);
 	if(document.easyFrontendFormular.email) var email = document.easyFrontendFormular.email.value;
 	else alert('no email field - correct that');
 	if(document.easyFrontendFormular.captcha_value) captcha = document.easyFrontendFormular.captcha_value.value;
 	if(document.easyFrontendFormular.thename) var thename = document.easyFrontendFormular.thename.value;
 	else alert('no name field - correct that');
 	if(document.easyFrontendFormular.coupon) var coupon = document.easyFrontendFormular.coupon.value;
-	for(var i = 0; i < 16; i++){
-		addprice = 0;
-		if(document.getElementById('custom_price'+i)){
-			var Element = document.getElementById('custom_price'+i);
-			var Type = Element.type;
-			if(Type == "select-one"){
-				var normalprice = Element.value;
-				explodenormalprice = normalprice.split(':');
-				addprice = 1;
-			} else if(Type == "radio" &&  Element.checked != undefined){
-				var normalprice = getRadioCheckedValue('custom_price'+i);
-				explodenormalprice = normalprice.split(':');
-				addprice = 1;
-			} else if(Type == "checkbox" &&  Element.checked){
-				var normalprice = Element.value;
-				explodenormalprice = normalprice.split(':');
-				addprice = 1;
-			} else if(Type == "hidden"){
-				var normalprice = Element.value;
-				explodenormalprice = normalprice.split(':');
-				addprice = 1;
-			}
-			if(addprice == 1){
-				fieldprice = explodenormalprice[1];
-//				var myregexp = /^[\(]([0-9]+[\,]?)+[\)]$/i;var match = myregexp.exec(fieldprice); if(match != null) {}
-				if(Element.className == 'pp') price = fieldprice * persons;
-				else if(Element.className == 'pn') price = fieldprice * nights;
-				else if(Element.className == 'pb') price = fieldprice * persons * nights;
-				else price = fieldprice;
-				customPrices += 'testPrice!:!' + explodenormalprice[0] + ':' + price+ '!;!';
-			}
+	
+	jQuery('[id^="custom_price"]:checked,select[id^="custom_price"]').each(function(){
+		var price = 0;
+		var addprice = 0;
+		var Type = this.type;
+		if(Type == "select-one"){
+			explodenormalprice = this.value.split(':');
+			addprice = 1;
+		} else if(Type == "radio" &&  this.checked != undefined && this.checked){
+			explodenormalprice = this.value.split(':');
+			addprice = 1;
+		} else if(Type == "checkbox" &&  this.checked){
+			explodenormalprice = this.value.split(':');
+			addprice = 1;
+		} else if(Type == "hidden"){
+			explodenormalprice = this.value.split(':');
+			addprice = 1;
 		}
-	}
+		if(addprice == 1){
+			fieldprice = explodenormalprice[1];
+			fieldprice = fakeIfStatements(fieldprice, persons, childs, nights, room);
+			if(fieldprice === false) fieldprice = explodenormalprice[1];
+			if(this.className == 'pp'){
+				price = fieldprice * allpersons;
+			} else if(this.className == 'pa'){
+				price = fieldprice * persons;
+			} else if(this.className == 'pc'){
+				price = fieldprice * childs;
+			} else if(this.className == 'pn'){
+				price = fieldprice * nights;
+			} else if(this.className == 'pb'){
+				price = fieldprice * allpersons * nights;
+			} else {
+				price = fieldprice;
+			}
+			if(!isNaN(parseFloat(price)) && isFinite(price)) customPrices += parseFloat(price);
+		}
+	});
 
 	var data = {
 		action: 'easyreservations_send_price',
@@ -115,6 +121,52 @@ function easyreservations_send_price(){
 			return false;
 		});
 	}
+}
+
+function fakeIfStatements(fieldprice, persons, childs, nights, room){
+	var myregexp = /;/i;
+	var match = myregexp.exec(fieldprice);
+	if(match != null){
+		fieldpriceexplode = fieldprice.split(/-(?=[^\}]*(?:\{|$))/);
+		thetype = fieldpriceexplode[1];
+		explstatements = fieldpriceexplode[0].split(/;(?=[^\}]*(?:\{|$))/);
+		for (var i in explstatements){
+			explif = explstatements[i].split(/\>(?=[^\}]*(?:\{|$))/);
+			if(thetype == 'pers'){
+				if((parseFloat(persons)+parseFloat(childs)) >= parseFloat(explif[0])){
+					fieldprice = fakeIfStatements(explif[1].substr(1, explif[1].length-2), persons, childs, nights, room);
+					if(fieldprice === false) fieldprice = explif[1];
+				}
+			} else if(thetype == 'child'){
+				if(childs >= parseFloat(explif[0])){
+					fieldprice = fakeIfStatements(explif[1].substr(1, explif[1].length-2), persons, childs, nights, room);
+					if(fieldprice === false) fieldprice = explif[1];
+				} 
+			} else if(thetype == 'res'){
+				if(room == parseFloat(explif[0])){
+					fieldprice = fakeIfStatements(explif[1].substr(1, explif[1].length-2), persons, childs, nights, room);
+					if(fieldprice === false) fieldprice = explif[1];
+				} 
+			} else if(thetype == 'both'){
+				if(((parseFloat(persons)+parseFloat(childs))*nights) >= parseFloat(explif[0])){
+					fieldprice = fakeIfStatements(explif[1].substr(1, explif[1].length-2), persons, childs, nights, room);
+					if(fieldprice === false) fieldprice = explif[1];
+				}
+			} else if(thetype == 'adul'){
+				if(persons >= parseFloat(explif[0])){
+					fieldprice = fakeIfStatements(explif[1].substr(1, explif[1].length-2), persons, childs, nights, room);
+					if(fieldprice === false) fieldprice = explif[1];
+				}
+			} else if(thetype == 'night'){
+				if(nights >= parseFloat(explif[0])){
+					fieldprice = fakeIfStatements(explif[1].substr(1, explif[1].length-2), persons, childs, nights, room);
+					if(fieldprice === false) fieldprice = explif[1];
+				}
+			}
+		}
+		return fieldprice
+	}
+	return false;
 }
 
 function getRadioCheckedValue(radio_name){

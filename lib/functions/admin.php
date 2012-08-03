@@ -542,7 +542,7 @@ if(isset($_GET['page'])){
 
 		if(!empty($search)){
 			if(preg_match('/^([0-9]+[\,]{1})+[0-9]+$/i', $search)) $searchstr = "AND id in($search)";
-			else $searchstr = "AND (name like '%1\$s' OR id like '%1\$s' OR email like '%1\$s' OR arrival like '%1\$s OR custom like '%1\$s')";
+			else $searchstr = "AND (name like '%1\$s' OR id like '%1\$s' OR email like '%1\$s' OR arrival like '%1\$s' OR custom like '%1\$s')";
 		}
 		else $searchstr = "";
 
@@ -860,7 +860,7 @@ if(isset($_GET['page'])){
 								<span style="font-weight: bold;font-size:12px;color:#555;;"><?php echo $res->formatPrice(true, 1); ?></span>
 							</div>
 							<div>
-								<span style="font-weight: bold !important;font-size:12px;"><?php echo round(100/$res->price*$res->paid, 0); ?>% Paid</span>
+								<span style="font-weight: bold !important;font-size:12px;"><?php if($res->price == 0) echo 0; else echo round(100/$res->price*$res->paid, 0); ?>% Paid</span>
 							</div>
 						</td>
 					<?php } ?>
@@ -940,7 +940,7 @@ if(isset($_GET['page'])){
 		if($filtertype['cond'] == 'range'){
 			$the_condtion = sprintf(__( 'If the %3$s to calculate is beween %1$s and %2$s else' , 'easyReservations' ), '<b>'.date(RESERVATIONS_DATE_FORMAT_SHOW, $filtertype['from']).'</b>', '<b>'.date(RESERVATIONS_DATE_FORMAT_SHOW, $filtertype['to']).'</b>', easyreservations_interval_infos($interval), 0 ,1 ).' <b style="font-size:17px">&#8595;</b>';
 		} elseif($filtertype['cond'] == 'date'){
-			$the_condtion = sprintf(__( 'If the %3$s to calculate is %1$s else' , 'easyReservations' ), '<b>'.date(str_replace(':i', ':00', RESERVATIONS_DATE_FORMAT_SHOW), $filtertype['date']).'</b>', easyreservations_interval_infos($interval),  0 ,1 ).' <b style="font-size:17px">&#8595;</b>';
+			$the_condtion = sprintf(__( 'If the %2$s to calculate is %1$s else' , 'easyReservations' ), '<b>'.date(str_replace(':i', ':00', RESERVATIONS_DATE_FORMAT_SHOW), $filtertype['date']).'</b>', easyreservations_interval_infos($interval),  0 ,1 ).' <b style="font-size:17px">&#8595;</b>';
 		} else {
 			if(isset($filtertype['hour']) && !empty($filtertype['hour'])){
 				$timecondition = '';
@@ -1143,8 +1143,6 @@ if(isset($_GET['page'])){
 							var the_li = count.parentNode.parentNode.parentNode;
 							var the_li_parent = the_li.parentNode;
 							the_li_parent.removeChild(the_li);
-							//var the_il_innerhtml = the_li_parent.innerHTML;
-							//the_li_parent.innerHTML = the_il_innerhtml.substr(0,the_il_innerhtml.length - 5);
 						} else count.innerHTML = new_count;
 					} else if(mode == 'add'){
 						document.getElementById('easy-table-navi').innerHTML += '<li>| <a style="cursor:pointer" onclick="easyreservation_send_table(\'favourite\', 1)"><img src="<?php echo WP_PLUGIN_URL; ?>/easyreservations/css/images/star_full.png" style="vertical-align:text-bottom"> <span class="count">(<span id="fav-count">1</span>)</span></a></li>';
@@ -1235,34 +1233,6 @@ if(isset($_GET['page'])){
 
 	add_action('er_mod_inst', 'easyreservations_add_module_notice');
 
-	function easyreservations_get_allowed_rooms($rooms=0){
-		if($rooms == 0) $rooms = easyreservations_get_rooms();
-		if(current_user_can('manage_options')) $final_rooms = $rooms;
-		else {
-			foreach($rooms as $room){
-				$get_role = get_post_meta($room->ID, 'easy-resource-permission', true);
-				if(current_user_can($get_role)) $final_rooms[] = $room;
-			}
-		}
-		if(isset($final_rooms)) return $final_rooms;
-	}
-	
-	function easyreservations_get_allowed_rooms_mysql($rooms=0){
-		if($rooms == 0) $rooms = easyreservations_get_allowed_rooms();
-		else $rooms = easyreservations_get_allowed_rooms($rooms);
-		
-		if(count($rooms) > 0){
-			$mysql = '( ';
-			foreach($rooms as $room){
-				$mysql .= " '$room->ID', ";
-			}
-			$mysql = substr( $mysql,0,-2).' )';
-		} else {
-			$mysql = "";
-		}
-		return $mysql;
-	}
-
 	/**
 	*	Load button and add it to tinyMCE
 	*/
@@ -1281,6 +1251,35 @@ if(isset($_GET['page'])){
 		$plugin_array['easyReservations'] = $url;
 		return $plugin_array;
 	}
+	
+	function easyreservations_get_allowed_rooms($rooms=0){
+		if($rooms == 0) $rooms = easyreservations_get_rooms();
+		if(current_user_can('manage_options')) $final_rooms = $rooms;
+		else {
+			foreach($rooms as $room){
+				$get_role = get_post_meta($room->ID, 'easy-resource-permission', true);
+				if(current_user_can($get_role)) $final_rooms[] = $room;
+			}
+		}
+		if(isset($final_rooms)) return $final_rooms;
+	}
+	
+	function easyreservations_get_allowed_rooms_mysql($rooms=0){
+		if($rooms == 0) $rooms = easyreservations_get_allowed_rooms();
+		else $rooms = easyreservations_get_allowed_rooms($rooms);
+		$mysql = "";
+
+		if(count($rooms) > 0){
+			$mysql .= '( ';
+			foreach($rooms as $room){
+				$mysql .= " '$room->ID', ";
+			}
+			$mysql = substr( $mysql,0,-2).' )';
+		}
+
+		return $mysql;
+	}
+
 
 	function easyreservations_get_color($round){
 		if($round >= 200) return '#ab2ad6';

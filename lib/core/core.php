@@ -63,10 +63,9 @@ License:GPL2
 												$my_dirs = ''; //What should this be? I'm already passing he $target directory
 												unzip_file($saved_file_location, $plugin_dir);
 											}
-										} 
+										}
 										unlink($saved_file_location);
 										echo '<br><div class="updated"><p>'.sprintf(__( 'Module %s installed successfully' , 'easyReservations' ), '<b>'.str_replace('.zip', '', str_replace( '-', ' ', $file_name)).'</b>').'</p></div>';
-									
 							}
 						} else echo '<br><div class="error"><p>'.__( 'Upload failed' , 'easyReservations' ).'</p></div>';
 					} else echo '<br><div class="error"><p>'.__( 'Wrong file' , 'easyReservations' ).'</p></div>';
@@ -84,10 +83,10 @@ License:GPL2
 				else {
 					$xml = new stdClass();
 					$xml->latestc = '1.1.5'; //Calendar
-					$xml->latestd = '1.2.1'; //Chat
-					$xml->latestp = '1.2.2'; //PayPal
+					$xml->latestd = '1.2.3'; //Chat
+					$xml->latestp = '1.2.4'; //PayPal
 					$xml->latestlang = '1.1.1'; //language
-					$xml->latests = '1.1.7'; //searchFrom
+					$xml->latests = '1.1.9'; //searchFrom
 					$xml->latesthc = '1.0.2'; //hourlyCal
 				}
 				$the_modules = array(
@@ -97,7 +96,7 @@ License:GPL2
 								'content' => __( 'Generate totally customazible Invoices automatically from predefined templates. Including an editor for admins, invoices as email attachments and correct A4 Letter formats.' , 'easyReservations' ),
 								'xml' => '',
 								'function' => 'easyreservations_generate_invoice',
-								'vers' => '1.0.2',
+								'vers' => '1.0.3',
 								'image' => 'invoice',
 								'beta' => 0
 						),
@@ -107,7 +106,7 @@ License:GPL2
 								'content' => __( 'Style your eMails with HTML to increase the appereance of your hospitality.' , 'easyReservations' ),
 								'xml' => '',
 								'function' => 'easyreservations_send_multipart_mail',
-								'vers' => '1.1.2',
+								'vers' => '1.1.9',
 								'image' => 'email',
 								'beta' => 0
 						),
@@ -117,7 +116,7 @@ License:GPL2
 								'content' => __( 'Your guest can pay their reservations directly through PayPal! Adds the PayPal Buy Now Button after form submits and to userCP if not paid. Automatically approve new reservations and/or paid reservations. Payment verification by IPN.' , 'easyReservations' ),
 								'xml' => 'latestp',
 								'function' => 'easyreservations_validate_payment',
-								'vers' => '1.2.2',
+								'vers' => '1.2.4',
 								'image' => 'paypal',
 								'beta' => 0
 						),
@@ -127,7 +126,7 @@ License:GPL2
 								'content' => __( 'New shortcode to let your guests search for available resources. No reload for searching, compatible to calendar, show price, show unavailable resources too, link to form with automatically selection. Each resource can have a small one-column calendar to show when its availble.' , 'easyReservations' ),
 								'xml' => 'latests',
 								'function' => 'easyreservations_search_add_tinymce',
-								'vers' => '1.1.7',
+								'vers' => '1.1.8',
 								'image' => 'search',
 								'beta' => 0
 						),
@@ -167,16 +166,36 @@ License:GPL2
 								'content' => __( ' Let your guests login with their reservations ID and email to edit their reservation afterwards. They can switch between their reservations in a table. In addition it provides a chat-like feature to user-edit and admin. New messages in table, dummy message at start, admin notices, avatars and fully AJAX driven.' , 'easyReservations' ),
 								'xml' => 'latestd',
 								'function' => 'easyreservations_generate_chat',
-								'vers' => '1.2.1',
+								'vers' => '1.2.3',
 								'image' => 'chat',
+								'beta' => 0
+						),
+						array(
+								'slug' => 'statistics',
+								'title' => __( 'Statistics Module' , 'easyReservations' ),
+								'content' => __( 'Detailed statistics, charts, resources usage and a dashboards widget.' , 'easyReservations' ),
+								'xml' => '',
+								'function' => 'easyreservations_add_statistics_submenu',
+								'vers' => '1.1.2',
+								'image' => 'statistics',
+								'beta' => 0
+						),
+						array(
+								'slug' => 'styles',
+								'title' => __( 'Styles' , 'easyReservations' ),
+								'content' => __( 'New Admin, Calendar and Form stlye. In addition it changes your datepickers style and disable unavailble dates in it.' , 'easyReservations' ),
+								'xml' => '',
+								'function' => 'easyreservations_register_datepicker_style',
+								'vers' => '1.2.1',
+								'image' => 'to',
 								'beta' => 0
 						),
 						array(
 								'slug' => 'coupons',
 								'title' => __( 'Coupon Module' , 'easyReservations' ),
 								'content' => __( 'Let your guests enter coupon codes for discounts.' , 'easyReservations' ),
-								'xml' => 'latestcoupons',
-								'function' => 'easyreservations_coupon_admin',
+								'xml' => '',
+								'function' => 'easyreservations_calculate_coupon',
 								'vers' => '1.0.1',
 								'image' => 'money',
 								'beta' => 0
@@ -189,26 +208,6 @@ License:GPL2
 								'function' => 'easyreservations_generate_multical',
 								'vers' => '1.1.5',
 								'image' => 'day',
-								'beta' => 0
-						),
-						array(
-								'slug' => 'statistics',
-								'title' => __( 'Statistics Module' , 'easyReservations' ),
-								'content' => __( 'Detailed statistics, charts, resources usage and a dashboards widget.' , 'easyReservations' ),
-								'xml' => '',
-								'function' => 'easyreservations_add_statistics_submenu',
-								'vers' => '1.1',
-								'image' => 'statistics',
-								'beta' => 0
-						),
-						array(
-								'slug' => 'styles',
-								'title' => __( 'Styles' , 'easyReservations' ),
-								'content' => __( 'New Admin, Calendar and Form stlye. In addition it changes your datepickers style and disable unavailble dates in it.' , 'easyReservations' ),
-								'xml' => '',
-								'function' => 'easyreservations_register_datepicker_style',
-								'vers' => '1.2',
-								'image' => 'to',
 								'beta' => 0
 						)
 				);

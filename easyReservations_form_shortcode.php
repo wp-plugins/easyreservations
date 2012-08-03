@@ -117,7 +117,7 @@ function reservations_form_shortcode($atts){
 				}
 			}
 		} catch(easyException $e){
-			$error.=  '<li><label>'.$e.'</label></li>';
+			$error.=  '<li><label>'.$e->getMessage().'</label></li>';
 		}
 
 		if(empty($error) && isset($arrival)) { //When Check gives no error Insert into Database and send mail
@@ -250,12 +250,12 @@ function reservations_form_shortcode($atts){
 				$theForm=str_replace('['.$fields.']', '<input type="checkbox" title="'.$title.'" '.$disabled.$checked.' style="'.$style.'" name="easy-custom-'.$field[2].'" id="easy-custom-'.$req.'-'.$field[2].'">', $theForm);
 			} elseif($field[1]=="radio"){
 				if(preg_match("/^[a-zA-Z0-9_]+$/", $valuefield)){
-					$theForm=str_replace('['.$fields.']', '<input type="radio" title="'.$title.'" '.$disabled.' style="'.$style.'" name="easy-custom-'.$field[2].'" id="easy-custom-'.$req.'-'.$field[2].'" value="'.$valuefield.'"> '.$valuefield, $theForm);
+					$theForm=str_replace('['.$fields.']', '<span class="radio"><input type="radio" title="'.$title.'" '.$disabled.' style="'.$style.'" name="easy-custom-'.$field[2].'" id="easy-custom-'.$req.'-'.$field[2].'" value="'.$valuefield.'"> '.$valuefield.'</span>', $theForm);
 				} elseif(preg_match("/^[a-zA-Z0-9_ \\,\\t]+$/", $valuefield)){
 					$valueexplodes=explode(",", $valuefield);
 					$custom_radio='';
 					foreach($valueexplodes as $value){
-						if($value != '') $custom_radio .= '<input type="radio" title="'.$title.'" '.$disabled.' style="'.$style.'" name="easy-custom-'.$field[2].'" id="easy-custom-'.$req.'-'.$field[2].'" value="'.$value.'"> '.$value.'<br>';
+						if($value != '') $custom_radio .= '<span class="radio"><input type="radio" title="'.$title.'" '.$disabled.' style="'.$style.'" name="easy-custom-'.$field[2].'" id="easy-custom-'.$req.'-'.$field[2].'" value="'.$value.'"> '.$value.'</span>';
 					}
 					$theForm=str_replace($fields, $custom_radio, $theForm);
 				}
@@ -277,43 +277,40 @@ function reservations_form_shortcode($atts){
 			$valuefield=str_replace('"', '', $field[3]);
 			if(isset($field[4]) && $field[4] == 'pp' ){
 				$personfield = 'class="'.$field[4].'"';
-				$personfields = ':1';
 			} elseif(isset($field[4]) && $field[4] == 'pn'){
 				$personfield = 'class="'.$field[4].'"';
-				$personfields = ':2';
 			} elseif(isset($field[4]) && $field[4] == 'pb'){
 				$personfield = 'class="'.$field[4].'"';
-				$personfields = ':3';
 			} else {
 				$personfield = '';
-				$personfields = '';
 			}
 			if($field[1]=="check" || $field[1]=="checkbox"){
 				if(isset($field['checked'])) $checked = 'checked="'.$field['checked'].'"'; else $checked = '';
-				$theForm=preg_replace('/\['.$fields.'\]/', '<input title="'.$title.'" style="'.$style.'" '.$disabled.' id="custom_price'.$customPrices.'" '.$personfield.' type="checkbox" '.$checked.' onchange="'.$price_action.'" name="'.$field[2].'" value="'.$valuefield.$personfields.'">', $theForm);
+				$theForm=preg_replace('/\['.$fields.'\]/', '<input title="'.$title.'" style="'.$style.'" '.$disabled.' id="custom_price'.$customPrices.'" '.$personfield.' type="checkbox" '.$checked.' onchange="'.$price_action.'" name="'.$field[2].'" value="'.$valuefield.'">', $theForm);
 			} elseif($field[1]=="radio"){
 				if(preg_match("/^[a-zA-Z0-9_]+$/", $valuefield)){
 					$explodeprice=explode(":", $valuefield);
-					$theForm=preg_replace('/\['.$fields.'\]/', '<input title="'.$title.'" style="'.$style.'" '.$disabled.' id="custom_price'.$customPrices.'" '.$personfield.' type="radio" onchange="'.$price_action.'" name="'.$field[2].'" value="'.$explodeprice[0].':'.$explodeprice[1].$personfields.'"> '.$explodeprice[0].': '.easyreservations_format_money($explodeprice[1], 1), $theForm);
+					$theForm=preg_replace('/\['.$fields.'\]/', '<span class="radio"><input title="'.$title.'" style="'.$style.'" '.$disabled.' id="custom_price'.$customPrices.'" '.$personfield.' type="radio" onchange="'.$price_action.'" name="'.$field[2].'" value="'.$explodeprice[0].':'.$explodeprice[1].'"> '.$explodeprice[0].': '.easyreservations_format_money($explodeprice[1], 1).'</span>', $theForm);
 				} elseif(strstr($valuefield,",")) {
 					$valueexplodes=explode(",", $valuefield);
 					$custom_radio = '<pre>';
 					foreach($valueexplodes as $value){
 						$explodeprice=explode(":", $value);
-						if($value != '') $custom_radio .= '<input id="custom_price'.$customPrices.'" '.$disabled.' title="'.$title.'" style="'.$style.'" type="radio" '.$personfield.' name="'.$field[2].'" onchange="'.$price_action.'" value="'.$explodeprice[0].':'.$explodeprice[1].$personfields.'"> '.$explodeprice[0].': '.easyreservations_format_money($explodeprice[1], 1).'<br>';
+						if($value != '') $custom_radio .= '<span class="radio"><input id="custom_price'.$customPrices.'" '.$disabled.' title="'.$title.'" style="'.$style.'" type="radio" '.$personfield.' name="'.$field[2].'" onchange="'.$price_action.'" value="'.$explodeprice[0].':'.$explodeprice[1].'"> '.$explodeprice[0].': '.easyreservations_format_money($explodeprice[1], 1).'</span>';
+						$customPrices++;
 					}
 					$theForm=preg_replace('/\['.$fields.'\]/', $custom_radio.'</pre>', $theForm);
 				}
 			} elseif($field[1]=="select"){
 				if(preg_match("/^[a-zA-Z0-9_]+$/", $valuefield)){
 					$explodeprice=explode(":", $valuefield);
-					$theForm=preg_replace('/\['.$fields.'\]/', '<select id="custom_price'.$customPrices.'" '.$personfield.' '.$disabled.' name="'.$field[2].'" title="'.$title.'" style="'.$style.'" onchange="'.$price_action.'"><option value="'.$explodeprice[0].':'.$explodeprice[1].$personfields.'">'.$explodeprice[0].': '.easyreservations_format_money($explodeprice[1], 1).'</option></select>', $theForm);
+					$theForm=preg_replace('/\['.$fields.'\]/', '<select id="custom_price'.$customPrices.'" '.$personfield.' '.$disabled.' name="'.$field[2].'" title="'.$title.'" style="'.$style.'" onchange="'.$price_action.'"><option value="'.$explodeprice[0].':'.$explodeprice[1].'">'.$explodeprice[0].': '.easyreservations_format_money($explodeprice[1], 1).'</option></select>', $theForm);
 				} elseif(preg_match("/^[a-zA-Z0-9].+$/", $valuefield)){
 					$valueexplodes=explode(",", $valuefield);
 					$custom_select='';
 					foreach($valueexplodes as $value){
 						$explodeprice=explode(":", $value);
-						if($value != '') $custom_select .= '<option value="'.$explodeprice[0].':'.$explodeprice[1].$personfields.'">'.$explodeprice[0].': '.easyreservations_format_money($explodeprice[1], 1).'</option>';
+						if($value != '') $custom_select .= '<option value="'.$explodeprice[0].':'.$explodeprice[1].'">'.$explodeprice[0].': '.easyreservations_format_money($explodeprice[1], 1).'</option>';
 					}
 					$theForm=str_replace($fields, '<select  '.$personfield.' style="'.$style.'" title="'.$title.'" id="custom_price'.$customPrices.'" '.$disabled.' onchange="'.$price_action.'" name="'.$field[2].'">'.$custom_select.'</select>', $theForm);
 				}

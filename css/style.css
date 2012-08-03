@@ -403,3 +403,5 @@ span.table-status-del {
 span.table-status- {
 	background:#639af9;
 }
+.afilter { cursor: pointer; }
+.activefilter { cursor: default; font-weight: bold; color: #000; }

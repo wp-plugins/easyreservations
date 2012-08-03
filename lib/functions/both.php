@@ -119,18 +119,6 @@
 		return $money;
 	}
 
-	function easyreservations_get_custom_price_array($customp){
-		$customs=array_values(array_filter(explode("&;&", $customp)));
-		$customparray = '';
-		foreach($customs as $customfield){
-			$customexp=explode("&:&", $customfield);
-			$priceexp=explode(":", $customexp[1]);
-			$customparray[] = array( 'title' => $customexp[0], 'value' => $priceexp[0], 'amount' => $priceexp[1]); 
-		}
-
-		return $customparray;
-	}
-
 	/**
 	*	Repair incorrect input, checks if string can be a price (money) -> returns the price or error
 	*
@@ -414,7 +402,12 @@
 		else $interval = 1;
 		if(isset($explodeSize[3]) && $explodeSize[3] != '') $header = $explodeSize[3];
 		else $header = 0;
-
+		
+		$pers = 1; $child = 0; $resev = 0;
+		if(isset($_POST['persons'])) $pers = $_POST['persons'];
+		if(isset($_POST['childs'])) $child = $_POST['childs'];
+		if(isset($_POST['reservated'])) $resev = $_POST['reservated'];
+		
 		$room_count = get_post_meta($_POST['room'], 'roomcount', true);
 		$month_names = easyreservations_get_date_name(1);
 		$day_names = easyreservations_get_date_name(0,2);
@@ -540,7 +533,7 @@
 					}
 				}
 
-				$res = new Reservation(false, array('email' => 'mail@test.com', 'arrival' => $dateofeachday+43200, 'departure' =>  $dateofeachday+easyreservations_get_interval($the_rooms_intervals_array[$_POST['room']], 0, 1)+43200,'resource' => (int) $_POST['room'], 'adults' => 1, 'childs' => 0,'reservated' => time()), false);
+				$res = new Reservation(false, array('email' => 'mail@test.com', 'arrival' => $dateofeachday+43200, 'departure' =>  $dateofeachday+easyreservations_get_interval($the_rooms_intervals_array[$_POST['room']], 0, 1)+43200,'resource' => (int) $_POST['room'], 'adults' => $pers, 'childs' => $child,'reservated' => time()-($resev*86400)), false);
 				try {
 					if($price > 0){
 						$res->Calculate();
@@ -622,11 +615,11 @@
 		if(isset($_POST['childs']) && !empty($_POST['childs'])) $childs = $_POST['childs'];
 		else $childs = 0;
 
-		$res = new Reservation(false, array('name' => 'abv', 'email' => $email, 'arrival' => $val_from,'departure' => $val_to,'resource' => (int) $room, 'adults' => (int) $persons, 'childs' => $childs,'reservated' => time(),'status' => '', 'prices' => $customp, 'coupon' => $_POST['coupon']), false);
+		$res = new Reservation(false, array('name' => 'abv', 'email' => $email, 'arrival' => $val_from,'departure' => $val_to,'resource' => (int) $room, 'adults' => (int) $persons, 'childs' => $childs,'reservated' => time(),'status' => '', 'prices' => (float) $customp, 'coupon' => $_POST['coupon']), false);
 		try {
 			echo easyreservations_format_money($res->Calculate());
 		} catch(easyException $e){
-			echo 'Error:'. $e;
+			echo 'Error:'. $e->getMessage();
 		}
 
 		exit;
@@ -661,7 +654,7 @@
 			$error = $res->Validate($mode);
 		} catch(easyException $e){
 			$error[] = '';
-			$error[] = $e;
+			$error[] = $e->getMessage();
 		}
 		
 		if($mode == 'send'){
