@@ -411,13 +411,9 @@ ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrival] <br>To: [depa
 				foreach($reservations as $reservation){
 					$id = $reservation->id;
 					$arrivalDate = strtotime($reservation->arrivalDate);
-					$notes = array( array( 'type' => 'cstm', 'mode' => 'edit', 'title' => 'Message', 'value' => $reservation->notes ) );
-					easyreservations_edit_custom( $notes, $id, 0, 0, false, 0, 'cstm', 'edit', 1 );
-
 					$nights = $reservation->nights;
 					$arrival = date("Y-m-d H:i", $arrivalDate+43200);
 					$departure = date("Y-m-d H:i", $arrivalDate+(86400*$nights)+43200);
-
 					$wpdb->query($wpdb->prepare("UPDATE ".$wpdb->prefix ."reservations SET arrival='$arrival', departure='$departure' WHERE id='$id' "));
 				}
 
@@ -518,7 +514,7 @@ ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrival] <br>To: [depa
 	if(file_exists(dirname(__FILE__).'/lib/core/core.php')) require_once(dirname(__FILE__)."/lib/core/core.php");
 	require_once(dirname(__FILE__)."/lib/classes/reservation.class.php");
 
-	if(is_admin() || defined( 'EASY_API' )){
+	if(is_admin()){
 		require_once(dirname(__FILE__)."/pagination.class.php");
 		require_once(dirname(__FILE__)."/lib/functions/admin.php");
 
