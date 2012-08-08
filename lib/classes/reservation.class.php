@@ -431,7 +431,7 @@
 						$addstart = " AND HOUR(arrival) = HOUR('$startdate')";
 						$addend  = " AND HOUR(departure) = HOUR('$startdate')";
 					}
-					$count = $wpdb->get_var("SELECT sum(IF((DATE(arrival) = DATE('$startdate')$addstart) OR (DATE(departure) = DATE('$startdate')$addend), 0.5, 1)) as count FROM ".$wpdb->prefix ."reservations WHERE approve='yes' AND $res_sql $idsql DATE('$startdate') BETWEEN DATE(arrival) AND DATE(departure) AND TIMESTAMPDIFF(SECOND, arrival, departure) >= $interval");
+					$count = $wpdb->get_var("SELECT sum(Case When DATE(arrival) = DATE('$startdate')$addstart Then 0.51 When DATE(departure) = DATE('$startdate')$addend Then 0.5 Else 1 End) as count FROM ".$wpdb->prefix ."reservations WHERE approve='yes' AND $res_sql $idsql DATE('$startdate') BETWEEN DATE(arrival) AND DATE(departure) AND TIMESTAMPDIFF(SECOND, arrival, departure) >= $interval");
 					$error += $count;
 				}
 			}
@@ -512,7 +512,6 @@
 		public function Customs($new_custom, $mass = false, $thekey = false, $price = false, $type = false, $modus = false, $check = false){
 			if($price) $all_customs = $this->prices;
 			else $all_customs = $this->custom;
-
 			$all_customs_save = '';
 
 			if(!empty($all_customs)){
@@ -520,7 +519,9 @@
 				if($mass){
 					if(!empty($all_customs_save)){
 						foreach($all_customs_save as $key => $cstm){
-							if((!$type || $cstm['type'] == $type) && (!$modus || $cstm['mode'] == $modus || $cstm['mode'] == 'visible') && (!$check || $cstm[$check[0]] == $check[1])) unset($all_customs_save[$key]);
+							if((!$type || $cstm['type'] == $type) && (!$modus || $cstm['mode'] == $modus || $cstm['mode'] == 'visible') && (!$check || $cstm[$check[0]] == $check[1])){
+								unset($all_customs_save[$key]);
+							}
 						}
 					}
 				} else {
@@ -533,10 +534,8 @@
 				}
 			}
 
-			if(!is_array($all_customs_save) || empty($all_customs_save) || !isset($all_customs_save[0])) $all_customs_save = array();
-
+			if(!is_array($all_customs_save) || empty($all_customs_save)) $all_customs_save = array();
 			if(!is_array($new_custom[0])) $new_custom = array($new_custom);
-
 			foreach($new_custom as $newcustom){
 				$all_customs_save[] = $newcustom;
 			}
@@ -772,7 +771,7 @@
 						$link = '';
 						if(function_exists('easyreservations_generate_paypal_button')){
 							$link = esc_url_raw(str_replace(' ', '%20', easyreservations_generate_paypal_button($this, $this->id, 0, true)));
-						} 
+						}
 						$theForm = str_replace('['.$fieldsx.']', $link, $theForm);
 					}
 				}
@@ -800,8 +799,13 @@
 				}
 
 				$headers = "From: ".get_bloginfo('name')." <$send_from>\n";
+
 				if(function_exists('easyreservations_insert_attachment')) $attachment = easyreservations_insert_attachment($this, str_replace('reservations_email_', '', $options_name));
-				if(!$to || empty($to)) $to = $send_from;
+				if(!$to || empty($to)){
+					$to = $send_from;
+					$headers .= "Reply-To: $this->name <$this->email>\n";
+				} else $headers .= "Reply-To: ".get_bloginfo('name')." <$send_from>\n";
+				
 
 				$mail = @wp_mail($to,$subj,$msg,$headers, $attachment);
 
@@ -958,10 +962,8 @@
 			}
 			$titles = substr($titles, 0, -2);
 			$values = substr($values, 0, -2);
-			$return = $wpdb->query( $wpdb->prepare("INSERT INTO ".$wpdb->prefix ."reservations($titles ) VALUES ($values)"  ) );
-			if($return === 0){
-				throw new easyException( 'No changes');
-			} elseif(!$return){
+			$return = $wpdb->query( $wpdb->prepare("INSERT INTO ".$wpdb->prefix ."reservations($titles) VALUES ($values)"  ) );
+			if(!$return){
 				throw new easyException( 'Reservation couldn\'t be added. Error: '.mysql_error(), mysql_errno() );
 				return true;
 			} else {
@@ -974,7 +976,7 @@
 		public function destroy(){
 			unset($this);
 		}
-		
+
 		public function deleteReservation(){
 			global $wpdb;
 			$return =$wpdb->query( $wpdb->prepare("DELETE FROM ".$wpdb->prefix ."reservations WHERE id='$this->id' ") );

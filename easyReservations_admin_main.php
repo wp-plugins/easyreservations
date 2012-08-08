@@ -187,8 +187,8 @@ function reservation_main_page() {
 				$ADDcustomPfields[] = array( 'type' => 'cstm', 'mode' => $_POST["customPmodus".$theCount], 'title' => $_POST["customPtitle".$theCount], 'value' => $_POST["customPvalue".$theCount], 'amount' => easyreservations_check_price($_POST["custom_price".$theCount]) );
 			}
 		}
-		
-		$res = new Reservation(false, array('name' => $_POST["name"], 'email' => $_POST["email"], 'arrival' => (strtotime($_POST["date"])+($from_hour*60)),'departure' => (strtotime($_POST["dateend"])+($from_hour*60)),'resource' => (int) $_POST["room"],'resourcenumber' => (int) $_POST["roomexactly"],'country' => $_POST["country"], 'adults' => $_POST["persons"],	'custom' => maybe_unserialize($ADDcustomFields),'prices' => maybe_unserialize($ADDcustomPfields),'childs' => $_POST["childs"],'reservated' => strtotime($_POST["reservation_date"]),'status' => $_POST["reservationStatus"],'user' => $_POST["edit_user"]));
+
+		$res = new Reservation(false, array('name' => $_POST["name"], 'email' => $_POST["email"], 'arrival' => (strtotime($_POST["date"])+($from_hour*60)),'departure' => (strtotime($_POST["dateend"])+($to_hour*60)),'resource' => (int) $_POST["room"],'resourcenumber' => (int) $_POST["roomexactly"],'country' => $_POST["country"], 'adults' => $_POST["persons"],	'custom' => maybe_unserialize($ADDcustomFields),'prices' => maybe_unserialize($ADDcustomPfields),'childs' => $_POST["childs"],'reservated' => strtotime($_POST["reservation_date"]),'status' => $_POST["reservationStatus"],'user' => $_POST["edit_user"]));
 		try {
 			$thePriceAdd = '';
 

@@ -230,8 +230,12 @@ span.radio {
 	font-size:10px;
 	color:#666666;
 	margin: 0px 0px 8px 0px !important;
-	border-bottom:solid 1px #EAEAEA;
-	padding: 8px 10px 10px 10px;
+	border-top: 1px solid #EAEAEA;
+	border-bottom: 1px solid #EAEAEA;
+	padding: 9px 10px 9px 10px;
+}
+.chat-entry-h1:first-of-type {
+	border-top: 0px;
 }
 .chat-admin {
 	background:#FAFFE6;

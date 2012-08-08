@@ -40,8 +40,8 @@
 		text-shadow: 0 1px 0 rgba(255,255,255,0.5);
 		text-align: center;
 		font-weight: bold;
-		background: -webkit-gradient(linear, left top, left bottom, from(#ededed), to(#dedede));
-		background: -moz-linear-gradient(top,  #ededed,  #dedede);
+		background: #ededed; /* Old browsers */
+		filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ededed', endColorstr='#d8d8d8',GradientType=0 ); /* IE6-9 */
 		border-bottom: 1px solid #898989;
 		border-left: 1px solid #898989;
 		border-top:none !important;
@@ -103,34 +103,40 @@
 		border-left:1px solid #898989;
 	}
 	.calendar-cell-full {
-		background: #C14B49;
-		background: -moz-linear-gradient(top, #EDEDED 0%, #D8D8D8 88%, #C14B49 88%, #C14B49 100%); /* FF3.6+ */
-		background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#EDEDED), color-stop(88%,#D8D8D8), color-stop(88%,#C14B49), color-stop(100%,#C14B49)); /* Chrome,Safari4+ */
-		background: -webkit-linear-gradient(top, #EDEDED 0%,#D8D8D8 88%,#C14B49 88%,#C14B49 100%); /* Chrome10+,Safari5.1+ */
-		background: -o-linear-gradient(top, #EDEDED 0%,#D8D8D8 88%,#C14B49 88%,#C14B49 100%); /* Opera 11.10+ */
-		background: -ms-linear-gradient(top, #EDEDED 0%,#D8D8D8 88%,#C14B49 88%,#C14B49 100%); /* IE10+ */
-		background: linear-gradient(top, #EDEDED 0%,#D8D8D8 88%,#C14B49 88%,#C14B49 100%); /* W3C */
+		background-image:url(../../images/cal-2-red.png);
+		background-image:url(../../images/cal-2-red.png), -moz-linear-gradient(top,  #ededed 0%, #d8d8d8 100%); /* FF3.6+ */
+		background-image:url(../../images/cal-2-red.png), -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ededed), color-stop(100%,#d8d8d8)); /* Chrome,Safari4+ */
+		background-image:url(../../images/cal-2-red.png), -webkit-linear-gradient(top,  #ededed 0%,#d8d8d8 100%); /* Chrome10+,Safari5.1+ */
+		background-image:url(../../images/cal-2-red.png), -o-linear-gradient(top,  #ededed 0%,#d8d8d8 100%); /* Opera 11.10+ */
+		background-image:url(../../images/cal-2-red.png), -ms-linear-gradient(top,  #ededed 0%,#d8d8d8 100%); /* IE10+ */
+		background-image:url(../../images/cal-2-red.png), linear-gradient(to bottom,  #ededed 0%,#d8d8d8 100%); /* W3C */
+		background-repeat:repeat-x;
+		background-position: bottom center;
 	}
 
 	.calendar-cell-occupied {
 		cursor:pointer;
-		background: #E0DD41;
-		background: -moz-linear-gradient(top, #EDEDED 0%, #D8D8D8 88%, #E0DD41 88%, #E0DD41 100%); /* FF3.6+ */
-		background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#EDEDED), color-stop(88%,#D8D8D8), color-stop(88%,#E0DD41), color-stop(100%,#E0DD41)); /* Chrome,Safari4+ */
-		background: -webkit-linear-gradient(top, #EDEDED 0%,#D8D8D8 88%,#E0DD41 88%,#E0DD41 100%); /* Chrome10+,Safari5.1+ */
-		background: -o-linear-gradient(top, #EDEDED 0%,#D8D8D8 88%,#E0DD41 88%,#E0DD41 100%); /* Opera 11.10+ */
-		background: -ms-linear-gradient(top, #EDEDED 0%,#D8D8D8 88%,#E0DD41 88%,#E0DD41 100%); /* IE10+ */
-		background: linear-gradient(top, #EDEDED 0%,#D8D8D8 88%,#E0DD41 88%,#E0DD41 100%); /* W3C */
+		background-image:url(../../images/cal-2-yel.png);
+		background-image:url(../../images/cal-2-yel.png), -moz-linear-gradient(top,  #ededed 0%, #d8d8d8 100%); /* FF3.6+ */
+		background-image:url(../../images/cal-2-yel.png), -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ededed), color-stop(100%,#d8d8d8)); /* Chrome,Safari4+ */
+		background-image:url(../../images/cal-2-yel.png), -webkit-linear-gradient(top,  #ededed 0%,#d8d8d8 100%); /* Chrome10+,Safari5.1+ */
+		background-image:url(../../images/cal-2-yel.png), -o-linear-gradient(top,  #ededed 0%,#d8d8d8 100%); /* Opera 11.10+ */
+		background-image:url(../../images/cal-2-yel.png), -ms-linear-gradient(top,  #ededed 0%,#d8d8d8 100%); /* IE10+ */
+		background-image:url(../../images/cal-2-yel.png), linear-gradient(to bottom,  #ededed 0%,#d8d8d8 100%); /* W3C */
+		background-repeat:repeat-x;
+		background-position: bottom center;
 	}
 	.calendar-cell-empty {
 		cursor:pointer;
-		background: #81C149;
-		background: -moz-linear-gradient(top, #EDEDED 0%, #D8D8D8 88%, #81C149 88%, #81C149 100%); /* FF3.6+ */
-		background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#EDEDED), color-stop(88%,#D8D8D8), color-stop(88%,#81C149), color-stop(100%,#81C149)); /* Chrome,Safari4+ */
-		background: -webkit-linear-gradient(top, #EDEDED 0%,#D8D8D8 88%,#81C149 88%,#81C149 100%); /* Chrome10+,Safari5.1+ */
-		background: -o-linear-gradient(top, #EDEDED 0%,#D8D8D8 88%,#81C149 88%,#81C149 100%); /* Opera 11.10+ */
-		background: -ms-linear-gradient(top, #EDEDED 0%,#D8D8D8 88%,#81C149 88%,#81C149 100%); /* IE10+ */
-		background: linear-gradient(top, #EDEDED 0%,#D8D8D8 88%,#81C149 88%,#81C149 100%); /* W3C */
+		background-image:url(../../images/cal-2-green.png);
+		background-image:url(../../images/cal-2-green.png), -moz-linear-gradient(top,  #ededed 0%, #d8d8d8 100%); /* FF3.6+ */
+		background-image:url(../../images/cal-2-green.png), -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ededed), color-stop(100%,#d8d8d8)); /* Chrome,Safari4+ */
+		background-image:url(../../images/cal-2-green.png), -webkit-linear-gradient(top,  #ededed 0%,#d8d8d8 100%); /* Chrome10+,Safari5.1+ */
+		background-image:url(../../images/cal-2-green.png), -o-linear-gradient(top,  #ededed 0%,#d8d8d8 100%); /* Opera 11.10+ */
+		background-image:url(../../images/cal-2-green.png), -ms-linear-gradient(top,  #ededed 0%,#d8d8d8 100%); /* IE10+ */
+		background-image:url(../../images/cal-2-green.png), linear-gradient(to bottom,  #ededed 0%,#d8d8d8 100%); /* W3C */
+		background-repeat:repeat-x;
+		background-position: bottom center;
 	}
 	.calendar-header-month-prev {
 		cursor:pointer;
@@ -176,4 +182,50 @@
 		-webkit-box-shadow: 0 1px 5px rgba(226,24,24,0.6) !important;
 		-moz-box-shadow: 0 1px 5px rgba(226,24,24,0.6) !important;
 		box-shadow: 0 1px 5px rgba(226,24,24,0.6) !important;
+	}
+
+	td.calendar-cell-occupied2.calendar-cell-halfend {
+		background-image:url(../../images/cal-2-end-yel.png);
+		background-image:url(../../images/cal-2-end-yel.png), -moz-linear-gradient(top,  #ededed 0%, #d8d8d8 100%); /* FF3.6+ */
+		background-image:url(../../images/cal-2-end-yel.png), -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ededed), color-stop(100%,#d8d8d8)); /* Chrome,Safari4+ */
+		background-image:url(../../images/cal-2-end-yel.png), -webkit-linear-gradient(top,  #ededed 0%,#d8d8d8 100%); /* Chrome10+,Safari5.1+ */
+		background-image:url(../../images/cal-2-end-yel.png), -o-linear-gradient(top,  #ededed 0%,#d8d8d8 100%); /* Opera 11.10+ */
+		background-image:url(../../images/cal-2-end-yel.png), -ms-linear-gradient(top,  #ededed 0%,#d8d8d8 100%); /* IE10+ */
+		background-image:url(../../images/cal-2-end-yel.png), linear-gradient(to bottom,  #ededed 0%,#d8d8d8 100%); /* W3C */
+		background-repeat:no-repeat;
+		background-position: bottom center;
+	}
+	td.calendar-cell-occupied2.calendar-cell-halfstart {
+		background-image:url(../../images/cal-2-start-yel.png);
+		background-image:url(../../images/cal-2-start-yel.png), -moz-linear-gradient(top,  #ededed 0%, #d8d8d8 100%); /* FF3.6+ */
+		background-image:url(../../images/cal-2-start-yel.png), -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ededed), color-stop(100%,#d8d8d8)); /* Chrome,Safari4+ */
+		background-image:url(../../images/cal-2-start-yel.png), -webkit-linear-gradient(top,  #ededed 0%,#d8d8d8 100%); /* Chrome10+,Safari5.1+ */
+		background-image:url(../../images/cal-2-start-yel.png), -o-linear-gradient(top,  #ededed 0%,#d8d8d8 100%); /* Opera 11.10+ */
+		background-image:url(../../images/cal-2-start-yel.png), -ms-linear-gradient(top,  #ededed 0%,#d8d8d8 100%); /* IE10+ */
+		background-image:url(../../images/cal-2-start-yel.png), linear-gradient(to bottom,  #ededed 0%,#d8d8d8 100%); /* W3C */
+		background-repeat:no-repeat;
+		background-position:bottom center;
+	}
+	
+	td.calendar-cell-full2.calendar-cell-halfend {
+		background-image:url(../../images/cal-2-end-red.png);
+		background-image:url(../../images/cal-2-end-red.png), -moz-linear-gradient(top,  #ededed 0%, #d8d8d8 100%); /* FF3.6+ */
+		background-image:url(../../images/cal-2-end-red.png), -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ededed), color-stop(100%,#d8d8d8)); /* Chrome,Safari4+ */
+		background-image:url(../../images/cal-2-end-red.png), -webkit-linear-gradient(top,  #ededed 0%,#d8d8d8 100%); /* Chrome10+,Safari5.1+ */
+		background-image:url(../../images/cal-2-end-red.png), -o-linear-gradient(top,  #ededed 0%,#d8d8d8 100%); /* Opera 11.10+ */
+		background-image:url(../../images/cal-2-end-red.png), -ms-linear-gradient(top,  #ededed 0%,#d8d8d8 100%); /* IE10+ */
+		background-image:url(../../images/cal-2-end-red.png), linear-gradient(to bottom,  #ededed 0%,#d8d8d8 100%); /* W3C */
+		background-repeat:no-repeat;
+		background-position:  bottom center;
+	}
+	td.calendar-cell-full2.calendar-cell-halfstart {
+		background-image:url(../../images/cal-2-start-red.png);
+		background-image:url(../../images/cal-2-start-red.png), -moz-linear-gradient(top,  #ededed 0%, #d8d8d8 100%); /* FF3.6+ */
+		background-image:url(../../images/cal-2-start-red.png), -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ededed), color-stop(100%,#d8d8d8)); /* Chrome,Safari4+ */
+		background-image:url(../../images/cal-2-start-red.png), -webkit-linear-gradient(top,  #ededed 0%,#d8d8d8 100%); /* Chrome10+,Safari5.1+ */
+		background-image:url(../../images/cal-2-start-red.png), -o-linear-gradient(top,  #ededed 0%,#d8d8d8 100%); /* Opera 11.10+ */
+		background-image:url(../../images/cal-2-start-red.png), -ms-linear-gradient(top,  #ededed 0%,#d8d8d8 100%); /* IE10+ */
+		background-image:url(../../images/cal-2-start-red.png), linear-gradient(to bottom,  #ededed 0%,#d8d8d8 100%); /* W3C */
+		background-repeat:no-repeat;
+		background-position: bottom center;
 	}

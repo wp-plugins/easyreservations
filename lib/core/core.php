@@ -84,10 +84,10 @@ License:GPL2
 					$xml = new stdClass();
 					$xml->latestc = '1.1.5'; //Calendar
 					$xml->latestd = '1.2.3'; //Chat
-					$xml->latestp = '1.2.4'; //PayPal
+					$xml->latestp = '1.2.5'; //PayPal
 					$xml->latestlang = '1.1.1'; //language
-					$xml->latests = '1.1.9'; //searchFrom
-					$xml->latesthc = '1.0.2'; //hourlyCal
+					$xml->latests = '1.1.10'; //searchFrom
+					$xml->latesthc = '1.0.3'; //hourlyCal
 				}
 				$the_modules = array(
 						array(
@@ -116,7 +116,7 @@ License:GPL2
 								'content' => __( 'Your guest can pay their reservations directly through PayPal! Adds the PayPal Buy Now Button after form submits and to userCP if not paid. Automatically approve new reservations and/or paid reservations. Payment verification by IPN.' , 'easyReservations' ),
 								'xml' => 'latestp',
 								'function' => 'easyreservations_validate_payment',
-								'vers' => '1.2.4',
+								'vers' => '1.2.5',
 								'image' => 'paypal',
 								'beta' => 0
 						),
@@ -126,7 +126,7 @@ License:GPL2
 								'content' => __( 'New shortcode to let your guests search for available resources. No reload for searching, compatible to calendar, show price, show unavailable resources too, link to form with automatically selection. Each resource can have a small one-column calendar to show when its availble.' , 'easyReservations' ),
 								'xml' => 'latests',
 								'function' => 'easyreservations_search_add_tinymce',
-								'vers' => '1.1.8',
+								'vers' => '1.1.10',
 								'image' => 'search',
 								'beta' => 0
 						),
@@ -136,7 +136,7 @@ License:GPL2
 								'content' => __( 'Show your guests the availability on a hourly basis.' , 'easyReservations' ),
 								'xml' => 'latesthc',
 								'function' => 'easyreservations_send_hourlycal_callback',
-								'vers' => '1.0.2',
+								'vers' => '1.0.3',
 								'image' => 'time',
 								'beta' => 0
 						),
@@ -166,7 +166,7 @@ License:GPL2
 								'content' => __( ' Let your guests login with their reservations ID and email to edit their reservation afterwards. They can switch between their reservations in a table. In addition it provides a chat-like feature to user-edit and admin. New messages in table, dummy message at start, admin notices, avatars and fully AJAX driven.' , 'easyReservations' ),
 								'xml' => 'latestd',
 								'function' => 'easyreservations_generate_chat',
-								'vers' => '1.2.3',
+								'vers' => '1.2.4',
 								'image' => 'chat',
 								'beta' => 0
 						),
@@ -186,7 +186,7 @@ License:GPL2
 								'content' => __( 'New Admin, Calendar and Form stlye. In addition it changes your datepickers style and disable unavailble dates in it.' , 'easyReservations' ),
 								'xml' => '',
 								'function' => 'easyreservations_register_datepicker_style',
-								'vers' => '1.2.1',
+								'vers' => '1.2.2',
 								'image' => 'to',
 								'beta' => 0
 						),
@@ -196,7 +196,7 @@ License:GPL2
 								'content' => __( 'Let your guests enter coupon codes for discounts.' , 'easyReservations' ),
 								'xml' => '',
 								'function' => 'easyreservations_calculate_coupon',
-								'vers' => '1.0.1',
+								'vers' => '1.0.3',
 								'image' => 'money',
 								'beta' => 0
 						),

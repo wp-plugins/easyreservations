@@ -17,7 +17,7 @@
 		if (wp_style_is('easy-cal-'.$style, 'registered')) wp_enqueue_style('easy-cal-'.$style, false, array(), false, 'all');
 		else wp_enqueue_style('easy-form-none' , false, array(), false, 'all');	
 
-		if(isset($_POST['room']) && is_numeric($_POST['room'])) $room = $_POST['room'];
+		if(isset($_POST['easyroom']) && is_numeric($_POST['easyroom'])) $room = $_POST['easyroom'];
                 
 		$return = '<form name="CalendarFormular" id="CalendarFormular" style="margin:0px !important;padding:0px !important;display:inline-block">';
 			$return .= '<input type="hidden" name="easyroom" onChange="easyreservations_send_calendar(\'shortcode\')" value="'.$room.'">';

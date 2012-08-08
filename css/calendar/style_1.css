@@ -171,6 +171,32 @@
 		box-shadow: 0 1px 5px rgba(226,24,24,0.6) !important;
 	}
 	.calendar-cell-price {
-			display: block !important;
-			font-weight: normal;
+		display: block !important;
+		font-weight: normal;
+	}
+	
+	td.calendar-cell-occupied2.calendar-cell-halfend {
+		color:#fff;
+		background-image:url(../../images/cal-1-end-yel.png);
+		background-repeat:no-repeat;
+		background-position: bottom left;
+	}
+	td.calendar-cell-occupied2.calendar-cell-halfstart {
+		color:#fff;
+		background-image:url(../../images/cal-1-start-yel.png);
+		background-repeat:no-repeat;
+		background-position:top right;
+	}
+	
+	td.calendar-cell-full2.calendar-cell-halfend {
+		color:#fff;
+		background-image:url(../../images/cal-1-end-red.png);
+		background-repeat:no-repeat;
+		background-position:  bottom left;
+	}
+	td.calendar-cell-full2.calendar-cell-halfstart {
+		color:#fff;
+		background-image:url(../../images/cal-1-start-red.png);
+		background-repeat:no-repeat;
+		background-position: top right;
 	}

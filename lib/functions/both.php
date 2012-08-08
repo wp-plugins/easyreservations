@@ -550,15 +550,19 @@
 					if(date("d.m.Y", $dateofeachday) == date("d.m.Y", time())) $todayClass=" today";
 					else $todayClass="";
 
-					$avail = floor($res->checkAvailability(3));
+					$avail = $res->checkAvailability(3);
 
-					if($avail >= $room_count){
-						$backgroundtd=" calendar-cell-full";
-					} elseif($avail > 0){
-						$backgroundtd=" calendar-cell-occupied";
-					} else {
-						$backgroundtd=" calendar-cell-empty";
-					}
+					if(floor($avail) >= $room_count) $backgroundtd=" calendar-cell-full";
+					elseif(floor($avail) > 0) $backgroundtd=" calendar-cell-occupied";
+					else $backgroundtd=" calendar-cell-empty";
+
+					if(round($avail) >= $room_count) $backgroundtd.=" calendar-cell-full2";
+					elseif(round($avail) > 0) $backgroundtd.=" calendar-cell-occupied2";
+					else $backgroundtd.=" calendar-cell-empty2";
+					
+					if($avail  == 0.51) $backgroundtd.=" calendar-cell-halfstart";
+					elseif($avail == 0.5) $backgroundtd.=" calendar-cell-halfend";
+
 					if($dateofeachday > time()) $onclick = 'onclick="easyreservations_click_calendar(this,\''.date(RESERVATIONS_DATE_FORMAT, $dateofeachday).'\', \''.$rand.'\', \''.$key.'\')"'; else $onclick ='style="cursor:default"';
 					echo '<td class="calendar-cell'.$todayClass.$backgroundtd.'" '.$onclick.' id="easy-cal-'.$rand.'-'.$diff.'-'.$key.'" axis="'.$diff.'">'.$diff.''.$final_price.'</td>'; $setet++; $diff++;
 					if($setet==0 || $setet==7 || $setet==14 || $setet==21 || $setet==28) echo '</tr>';
