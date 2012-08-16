@@ -19,7 +19,7 @@ function easyreservations_send_validate(y){
 		else alert('no room field - correct that')
 		var interval_array = eval("(" + easyAjax.interval + ")");
 		var interval = interval_array[room];
-		var nights = 1; var to = ''; var toplus = 0; var fromplus = 0; var childs = 0; var persons = 1; var captcha = 'x!'; var tom = 0; var toh = 12; var fromm = 0; var fromh = 12; var theid = '';
+		var nights = 1; var to = ''; var toplus = 0; var fromplus = 0; var childs = 0; var persons = 1; var captcha = 'x!'; var tom = 0; var toh = 12*60; var fromm = 0; var fromh = 12*60; var theid = '';
 
 		if(y) var mode = y;
 		else mode = 'normal';
@@ -32,7 +32,6 @@ function easyreservations_send_validate(y){
 			var from = fromfield.value;
 			if(document.getElementById('date-from-hour')) fromh = parseInt(document.getElementById('date-from-hour').value) * 60;
 			if(document.getElementById('date-from-min')) fromm = parseInt(document.getElementById('date-from-min').value);
-			toh =  fromm;
 			fromplus = (fromh + fromm)*60;
 		} else alert('no arrival field - correct that');
 
@@ -40,13 +39,13 @@ function easyreservations_send_validate(y){
 		if(tofield){
 			tofield.style.borderColor = '#DDDDDD';
 			to = tofield.value;
-			if(document.getElementById('date-to-hour')) toh = parseInt(document.getElementById('date-to-hour').value) * 60;
-			if(document.getElementById('date-to-min')) tom = parseInt(document.getElementById('date-to-min').value);
 		} else {
 			if(document.easyFrontendFormular.nights){
 				nights = document.easyFrontendFormular.nights.value;
 			}
 		}
+		if(document.getElementById('date-to-hour')) toh = parseInt(document.getElementById('date-to-hour').value) * 60;
+		if(document.getElementById('date-to-min')) tom = parseInt(document.getElementById('date-to-min').value);
 		toplus = (toh + tom)*60;
 
 		if(from){
@@ -135,7 +134,34 @@ function easyreservations_send_validate(y){
 					}
 				}
 				errors_state = 0;
-				if(errornr == 0 && mode == 'send') document.getElementById('easyFrontendFormular').submit();
+				if(errornr == 0 && mode == 'send'){
+					jQuery('[id^="custom_price"]:checked,select[id^="custom_price"]').each(function(){
+						var price = 0;
+						var addprice = 0;
+						var Type = this.type;
+						if(Type == "select-one"){
+							explodenormalprice = this.value.split(':');
+							addprice = 1;
+						} else if(Type == "radio" &&  this.checked != undefined && this.checked){
+							explodenormalprice = this.value.split(':');
+							addprice = 1;
+						} else if(Type == "checkbox" &&  this.checked){
+							explodenormalprice = this.value.split(':');
+							addprice = 1;
+						} else if(Type == "hidden"){
+							explodenormalprice = this.value.split(':');
+							addprice = 1;
+						}
+						if(addprice == 1){
+							fieldprice = explodenormalprice[1];
+							fieldprice = fakeIfStatements(fieldprice, persons, childs, nights, room);
+							if(fieldprice !== false){
+								if(!isNaN(parseFloat(fieldprice)) && isFinite(fieldprice)) this.value = explodenormalprice[0]+':'+fieldprice;
+							}
+						}
+					});
+					document.getElementById('easyFrontendFormular').submit();
+				}
 			});
 		}
 	}

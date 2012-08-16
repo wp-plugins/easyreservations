@@ -29,44 +29,47 @@ class easyReservations_form_widget extends WP_Widget {
 		else $showPrice = 0;
 
 		if($calendar_width == 0 || empty($calendar_width)) $calendar_width = 180;
-		$theForm = stripslashes($form_editor);
+		
+		if(!empty($form_editor)){
+			$theForm = stripslashes($form_editor);
 
-		$tags = easyreservations_shortcode_parser($theForm, true);
-		$form_date = 0;
+			$tags = easyreservations_shortcode_parser($theForm, true);
+			$form_date = 0;
 
-		foreach($tags as $fields){
-			$field=shortcode_parse_atts( $fields);
-			if($field[0]=="date-from"){
-				$theForm=str_replace('['.$fields.']', '<input id="easy-widget-datepicker-from" type="text" name="from" value="'.date(RESERVATIONS_DATE_FORMAT, time()).'">', $theForm); $form_date++;
-			} elseif($field[0]=="date-to"){
-				$theForm=str_replace('['.$fields.']', '<input id="easy-widget-datepicker-to"  type="text" name="to" value="'.date(RESERVATIONS_DATE_FORMAT, time()+172800).'">', $theForm); $form_date++;
-			} elseif($field[0]=="date-from-hour" || $field[0]=="date-to-hour"){
-				if(isset($field[1])) $end = $field[1]; else $end = 0;
-				$theForm=str_replace('['.$fields.']', '<select id="easy-widget-'.$field[0].'" name="'.$field[0].'" style="width:42px">'.easyreservations_num_options("00", 23, $end).'</select>', $theForm);
-			} elseif($field[0]=="date-from-min" || $field[0]=="date-to-min"){
-				if(isset($field[1])) $end = $field[1]; else $end = 0;
-				$theForm=str_replace('['.$fields.']', '<select id="easy-widget-'.$field[0].'" name="'.$field[0].'" style="width:42px">'.easyreservations_num_options("00", 59, $end).'</select>', $theForm);
-			} elseif($field[0]=="units" || $field[0]=="nights" || $field[0]=="times"){
-				if(isset($field[1])) $number=$field[1]; else $number=31;
-				$theForm=preg_replace('/\['.$fields.'\]/', '<select id="easy-widget-nights" name="easy-form-nights">'.easyreservations_num_options(1,$number).'</select>', $theForm);
-			} elseif($field[0]=="persons" || $field[0]=="adults"){
-				$start = 1;
-				if(isset($field[1])) $end = $field[1]; else $end = 6;
-				if(isset($field[2])){ $start = $field[1]; $end = $field[2]; }
-				$theForm=preg_replace('/\['.$fields.'\]/', '<select name="persons">'.easyreservations_num_options($start,$end).'</select>', $theForm);
-			} elseif($field[0]=="childs"){
-				if(isset($field[1])) $end = $field[1]; else $end = 6;
-				if(isset($field[2])){ $start = $field[1]; $end = $field[2]; }
-				$theForm=preg_replace('/\['.$fields.'\]/', '<select name="childs">'.easyreservations_num_options($start,$end).'</select>', $theForm);
-			}  elseif($field[0]=="thename"){
-				$theForm=preg_replace('/\['.$fields.'\]/', '<input type="text" id="easy-widget-thename" name="thename">', $theForm);
-			}  elseif($field[0]=="email"){
-				$theForm=preg_replace('/\['.$fields.'\]/', '<input id="easy-widget-email"  type="text" name="email">', $theForm);
-			} elseif($field[0]=="country"){
-				$theForm=str_replace('['.$fields.']', '<select id="easy-widget-country" name="country">'.easyreservations_country_options('').'</select>', $theForm);
-			} elseif($field[0]=="rooms" || $field[0]=="resources"){		
-				if($calendar == true) $calendar_action = "document.widget_formular.easyroom.value=this.value;easyreservations_send_calendar('widget');"; else $calendar_action = '';
-				$theForm=str_replace('['.$fields.']', '<select name="easyroom" id="form_room" onchange="'.$calendar_action.'">'.easyreservations_resource_options($calendar_room).'</select>', $theForm);
+			foreach($tags as $fields){
+				$field=shortcode_parse_atts( $fields);
+				if($field[0]=="date-from"){
+					$theForm=str_replace('['.$fields.']', '<input id="easy-widget-datepicker-from" type="text" name="from" value="'.date(RESERVATIONS_DATE_FORMAT, time()).'">', $theForm); $form_date++;
+				} elseif($field[0]=="date-to"){
+					$theForm=str_replace('['.$fields.']', '<input id="easy-widget-datepicker-to"  type="text" name="to" value="'.date(RESERVATIONS_DATE_FORMAT, time()+172800).'">', $theForm); $form_date++;
+				} elseif($field[0]=="date-from-hour" || $field[0]=="date-to-hour"){
+					if(isset($field[1])) $end = $field[1]; else $end = 0;
+					$theForm=str_replace('['.$fields.']', '<select id="easy-widget-'.$field[0].'" name="'.$field[0].'" style="width:42px">'.easyreservations_num_options("00", 23, $end).'</select>', $theForm);
+				} elseif($field[0]=="date-from-min" || $field[0]=="date-to-min"){
+					if(isset($field[1])) $end = $field[1]; else $end = 0;
+					$theForm=str_replace('['.$fields.']', '<select id="easy-widget-'.$field[0].'" name="'.$field[0].'" style="width:42px">'.easyreservations_num_options("00", 59, $end).'</select>', $theForm);
+				} elseif($field[0]=="units" || $field[0]=="nights" || $field[0]=="times"){
+					if(isset($field[1])) $number=$field[1]; else $number=31;
+					$theForm=preg_replace('/\['.$fields.'\]/', '<select id="easy-widget-nights" name="easy-form-nights">'.easyreservations_num_options(1,$number).'</select>', $theForm);
+				} elseif($field[0]=="persons" || $field[0]=="adults"){
+					$start = 1;
+					if(isset($field[1])) $end = $field[1]; else $end = 6;
+					if(isset($field[2])){ $start = $field[1]; $end = $field[2]; }
+					$theForm=preg_replace('/\['.$fields.'\]/', '<select name="persons">'.easyreservations_num_options($start,$end).'</select>', $theForm);
+				} elseif($field[0]=="childs"){
+					if(isset($field[1])) $end = $field[1]; else $end = 6;
+					if(isset($field[2])){ $start = $field[1]; $end = $field[2]; }
+					$theForm=preg_replace('/\['.$fields.'\]/', '<select name="childs">'.easyreservations_num_options($start,$end).'</select>', $theForm);
+				}  elseif($field[0]=="thename"){
+					$theForm=preg_replace('/\['.$fields.'\]/', '<input type="text" id="easy-widget-thename" name="thename">', $theForm);
+				}  elseif($field[0]=="email"){
+					$theForm=preg_replace('/\['.$fields.'\]/', '<input id="easy-widget-email"  type="text" name="email">', $theForm);
+				} elseif($field[0]=="country"){
+					$theForm=str_replace('['.$fields.']', '<select id="easy-widget-country" name="country">'.easyreservations_country_options('').'</select>', $theForm);
+				} elseif($field[0]=="rooms" || $field[0]=="resources"){		
+					if($calendar == true) $calendar_action = "document.widget_formular.easyroom.value=this.value;easyreservations_send_calendar('widget');"; else $calendar_action = '';
+					$theForm=str_replace('['.$fields.']', '<select name="easyroom" id="form_room" onchange="'.$calendar_action.'">'.easyreservations_resource_options($calendar_room).'</select>', $theForm);
+				}
 			}
 		}
 
@@ -84,18 +87,19 @@ class easyReservations_form_widget extends WP_Widget {
 			<div id="show_widget_calendar"></div><?php
 			add_action('wp_print_footer_scripts', 'easyreservtions_send_cal_script_widget');
 
-		}  if(isset($form_url) && !empty($form_url)){ ?>
-		<form method="post" action="<?php echo $form_url; ?>" name="easy_widget_form" id="easy_widget_form">
-			<?php
-		} if($form_date > 0){
+		}  
+		if($form_date > 0){
 			add_action('wp_print_footer_scripts', 'easyreservatons_call_datepickers');
 		}
-		echo htmlspecialchars_decode($theForm);
-			
-		if(isset($form_url) && !empty($form_url)){ ?>
-			<p class="easy-submit"><input type="submit" class="easybutton" value="<?php echo $form_button; ?>"></p>
-		</form>
-			<?php
+		if(isset($theForm)){
+			if(isset($form_url) && !empty($form_url)){ ?>
+				<form method="post" action="<?php echo $form_url; ?>" name="easy_widget_form" id="easy_widget_form"><?php
+			}
+			echo htmlspecialchars_decode($theForm);
+			if(isset($form_url) && !empty($form_url)){ ?>
+				<p class="easy-submit"><input type="submit" class="easybutton" value="<?php echo $form_button; ?>"></p>
+			</form><?php
+			}
 		}
 		echo $after_widget;
 	}

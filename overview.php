@@ -121,7 +121,7 @@
 		if(isset($nonepage)) $date_style = 'ov-days-hover'; else $date_style = '';
 		while($co < $daysshow){
 			$thedaydate=$timesx+($interval*$co);
-			if(date("d.m.Y", $lastdate) != date("d.m.Y", $thedaydate)){
+			if($interval == 86400 || date("d.m.Y", $lastdate) != date("d.m.Y", $thedaydate)){
 				if($interval == 3600){
 					$tomorrow = strtotime(date("d.m.Y", $thedaydate))+86400;
 					$diff = round(($tomorrow - $thedaydate)/$interval);

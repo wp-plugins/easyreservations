@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: easyReservations\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-07-27 15:24+0100\n"
-"PO-Revision-Date: 2012-07-27 15:28+0100\n"
+"PO-Revision-Date: 2012-08-16 15:53+0100\n"
 "Last-Translator: feryaz <f.e.r.y@web.de>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -1744,9 +1744,8 @@ msgid "Formular"
 msgstr "Formular"
 
 #: js/tinyMCE/tinyMCE_shortcode_add.php:88
-#, fuzzy
 msgid "Calendar"
-msgstr "Kalendarwoche"
+msgstr "Kalendar"
 
 #: js/tinyMCE/tinyMCE_shortcode_add.php:90
 #, fuzzy
@@ -1780,9 +1779,8 @@ msgstr "Änderungshistorie"
 
 #: js/tinyMCE/tinyMCE_shortcode_add.php:119
 #: js/tinyMCE/tinyMCE_shortcode_add.php:121
-#, fuzzy
 msgid "Custom Style"
-msgstr "Style benutzen"
+msgstr "Eigener Style"
 
 #: js/tinyMCE/tinyMCE_shortcode_add.php:126
 #, fuzzy
@@ -1936,12 +1934,12 @@ msgstr "Das Ankunftsdatum muss in der Zukunft sein"
 #: lib/classes/reservation.class.php:636
 #, php-format
 msgid "At least %1$s persons in %2$s"
-msgstr "Maximal %1$s Personen in %2$s"
+msgstr "Mindestens %1$s Personen in %2$s"
 
 #: lib/classes/reservation.class.php:640
 #, php-format
 msgid "Maximum %1$s persons in %2$s"
-msgstr "Mindestens %1$s Personen in %2$s"
+msgstr "Maximal %1$s Personen in %2$s"
 
 #: lib/classes/reservation.class.php:644
 #, php-format
@@ -1951,7 +1949,7 @@ msgstr "Maximal %1$s %2$s in %3$s"
 #: lib/classes/reservation.class.php:648
 #, php-format
 msgid "Maximum %1$s %2$s in %3$s"
-msgstr "Mindestens %1$s %2$s in %3$s"
+msgstr "Maximal %1$s %2$s in %3$s"
 
 #: lib/classes/reservation.class.php:813
 #: lib/functions/both.php:241
@@ -2841,16 +2839,14 @@ msgstr "link für Gäste zum editieren"
 
 #: lib/modules/htmlmails/htmlmails.php:148
 #: lib/modules/htmlmails/htmlmails.php:398
-#, fuzzy
 msgid "PayPal URL"
-msgstr "PayPal Modul"
+msgstr "PayPal URL"
 
 #: lib/modules/htmlmails/htmlmails.php:382
 msgid "Line Break"
 msgstr ""
 
 #: lib/modules/htmlmails/htmlmails.php:383
-#, fuzzy
 msgid "Arrival"
 msgstr "Ankunft"
 
@@ -2989,9 +2985,8 @@ msgid "translateable content"
 msgstr ""
 
 #: lib/modules/lang/lang.php:32
-#, fuzzy
 msgid "Translate"
-msgstr "Weggeworfen"
+msgstr "Übersetzen"
 
 #: lib/modules/lang/lang.php:67
 msgid "Language"
@@ -3022,14 +3017,12 @@ msgid "PayPal"
 msgstr "PayPal Modul"
 
 #: lib/modules/paypal/paypal.php:46
-#, fuzzy
 msgid "PayPal settings changed"
-msgstr "Berechtigungen geändert"
+msgstr "PayPal einstellungen geändert"
 
 #: lib/modules/paypal/paypal.php:64
-#, fuzzy
 msgid "Paypal settings"
-msgstr "Tabellen Einstellungen"
+msgstr "PayPal settings"
 
 #: lib/modules/paypal/paypal.php:71
 msgid "The validation only works with SSL in Sandbox"
@@ -3041,9 +3034,8 @@ msgid "Off"
 msgstr ""
 
 #: lib/modules/paypal/paypal.php:73
-#, fuzzy
 msgid "Sandbox"
-msgstr "und"
+msgstr "Sandbox"
 
 #: lib/modules/paypal/paypal.php:74
 #, fuzzy
@@ -3051,9 +3043,8 @@ msgid "Live"
 msgstr "Aktiv"
 
 #: lib/modules/paypal/paypal.php:92
-#, fuzzy
 msgid "Owner"
-msgstr "Andere"
+msgstr "Besitzer"
 
 #: lib/modules/paypal/paypal.php:93
 msgid "Paypal eMail or Secure Merchant ID"
@@ -3065,9 +3056,8 @@ msgid "Button"
 msgstr "Absende Button"
 
 #: lib/modules/paypal/paypal.php:131
-#, fuzzy
 msgid "Currency"
-msgstr "Momentan"
+msgstr "Währung"
 
 #: lib/modules/paypal/paypal.php:144
 #, fuzzy

@@ -84,7 +84,7 @@ License:GPL2
 					$xml = new stdClass();
 					$xml->latestc = '1.1.5'; //Calendar
 					$xml->latestd = '1.2.3'; //Chat
-					$xml->latestp = '1.2.5'; //PayPal
+					$xml->latestp = '1.2.6'; //PayPal
 					$xml->latestlang = '1.1.1'; //language
 					$xml->latests = '1.1.10'; //searchFrom
 					$xml->latesthc = '1.0.3'; //hourlyCal
@@ -106,17 +106,17 @@ License:GPL2
 								'content' => __( 'Style your eMails with HTML to increase the appereance of your hospitality.' , 'easyReservations' ),
 								'xml' => '',
 								'function' => 'easyreservations_send_multipart_mail',
-								'vers' => '1.1.9',
+								'vers' => '1.1.2',
 								'image' => 'email',
-								'beta' => 0
-						),
+								'beta' => 0	
+					),
 						array(
 								'slug' => 'paypal',
 								'title' => __( 'PayPal Module' , 'easyReservations' ),
 								'content' => __( 'Your guest can pay their reservations directly through PayPal! Adds the PayPal Buy Now Button after form submits and to userCP if not paid. Automatically approve new reservations and/or paid reservations. Payment verification by IPN.' , 'easyReservations' ),
 								'xml' => 'latestp',
 								'function' => 'easyreservations_validate_payment',
-								'vers' => '1.2.5',
+								'vers' => '1.2.6',
 								'image' => 'paypal',
 								'beta' => 0
 						),
@@ -186,7 +186,7 @@ License:GPL2
 								'content' => __( 'New Admin, Calendar and Form stlye. In addition it changes your datepickers style and disable unavailble dates in it.' , 'easyReservations' ),
 								'xml' => '',
 								'function' => 'easyreservations_register_datepicker_style',
-								'vers' => '1.2.2',
+								'vers' => '1.2.3',
 								'image' => 'to',
 								'beta' => 0
 						),
@@ -196,7 +196,7 @@ License:GPL2
 								'content' => __( 'Let your guests enter coupon codes for discounts.' , 'easyReservations' ),
 								'xml' => '',
 								'function' => 'easyreservations_calculate_coupon',
-								'vers' => '1.0.3',
+								'vers' => '1.0.4',
 								'image' => 'money',
 								'beta' => 0
 						),

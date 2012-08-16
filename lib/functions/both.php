@@ -605,7 +605,7 @@
 		if(!empty($_POST['to'])){
 			$val_to = strtotime($_POST['to']) + (int) $_POST['toplus'] ;
 		} else {
-			$val_to = $val_from + ($_POST['nights'] * $the_rooms_intervals_array[$room]);
+			$val_to = strtotime(date("d.m.Y", $val_from)) + ($_POST['nights'] * $the_rooms_intervals_array[$room])  + (int) $_POST['toplus'];
 		}
 		if(!empty($_POST['email'])) $email = $_POST['email'];
 		else $email = "test@test.de";
@@ -641,12 +641,12 @@
 		global $the_rooms_intervals_array;
 		
 		$val_room = $_POST['room'];
-		$val_from = strtotime($_POST['from']) + (int) $_POST['fromplus'] ;
+		$val_from = strtotime($_POST['from']) + (int) $_POST['fromplus'];
 		if(!empty($_POST['to'])){
-			$val_to = strtotime($_POST['to']) + (int) $_POST['toplus'] ;
+			$val_to = strtotime($_POST['to']) + (int) $_POST['toplus'];
 			$field = 'easy-form-to';
 		} else {
-			$val_to = $val_from + ($_POST['nights'] * $the_rooms_intervals_array[$val_room]);
+			$val_to = strtotime(date("d.m.Y", $val_from)) + ($_POST['nights'] * $the_rooms_intervals_array[$val_room])  + (int) $_POST['toplus'];
 			$field = 'easy-form-units';
 		}
 		if(isset($_POST['id'])) $id = $_POST['id'];

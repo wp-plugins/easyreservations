@@ -413,7 +413,7 @@ if($settingpage=="general"){
 						<td><input type="checkbox" id="checkmerge" name="reservations_resourcemerge_box" value="1" <?php if(isset($reservations_settings['mergeres']) && $reservations_settings['mergeres'] > 0) echo 'checked="checked"'; ?>> <?php echo sprintf(__( 'Check availability over all resources with max %s reservations at the same time regardless of the resource' , 'easyReservations' ), '<select name="reservations_resourcemerge" onclick="document.getElementById(\'checkmerge\').checked = true;">'.easyreservations_num_options(0,99,$thenum).'</select>');?></td>
 					</tr>
 					<tr valign="top">
-						<td style="font-weight:bold;height:25px"><img style="vertical-align:text-bottom;margin-right:2px;" src="<?php echo RESERVATIONS_URL; ?>/images/help.png"> <b><?php printf ( __( 'Tutoial' , 'easyReservations' ));?></b></td>
+						<td style="font-weight:bold;height:25px"><img style="vertical-align:text-bottom;margin-right:2px;" src="<?php echo RESERVATIONS_URL; ?>/images/help.png"> <b><?php printf ( __( 'Tutorial' , 'easyReservations' ));?></b></td>
 						<td><input type="checkbox" name="reservations_tutorial" value="1" <?php echo checked($reservations_settings['tutorial'], 1); ?>> <?php printf ( __( 'Enable tutorial mode' , 'easyReservations' ));?> <a class="button" href="admin.php?page=reservation-settings&tutorial_histoy=0">Reset</a></td>
 					</tr>
 					<tr valign="top"  class="alternate" style="height:35px">
@@ -452,7 +452,7 @@ if($settingpage=="general"){
 					</thead>
 					<tbody>
 						<tr>
-							<td style="font-weight:bold;padding:10px;text-align:center"><span style="width:20%;display: inline-block">Version: <?php echo RESERVATIONS_VERSION; ?></span><span style="width:30%;display: inline-block">Last update: 08.08.2012</span><span style="width:30%;display: inline-block">written by Feryaz Beer</span></td>
+							<td style="font-weight:bold;padding:10px;text-align:center"><span style="width:20%;display: inline-block">Version: <?php echo RESERVATIONS_VERSION; ?></span><span style="width:30%;display: inline-block">Last update: 13.08.2012</span><span style="width:30%;display: inline-block">written by Feryaz Beer</span></td>
 						</tr>
 						<tr class="alternate">
 							<td style="font-size:14px;text-align:center;font-weight:bold;padding:10px"><a href="http://easyreservations.org/knowledgebase/" target="_blank" id="iddocumentation"><?php echo __( 'Documentation' , 'easyReservations' );?></a></td>
@@ -1148,7 +1148,7 @@ function jumpto(x){ // Chained inputs;
 
 			thetext2 = true;
 			document.form1.eins.disabled=true;
-		} 
+		}
 	} else if(thetext3 == false){
 		if (x == "Name") {
 			end = 1;
@@ -1417,7 +1417,7 @@ ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrival] <br>To: [depa
 				</thead>
 				<tbody>
 					<tr>
-						<td style="font-weight:bold;padding:10px;text-align:center"><span style="width:20%;display: inline-block">Version: <?php echo RESERVATIONS_VERSION; ?></span><span style="width:30%;display: inline-block">Last update: 08.08.2012</span><span style="width:30%;display: inline-block">written by Feryaz Beer</span></td>
+						<td style="font-weight:bold;padding:10px;text-align:center"><span style="width:20%;display: inline-block">Version: <?php echo RESERVATIONS_VERSION; ?></span><span style="width:30%;display: inline-block">Last update: 13.08.2012</span><span style="width:30%;display: inline-block">written by Feryaz Beer</span></td>
 					</tr>
 					<tr class="alternate">
 						<td style="font-size:14px;text-align:center;font-weight:bold;padding:10px"><a href="http://easyreservations.org/knowledgebase/" target="_blank" id="iddocumentation"><?php echo __( 'Documentation' , 'easyReservations' );?></a></td>

@@ -199,7 +199,7 @@
 				$countpriceadd++;
 			}
 
-			$checkprice=$this->price;		
+			$checkprice=$this->price;
 			if($price_per_person == 1 && ($this->adults > 1 || $this->childs > 0)) {  // Calculate Price if  "Calculate per person"  was choosen
 
 				if($this->adults > 1){
@@ -334,8 +334,7 @@
 						if(!empty($code)) $coupons[] = array('type' => 'coup','value'=>$code);
 					}
 					if(!empty($coupons)) $save = easyreservations_calculate_coupon($coupons, $this, $countpriceadd);
-				}
-				elseif(!empty($this->prices)) $save = easyreservations_calculate_coupon($this->prices, $this, $countpriceadd);
+				} elseif(!isset($this->fake) && !empty($this->prices)) $save = easyreservations_calculate_coupon($this->prices, $this, $countpriceadd);
 				if(!empty($save)){
 					$this->price += $save['price'];
 					if($history) $this->history = array_merge((array) $this->history, (array) $save['exactly']);
@@ -411,7 +410,7 @@
 						$count = $wpdb->get_var($wpdb->prepare("SELECT COUNT(*) FROM ".$wpdb->prefix."reservations WHERE approve='yes' AND $res_sql $res_number $idsql '$startdate' <= departure AND '$enddate' >= arrival"));
 						if(!empty($res_number) || $count > $roomcount) $error += $count;
 					} else {
-						for($i=$this->arrival; $this->departure - $i >= $interval/2; $i+=$interval){
+						for($i=$this->arrival; $this->departure - $i > 0; $i+=$interval){
 							$startdate=date("Y-m-d H:i:s", $i);
 							$enddate=date("Y-m-d H:i:s", $i+$interval);
 							if($interval == 3600){
@@ -432,7 +431,8 @@
 						$addend  = " AND HOUR(departure) = HOUR('$startdate')";
 					}
 					$count = $wpdb->get_var("SELECT sum(Case When DATE(arrival) = DATE('$startdate')$addstart Then 0.51 When DATE(departure) = DATE('$startdate')$addend Then 0.5 Else 1 End) as count FROM ".$wpdb->prefix ."reservations WHERE approve='yes' AND $res_sql $idsql DATE('$startdate') BETWEEN DATE(arrival) AND DATE(departure) AND TIMESTAMPDIFF(SECOND, arrival, departure) >= $interval");
-					$error += $count;
+					if($mode == 4 && $count >= $roomcount) $error += $count;
+					elseif($mode == 3) $error += $count;
 				}
 			}
 
@@ -574,7 +574,9 @@
 
 		public function getTimes($mode = 1){
 			$number = ($this->departure-$this->arrival) / easyreservations_get_interval($this->interval, 0,  $mode);
-			return $this->times = ( is_numeric($number)) ? (ceil(ceil($number/0.01)*0.01)) : false;
+			$this->times = ( is_numeric($number)) ? (ceil(ceil($number/0.01)*0.01)) : false;
+			if($this->times < 1) $this->times = 1;
+			return $this->times;
 		}
 
 		public function Validate($mode = 'send', $avail = 1){
@@ -770,7 +772,7 @@
 					} elseif($field[0]=="paypal"){
 						$link = '';
 						if(function_exists('easyreservations_generate_paypal_button')){
-							$link = esc_url_raw(str_replace(' ', '%20', easyreservations_generate_paypal_button($this, $this->id, 0, true)));
+							$link = esc_url_raw(str_replace(' ', '%20', easyreservations_generate_paypal_button($this, $this->id, true, true)));
 						}
 						$theForm = str_replace('['.$fieldsx.']', $link, $theForm);
 					}
@@ -805,7 +807,6 @@
 					$to = $send_from;
 					$headers .= "Reply-To: $this->name <$this->email>\n";
 				} else $headers .= "Reply-To: ".get_bloginfo('name')." <$send_from>\n";
-				
 
 				$mail = @wp_mail($to,$subj,$msg,$headers, $attachment);
 
@@ -863,13 +864,14 @@
 				if($this->admin && $this->status != 'yes') $theval = false;
 				else $theval = $this->Validate('send', 0);
 				if(!$validate || !$theval){
-					if($mail){
+					$edit = $this->edit($this->ReservationToArray($array));
+					if($mail && !$edit){
 						if(!is_array($mail)) $mail = array($mail); 
 						if(!is_array($to)) $to = array($to);
 						//$this->generateChangelog();
 						foreach($mail as $key => $themail) $this->sendMail($mail[$key], $to[$key]);
 					}
-					return $this->edit($this->ReservationToArray($array));
+					return $edit;
 				} else return $theval;
 			}
 		}
@@ -887,12 +889,13 @@
 				foreach($this as $key => $information){
 					$array[$key] = $information;
 				}
-				if($mail){
+				$add = $this->add($this->ReservationToArray($array));
+				if($mail && !$add){
 					if(!is_array($mail)) $mail = array($mail);
 					if(!is_array($to)) $to = array($to);
 					foreach($mail as $key => $themail) $this->sendMail($mail[$key], $to[$key]);
 				}
-				return $this->add($this->ReservationToArray($array));
+				return $add;
 			} else return $validate;
 		}
 
@@ -913,6 +916,7 @@
 			if(isset($array['pricepaid'])) $array['price'] = $array['pricepaid'];
 			if(isset($array['arrival'])) $array['arrival'] = date('Y-m-d H:i:s', $array['arrival']);
 			if(isset($array['departure'])) $array['departure'] = date('Y-m-d H:i:s', $array['departure']);
+			if(!isset($array['price'])) $array['price'] = '';
 			unset($array['resource'], $array['resourcenumber'], $array['status'], $array['prices'], $array['adults'], $array['pricepaid']);
 			return $array;
 		}

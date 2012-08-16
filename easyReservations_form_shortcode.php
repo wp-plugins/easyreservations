@@ -68,15 +68,15 @@ function reservations_form_shortcode($atts){
 		else $room = false;
 
 		$arrivalplus = 0;
-		if(isset($_POST['date-from-hour'])) $arrivalplus = (int) $_POST['date-from-hour'] * 60;
+		if(isset($_POST['date-from-hour'])) $arrivalplus += (int) $_POST['date-from-hour'] * 60;
 		else $arrivalplus += 12*60;
 		if(isset($_POST['date-from-min'])) $arrivalplus += (int) $_POST['date-from-min'];
-		if($arrivalplus > 0) $arrivalplus *= 60;
+		if($arrivalplus > 0) $arrivalplus = $arrivalplus * 60;
 		$departureplus = 0;
 		if(isset($_POST['date-to-hour'])) $departureplus += (int) $_POST['date-to-hour'] * 60;
 		else $departureplus += 12*60;
 		if(isset($_POST['date-to-min'])) $departureplus += (int) $_POST['date-to-min'];
-		if($arrivalplus > 0) $departureplus *= 60;
+		if($departureplus > 0) $departureplus = $departureplus*60;
 		$arrival += $arrivalplus;
 		$departure += $departureplus;
 		$custom_form='';
@@ -119,7 +119,7 @@ function reservations_form_shortcode($atts){
 			$error.=  '<li><label>'.$e->getMessage().'</label></li>';
 		}
 
-		if(empty($error) && isset($arrival)) { //When Check gives no error Insert into Database and send mail
+		if(empty($error) && isset($arrival)){ //When Check gives no error Insert into Database and send mail
 			$finalform.= '<div class="easy_form_success"><b>'.$atts['submit'].'!</b>';
 			$res->Calculate();
 			$price = $res->price;
@@ -230,7 +230,7 @@ function reservations_form_shortcode($atts){
 			} elseif($field[1]=="childs"){
 				$theForm=preg_replace('/\['.$fields.'\]/', '<input type="hidden" name="childs" value="'.$field[2].'">', $theForm);
 			} else {
-				$theForm=preg_replace('/\['.$fields.'\]/', '<input type="hidden" name="'.$field[1].'" value="'.$field[2].'">', $theForm);
+				$theForm=preg_replace('/\['.$fields.'\]/', '<input type="hidden" name="'.$field[1].'" id="'.$field[1].'" value="'.$field[2].'">', $theForm);
 			}
 		} elseif($field[0]=="rooms" || $field[0]=="resources"){
 			$roomfield=1;
