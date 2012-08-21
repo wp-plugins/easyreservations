@@ -1252,21 +1252,21 @@ if(isset($_GET['page'])){
 		return $plugin_array;
 	}
 	
-	function easyreservations_get_allowed_rooms($rooms=0){
+	function easyreservations_get_allowed_rooms($rooms=0, $user = false){
 		if($rooms == 0) $rooms = easyreservations_get_rooms();
 		if(current_user_can('manage_options')) $final_rooms = $rooms;
 		else {
 			foreach($rooms as $room){
 				$get_role = get_post_meta($room->ID, 'easy-resource-permission', true);
-				if(current_user_can($get_role)) $final_rooms[] = $room;
+				if((!$user && current_user_can($get_role)) || user_can($user, $get_role)) $final_rooms[] = $room;
 			}
 		}
 		if(isset($final_rooms)) return $final_rooms;
 	}
 	
-	function easyreservations_get_allowed_rooms_mysql($rooms=0){
-		if($rooms == 0) $rooms = easyreservations_get_allowed_rooms();
-		else $rooms = easyreservations_get_allowed_rooms($rooms);
+	function easyreservations_get_allowed_rooms_mysql($rooms = 0, $user = false){
+		if($rooms == 0) $rooms = easyreservations_get_allowed_rooms(0, $user);
+		else $rooms = easyreservations_get_allowed_rooms($rooms, $user);
 		$mysql = "";
 
 		if(count($rooms) > 0){

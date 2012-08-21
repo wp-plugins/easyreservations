@@ -506,7 +506,7 @@ ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrival] <br>To: [depa
 	add_action('init','easyreservations_init_language');
 	add_action('admin_init','easyreservations_init_language');
 
-	function easyreservations_init_language(){
+	function easyreservations_init_language() {
 		load_plugin_textdomain('easyReservations', false, dirname(plugin_basename( __FILE__ )).'/languages/' );
 	}
 

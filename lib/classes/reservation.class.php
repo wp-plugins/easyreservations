@@ -109,7 +109,7 @@
 		public function ArrayToReservation($array){
 			if(!empty($array)){
 				foreach($array as $key => $information){
-					if(isset($this->$key) || in_array($key, array('fake', 'fixed'))) $this->$key = $information;
+					if(isset($this->$key) || in_array($key, array('fake', 'fixed', 'coupon'))) $this->$key = $information;
 				}
 			}
 
@@ -802,7 +802,7 @@
 
 				$headers = "From: ".get_bloginfo('name')." <$send_from>\n";
 
-				if(function_exists('easyreservations_insert_attachment')) $attachment = easyreservations_insert_attachment($this, str_replace('reservations_email_', '', $options_name));
+				if(!$attachment && function_exists('easyreservations_insert_attachment')) $attachment = easyreservations_insert_attachment($this, str_replace('reservations_email_', '', $options_name));
 				if(!$to || empty($to)){
 					$to = $send_from;
 					$headers .= "Reply-To: $this->name <$this->email>\n";

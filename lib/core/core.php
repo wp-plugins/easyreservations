@@ -96,7 +96,7 @@ License:GPL2
 								'content' => __( 'Generate totally customazible Invoices automatically from predefined templates. Including an editor for admins, invoices as email attachments and correct A4 Letter formats.' , 'easyReservations' ),
 								'xml' => '',
 								'function' => 'easyreservations_generate_invoice',
-								'vers' => '1.0.3',
+								'vers' => '1.0.4',
 								'image' => 'invoice',
 								'beta' => 0
 						),
@@ -116,7 +116,7 @@ License:GPL2
 								'content' => __( 'Your guest can pay their reservations directly through PayPal! Adds the PayPal Buy Now Button after form submits and to userCP if not paid. Automatically approve new reservations and/or paid reservations. Payment verification by IPN.' , 'easyReservations' ),
 								'xml' => 'latestp',
 								'function' => 'easyreservations_validate_payment',
-								'vers' => '1.2.6',
+								'vers' => '1.2.7',
 								'image' => 'paypal',
 								'beta' => 0
 						),
@@ -126,7 +126,7 @@ License:GPL2
 								'content' => __( 'New shortcode to let your guests search for available resources. No reload for searching, compatible to calendar, show price, show unavailable resources too, link to form with automatically selection. Each resource can have a small one-column calendar to show when its availble.' , 'easyReservations' ),
 								'xml' => 'latests',
 								'function' => 'easyreservations_search_add_tinymce',
-								'vers' => '1.1.10',
+								'vers' => '1.1.11',
 								'image' => 'search',
 								'beta' => 0
 						),
@@ -166,7 +166,7 @@ License:GPL2
 								'content' => __( ' Let your guests login with their reservations ID and email to edit their reservation afterwards. They can switch between their reservations in a table. In addition it provides a chat-like feature to user-edit and admin. New messages in table, dummy message at start, admin notices, avatars and fully AJAX driven.' , 'easyReservations' ),
 								'xml' => 'latestd',
 								'function' => 'easyreservations_generate_chat',
-								'vers' => '1.2.4',
+								'vers' => '1.2.6',
 								'image' => 'chat',
 								'beta' => 0
 						),
@@ -196,7 +196,7 @@ License:GPL2
 								'content' => __( 'Let your guests enter coupon codes for discounts.' , 'easyReservations' ),
 								'xml' => '',
 								'function' => 'easyreservations_calculate_coupon',
-								'vers' => '1.0.4',
+								'vers' => '1.0.5',
 								'image' => 'money',
 								'beta' => 0
 						),

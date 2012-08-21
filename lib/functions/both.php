@@ -618,8 +618,11 @@
 
 		if(isset($_POST['childs']) && !empty($_POST['childs'])) $childs = $_POST['childs'];
 		else $childs = 0;
-
-		$res = new Reservation(false, array('name' => 'abv', 'email' => $email, 'arrival' => $val_from,'departure' => $val_to,'resource' => (int) $room, 'adults' => (int) $persons, 'childs' => $childs,'reservated' => time(),'status' => '', 'prices' => (float) $customp, 'coupon' => $_POST['coupon']), false);
+		
+		if(isset($_POST['coupon'])) $coupon = $_POST['coupon'];
+		else $coupon = '';
+		
+		$res = new Reservation(false, array('name' => 'abv', 'email' => $email, 'arrival' => $val_from,'departure' => $val_to,'resource' => (int) $room, 'adults' => (int) $persons, 'childs' => $childs,'reservated' => time(),'status' => '', 'prices' => (float) $customp, 'coupon' => $coupon), false);
 		try {
 			echo easyreservations_format_money($res->Calculate());
 		} catch(easyException $e){
