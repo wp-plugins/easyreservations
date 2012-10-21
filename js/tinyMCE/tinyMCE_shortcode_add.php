@@ -44,7 +44,7 @@ if ( !is_user_logged_in() || !current_user_can('edit_posts') )
 	/* ]]> */
 	</script>
 	<style>
-		input[type="text"], select {
+		input[tcype="text"], select {
 			padding:3px;
 			width: 120px;
 			background-color: #FFFFFF;
@@ -123,25 +123,66 @@ function jumpto(x){ // Chained inputs;
 	if(x == "form"){
 		var FieldAdd = '<tr>';
 			FieldAdd += '<td nowrap="nowrap" valign="top"><label for="easyreservation_form_chooser"><?php _e("Form", "easyReservations"); ?></label></td>';
-			FieldAdd += '<td><label><select id="easyreservation_form_chooser" name="easyreservation_form_chooser" style="width: 100px"><?php echo $formoptions; ?></select></label> <?php _e("Select form template", "easyReservations"); ?></td>';
+			FieldAdd += '<td><select id="easyreservation_form_chooser" name="easyreservation_form_chooser" style="width: 100px"><?php echo $formoptions; ?></select> <?php _e("Select form template", "easyReservations"); ?></td>';
 			FieldAdd += '</tr>';
 			FieldAdd += '<tr>';
 			FieldAdd += '<td nowrap="nowrap" valign="top"><label for="easyreservations_resource"><?php _e("Resource", "easyReservations"); ?></label></td>';
-			FieldAdd += '<td><label><select id="easyreservations_resource" name="easyreservations_resource" style="width: 100px"><?php echo $roomsoptions; ?></select></label> <?php _e("Attached to reservations if no resource [tag] in form", "easyReservations"); ?></td>';
+			FieldAdd += '<td><select id="easyreservations_resource" name="easyreservations_resource" style="width: 100px"><?php echo $roomsoptions; ?></select> <?php _e("Attached to reservations if no resource [tag] in form", "easyReservations"); ?></td>';
 			FieldAdd += '</tr>';
 			FieldAdd += '<tr>';
-			FieldAdd += '<td nowrap="nowrap" valign="top"><label for="easyreservation_show_price"><?php _e("Style", "easyReservations"); ?></label></td>';
-			FieldAdd += '<td><label><select id="easyreservation_formstyle_chooser" name="easyreservation_formstyle_chooser" style="width: 100px"><option value="none"><?php _e("White", "easyReservations"); ?></option><option value="blue"><?php _e("Blue", "easyReservations"); ?></option><?php echo $customFormStyleOption ?></select></label> <?php _e("Select style", "easyReservations"); ?></td>';
+			FieldAdd += '<td nowrap="nowrap" valign="top"><label for="easyreservation_formstyle_chooser"><?php _e("Style", "easyReservations"); ?></label></td>';
+			FieldAdd += '<td><select id="easyreservation_formstyle_chooser" name="easyreservation_formstyle_chooser" style="width: 100px"><option value="none"><?php _e("White", "easyReservations"); ?></option><option value="blue"><?php _e("Blue", "easyReservations"); ?></option><?php echo $customFormStyleOption ?></select> <?php _e("Select style", "easyReservations"); ?></td>';
+			FieldAdd += '</tr>';
+			FieldAdd += '<tr>';
+			FieldAdd += '<td nowrap="nowrap" valign="top"><label for="easyreservation_multiple_check"><?php _e("Multiple reservations", "easyReservations"); ?></label></td>';
+			FieldAdd += '<td><input type="checkbox" name="easyreservation_multiple_check" id="easyreservation_multiple_check" checked> <?php _e("Allow multiple reservations in a ", "easyReservations"); ?> <select id="easyreservation_multiple_style" name="easyreservation_multiple_style" style="width: 100px"><option value="full"><?php _e("Full", "easyReservations"); ?></option><option value="popup"><?php _e("Popup", "easyReservations"); ?></option></select> <?php _e("Overlay", "easyReservations"); ?></td>';
+			FieldAdd += '</tr>';
+			FieldAdd += '<tr>';
+			FieldAdd += '<td colspan="2"><u><b><?php _e("Overlay", "easyReservations"); ?></b></u><br><?php _e("If multiple reservations are enabled the overlay will show the list of the reservations.", "easyReservations"); ?></td>';
+			FieldAdd += '</tr>';
+			FieldAdd += '<tr>';
+			FieldAdd += '<td nowrap="nowrap" style="vertical-align:top"><label for="easyreservation_form_val_message"><?php _e("Overlay message", "easyReservations"); ?>: </label></td>';
+			FieldAdd += '<td><input type="text" id="easyreservation_form_val_message" name="easyreservation_form_val_message" style="width: 250px;padding:3px;font-size:13px" value="Reservation successfully verified"></td>';
+			FieldAdd += '</tr>';
+			FieldAdd += '<tr>';
+			FieldAdd += '<td nowrap="nowrap" style="vertical-align:top"><label for="easyreservation_form_val_submessage"><?php _e("Overlay sub-message", "easyReservations"); ?>: </label></td>';
+			FieldAdd += '<td><textarea id="easyreservation_form_val_submessage" name="easyreservation_form_val_submessage" style="width: 250px;padding:3px;font-size:13px">Either make additional reservations or submit</textarea></td>';
+			FieldAdd += '</tr>';
+			FieldAdd += '<tr>';
+			FieldAdd += '<td nowrap="nowrap" style="vertical-align:top"><label for="easyreservation_form_res_name"><?php _e("Name for resources", "easyReservations"); ?>: </label></td>';
+			FieldAdd += '<td><input type="text" id="easyreservation_form_res_name" name="easyreservation_form_res_name" style="width:150px;padding:3px;font-size:13px" value="Room"></td>';
 			FieldAdd += '</tr>';
 			FieldAdd += '</tr>';
-			FieldAdd += '<td colspan="2" nowrap="nowrap" valign="top"><label for="easyreservation_form_submit_message"><?php _e("Submit message", "easyReservations"); ?>: </label>';
-			FieldAdd += '<label><input type="text" id="easyreservation_form_submit_message" name="easyreservation_form_submit_message" style="width: 250px" value="Reservation successfull send"></label><i><?php _e("Message after successful submission", "easyReservations"); ?></i></td>';
+			FieldAdd += '<td nowrap="nowrap" valign="top"><label for="easyreservation_show_pers"><?php _e("Persons in list", "easyReservations"); ?>: </label></td>';
+			FieldAdd += '<td><label><input type="checkbox"  id="easyreservation_show_pers" name="easyreservation_show_pers" checked></label></td>';
+			FieldAdd += '</tr>';
+			FieldAdd += '<tr>';
+			FieldAdd += '<td colspan="2"><u><b><?php _e("Submit", "easyReservations"); ?></b></u><br><?php _e("After submit one or multiple reservations the overlay or page will show this messages, the price and, if available, the paypal button and the credit cards form.", "easyReservations"); ?></td>';
+			FieldAdd += '</tr>';
+			FieldAdd += '<tr>';
+			FieldAdd += '<td nowrap="nowrap" style="vertical-align:top"><label for="easyreservation_form_submit_message"><?php _e("Submit message", "easyReservations"); ?>: </label></td>';
+			FieldAdd += '<td><input type="text" id="easyreservation_form_submit_message" name="easyreservation_form_submit_message" style="width: 250px;padding:3px;font-size:13px" value="Reservation successfully sent"></td>';
+			FieldAdd += '</tr>';
+			FieldAdd += '<tr>';
+			FieldAdd += '<td nowrap="nowrap" style="vertical-align:top"><label for="easyreservation_form_submit_submessage"><?php _e("Submit sub-message", "easyReservations"); ?>: </label></td>';
+			FieldAdd += '<td><textarea id="easyreservation_form_submit_submessage" name="easyreservation_form_submit_submessage" style="width: 250px;padding:3px;font-size:13px">Please continue by paying through PayPal or enter your credit card details.</textarea></td>';
 			FieldAdd += '</tr>';
 			FieldAdd += '</tr>';
-			FieldAdd += '<td nowrap="nowrap" valign="top"><label for="easyreservation_show_price"><?php _e("Show price", "easyReservations"); ?>: </label>';
-			FieldAdd += '<td><label><input type="checkbox"  id="easyreservation_show_price" name="easyreservation_edit_table" checked></label> <?php _e("After successful submission", "easyReservations"); ?></td>';
+			FieldAdd += '<td nowrap="nowrap" valign="top"><label for="easyreservation_show_price"><?php _e("Show price", "easyReservations"); ?>: </label></td>';
+			FieldAdd += '<td><label><input type="checkbox"  id="easyreservation_show_price" name="easyreservation_edit_table" checked></label></td>';
 			FieldAdd += '</tr>';
-			FieldAdd += '<tr><td colspan="2"><?php _e("This shortcode adds a form to the Page or Post", "easyReservations"); ?>.<br><b><?php _e("Only add one form per page or post", "easyReservations"); ?>.</b></td></tr>';
+			FieldAdd += '<tr>';
+			FieldAdd += '<td colspan="2"><u><b><?php _e("Credit Card", "easyReservations"); ?> (Payment Module is required)</b></u><br><?php _e("If the credit card form is enabled this messages will be shown after a successfully submit of it.", "easyReservations"); ?></td>';
+			FieldAdd += '</tr>';
+			FieldAdd += '<tr>';
+			FieldAdd += '<td nowrap="nowrap" style="vertical-align:top"><label for="easyreservation_form_credit_message"><?php _e("Credit Card message", "easyReservations"); ?>: </label></td>';
+			FieldAdd += '<td><input type="text" id="easyreservation_form_credit_message" name="easyreservation_form_credit_message" style="width: 250px;padding:3px;font-size:13px" value="Reservation complete"></td>';
+			FieldAdd += '</tr>';
+			FieldAdd += '<tr>';
+			FieldAdd += '<td nowrap="nowrap" style="vertical-align:top"><label for="easyreservation_form_credit_submessage"><?php _e("Credit Card sub-message", "easyReservations"); ?>: </label></td>';
+			FieldAdd += '<td><textarea id="easyreservation_form_credit_submessage" name="easyreservation_form_credit_submessage" style="width: 250px;padding:3px;font-size:13px">You\'ll receive an email with the reservations details</textarea></td>';
+			FieldAdd += '</tr>';
+			FieldAdd += '<tr><td colspan="2"><b><?php _e("Only add one form per page or post", "easyReservations"); ?>.</b></td></tr>';
 		document.getElementById("tiny_Field").innerHTML = FieldAdd;
 	} else if(x == "calendar"){
 		var FieldAdd = '<tr>';
@@ -192,21 +233,22 @@ function getCalendarInfos(){
 		else  document.getElementById("easyreservation_calendar_min_width").innerHTML = 148;
 	}
 }
-function insertEasyShortcode() {
 
+function insertEasyShortcode() {
 	//var html = tinyMCE.activeEditor.selection.getContent(); // GET CURRENT SELECT IN TEXT ! MAYBE IMPORTANT LATER
 	//html = html.replace(/<p>/g,"").replace(/<\/p>/g,"<br \/>");
-
 	var tagtext = '[easy_';
-
 	var y = document.easyreservations_tiny_popUp.easyreservation_type_select.options[document.easyreservations_tiny_popUp.easyreservation_type_select.options.selectedIndex].value;
 
 	classAttribs = document.getElementById('easyreservation_type_select').value;
 
 	if(y == "form"){
-		classAttribs += document.getElementById('easyreservation_form_chooser').value + ' style="' + document.getElementById('easyreservation_formstyle_chooser').value + '" submit="' + document.getElementById('easyreservation_form_submit_message').value + '"';
+		classAttribs += document.getElementById('easyreservation_form_chooser').value + ' style="' + document.getElementById('easyreservation_formstyle_chooser').value + '" submit="' + document.getElementById('easyreservation_form_submit_message').value + '" subsubmit="' + document.getElementById('easyreservation_form_submit_submessage').value + '" credit="' + document.getElementById('easyreservation_form_credit_message').value + '" subcredit="' + document.getElementById('easyreservation_form_credit_submessage').value + '"';
+		if(document.getElementById('easyreservation_form_res_name').value != '') classAttribs += ' resourcename="'+document.getElementById('easyreservation_form_res_name').value+'"';
 		if(document.getElementById('easyreservation_show_price').checked == true) classAttribs += ' price="1"';
+		if(document.getElementById('easyreservation_show_pers').checked == true) classAttribs += ' pers="1"';
 		if(document.getElementById('easyreservations_resource')) classAttribs += ' resource="'+document.getElementById('easyreservations_resource').value+'"';
+		if(document.getElementById('easyreservation_multiple_check').checked == true) classAttribs += ' multiple="'+document.getElementById('easyreservation_multiple_style').value+'" validate="'+document.getElementById('easyreservation_form_val_message').value+'" subvalidate="'+document.getElementById('easyreservation_form_val_submessage').value+'"';
 	} else if(y == "calendar"){
 		classAttribs += ' resource="' + document.getElementById('easyreservation_calendar_room').value + '"';
 		if(document.getElementById('easyreservation_calendar_width').value != "") classAttribs += ' width="' + document.getElementById('easyreservation_calendar_width').value + '"';
@@ -244,6 +286,10 @@ var userSettings = {
 </script>
 
 <?php 
-require_once(WP_PLUGIN_DIR."/easyreservations/lib/tutorials/handle.tutorials.php");
-easyreservations_load_pointer('tinymce');
+global $reservations_settings;
+
+if(!isset($reservations_settings['tutorial']) || $reservations_settings['tutorial'] == 1){
+	require_once(WP_PLUGIN_DIR."/easyreservations/lib/tutorials/handle.tutorials.php");
+	easyreservations_load_pointer('tinymce');
+}
 do_action('admin_print_footer_scripts'); ?>

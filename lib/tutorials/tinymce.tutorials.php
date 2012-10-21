@@ -54,6 +54,6 @@
 			$execute[] = '';
 			$nr++;
 		}
-		echo easyreservations_execute_pointer(11, $handler, $content, $offset, $at, $execute);
+		echo easyreservations_execute_pointer($nr, $handler, $content, $offset, $at, $execute);
 	}
 ?>

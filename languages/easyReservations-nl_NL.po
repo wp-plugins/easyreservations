@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: easyReservations\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-10-22 00:20+0100\n"
-"PO-Revision-Date: 2012-10-22 00:22+0100\n"
+"PO-Revision-Date: 2012-10-22 00:21+0100\n"
 "Last-Translator: Feryaz Beer <support@easyreservations.org>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -15,87 +15,88 @@ msgstr ""
 
 #: easyReservations.php:31
 msgid "easyReservation"
-msgstr ""
+msgstr "easyReservation"
 
 #: easyReservations.php:31 easyReservations_admin_main.php:46
 #: easyReservations_admin_main.php:63 easyReservations_admin_main.php:82
 #: easyReservations_admin_main.php:1057
 #: easyReservations_admin_resources.php:543
 msgid "Reservation"
-msgstr ""
+msgstr "Reservering"
 
 #: easyReservations.php:32 easyReservations_admin_settings.php:502
 msgid "Dashboard"
-msgstr ""
+msgstr "Dashboard"
 
 #: easyReservations.php:33 easyReservations_admin_settings.php:506
 #: easyReservations_admin_settings.php:623
 #: easyReservations_admin_settings.php:707
 msgid "Resources"
-msgstr ""
+msgstr "Resources"
 
 #: easyReservations.php:35 easyReservations_admin_settings.php:514
 msgid "Settings"
-msgstr ""
+msgstr "Instellingen"
 
 #: easyReservations_admin_main.php:46 easyReservations_admin_main.php:63
 #: easyReservations_admin_main.php:82 easyReservations_admin_resources.php:228
 msgid "Reservations"
-msgstr ""
+msgstr "Reserveringen"
 
 #: easyReservations_admin_main.php:47
 msgid "moved to trash"
-msgstr ""
+msgstr "naar prullenbak verplaatst"
 
 #: easyReservations_admin_main.php:47
 msgid "Undo"
-msgstr ""
+msgstr "ongedaan maken"
 
 #: easyReservations_admin_main.php:64
 msgid "restored from trash"
-msgstr ""
+msgstr "Herstellen"
 
 #: easyReservations_admin_main.php:83
 msgid "deleted permanently"
-msgstr ""
+msgstr "Permanend verwijderd"
 
 #: easyReservations_admin_main.php:95
 msgid "Custom information deleted"
-msgstr ""
+msgstr "Aangepaste informatie verwijderd"
 
 #: easyReservations_admin_main.php:96
 msgid "Custom information isn't existing"
-msgstr ""
+msgstr "Aangepaste informatie bestaat niet"
 
 #: easyReservations_admin_main.php:109
 msgid "Custom price deleted"
-msgstr ""
+msgstr "Aangepaste prijs is verwijderd"
 
 #: easyReservations_admin_main.php:110
 msgid "Custom price isn't existing"
-msgstr ""
+msgstr "Aangepaste prijs bestaat niet"
 
 #: easyReservations_admin_main.php:132 easyReservations_admin_main.php:196
 msgid "Wrong money format in custom price"
-msgstr ""
+msgstr "Verkeerde munteenheid in aangepaste prijs"
 
 #: easyReservations_admin_main.php:161 easyReservations_admin_main.php:218
 msgid "Price couldn't be fixed, input isn't valid money format"
 msgstr ""
+"Prijs kon niet worden aangepast, de invoer heeft niet het juiste munt formaat"
 
 #: easyReservations_admin_main.php:165
 msgid "Reservation edited."
-msgstr ""
+msgstr "Reservering bewerkt."
 
 #: easyReservations_admin_main.php:172
-#, php-format
+#, fuzzy, php-format
 msgid "Reservation #%1$d copied as #%2$d"
-msgstr ""
+msgstr "Reservering bewerkt."
 
 #: easyReservations_admin_main.php:223
-#, php-format
+#, fuzzy, php-format
 msgid "Reservation #%d added"
-msgstr ""
+msgstr "Reservering bewerkt."
 
 #: easyReservations_admin_main.php:249
 msgid ""
@@ -103,64 +104,67 @@ msgid ""
 "Groundprice/Settings or the reservations price it wont match the fixed price "
 "anymore."
 msgstr ""
+"Dit is de prijs zoals die nu berekend zou worden. Na wijzigingen van filters/"
+"kale prijs/instellingen of de prijs van de reservering zal de berekende "
+"prijs niet meer kloppen."
 
 #: easyReservations_admin_main.php:267
 msgid "eMail sent successfully"
-msgstr ""
+msgstr "E-mail succesvol verzonden"
 
 #: easyReservations_admin_main.php:296
 msgid "Reservation approved"
-msgstr ""
+msgstr "Reservering goedgekeurd"
 
 #: easyReservations_admin_main.php:297
 msgid "Reservation rejected"
-msgstr ""
+msgstr "Reservering geweigerd"
 
 #: easyReservations_admin_main.php:305
 msgid "Reservations Dashboard"
-msgstr ""
+msgstr "Reserveringen dashboard"
 
 #: easyReservations_admin_main.php:306
 #: easyReservations_admin_resources.php:214
 msgid "Add New"
-msgstr ""
+msgstr "Voeg nieuwe toe"
 
 #: easyReservations_admin_main.php:317 easyReservations_admin_main.php:994
 #: easyReservations_admin_main.php:1018 easyReservations_admin_main.php:1277
 #: easyReservations_admin_main.php:1476 lib/core/core.php:292
 #: lib/modules/hourlycal/hourlycal.php:222 lib/modules/paypal/paypal.php:237
 msgid "None"
-msgstr ""
+msgstr "Geen"
 
 #: easyReservations_admin_main.php:438 easyReservations_admin_main.php:874
 #: easyReservations_admin_resources.php:1257
 msgid "choose date"
-msgstr ""
+msgstr "Kies datum"
 
 #: easyReservations_admin_main.php:563
 msgid "full"
-msgstr ""
+msgstr "vol"
 
 #: easyReservations_admin_main.php:918 lib/functions/admin.php:289
 #: lib/modules/statistics/statistics.php:481
 msgid "Upcoming reservations"
-msgstr ""
+msgstr "Komende reserveringen"
 
 #: easyReservations_admin_main.php:935 lib/functions/admin.php:290
 msgid "New reservations"
-msgstr ""
+msgstr "Nieuwe reservering"
 
 #: easyReservations_admin_main.php:961 lib/functions/admin.php:292
 msgid "What happen today"
-msgstr ""
+msgstr "Wat gebeurt er vandaag"
 
 #: easyReservations_admin_main.php:961
 msgid "workload today"
-msgstr ""
+msgstr "werklast vandaag"
 
 #: easyReservations_admin_main.php:971
 msgid "Arrival today"
-msgstr ""
+msgstr "Aankomst datum"
 
 #: easyReservations_admin_main.php:973 easyReservations_admin_main.php:1070
 #: easyReservations_admin_main.php:1213 easyReservations_admin_main.php:1411
@@ -173,7 +177,7 @@ msgstr ""
 #: lib/modules/useredit/useredit.php:335 lib/modules/useredit/useredit.php:702
 #: lib/modules/useredit/useredit.php:839
 msgid "Name"
-msgstr ""
+msgstr "Naam"
 
 #: easyReservations_admin_main.php:973 easyReservations_admin_main.php:1087
 #: easyReservations_admin_main.php:1234 easyReservations_admin_main.php:1438
@@ -191,7 +195,7 @@ msgstr ""
 #: lib/modules/statistics/statistics.php:695
 #: lib/modules/useredit/useredit.php:340 lib/modules/useredit/useredit.php:568
 msgid "Resource"
-msgstr ""
+msgstr "Accommodatie"
 
 #: easyReservations_admin_main.php:973 easyReservations_admin_main.php:1083
 #: easyReservations_admin_main.php:1225 easyReservations_admin_main.php:1429
@@ -208,7 +212,7 @@ msgstr ""
 #: lib/modules/useredit/useredit.php:337 lib/modules/useredit/useredit.php:704
 #: lib/modules/useredit/useredit.php:843
 msgid "Persons"
-msgstr ""
+msgstr "Personen"
 
 #: easyReservations_admin_main.php:973 easyReservations_admin_main.php:1255
 #: easyReservations_admin_main.php:1460 easyReservations_admin_main.php:1487
@@ -232,38 +236,38 @@ msgstr ""
 #: lib/modules/useredit/useredit.php:764 lib/modules/useredit/useredit.php:767
 #: lib/modules/useredit/useredit.php:877 lib/modules/useredit/useredit.php:927
 msgid "Price"
-msgstr ""
+msgstr "Prijs"
 
 #: easyReservations_admin_main.php:998
 msgid "Departure today"
-msgstr ""
+msgstr "Vertrekdatum"
 
 #: easyReservations_admin_main.php:1029
 #: easyReservations_admin_resources.php:964
 msgid "Type"
-msgstr ""
+msgstr "Type"
 
 #: easyReservations_admin_main.php:1029 easyReservations_admin_main.php:1269
 #: easyReservations_admin_main.php:1472 lib/functions/admin.php:643
 msgid "Approved"
-msgstr ""
+msgstr "Goedgekeurd"
 
 #: easyReservations_admin_main.php:1029 easyReservations_admin_main.php:1269
 #: easyReservations_admin_main.php:1472 lib/functions/admin.php:631
 #: lib/functions/admin.php:643
 msgid "Pending"
-msgstr ""
+msgstr "Wachtend"
 
 #: easyReservations_admin_main.php:1029 easyReservations_admin_main.php:1269
 #: easyReservations_admin_main.php:1472 lib/functions/admin.php:632
 #: lib/functions/admin.php:643
 msgid "Rejected"
-msgstr ""
+msgstr "Geweigerd"
 
 #: easyReservations_admin_main.php:1029 easyReservations_admin_main.php:1269
 #: lib/functions/admin.php:643
 msgid "Trashed"
-msgstr ""
+msgstr "Verwijderd"
 
 #: easyReservations_admin_main.php:1030
 #: easyReservations_admin_resources.php:423
@@ -271,44 +275,44 @@ msgstr ""
 #: easyReservations_form_shortcode.php:381 lib/modules/coupons/coupons.php:35
 #: lib/modules/useredit/useredit.php:350
 msgid "Time"
-msgstr ""
+msgstr "Tijd"
 
 #: easyReservations_admin_main.php:1030 overview.php:164
 #: lib/modules/useredit/useredit.php:351
 msgid "Past"
-msgstr ""
+msgstr "Verleden"
 
 #: easyReservations_admin_main.php:1030 overview.php:113 overview.php:165
 msgid "Present"
-msgstr ""
+msgstr "Huidig"
 
 #: easyReservations_admin_main.php:1030 overview.php:166
 #: lib/modules/useredit/useredit.php:353
 msgid "Future"
-msgstr ""
+msgstr "Toekomst"
 
 #: easyReservations_admin_main.php:1057 easyReservations_admin_main.php:1557
 #: easyReservations_admin_main.php:1563 lib/functions/admin.php:202
 #: lib/functions/admin.php:832
 msgid "Approve"
-msgstr ""
+msgstr "Goedkeuren"
 
 #: easyReservations_admin_main.php:1057 easyReservations_admin_main.php:1557
 #: easyReservations_admin_main.php:1563 lib/functions/admin.php:204
 #: lib/functions/admin.php:833
 msgid "Reject"
-msgstr ""
+msgstr "Weigeren"
 
 #: easyReservations_admin_main.php:1057
 msgid "View"
-msgstr ""
+msgstr "Bekijken"
 
 #: easyReservations_admin_main.php:1058
 #: easyReservations_admin_resources.php:258
 #: easyReservations_admin_resources.php:408
 #: lib/modules/useredit/useredit.php:61 lib/modules/useredit/useredit.php:134
 msgid "edit"
-msgstr ""
+msgstr "bewerken"
 
 #: easyReservations_admin_main.php:1074
 #: easyReservations_admin_resources.php:711 lib/functions/admin.php:72
@@ -316,7 +320,7 @@ msgstr ""
 #: lib/modules/import/import.php:73 lib/modules/statistics/statistics.php:694
 #: lib/modules/useredit/useredit.php:336 lib/modules/useredit/useredit.php:701
 msgid "Date"
-msgstr ""
+msgstr "Datum"
 
 #: easyReservations_admin_main.php:1079 easyReservations_admin_main.php:1241
 #: easyReservations_admin_main.php:1447
@@ -326,7 +330,7 @@ msgstr ""
 #: lib/modules/htmlmails/htmlmails.php:138 lib/modules/import/import.php:72
 #: lib/modules/useredit/useredit.php:840 lib/modules/useredit/useredit.php:902
 msgid "eMail"
-msgstr ""
+msgstr "E-mail"
 
 #: easyReservations_admin_main.php:1084 easyReservations_admin_main.php:1431
 #: easyReservations_admin_settings.php:624
@@ -335,13 +339,13 @@ msgstr ""
 #: lib/modules/htmlmails/htmlmails.php:135
 #: lib/modules/htmlmails/htmlmails.php:387
 msgid "Adults"
-msgstr ""
+msgstr "Volwassenen"
 
 #: easyReservations_admin_main.php:1084 easyReservations_admin_main.php:1229
 #: easyReservations_admin_settings.php:717
 #: lib/modules/useredit/useredit.php:844
 msgid "Children's"
-msgstr ""
+msgstr "Kinder"
 
 #: easyReservations_admin_main.php:1091 easyReservations_admin_main.php:1245
 #: easyReservations_admin_main.php:1451
@@ -353,40 +357,40 @@ msgstr ""
 #: lib/modules/paypal/creditcards.php:162
 #: lib/modules/useredit/useredit.php:845
 msgid "Country"
-msgstr ""
+msgstr "Land"
 
 #: easyReservations_admin_main.php:1125
 msgid "GuestContact"
-msgstr ""
+msgstr "GastContact"
 
 #: easyReservations_admin_main.php:1204 easyReservations_admin_main.php:1255
 msgid "Edit reservation"
-msgstr ""
+msgstr "Bewerk accommodatie"
 
 #: easyReservations_admin_main.php:1205 lib/modules/useredit/useredit.php:62
 #: lib/modules/useredit/useredit.php:63 lib/modules/useredit/useredit.php:129
 #: lib/modules/useredit/useredit.php:135
 msgid "delete"
-msgstr ""
+msgstr "verwijder"
 
 #: easyReservations_admin_main.php:1217 easyReservations_admin_main.php:1415
 #: lib/modules/coupons/coupons.php:75 lib/modules/useredit/useredit.php:841
 msgid "From"
-msgstr ""
+msgstr "Van"
 
 #: easyReservations_admin_main.php:1221 easyReservations_admin_main.php:1422
 #: easyReservations_admin_main.php:1557 lib/modules/coupons/coupons.php:79
 #: lib/modules/useredit/useredit.php:842
 msgid "To"
-msgstr ""
+msgstr "Aan"
 
 #: easyReservations_admin_main.php:1227
 msgid "Adult's"
-msgstr ""
+msgstr "Volwassen"
 
 #: easyReservations_admin_main.php:1246 easyReservations_admin_main.php:1452
 msgid "Unknown"
-msgstr ""
+msgstr "Onbekend"
 
 #: easyReservations_admin_main.php:1255
 msgid "Copy"
@@ -394,7 +398,7 @@ msgstr ""
 
 #: easyReservations_admin_main.php:1263 easyReservations_admin_main.php:1466
 msgid "Status & Price"
-msgstr ""
+msgstr "Status & Prijs"
 
 #: easyReservations_admin_main.php:1268 easyReservations_admin_main.php:1471
 #: easyReservations_admin_resources.php:230
@@ -406,21 +410,21 @@ msgstr ""
 #: lib/modules/useredit/useredit.php:339 lib/modules/useredit/useredit.php:345
 #: lib/modules/useredit/useredit.php:703 lib/modules/useredit/useredit.php:923
 msgid "Status"
-msgstr ""
+msgstr "Status"
 
 #: easyReservations_admin_main.php:1272 easyReservations_admin_main.php:1483
 #: lib/functions/admin.php:691 lib/functions/admin.php:732
 #: lib/modules/import/import.php:73 lib/modules/useredit/useredit.php:706
 msgid "Reserved"
-msgstr ""
+msgstr "Gereserveerd"
 
 #: easyReservations_admin_main.php:1276 easyReservations_admin_main.php:1475
 msgid "Assign user"
-msgstr ""
+msgstr "gebruiker toewijzen"
 
 #: easyReservations_admin_main.php:1284
 msgid "Fixed Price"
-msgstr ""
+msgstr "Vaste prijs"
 
 #: easyReservations_admin_main.php:1288 easyReservations_admin_main.php:1390
 #: lib/modules/htmlmails/htmlmails.php:148
@@ -428,160 +432,162 @@ msgstr ""
 #: lib/modules/statistics/statistics.php:505
 #: lib/modules/useredit/useredit.php:764 lib/modules/useredit/useredit.php:767
 msgid "Paid"
-msgstr ""
+msgstr "Betaald"
 
 #: easyReservations_admin_main.php:1297
 msgid "Send mail"
-msgstr ""
+msgstr "Verstuur e-mail"
 
 #: easyReservations_admin_main.php:1302
 msgid "Send mail to user on edit"
-msgstr ""
+msgstr "Stuur e-mail naar klant na bewerking"
 
 #: easyReservations_admin_main.php:1313 easyReservations_admin_main.php:1321
 #: easyReservations_admin_main.php:1497 easyReservations_admin_main.php:1505
 msgid "Add custom Field"
-msgstr ""
+msgstr "Voeg aangepast veld toe"
 
 #: easyReservations_admin_main.php:1319 easyReservations_admin_main.php:1503
 msgid "Editable"
-msgstr ""
+msgstr "Bewerkbaar"
 
 #: easyReservations_admin_main.php:1319 easyReservations_admin_main.php:1334
 #: easyReservations_admin_main.php:1503 easyReservations_admin_main.php:1518
 msgid "Visible"
-msgstr ""
+msgstr "Laten zien"
 
 #: easyReservations_admin_main.php:1319 easyReservations_admin_main.php:1334
 #: easyReservations_admin_main.php:1503 easyReservations_admin_main.php:1518
 #: easyReservations_admin_settings.php:632
 #: easyReservations_admin_settings.php:753
 msgid "Hidden"
-msgstr ""
+msgstr "Verborgen"
 
 #: easyReservations_admin_main.php:1319 easyReservations_admin_main.php:1334
 #: easyReservations_admin_main.php:1503 easyReservations_admin_main.php:1518
 msgid "for Guest"
-msgstr ""
+msgstr "voor gast"
 
 #: easyReservations_admin_main.php:1328 easyReservations_admin_main.php:1336
 #: easyReservations_admin_main.php:1512 easyReservations_admin_main.php:1520
 msgid "Add custom Price Field"
-msgstr ""
+msgstr "Voeg aangepaste prijs toe"
 
 #: easyReservations_admin_main.php:1334 easyReservations_admin_main.php:1518
 msgid "Selectable"
-msgstr ""
+msgstr "Selecteerbaar"
 
 #: easyReservations_admin_main.php:1388
 msgid "set price"
-msgstr ""
+msgstr "stel prijs in"
 
 #: easyReservations_admin_main.php:1389
 msgid "fix the sum of the normal calculation"
-msgstr ""
+msgstr "Stel de prijs vast van de normale berekening"
 
 #: easyReservations_admin_main.php:1406
 msgid "Add Reservation"
-msgstr ""
+msgstr "Voeg reservering toe"
 
 #: easyReservations_admin_main.php:1433
 #: easyReservations_admin_resources.php:576
 #: easyReservations_admin_settings.php:625
 #: lib/modules/htmlmails/htmlmails.php:136
 msgid "Childs"
-msgstr ""
+msgstr "Kinderen"
 
 #: easyReservations_admin_main.php:1460
 msgid "Add reservation"
-msgstr ""
+msgstr "Voeg reservering toe"
 
 #: easyReservations_admin_main.php:1488
 msgid "Fix Price"
-msgstr ""
+msgstr "Vaste prijs"
 
 #: easyReservations_admin_main.php:1544
 msgid "Approve the reservation"
-msgstr ""
+msgstr "Keur de reservering goed"
 
 #: easyReservations_admin_main.php:1544
 msgid "Reject the reservation"
-msgstr ""
+msgstr "Weiger de reservering"
 
 #: easyReservations_admin_main.php:1556 easyReservations_admin_main.php:1578
 msgid "Send mail to guest"
-msgstr ""
+msgstr "Stuur e-mail naar gast"
 
 #: easyReservations_admin_main.php:1556
 msgid "Has been paid"
-msgstr ""
+msgstr "Is betaald"
 
 #: easyReservations_admin_main.php:1557
 msgid "the reservation, write a message and press send"
-msgstr ""
+msgstr "de reservering, schrijf een bericht en klik op versturen"
 
 #: easyReservations_admin_main.php:1557
 msgid "The Guest will recieve that message in an eMail"
-msgstr ""
+msgstr "De gast zal het bericht ontvangen in een e-mail"
 
 #: easyReservations_admin_main.php:1593
 msgid "Send"
-msgstr ""
+msgstr "Verstuur"
 
 #: easyReservations_admin_main_stats.php:36
 #: lib/classes/reservation.class.php:945
 #: lib/modules/statistics/statistics.php:403
 #: lib/modules/useredit/useredit.php:346
 msgid "approved"
-msgstr ""
+msgstr "goedgekeurd"
 
 #: easyReservations_admin_main_stats.php:36
 #: lib/classes/reservation.class.php:945
 #: lib/modules/statistics/statistics.php:403
 #: lib/modules/useredit/useredit.php:348
 msgid "rejected"
-msgstr ""
+msgstr "geweigerd"
 
 #: easyReservations_admin_main_stats.php:36
 #: lib/classes/reservation.class.php:945
 #: lib/modules/statistics/statistics.php:403
 #: lib/modules/useredit/useredit.php:347
 msgid "pending"
-msgstr ""
+msgstr "wachtend"
 
 #: easyReservations_admin_resources.php:9
+#, fuzzy
 msgid "Resource and all its reservations deleted"
-msgstr ""
+msgstr "Inkomsten van alle reserveringen"
 
 #: easyReservations_admin_resources.php:10
+#, fuzzy
 msgid "Resource deleted, but reservations couldnt"
-msgstr ""
+msgstr "Geweigerde reserveringen"
 
 #: easyReservations_admin_resources.php:26
 #: easyReservations_admin_resources.php:60
-#, php-format
+#, fuzzy, php-format
 msgid "Resource #%d added"
-msgstr ""
+msgstr "Accommodatie toegevoegd"
 
 #: easyReservations_admin_resources.php:61
 msgid "Please enter a Title"
-msgstr ""
+msgstr "Voeg een titel toe"
 
 #: easyReservations_admin_resources.php:111
 msgid "Enter a date"
-msgstr ""
+msgstr "Voer een datum in"
 
 #: easyReservations_admin_resources.php:117
 msgid "Enter a starting date"
-msgstr ""
+msgstr "Voer een startdatum in"
 
 #: easyReservations_admin_resources.php:121
 msgid "Enter an ending date"
-msgstr ""
+msgstr "Voer een einddatum in"
 
 #: easyReservations_admin_resources.php:149
 msgid "Select a condition"
-msgstr ""
+msgstr "Selecteer een conditie"
 
 #: easyReservations_admin_resources.php:157
 msgid ""
@@ -590,64 +596,66 @@ msgid ""
 msgstr ""
 
 #: easyReservations_admin_resources.php:197
+#, fuzzy
 msgid "Please give the filter a name"
-msgstr ""
+msgstr "Geef uw filter een naam"
 
 #: easyReservations_admin_resources.php:214
 msgid "Reservations Resources"
-msgstr ""
+msgstr "Reserveringen accommodaties"
 
 #: easyReservations_admin_resources.php:214
 msgid "Post View"
-msgstr ""
+msgstr "Bekijk berichten"
 
 #: easyReservations_admin_resources.php:224
 #: easyReservations_admin_settings.php:1023 lib/modules/paypal/paypal.php:81
 #: lib/modules/useredit/useredit.php:386
 msgid "Title"
-msgstr ""
+msgstr "Titel"
 
 #: easyReservations_admin_resources.php:225
 #: easyReservations_admin_settings.php:1381 lib/functions/admin.php:298
 #: lib/modules/import/import.php:72 lib/modules/useredit/useredit.php:334
 #: lib/modules/useredit/useredit.php:700 lib/modules/useredit/useredit.php:901
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #: easyReservations_admin_resources.php:226
 msgid "Quantity"
-msgstr ""
+msgstr "Hoeveelheid"
 
 #: easyReservations_admin_resources.php:227
 msgid "Base Price"
-msgstr ""
+msgstr "Basis prijs"
 
 #: easyReservations_admin_resources.php:229
 #: easyReservations_admin_resources.php:421
 #: easyReservations_admin_resources.php:476
 msgid "Filter"
-msgstr ""
+msgstr "Filter"
 
 #: easyReservations_admin_resources.php:231
 #: easyReservations_admin_settings.php:1025
 msgid "Excerpt"
-msgstr ""
+msgstr "Uittreksel"
 
 #: easyReservations_admin_resources.php:261
 msgid "edit "
-msgstr ""
+msgstr "bewerk"
 
 #: easyReservations_admin_resources.php:270
 msgid "edit post"
-msgstr ""
+msgstr "bewerk bericht"
 
 #: easyReservations_admin_resources.php:271
 msgid "edit resource"
-msgstr ""
+msgstr "Bewerk accommodatie"
 
 #: easyReservations_admin_resources.php:272
+#, fuzzy
 msgid "copy resource settings"
-msgstr ""
+msgstr "Accommodatie instellingen"
 
 #: easyReservations_admin_resources.php:273
 msgid "Really delete this resource and all its reservations?"
@@ -655,182 +663,184 @@ msgstr ""
 
 #: easyReservations_admin_resources.php:273
 msgid "trash"
-msgstr ""
+msgstr "prullenbak"
 
 #: easyReservations_admin_resources.php:293
 msgid "Resource's count names changed"
-msgstr ""
+msgstr "Accommodaties aantal namen gewijzigd"
 
 #: easyReservations_admin_resources.php:311
 msgid "Requirements edited"
-msgstr ""
+msgstr "Eisen bewerkt"
 
 #: easyReservations_admin_resources.php:319
 msgid "Groundprice edited"
-msgstr ""
+msgstr "basisprijs bewerkt"
 
 #: easyReservations_admin_resources.php:320
 #: easyReservations_admin_resources.php:364
 msgid "Insert right money format"
-msgstr ""
+msgstr "Voer het juiste betaal formaat in"
 
 #: easyReservations_admin_resources.php:328
 msgid "Count of resource space edited"
-msgstr ""
+msgstr "Aantal accommodaties bewerkt"
 
 #: easyReservations_admin_resources.php:338
 msgid "Price setting changed"
-msgstr ""
+msgstr "Prijs instellingen gewijzigd"
 
 #: easyReservations_admin_resources.php:347
 msgid "Resource permission edited"
-msgstr ""
+msgstr "Accommodatie permissies bewerkt"
 
 #: easyReservations_admin_resources.php:348
 #: easyReservations_admin_settings.php:154
 msgid "Only admins can change the permissions for"
-msgstr ""
+msgstr "Alleen administratoren kunnen de permissies wijzigen voor"
 
 #: easyReservations_admin_resources.php:348
 msgid "resource"
-msgstr ""
+msgstr "accommodatie"
 
 #: easyReservations_admin_resources.php:355
 msgid "Resource interval edited"
-msgstr ""
+msgstr "Accommodatie interval bewerkt"
 
 #: easyReservations_admin_resources.php:363
 msgid "Children's discount edited"
-msgstr ""
+msgstr "Korting kinderen bewerkt"
 
 #: easyReservations_admin_resources.php:374
 msgid "Tax percentage has to be numeric"
-msgstr ""
+msgstr "BTW percentage moet numeriek zijn"
 
 #: easyReservations_admin_resources.php:413
 msgid "Comments"
-msgstr ""
+msgstr "Commentaar"
 
 #: easyReservations_admin_resources.php:422
 #: easyReservations_admin_resources.php:699
 msgid "Priority"
-msgstr ""
+msgstr "Prioriteit"
 
 #: easyReservations_admin_resources.php:472
 msgid "No price filter set"
-msgstr ""
+msgstr "Geen prijs filter ingesteld"
 
 #: easyReservations_admin_resources.php:477
 #: easyReservations_admin_resources.php:706
 #: easyReservations_admin_resources.php:965
 msgid "Condition"
-msgstr ""
+msgstr "Conditie"
 
 #: easyReservations_admin_resources.php:494
 #, php-format
 msgid "If guest stays %s days or more the price changes by"
-msgstr ""
+msgstr "Als de gast %s dagen of langer verblijft veranderd de prijs"
 
 #: easyReservations_admin_resources.php:497
 #: easyReservations_admin_resources.php:513
 msgid "calculate"
-msgstr ""
+msgstr "bereken"
 
 #: easyReservations_admin_resources.php:497
 #: easyReservations_admin_resources.php:513
 msgid "check"
-msgstr ""
+msgstr "controleer"
 
 #: easyReservations_admin_resources.php:497
 msgid "resource is unavailable"
-msgstr ""
+msgstr "Accommodatie is not available"
 
 #: easyReservations_admin_resources.php:500
 #, php-format
 msgid "If %s or more persons reservating the price changes by"
-msgstr ""
+msgstr "Wanneer meer dan %s of meer personen reserveren veranderd de prijs"
 
 #: easyReservations_admin_resources.php:507
 #, php-format
 msgid "If guest comes the %1$s%2$s time the price changes by"
-msgstr ""
+msgstr "Wanneer gasten de %1$s%2$s keer komen veranderd de prijs"
 
 #: easyReservations_admin_resources.php:510
 #, php-format
 msgid "If the guest reservates %s days before his arrival the price changes by"
-msgstr ""
+msgstr "Als de gast %s dagen voor aankomst reserveerd veranderd de prijs"
 
 #: easyReservations_admin_resources.php:513
+#, fuzzy
 msgid "resources condtion change to"
-msgstr ""
+msgstr "Accommodaties aantal namen gewijzigd"
 
 #: easyReservations_admin_resources.php:519
 #: easyReservations_admin_resources.php:525 lib/functions/admin.php:633
 msgid "All"
-msgstr ""
+msgstr "Alles"
 
 #: easyReservations_admin_resources.php:544
 #: lib/modules/useredit/useredit.php:432
 msgid "Day"
-msgstr ""
+msgstr "Dag"
 
 #: easyReservations_admin_resources.php:545
 msgid "Person"
-msgstr ""
+msgstr "Persoon"
 
 #: easyReservations_admin_resources.php:546
+#, fuzzy
 msgid "Person and Day"
-msgstr ""
+msgstr "Persoon"
 
 #: easyReservations_admin_resources.php:560
 msgid "No filter set"
-msgstr ""
+msgstr "Geen filter ingesteld"
 
 #: easyReservations_admin_resources.php:567
 msgid "Price simulator"
-msgstr ""
+msgstr "Prijs simulator"
 
 #: easyReservations_admin_resources.php:594
 msgid "Resource settings"
-msgstr ""
+msgstr "Accommodatie instellingen"
 
 #: easyReservations_admin_resources.php:594
 #: easyReservations_admin_resources.php:995
 #: easyReservations_admin_settings.php:497
 msgid "Set"
-msgstr ""
+msgstr "Stel in"
 
 #: easyReservations_admin_resources.php:599
 msgid "Count of resource"
-msgstr ""
+msgstr "Aantal accommodaties"
 
 #: easyReservations_admin_resources.php:603
 msgid "Base price"
-msgstr ""
+msgstr "Basis prijs"
 
 #: easyReservations_admin_resources.php:607
 msgid "Child discount"
-msgstr ""
+msgstr "Korting kinderen"
 
 #: easyReservations_admin_resources.php:614
 msgid "Hourly billing"
-msgstr ""
+msgstr "Facturering per uur"
 
 #: easyReservations_admin_resources.php:615
 msgid "Daily billing"
-msgstr ""
+msgstr "Dagelijkse facturering"
 
 #: easyReservations_admin_resources.php:616
 msgid "Weekly billing"
-msgstr ""
+msgstr "Wekelijkse facturering"
 
 #: easyReservations_admin_resources.php:618
 msgid "Price per person"
-msgstr ""
+msgstr "Prijs per persoon"
 
 #: easyReservations_admin_resources.php:622 lib/modules/import/import.php:73
 msgid "Taxes"
-msgstr ""
+msgstr "Toeslagen"
 
 #: easyReservations_admin_resources.php:634
 #: easyReservations_admin_resources.php:640
@@ -838,7 +848,7 @@ msgstr ""
 #: easyReservations_admin_resources.php:928
 #: easyReservations_admin_settings.php:1030
 msgid "Min"
-msgstr ""
+msgstr "Min"
 
 #: easyReservations_admin_resources.php:634
 #: easyReservations_admin_resources.php:640
@@ -846,21 +856,23 @@ msgstr ""
 #: easyReservations_admin_resources.php:928
 #: easyReservations_admin_settings.php:1030
 msgid "Max"
-msgstr ""
+msgstr "Max"
 
 #: easyReservations_admin_resources.php:644
 #: easyReservations_admin_resources.php:934
+#, fuzzy
 msgid "Arrival possible on"
-msgstr ""
+msgstr "Aankomst minuut"
 
 #: easyReservations_admin_resources.php:657
 #: easyReservations_admin_resources.php:948
+#, fuzzy
 msgid "Departure possible on"
-msgstr ""
+msgstr "Vertrek minuut"
 
 #: easyReservations_admin_resources.php:670
 msgid "Required  permission"
-msgstr ""
+msgstr "Benodigde permissie"
 
 #: easyReservations_admin_resources.php:684
 #: easyReservations_admin_resources.php:1320
@@ -869,47 +881,48 @@ msgstr ""
 #: easyReservations_admin_settings.php:1188
 #: lib/modules/invoice/invoice.php:589
 msgid "Add"
-msgstr ""
+msgstr "Toevoegen"
 
 #: easyReservations_admin_resources.php:686
 msgid "Conditional"
-msgstr ""
+msgstr "Conditioneel"
 
 #: easyReservations_admin_resources.php:687
 msgid "Unavailability"
-msgstr ""
+msgstr "Niet beschikbaar"
 
 #: easyReservations_admin_resources.php:688
 #: easyReservations_admin_resources.php:913
+#, fuzzy
 msgid "Requirements"
-msgstr ""
+msgstr "Eisen bewerkt"
 
 #: easyReservations_admin_resources.php:694
 msgid "Give your filter a name"
-msgstr ""
+msgstr "Geef uw filter een naam"
 
 #: easyReservations_admin_resources.php:716
 msgid "At"
-msgstr ""
+msgstr "Om"
 
 #: easyReservations_admin_resources.php:721
 msgid "Date range"
-msgstr ""
+msgstr "Datum range"
 
 #: easyReservations_admin_resources.php:726
 msgid "Between"
-msgstr ""
+msgstr "Tussen"
 
 #: easyReservations_admin_resources.php:731
 msgid "Unit"
-msgstr ""
+msgstr "Eenheid"
 
 #: easyReservations_admin_resources.php:736
 #: lib/modules/hourlycal/hourlycal.php:225
 #: lib/modules/htmlmails/htmlmails.php:129
 #: lib/modules/useredit/useredit.php:430 lib/modules/useredit/useredit.php:431
 msgid "Hours"
-msgstr ""
+msgstr "Uurs"
 
 #: easyReservations_admin_resources.php:737
 #: easyReservations_admin_resources.php:773
@@ -918,237 +931,244 @@ msgstr ""
 #: easyReservations_admin_resources.php:883
 msgid "select nothing to change price/availability for entire"
 msgstr ""
+"Selecteer niets om de prijs en beschikbaarheid te wijzigen voor de gehele"
 
 #: easyReservations_admin_resources.php:737
 msgid "day"
-msgstr ""
+msgstr "dag"
 
 #: easyReservations_admin_resources.php:772 overview.php:110 overview.php:111
 #: overview.php:112 overview.php:114 overview.php:115 overview.php:116
 #: lib/functions/admin.php:344 lib/modules/hourlycal/hourlycal.php:217
 msgid "Days"
-msgstr ""
+msgstr "Dagen"
 
 #: easyReservations_admin_resources.php:773
 msgid "calendar week"
-msgstr ""
+msgstr "kalender week"
 
 #: easyReservations_admin_resources.php:789
 msgid "Calendar Week"
-msgstr ""
+msgstr "Kalender week"
 
 #: easyReservations_admin_resources.php:790
 msgid "month"
-msgstr ""
+msgstr "maand"
 
 #: easyReservations_admin_resources.php:858
 msgid "Monthes"
-msgstr ""
+msgstr "Maanden"
 
 #: easyReservations_admin_resources.php:859
 msgid "quarter"
-msgstr ""
+msgstr "kwartaal"
 
 #: easyReservations_admin_resources.php:882
 msgid "Quarter"
-msgstr ""
+msgstr "Kwartaal"
 
 #: easyReservations_admin_resources.php:883
 msgid "year"
-msgstr ""
+msgstr "jaar"
 
 #: easyReservations_admin_resources.php:891
 #: lib/modules/paypal/creditcards.php:187
 msgid "Year"
-msgstr ""
+msgstr "Jaar"
 
 #: easyReservations_admin_resources.php:964
 msgid "between reservation and arrival"
-msgstr ""
+msgstr "tussen reservering en aankomst"
 
 #: easyReservations_admin_resources.php:964
 msgid "Recurring guests"
-msgstr ""
+msgstr "Terugkerende gasten"
 
 #: easyReservations_admin_resources.php:964
 msgid "Amount of"
-msgstr ""
+msgstr "Aantal"
 
 #: easyReservations_admin_resources.php:966 lib/modules/paypal/paypal.php:70
 msgid "Mode"
-msgstr ""
+msgstr "Modus"
 
 #: easyReservations_admin_resources.php:968
 msgid "Price per Reservation"
-msgstr ""
+msgstr "Prijs per reservering"
 
 #: easyReservations_admin_resources.php:969
 msgid "Price per"
-msgstr ""
+msgstr "Prijs per"
 
 #: easyReservations_admin_resources.php:970 lib/functions/admin.php:102
 msgid "Price per Person"
-msgstr ""
+msgstr "Prijs per persoon"
 
 #: easyReservations_admin_resources.php:972
 msgid "Percent"
-msgstr ""
+msgstr "Procent"
 
 #: easyReservations_admin_resources.php:974
 msgid ""
 "If you add more than one discount of the same type only the first condition "
 "match from high to low will be given"
 msgstr ""
+"Als u meer dan één korting van hetzelfde type toevoegd zal alleen de eerste "
+"conditie overeenkomst van hoog naar laag worden toegepast"
 
 #: easyReservations_admin_resources.php:988
 #: easyReservations_admin_resources.php:1244
 msgid "Add filter"
-msgstr ""
+msgstr "Bewerk filter"
 
 #: easyReservations_admin_resources.php:995
 msgid "Resources Numbers/Names"
-msgstr ""
+msgstr "Accommodatie nummers/namen"
 
 #: easyReservations_admin_resources.php:1031
 msgid "Edit filter"
-msgstr ""
+msgstr "Bewerk filter"
 
 #: easyReservations_admin_resources.php:1248
 msgid "visits"
-msgstr ""
+msgstr "bezoeken"
 
 #: easyReservations_admin_resources.php:1249
 #: lib/modules/statistics/statistics.php:156
 msgid "persons"
-msgstr ""
+msgstr "personen"
 
 #: easyReservations_admin_resources.php:1293
+#, fuzzy
 msgid "Copy resource"
-msgstr ""
+msgstr "accommodatie"
 
 #: easyReservations_admin_resources.php:1293
 msgid "Add resource"
-msgstr ""
+msgstr "Voeg accommodatie toe"
 
 #: easyReservations_admin_resources.php:1298
 msgid ""
 "This will add a custom post that's private and only visible in forms and "
 "admin"
 msgstr ""
+"Dit zal een aangepast bericht toevoegen dat privé is en alleen zichtbaar is "
+"in formulieren en voor de admin"
 
 #: easyReservations_admin_resources.php:1301
 msgid "Resource's Title"
-msgstr ""
+msgstr "Accomodatie titel"
 
 #: easyReservations_admin_resources.php:1305
 msgid "Resource's Content"
-msgstr ""
+msgstr "Eigenschappen accomodatie"
 
 #: easyReservations_admin_resources.php:1309
 msgid "Resource Image"
-msgstr ""
+msgstr "Accomodatie afbeelding"
 
 #: easyReservations_admin_settings.php:22
 msgid "Database cleaned"
-msgstr ""
+msgstr "Database opgeschoond"
 
 #: easyReservations_admin_settings.php:40
 msgid "General settings saved"
-msgstr ""
+msgstr "Algemene instellingen zijn opgeslagen"
 
 #: easyReservations_admin_settings.php:133
 msgid "eMail settings saved"
-msgstr ""
+msgstr "E-mail instellingen zijn opgeslagen"
 
 #: easyReservations_admin_settings.php:145
 #, php-format
 msgid "Form%ssaved"
-msgstr ""
+msgstr "Formulier %s is opgeslagen"
 
 #: easyReservations_admin_settings.php:153
 msgid "Permissions changed"
-msgstr ""
+msgstr "Permissies gewijzigd"
 
 #: easyReservations_admin_settings.php:159
 #, php-format
 msgid "Form %s has been deleted"
-msgstr ""
+msgstr "Formulier %s is verwijderd"
 
 #: easyReservations_admin_settings.php:172
 #, php-format
 msgid "Form %s has been added"
-msgstr ""
+msgstr "Formulier %s is toegevoegd"
 
 #: easyReservations_admin_settings.php:173
 msgid "Please enter a name for the form"
-msgstr ""
+msgstr "Geef een naam aan het formulier"
 
 #: easyReservations_admin_settings.php:245
 msgid "Reservations Settings"
-msgstr ""
+msgstr "Instellingen reserveringen"
 
 #: easyReservations_admin_settings.php:251
 msgid "General"
-msgstr ""
+msgstr "Algemeen"
 
 #: easyReservations_admin_settings.php:252
 #: js/tinyMCE/tinyMCE_shortcode_add.php:125 lib/modules/search/search.php:27
 msgid "Form"
-msgstr ""
+msgstr "Formulier"
 
 #: easyReservations_admin_settings.php:253
 msgid "eMails"
-msgstr ""
+msgstr "E-mails"
 
 #: easyReservations_admin_settings.php:255
 msgid "About"
-msgstr ""
+msgstr "Over"
 
 #: easyReservations_admin_settings.php:285
 msgid "Reservation settings"
-msgstr ""
+msgstr "Instellingen reserveringen"
 
 #: easyReservations_admin_settings.php:291
 msgid "Support eMail"
-msgstr ""
+msgstr "Support e-mail"
 
 #: easyReservations_admin_settings.php:295
 msgid "Time reservations"
-msgstr ""
+msgstr "Tijd reserveringen"
 
 #: easyReservations_admin_settings.php:296
 msgid "Enable time for reservations "
-msgstr ""
+msgstr "Schakel tijd in voor reserveringen"
 
 #: easyReservations_admin_settings.php:299
 msgid "Currency sign"
-msgstr ""
+msgstr "Munteenheid symbool"
 
 #: easyReservations_admin_settings.php:381
+#, fuzzy
 msgid "Admin Style"
-msgstr ""
+msgstr "Stijl"
 
 #: easyReservations_admin_settings.php:384
 msgid "Wordpress"
-msgstr ""
+msgstr "Wordpress"
 
 #: easyReservations_admin_settings.php:385
 msgid "Grey"
-msgstr ""
+msgstr "Grijs"
 
 #: easyReservations_admin_settings.php:386
 #: easyReservations_admin_settings.php:464
 #: easyReservations_admin_settings.php:1453 lib/core/core.php:16
 msgid "Premium"
-msgstr ""
+msgstr "Premium"
 
 #: easyReservations_admin_settings.php:391
 msgid "Date format"
-msgstr ""
+msgstr "Datum formaat"
 
 #: easyReservations_admin_settings.php:412
 msgid "Merge resources"
-msgstr ""
+msgstr "Voeg accomodaties samen"
 
 #: easyReservations_admin_settings.php:413
 #, php-format
@@ -1156,32 +1176,37 @@ msgid ""
 "Check availability over all resources with max %s reservations at the same "
 "time regardless of the resource"
 msgstr ""
+"Controleer beschikbaarheid over alle accomodaties met maximaal %s "
+"reserveringen op hetzelfde moment ongeacht de accomodatie"
 
 #: easyReservations_admin_settings.php:416
+#, fuzzy
 msgid "Tutorial"
-msgstr ""
+msgstr "Handleiding"
 
 #: easyReservations_admin_settings.php:417
 msgid "Enable tutorial mode"
-msgstr ""
+msgstr "Enable handleidingen modus"
 
 #: easyReservations_admin_settings.php:420
 msgid "Uninstall"
-msgstr ""
+msgstr "Deinstalleren"
 
 #: easyReservations_admin_settings.php:421
 msgid "Delete settings, reservations and resources"
-msgstr ""
+msgstr "Verwijder instellingen, reserveringen en accomodaties"
 
 #: easyReservations_admin_settings.php:431
 msgid "Important Guests"
-msgstr ""
+msgstr "Belangrijke gasten"
 
 #: easyReservations_admin_settings.php:437
 msgid ""
 "Enter emails of important guests; seperated by comma. Reservations with this "
 "email will be highlighted."
 msgstr ""
+"Voer emailadressen in van belangrijke gasten; gescheiden door een comma. "
+"Reserveringen met deze emailadressen worden gemarkeerd."
 
 #: easyReservations_admin_settings.php:443
 #: easyReservations_admin_settings.php:653
@@ -1195,61 +1220,61 @@ msgstr ""
 #: lib/modules/paypal/creditcards.php:277 lib/modules/paypal/paypal.php:225
 #: lib/modules/useredit/useredit.php:451
 msgid "Save Changes"
-msgstr ""
+msgstr "Wijzigingen opslaan"
 
 #: easyReservations_admin_settings.php:458
 #: easyReservations_admin_settings.php:1447
 msgid "Documentation"
-msgstr ""
+msgstr "Documentatie"
 
 #: easyReservations_admin_settings.php:461
 #: easyReservations_admin_settings.php:1450
 msgid "Report bug"
-msgstr ""
+msgstr "Meld bug"
 
 #: easyReservations_admin_settings.php:467
 #: easyReservations_admin_settings.php:1456
 msgid "Rate the Plugin"
-msgstr ""
+msgstr "Beoordeel de plugin"
 
 #: easyReservations_admin_settings.php:470
 #: easyReservations_admin_settings.php:1459
 msgid "Chrome Extension"
-msgstr ""
+msgstr "Chrome Extension"
 
 #: easyReservations_admin_settings.php:480
 msgid "Clean Database"
-msgstr ""
+msgstr "Database opschonen"
 
 #: easyReservations_admin_settings.php:480
 msgid "Clean"
-msgstr ""
+msgstr "Opschonen"
 
 #: easyReservations_admin_settings.php:486
 msgid "Delete all unapproved Old Reservations"
-msgstr ""
+msgstr "Verwijder alle oude niet goedgekeurde reserveringen"
 
 #: easyReservations_admin_settings.php:497
 msgid "Change Permissions"
-msgstr ""
+msgstr "Wijzig permissies"
 
 #: easyReservations_admin_settings.php:510 lib/functions/admin.php:287
 #: lib/modules/statistics/statistics.php:24
 msgid "Statistics"
-msgstr ""
+msgstr "Statistieken"
 
 #: easyReservations_admin_settings.php:602
 msgid "Reservation Form"
-msgstr ""
+msgstr "Reserveringsformulier"
 
 #: easyReservations_admin_settings.php:608
 #: js/tinyMCE/tinyMCE_shortcode_add.php:14
 msgid "Standard"
-msgstr ""
+msgstr "Standaard"
 
 #: easyReservations_admin_settings.php:615
 msgid "Add Field"
-msgstr ""
+msgstr "Voeg veld toe"
 
 #: easyReservations_admin_settings.php:616
 #: easyReservations_admin_settings.php:672
@@ -1257,19 +1282,19 @@ msgstr ""
 #: easyReservations_admin_settings.php:1055
 #: lib/modules/htmlmails/htmlmails.php:126
 msgid "Arrival Date"
-msgstr ""
+msgstr "Aankomst datum"
 
 #: easyReservations_admin_settings.php:617
 #: easyReservations_admin_settings.php:677
 #: easyReservations_admin_settings.php:1049
 msgid "Arrival Hour"
-msgstr ""
+msgstr "Aankomst uur"
 
 #: easyReservations_admin_settings.php:618
 #: easyReservations_admin_settings.php:682
 #: easyReservations_admin_settings.php:1049
 msgid "Arrival Minute"
-msgstr ""
+msgstr "Aankomst minuut"
 
 #: easyReservations_admin_settings.php:619
 #: easyReservations_admin_settings.php:687
@@ -1277,30 +1302,30 @@ msgstr ""
 #: easyReservations_admin_settings.php:1056
 #: lib/modules/htmlmails/htmlmails.php:127
 msgid "Departure Date"
-msgstr ""
+msgstr "Vertrekdatum"
 
 #: easyReservations_admin_settings.php:620
 #: lib/modules/htmlmails/htmlmails.php:128
 msgid "Times of stay"
-msgstr ""
+msgstr "Aantal verblijf"
 
 #: easyReservations_admin_settings.php:621
 #: easyReservations_admin_settings.php:697
 #: easyReservations_admin_settings.php:1049
 msgid "Departure Hour"
-msgstr ""
+msgstr "Vertrek uur"
 
 #: easyReservations_admin_settings.php:622
 #: easyReservations_admin_settings.php:702
 #: easyReservations_admin_settings.php:1049
 msgid "Departure Minute"
-msgstr ""
+msgstr "Vertrek minuut"
 
 #: easyReservations_admin_settings.php:629
 #: easyReservations_admin_settings.php:738
 #: lib/modules/htmlmails/htmlmails.php:140
 msgid "Custom"
-msgstr ""
+msgstr "Custom"
 
 #: easyReservations_admin_settings.php:630
 #: easyReservations_admin_settings.php:743
@@ -1311,93 +1336,93 @@ msgstr ""
 #: easyReservations_admin_settings.php:758
 #: lib/modules/useredit/useredit.php:903
 msgid "Captcha"
-msgstr ""
+msgstr "Captcha"
 
 #: easyReservations_admin_settings.php:634
 msgid "Display Price"
-msgstr ""
+msgstr "Toon prijs"
 
 #: easyReservations_admin_settings.php:635
 #: easyReservations_admin_settings.php:768
 msgid "Display Errors"
-msgstr ""
+msgstr "Toon foutmeldingen"
 
 #: easyReservations_admin_settings.php:637
 msgid "Submit Button"
-msgstr ""
+msgstr "Submit knop"
 
 #: easyReservations_admin_settings.php:644
 msgid "Reset"
-msgstr ""
+msgstr "Reset"
 
 #: easyReservations_admin_settings.php:654
 msgid "Default Form"
-msgstr ""
+msgstr "Standaard formulier"
 
 #: easyReservations_admin_settings.php:655
 msgid "Reset Form"
-msgstr ""
+msgstr "Reset formulier"
 
 #: easyReservations_admin_settings.php:660
 msgid "Include to Page or Post with"
-msgstr ""
+msgstr "Voeg toe aan Pagina of Bericht met"
 
 #: easyReservations_admin_settings.php:665
 msgid "Information"
-msgstr ""
+msgstr "Informatie"
 
 #: easyReservations_admin_settings.php:666
 msgid "Tag"
-msgstr ""
+msgstr "Label"
 
 #: easyReservations_admin_settings.php:667
 msgid "If unused"
-msgstr ""
+msgstr "Wanneer niet gebruikt"
 
 #: easyReservations_admin_settings.php:672
 #: easyReservations_admin_settings.php:687
 msgid "Text field with datepicker"
-msgstr ""
+msgstr "Tekstveld met datepicker"
 
 #: easyReservations_admin_settings.php:677
 #: easyReservations_admin_settings.php:697
 msgid "Select from 00-23"
-msgstr ""
+msgstr "Selecteer van 00-23"
 
 #: easyReservations_admin_settings.php:682
 #: easyReservations_admin_settings.php:702
 msgid "Select from 00-59"
-msgstr ""
+msgstr "Selecteer van 00-59"
 
 #: easyReservations_admin_settings.php:692
 #: easyReservations_admin_settings.php:1049
 #: easyReservations_admin_settings.php:1057
 #: lib/modules/htmlmails/htmlmails.php:386
 msgid "Times"
-msgstr ""
+msgstr "Keer"
 
 #: easyReservations_admin_settings.php:692
 #: easyReservations_admin_settings.php:712
 #: easyReservations_admin_settings.php:717
 msgid "Select of definable numbers"
-msgstr ""
+msgstr "Selectie van definieerbare nummers"
 
 #: easyReservations_admin_settings.php:707
 msgid "Select of excludable resources"
-msgstr ""
+msgstr "Selecteer of sluit accomodaties buiten"
 
 #: easyReservations_admin_settings.php:722
 #: easyReservations_admin_settings.php:727
 msgid "Text field"
-msgstr ""
+msgstr "Tekstveld"
 
 #: easyReservations_admin_settings.php:732
 msgid "Select of countrys"
-msgstr ""
+msgstr "Selecteert van landen"
 
 #: easyReservations_admin_settings.php:738
 msgid "Custom field, area, select, radio or checkbox"
-msgstr ""
+msgstr "Custom veld, gebied, select, radio of checkbox"
 
 #: easyReservations_admin_settings.php:743
 msgid "Show selected resources informations flexible"
@@ -1405,7 +1430,7 @@ msgstr ""
 
 #: easyReservations_admin_settings.php:748
 msgid "Custom select, radio or checkbox with effect on price"
-msgstr ""
+msgstr "Custom select, radio of checkbox met effect op de prijs"
 
 #: easyReservations_admin_settings.php:753
 msgid "Fix &amp; hide informations in form"
@@ -1413,29 +1438,29 @@ msgstr ""
 
 #: easyReservations_admin_settings.php:758
 msgid "Text field and captcha image"
-msgstr ""
+msgstr "Tekstveld en captcha afbeelding"
 
 #: easyReservations_admin_settings.php:763
 msgid "Display price"
-msgstr ""
+msgstr "Toon prijs"
 
 #: easyReservations_admin_settings.php:763
 msgid "Box with live price calculation"
-msgstr ""
+msgstr "Box met live prijsberekening"
 
 #: easyReservations_admin_settings.php:768
 msgid "Box with errors"
-msgstr ""
+msgstr "Box met fouten"
 
 #: easyReservations_admin_settings.php:773
 #: js/tinyMCE/tinyMCE_shortcode_add.php:160 lib/modules/search/search.php:55
 #: lib/modules/useredit/useredit.php:876 lib/modules/useredit/useredit.php:904
 msgid "Submit"
-msgstr ""
+msgstr "Submit"
 
 #: easyReservations_admin_settings.php:773
 msgid "Submit button with definable text"
-msgstr ""
+msgstr "Submit knop met defineerbare tekst"
 
 #: easyReservations_admin_settings.php:788
 #: easyReservations_admin_settings.php:790
@@ -1444,7 +1469,7 @@ msgstr ""
 #: easyReservations_admin_settings.php:800
 #: easyReservations_admin_settings.php:802
 msgid "No"
-msgstr ""
+msgstr "Nee"
 
 #: easyReservations_admin_settings.php:788
 #: easyReservations_admin_settings.php:790
@@ -1453,17 +1478,17 @@ msgstr ""
 #: easyReservations_admin_settings.php:800
 #: easyReservations_admin_settings.php:802
 msgid "Tag in Form"
-msgstr ""
+msgstr "Label in formulier"
 
 #: easyReservations_admin_settings.php:790
 #: easyReservations_admin_settings.php:794
 msgid "or"
-msgstr ""
+msgstr "of"
 
 #: easyReservations_admin_settings.php:792
 #: easyReservations_admin_settings.php:796
 msgid "Dont use"
-msgstr ""
+msgstr "Gebruik niet"
 
 #: easyReservations_admin_settings.php:792
 #: easyReservations_admin_settings.php:796 lib/functions/admin.php:991
@@ -1471,25 +1496,25 @@ msgstr ""
 #: lib/functions/admin.php:994 lib/functions/admin.php:995
 #: lib/functions/admin.php:996
 msgid "and"
-msgstr ""
+msgstr "en"
 
 #: easyReservations_admin_settings.php:792
 #: easyReservations_admin_settings.php:796
 msgid "in the same Form"
-msgstr ""
+msgstr "in hetzelfde formulier"
 
 #: easyReservations_admin_settings.php:806
 msgid "This form is not valid"
-msgstr ""
+msgstr "Dit formulier is niet geldig"
 
 #: easyReservations_admin_settings.php:809
 msgid "This form is valid"
-msgstr ""
+msgstr "Dit formulier is geldig"
 
 #: easyReservations_admin_settings.php:936
 #: easyReservations_admin_settings.php:942 lib/modules/lang/lang.php:41
 msgid "Value"
-msgstr ""
+msgstr "Waarde"
 
 #: easyReservations_admin_settings.php:938
 #: easyReservations_admin_settings.php:940
@@ -1497,54 +1522,55 @@ msgstr ""
 #: easyReservations_admin_settings.php:946
 #: easyReservations_admin_settings.php:948
 msgid "Selected"
-msgstr ""
+msgstr "Geselecteerd"
 
 #: easyReservations_admin_settings.php:974
 msgid "Select type of Input you want to add"
-msgstr ""
+msgstr "Selecteer het type van de waarde die u wilt toevoegen"
 
 #: easyReservations_admin_settings.php:984
 msgid "Select Type of custom price field"
-msgstr ""
+msgstr "Selecteer het type van het custom prijsveld"
 
 #: easyReservations_admin_settings.php:985
 #: js/tinyMCE/tinyMCE_shortcode_add.php:83
 #: lib/modules/hourlycal/hourlycal.php:222 lib/modules/paypal/paypal.php:110
 msgid "Select"
-msgstr ""
+msgstr "Selecteer"
 
 #: easyReservations_admin_settings.php:985
 msgid "Add a dropdown select field with effect on the price to the form"
 msgstr ""
+"Voeg een dropdown select veld toe met effect op de prijs op het formulier"
 
 #: easyReservations_admin_settings.php:986
 msgid "Radio"
-msgstr ""
+msgstr "Radio"
 
 #: easyReservations_admin_settings.php:986
 msgid "Add a radio select field with effect on the price to the form"
-msgstr ""
+msgstr "Voeg een radio select veld toe met effect op de prijs op het formulier"
 
 #: easyReservations_admin_settings.php:987
 msgid "Checkbox"
-msgstr ""
+msgstr "Checkbox"
 
 #: easyReservations_admin_settings.php:987
 msgid "Add a checkbox input with effect on the price to the form"
-msgstr ""
+msgstr "Voeg een checkbox waarde toe met effect op de prijs op het formulier"
 
 #: easyReservations_admin_settings.php:993
 msgid "Error title"
-msgstr ""
+msgstr "Titel foutmelding"
 
 #: easyReservations_admin_settings.php:993
 msgid "Error message"
-msgstr ""
+msgstr "Foutmelding"
 
 #: easyReservations_admin_settings.php:1009
 #: easyReservations_admin_settings.php:1016
 msgid "Exclude by ID"
-msgstr ""
+msgstr "Uitsluiten op ID"
 
 #: easyReservations_admin_settings.php:1022
 msgid "Image"
@@ -1556,79 +1582,92 @@ msgstr ""
 
 #: easyReservations_admin_settings.php:1041
 msgid "Type in value of submit button"
-msgstr ""
+msgstr "Typ de waarde van de submit knop in"
 
 #: easyReservations_admin_settings.php:1049
 #: easyReservations_admin_settings.php:1059
 #: lib/modules/htmlmails/htmlmails.php:388
 msgid "Childrens"
-msgstr ""
+msgstr "Kinderen"
 
 #: easyReservations_admin_settings.php:1052
 msgid "Select type of hidden input"
-msgstr ""
+msgstr "Selecteer type van verborgen waarde"
 
 #: easyReservations_admin_settings.php:1053
 msgid "for fixing informations to the form & hide it from guest"
 msgstr ""
+"voor aanpassen van informatie in het formulier & het verbergen voor de gast"
 
 #: easyReservations_admin_settings.php:1054
 msgid ""
 "Fix a resource to the form; dont use it with [resources] in the same form"
 msgstr ""
+"Bevestig een accomodatie aan het formulier; niet gebruiken met {resources} "
+"in het zelfde formulier"
 
 #: easyReservations_admin_settings.php:1055
 msgid ""
 "Fix an arrival date to the form; dont use it with [date-from] in the same "
 "form"
 msgstr ""
+"Stel aankomstdatum vast in het formulier, niet te gebruiken met [date-from] "
+"in hetzelfde formulier"
 
 #: easyReservations_admin_settings.php:1056
 msgid ""
 "Fix a departure date to the form; dont use it with [date-to] in the same form"
 msgstr ""
+"Stel vertrekdatum vast in het formulier, niet te gebruiken met [date-to] in "
+"hetzelfde formulier"
 
 #: easyReservations_admin_settings.php:1057
 msgid ""
 "Fix times to the form; dont use it with [date-to] or [times] in the same form"
 msgstr ""
+"Stel tijden vast in het formulier, niet te gebruiken met [date-to] of "
+"[times] in hetzelfde formulier"
 
 #: easyReservations_admin_settings.php:1058
 msgid ""
 "Fix an amount of adults to the form; dont use it with [adults] in the same "
 "form"
 msgstr ""
+"Stel een aantal volwassenen vast in het formulier, niet te gebruiken met "
+"[adults] in hetzelfde formulier"
 
 #: easyReservations_admin_settings.php:1059
 msgid ""
 "Fix an amount of childrens to the form; dont use it with [childs] in the "
 "same form"
 msgstr ""
+"Stel een aantal kinderen vast in het formulier, niet te gebruiken met "
+"[childs] in hetzelfde formulier"
 
 #: easyReservations_admin_settings.php:1067
 #: easyReservations_admin_settings.php:1180
 msgid "Required"
-msgstr ""
+msgstr "Verplicht"
 
 #: easyReservations_admin_settings.php:1071
 msgid "Type in a name for the"
-msgstr ""
+msgstr "Voer een naam in voor de"
 
 #: easyReservations_admin_settings.php:1071
 msgid "input you want to add"
-msgstr ""
+msgstr "invoer die u wilt toevoegen"
 
 #: easyReservations_admin_settings.php:1085
 msgid "Type in a Name for the Checkbox"
-msgstr ""
+msgstr "Type een naam voor de checkbox"
 
 #: easyReservations_admin_settings.php:1086
 msgid "Type in a value for the checkbox"
-msgstr ""
+msgstr "Type een waarde voor de checkbox"
 
 #: easyReservations_admin_settings.php:1087
 msgid "The value has to match "
-msgstr ""
+msgstr "De waarde moet overeenkomen met de"
 
 #: easyReservations_admin_settings.php:1087
 #: easyReservations_admin_settings.php:1098
@@ -1637,55 +1676,57 @@ msgid ""
 "Price: negative for reduction %1$s  zero for no change %2$s positiv for "
 "increase %3$s "
 msgstr ""
+"Prijs: negatief voor vermindering %1$s nul voor geen verandering %2$s "
+"positief voor verhoging van %3$s"
 
 #: easyReservations_admin_settings.php:1096
 msgid "Type in a name for the dropdown select"
-msgstr ""
+msgstr "Typ een naam in voor de dropdown selector"
 
 #: easyReservations_admin_settings.php:1097
 msgid "Type in the options field for the"
-msgstr ""
+msgstr "Typ in het opties veld voor de"
 
 #: easyReservations_admin_settings.php:1098
 #: easyReservations_admin_settings.php:1102
 msgid "The options field has to match "
-msgstr ""
+msgstr "Het opties veld moet gelijk zijn"
 
 #: easyReservations_admin_settings.php:1100
 msgid "Type in a Name for the"
-msgstr ""
+msgstr "Voer een naam in voor de"
 
 #: easyReservations_admin_settings.php:1101
 msgid "Type in the options field"
-msgstr ""
+msgstr "Voer het optie veld in"
 
 #: easyReservations_admin_settings.php:1114
 msgid "Select a resource"
-msgstr ""
+msgstr "Selecteer een accomodatie"
 
 #: easyReservations_admin_settings.php:1136
 msgid "Fill in the date of the arrival date you want to fix"
-msgstr ""
+msgstr "Vul de datum van de aankomst datum in die u wilt herstellen"
 
 #: easyReservations_admin_settings.php:1146
 msgid "Fill in the date of the departure date you want to fix"
-msgstr ""
+msgstr "Vul de datum van de vertrekdatum in die u wilt herstellen"
 
 #: easyReservations_admin_settings.php:1156
 msgid "Select the amount of times you want to fix"
-msgstr ""
+msgstr "Selecteer het aantal keren dat u wilt herstellen"
 
 #: easyReservations_admin_settings.php:1194
 msgid "price per person"
-msgstr ""
+msgstr "prijs per persoon"
 
 #: easyReservations_admin_settings.php:1195
 msgid "price per night"
-msgstr ""
+msgstr "prijs per nacht"
 
 #: easyReservations_admin_settings.php:1259
 msgid "Standard Sendmail"
-msgstr ""
+msgstr "Standaard verzend e-mail"
 
 #: easyReservations_admin_settings.php:1259
 #: easyReservations_admin_settings.php:1283
@@ -1697,7 +1738,7 @@ msgstr ""
 #: lib/modules/paypal/paypal.php:292 lib/modules/paypal/paypal.php:305
 #: lib/modules/useredit/useredit.php:470 lib/modules/useredit/useredit.php:483
 msgid "Active"
-msgstr ""
+msgstr "Aktief"
 
 #: easyReservations_admin_settings.php:1264
 #: easyReservations_admin_settings.php:1296
@@ -1706,7 +1747,7 @@ msgstr ""
 #: easyReservations_admin_settings.php:1353 lib/modules/paypal/paypal.php:305
 #: lib/modules/useredit/useredit.php:483
 msgid "Mail to guest"
-msgstr ""
+msgstr "E-mail aan gast"
 
 #: easyReservations_admin_settings.php:1267
 #: easyReservations_admin_settings.php:1286
@@ -1717,181 +1758,185 @@ msgstr ""
 #: lib/modules/paypal/paypal.php:308 lib/modules/useredit/useredit.php:473
 #: lib/modules/useredit/useredit.php:486
 msgid "Subject"
-msgstr ""
+msgstr "Onderwerp"
 
 #: easyReservations_admin_settings.php:1278
 msgid "Mails on new reservation"
-msgstr ""
+msgstr "E-mails bij nieuwe reservering"
 
 #: easyReservations_admin_settings.php:1283 lib/modules/paypal/paypal.php:292
 #: lib/modules/useredit/useredit.php:470
 msgid "Mail to admin"
-msgstr ""
+msgstr "E-mail naar admin"
 
 #: easyReservations_admin_settings.php:1310
 msgid "Mail on approve"
-msgstr ""
+msgstr "E-mail bij goedkeuring"
 
 #: easyReservations_admin_settings.php:1329
 msgid "Mail on reject"
-msgstr ""
+msgstr "E-mail bij weigering"
 
 #: easyReservations_admin_settings.php:1348
 msgid "Mails on edit from admin"
-msgstr ""
+msgstr "E-mail bij wijziging door admin"
 
 #: easyReservations_admin_settings.php:1372
 msgid "Tags"
-msgstr ""
+msgstr "Labels"
 
 #: easyReservations_admin_settings.php:1379
 msgid "wordwrap"
-msgstr ""
+msgstr "woordwrap"
 
 #: easyReservations_admin_settings.php:1380
 msgid "message from admin"
-msgstr ""
+msgstr "bericht van admin"
 
 #: easyReservations_admin_settings.php:1382
 msgid "name"
-msgstr ""
+msgstr "naam"
 
 #: easyReservations_admin_settings.php:1383
 msgid "email"
-msgstr ""
+msgstr "e-mail"
 
 #: easyReservations_admin_settings.php:1384
 msgid "arrival date"
-msgstr ""
+msgstr "Aankomst datum"
 
 #: easyReservations_admin_settings.php:1385
 msgid "departure date"
-msgstr ""
+msgstr "Vertrek datum"
 
 #: easyReservations_admin_settings.php:1386
 msgid "amount of"
-msgstr ""
+msgstr "aantal"
 
 #: easyReservations_admin_settings.php:1387
 #, php-format
 msgid "amount of %s from date of reservation"
-msgstr ""
+msgstr "aantal %s van reserveringsdatum"
 
 #: easyReservations_admin_settings.php:1388
 msgid "amount of adults"
-msgstr ""
+msgstr "Aantal volwassenen"
 
 #: easyReservations_admin_settings.php:1389
 msgid "amount of childs"
-msgstr ""
+msgstr "Aantal kinderen"
 
 #: easyReservations_admin_settings.php:1390
 msgid "country of guest"
-msgstr ""
+msgstr "Herkomst van gasten"
 
 #: easyReservations_admin_settings.php:1391
 msgid "name of resource"
-msgstr ""
+msgstr "naam van de accomodatie"
 
 #: easyReservations_admin_settings.php:1392
 msgid "name of resource number"
-msgstr ""
+msgstr "naam van het accomodatienummer"
 
 #: easyReservations_admin_settings.php:1393
 msgid "show price"
-msgstr ""
+msgstr "toon prijs"
 
 #: easyReservations_admin_settings.php:1394
 msgid "show paid amount"
-msgstr ""
+msgstr "toon betaalde hoeveelheid"
 
 #: easyReservations_admin_settings.php:1395
 msgid "custom fields"
-msgstr ""
+msgstr "custom velden"
 
 #: easyReservations_admin_settings.php:1396
 msgid "price fields"
-msgstr ""
+msgstr "prijs velden"
 
 #: easyReservations_admin_settings.php:1397
 msgid "show changes after edits"
-msgstr ""
+msgstr "Toon wijzigingen na het opstellen"
 
 #: easyReservations_admin_settings.php:1398
 msgid "link to user edit"
-msgstr ""
+msgstr "Koppeling naar gebruikersbewerking"
 
 #: easyReservations_admin_settings.php:1415 lib/core/core.php:277
 #: lib/modules/htmlmails/htmlmails.php:145
 msgid "Changelog"
-msgstr ""
+msgstr "Changelog"
 
 #: easyReservations_admin_settings.php:1466
 msgid "Latest News"
-msgstr ""
+msgstr "Laatste nieuws"
 
 #: easyReservations_admin_settings.php:1501
 msgid "Donate"
-msgstr ""
+msgstr "Doneer"
 
 #: easyReservations_form_shortcode.php:17
 msgid "Room"
 msgstr ""
 
 #: easyReservations_form_shortcode.php:18
+#, fuzzy
 msgid "Your reservation is complete"
-msgstr ""
+msgstr "Uw reservering is verzonden"
 
 #: easyReservations_form_shortcode.php:19
 msgid "Your reservation was sent"
-msgstr ""
+msgstr "Uw reservering is verzonden"
 
 #: easyReservations_form_shortcode.php:20
+#, fuzzy
 msgid "Reservation was validated succesfully"
-msgstr ""
+msgstr "Reserveringen accommodaties"
 
 #: easyReservations_form_shortcode.php:58 lib/functions/both.php:653
 #: lib/modules/coupons/coupons.php:133 lib/modules/invoice/invoice.php:305
 #: lib/modules/paypal/creditcards.php:214 lib/modules/paypal/paypal.php:30
 msgid "Back"
-msgstr ""
+msgstr "Terug"
 
 #: easyReservations_form_shortcode.php:103 lib/functions/both.php:712
 #, php-format
 msgid "%s is required"
-msgstr ""
+msgstr "%s is verplicht"
 
 #: easyReservations_form_shortcode.php:386
+#, fuzzy
 msgid "Add another reservation"
-msgstr ""
+msgstr "Voeg reservering toe"
 
 #: easyReservations_form_shortcode.php:387
+#, fuzzy
 msgid "Submit all reservations"
-msgstr ""
+msgstr "Totaal aantal reserveringen"
 
 #: js/tinyMCE/tinyMCE_shortcode_add.php:10
 msgid "You are not allowed to access this file."
-msgstr ""
+msgstr "U heeft geen permissie om dit bestand in te zien."
 
 #: js/tinyMCE/tinyMCE_shortcode_add.php:25
 msgid "easyReservations Shortcodes"
-msgstr ""
+msgstr "easyReservations snelkoppelingen"
 
 #: js/tinyMCE/tinyMCE_shortcode_add.php:86
 msgid "choose"
-msgstr ""
+msgstr "kies"
 
 #: js/tinyMCE/tinyMCE_shortcode_add.php:87
 msgid "Formular"
-msgstr ""
+msgstr "Formuleren"
 
 #: js/tinyMCE/tinyMCE_shortcode_add.php:88 lib/modules/search/search.php:51
 msgid "Calendar"
-msgstr ""
+msgstr "Kalender"
 
 #: js/tinyMCE/tinyMCE_shortcode_add.php:90
 msgid "Choose type of shortcode"
-msgstr ""
+msgstr "Kies type shortcode"
 
 #: js/tinyMCE/tinyMCE_shortcode_add.php:96
 #: js/tinyMCE/tinyMCE_shortcode_add.php:208
@@ -1899,64 +1944,71 @@ msgid ""
 "The shortcodes wont work if more then one of the same type are on the same "
 "site"
 msgstr ""
+"De shortcodes werken niet als er meer dan een van hetzelfde type op dezelfde "
+"pagina staan"
 
 #: js/tinyMCE/tinyMCE_shortcode_add.php:96
 #: js/tinyMCE/tinyMCE_shortcode_add.php:208
 msgid "This can happen with posts in category-views or on homepage"
 msgstr ""
+"Dit kan gebeuren met berichten in de categorie- weergaven of op de "
+"startpagina"
 
 #: js/tinyMCE/tinyMCE_shortcode_add.php:96
 #: js/tinyMCE/tinyMCE_shortcode_add.php:208
 msgid "To prevent this add the shortcodes after the [more] tag"
-msgstr ""
+msgstr "Voeg de shortcode toe na de [more] tag om dit te voorkomen"
 
 #: js/tinyMCE/tinyMCE_shortcode_add.php:102
 msgid "Insert"
-msgstr ""
+msgstr "Invoegen"
 
 #: js/tinyMCE/tinyMCE_shortcode_add.php:105
 msgid "Cancel"
-msgstr ""
+msgstr "Annuleer"
 
 #: js/tinyMCE/tinyMCE_shortcode_add.php:119
 #: js/tinyMCE/tinyMCE_shortcode_add.php:121
 #: lib/modules/hourlycal/hourlycal.php:198 lib/modules/search/search.php:16
 msgid "Custom Style"
-msgstr ""
+msgstr "Custom stijl"
 
 #: js/tinyMCE/tinyMCE_shortcode_add.php:126
 msgid "Select form template"
-msgstr ""
+msgstr "Selecteer formulier template"
 
 #: js/tinyMCE/tinyMCE_shortcode_add.php:130
 msgid "Attached to reservations if no resource [tag] in form"
 msgstr ""
+"Gehecht aan reserveringen als er geen accomodatie [tag] in het formulier is"
 
 #: js/tinyMCE/tinyMCE_shortcode_add.php:133
 #: js/tinyMCE/tinyMCE_shortcode_add.php:193
 #: lib/modules/hourlycal/hourlycal.php:205 lib/modules/search/search.php:19
 msgid "Style"
-msgstr ""
+msgstr "Stijl"
 
 #: js/tinyMCE/tinyMCE_shortcode_add.php:134
 msgid "White"
-msgstr ""
+msgstr "Wit"
 
 #: js/tinyMCE/tinyMCE_shortcode_add.php:134
 msgid "Blue"
-msgstr ""
+msgstr "Blauw"
 
 #: js/tinyMCE/tinyMCE_shortcode_add.php:134
 msgid "Select style"
-msgstr ""
+msgstr "Selecteer stijl"
 
 #: js/tinyMCE/tinyMCE_shortcode_add.php:137
+#, fuzzy
 msgid "Multiple reservations"
-msgstr ""
+msgstr "Alle reserveringen"
 
 #: js/tinyMCE/tinyMCE_shortcode_add.php:138
+#, fuzzy
 msgid "Allow multiple reservations in a "
-msgstr ""
+msgstr "Alle reserveringen"
 
 #: js/tinyMCE/tinyMCE_shortcode_add.php:138
 msgid "Full"
@@ -1978,20 +2030,23 @@ msgid ""
 msgstr ""
 
 #: js/tinyMCE/tinyMCE_shortcode_add.php:144
+#, fuzzy
 msgid "Overlay message"
-msgstr ""
+msgstr "Test bericht"
 
 #: js/tinyMCE/tinyMCE_shortcode_add.php:148
 msgid "Overlay sub-message"
 msgstr ""
 
 #: js/tinyMCE/tinyMCE_shortcode_add.php:152
+#, fuzzy
 msgid "Name for resources"
-msgstr ""
+msgstr "Naam van de accommodatie"
 
 #: js/tinyMCE/tinyMCE_shortcode_add.php:156
+#, fuzzy
 msgid "Persons in list"
-msgstr ""
+msgstr "Filter op persoon"
 
 #: js/tinyMCE/tinyMCE_shortcode_add.php:160
 msgid ""
@@ -2002,21 +2057,23 @@ msgstr ""
 
 #: js/tinyMCE/tinyMCE_shortcode_add.php:163
 msgid "Submit message"
-msgstr ""
+msgstr "Submit bericht"
 
 #: js/tinyMCE/tinyMCE_shortcode_add.php:167
+#, fuzzy
 msgid "Submit sub-message"
-msgstr ""
+msgstr "Submit bericht"
 
 #: js/tinyMCE/tinyMCE_shortcode_add.php:171
 #: lib/modules/useredit/useredit.php:928
 msgid "Show price"
-msgstr ""
+msgstr "Toon prijs"
 
 #: js/tinyMCE/tinyMCE_shortcode_add.php:175
 #: lib/modules/paypal/creditcards.php:179
+#, fuzzy
 msgid "Credit Card"
-msgstr ""
+msgstr "bewerk"
 
 #: js/tinyMCE/tinyMCE_shortcode_add.php:175
 msgid ""
@@ -2025,8 +2082,9 @@ msgid ""
 msgstr ""
 
 #: js/tinyMCE/tinyMCE_shortcode_add.php:178
+#, fuzzy
 msgid "Credit Card message"
-msgstr ""
+msgstr "Foutmelding"
 
 #: js/tinyMCE/tinyMCE_shortcode_add.php:182
 msgid "Credit Card sub-message"
@@ -2034,125 +2092,129 @@ msgstr ""
 
 #: js/tinyMCE/tinyMCE_shortcode_add.php:185
 msgid "Only add one form per page or post"
-msgstr ""
+msgstr "Voeg maximaal 1 formulier toe per pagina of bericht"
 
 #: js/tinyMCE/tinyMCE_shortcode_add.php:190
 msgid "Select default resource"
-msgstr ""
+msgstr "Selecteer standaard accomodatie"
 
 #: js/tinyMCE/tinyMCE_shortcode_add.php:194
 #: lib/modules/hourlycal/hourlycal.php:206
 msgid "simple"
-msgstr ""
+msgstr "simpel"
 
 #: js/tinyMCE/tinyMCE_shortcode_add.php:194
 #: lib/modules/hourlycal/hourlycal.php:206 lib/modules/search/search.php:20
 msgid "modern"
-msgstr ""
+msgstr "modern"
 
 #: js/tinyMCE/tinyMCE_shortcode_add.php:194
 #: lib/modules/hourlycal/hourlycal.php:206
 msgid "Select calendar style"
-msgstr ""
+msgstr "Selecteer een kalenderstijl"
 
 #: js/tinyMCE/tinyMCE_shortcode_add.php:198
 #: lib/modules/hourlycal/hourlycal.php:210
 msgid "no"
-msgstr ""
+msgstr "nee"
 
 #: js/tinyMCE/tinyMCE_shortcode_add.php:198
 #: lib/modules/hourlycal/hourlycal.php:210
 msgid "Show price in calendar"
-msgstr ""
+msgstr "Toon prijs in kalender"
 
 #: js/tinyMCE/tinyMCE_shortcode_add.php:201
 #: lib/modules/hourlycal/hourlycal.php:213 lib/modules/search/search.php:23
 #: lib/modules/search/search.php:44
 msgid "Width"
-msgstr ""
+msgstr "Breedte"
 
 #: js/tinyMCE/tinyMCE_shortcode_add.php:202
 msgid "Min width"
-msgstr ""
+msgstr "Minimale breedte"
 
 #: js/tinyMCE/tinyMCE_shortcode_add.php:205
 msgid "This shortcode adds an availability calendar to the post or page"
 msgstr ""
+"Deze shortcode voegt een beschikbaarheidskalender toe aan de pagina of het "
+"bericht"
 
 #: js/tinyMCE/tinyMCE_shortcode_add.php:205
 msgid ""
 "You can combine it with a form or the edit-form by add it to the same page"
 msgstr ""
+"U kunt het samenvoegen met een formulier of met een bewerkformulier door het "
+"toe te voegen aan dezelfde pagina"
 
 #: js/tinyMCE/tinyMCE_shortcode_add.php:205
 msgid "Only add the calendar once per page or post"
-msgstr ""
+msgstr "Voeg de kalender eenmalig toe per pagina of bericht"
 
 #: js/tinyMCE/tinyMCE_shortcode_add.php:226
 #: lib/modules/multical/multical.php:24 lib/modules/paypal/creditcards.php:186
 #: lib/modules/useredit/useredit.php:434
 msgid "Month"
-msgstr ""
+msgstr "Maand"
 
 #: js/tinyMCE/tinyMCE_shortcode_add.php:227
 msgid "Months"
-msgstr ""
+msgstr "Maanden"
 
 #: lib/classes/reservation.class.php:620
 msgid "Please enter a correct name"
-msgstr ""
+msgstr "Vul aub een correcte naam in"
 
 #: lib/classes/reservation.class.php:626
 msgid "Please enter a correct eMail"
-msgstr ""
+msgstr "Vul aub een correct emailadres in"
 
 #: lib/classes/reservation.class.php:631
 msgid "Please enter correct dates"
-msgstr ""
+msgstr "Vul aub de correcte data's in"
 
 #: lib/classes/reservation.class.php:637
 msgid "The departure date has to be after the arrival date"
-msgstr ""
+msgstr "De vertrekdatum moet na de aankomst zijn"
 
 #: lib/classes/reservation.class.php:643
 msgid "Adults has to be a number at least one"
-msgstr ""
+msgstr "Volwassenen aantal moet minimaal 1 zijn"
 
 #: lib/classes/reservation.class.php:649
 msgid "Children's has to be a number"
-msgstr ""
+msgstr "Kinderen moet een nummer zijn"
 
 #: lib/classes/reservation.class.php:658
 msgid "Not available at"
-msgstr ""
+msgstr "Niet beschikbaar op"
 
 #: lib/classes/reservation.class.php:659
 msgid "Selected time is occupied"
-msgstr ""
+msgstr "Geselecteerde tijd is bezet"
 
 #: lib/classes/reservation.class.php:666
 msgid "The arrival date has to be in future"
-msgstr ""
+msgstr "De aankomstdatum moet in de toekomst zijn"
 
 #: lib/classes/reservation.class.php:720
 #, php-format
 msgid "At least %1$s persons in %2$s"
-msgstr ""
+msgstr "Minimaal %1$s personen in %2$s"
 
 #: lib/classes/reservation.class.php:727
 #, php-format
 msgid "Maximum %1$s persons in %2$s"
-msgstr ""
+msgstr "Maximaal %1$s personen in %2$s"
 
 #: lib/classes/reservation.class.php:734
 #, php-format
 msgid "At least %1$s %2$s in %3$s"
-msgstr ""
+msgstr "Minimaal %1$s %2$s in %3$s"
 
 #: lib/classes/reservation.class.php:741
 #, php-format
 msgid "Maximum %1$s %2$s in %3$s"
-msgstr ""
+msgstr "Maximaal %1$s %2$s in %3$s"
 
 #: lib/classes/reservation.class.php:753
 #, php-format
@@ -2166,51 +2228,52 @@ msgstr ""
 
 #: lib/classes/reservation.class.php:930 lib/functions/both.php:259
 msgid "The arrival date was edited"
-msgstr ""
+msgstr "De aankomstdatum is gewijzigd"
 
 #: lib/classes/reservation.class.php:931 lib/functions/both.php:263
 msgid "The departure date was edited"
-msgstr ""
+msgstr "De vertrekdatum is gewijzigd"
 
 #: lib/classes/reservation.class.php:932 lib/functions/both.php:267
 msgid "The name was edited"
-msgstr ""
+msgstr "De naam is bewerkt"
 
 #: lib/classes/reservation.class.php:933 lib/functions/both.php:271
 msgid "The email was edited"
-msgstr ""
+msgstr "De e-mail is bewerkt"
 
 #: lib/classes/reservation.class.php:934
 msgid "The amount of adults was edited"
-msgstr ""
+msgstr "Het aantal volwassenen is bewerkt"
 
 #: lib/classes/reservation.class.php:935 lib/functions/both.php:279
 msgid "The amount of childs was edited"
-msgstr ""
+msgstr "Het aantal kinderen is bewerkt"
 
 #: lib/classes/reservation.class.php:936 lib/functions/both.php:283
 msgid "The country was edited"
-msgstr ""
+msgstr "Het land is bewerkt"
 
 #: lib/classes/reservation.class.php:937
 msgid "The resource was edited"
-msgstr ""
+msgstr "De accomodatie is gewijzigd"
 
 #: lib/classes/reservation.class.php:938 lib/functions/both.php:295
 msgid "Custom fields got edited"
-msgstr ""
+msgstr "Custom velden zijn gewijzigd"
 
 #: lib/classes/reservation.class.php:939
 msgid "Prices got edited"
-msgstr ""
+msgstr "Prijzen zijn bewerkt"
 
 #: lib/classes/reservation.class.php:945 lib/modules/useredit/useredit.php:349
 msgid "trashed"
-msgstr ""
+msgstr "verwijderd"
 
 #: lib/core/core.php:28
+#, fuzzy
 msgid "Checked for updates"
-msgstr ""
+msgstr "Controleer op updates"
 
 #: lib/core/core.php:31
 msgid "Logging in"
@@ -2219,27 +2282,31 @@ msgstr ""
 #: lib/core/core.php:33
 #, php-format
 msgid "Module %s activated"
-msgstr ""
+msgstr "Module %s is geactiveerd"
 
 #: lib/core/core.php:36
 msgid "Logged out"
 msgstr ""
 
 #: lib/core/core.php:38
+#, fuzzy
 msgid "All installed modules activated"
-msgstr ""
+msgstr "Module %s is geactiveerd"
 
 #: lib/core/core.php:40
+#, fuzzy
 msgid "All installed modules deactivated"
-msgstr ""
+msgstr "Module %s is gedeactiveerd"
 
 #: lib/core/core.php:45
+#, fuzzy
 msgid "updated"
-msgstr ""
+msgstr "Vervaldag"
 
 #: lib/core/core.php:46
+#, fuzzy
 msgid "installed"
-msgstr ""
+msgstr "Geïnstalleerd"
 
 #: lib/core/core.php:49
 #, php-format
@@ -2259,29 +2326,29 @@ msgstr ""
 #: lib/core/core.php:53
 #, php-format
 msgid "Module %s deactivated"
-msgstr ""
+msgstr "Module %s is gedeactiveerd"
 
 #: lib/core/core.php:68
-#, php-format
+#, fuzzy, php-format
 msgid "Module %s deleted"
-msgstr ""
+msgstr "Module %s is gedeactiveerd"
 
 #: lib/core/core.php:101
 #, php-format
 msgid "Module %s installed successfully"
-msgstr ""
+msgstr "Module %s is succesvol geinstalleerd"
 
 #: lib/core/core.php:103
 msgid "Upload failed"
-msgstr ""
+msgstr "Upload mislukt"
 
 #: lib/core/core.php:104 lib/modules/import/import.php:46
 msgid "Wrong file"
-msgstr ""
+msgstr "Verkeerd bestand"
 
 #: lib/core/core.php:115
 msgid "Invoice Module"
-msgstr ""
+msgstr "Invoice Module"
 
 #: lib/core/core.php:116
 msgid ""
@@ -2289,30 +2356,41 @@ msgid ""
 "templates. Including an editor for admins, invoices as email attachments and "
 "correct A4 Letter formats."
 msgstr ""
+"Genereer volledig op maat gemaakte facturen automatisch uit vooraf "
+"gedefinieerde sjablonen. Inclusief een editor voor beheerders, factruren als "
+"e-mailbijlagen en correct op A4 papier tonen."
 
 #: lib/core/core.php:125
 msgid "htmlMails Module"
-msgstr ""
+msgstr "htmlMails Module"
 
 #: lib/core/core.php:126
 msgid ""
 "Style your eMails with HTML to increase the appereance of your hospitality."
 msgstr ""
+"Stijl uw e-mails met HTML om het uiterlijk van uw gastvrijheid te verhogen."
 
 #: lib/core/core.php:134
+#, fuzzy
 msgid "Payment Module"
-msgstr ""
+msgstr "PayPal Module"
 
 #: lib/core/core.php:135
+#, fuzzy
 msgid ""
 "Your guest can pay their reservations directly through PayPal or leave their "
 "credit card details for manually booking. Automatically approve new "
 "reservations and/or paid reservations. Payment verification by IPN."
 msgstr ""
+"Uw gasten kunnen hun reserveringen direct betalen via de PayPal! Voegt de "
+"PayPal Buy Now knop na het submitten van het formulier en aan het gebruikers "
+"configuratie paneel wanneer de betaling nog niet is voldaan. Automatische "
+"goedkeuring van nieuwe reserveringen en/of betaalde reserveringen. Betalings "
+"verificatie door middel van IPN."
 
 #: lib/core/core.php:143
 msgid "searchForm Module"
-msgstr ""
+msgstr "searchForm Module"
 
 #: lib/core/core.php:144
 msgid ""
@@ -2321,36 +2399,45 @@ msgid ""
 "resources too, link to form with automatically selection. Each resource can "
 "have a small one-column calendar to show when its availble."
 msgstr ""
+"Nieuwe shortcode om uw gasten te laten zoeken op beschikbare accomodaties. "
+"Geen reload voor het zoeken, compatibel met de kalender, tonen van de prijs, "
+"tonen van niet beschikbare accomodaties, link naar het formulier met "
+"automatische selectie. Elke resource kan een kleine kalender hebben (1 "
+"kolom) om te tonen wanneer het beschikbaar is."
 
 #: lib/core/core.php:152
 msgid "hourlyCalendar Module"
-msgstr ""
+msgstr "hourlyCalendar Module"
 
 #: lib/core/core.php:153
 msgid "Show your guests the availability on a hourly basis."
-msgstr ""
+msgstr "Toon uw gasten de beschikbaarheid op basis van uren."
 
 #: lib/core/core.php:161
+#, fuzzy
 msgid "Export &amp; Import Module"
-msgstr ""
+msgstr "Import &amp; Export module"
 
 #: lib/core/core.php:162
+#, fuzzy
 msgid ""
 "Export selectable reservations informations by time, selection or all as ."
 "xls, .csv or .least and Import them from back from the .least files."
 msgstr ""
+"Exporteer selecteerbare reserveringsinformatie op tijd, selectie of alles "
+"als .xls, .csv or .xml en importeer ze terug door .xml bestanden."
 
 #: lib/core/core.php:170
 msgid "Multilingual Module"
-msgstr ""
+msgstr "Multilingual Module"
 
 #: lib/core/core.php:171
 msgid "Function to make texts in forms and emails translatable."
-msgstr ""
+msgstr "Functie om tekst in formulieren en e-mails vertaalbaar te maken."
 
 #: lib/core/core.php:179
 msgid "Guest Editing Module"
-msgstr ""
+msgstr "Guest Editing Module"
 
 #: lib/core/core.php:180
 msgid ""
@@ -2360,70 +2447,83 @@ msgid ""
 "New messages in table, dummy message at start, admin notices, avatars and "
 "fully AJAX driven."
 msgstr ""
+"Laat uw gasten inloggen met hun reserverings ID en e-mail zodat ze hun "
+"reservering achteraf kunnen bewerken. Ze kunnen schakelen tussen hun "
+"reserveringen in een tabel. Daarnaast biedt het een chat-achtige functie "
+"tussen de gebruiker en admin. Nieuwe berichten in tabel, dummy bericht bij "
+"de start, admin mededelingen, avatars en volledig AJAX aangedreven."
 
 #: lib/core/core.php:188
 msgid "Statistics Module"
-msgstr ""
+msgstr "Statistics Module"
 
 #: lib/core/core.php:189
 msgid "Detailed statistics, charts, resources usage and a dashboards widget."
 msgstr ""
+"Gedetailleerde statistieken, grafieken, gebruik van accomodaties en een "
+"dashboard widget."
 
 #: lib/core/core.php:197
 msgid "Styles"
-msgstr ""
+msgstr "Stijlen"
 
 #: lib/core/core.php:198
+#, fuzzy
 msgid ""
 "New Admin, Calendar and Form stlye. In addition it changes your datepickers "
 "style and disable unavailble dates in it."
 msgstr ""
+"Nieuwe admin, kalender en formulier stijl. Daarnaast verandert het je "
+"datepickers stijl en schakeld het niet beschikbare data in de datepicker uit"
 
 #: lib/core/core.php:206
 msgid "Coupon Module"
-msgstr ""
+msgstr "Coupon Module"
 
 #: lib/core/core.php:207
 msgid "Let your guests enter coupon codes for discounts."
-msgstr ""
+msgstr "Laat uw gasten coupon codes invoeren voor kortingen."
 
 #: lib/core/core.php:215
 msgid "extentedCalendar Module"
-msgstr ""
+msgstr "extentedCalendar Module"
 
 #: lib/core/core.php:216
 msgid ""
 "Extend the calendar shortcode to show multiple months by an flexible grid "
 "(x*y) at once. Includes a new boxed calendar style."
 msgstr ""
+"Verleng de kalender shortcode om meerdere maanden in een keer te laten zien "
+"door een flexible rooster (x * y). Inclusief een nieuwe boxed kalender"
 
 #: lib/core/core.php:241 lib/functions/admin.php:72
 msgid "Description"
-msgstr ""
+msgstr "Beschrijving"
 
 #: lib/core/core.php:242
 msgid "Installed"
-msgstr ""
+msgstr "Geïnstalleerd"
 
 #: lib/core/core.php:243
 msgid "Actual"
-msgstr ""
+msgstr "Actueel"
 
 #: lib/core/core.php:244
 msgid "Link"
-msgstr ""
+msgstr "Link"
 
 #: lib/core/core.php:273
 msgid "Activate"
-msgstr ""
+msgstr "Activeren"
 
 #: lib/core/core.php:274
+#, fuzzy
 msgid "Delete"
-msgstr ""
+msgstr "verwijder"
 
 #: lib/core/core.php:275
 msgid "Deactivate"
-msgstr ""
+msgstr "Deactiveren"
 
 #: lib/core/core.php:288
 #, php-format
@@ -2442,72 +2542,82 @@ msgid "Update"
 msgstr ""
 
 #: lib/core/core.php:297
+#, fuzzy
 msgid "Reinstall"
-msgstr ""
+msgstr "Deinstalleren"
 
 #: lib/core/core.php:298 lib/core/core.php:370
 msgid "Install"
-msgstr ""
+msgstr "Installeer"
 
 #: lib/core/core.php:300 lib/modules/useredit/useredit.php:759
 msgid "Download"
-msgstr ""
+msgstr "Download"
 
 #: lib/core/core.php:311
+#, fuzzy
 msgid "Premium Login"
-msgstr ""
+msgstr "Premium"
 
 #: lib/core/core.php:311
+#, fuzzy
 msgid "Premium Features"
-msgstr ""
+msgstr "Premium"
 
 #: lib/core/core.php:312
 msgid "Login"
 msgstr ""
 
 #: lib/core/core.php:322
+#, fuzzy
 msgid "Username"
-msgstr ""
+msgstr "naam"
 
 #: lib/core/core.php:326
 msgid "Password"
 msgstr ""
 
 #: lib/core/core.php:335
+#, fuzzy
 msgid "Install all modules"
-msgstr ""
+msgstr "Installeer of update module"
 
 #: lib/core/core.php:339
+#, fuzzy
 msgid "Activate All"
-msgstr ""
+msgstr "Activeren"
 
 #: lib/core/core.php:343
+#, fuzzy
 msgid "Deactivate All"
-msgstr ""
+msgstr "Deactiveren"
 
 #: lib/core/core.php:346
+#, fuzzy
 msgid "Check for updates"
-msgstr ""
+msgstr "Controleer op updates"
 
 #: lib/core/core.php:347
+#, fuzzy
 msgid "Turn of update notifier"
-msgstr ""
+msgstr "Zet update kennisgever aan"
 
 #: lib/core/core.php:348
 msgid "Last check"
-msgstr ""
+msgstr "Laatste controle"
 
 #: lib/core/core.php:357
+#, fuzzy
 msgid "Install or Update Module manually"
-msgstr ""
+msgstr "Installeer of update module"
 
 #: lib/core/core.php:431
 msgid "New Updates are available:"
-msgstr ""
+msgstr "Nieuwe updates beschikbaar:"
 
 #: lib/core/core.php:432
 msgid "New Update is available:"
-msgstr ""
+msgstr "Nieuwe update beschikbaar:"
 
 #: lib/core/core.php:469
 msgid "Wrong login data"
@@ -2524,755 +2634,756 @@ msgstr ""
 
 #: lib/functions/admin.php:72
 msgid "Price calculation"
-msgstr ""
+msgstr "Prijs calculator"
 
 #: lib/functions/admin.php:72
 msgid "Total"
-msgstr ""
+msgstr "Totaal"
 
 #: lib/functions/admin.php:87
 msgid "Custom price"
-msgstr ""
+msgstr "Custom prijs"
 
 #: lib/functions/admin.php:90
 msgid "Stay filter"
-msgstr ""
+msgstr "Verblijf filter"
 
 #: lib/functions/admin.php:93
 msgid "Loyal filter"
-msgstr ""
+msgstr "Trouwe filter"
 
 #: lib/functions/admin.php:96
 msgid "Person filter"
-msgstr ""
+msgstr "Filter op persoon"
 
 #: lib/functions/admin.php:99
 msgid "Earlybird filter"
-msgstr ""
+msgstr "Vroegboek korting"
 
 #: lib/functions/admin.php:105 lib/modules/coupons/coupons.php:201
 msgid "Coupon"
-msgstr ""
+msgstr "Coupon"
 
 #: lib/functions/admin.php:108
 msgid "Price per Children"
-msgstr ""
+msgstr "Prijs per kind"
 
 #: lib/functions/admin.php:111
 msgid "Tax"
-msgstr ""
+msgstr "BTW"
 
 #: lib/functions/admin.php:114
 msgid "Price filter"
-msgstr ""
+msgstr "Prijs filter"
 
 #: lib/functions/admin.php:117
 msgid "Groundprice"
-msgstr ""
+msgstr "Basisprijs"
 
 #: lib/functions/admin.php:149
 msgid "active"
-msgstr ""
+msgstr "aktief"
 
 #: lib/functions/admin.php:154
 msgid "future"
-msgstr ""
+msgstr "toekomst"
 
 #: lib/functions/admin.php:159
 msgid "past"
-msgstr ""
+msgstr "verleden"
 
 #: lib/functions/admin.php:167 lib/modules/statistics/statistics.php:103
 msgid "price"
-msgstr ""
+msgstr "prijs"
 
 #: lib/functions/admin.php:172 lib/modules/statistics/statistics.php:114
 #: lib/modules/statistics/statistics.php:126
 msgid "paid"
-msgstr ""
+msgstr "betaald"
 
 #: lib/functions/admin.php:176
 msgid "time"
-msgstr ""
+msgstr "tijd"
 
 #: lib/functions/admin.php:180
 msgid "status"
-msgstr ""
+msgstr "status"
 
 #: lib/functions/admin.php:206 lib/functions/admin.php:831
 msgid "Edit"
-msgstr ""
+msgstr "Bewerk"
 
 #: lib/functions/admin.php:208 lib/functions/admin.php:834
 #: lib/modules/invoice/editor.php:26
 msgid "Mail"
-msgstr ""
+msgstr "E-mail"
 
 #: lib/functions/admin.php:273
 msgid "Reservations dashboard settings saved"
-msgstr ""
+msgstr "Reserveringen dashboard instellingen zijn opgeslagen"
 
 #: lib/functions/admin.php:284
 msgid "Show/Hide content"
-msgstr ""
+msgstr "Toon/verberg inhoud"
 
 #: lib/functions/admin.php:285
 msgid "Show welcome message"
-msgstr ""
+msgstr "Toon welkom bericht"
 
 #: lib/functions/admin.php:286 lib/functions/admin.php:339
 msgid "Overview"
-msgstr ""
+msgstr "Overzicht"
 
 #: lib/functions/admin.php:288 lib/modules/useredit/useredit.php:919
 msgid "Table"
-msgstr ""
+msgstr "Tabel"
 
 #: lib/functions/admin.php:291 lib/modules/import/import.php:58
 msgid "Export"
-msgstr ""
+msgstr "Exporteren"
 
 #: lib/functions/admin.php:295
 msgid "Table informations"
-msgstr ""
+msgstr "Tabel informatie"
 
 #: lib/functions/admin.php:297
 msgid "Color"
-msgstr ""
+msgstr "Kleur"
 
 #: lib/functions/admin.php:300
 msgid "Date  "
-msgstr ""
+msgstr "Datum"
 
 #: lib/functions/admin.php:301
 msgid "Reserved "
-msgstr ""
+msgstr "Gereserveerd"
 
 #: lib/functions/admin.php:306
 msgid "Resource number"
-msgstr ""
+msgstr "Accomodatienummer"
 
 #: lib/functions/admin.php:312 lib/functions/admin.php:709
 #: lib/functions/admin.php:750 lib/modules/htmlmails/htmlmails.php:397
 msgid "Custom fields"
-msgstr ""
+msgstr "Custom velden"
 
 #: lib/functions/admin.php:313 lib/functions/admin.php:711
 #: lib/functions/admin.php:752
 msgid "Custom prices"
-msgstr ""
+msgstr "Custom prijzen"
 
 #: lib/functions/admin.php:315
 msgid "Favourites"
-msgstr ""
+msgstr "Favorieten"
 
 #: lib/functions/admin.php:319
 msgid "Table actions"
-msgstr ""
+msgstr "Tabel acties"
 
 #: lib/functions/admin.php:320
 msgid "Filter by month"
-msgstr ""
+msgstr "Filter op maand"
 
 #: lib/functions/admin.php:321
 msgid "Filter by resource"
-msgstr ""
+msgstr "Filter op accomodatie"
 
 #: lib/functions/admin.php:322
 msgid "Filter by status"
-msgstr ""
+msgstr "Filter op status"
 
 #: lib/functions/admin.php:323
 msgid "Choose days to show"
-msgstr ""
+msgstr "Kies de dag om te tonen"
 
 #: lib/functions/admin.php:324 lib/functions/admin.php:669
 #: lib/modules/search/search.php:96
 msgid "Search"
-msgstr ""
+msgstr "Zoek"
 
 #: lib/functions/admin.php:325
 msgid "Bulk & Checkboxes"
-msgstr ""
+msgstr "Bulk & Checkboxes"
 
 #: lib/functions/admin.php:328
 msgid "Show Resources"
-msgstr ""
+msgstr "Toon accomodaties"
 
 #: lib/functions/admin.php:340
 msgid "Overview onMouseOver Date & Select animation"
-msgstr ""
+msgstr "Overzicht onMouseOver Date & Select animatie"
 
 #: lib/functions/admin.php:341
 msgid "Overview autoselect with inputs on add/edit"
-msgstr ""
+msgstr "Overzicht autoselect met waarde op toevoegen/bewerken"
 
 #: lib/functions/admin.php:342
 #, php-format
 msgid "Show empty space for each room and day (+20% load)"
-msgstr ""
+msgstr "Toon lege ruimte voor elke kamer en dag (+20% belasting)"
 
 #: lib/functions/admin.php:343
 msgid "Hourly mode as standard"
-msgstr ""
+msgstr "Uren modus als standaard"
 
 #: lib/functions/admin.php:614
 msgid "of"
-msgstr ""
+msgstr "van"
 
 #: lib/functions/admin.php:630 lib/modules/useredit/useredit.php:352
 msgid "Current"
-msgstr ""
+msgstr "Huidig"
 
 #: lib/functions/admin.php:634
 msgid "Old"
-msgstr ""
+msgstr "Oud"
 
 #: lib/functions/admin.php:635
 msgid "Trash"
-msgstr ""
+msgstr "Prullenbak"
 
 #: lib/functions/admin.php:643
 msgid "View all statuses"
-msgstr ""
+msgstr "Toon alle statussen"
 
 #: lib/functions/admin.php:645
 msgid "Show all Dates"
-msgstr ""
+msgstr "Toon alle data's"
 
 #: lib/functions/admin.php:659
 msgid "View all Resources"
-msgstr ""
+msgstr "Toon alle accommodaties"
 
 #: lib/functions/admin.php:834 lib/functions/admin.php:886
 msgid "Restore"
-msgstr ""
+msgstr "Herstel"
 
 #: lib/functions/admin.php:834 lib/functions/admin.php:886
 msgid "Delete Permanently"
-msgstr ""
+msgstr "Verwijder perminent"
 
 #: lib/functions/admin.php:839 lib/modules/useredit/useredit.php:30
 #: lib/modules/useredit/useredit.php:58 lib/modules/useredit/useredit.php:143
 #: lib/modules/useredit/useredit.php:723
 msgid "ago"
-msgstr ""
+msgstr "geleden"
 
 #: lib/functions/admin.php:878
 msgid "No Reservations found!"
-msgstr ""
+msgstr "Geen reserveringen gevonden!"
 
 #: lib/functions/admin.php:886
 msgid "Bulk Actions"
-msgstr ""
+msgstr "Bulk actie"
 
 #: lib/functions/admin.php:886
 msgid "Move to Trash"
-msgstr ""
+msgstr "Verplaats naar prullenbak"
 
 #: lib/functions/admin.php:886
 msgid "Apply"
-msgstr ""
+msgstr "Toepassen"
 
 #: lib/functions/admin.php:892
 msgid "Elements"
-msgstr ""
+msgstr "Elementen"
 
 #: lib/functions/admin.php:913
 msgid "easyReservations Premium"
-msgstr ""
+msgstr "easyReservations Premium"
 
 #: lib/functions/admin.php:948
 #, php-format
 msgid "If the %3$s to calculate is beween %1$s and %2$s else"
-msgstr ""
+msgstr "Als de %3$s om te berekenen tussen de %1$s en %2$s is anders"
 
 #: lib/functions/admin.php:950
-#, php-format
+#, fuzzy, php-format
 msgid "If the %2$s to calculate is %1$s else"
-msgstr ""
+msgstr "Als de %3$s om te berekenen is %1$s anders"
 
 #: lib/functions/admin.php:990
 #, php-format
 msgid "If %s to calculate is "
-msgstr ""
+msgstr "Als %s om te berekenen is"
 
 #: lib/functions/admin.php:993
 msgid "in calendar week"
-msgstr ""
+msgstr "in kalenderweek"
 
 #: lib/functions/admin.php:994 lib/functions/admin.php:996
 msgid "in"
-msgstr ""
+msgstr "in"
 
 #: lib/functions/admin.php:995
 msgid "in quarter"
-msgstr ""
+msgstr "in kwartaal"
 
 #: lib/functions/admin.php:997
 msgid "else"
-msgstr ""
+msgstr "anders"
 
 #: lib/functions/both.php:11
 msgid "Add New Resource"
-msgstr ""
+msgstr "Voeg nieuwe accomodatie toe"
 
 #: lib/functions/both.php:12
 msgid "Edit Resource"
-msgstr ""
+msgstr "Wijzig accomodatie"
 
 #: lib/functions/both.php:13
 msgid "New Resource"
-msgstr ""
+msgstr "Nieuwe accomodatie"
 
 #: lib/functions/both.php:14
 msgid "All Resources"
-msgstr ""
+msgstr "Alle accomodaties"
 
 #: lib/functions/both.php:15
 msgid "View Resource"
-msgstr ""
+msgstr "Toon accomodatie"
 
 #: lib/functions/both.php:275
 msgid "The amount of persons was edited"
-msgstr ""
+msgstr "Het aantal personen is gewijzigd"
 
 #: lib/functions/both.php:287
 msgid "The room was edited"
-msgstr ""
+msgstr "De kamer is gewijzigd"
 
 #: lib/functions/both.php:291
 msgid "The message was edited"
-msgstr ""
+msgstr "Het bericht is aangepast"
 
 #: lib/functions/both.php:299
 msgid "Prices  got edited"
-msgstr ""
+msgstr "Prijzen zijn gewijzigd"
 
 #: lib/functions/both.php:483
 msgid "prev"
-msgstr ""
+msgstr "prev"
 
 #: lib/functions/both.php:485
 msgid "next"
-msgstr ""
+msgstr "next"
 
 #: lib/functions/both.php:703
+#, fuzzy
 msgid "Please enter the correct captcha"
-msgstr ""
+msgstr "Vul a.u.b. de juiste catcha code in"
 
 #: lib/functions/both.php:890
 #, php-format
 msgid "%1$s is required"
-msgstr ""
+msgstr "%1$s is verplicht"
 
 #: lib/functions/both.php:896
 msgid "Captcha is required"
-msgstr ""
+msgstr "Captcha is verplicht"
 
 #: lib/functions/both.php:899 lib/functions/both.php:907
 msgid "Enter correct captcha"
-msgstr ""
+msgstr "Voer de juiste captcha in"
 
 #: lib/functions/both.php:988
 msgid "Monday"
-msgstr ""
+msgstr "Maandag"
 
 #: lib/functions/both.php:989
 msgid "Tuesday"
-msgstr ""
+msgstr "Dinsdag"
 
 #: lib/functions/both.php:990
 msgid "Wednesday"
-msgstr ""
+msgstr "Woensdag"
 
 #: lib/functions/both.php:991
 msgid "Thursday"
-msgstr ""
+msgstr "Donderdag"
 
 #: lib/functions/both.php:992
 msgid "Friday"
-msgstr ""
+msgstr "Vrijdag"
 
 #: lib/functions/both.php:993
 msgid "Saturday"
-msgstr ""
+msgstr "Zaterdag"
 
 #: lib/functions/both.php:994
 msgid "Sunday"
-msgstr ""
+msgstr "Zondag"
 
 #: lib/functions/both.php:996
 msgid "January"
-msgstr ""
+msgstr "Januari"
 
 #: lib/functions/both.php:997
 msgid "February"
-msgstr ""
+msgstr "Februari"
 
 #: lib/functions/both.php:998
 msgid "March"
-msgstr ""
+msgstr "Maart"
 
 #: lib/functions/both.php:999
 msgid "April"
-msgstr ""
+msgstr "April"
 
 #: lib/functions/both.php:1000
 msgid "May"
-msgstr ""
+msgstr "Mei"
 
 #: lib/functions/both.php:1001
 msgid "June"
-msgstr ""
+msgstr "Juni"
 
 #: lib/functions/both.php:1002
 msgid "July"
-msgstr ""
+msgstr "Juli"
 
 #: lib/functions/both.php:1003
 msgid "August"
-msgstr ""
+msgstr "Augustus"
 
 #: lib/functions/both.php:1004
 msgid "September"
-msgstr ""
+msgstr "September"
 
 #: lib/functions/both.php:1005
 msgid "October"
-msgstr ""
+msgstr "Oktober"
 
 #: lib/functions/both.php:1006
 msgid "November"
-msgstr ""
+msgstr "November"
 
 #: lib/functions/both.php:1007
 msgid "December"
-msgstr ""
+msgstr "December"
 
 #: lib/modules/coupons/coupons.php:19 lib/modules/coupons/coupons.php:178
 msgid "Coupons"
-msgstr ""
+msgstr "coupons"
 
 #: lib/modules/coupons/coupons.php:34 lib/modules/coupons/coupons.php:71
 msgid "Code"
-msgstr ""
+msgstr "Code"
 
 #: lib/modules/coupons/coupons.php:36
 msgid "Used"
-msgstr ""
+msgstr "Gebruikt"
 
 #: lib/modules/coupons/coupons.php:37
 msgid "Discount"
-msgstr ""
+msgstr "Korting"
 
 #: lib/modules/coupons/coupons.php:58
 msgid "No coupons"
-msgstr ""
+msgstr "Geen coupons"
 
 #: lib/modules/coupons/coupons.php:66 lib/modules/coupons/coupons.php:186
 msgid "Add coupon"
-msgstr ""
+msgstr "coupons toevoegen"
 
 #: lib/modules/coupons/coupons.php:83
 msgid "Maximum usages"
-msgstr ""
+msgstr "Maximale gebruiksmogelijkheden"
 
 #: lib/modules/coupons/coupons.php:87
 msgid "Amount"
-msgstr ""
+msgstr "Hoeveelheid"
 
 #: lib/modules/coupons/coupons.php:137
 #, php-format
 msgid "Coupon %s added"
-msgstr ""
+msgstr "Coupon %s toegevoegd"
 
 #: lib/modules/coupons/coupons.php:143
 #, php-format
 msgid "Coupon %s deleted"
-msgstr ""
+msgstr "Coupon %s verwijderd"
 
 #: lib/modules/hourlycal/hourlycal.php:93
 msgid "<"
-msgstr ""
+msgstr "<"
 
 #: lib/modules/hourlycal/hourlycal.php:94
 msgid "0"
-msgstr ""
+msgstr "0"
 
 #: lib/modules/hourlycal/hourlycal.php:94
 msgid ">"
-msgstr ""
+msgstr ">"
 
 #: lib/modules/hourlycal/hourlycal.php:202
 msgid "Select default room"
-msgstr ""
+msgstr "Selecteer standaard kamer"
 
 #: lib/modules/hourlycal/hourlycal.php:222
 msgid "Display"
-msgstr ""
+msgstr "Toon"
 
 #: lib/modules/hourlycal/hourlycal.php:222
 msgid "Navigation"
-msgstr ""
+msgstr "Navigatie"
 
 #: lib/modules/hourlycal/hourlycal.php:226
 msgid "Display hours from"
-msgstr ""
+msgstr "Toon uren van"
 
 #: lib/modules/hourlycal/hourlycal.php:226
 msgid "to"
-msgstr ""
+msgstr "naar"
 
 #: lib/modules/hourlycal/hourlycal.php:256
 msgid "Hourly Calendar"
-msgstr ""
+msgstr "Urenkalender"
 
 #: lib/modules/htmlmails/htmlmails.php:20 lib/modules/invoice/invoice.php:558
 msgid "Admin mail to guest"
-msgstr ""
+msgstr "Admin e-mail naar gast"
 
 #: lib/modules/htmlmails/htmlmails.php:21 lib/modules/invoice/invoice.php:559
 msgid "Mail after new reservation to admin"
-msgstr ""
+msgstr "E-mail na nieuwe reservering naar admin"
 
 #: lib/modules/htmlmails/htmlmails.php:22 lib/modules/invoice/invoice.php:560
 msgid "Mail after new reservation to guest"
-msgstr ""
+msgstr "E-mail na nieuwe reservering naar gast"
 
 #: lib/modules/htmlmails/htmlmails.php:23 lib/modules/invoice/invoice.php:561
 msgid "Mail after approve to guest"
-msgstr ""
+msgstr "E-mail na goedkeuring naar gast"
 
 #: lib/modules/htmlmails/htmlmails.php:24 lib/modules/invoice/invoice.php:562
 msgid "Mail after reject to guest"
-msgstr ""
+msgstr "E-mail na afwijzing naargast"
 
 #: lib/modules/htmlmails/htmlmails.php:25 lib/modules/invoice/invoice.php:563
 msgid "Mail after admin-edit to guest"
-msgstr ""
+msgstr "E-mail na admin-berwerking naar gast"
 
 #: lib/modules/htmlmails/htmlmails.php:26 lib/modules/invoice/invoice.php:564
 msgid "Mail after user-edit to admin"
-msgstr ""
+msgstr "E-mail na gebruikers-bewerking naar admin"
 
 #: lib/modules/htmlmails/htmlmails.php:27 lib/modules/invoice/invoice.php:565
 msgid "Mail after user-edit to guest"
-msgstr ""
+msgstr "E-mail na gebruikers-bewerking naar gast"
 
 #: lib/modules/htmlmails/htmlmails.php:43
 msgid "eMail Settings"
-msgstr ""
+msgstr "E-mail instellingen"
 
 #: lib/modules/htmlmails/htmlmails.php:48
 msgid "Choose type of email"
-msgstr ""
+msgstr "Kies type e-mail"
 
 #: lib/modules/htmlmails/htmlmails.php:52
 msgid "Subj"
-msgstr ""
+msgstr "Onderwerp"
 
 #: lib/modules/htmlmails/htmlmails.php:52
 msgid "Activate email"
-msgstr ""
+msgstr "Activeer e-mail"
 
 #: lib/modules/htmlmails/htmlmails.php:57
 msgid "Plain text"
-msgstr ""
+msgstr "Gewone tekst"
 
 #: lib/modules/htmlmails/htmlmails.php:60
 msgid "HTML"
-msgstr ""
+msgstr "HTML"
 
 #: lib/modules/htmlmails/htmlmails.php:130
 msgid "Nights"
-msgstr ""
+msgstr "Nachten"
 
 #: lib/modules/htmlmails/htmlmails.php:131
 msgid "Weeks"
-msgstr ""
+msgstr "Weken"
 
 #: lib/modules/htmlmails/htmlmails.php:133
 #: lib/modules/htmlmails/htmlmails.php:391
 #: lib/modules/useredit/useredit.php:341
 msgid "Resource Number"
-msgstr ""
+msgstr "Accomodatienummer"
 
 #: lib/modules/htmlmails/htmlmails.php:142
 msgid "Date today"
-msgstr ""
+msgstr "Datum van vandaag"
 
 #: lib/modules/htmlmails/htmlmails.php:143
 msgid "ID of reservation"
-msgstr ""
+msgstr "ID van de reservering"
 
 #: lib/modules/htmlmails/htmlmails.php:144
 msgid "Message from admin"
-msgstr ""
+msgstr "Bericht van admin"
 
 #: lib/modules/htmlmails/htmlmails.php:146
 msgid "Link to edit"
-msgstr ""
+msgstr "Koppeling naar bewerken"
 
 #: lib/modules/htmlmails/htmlmails.php:149
 #: lib/modules/htmlmails/htmlmails.php:399
 msgid "PayPal URL"
-msgstr ""
+msgstr "PayPal URL"
 
 #: lib/modules/htmlmails/htmlmails.php:383
 msgid "Line Break"
-msgstr ""
+msgstr "Regeleinde"
 
 #: lib/modules/htmlmails/htmlmails.php:384
 msgid "Arrival"
-msgstr ""
+msgstr "Aankomst"
 
 #: lib/modules/htmlmails/htmlmails.php:385
 msgid "Departure"
-msgstr ""
+msgstr "Vertrek"
 
 #: lib/modules/htmlmails/htmlmails.php:394
 msgid "Changlog"
-msgstr ""
+msgstr "Changelog"
 
 #: lib/modules/htmlmails/htmlmails.php:395
 msgid "Editlink"
-msgstr ""
+msgstr "Bewerk koppeling"
 
 #: lib/modules/htmlmails/htmlmails.php:396
 msgid "Admin Message"
-msgstr ""
+msgstr "Admin bericht"
 
 #: lib/modules/htmlmails/htmlmails.php:398
 msgid "Price fields"
-msgstr ""
+msgstr "Prijs veld"
 
 #: lib/modules/import/import.php:15 lib/modules/import/import.php:25
 msgid "Import"
-msgstr ""
+msgstr "Importeer"
 
 #: lib/modules/import/import.php:40
 #, php-format
 msgid "%s reservations imported"
-msgstr ""
+msgstr "%s reserveringen geïmporteerd"
 
 #: lib/modules/import/import.php:42
 msgid "Error at access server"
-msgstr ""
+msgstr "Error bij de access server"
 
 #: lib/modules/import/import.php:44
 msgid "Only admins can import reservations"
-msgstr ""
+msgstr "Alleen admins kunnen reserveringen importeren"
 
 #: lib/modules/import/import.php:68
 msgid "Reservations in table"
-msgstr ""
+msgstr "Reserveringen in tabel"
 
 #: lib/modules/import/import.php:68
 msgid "All reservations"
-msgstr ""
+msgstr "Alle reserveringen"
 
 #: lib/modules/import/import.php:68
 msgid "Select reservations"
-msgstr ""
+msgstr "Selecteer reserveringen"
 
 #: lib/modules/import/import.php:68
 msgid "Exel File"
-msgstr ""
+msgstr "Excel bestand"
 
 #: lib/modules/import/import.php:68
 msgid "Backup (XML)"
-msgstr ""
+msgstr "Backup (XML)"
 
 #: lib/modules/import/import.php:68
 msgid "CSV File"
-msgstr ""
+msgstr "CSV bestand"
 
 #: lib/modules/import/import.php:71 lib/modules/useredit/useredit.php:333
 #: lib/modules/useredit/useredit.php:392 lib/modules/useredit/useredit.php:756
 msgid "Informations"
-msgstr ""
+msgstr "Informatie"
 
 #: lib/modules/import/import.php:73
 msgid "Price/Paid"
-msgstr ""
+msgstr "Prijs/Betaald"
 
 #: lib/modules/import/import.php:74
 msgid "Customs"
-msgstr ""
+msgstr "Customs"
 
 #: lib/modules/import/import.php:77
 msgid "Export reservations"
-msgstr ""
+msgstr "Exporteer reserveringen"
 
 #: lib/modules/invoice/editor.php:24
 msgid "Generate"
-msgstr ""
+msgstr "Genereer"
 
 #: lib/modules/invoice/editor.php:25
 msgid "Preview"
-msgstr ""
+msgstr "Voorbeeld"
 
 #: lib/modules/invoice/invoice.php:138
 msgid "Due date"
-msgstr ""
+msgstr "Vervaldag"
 
 #: lib/modules/invoice/invoice.php:291 lib/modules/useredit/useredit.php:760
 #: lib/modules/useredit/useredit.php:932
 msgid "Invoice"
-msgstr ""
+msgstr "Factuur"
 
 #: lib/modules/invoice/invoice.php:401
 msgid "Invoice settings changed"
-msgstr ""
+msgstr "Factuur instellingen zijn gewijzigd"
 
 #: lib/modules/invoice/invoice.php:508 lib/modules/search/search.php:108
 msgid "searchForm bar"
-msgstr ""
+msgstr "zoekformulier balk"
 
 #: lib/modules/invoice/invoice.php:508 lib/modules/search/search.php:108
 msgid "Save"
-msgstr ""
+msgstr "Opslaan"
 
 #: lib/modules/invoice/invoice.php:566 lib/modules/paypal/paypal.php:254
 msgid "Mail after payment to admin"
-msgstr ""
+msgstr "E-mail na betaling naar admin"
 
 #: lib/modules/invoice/invoice.php:567 lib/modules/paypal/paypal.php:255
 msgid "Mail after payment to guest"
-msgstr ""
+msgstr "E-mail na betaling naar gast"
 
 #: lib/modules/invoice/invoice.php:589
 msgid "Copy & Add"
-msgstr ""
+msgstr "Kopieren en toevoegen"
 
 #: lib/modules/lang/lang.php:29
 msgid "translateable content"
-msgstr ""
+msgstr "Vertaalbare inhoud"
 
 #: lib/modules/lang/lang.php:33
 msgid "Translate"
-msgstr ""
+msgstr "Vertaal"
 
 #: lib/modules/lang/lang.php:68
 msgid "Language"
-msgstr ""
+msgstr "Taal"
 
 #: lib/modules/multical/multical.php:23
 msgid "Show monthes"
-msgstr ""
+msgstr "Toon maanden"
 
 #: lib/modules/multical/multical.php:25
 msgid "Interval"
-msgstr ""
+msgstr "Interval"
 
 #: lib/modules/multical/multical.php:28
 msgid "Show month"
-msgstr ""
+msgstr "Toon maand"
 
 #: lib/modules/multical/multical.php:36
 msgid "boxes"
-msgstr ""
+msgstr "boxes"
 
 #: lib/modules/paypal/creditcards.php:64
 msgid "Unknown card type"
@@ -3296,13 +3407,15 @@ msgstr ""
 
 #: lib/modules/paypal/creditcards.php:150
 #: lib/modules/paypal/creditcards.php:151
+#, fuzzy
 msgid "Enter correct CVV code"
-msgstr ""
+msgstr "Voer de juiste captcha in"
 
 #: lib/modules/paypal/creditcards.php:163
 #: lib/modules/paypal/creditcards.php:185
+#, fuzzy
 msgid "Number"
-msgstr ""
+msgstr "November"
 
 #: lib/modules/paypal/creditcards.php:163
 #: lib/modules/paypal/creditcards.php:298
@@ -3315,8 +3428,9 @@ msgid ""
 msgstr ""
 
 #: lib/modules/paypal/creditcards.php:220
+#, fuzzy
 msgid "Credit Cards settings changed"
-msgstr ""
+msgstr "Prijs instellingen gewijzigd"
 
 #: lib/modules/paypal/creditcards.php:234
 #, php-format
@@ -3337,8 +3451,9 @@ msgid ""
 msgstr ""
 
 #: lib/modules/paypal/creditcards.php:246
+#, fuzzy
 msgid "Credit Card settings"
-msgstr ""
+msgstr "GastContact instellingen"
 
 #: lib/modules/paypal/creditcards.php:260
 msgid ""
@@ -3347,8 +3462,9 @@ msgid ""
 msgstr ""
 
 #: lib/modules/paypal/creditcards.php:264
+#, fuzzy
 msgid "Automatical Approval"
-msgstr ""
+msgstr "Automatische goedkeuring"
 
 #: lib/modules/paypal/creditcards.php:266
 msgid "Auto-approve after entered correctly credit card informations"
@@ -3363,222 +3479,230 @@ msgid "or pay with credit card"
 msgstr ""
 
 #: lib/modules/paypal/creditcards.php:296
+#, fuzzy
 msgid "Card Type"
-msgstr ""
+msgstr "Type"
 
 #: lib/modules/paypal/creditcards.php:297
+#, fuzzy
 msgid "Card Number"
-msgstr ""
+msgstr "Accomodatienummer"
 
 #: lib/modules/paypal/creditcards.php:299
 msgid "CCV"
 msgstr ""
 
 #: lib/modules/paypal/paypal.php:22
+#, fuzzy
 msgid "Payment"
-msgstr ""
+msgstr "Na betaling"
 
 #: lib/modules/paypal/paypal.php:47
 msgid "PayPal settings changed"
-msgstr ""
+msgstr "PayPal instellingen zijn gewijzigd"
 
 #: lib/modules/paypal/paypal.php:65
 msgid "Paypal settings"
-msgstr ""
+msgstr "PayPal instellingen"
 
 #: lib/modules/paypal/paypal.php:72
 msgid "The validation only works with SSL in Sandbox"
-msgstr ""
+msgstr "De validatie werkt alleen met SSL in Sandbox"
 
 #: lib/modules/paypal/paypal.php:73 lib/modules/useredit/useredit.php:379
 msgid "Off"
-msgstr ""
+msgstr "Uit"
 
 #: lib/modules/paypal/paypal.php:74
 msgid "Sandbox"
-msgstr ""
+msgstr "Sandbox"
 
 #: lib/modules/paypal/paypal.php:75
 msgid "Live"
-msgstr ""
+msgstr "Live"
 
 #: lib/modules/paypal/paypal.php:93
+#, fuzzy
 msgid "Title when paying multiple reservations"
-msgstr ""
+msgstr "Aantal per reservering"
 
 #: lib/modules/paypal/paypal.php:102
 msgid "Owner"
-msgstr ""
+msgstr "Eigenaar"
 
 #: lib/modules/paypal/paypal.php:103
 msgid "Paypal eMail or Secure Merchant ID"
-msgstr ""
+msgstr "Paypal e-mail of secure merchant ID"
 
 #: lib/modules/paypal/paypal.php:106
 msgid "Button"
-msgstr ""
+msgstr "Knop"
 
 #: lib/modules/paypal/paypal.php:141
 msgid "Currency"
-msgstr ""
+msgstr "Munteenheid"
 
 #: lib/modules/paypal/paypal.php:154
 msgid "Cancel Url"
-msgstr ""
+msgstr "Annuleer URL"
 
 #: lib/modules/paypal/paypal.php:158
 msgid "After success return to"
-msgstr ""
+msgstr "Na succes ga terug naar"
 
 #: lib/modules/paypal/paypal.php:166
 msgid "User ControlPanel"
-msgstr ""
+msgstr "Gebruikers configuratie paneel"
 
 #: lib/modules/paypal/paypal.php:167
 msgid "Page"
-msgstr ""
+msgstr "Pagina"
 
 #: lib/modules/paypal/paypal.php:168
 msgid "Insert URL"
-msgstr ""
+msgstr "Voeg URL toe"
 
 #: lib/modules/paypal/paypal.php:194
 msgid "Label above note"
-msgstr ""
+msgstr "Label boven notitie"
 
 #: lib/modules/paypal/paypal.php:198
 msgid "Language of PayPal"
-msgstr ""
+msgstr "Taal van PayPal"
 
 #: lib/modules/paypal/paypal.php:210
 msgid "Instant Payment Notifications"
-msgstr ""
+msgstr "Instant Payment Notifications"
 
 #: lib/modules/paypal/paypal.php:210
 msgid "Validate payment & set paid amount"
-msgstr ""
+msgstr "Bevestig betaling & voer betaald bedrag in"
 
 #: lib/modules/paypal/paypal.php:215
 msgid "Deposit"
-msgstr ""
+msgstr "Storting"
 
 #: lib/modules/paypal/paypal.php:227
 msgid "Dont forget the new email options!"
-msgstr ""
+msgstr "Vergeet de nieuwe e-mail opties niet!"
 
 #: lib/modules/paypal/paypal.php:234
 msgid "Automatical approve"
-msgstr ""
+msgstr "Automatische goedkeuring"
 
 #: lib/modules/paypal/paypal.php:238
 msgid "After submit"
-msgstr ""
+msgstr "Na submit"
 
 #: lib/modules/paypal/paypal.php:239
 msgid "After payment"
-msgstr ""
+msgstr "Na betaling"
 
 #: lib/modules/paypal/paypal.php:240
 msgid "Both"
-msgstr ""
+msgstr "Beide"
 
 #: lib/modules/paypal/paypal.php:241
 msgid "If there's free space in resource"
-msgstr ""
+msgstr "Als er vrije ruimte in de accomodatie is"
 
 #: lib/modules/paypal/paypal.php:287
 msgid "Mails after payment"
-msgstr ""
+msgstr "E-mails na betaling"
 
 #: lib/modules/paypal/paypal.php:549
 #, php-format
 msgid "Payment about %1$s successful"
-msgstr ""
+msgstr "Betaling voor %1$s succesvol voldaan"
 
 #: lib/modules/search/search.php:28
 msgid "URL to page or post with form"
-msgstr ""
+msgstr "Koppeling naar pagina of bericht met formulier"
 
 #: lib/modules/search/search.php:31
 msgid "Start"
-msgstr ""
+msgstr "Start"
 
 #: lib/modules/search/search.php:32
 msgid "Search on page loading"
-msgstr ""
+msgstr "Zoek op de ladende pagina"
 
 #: lib/modules/search/search.php:35
 msgid "Exclude"
-msgstr ""
+msgstr "Uitsluiten"
 
 #: lib/modules/search/search.php:36
 msgid "Exclude resource by comma seperated IDs"
-msgstr ""
+msgstr "Sluit accomodaties uit met komma gescheiden ID"
 
 #: lib/modules/search/search.php:39
 msgid "Unavailable"
-msgstr ""
+msgstr "Niet beschikbaar"
 
 #: lib/modules/search/search.php:40
 msgid "Show unavailable resources too"
-msgstr ""
+msgstr "Toon ook de niet beschikbare accomodaties"
 
 #: lib/modules/search/search.php:43
 msgid "Thumbnail"
-msgstr ""
+msgstr "Thumbnail"
 
 #: lib/modules/search/search.php:44
 msgid "Height"
-msgstr ""
+msgstr "Hoogte"
 
 #: lib/modules/search/search.php:47
 msgid "Show"
-msgstr ""
+msgstr "Toon"
 
 #: lib/modules/search/search.php:48
 msgid "Availability"
-msgstr ""
+msgstr "Beschikbaarheid"
 
 #: lib/modules/search/search.php:48
 msgid " first characters of content"
-msgstr ""
+msgstr "eerste karakter van de inhoud"
 
 #: lib/modules/search/search.php:48
 msgid "More link to rooms post"
-msgstr ""
+msgstr "Meer links naar accomodatie post"
 
 #: lib/modules/search/search.php:52
 #, php-format
 msgid "Show %s days in calendar with %s"
-msgstr ""
+msgstr "Toon %s dagen in de agenda met %s"
 
 #: lib/modules/search/search.php:52
 msgid "Nothing"
-msgstr ""
+msgstr "Geen"
 
 #: lib/modules/search/search.php:52
 msgid "Left resources"
-msgstr ""
+msgstr "Left resources"
 
 #: lib/modules/search/search.php:56
 msgid "Text for seach button"
-msgstr ""
+msgstr "Tekst voor zoekknop"
 
 #: lib/modules/search/search.php:58
 msgid "This shortcode adds an availability search form to the post or page"
 msgstr ""
+"Deze shortcode voegt een beschikbaarheids formulier toe aan de pagina of het "
+"bericht"
 
 #: lib/modules/search/search.php:58
 msgid "You can combine it with a calendar by add it to the same page"
 msgstr ""
+"U kunt het combineren met een kalender door het toe te voegen op dezelfde "
+"pagina"
 
 #: lib/modules/search/search.php:58
 msgid "Only add it once per page or post"
-msgstr ""
+msgstr "Slechts een keer toevoegen per pagina of bericht "
 
 #: lib/modules/search/search.php:160
 msgid "Search form settings saved"
-msgstr ""
+msgstr "searchForm instellingen opgeslagen"
 
 #: lib/modules/search/search.php:317
 #, php-format
@@ -3596,451 +3720,500 @@ msgid "min %1$s %2$s"
 msgstr ""
 
 #: lib/modules/search/search.php:320
-#, php-format
+#, fuzzy, php-format
 msgid "max %1$s %2$s"
-msgstr ""
+msgstr "Maximaal %1$s %2$s in %3$s"
 
 #: lib/modules/search/search.php:321
-#, php-format
+#, fuzzy, php-format
 msgid "arrival only %s"
-msgstr ""
+msgstr "Aankomst datum"
 
 #: lib/modules/search/search.php:322
-#, php-format
+#, fuzzy, php-format
 msgid "departure only %s"
-msgstr ""
+msgstr "Vertrekdatum"
 
 #: lib/modules/search/search.php:355
 msgid "Available"
-msgstr ""
+msgstr "Beschikbaar"
 
 #: lib/modules/search/search.php:358 lib/modules/search/search.php:359
 msgid "more"
-msgstr ""
+msgstr "meer"
 
 #: lib/modules/search/searchtypes.php:7
 msgid "Search custom post type"
-msgstr ""
+msgstr "Zoek custom bericht type"
 
 #: lib/modules/statistics/statistics.php:92
 msgid "reservations"
-msgstr ""
+msgstr "reserveringen"
 
 #: lib/modules/statistics/statistics.php:143
 msgid "reserved"
-msgstr ""
+msgstr "gereserveerd"
 
 #: lib/modules/statistics/statistics.php:475
 msgid "Reservations Statistics"
-msgstr ""
+msgstr "Statistieken reserveringen"
 
 #: lib/modules/statistics/statistics.php:519
 msgid "Detailed Statistics"
-msgstr ""
+msgstr "Gedetailleerde statistieken"
 
 #: lib/modules/statistics/statistics.php:524
 msgid "Total reservations"
-msgstr ""
+msgstr "Totaal aantal reserveringen"
 
 #: lib/modules/statistics/statistics.php:528
 msgid "Future approved reservations"
-msgstr ""
+msgstr "Goedgekeurde reserveringen die in de toekomst liggen"
 
 #: lib/modules/statistics/statistics.php:532
 msgid "Past approved reservations"
-msgstr ""
+msgstr "In het verleden goedgekeurde reserveringen"
 
 #: lib/modules/statistics/statistics.php:536
 msgid "Pending reservations"
-msgstr ""
+msgstr "Wachtende reserveringen"
 
 #: lib/modules/statistics/statistics.php:540
 msgid "Rejected reservations"
-msgstr ""
+msgstr "Geweigerde reserveringen"
 
 #: lib/modules/statistics/statistics.php:544
 msgid "Trashed reservations"
-msgstr ""
+msgstr "Verwijderde reserveringen"
 
 #: lib/modules/statistics/statistics.php:548
 msgid "Guests per reservations"
-msgstr ""
+msgstr "Gasten per reservering"
 
 #: lib/modules/statistics/statistics.php:552
 msgid "Times per reservations"
-msgstr ""
+msgstr "Aantal per reservering"
 
 #: lib/modules/statistics/statistics.php:556
 msgid "Paid amount of all reservations"
-msgstr ""
+msgstr "Betaalde bedragen van alle reserveringen"
 
 #: lib/modules/statistics/statistics.php:560
 msgid "Paid per reservations"
-msgstr ""
+msgstr "Betaald per reservering"
 
 #: lib/modules/statistics/statistics.php:564
 msgid "Revenue of all reservations"
-msgstr ""
+msgstr "Inkomsten van alle reserveringen"
 
 #: lib/modules/statistics/statistics.php:568
 msgid "Revenue of future reservations"
-msgstr ""
+msgstr "Inkomsten van reserveringen in de toekomst"
 
 #: lib/modules/statistics/statistics.php:572
 msgid "Revenue of past reservations"
-msgstr ""
+msgstr "Inkomsten van reserveringen in het verleden"
 
 #: lib/modules/statistics/statistics.php:576
 msgid "Revenue per reservations"
-msgstr ""
+msgstr "Inkomsten per reservering"
 
 #: lib/modules/statistics/statistics.php:589
 msgid "Approved and reservated graph"
-msgstr ""
+msgstr "Grafiek met goedgekeurde en gereserveerde reserveringen"
 
 #: lib/modules/statistics/statistics.php:603
 msgid "Add reservations first"
-msgstr ""
+msgstr "Voeg reserveringen eerst"
 
 #: lib/modules/styles/styles.php:36
 msgid "premium"
-msgstr ""
+msgstr "premium"
 
 #: lib/modules/styles/styles.php:79
 msgid "Datepicker style"
-msgstr ""
+msgstr "Datepicker stijl"
 
 #: lib/modules/styles/styles.php:80
 msgid "Datepicker availability"
-msgstr ""
+msgstr "Datepicker beschikbaarheid"
 
 #: lib/modules/styles/styles.php:80
 msgid "Cost at least one ms loading time per day and resource"
-msgstr ""
+msgstr "Kost minimaal 1 ms laadtijd per dag en accomodatie"
 
 #: lib/modules/useredit/useredit.php:72
 msgid "Message to guest"
-msgstr ""
+msgstr "E-mail gast"
 
 #: lib/modules/useredit/useredit.php:72
 msgid "Message to admin or Note"
-msgstr ""
+msgstr "Bericht aan admin of Note"
 
 #: lib/modules/useredit/useredit.php:251
 msgid "User Control Panel"
-msgstr ""
+msgstr "Gebruiker configuratie paneel"
 
 #: lib/modules/useredit/useredit.php:282
 msgid "User Control Panel settings saved"
-msgstr ""
+msgstr "Gebruikers dashboard instellingen zijn opgeslagen"
 
 #: lib/modules/useredit/useredit.php:295
 msgid "User ControlPanel settings"
-msgstr ""
+msgstr "Gebruikers dashboard instellingen"
 
 #: lib/modules/useredit/useredit.php:301
 msgid ""
 "To let users edit their reservations on your site add a page or post with "
 "the shortcode"
 msgstr ""
+"Voeg een pagina of bericht toe met de shortcode zodat gebruikers hun "
+"reserveringen op je website kunnen bewerken"
 
 #: lib/modules/useredit/useredit.php:306
 msgid "URL to page with"
-msgstr ""
+msgstr "URL naar pagina met"
 
 #: lib/modules/useredit/useredit.php:311
 msgid "Text after Submit"
-msgstr ""
+msgstr "Tekst na Submit"
 
 #: lib/modules/useredit/useredit.php:316
 msgid "Text over login area - optional"
-msgstr ""
+msgstr "Text over login area - optioneel"
 
 #: lib/modules/useredit/useredit.php:320
 msgid "Text over edit area - optional"
-msgstr ""
+msgstr "Text over edit area - optioneel"
 
 #: lib/modules/useredit/useredit.php:329
 msgid "Table Settings"
-msgstr ""
+msgstr "Tabel instellingen"
 
 #: lib/modules/useredit/useredit.php:330
 msgid "Table of other reservations from the same email"
-msgstr ""
+msgstr "Tabel van andere reserveringen van hetzelfde e-mailadres"
 
 #: lib/modules/useredit/useredit.php:338
 msgid "Reservated"
-msgstr ""
+msgstr "Gereserveerd"
 
 #: lib/modules/useredit/useredit.php:356
 msgid "Other"
-msgstr ""
+msgstr "Ander"
 
 #: lib/modules/useredit/useredit.php:357
 msgid "use style"
-msgstr ""
+msgstr "gebruik stijl"
 
 #: lib/modules/useredit/useredit.php:358
 msgid "only show for guest with >1 reservations"
-msgstr ""
+msgstr "Laat alleen zien voor gasten met >1 reserveringen"
 
 #: lib/modules/useredit/useredit.php:371
 msgid "GuestContact settings"
-msgstr ""
+msgstr "GastContact instellingen"
 
 #: lib/modules/useredit/useredit.php:376
 msgid "Modus"
-msgstr ""
+msgstr "Modus"
 
 #: lib/modules/useredit/useredit.php:380
 msgid "Only admin"
-msgstr ""
+msgstr "Alleen admin"
 
 #: lib/modules/useredit/useredit.php:381
 msgid "User ControlPanel and admin"
-msgstr ""
+msgstr "Gebruikers ControlPanel en admin"
 
 #: lib/modules/useredit/useredit.php:388
 msgid "Title over textarea"
-msgstr ""
+msgstr "Titel over tekstvelden"
 
 #: lib/modules/useredit/useredit.php:394
 msgid "Show avatars"
-msgstr ""
+msgstr "Laat avatars zien"
 
 #: lib/modules/useredit/useredit.php:395
 msgid "Show time ago"
-msgstr ""
+msgstr "Laat tijd terug zien"
 
 #: lib/modules/useredit/useredit.php:396
 msgid "Show unanswered messages in table"
-msgstr ""
+msgstr "Laat onbeantwoorde berichten zien in tabel"
 
 #: lib/modules/useredit/useredit.php:400
 msgid "Guest Avatar"
-msgstr ""
+msgstr "Gast avatar"
 
 #: lib/modules/useredit/useredit.php:402
 msgid "Image as avatar for guests"
-msgstr ""
+msgstr "Afbeelding als avatar voor gasten"
 
 #: lib/modules/useredit/useredit.php:406
 msgid "Dummy"
-msgstr ""
+msgstr "Test"
 
 #: lib/modules/useredit/useredit.php:408
 msgid "Show dummy"
-msgstr ""
+msgstr "Laat test zien"
 
 #: lib/modules/useredit/useredit.php:412
 msgid "Dummy user"
-msgstr ""
+msgstr "Test gebruiker"
 
 #: lib/modules/useredit/useredit.php:413
 msgid "User of dummy"
-msgstr ""
+msgstr "Gebruiker van test"
 
 #: lib/modules/useredit/useredit.php:416
 msgid "Dummy message"
-msgstr ""
+msgstr "Test bericht"
 
 #: lib/modules/useredit/useredit.php:422
 msgid "Time to delete"
-msgstr ""
+msgstr "Tijd om te verwijderen"
 
 #: lib/modules/useredit/useredit.php:425
 msgid "Not at all"
-msgstr ""
+msgstr "Helemaal niet"
 
 #: lib/modules/useredit/useredit.php:426 lib/modules/useredit/useredit.php:427
 #: lib/modules/useredit/useredit.php:428
 msgid "Minutes"
-msgstr ""
+msgstr "Minuten"
 
 #: lib/modules/useredit/useredit.php:429
 msgid "Hour"
-msgstr ""
+msgstr "Uur"
 
 #: lib/modules/useredit/useredit.php:433
 msgid "Week"
-msgstr ""
+msgstr "Week"
 
 #: lib/modules/useredit/useredit.php:465
 msgid "Mails on edit from user"
-msgstr ""
+msgstr "E-mails op bewerken van gebruiker"
 
 #: lib/modules/useredit/useredit.php:525 lib/modules/useredit/useredit.php:552
 #: lib/modules/useredit/useredit.php:573
 msgid "An error occurred, please try again"
-msgstr ""
+msgstr "Er is een fout opgetreden, probeer het aub opnieuw"
 
 #: lib/modules/useredit/useredit.php:525 lib/modules/useredit/useredit.php:537
 #: lib/modules/useredit/useredit.php:540 lib/modules/useredit/useredit.php:552
 #: lib/modules/useredit/useredit.php:573 lib/modules/useredit/useredit.php:888
 msgid "back"
-msgstr ""
+msgstr "terug"
 
 #: lib/modules/useredit/useredit.php:537
 msgid "Please enter the correct captcha code"
-msgstr ""
+msgstr "Vul a.u.b. de juiste catcha code in"
 
 #: lib/modules/useredit/useredit.php:540
 msgid "Link is only 24h valid"
-msgstr ""
+msgstr "Link is 24 uur geldig"
 
 #: lib/modules/useredit/useredit.php:654
 msgid "Your Reservation was edited"
-msgstr ""
+msgstr "Uw reservering is gewijzigd"
 
 #: lib/modules/useredit/useredit.php:741
 msgid "Please contact us to edit your reservation"
 msgstr ""
+"Neemt u alstublieft met ons contact op wanneer u uw reservering wilt wijzigen"
 
 #: lib/modules/useredit/useredit.php:749
 msgid "Pay now"
-msgstr ""
+msgstr "Betaal nu"
 
 #: lib/modules/useredit/useredit.php:765
 msgid "logout"
-msgstr ""
+msgstr "Uitloggen"
 
 #: lib/modules/useredit/useredit.php:839
 msgid "Your name"
-msgstr ""
+msgstr "Uw naam"
 
 #: lib/modules/useredit/useredit.php:840 lib/modules/useredit/useredit.php:902
 msgid "Your email"
-msgstr ""
+msgstr "Uw e-mail"
 
 #: lib/modules/useredit/useredit.php:841
 msgid "The arrival date"
-msgstr ""
+msgstr "De aankomstdatum"
 
 #: lib/modules/useredit/useredit.php:842
 msgid "The departure date"
-msgstr ""
+msgstr "De vertrekdatum"
 
 #: lib/modules/useredit/useredit.php:843
+#, fuzzy
 msgid "Amount of persons"
-msgstr ""
+msgstr "Aantal personen"
 
 #: lib/modules/useredit/useredit.php:844
+#, fuzzy
 msgid "Amount of children's"
-msgstr ""
+msgstr "Aantal kinderen"
 
 #: lib/modules/useredit/useredit.php:845
 msgid "Select your county"
-msgstr ""
+msgstr "Kies uw land"
 
 #: lib/modules/useredit/useredit.php:848
 msgid "Choose the"
-msgstr ""
+msgstr "Kies de"
 
 #: lib/modules/useredit/useredit.php:854
 msgid "Type in information"
-msgstr ""
+msgstr "Voer informatie in"
 
 #: lib/modules/useredit/useredit.php:867
 msgid "Pay service"
-msgstr ""
+msgstr "Betaal service"
 
 #: lib/modules/useredit/useredit.php:888
 msgid "Wrong ID or eMail"
-msgstr ""
+msgstr "Verkeerd ID of e-mailadres"
 
 #: lib/modules/useredit/useredit.php:901
 msgid "ID of your reservation"
-msgstr ""
+msgstr "ID van uw reservering"
 
 #: lib/modules/useredit/useredit.php:903
 msgid "Type in code"
-msgstr ""
+msgstr "Voer de code in"
 
 #: lib/modules/useredit/useredit.php:915
 msgid "Days between arrival and today for last chance to edit"
-msgstr ""
+msgstr "Dagen tussen aankomst en vandaag voor een laatste kans op wijzigingen"
 
 #: lib/modules/useredit/useredit.php:920
 msgid "Show table with other reservations by the same email"
-msgstr ""
+msgstr "Toon tabel met andere reserveringen via hetzelfde emailadres"
 
 #: lib/modules/useredit/useredit.php:924
 msgid "Show status"
-msgstr ""
+msgstr "Toon status"
 
 #: lib/modules/useredit/useredit.php:933
 msgid ""
 "Let your guests view and download their invoices by invoice guest template"
 msgstr ""
+"Laat uw gasten hun facturen bekijken en downloaden via het factuur gast "
+"template"
 
 #: lib/modules/useredit/useredit.php:937
 msgid "Name for Resource"
-msgstr ""
+msgstr "Naam van de accommodatie"
 
 #: lib/modules/useredit/useredit.php:938
 msgid "e.g. Apartment"
-msgstr ""
+msgstr "bijv. Appartement"
 
 #: lib/modules/useredit/useredit.php:940
 msgid ""
 "This shortcode adds the function for your guests to edit their reservations "
 "afterwards"
 msgstr ""
+"Deze snelkoppeling voegt de functie voor uw gasten toe om achteraf hun "
+"reservering te bewerken"
 
 #: lib/modules/useredit/useredit.php:940
 msgid ""
 "You have to copy the URL of this site to the easyReservations general "
 "settings"
 msgstr ""
+"U moet de link kopiëren van deze website naar de easyReservations algemene "
+"instellingen"
 
 #: lib/modules/useredit/useredit.php:940
 msgid "Only add the edit-form on one page or post"
-msgstr ""
+msgstr "Voeg alleen het bewerk formulier toe aan een pagina of bericht"
 
 #: lib/modules/useredit/useredit.php:962
 msgid "Useredit"
-msgstr ""
+msgstr "Gebruikersbewerking"
 
 #: lib/widgets/form_widget.php:135 lib/widgets/form_widget.php:142
 msgid "Reserve now!"
-msgstr ""
+msgstr "Reserveer nu!"
 
 #: lib/widgets/form_widget.php:141
 msgid "type in URL to a form"
-msgstr ""
+msgstr "Voer link in naar een formulier"
 
 #: lib/widgets/form_widget.php:149
 msgid "Title:"
-msgstr ""
+msgstr "Titel:"
 
 #: lib/widgets/form_widget.php:153
 msgid "Show calendar:"
-msgstr ""
+msgstr "Toon kalender:"
 
 #: lib/widgets/form_widget.php:157
 msgid "Calendar style:"
-msgstr ""
+msgstr "Kalender stijl:"
 
 #: lib/widgets/form_widget.php:161
 msgid "Default room:"
-msgstr ""
+msgstr "Standaard kamer:"
 
 #: lib/widgets/form_widget.php:165
 msgid "Calendar width:"
-msgstr ""
+msgstr "Kalender breedte"
 
 #: lib/widgets/form_widget.php:169
 msgid "Show price in calendar:"
-msgstr ""
+msgstr "Toon prijs in kalender:"
 
 #: lib/widgets/form_widget.php:173
 msgid "Edit form:"
-msgstr ""
+msgstr "Bewerk formulier:"
 
 #: lib/widgets/form_widget.php:178
 msgid "Form URL:"
-msgstr ""
+msgstr "Link naar formulier:"
 
 #: lib/widgets/form_widget.php:182
 msgid "Submit button:"
-msgstr ""
+msgstr "Submit knop:"
+
+#~ msgid "Resource deleted"
+#~ msgstr "Accommodatie verwijderd"
+
+#~ msgid "view post"
+#~ msgstr "bekijk bericht"
+
+#, fuzzy
+#~ msgid "Verification message"
+#~ msgstr "Foutmelding"
+
+#, fuzzy
+#~ msgid "Message after successfully verification"
+#~ msgstr "Bericht na succesvolle submissie"
+
+#, fuzzy
+#~ msgid "Message after successfully submit"
+#~ msgstr "Bericht na succesvolle submissie"
+
+#~ msgid "After successful submission"
+#~ msgstr "Na succesvolle submissie"
+
+#~ msgid "This shortcode adds a form to the Page or Post"
+#~ msgstr "Deze shortcode voegt een formulier toe aan een pagina of bericht"
+
+#~ msgid "PayPal"
+#~ msgstr "PayPal"
+
+#~ msgid "Enter a name for the filter"
+#~ msgstr "Voer een naam in voor de filter"
+
+#~ msgid "Fix &amp; hide resource, arrival, departure, persons or childs"
+#~ msgstr ""
+#~ "Stel vast &amp; verberg accomodatie, aankomst, vertrek, peronen of "
+#~ "kinderen"
+
+#~ msgid "deprecated and wont work anymore. Please update  from"
+#~ msgstr "verouderd en werkt niet meer. Update aub van"

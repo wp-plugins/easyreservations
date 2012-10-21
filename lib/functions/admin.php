@@ -144,7 +144,7 @@ if(isset($_GET['page'])){
 			$percent = '0';
 			$color = '#BC0B0B';
 		}
-		
+
 		if(time() >= $res->arrival && time() <= $res->departure){
 			$text = __( 'active' , 'easyReservations' );
 			$text_color = '#1FB512';
@@ -404,7 +404,7 @@ if(isset($_GET['page'])){
 		$nonce = wp_create_nonce( 'easy-table' );
 		?><script type="text/javascript" >	
 			function easyreservation_send_table(typ, paging, order, orderby){
-				if(document.getElementById('easy-table-refreshimg')) document.getElementById('easy-table-refreshimg').src = '<?php echo RESERVATIONS_URL; ?>/images/loading1.gif'
+				if(document.getElementById('easy-table-refreshimg')) document.getElementById('easy-table-refreshimg').src = '<?php echo RESERVATIONS_URL; ?>images/loading1.gif'
 				
 				if(!order){
 					var orderfield = document.getElementById('easy-table-order');
@@ -482,7 +482,7 @@ if(isset($_GET['page'])){
 	*/
 
 	function easyreservations_send_table_callback() {
-		global $wpdb; // this is how you get access to the database
+		global $wpdb,$the_rooms_array; // this is how you get access to the database
 		check_ajax_referer( 'easy-table', 'security' );
 		$zeichen = "AND departure > NOW() ";
 
@@ -541,8 +541,16 @@ if(isset($_GET['page'])){
 		$ordersby="arrival";
 
 		if(!empty($search)){
-			if(preg_match('/^([0-9]+[\,]{1})+[0-9]+$/i', $search)) $searchstr = "AND id in($search)";
-			else $searchstr = "AND (name like '%1\$s' OR id like '%1\$s' OR email like '%1\$s' OR arrival like '%1\$s' OR custom like '%1\$s')";
+ 			if(preg_match('/^[0-9]+$/i', $search)) $searchstr = "AND id in($search)";
+			else{
+				$room_ids == "";
+				foreach($the_rooms_array as $room){
+					if(strpos($room->post_title, $search) !== false) $room_ids .= $room->ID.', ';
+				}
+				if(!empty($room_ids)) $roomsearch = ' OR room in ('.substr($room_ids,0,-2).')';
+				else $roomsearch = '';
+				$searchstr = "AND (name like '%1\$s' OR id like '%1\$s' OR email like '%1\$s' OR arrival like '%1\$s' OR custom like '%1\$s'$roomsearch)";
+			}
 		}
 		else $searchstr = "";
 
@@ -650,11 +658,11 @@ if(isset($_GET['page'])){
 					<?php } if($table_options['table_filter_room'] == 1){ ?>
 						<select name="roomselector" id="easy-table-roomselector" class="postform" onchange="easyreservation_send_table('<?php echo $typ; ?>', 1)"><option value="0"><?php printf ( __( 'View all Resources' , 'easyReservations' ));?></option><?php echo easyreservations_resource_options($roomselector); ?></select>
 					<?php } if($table_options['table_filter_days'] == 1){ ?><input size="1px" type="text" id="easy-table-perpage-field" name="perpage" value="<?php echo $perpage; ?>" maxlength="3" onchange="easyreservation_send_table('<?php echo $typ; ?>', 1)"></input>
-					<img src=" <?php echo RESERVATIONS_URL; ?>/images/list.png" style="vertical-align:text-bottom;cursor:pointer" onclick="easyreservation_send_table('all', 1)">
+					<img src=" <?php echo RESERVATIONS_URL; ?>images/list.png" style="vertical-align:text-bottom;cursor:pointer" onclick="easyreservation_send_table('all', 1)">
 					<?php } ?>
 				</td>
 				<td style="width:33%; margin-left: auto; margin-right:0px; text-align:right;" nowrap>
-					<img id="easy-table-refreshimg" src="<?php echo RESERVATIONS_URL; ?>/images/refresh.png" style="vertical-align:text-bottom" onclick="resetTableValues()">
+					<img id="easy-table-refreshimg" src="<?php echo RESERVATIONS_URL; ?>images/refresh.png" style="vertical-align:text-bottom" onclick="resetTableValues()">
 					<?php if($table_options['table_search'] == 1){ ?>
 						<input type="text" onchange="easyreservation_send_table('all', 1)" style="width:77px;text-align:center" id="easy-table-search-date" value="<?php if(isset($search_date)) echo $search_date; ?>">
 						<input type="text" onchange="easyreservation_send_table('all', 1)" style="width:130px;" id="easy-table-search-field" name="search" value="<?php if(isset($search)) echo $search;?>" class="all-options"></input>
@@ -756,7 +764,6 @@ if(isset($_GET['page'])){
 				$result = $wpdb->get_results( $wpdb->prepare($sql, '%' . like_escape($search) . '%'));
 
 				if(count($result) > 0 ){
-					global $the_rooms_array;
 
 					foreach($result as $res){
 						$res = new Reservation($res->id, (array) $res);
@@ -788,14 +795,14 @@ if(isset($_GET['page'])){
 							<?php if($table_options['table_bulk'] == 1){ ?><input name="bulkArr[]" id="bulkArr[]" type="checkbox" style="margin-left: 8px;" value="<?php echo $res->id;?>"><?php } ?>
 							<?php if(isset($favourite)){ ?><div class="easy-favourite <?php echo $favclass; ?>" id="<?php echo $favid; ?>" onclick="easyreservations_send_fav(this)"> </div><?php } ?>
 						</td>
-					<?php } if($table_options['table_from'] == 1){ 
+					<?php } if($table_options['table_from'] == 1){
 						if(date('Y', $res->arrival) != date('Y') || date('Y', $res->departure) != date('Y')) $year = true; else $year = false; ?>
-						<td class="<?php echo $sta; ?>" style="width:20px;text-align: center;">
+						<td class="<?php echo $sta; ?>" style="width:24px;text-align: right;">
 							<div style="margin-bottom:5px;">
-								<span style=";font-weight: bold;font-size: 11px;"><?php $round = round(($res->arrival-time())/86400, 0); If($round > 0) $round = '+'.$round; echo $round; ?></span>
+								<span style="font-weight: bold;font-size: 11px;text-align:right;"><?php $round = round(($res->arrival-time())/86400, 0); if($round > 0) $round = '+'.$round; if($round == 0) echo ' 0'; else echo $round;?></span>
 							</div>
 							<div>
-								<span style=";font-weight: bold;font-size: 11px;"><?php $round = round(($res->departure-time())/86400, 0); If($round > 0) $round = '+'.$round; echo $round; ?></span>
+								<span style="font-weight: bold;font-size: 11px;text-align:right;"><?php $round = round(($res->departure-time())/86400, 0); if($round > 0) $round = '+'.$round; if($round == 0) echo ' 0'; else echo $round; ?></span>
 							</div>
 						</td>
 						<td class="<?php echo $sta; ?>" style="padding-left:0px;padding-right:0px;width:70px;white-space: nowrap;">
@@ -997,7 +1004,7 @@ if(isset($_GET['page'])){
 		$nonce = wp_create_nonce( 'easy-price' );
 		?><script type="text/javascript" >	
 			function easyreservations_send_price_admin(){
-				var loading = '<img style="vertical-align:text-bottom" src="<?php echo RESERVATIONS_URL; ?>/images/loading.gif">';
+				var loading = '<img style="vertical-align:text-bottom" src="<?php echo RESERVATIONS_URL; ?>images/loading.gif">';
 				jQuery("#showPrice").html(loading);
 				
 				var customPrices = ''; var coupons = '';
@@ -1064,7 +1071,8 @@ if(isset($_GET['page'])){
 
 				// since 2.8 ajaxurl is always defined in the admin header and points to admin-ajax.php
 				jQuery.post(ajaxurl, data, function(response) {
-					jQuery("#showPrice").html(response);
+					response = JSON.parse(response);
+					jQuery("#showPrice").html(response[0]);
 					return false;
 				});
 			}
@@ -1287,5 +1295,4 @@ if(isset($_GET['page'])){
 		elseif($round < 0) return '#BC0B0B';
 		else return '#ffcb49';
 	}
-
 ?>

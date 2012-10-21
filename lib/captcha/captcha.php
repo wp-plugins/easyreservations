@@ -176,7 +176,7 @@ class easy_ReallySimpleCaptcha {
 
 		$count = 0;
 
-		if ( $handle = @opendir( $dir ) ) {
+		if ( $handle = @opendir( $dir ) ){
 			while ( false !== ( $filename = readdir( $handle ) ) ) {
 				if ( ! preg_match( '/^[0-9]+\.(php|png|gif|jpeg)$/', $filename ) )
 					continue;

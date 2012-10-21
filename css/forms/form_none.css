@@ -110,9 +110,10 @@
 	color:#ffffff !important;
 	line-height:1.1;
 	font-family:arial;
-	font-size:13px;
+	font-size:14px;
 	font-weight:bold;
-	padding:3px 6px;
+	padding:5px 8px;
+	width:120px;
 	text-decoration:none;
 	text-shadow:1px 1px 0px #000;
 	cursor:pointer;
@@ -123,6 +124,11 @@
 	background:-moz-linear-gradient( center top, #636363 5%, #636363 100% );
 	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#636363', endColorstr='#444444');
 	color:#ffffff;
+}
+
+.easy-button.deactive1,.easy-button.deactive2 {
+	cursor: default;
+	background: #636363;
 }
 
 .easy_show_price_submit {
@@ -202,13 +208,6 @@ label.easy-show-error + label.easy-show-error{
 	text-align:center !important;
 }
 
-.easy_form_success {
-	margin-left:auto;
-	text-align:center;
-	margin-right:auto;
-	color:#009B1C;
-    font-weight: bold;
-}
 .avatar-15 {
 	width:15px;
 	height:15px;

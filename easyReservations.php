@@ -3,7 +3,7 @@
 Plugin Name: easyReservations
 Plugin URI: http://www.easyreservations.org
 Description: This powerfull property and reservation management plugin allows you to receive, schedule and handle your bookings easily!
-Version: 3.0.5
+Version: 3.1
 Author: Feryaz Beer
 Author URI: http://www.feryaz.de
 License:GPL2
@@ -52,12 +52,6 @@ License:GPL2
 	*/
 
 	register_activation_hook(__FILE__, 'easyreservations_install');
-//	register_activation_hook(__FILE__, 'save_error');
-//	function save_error(){
-//
-//		update_option('plugin_error',  ob_get_contents());
-//
-//	}
 
 	function easyreservations_install(){ // Install Plugin Database
 
@@ -185,9 +179,7 @@ ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrival] <br>To: [depa
 		add_option('reservations_settings', array( 'style' => "greyfat", 'interval' => 86400, 'currency' => '#36', 'date_format' => 'd.m.Y', 'time' => 1, 'tutorial' => 1 ), '', 'yes');
 
 		/*
-
 			Add Reservations Table to DB
-
 		*/
 
 		global $wpdb;
@@ -215,9 +207,7 @@ ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrival] <br>To: [depa
 		dbDelta($sql);
 
 		/*
-
 			Add sample two Resources
-
 		*/
 
 		$room_args = array( 'post_status' => 'publish|private', 'post_type' => 'easy-rooms', 'orderby' => 'post_title', 'order' => 'ASC', 'numberposts' => 1);
@@ -379,7 +369,7 @@ ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrival] <br>To: [depa
 
 					$wpdb->query($wpdb->prepare("UPDATE ".$wpdb->prefix ."reservations SET custom='$save_custom', customp='$save_customp' WHERE id='$id' "));
 
-					unset($new_custom);
+					unset($new_customs);
 					unset($new_customp);
 				}
 
@@ -493,7 +483,7 @@ ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrival] <br>To: [depa
 	add_filter('upgrader_post_install', 'easyreservations_recover', 10, 2);
 	$reservations_settings = get_option("reservations_settings");
 
-	define('RESERVATIONS_VERSION', '3.0.5');
+	define('RESERVATIONS_VERSION', '3.1');
 	define('RESERVATIONS_DIR', WP_PLUGIN_DIR.'/easyreservations/');
 	define('RESERVATIONS_URL', WP_PLUGIN_URL.'/easyreservations/');
 	define('RESERVATIONS_STYLE', $reservations_settings['style']);
@@ -515,6 +505,7 @@ ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrival] <br>To: [depa
 	require_once(dirname(__FILE__)."/lib/classes/reservation.class.php");
 
 	if(is_admin()){
+		require_once(dirname(__FILE__)."/lib/classes/resource.class.php");
 		require_once(dirname(__FILE__)."/pagination.class.php");
 		require_once(dirname(__FILE__)."/lib/functions/admin.php");
 

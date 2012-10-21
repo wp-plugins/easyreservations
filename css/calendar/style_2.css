@@ -49,6 +49,9 @@
 		vertical-align: middle;
 		padding:2px 3px 4px 3px !important;
 		/* width:14.6%; */
+		min-width:14%;
+		width:14.28%;
+		max-width:15%;
 	}
 
 	.calendar-table tbody td:first-of-type  {

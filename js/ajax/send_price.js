@@ -1,13 +1,13 @@
+var easyLastPrice = 0;
 function easyreservations_send_price(){
 	if(document.easyFrontendFormular.easyroom) var room = document.easyFrontendFormular.easyroom.value;
 	else alert('no room field - correct that')
 	var interval_array = eval("(" + easyAjax.interval + ")");
 	var interval = interval_array[room];
-	var error = 0;var addprice = 0;var price = 0;var nights = 1;var childs = 0;var persons = 1;var to = '';var toplus = 0;var fromplus = 0;var captcha = 'x!';var tom = 0;var toh = 12;var fromm = 0;var fromh = 12;coupon = '';
+	jQuery(".easyFrontendFormular .easy-button").addClass('deactive2');
+	var error = 0;var addprice = 0;var price = 0;var nights = 1;var childs = 0;var persons = 1;var to = '';var toplus = 0;var fromplus = 0;var captcha = 'x!';var tom = 0;var toh = 12*60; var fromm = 0; var fromh = 12*60; coupon = '';
 	var customPrices = 0;
-
-	var loading = '<img style="vertical-align:text-bottom" src="' + easyAjax.plugin_url + '/easyreservations/images/loading.gif">';
-	jQuery("#showPrice").html(loading);
+	jQuery("#showPrice").html('<img style="vertical-align:text-bottom" src="' + easyAjax.plugin_url + '/easyreservations/images/loading.gif">');
 
 	var tsecurity = document.easyFrontendFormular.pricenonce.value;
 
@@ -116,7 +116,10 @@ function easyreservations_send_price(){
 
 	if(error == 0){
 		jQuery.post(easyAjax.ajaxurl , data, function(response) {
-			jQuery("#showPrice").html(response);
+			jQuery(".easyFrontendFormular .easy-button").removeClass('deactive2');
+			response = JSON.parse(response);
+			jQuery("#showPrice").html(response[0]);
+			easyLastPrice = parseFloat(response[1]);
 			return false;
 		});
 	}

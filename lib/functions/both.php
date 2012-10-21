@@ -135,6 +135,36 @@
 		if($content) $con = ", post_content"; else $con = "";
 
 		$rooms = $wpdb->get_results("SELECT ID, post_title, menu_order $con FROM ".$wpdb->prefix ."posts WHERE post_type='easy-rooms' AND post_status!='auto-draft' ORDER BY menu_order ASC");
+		
+		if(function_exists('icl_object_id')){
+			$blog_current_lang = false;            
+			if($blog_lang = get_option('WPLANG')){
+				$exp = explode('_',$blog_lang);
+				$blog_current_lang = $exp[0];
+			}
+			if(!$blog_current_lang && defined('WPLANG') && WPLANG != ''){
+				$blog_lang = WPLANG;
+				$exp = explode('_',$blog_lang);
+				$blog_current_lang = $exp[0];
+			}
+			if(!$blog_current_lang){
+				$blog_current_lang = 'en';
+			}
+
+			foreach ($rooms as $key => $id){
+				$xlat = icl_object_id($id->ID,'easy-rooms', false, $blog_current_lang);
+				if(is_null($xlat) || $id->ID !== $xlat){
+					unset($rooms[$key]);
+					continue;
+				}
+				$xlat2 = icl_object_id($id->ID,'easy-rooms', false);
+				if(!is_null($xlat) && !empty($xlat2) && $xlat != $xlat2){
+					$new_room = $wpdb->get_results("SELECT post_title $con FROM ".$wpdb->prefix ."posts WHERE ID='$xlat2' AND post_type='easy-rooms' AND post_status!='auto-draft' ORDER BY menu_order ASC");
+					if($content) $rooms[$key]->post_content = $new_room[0]->post_content;
+					$rooms[$key]->post_title = $new_room[0]->post_title;
+				}
+			}
+		}
 
 		foreach($rooms as $key => $room){
 			$rooms[$room->ID] = $room;
@@ -402,6 +432,8 @@
 		else $interval = 1;
 		if(isset($explodeSize[3]) && $explodeSize[3] != '') $header = $explodeSize[3];
 		else $header = 0;
+		if(isset($explodeSize[4]) && $explodeSize[4] != '') $style = $explodeSize[4];
+		else $style = 0;
 		
 		$pers = 1; $child = 0; $resev = 0;
 		if(isset($_POST['persons'])) $pers = $_POST['persons'];
@@ -412,7 +444,7 @@
 		$month_names = easyreservations_get_date_name(1);
 		$day_names = easyreservations_get_date_name(0,2);
 		if($width == 0 || empty($width)) $width=300;
-		if($price == 1) $currency = '&'.RESERVATIONS_CURRENCY.';';
+		$currency = '&'.RESERVATIONS_CURRENCY.';';
 		if(isset($_POST['where']) && $_POST['where'] == "widget"){
 			$onClick = "easyreservations_send_calendar('widget');";
 			$formular = "widget_formular";
@@ -533,7 +565,7 @@
 					}
 				}
 
-				$res = new Reservation(false, array('email' => 'mail@test.com', 'arrival' => $dateofeachday+43200, 'departure' =>  $dateofeachday+easyreservations_get_interval($the_rooms_intervals_array[$_POST['room']], 0, 1)+43200,'resource' => (int) $_POST['room'], 'adults' => $pers, 'childs' => $child,'reservated' => time()-($resev*86400)), false);
+				$res = new Reservation(false, array('email' => 'mail@test.com', 'arrival' => $dateofeachday, 'departure' =>  $dateofeachday+easyreservations_get_interval($the_rooms_intervals_array[$_POST['room']], 0, 1)-60,'resource' => (int) $_POST['room'], 'adults' => $pers, 'childs' => $child,'reservated' => time()-($resev*86400)), false);
 				try {
 					if($price > 0){
 						$res->Calculate();
@@ -543,6 +575,7 @@
 						elseif($price == 2) $formated_price = $res->price;
 						elseif($price == 3) $formated_price = easyreservations_format_money($res->price, 1);
 						elseif($price == 4) $formated_price = easyreservations_format_money($res->price);
+						elseif($price == 5) $formated_price = $currency.' '.$res->price;
 
 						$final_price = '<span class="calendar-cell-price">'.$formated_price.'</b>';
 					} else $final_price = '';
@@ -559,12 +592,15 @@
 					if(round($avail) >= $room_count) $backgroundtd.=" calendar-cell-full2";
 					elseif(round($avail) > 0) $backgroundtd.=" calendar-cell-occupied2";
 					else $backgroundtd.=" calendar-cell-empty2";
-					
+
 					if($avail  == 0.51) $backgroundtd.=" calendar-cell-halfstart";
 					elseif($avail == 0.5) $backgroundtd.=" calendar-cell-halfend";
 
+					if($style == 3 && $diff < 10) $show = '0'.$diff;
+					else $show = $diff;
+
 					if($dateofeachday > time()) $onclick = 'onclick="easyreservations_click_calendar(this,\''.date(RESERVATIONS_DATE_FORMAT, $dateofeachday).'\', \''.$rand.'\', \''.$key.'\')"'; else $onclick ='style="cursor:default"';
-					echo '<td class="calendar-cell'.$todayClass.$backgroundtd.'" '.$onclick.' id="easy-cal-'.$rand.'-'.$diff.'-'.$key.'" axis="'.$diff.'">'.$diff.''.$final_price.'</td>'; $setet++; $diff++;
+					echo '<td class="calendar-cell'.$todayClass.$backgroundtd.'" '.$onclick.' id="easy-cal-'.$rand.'-'.$diff.'-'.$key.'" axis="'.$diff.'">'.$show.''.$final_price.'</td>'; $setet++; $diff++;
 					if($setet==0 || $setet==7 || $setet==14 || $setet==21 || $setet==28) echo '</tr>';
 					$res->destroy();
 				} catch(easyException $e){
@@ -588,6 +624,186 @@
 		}
 
 		echo '</td></tr></tbody></table>';
+		exit;
+	}
+
+	/**
+	 *	Callback for the price calculation (here it fakes a reservation and send it to calculation)
+	 *
+	*/
+
+	function easyreservations_send_form_callback(){
+		if(isset($_POST['delete'])){
+			if(!empty($_POST['delete'])){
+				if(isset($_POST['cancel'])){
+					$explode = array($_POST['cancel']);
+				} else {
+					$explode = explode(',', $_POST['delete']);
+					unset($explode[count($explode)]);
+				}
+				
+				foreach($explode as $id){
+					if(is_numeric($id)){
+						$res = new Reservation((int) $id);
+						$res->deleteReservation();
+					}
+				}
+			}
+		} else {
+			if (!wp_verify_nonce($_POST['easynonce'], 'easy-user-add' )) die('Security check <a href="'.$_SERVER['referer_url'].'">('.__( 'Back' , 'easyReservations' ).')</a>' );
+			global $the_rooms_intervals_array, $current_user;
+			$error = '';
+			if(isset($_POST['formname']))$theForm = stripslashes(get_option('reservations_form_'.$_POST['formname']));
+			else $theForm = stripslashes (get_option("reservations_form"));
+			if(empty($theForm)) $theForm = stripslashes(get_option("reservations_form"));
+
+			if(isset($_POST['captcha_value'])) $captcha = array( 'captcha_prefix' => $_POST['captcha_prefix'], 'captcha_value' => $_POST['captcha_value'] );
+			else $captcha ="";
+			if(isset($_POST['thename'])) $name_form=$_POST['thename'];
+			else $name_form = "";
+			if(isset($_POST['from'])) $arrival = strtotime($_POST['from']);
+			else $arrival = time();
+			if(isset($_POST['persons'])) $persons=$_POST['persons'];
+			else $persons = 1;
+			if(isset($_POST['email'])) $email=$_POST['email'];
+			else $email = "";
+			if(isset($_POST['childs'])) $childs=$_POST['childs'];
+			else $childs = 0;
+			if(isset($_POST['to'])) $departure = strtotime($_POST['to']);
+			else $departure = $arrival + $the_rooms_intervals_array[$_POST['easyroom']];
+			if(isset($_POST['nights'])) $departure = $arrival+((int) $_POST['nights'] * $the_rooms_intervals_array[$_POST['easyroom']]);
+			if(isset($_POST['country'])) $country=$_POST['country'];
+			else $country = "";
+			if(isset($_POST['easyroom'])) $room = $_POST['easyroom'];
+			else $room = false;
+
+			$arrivalplus = 0;
+			if(isset($_POST['date-from-hour'])) $arrivalplus += (int) $_POST['date-from-hour'] * 60;
+			else $arrivalplus += 12*60;
+			if(isset($_POST['date-from-min'])) $arrivalplus += (int) $_POST['date-from-min'];
+			if($arrivalplus > 0) $arrivalplus = $arrivalplus * 60;
+			$departureplus = 0;
+			if(isset($_POST['date-to-hour'])) $departureplus += (int) $_POST['date-to-hour'] * 60;
+			else $departureplus += 12*60;
+			if(isset($_POST['date-to-min'])) $departureplus += (int) $_POST['date-to-min'];
+			if($departureplus > 0) $departureplus = $departureplus*60;
+			$arrival += $arrivalplus;
+			$departure += $departureplus;
+			$custom_form='';
+			$custom_price='';
+			$tags = easyreservations_shortcode_parser($theForm, true);
+			if(isset($_POST['captcha']) && !empty($_POST['captcha'])){
+				$captcha = $_POST['captcha'];
+				require_once(WP_PLUGIN_DIR.'/easyreservations/lib/captcha/captcha.php');
+				$prefix = $captcha['captcha_prefix'];
+				$the_answer_from_respondent = $captcha['captcha_value'];
+				$captcha_instance = new ReallySimpleCaptcha();
+				$correct = $captcha_instance->check($prefix, $the_answer_from_respondent);
+				$captcha_instance->cleanup(); // delete all >1h old captchas image & .php file; is the submit a right place for this or should it be in admin?
+				if($correct != 1)	$error.=  '<li><label for="easy-form-captcha">'.__( 'Please enter the correct captcha' , 'easyReservations' ).'</label></li>';
+			}
+
+			foreach($tags as $fields){
+				$field=shortcode_parse_atts( $fields);
+				if($field[0]=="custom"){
+					if(isset($_POST['easy-custom-'.$field[2]]) && !empty($_POST['easy-custom-'.$field[2]])){
+						$custom_form[] = array( 'type' => 'cstm', 'mode' => 'edit', 'title' => $field[2], 'value' => $_POST['easy-custom-'.$field[2]]);
+					} else {
+						if(isset($field[count($field)-1]) && $field[count($field)-1] == "*") $error.= '<li>'.sprintf(__( '%s is required', 'easyReservations'), ucfirst($field[2])).'</li>'; 
+					}
+				}
+				if($field[0]=="price"){
+					if(isset($_POST[$field[2]])){
+						$explodeprice = explode(":",$_POST[$field[2]]);
+						if(isset($explodeprice[2]) && $explodeprice[2] == 1) $theprice = $explodeprice[1] * ($persons+$childs);
+						elseif(isset($explodeprice[2]) && $explodeprice[2] == 2) $theprice = $explodeprice[1] * easyreservations_get_nights($the_rooms_intervals_array[$room], $arrival,$departure);
+						elseif(isset($explodeprice[2]) && $explodeprice[2] == 3) $theprice = $explodeprice[1] * easyreservations_get_nights($the_rooms_intervals_array[$room], $arrival,$departure) * ($persons+$childs);
+						else $theprice = $explodeprice[1];
+						$custom_price[] = array( 'type' => 'cstm', 'mode' => 'edit', 'title' => $field[2], 'value' => $explodeprice[0], 'amount' => $theprice );
+					}
+				}
+			}
+
+			$current_user = wp_get_current_user();
+			$array = array('name' => $name_form, 'email' => $email, 'arrival' => $arrival,'departure' => $departure,'resource' => (int) $room,'resourcenumber' => 0,'country' => $country, 'adults' => $persons, 'custom' => maybe_unserialize($custom_form),'prices' => maybe_unserialize($custom_price),'childs' => $childs,'reservated' => date('Y-m-d H:i:s', time()),'status' => '','user' => $current_user->ID);
+
+			if(isset($_POST['edit'])){
+				$res = new Reservation((int) $_POST['edit'], $array, false);
+				try {
+					$theID = $res->editReservation();
+					$res->Calculate();
+					if(!$theID) echo json_encode(array($res->id, round($res->price,2)));
+					else echo 'error';
+				} catch(easyException $e){
+					echo $e->getMessage();
+				}
+			} else {
+				$res = new Reservation(false, $array, false);
+				try {
+					$res->admin = false;
+					if(isset($_POST['coupon'])) $res = apply_filters('easy-add-res-ajax', $res, false);
+					$save = $res->coupon;
+					$res->fake = false;
+					$res->coupon = false;
+					$theID = $res->addReservation();
+					if($theID){
+						foreach($theID as $key => $terror){
+							if($key%2==0) $error.=  '<li><labe for="'.$terror.'">';
+							else $error .= $terror.'</label></li>';
+						}
+					}
+				} catch(easyException $e){
+					$error.=  '<li><label>'.$e->getMessage().'</label></li>';
+				}
+				if(!empty($error)) echo $error;
+				else {
+					if(isset($_POST['submit'])){
+						$prices = 0;
+						$finalform = '';
+						$atts = (array) json_decode(str_replace('\\', '',$_POST['atts'][0]));
+						$ids = json_decode(str_replace('\\', '',$_POST['ids'][0]));
+						if(!empty($ids)){
+							foreach($ids as $id){
+								$new = new Reservation((int) $id);
+								$new->Calculate();
+								$new->sendMail( 'reservations_email_to_admin', false);
+								$new->sendMail( 'reservations_email_to_user', $new->email);
+								$prices += $new->price;
+							}
+							$res->Calculate();
+							$prices += $res->price;
+							$ids[]=$res->id;
+						} else {
+							$ids = $res;
+							$res->Calculate();
+							$prices = $res->price;
+						}
+						$prices = round($prices,2);
+						$res->sendMail( 'reservations_email_to_admin', false);
+						$res->sendMail( 'reservations_email_to_user', $res->email);
+
+						if(empty($error) && isset($arrival)){
+							if(!empty($atts['submit'])) $finalform.= '<div class="easy_form_success"><b class="easy_submit">'.$atts['submit'].'!'.print_r($save, true).'</b>';
+							if(!empty($atts['subsubmit'])) $finalform.= '<span class="easy_subsubmit">'.$atts['subsubmit'].'</span>';
+							if($atts['price'] == 1) $finalform.= '<span class="easy_show_price_submit">'.__('Price','easyReservations').': <b>'.easyreservations_format_money($prices, 1).'</b></span>';
+							if(!empty($atts['paypal'])) $finalform .= '<span class="easy_show_paypal_text_submit">'.$atts['paypal'].'</span>';
+							if(function_exists('easyreservations_generate_paypal_button')){
+								$finalform .= easyreservation_deposit_function($prices);
+								$finalform .= easyreservations_generate_paypal_button($ids, $prices);
+							}
+							if(function_exists('easyreservations_generate_creditcard_form')){
+								$finalform .= easyreservations_generate_creditcard_form($ids);
+							}
+							$finalform.='</div>';
+						}
+						echo json_encode(array($res->id, round($res->price,2), $finalform));
+					} else {
+						$res->Calculate();
+						echo json_encode(array($res->id, round($res->price,2)));
+					}
+				}
+			}
+		}
 		exit;
 	}
 
@@ -624,7 +840,8 @@
 		
 		$res = new Reservation(false, array('name' => 'abv', 'email' => $email, 'arrival' => $val_from,'departure' => $val_to,'resource' => (int) $room, 'adults' => (int) $persons, 'childs' => $childs,'reservated' => time(),'status' => '', 'prices' => (float) $customp, 'coupon' => $coupon), false);
 		try {
-			echo easyreservations_format_money($res->Calculate());
+			$res->Calculate();
+			echo json_encode(array(easyreservations_format_money($res->price), round($res->price,2)));
 		} catch(easyException $e){
 			echo 'Error:'. $e->getMessage();
 		}
@@ -658,6 +875,7 @@
 
 		$res = new Reservation($id, array('name' =>  $_POST['thename'], 'email' => $_POST['email'], 'arrival' => $val_from,'departure' => $val_to,'resource' => (int) $_POST['room'], 'adults' => (int) $_POST['persons'], 'childs' => (int) $_POST['childs'],'reservated' => time(),'status' => ''), false);
 		try {
+			$res->admin = false;
 			$error = $res->Validate($mode);
 		} catch(easyException $e){
 			$error[] = '';
@@ -679,6 +897,15 @@
 				} elseif(strlen($_POST['captcha']) != 4){
 					$error[] = 'easy-form-captcha';
 					$error[] =  __( 'Enter correct captcha' , 'easyReservations' );
+				} else {
+					require_once(WP_PLUGIN_DIR.'/easyreservations/lib/captcha/captcha.php');
+					$captcha_instance = new easy_ReallySimpleCaptcha();
+					$correct = $captcha_instance->check($_POST['captcha_prefix'], $_POST['captcha']);
+					$captcha_instance->cleanup();
+					if($correct != 1){
+						$error[] = 'easy-form-captcha';
+						$error[] =  __( 'Enter correct captcha' , 'easyReservations' );
+					}
 				}
 			}
 		}
@@ -692,37 +919,43 @@
 	}
 
 	function easyreservations_register_scripts(){
-		wp_register_script('easyreservations_send_calendar', WP_PLUGIN_URL.'/easyreservations/js/ajax/send_calendar.js' , array( "jquery" ));
-		wp_register_script('easyreservations_send_price', WP_PLUGIN_URL.'/easyreservations/js/ajax/send_price.js' , array( "jquery" ));
-		wp_register_script('easyreservations_send_validate', WP_PLUGIN_URL.'/easyreservations/js/ajax/send_validate.js' , array( "jquery" ));
-		wp_register_script('easy-form-js', WP_PLUGIN_URL . '/easyreservations/js/form.js');
+		wp_register_script('easyreservations_send_calendar', WP_PLUGIN_URL.'/easyreservations/js/ajax/send_calendar.js' , array( "jquery" ), RESERVATIONS_VERSION);
+		wp_register_script('easyreservations_send_price', WP_PLUGIN_URL.'/easyreservations/js/ajax/send_price.js' , array( "jquery" ), RESERVATIONS_VERSION);
+		wp_register_script('easyreservations_send_validate', WP_PLUGIN_URL.'/easyreservations/js/ajax/send_validate.js' , array( "jquery" ), RESERVATIONS_VERSION);
+		wp_register_script('easyreservations_send_form', WP_PLUGIN_URL . '/easyreservations/js/ajax/form.js', array( "jquery" ), RESERVATIONS_VERSION);
 
 		global $the_rooms_intervals_array;
 
 		wp_localize_script( 'easyreservations_send_calendar', 'easyAjax', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ), 'plugin_url' => WP_PLUGIN_URL, 'interval' => json_encode($the_rooms_intervals_array) ) );
 		wp_localize_script( 'easyreservations_send_price', 'easyAjax', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ), 'plugin_url' => WP_PLUGIN_URL, 'interval' => json_encode($the_rooms_intervals_array) ) );
 		wp_localize_script( 'easyreservations_send_validate', 'easyAjax', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ), 'plugin_url' => WP_PLUGIN_URL, 'interval' => json_encode($the_rooms_intervals_array) ) );
-		wp_localize_script( 'easy-form-js', 'easyDate', array( 'easydateformat' => RESERVATIONS_DATE_FORMAT, 'interval' => json_encode($the_rooms_intervals_array) ) );
-		
-		// register form styles
-		if(file_exists(WP_PLUGIN_DIR . '/easyreservations/css/custom/form.css'))wp_register_style('easy-form-custom', WP_PLUGIN_URL . '/easyreservations/css/custom/form.css'); // custom form style override
-		wp_register_style('easy-form-little', WP_PLUGIN_URL . '/easyreservations/css/forms/form_little.css'); // widget form style
-		wp_register_style('easy-form-none', WP_PLUGIN_URL . '/easyreservations/css/forms/form_none.css'); // default (white) form style
-		wp_register_style('easy-form-blue', WP_PLUGIN_URL . '/easyreservations/css/forms/form_blue.css'); // blue form style
+		wp_localize_script( 'easyreservations_send_form', 'easyDate', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ), 'currency' => RESERVATIONS_CURRENCY,  'easydateformat' => RESERVATIONS_DATE_FORMAT, 'interval' => json_encode($the_rooms_intervals_array) ) );
 
-		if(file_exists(WP_PLUGIN_DIR . '/easyreservations/css/custom/calendar.css'))wp_register_style('easy-cal-custom', WP_PLUGIN_URL . '/easyreservations/css/custom/calendar.css'); // custom form style override
-		wp_register_style('easy-cal-1', WP_PLUGIN_URL . '/easyreservations/css/calendar/style_1.css');
-		wp_register_style('easy-cal-2', WP_PLUGIN_URL . '/easyreservations/css/calendar/style_2.css');
+		wp_register_style('easy-frontend', WP_PLUGIN_URL . '/easyreservations/css/frontend.css', array(), RESERVATIONS_VERSION); // widget form style
+		if(file_exists(WP_PLUGIN_DIR . '/easyreservations/css/custom/form.css')) wp_register_style('easy-form-custom', WP_PLUGIN_URL . '/easyreservations/css/custom/form.css', array(), RESERVATIONS_VERSION); // custom form style override
+		wp_register_style('easy-form-little', WP_PLUGIN_URL . '/easyreservations/css/forms/form_little.css', array(), RESERVATIONS_VERSION); // widget form style
+		wp_register_style('easy-form-none', WP_PLUGIN_URL . '/easyreservations/css/forms/form_none.css', array(), RESERVATIONS_VERSION);
+		wp_register_style('easy-form-blue', WP_PLUGIN_URL . '/easyreservations/css/forms/form_blue.css', array(), RESERVATIONS_VERSION);
+
+		if(file_exists(WP_PLUGIN_DIR . '/easyreservations/css/custom/calendar.css')) wp_register_style('easy-cal-custom', WP_PLUGIN_URL . '/easyreservations/css/custom/calendar.css', array(), RESERVATIONS_VERSION); // custom form style override
+		wp_register_style('easy-cal-1', WP_PLUGIN_URL . '/easyreservations/css/calendar/style_1.css', array(), RESERVATIONS_VERSION);
+		wp_register_style('easy-cal-2', WP_PLUGIN_URL . '/easyreservations/css/calendar/style_2.css', array(), RESERVATIONS_VERSION);
 
 		if(file_exists(WP_PLUGIN_DIR . '/easyreservations/css/custom/datepicker.css')) $form1 = 'custom/datepicker.css'; else $form1 = 'jquery-ui.css';
-		wp_register_style('datestyle', WP_PLUGIN_URL . '/easyreservations/css/'.$form1);
+		wp_register_style('datestyle', WP_PLUGIN_URL . '/easyreservations/css/'.$form1, array(), RESERVATIONS_VERSION);
 	}
 
 	add_action('wp_enqueue_scripts', 'easyreservations_register_scripts');
+
 	add_action('wp_ajax_easyreservations_send_calendar', 'easyreservations_send_calendar_callback');
 	add_action('wp_ajax_nopriv_easyreservations_send_calendar', 'easyreservations_send_calendar_callback');
+	
+	add_action('wp_ajax_easyreservations_send_form', 'easyreservations_send_form_callback');
+	add_action('wp_ajax_nopriv_easyreservations_send_form', 'easyreservations_send_form_callback');
+	
 	add_action('wp_ajax_easyreservations_send_price', 'easyreservations_send_price_callback');
 	add_action('wp_ajax_nopriv_easyreservations_send_price', 'easyreservations_send_price_callback');
+	
 	add_action('wp_ajax_easyreservations_send_validate', 'easyreservations_send_validate_callback');
 	add_action('wp_ajax_nopriv_easyreservations_send_validate', 'easyreservations_send_validate_callback');
  
@@ -793,5 +1026,90 @@
 
 	add_action('wp_print_styles', 'easyreservations_add_icons_stylesheet');
 	add_action('admin_print_styles', 'easyreservations_add_icons_stylesheet');
+	
+	/**
+	 * Print jQuery Code for Datepicker
+	 * @param int $type 0 for standard 1 for frontend
+	 */	
+	function easyreservations_build_datepicker($type, $instances, $trans = false, $search = false){
+		$daysnames = easyreservations_get_date_name(0,0);
+		$daynames = '["'.$daysnames[6].'", "'.$daysnames[0].'", "'.$daysnames[1].'", "'.$daysnames[2].'", "'.$daysnames[3].'", "'.$daysnames[4].'", "'.$daysnames[5].'"]';
+		$daynamesshort = '["'.substr($daysnames[6],0, 3).'","'.substr($daysnames[0],0, 3).'","'.substr($daysnames[1],0, 3).'","'.substr($daysnames[2],0, 3).'","'.substr($daysnames[3],0, 3).'","'.substr($daysnames[4],0, 3).'","'.substr($daysnames[5],0, 3).'"]';
+		$daynamesmin = '["'.substr($daysnames[6],0, 2).'","'.substr($daysnames[0],0, 2).'","'.substr($daysnames[1],0, 2).'","'.substr($daysnames[2],0, 2).'","'.substr($daysnames[3],0, 2).'","'.substr($daysnames[4],0, 2).'","'.substr($daysnames[5],0, 2).'"]';
+		$monthes = easyreservations_get_date_name(1,0);
+		$monthnames =  '["'.$monthes[0].'","'.$monthes[1].'","'.$monthes[2].'","'.$monthes[3].'","'.$monthes[4].'","'.$monthes[5].'","'.$monthes[6].'","'.$monthes[7].'","'.$monthes[8].'","'.$monthes[9].'","'.$monthes[10].'","'.$monthes[11].'"]';
+		$monthnamesshort =  '["'.substr($monthes[0],0,3).'","'.substr($monthes[1],0,3).'","'.substr($monthes[2],0,3).'","'.substr($monthes[3],0,3).'","'.substr($monthes[4],0,3).'","'.substr($monthes[5],0,3).'","'.substr($monthes[6],0,3).'","'.substr($monthes[7],0,3).'","'.substr($monthes[8],0,3).'","'.substr($monthes[9],0,3).'","'.substr($monthes[10],0,3).'","'.substr($monthes[11],0,3).'"]';
+		$translations = <<<EOF
+			dayNames: $daynames,
+			dayNamesShort: $daynamesshort,
+			dayNamesMin: $daynamesmin,
+			monthNames: $monthnames,
+			monthNamesShort: $monthnamesshort,
+EOF;
+		
+		if($search) $search = 1;
+		else $search = 2;
+		
+		if($trans === true) return $translations;
+		elseif($trans) $format = $trans;
+		else $format = RESERVATIONS_DATE_FORMAT;
+	
+		$jquery = '';
+		if(isset($instances[1])) foreach($instances as $instance) $jquery .= '#'.$instance.',';
+		else $jquery = '#'.$instance.',';
+		$jquery = substr($jquery, 0, -1);
+
+		if($format == 'Y/m/d') $dateformat = 'yy/mm/dd';
+		elseif($format == 'm/d/Y') $dateformat = 'mm/dd/yy';
+		elseif($format == 'd-m-Y') $dateformat = 'dd-mm-yy';
+		elseif($format == 'Y-m-d') $dateformat = 'yy-mm-dd';
+		elseif($format == 'd.m.Y') $dateformat = 'dd.mm.yy';
+
+		if($type == 0){
+			$datepicker = <<<EOF
+		<script>
+			jQuery(document).ready(function(){
+				var dates = jQuery( "$jquery" ).datepicker({
+					dateFormat: '$dateformat',
+					minDate: 0,
+					beforeShowDay: function(date){
+						if($search == 2 && window.easydisabledays && document.easyFrontendFormular.easyroom){
+							return easydisabledays(date,document.easyFrontendFormular.easyroom.value);
+						} else {
+							return [true];
+						}
+					},
+					$translations
+					firstDay: 1,
+					onSelect: function( selectedDate ){
+						if(this.id == '$instances[0]'){
+							var option = this.id == "$instances[0]" ? "minDate" : "maxDate",
+							instance = jQuery( this ).data( "datepicker" ),
+							date = jQuery.datepicker.parseDate( instance.settings.dateFormat ||	jQuery.datepicker._defaults.dateFormat,	selectedDate, instance.settings );
+							date.setDate(date.getDate());
+							dates.not( this ).datepicker( "option", option, date );
+						}
+						if(window.easyreservations_send_validate) easyreservations_send_validate();
+						if(window.easyreservations_send_price) easyreservations_send_price();		
+					}
+				});
+			});
+		</script>
+EOF;
+		} else {
+			$datepicker = <<<EOF
+		<script>
+			jQuery(document).ready(function(){
+				var dates = jQuery( "$jquery" ).datepicker({
+					$translations
+					dateFormat: '$dateformat',
+					firstDay: 1
+				});
+			});
+		</script>
+EOF;
+		}
+		echo $datepicker;
+	}
 
 ?>

@@ -1,10 +1,13 @@
 var errors_state = 0;
+var easyErrorEffectSave = true;
 function easyreservations_send_validate(y){
 	if(errors_state == 0){
 		errors_state = 1;
+		easyErrorEffectSave = true;
 		var errornr = 1; var custom = '';
-
+		if(y == "send") easyOverlayDimm(0);
 		jQuery("#easy-show-error-div").addClass('hide-it');
+		jQuery(".easyFrontendFormular .easy-button").addClass('deactive1');
 		jQuery("[id^='easy-custom-req-']").each ( function (i){
 			if(custom.indexOf(this.id+',') >= 0) return;
 			if(this.value == '') custom +=	this.id + ',';
@@ -12,14 +15,16 @@ function easyreservations_send_validate(y){
 			else if( this.type == 'radio' && this.checked == false) custom += this.id + ',';
 		});
 		jQuery("[id^='easy-form-'],[id^='easy-custom-']").removeClass('form-error');
-		jQuery("label[id^='easy-error-field-']").remove();
+		jQuery("label[id^='easy-error-field-']").fadeOut("slow", function(e){
+			e.remove();
+		});
 		document.getElementById('easy-show-error').innerHTML = '';
 
 		if(document.easyFrontendFormular.easyroom) var room = document.easyFrontendFormular.easyroom.value;
 		else alert('no room field - correct that')
 		var interval_array = eval("(" + easyAjax.interval + ")");
 		var interval = interval_array[room];
-		var nights = 1; var to = ''; var toplus = 0; var fromplus = 0; var childs = 0; var persons = 1; var captcha = 'x!'; var tom = 0; var toh = 12*60; var fromm = 0; var fromh = 12*60; var theid = '';
+		var nights = 1; var to = ''; var toplus = 0; var fromplus = 0; var childs = 0; var persons = 1; var captcha = 'x!'; var captcha_prefix = ''; var tom = 0; var toh = 12*60; var fromm = 0; var fromh = 12*60; var theid = '';
 
 		if(y) var mode = y;
 		else mode = 'normal';
@@ -69,9 +74,9 @@ function easyreservations_send_validate(y){
 		if(document.easyFrontendFormular.email) var email = document.easyFrontendFormular.email.value;
 		else alert('no email field - correct that');
 		if(document.easyFrontendFormular.captcha_value) captcha = document.easyFrontendFormular.captcha_value.value;
+		if(document.easyFrontendFormular.captcha_prefix) captcha_prefix = document.easyFrontendFormular.captcha_prefix.value;
 		if(document.easyFrontendFormular.thename) var thename = document.easyFrontendFormular.thename.value;
 		else alert('no name field - correct that');
-		
 		if(document.easyFrontendFormular.editID) theid = document.easyFrontendFormular.editID.value;
 
 		var data = {
@@ -79,6 +84,7 @@ function easyreservations_send_validate(y){
 			security:tsecurity,
 			id:theid,
 			captcha:captcha,
+			captcha_prefix:captcha_prefix,
 			from:from,
 			fromplus:fromplus,
 			to:to,
@@ -100,6 +106,7 @@ function easyreservations_send_validate(y){
 				errornr = 0;
 				errors = response;
 				var warning = ''; var elem  = '';
+				easyErrorEffectSave = false;
 				if(errors != '' && errors != null && errors != 1){
 					errornr++;
 					if(mode == 'send' && errors.length > 0) jQuery("#easy-show-error-div").removeClass('hide-it');
@@ -113,7 +120,9 @@ function easyreservations_send_validate(y){
 							jQuery('#' +the_error_field ).addClass('form-error');
 							warning = '<label for="easy-form-to" class="easy-show-error" id="easy-error-field-'+the_error_field+'">'+error+'</label>'
 							elem = jQuery('#' +the_error_field ).parent().get(0);
-							if(elem && elem.tagName == 'SPAN') jQuery(elem).after(warning);
+							if(elem && elem.tagName == 'SPAN'){
+								jQuery(elem).after(warning);
+							}
 							else jQuery('#' +the_error_field ).after(warning);
 							if(mode == 'send'){
 								warningli = '<li><label for="'+the_error_field+'">'+error+'</label></li>'
@@ -131,8 +140,12 @@ function easyreservations_send_validate(y){
 							if(elem && elem.tagName == 'SPAN') jQuery(elem).after(warning);
 							else jQuery('#'+field).after(warning);
 						}
+						jQuery("label[class=easy-show-error]").hide();
+						jQuery("label[class=easy-show-error]").fadeIn("slow");
 					}
 				}
+				jQuery(".easyFrontendFormular .easy-button").removeClass('deactive1');
+
 				errors_state = 0;
 				if(errornr == 0 && mode == 'send'){
 					jQuery('[id^="custom_price"]:checked,select[id^="custom_price"]').each(function(){
@@ -160,8 +173,13 @@ function easyreservations_send_validate(y){
 							}
 						}
 					});
-					document.getElementById('easyFrontendFormular').submit();
-				}
+					if(easyReservationAtts['multiple'] == 0){
+						document.getElementById('easyFrontendFormular').submit();
+					} else {
+						if(easyReservationEdit) easyFormSubmit();
+						else easyInnerlay(1);
+					}
+				} else easyOverlayDimm(1);
 			});
 		}
 	}

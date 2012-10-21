@@ -22,8 +22,8 @@
 				onclick : function() {
 					ed.windowManager.open({
 					file : url + '/tinyMCE_shortcode_add.php',
-					width : 600,
-					height : 400,
+					width : 670,
+					height : 420,
 					inline : 1
 				}, {
 					plugin_url : url // Plugin absolute URL
@@ -34,7 +34,7 @@
 			ed.windowManager.open({
 				file : url + '/tinyMCE_shortcode_add.php',
 				width : 600,
-				height : 400,
+				height : 420,
 				inline : 1
 			}, {
 				plugin_url : url // Plugin absolute URL

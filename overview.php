@@ -184,7 +184,7 @@
 
 		$resource_sql = $wpdb->get_results($wpdb->prepare("SELECT id, name, departure, arrival, roomnumber FROM ".$wpdb->prefix ."reservations WHERE approve='yes' AND room='$roomID' AND (arrival BETWEEN '$stardate' AND '$enddate' OR departure BETWEEN '$stardate' AND '$enddate' OR '$stardate'  BETWEEN arrival AND departure) ORDER BY room ASC, roomnumber ASC, arrival ASC"));
 
-		unset($reservations);
+		if(isset($reservations)) unset($reservations);
 		foreach($resource_sql as $resourc){
 			if(!empty($resourc->roomnumber)){
 				$reservations[$resourc->roomnumber][] = array($resourc);
@@ -192,7 +192,7 @@
 			}
 		} ?>
 		<tr class="ov_resource_row" style="background:#EAE8E8">
-			<td><span>&nbsp;<a href="admin.php?page=reservation-resources&room=<?php echo $resource->ID; ?>" style="color: #6B6B6B;"><?php echo __( $resource->post_title); ?></a></td>
+			<td nowrap><span>&nbsp;<a href="admin.php?page=reservation-resources&room=<?php echo $resource->ID; ?>" title="<?php __( $resource->post_title); ?>" style="color: #6B6B6B;"><?php echo substr(__( $resource->post_title),0,20); ?></a></td>
 				<?php
 				$co=0;
 				while($co < $daysshow){
@@ -232,7 +232,7 @@
 						$res_departure_stamp= strtotime($reservation->departure);
 						$res_departure = $res_departure_stamp - (int) date("i", $res_departure_stamp);
 						$res_nights = ($res_departure_stamp - $res_adate_stamp) / $interval;
-						if($res_nights < 1){
+						if(date($date_pat, $res_departure_stamp) == date($date_pat, $res_adate_stamp)){
 							$round = round((($res_adate + $res_departure-$interval)/2)/$interval) * $interval;
 							$datesHalfOccupied[$round]['i'] += 1;
 							$datesHalfOccupied[$round]['v'] .= date('d.m H:i', $res_adate_stamp).' - '.date('d.m H:i', $res_departure_stamp).' <b>'.$res_name.'</b> (#'.$res_id.')<br>';
@@ -313,7 +313,15 @@
 							$itIS=0;
 							$onClick=1;
 						}
-						if(!in_array(date($date_pat, $dateToday+$interval), $daysOccupied)) $farbe2="url(".RESERVATIONS_URL ."/images/DERSTRING_end.png) left top no-repeat, ".$background2." ".$colorbgfree; 
+						if(!in_array(date($date_pat, $dateToday+$interval), $daysOccupied) || isset($datesHalfOccupied[$dateToday-$interval])){
+							$farbe2="url(".RESERVATIONS_URL ."images/DERSTRING_end.png) left top no-repeat, ".$background2." ".$colorbgfree; 
+							$itIS=0;
+							if(isset($datesHalfOccupied[$dateToday-$interval])){
+								$exp = explode(",", $farbe2);
+								$farbe2 = $exp[0];
+								$farbe2.=", url(".RESERVATIONS_URL ."images/DERSTRING_start.png) right top no-repeat, ".$background2." ".$colorbgfree; 
+							}
+						}
 
 						$CoutResNights2++;
 						$CoutResNights3++;
@@ -340,7 +348,6 @@
 
 						$minusdays=0;
 						$nightsproof=$nights;
-
 						if($arrival < $timesx){
 							$daybetween=($timesx-$arrival)/$interval;
 							$minusdays=round($daybetween)-1;
@@ -351,12 +358,12 @@
 							$minusdays+=substr(round($daybetween), 1, 10);
 							$nightsproof=$nights-$minusdays;
 						}
-						
+
 						$title_one = 	date('d.m H:i', $arrival).' - '.date('d.m H:i', $departure).' <b>'.$reservationarray[$CountNumberOfAdd]['name'].'</b> (#'.$reservationarray[$CountNumberOfAdd]['ID'].')<br>';
 
-						if($itIS==1){
+						if($itIS===1){
 							?><td id="<?php echo $roomID.'-'.$rowcount.'-'.$preparedCellcount; ?>"<?php echo $addname; ?> title="<?php echo $title_one; ?>" colspan="<?php echo $nights-1-$minusdays; ?>" class="er_overview_cell" onclick="<?php echo "location.href = 'admin.php?page=reservations&edit=".$reservationarray[$CountNumberOfAdd]['ID']."';"; ?>" style="background: <?php echo $farbe2;?>;cursor: pointer;text-decoration:none;padding:0px;font: normal 11px Arial, sans-serif;vertical-align:middle;; overflow:hidden;"  abbr="<?php echo $farbe2;?>" title="<?php echo $reservationarray[$CountNumberOfAdd]['name']; ?>" <?php if($overview_options['overview_onmouseover'] == 1){ ?>onmouseover="hoverEffect(this,'<?php echo date('d.m H:i', $arrival+$interval).' - '.date('d.m H:i', $departure); ?>');"<?php } ?>>
-							<?php echo substr($reservationarray[$CountNumberOfAdd]['name'], 0, ($nights-1-$minusdays)*3); ?>
+							<?php echo substr($reservationarray[$CountNumberOfAdd]['name'], 0, ($nights-1-$minusdays)*3); echo 123 ; ?>
 							</td><?php
 						} elseif($itIS==$nightsproof+1 || $itIS==$nightsproof || $itIS==0) {
 								$value = ''; $title = '';
