@@ -1594,5 +1594,5 @@ if(isset($sendmail)) {
 	</form
 <?php }
 	if(isset($approve) || isset($delete) || isset($view) || isset($sendmail)) echo '</td></tr></table>';
-} echo admin_url(); 
+}
  ?>
