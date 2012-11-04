@@ -424,7 +424,6 @@ if($settingpage=="general"){
 					</tr>
 				</tbody>
 			</table>
-			<?php do_action( 'er_set_main_out' ); ?>
 			<table class="<?php echo RESERVATIONS_STYLE; ?>" style="width:100%;margin-top:7px">
 				<thead>
 					<tr>
@@ -442,6 +441,7 @@ if($settingpage=="general"){
 			</table>
 		<input type="button" value="<?php echo __( 'Save Changes' , 'easyReservations' );?>" onclick="document.getElementById('er_main_set').submit(); return false;" style="margin-top:7px;" class="easySubmitButton-primary" style="margin-top:4px" >
 		</form>
+			<?php do_action( 'er_set_main_out' ); ?>
 			</td><td style="width:1%;" valign="top">
 			</td><td style="width:29%;" valign="top">
 				<table class="<?php echo RESERVATIONS_STYLE; ?>" style="width:100%;margin-bottom:7px;" cellspacing="0" cellpadding="0" style="background:#fff;">
@@ -452,7 +452,7 @@ if($settingpage=="general"){
 					</thead>
 					<tbody>
 						<tr>
-							<td style="font-weight:bold;padding:10px;text-align:center"><span style="width:20%;display: inline-block">Version: <?php echo RESERVATIONS_VERSION; ?></span><span style="width:30%;display: inline-block">Last update: 13.08.2012</span><span style="width:30%;display: inline-block">written by Feryaz Beer</span></td>
+							<td style="font-weight:bold;padding:10px;text-align:center"><span style="width:20%;display: inline-block">Version: <?php echo RESERVATIONS_VERSION; ?></span><span style="width:30%;display: inline-block">Last update: 04.11.2012</span><span style="width:30%;display: inline-block">written by Feryaz Beer</span></td>
 						</tr>
 						<tr class="alternate">
 							<td style="font-size:14px;text-align:center;font-weight:bold;padding:10px"><a href="http://easyreservations.org/knowledgebase/" target="_blank" id="iddocumentation"><?php echo __( 'Documentation' , 'easyReservations' );?></a></td>
@@ -1441,7 +1441,7 @@ ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrival] <br>To: [depa
 				</thead>
 				<tbody>
 					<tr>
-						<td style="font-weight:bold;padding:10px;text-align:center"><span style="width:20%;display: inline-block">Version: <?php echo RESERVATIONS_VERSION; ?></span><span style="width:30%;display: inline-block">Last update: 13.08.2012</span><span style="width:30%;display: inline-block">written by Feryaz Beer</span></td>
+						<td style="font-weight:bold;padding:10px;text-align:center"><span style="width:20%;display: inline-block">Version: <?php echo RESERVATIONS_VERSION; ?></span><span style="width:30%;display: inline-block">Last update: 04.11.2012</span><span style="width:30%;display: inline-block">written by Feryaz Beer</span></td>
 					</tr>
 					<tr class="alternate">
 						<td style="font-size:14px;text-align:center;font-weight:bold;padding:10px"><a href="http://easyreservations.org/knowledgebase/" target="_blank" id="iddocumentation"><?php echo __( 'Documentation' , 'easyReservations' );?></a></td>

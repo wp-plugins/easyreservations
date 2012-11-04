@@ -15,8 +15,8 @@ function easyreservations_send_validate(y){
 			else if( this.type == 'radio' && this.checked == false) custom += this.id + ',';
 		});
 		jQuery("[id^='easy-form-'],[id^='easy-custom-']").removeClass('form-error');
-		jQuery("label[id^='easy-error-field-']").fadeOut("slow", function(e){
-			e.remove();
+		jQuery("label[id^='easy-error-field-']").fadeOut("slow", function(){
+			jQuery(this).remove();
 		});
 		document.getElementById('easy-show-error').innerHTML = '';
 
@@ -119,11 +119,16 @@ function easyreservations_send_validate(y){
 							jQuery('#easy-form-from').addClass('form-error');
 							jQuery('#' +the_error_field ).addClass('form-error');
 							warning = '<label for="easy-form-to" class="easy-show-error" id="easy-error-field-'+the_error_field+'">'+error+'</label>'
-							elem = jQuery('#' +the_error_field ).parent().get(0);
+							if(document.getElementById(the_error_field )) elem = jQuery('#' +the_error_field ).parent().get(0);
+							else elem = jQuery('#easy-form-from').parent().get(0);
 							if(elem && elem.tagName == 'SPAN'){
 								jQuery(elem).after(warning);
+							} else {
+								if(document.getElementById(the_error_field )){
+									jQuery('#' +the_error_field ).after(warning);
+								} 
+								else jQuery('#easy-form-from').after(warning);
 							}
-							else jQuery('#' +the_error_field ).after(warning);
 							if(mode == 'send'){
 								warningli = '<li><label for="'+the_error_field+'">'+error+'</label></li>'
 								document.getElementById('easy-show-error').innerHTML += warningli;

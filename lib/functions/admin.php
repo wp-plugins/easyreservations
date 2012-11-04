@@ -17,7 +17,7 @@ if(isset($_GET['page'])){
 	}
 
 
-	if($page == 'reservations' || $page== 'reservation-settings' || $page== 'reservation-statistics' ||  $page=='reservation-resources'){  //  Only load Styles and Scripts on Reservation Admin Page 
+	if($page == 'reservations' || $page== 'reservation-settings' || $page== 'reservation-statistics' ||  $page=='reservation-resources' ||$page = 'reservation-stream'){  //  Only load Styles and Scripts on Reservation Admin Page 
 		add_action('admin_init', 'easyreservations_load_mainstyle');
 	}
 

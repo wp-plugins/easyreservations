@@ -220,7 +220,8 @@ function reservation_main_page() {
 			$id = $res->addReservation();
 
 			if(!$id){
-				$easy_errors[] = array( 'updated' , sprintf(__( 'Reservation #%d added' , 'easyReservations' ), $id));
+				$easy_errors[] = array( 'updated' , sprintf(__( 'Reservation #%d added' , 'easyReservations' ), $res->id));
+				do_action('easy-add-stream', 'reservation', 'add', '', $res->id);
 				?><meta http-equiv="refresh" content="0; url=admin.php?page=reservations&edit=<?php echo $res->id; ?>"><?php
 			} else $res->destroy();
 		} catch(easyException $e){

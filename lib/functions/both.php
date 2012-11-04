@@ -434,6 +434,8 @@
 		else $header = 0;
 		if(isset($explodeSize[4]) && $explodeSize[4] != '') $style = $explodeSize[4];
 		else $style = 0;
+		if(isset($explodeSize[5]) && $explodeSize[5] != '') $req = $explodeSize[5];
+		else $req = 0;
 		
 		$pers = 1; $child = 0; $resev = 0;
 		if(isset($_POST['persons'])) $pers = $_POST['persons'];
@@ -443,6 +445,7 @@
 		$room_count = get_post_meta($_POST['room'], 'roomcount', true);
 		$month_names = easyreservations_get_date_name(1);
 		$day_names = easyreservations_get_date_name(0,2);
+		if($req == 1) $requirements = get_post_meta($_POST['room'], 'easy-resource-req', TRUE);
 		if($width == 0 || empty($width)) $width=300;
 		$currency = '&'.RESERVATIONS_CURRENCY.';';
 		if(isset($_POST['where']) && $_POST['where'] == "widget"){
@@ -514,7 +517,7 @@
 			}
 
 			$num2 = cal_days_in_month(CAL_GREGORIAN, $monthnowFix-1, $yearnowFix); // 31
-			if($divider % 2 != 0) $thewidth = ($width-0.33).'px';
+			if(count($timenows) > 1 && $divider % 2 != 0) $thewidth = ($width-0.33).'px';
 			else $thewidth = $percent.'%';
 			if($month_count % $divider == 0) $float = '';
 			else $float = 'float:left';
@@ -600,6 +603,18 @@
 					else $show = $diff;
 
 					if($dateofeachday > time()) $onclick = 'onclick="easyreservations_click_calendar(this,\''.date(RESERVATIONS_DATE_FORMAT, $dateofeachday).'\', \''.$rand.'\', \''.$key.'\')"'; else $onclick ='style="cursor:default"';
+					if($req == 1 && $requirements && ((isset($requirements['start-on']) && is_array($requirements['start-on']) && $requirements['start-on'] != 0) || (isset($requirements['end-on']) && is_array($requirements['end-on']) && $requirements['end-on'] != 0))){
+						$das = true;
+						if(isset($requirements['start-on']) && is_array($requirements['start-on']) && $requirements['start-on'] != 0 && !in_array(date("N", $dateofeachday), $requirements['start-on'])){
+							$backgroundtd.= " reqstartdisabled reqdisabled";
+							$das = false;
+						} 
+						if(isset($requirements['end-on']) && is_array($requirements['end-on']) && $requirements['end-on'] != 0 && !in_array(date("N", $dateofeachday), $requirements['end-on'])){
+							$backgroundtd.= " reqenddisabled";
+							$das = false;
+						}
+						if($das) $backgroundtd.= " notreqdisabled";
+					}
 					echo '<td class="calendar-cell'.$todayClass.$backgroundtd.'" '.$onclick.' id="easy-cal-'.$rand.'-'.$diff.'-'.$key.'" axis="'.$diff.'">'.$show.''.$final_price.'</td>'; $setet++; $diff++;
 					if($setet==0 || $setet==7 || $setet==14 || $setet==21 || $setet==28) echo '</tr>';
 					$res->destroy();
@@ -741,7 +756,7 @@
 				$res = new Reservation(false, $array, false);
 				try {
 					$res->admin = false;
-					if(isset($_POST['coupon'])) $res = apply_filters('easy-add-res-ajax', $res, false);
+					if(isset($_POST['coupon'])) $res = apply_filters('easy-add-res-ajax', $res);
 					$save = $res->coupon;
 					$res->fake = false;
 					$res->coupon = false;
@@ -881,7 +896,7 @@
 			$error[] = '';
 			$error[] = $e->getMessage();
 		}
-		
+
 		if($mode == 'send'){
 			$explode_customs = explode(',', substr($_POST['customs'],0,-1));
 			foreach($explode_customs as $cstm){

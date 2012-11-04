@@ -187,19 +187,23 @@ function jumpto(x){ // Chained inputs;
 	} else if(x == "calendar"){
 		var FieldAdd = '<tr>';
 			FieldAdd += '<td nowrap="nowrap" valign="top"><label for="easyreservation_calendar_room"><?php _e("Resource", "easyReservations"); ?></label></td>';
-			FieldAdd += '<td><label><select id="easyreservation_calendar_room" name="easyreservation_calendar_room" style="width: 100px"><?php echo $roomsoptions; ?></select></label> <?php _e("Select default resource", "easyReservations"); ?></td>';
+			FieldAdd += '<td><select id="easyreservation_calendar_room" name="easyreservation_calendar_room" style="width: 100px"><?php echo $roomsoptions; ?></select> <?php _e("Select default resource", "easyReservations"); ?></td>';
 			FieldAdd += '</tr>';
 			FieldAdd += '<tr>';
 			FieldAdd += '<td nowrap="nowrap" valign="top"><label for="easyreservation_calendar_style"><?php _e("Style", "easyReservations"); ?></label></td>';
-			FieldAdd += '<td><label><select id="easyreservation_calendar_style" name="easyreservation_calendar_style" style="width: 100px" onchange="getCalendarInfos()"><?php echo $custom_calendar_style; ?><option value="1"><?php _e("simple", "easyReservations"); ?></option><option value="2"><?php _e("modern", "easyReservations"); ?></option><?php do_action('easy-tinymce-add-style'); ?></select></label> <?php _e("Select calendar style", "easyReservations"); ?></td>';
+			FieldAdd += '<td><select id="easyreservation_calendar_style" name="easyreservation_calendar_style" style="width: 100px" onchange="getCalendarInfos()"><?php echo $custom_calendar_style; ?><option value="1"><?php _e("simple", "easyReservations"); ?></option><option value="2"><?php _e("modern", "easyReservations"); ?></option><?php do_action('easy-tinymce-add-style'); ?></select> <?php _e("Select calendar style", "easyReservations"); ?></td>';
 			FieldAdd += '</tr>';
 			FieldAdd += '<tr>';
 			FieldAdd += '<td nowrap="nowrap" valign="top"><label for="easyreservation_show_price"><?php _e("Price", "easyReservations"); ?></label></td>';
-			FieldAdd += '<td><label><select id="easyreservation_show_price" name="easyreservation_show_price" style="width: 100px" onchange="getCalendarInfos()"><option value="0"><?php _e("no", "easyReservations"); ?></option><option value="1">150&<?php echo RESERVATIONS_CURRENCY; ?>;</option><option value="2">150</option><option value="3"><?php echo easyreservations_format_money(150,1); ?></option><option value="4"><?php echo easyreservations_format_money(150); ?></option></select></label> <?php _e("Show price in calendar", "easyReservations"); ?></td>';
+			FieldAdd += '<td><select id="easyreservation_show_price" name="easyreservation_show_price" style="width: 100px" onchange="getCalendarInfos()"><option value="0"><?php _e("no", "easyReservations"); ?></option><option value="1">150&<?php echo RESERVATIONS_CURRENCY; ?>;</option><option value="2">150</option><option value="3"><?php echo easyreservations_format_money(150,1); ?></option><option value="4"><?php echo easyreservations_format_money(150); ?></option></select> <?php _e("Show price in calendar", "easyReservations"); ?></td>';
 			FieldAdd += '</tr>';
 			FieldAdd += '<tr>';
 			FieldAdd += '<td nowrap="nowrap" valign="top"><label for="easyreservation_calendar_width"><?php _e("Width", "easyReservations"); ?></label></td>';
-			FieldAdd += '<td><label><input type="text" id="easyreservation_calendar_width" name="easyreservation_calendar_width" style="width: 90px" value="148"> px</label> <?php _e("Min width", "easyReservations"); ?>: <span id="easyreservation_calendar_min_width" onclick="document.getElementById(\'easyreservation_calendar_width\').value = this.innerHTML">148</span>px</td>';
+			FieldAdd += '<td><input type="text" id="easyreservation_calendar_width" name="easyreservation_calendar_width" style="width: 90px" value="148"> px <?php _e("Min width", "easyReservations"); ?>: <span id="easyreservation_calendar_min_width" onclick="document.getElementById(\'easyreservation_calendar_width\').value = this.innerHTML">148</span>px</td>';
+			FieldAdd += '</tr>';
+			FieldAdd += '<tr>';
+			FieldAdd += '<td nowrap="nowrap" valign="top"><label for="easyreservation_calendar_checkreq"><?php _e("Check", "easyReservations"); ?></label></td>';
+			FieldAdd += '<td><input type="checkbox" id="easyreservation_calendar_checkreq"> <?php _e("Check resources global possible arrival and depature days so they cant be clicked", "easyReservations"); ?></td>';
 			FieldAdd += '</tr>';
 			FieldAdd += '<?php do_action('easy-tinymce-cal',1); ?>';
 			FieldAdd += '<tr><td colspan="2"><?php _e("This shortcode adds an availability calendar to the post or page", "easyReservations"); ?>. <?php _e("You can combine it with a form or the edit-form by add it to the same page", "easyReservations"); ?>.<br><b><?php _e("Only add the calendar once per page or post", "easyReservations"); ?>.</b></td></tr>';
@@ -253,6 +257,7 @@ function insertEasyShortcode() {
 		classAttribs += ' resource="' + document.getElementById('easyreservation_calendar_room').value + '"';
 		if(document.getElementById('easyreservation_calendar_width').value != "") classAttribs += ' width="' + document.getElementById('easyreservation_calendar_width').value + '"';
 		if(document.getElementById('easyreservation_calendar_style').value != "") classAttribs += ' style="' + document.getElementById('easyreservation_calendar_style').value + '"';
+		if(document.getElementById('easyreservation_calendar_checkreq').checked == true) classAttribs += ' req="1"';
 		if(document.getElementById('easyreservation_show_price').value != "") classAttribs += ' price="' + document.getElementById('easyreservation_show_price').value + '"';
 		var monthesfield = document.getElementById('easyreservation_calendar_monthesx');
 		if(monthesfield){

@@ -2,13 +2,15 @@ var easyClick = 0;
 var easyClickFirst = '';
 var easyCellnr = 0;
 var easyCalM = 0;
-function easyreservations_click_calendar(t,d,w, m){
+function easyreservations_click_calendar(t,d,w,m){
+	jQuery('.reqdisabled').removeClass('reqdisabled');
 	if(easyClick == 2){
 		jQuery(".calendar-cell-selected").removeClass("calendar-cell-selected");
 		easyClick = 0;
 	}
 	if(easyClick == 1){
-
+		jQuery('.reqstartdisabled').addClass('reqdisabled');
+		if(jQuery(t).hasClass('reqenddisabled')) return false;
 		easyCellnr = parseFloat(easyCellnr);
 		easyCalM = parseFloat(easyCalM);
 		var axis = parseFloat(t.axis);
@@ -50,6 +52,8 @@ function easyreservations_click_calendar(t,d,w, m){
 		}
 	}
 	if(easyClick == 0){
+		if(jQuery(t).hasClass('reqenddisabled')) return false;
+		jQuery('.reqenddisabled').addClass('reqdisabled');
 		easyCalM = m;
 		easyClickFirst = t.id;
 		jQuery(t.parentNode.parentNode.parentNode.parentNode).removeClass("calendar-full");

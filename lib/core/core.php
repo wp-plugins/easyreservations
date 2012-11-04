@@ -116,7 +116,7 @@ License:GPL2
 							'content' => __( 'Generate totally customazible Invoices automatically from predefined templates. Including an editor for admins, invoices as email attachments and correct A4 Letter formats.' , 'easyReservations' ),
 							'function' => 'easyreservations_generate_invoice',
 							'least' => '1.0.4',
-							'vers' => '1.0.5',
+							'vers' => '1.0.6',
 							'image' => 'invoice',
 							'beta' => 0
 					),
@@ -134,8 +134,8 @@ License:GPL2
 							'title' => __( 'Payment Module' , 'easyReservations' ),
 							'content' => __( 'Your guest can pay their reservations directly through PayPal or leave their credit card details for manually booking. Automatically approve new reservations and/or paid reservations. Payment verification by IPN.' , 'easyReservations' ),
 							'function' => 'easyreservations_validate_payment',
-							'least' => '1.3',
-							'vers' => '1.3',
+							'least' => '1.4',
+							'vers' => '1.4',
 							'image' => 'paypal',
 					),
 					'search' => array(
@@ -144,7 +144,7 @@ License:GPL2
 							'content' => __( 'New shortcode to let your guests search for available resources. No reload for searching, compatible to calendar, show price, show unavailable resources too, link to form with automatically selection. Each resource can have a small one-column calendar to show when its availble.' , 'easyReservations' ),
 							'function' => 'easyreservations_search_add_tinymce',
 							'least' => '1.1.12',
-							'vers' => '1.1.12',
+							'vers' => '1.1.13',
 							'image' => 'search',
 					),
 					'hourlycal' => array(
@@ -192,22 +192,32 @@ License:GPL2
 							'vers' => '1.1.3',
 							'image' => 'statistics',
 					),
+					'stream' => array(
+							'slug' => 'stream',
+							'title' => __( 'Stream Module' , 'easyReservations' ),
+							'content' => __( 'Text.' , 'easyReservations' ),
+							'function' => 'easyreservations_install_stream',
+							'least' => '1.0',
+							'vers' => '1.0',
+							'image' => 'stream',
+							'beta' => 1,
+					),
 					'styles' => array(
 							'slug' => 'styles',
 							'title' => __( 'Styles' , 'easyReservations' ),
 							'content' => __( 'New Admin, Calendar and Form stlye. In addition it changes your datepickers style and disable unavailble dates in it.' , 'easyReservations' ),
 							'least' => '1.2',
 							'function' => 'easyreservations_register_datepicker_style',
-							'vers' => '1.2.4',
+							'vers' => '1.2.5',
 							'image' => 'to',
 					),
 					'coupons' => array(
 							'slug' => 'coupons',
 							'title' => __( 'Coupon Module' , 'easyReservations' ),
 							'content' => __( 'Let your guests enter coupon codes for discounts.' , 'easyReservations' ),
-							'least' => '1.0.6',
+							'least' => '1.0.7',
 							'function' => 'easyreservations_calculate_coupon',
-							'vers' => '1.0.6',
+							'vers' => '1.0.7',
 							'image' => 'money',
 					),
 					'multical' => array(
@@ -452,7 +462,6 @@ License:GPL2
 					if( function_exists('curl_init')){ // if cURL is available, use it...
 						if($update){
 							$notifier_file_url =  'http://easyreservations.org/req/down/'.$update;
-							$newfile = WP_PLUGIN_DIR.'/easyreservations/tmp_file_dasd.zip';
 						} elseif($changelog){
 							$notifier_file_url =  'http://easyreservations.org/req/change/'.$changelog;
 						}
@@ -471,7 +480,8 @@ License:GPL2
 					} else {
 						$error = __('cURL isnt installed on your server, please contact your host', 'easyReservations');
 					}
-					if($update){
+					if($update && empty($error)){
+						$newfile = WP_PLUGIN_DIR.'/easyreservations/tmp_file_dasd.zip';
 						$url = 'admin.php?page=reservation-settings&site=plugins&update='.$update;
 						if (false === ($creds = request_filesystem_credentials($url, 'ftp', false, false))){
 							$error = 'creds';
@@ -502,7 +512,7 @@ License:GPL2
 						}
 					} elseif($changelog){
 						return $cache;
-					}elseif ($cache){
+					} elseif ($cache){
 						update_option( $db_cache_field, $cache );
 						update_option( $db_cache_field_last_updated, time());
 					}

@@ -216,6 +216,7 @@ if(isset($offers[0])) $offerlink = '<a class="add-new-h2" href="edit.php?post_ty
 <?php
 if(!isset($site) || $site=='' || $site =='main'){
 	global $wpdb;
+	if(function_exists('verify_post_translations')) verify_post_translations('easy-rooms');
 	if(isset($prompt)) echo $prompt; ?>
 		<table class="<?php echo RESERVATIONS_STYLE; ?>" style="width:99%;margin-bottom:5px;">
 			<thead>
@@ -265,7 +266,7 @@ if(!isset($site) || $site=='' || $site =='main'){
 				<td style="text-align:center;width:85px" nowrap><?php echo $countallrooms; ?></td>
 				<td style="text-align:center" nowrap><?php if(empty($getfilters)) echo 0; else echo count($getfilters); ?></td>
 				<td nowrap><?php echo $status; ?></td>
-				<td><?php echo substr($allroom->post_content, 0, 36); ?></td>
+				<td><?php echo strip_tags(substr($allroom->post_content, 0, 36)); ?></td>
 				<td style="text-align:right;width:100px">
 					<a href="post.php?post=<?php echo $allroom->ID; ?>&action=edit" title="<?php echo __( 'edit post' , 'easyReservations' ); ?>"><img style="vertical-align:text-bottom;" src="<?php echo RESERVATIONS_URL; ?>images/message.png"></a>
 					<a href="admin.php?page=reservation-resources&room=<?php echo $allroom->ID;?>" title="<?php echo __( 'edit resource' , 'easyReservations' ); ?>"><img style="vertical-align:text-bottom;" src="<?php echo RESERVATIONS_URL; ?>images/money.png"></a>
@@ -276,6 +277,7 @@ if(!isset($site) || $site=='' || $site =='main'){
 		}
 		echo '</tbody>';
 		echo '</table>';
+		
 	} elseif($site=='rooms'){
 		wp_enqueue_style('datestyle');
 		$get_role = get_post_meta($resourceID, 'easy-resource-permission', true);
@@ -382,6 +384,7 @@ if(!isset($site) || $site=='' || $site =='main'){
 			do_action('er_res_main_save', $resourceID);
 		}
 
+		do_action('er_res_save', $resourceID);
 		$counroooms=0;
 
 		$gp = get_post_meta($resourceID, 'reservations_groundprice', true);
@@ -537,17 +540,16 @@ if(!isset($site) || $site=='' || $site =='main'){
 									<td colspan="<?php if($filter['type'] == "unavail" || $filter['type'] == "req") echo 3; else echo 2; ?>"><?php echo $condition_string; ?></td>
 									<?php if($filter['type'] != "unavail" && $filter['type'] != "req") { ?>
 										<td>
-										<?php if(isset($filter['price'])){ ?>
-
-												<?php if($filter['modus']=='%') echo $filter['price'].' %';
-												elseif($filter['modus']=='price_res') echo easyreservations_format_money($filter['price'], 1).'/'.__('Reservation','easyReservations');
-												elseif($filter['modus']=='price_day') echo easyreservations_format_money($filter['price'], 1).'/'.__('Day','easyReservations');
-												elseif($filter['modus']=='price_pers') echo easyreservations_format_money($filter['price'], 1).'/'.__('Person','easyReservations');
-												elseif($filter['modus']=='price_both') echo easyreservations_format_money($filter['price'], 1).'/'.__('Person and Day','easyReservations');
-												else echo easyreservations_format_money($filter['price'], 1); ?>
-											<?php } else { ?>
-												<?php echo easyreservations_format_money('0', 1); ?>
-											<?php } ?>
+										<?php if(isset($filter['price'])){
+											if($filter['modus']=='%') echo $filter['price'].' %';
+											elseif($filter['modus']=='price_res') echo easyreservations_format_money($filter['price'], 1).'/'.__('Reservation','easyReservations');
+											elseif($filter['modus']=='price_day') echo easyreservations_format_money($filter['price'], 1).'/'.__('Day','easyReservations');
+											elseif($filter['modus']=='price_pers') echo easyreservations_format_money($filter['price'], 1).'/'.__('Person','easyReservations');
+											elseif($filter['modus']=='price_both') echo easyreservations_format_money($filter['price'], 1).'/'.__('Person and Day','easyReservations');
+											else echo easyreservations_format_money($filter['price'], 1); ?>
+										<?php } else { ?>
+											<?php echo easyreservations_format_money('0', 1); ?>
+										<?php } ?>
 										</td>
 									<?php } ?>
 									<td style="vertical-align:middle;text-align:center">
@@ -614,6 +616,7 @@ if(!isset($site) || $site=='' || $site =='main'){
 									<option value="3600" <?php selected($reservations_current_int, 3600); ?>><?php  echo __( 'Hourly billing' , 'easyReservations' );?></option>
 									<option value="86400" <?php selected($reservations_current_int, 86400); ?>><?php  echo __( 'Daily billing' , 'easyReservations' );?></option>
 									<option value="604800" <?php selected($reservations_current_int, 604800); ?>><?php  echo __( 'Weekly billing' , 'easyReservations' );?></option>
+									<option value="2592000" <?php selected($reservations_current_int, 2592000); ?>><?php  echo __( 'Monthly billing' , 'easyReservations' );?></option>
 								</select><br>
 								<?php echo  __( 'Price per person' , 'easyReservations' );?> <input type="checkbox" name="easy-resource-price" value="1" <?php checked($reservations_current_price_set, 1); ?>>
 							</td>
@@ -1008,12 +1011,12 @@ if(!isset($site) || $site=='' || $site =='main'){
 					</tbody>
 				</table>
 			</form>
+			<?php do_action('easy-resource-side-end',$resourceID); ?>
 		</td>
 	</tr>
 </table>
 <script language="javascript" type="text/javascript" >
 	function beforeFiltersubmit(){
-		alert(document.getElementById('filter_form_name_field').value);
 		if(document.getElementById('filter_form_name_field').value == ""){
 			document.getElementById('filter_form_name_field').style.border = "1px solid #f00";
 			jQuery('#filter_form_name_field').focus();

@@ -214,17 +214,19 @@
 
 				if(!empty($this->childs) && $this->childs > 0){
 					$childprice = get_post_meta($this->resource, 'reservations_child_price', true);
-					if(substr($childprice, -1) == "%"){
-						$percent=$checkprice/100*(str_replace("%", "", $childprice)*$this->times);
-						$childsPrice = ($checkprice - $percent);
-					} else {
-						$childsPrice = ($checkprice - $childprice*$this->times);
-					}
+					if($childprice != -1){
+						if(substr($childprice, -1) == "%"){
+							$percent=$checkprice/100*(str_replace("%", "", $childprice)*$this->times);
+							$childsPrice = ($checkprice - $percent);
+						} else {
+							$childsPrice = ($checkprice - $childprice*$this->times);
+						}
 
-					$childsPrice = $childsPrice*$this->childs;
-					$this->price += $childsPrice;
-					if($history) $this->history[] = array('date'=>$this->arrival+($countpriceadd*$this->interval), 'priceday'=>$childsPrice, 'type'=> 'childs', 'name' => $this->childs);
-					$countpriceadd++;
+						$childsPrice = $childsPrice*$this->childs;
+						$this->price += $childsPrice;
+						if($history) $this->history[] = array('date'=>$this->arrival+($countpriceadd*$this->interval), 'priceday'=>$childsPrice, 'type'=> 'childs', 'name' => $this->childs);
+						$countpriceadd++;
+					}
 				}
 			}
 
@@ -700,7 +702,7 @@
 				if(!$filtred){
 					$resource_req = get_post_meta($this->resource, 'easy-resource-req', TRUE);
 					if(!$resource_req || !is_array($resource_req)) $resource_req = array('nights-min' => 0, 'nights-max' => 0, 'pers-min' => 1, 'pers-max' => 0);
-					$errors = $this->checkRequirements($resource_req, $errors);
+					$errors = $this->checkRequirements($resource_req, $errors, $mini);
 				}
 			}
 
