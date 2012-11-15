@@ -3,7 +3,7 @@
 Plugin Name: easyReservations
 Plugin URI: http://www.easyreservations.org
 Description: This powerfull property and reservation management plugin allows you to receive, schedule and handle your bookings easily!
-Version: 3.1.1
+Version: 3.1.2
 Author: Feryaz Beer
 Author URI: http://www.feryaz.de
 License:GPL2
@@ -493,7 +493,7 @@ ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrival] <br>To: [depa
 	add_filter('upgrader_post_install', 'easyreservations_recover', 10, 2);
 	$reservations_settings = get_option("reservations_settings");
 
-	define('RESERVATIONS_VERSION', '3.1.1');
+	define('RESERVATIONS_VERSION', '3.1.2');
 	define('RESERVATIONS_DIR', WP_PLUGIN_DIR.'/easyreservations/');
 	define('RESERVATIONS_URL', WP_PLUGIN_URL.'/easyreservations/');
 	define('RESERVATIONS_STYLE', $reservations_settings['style']);
@@ -530,6 +530,12 @@ ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrival] <br>To: [depa
 		add_shortcode('easy_calendar', 'reservations_calendar_shortcode');
 		add_shortcode('easy_form', 'reservations_form_shortcode');
 	}
+
+//	function easyreservations_api_rewrite_rule(){
+//		add_rewrite_tag('%api%','(^*)');
+//		add_rewrite_rule('^api/([^/]*)/{0,1}([^/]*)/{0,1}([^/]*)/{0,1}?','wp-content/plugins/easyreservations/lib/api/index.php?controller=$1&action=$2&information=$3','top');
+//	}
+//	add_action('init', 'easyreservations_api_rewrite_rule' );
 
 	require_once(dirname(__FILE__)."/lib/widgets/form_widget.php");
 	if(file_exists(dirname(__FILE__).'/lib/modules/premium/premium.php')) require_once(dirname(__FILE__)."/lib/modules/premium/premium.php");

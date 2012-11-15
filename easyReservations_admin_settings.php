@@ -362,6 +362,7 @@ if($settingpage=="general"){
 									array('Israeli Sheqel' , '#122;&#322'),
 									array('Panamanian Balboa' , '#66;&#47;&#46'),
 									array('Dominican Republic Peso' , '#82;&#68;&#36'),
+									array('Norwegian Krone' , 'nbsp;&#78;&#79;&#75;&nbsp'),
 									array('Switzerland Franc' , '#67;&#72;&#70'),
 									array('Egyptian Pound' , '#163'),
 									array('Romanian Leu' , '#108;&#101;&#1'),
@@ -452,7 +453,7 @@ if($settingpage=="general"){
 					</thead>
 					<tbody>
 						<tr>
-							<td style="font-weight:bold;padding:10px;text-align:center"><span style="width:20%;display: inline-block">Version: <?php echo RESERVATIONS_VERSION; ?></span><span style="width:30%;display: inline-block">Last update: 04.11.2012</span><span style="width:30%;display: inline-block">written by Feryaz Beer</span></td>
+							<td style="font-weight:bold;padding:10px;text-align:center"><span style="width:20%;display: inline-block">Version: <?php echo RESERVATIONS_VERSION; ?></span><span style="width:30%;display: inline-block">Last update: 15.11.2012</span><span style="width:30%;display: inline-block">written by Feryaz Beer</span></td>
 						</tr>
 						<tr class="alternate">
 							<td style="font-size:14px;text-align:center;font-weight:bold;padding:10px"><a href="http://easyreservations.org/knowledgebase/" target="_blank" id="iddocumentation"><?php echo __( 'Documentation' , 'easyReservations' );?></a></td>
@@ -1013,7 +1014,7 @@ function jumpto(x){ // Chained inputs;
 			end = 1;
 			thetext1 = true;
 			document.form1.jumpmenu.disabled=true;
-			var Output  = '<?php echo __( 'Exclude by ID' , 'easyReservations' ); ?> <input type="text" name="before" id="easy-other" value="Price:">';
+			var Output  = '<?php echo __( 'Title' , 'easyReservations' ); ?> <input type="text" name="before" id="easy-other" value="Price:">';
 			document.getElementById("Text").innerHTML += Output;
 		} else if(x == "infobox"){
 			addformsettings(x);
@@ -1441,7 +1442,7 @@ ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrival] <br>To: [depa
 				</thead>
 				<tbody>
 					<tr>
-						<td style="font-weight:bold;padding:10px;text-align:center"><span style="width:20%;display: inline-block">Version: <?php echo RESERVATIONS_VERSION; ?></span><span style="width:30%;display: inline-block">Last update: 04.11.2012</span><span style="width:30%;display: inline-block">written by Feryaz Beer</span></td>
+						<td style="font-weight:bold;padding:10px;text-align:center"><span style="width:20%;display: inline-block">Version: <?php echo RESERVATIONS_VERSION; ?></span><span style="width:30%;display: inline-block">Last update: 15.11.2012</span><span style="width:30%;display: inline-block">written by Feryaz Beer</span></td>
 					</tr>
 					<tr class="alternate">
 						<td style="font-size:14px;text-align:center;font-weight:bold;padding:10px"><a href="http://easyreservations.org/knowledgebase/" target="_blank" id="iddocumentation"><?php echo __( 'Documentation' , 'easyReservations' );?></a></td>
@@ -1570,6 +1571,6 @@ ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrival] <br>To: [depa
 	echo '<div id="idactive">'.$countactive.'</div>';
 	echo '<div id="idpending">'.$countpending.'</div>';
 }
- do_action( 'er_set_add' ); ?>
+ do_action( 'er_set_add' );?>
 </div>
 <?php } ?>

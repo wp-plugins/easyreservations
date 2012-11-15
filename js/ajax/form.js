@@ -65,7 +65,7 @@ function fakeIfStatements(fieldprice, persons, childs, nights, room){
 					fieldprice = fakeIfStatements(explif[1].substr(1, explif[1].length-2), persons, childs, nights, room);
 					if(fieldprice === false) fieldprice = explif[1];
 				}
-			} else if(thetype == 'night'){
+			} else if(thetype == 'night' || thetype == 'times'){
 				if(nights >= parseFloat(explif[0])){
 					fieldprice = fakeIfStatements(explif[1].substr(1, explif[1].length-2), persons, childs, nights, room);
 					if(fieldprice === false) fieldprice = explif[1];
@@ -120,6 +120,8 @@ function easyInnerlay(content){
 			var allprice = 0;
 			var thedatas = easyReservationDatas;
 			var theprices = easyReservationsPrice;
+			if(easyLastPrice && easyLastPrice > 0) var budder = 1;
+			else var easyLastPrice = 0;
 			if(!easyReservationEdit) thedatas.push(jQuery('#easyFrontendFormular').serialize());
 			if(!easyReservationEdit) theprices.push(easyLastPrice);
 			for(i in thedatas){
@@ -232,6 +234,7 @@ function easyFormSubmit(submit){
 
 function easyEdit(i,dimm){
 	if(dimm && dimm !== false){
+		if(!easyLastPrice) var easyLastPrice = 0;
 		easyReservationDatas.push(jQuery('#easyFrontendFormular').serialize());
 		easyReservationsPrice.push(easyLastPrice);
 		easyReservationEdit = easyReservationIDs[i];

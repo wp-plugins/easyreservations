@@ -1,8 +1,9 @@
 <?php
 	function easyreservations_resource_tutorial() {
-		$handler = array('#idcountres','#idgroundprice', '#idchilddiscount', '#idbilling', '#idtaxes', '#idpersons', '#idpermission', '#show_add_price_link', 'select[name="price_filter_imp"]', '#price_filter_cond_range', '#price_filter_cond_unit', '#show_add_discount_link', '#filter_form_discount_type', '#filter_form_discount_cond', '#filter_form_discount_mode', '#filter-price-field', '#show_add_avail_link');
+		$handler = array('#idcountres','#availabilityby','#idgroundprice', '#idchilddiscount', '#idbilling', '#idtaxes', '#idpersons', '#idpermission', '#show_add_price_link', 'select[name="price_filter_imp"]', '#price_filter_cond_range', '#price_filter_cond_unit', '#show_add_discount_link', '#filter_form_discount_type', '#filter_form_discount_cond', '#filter_form_discount_mode', '#filter-price-field', '#show_add_avail_link');
 		$content = array(
 				'<h3>Count of resource</h3><p>Select how often this resource can be reserved at the same time. In the box below you can define names for them.</p>',
+				'<h3>Availability</h3><p><b>Per unit</b><br>The resource count determines how often  the resource can get reserved at the same time independed from the amount of persons that reservates. Each unit can have an name or number.</p><p><b>Per person</b><br>The resource count determines how many persons can reservate this resource at the same time. In this mode the resource will just have one row in the overview that shows the amount of reservations.</p>',
 				'<h3>Base price</h3><p>The amount of money that one time (hour/day/week) of reservation costs if no filter gets applied. Must be positive.<p>',
 				'<h3>Child discount</h3><p>The price that gets subtracted by this amount and multiplied by the amount of childrens if <b>Price per person</b> is enabled. Then the custom prices, conditional filters, coupons and taxes gets calculated.</p>',
 				'<h3>Billing</h3><p>Select the interval of bookings that defines how many times the base price gets applied. Started times counts as full ones. Price filters lower that the selected interval wont work.</p>',
@@ -20,9 +21,9 @@
 				'<h3>Amount</h3><p>Can be postive or negative. No percentage sign or comma. <b>213.43/-23</b></p>',
 				'<h3>Unavailability Filter</h3><p>Define unavailable time. Selection of time works same as for price filters.</p>',
 		);
-		$execute = array('','','','easy_add_tax(1, jQuery(\'#idtaxes\').nextSibling);', 'easy_add_tax(2, jQuery(\'#idtaxesvalue span:last\'));', '', 'show_add_price();document.filter_form.reset();document.getElementById(\'filter-price-field\').value = 100;', '', '', '', 'show_add_discount();document.filter_form.reset();', '', '', '', '', 'javascript:show_add_avail();document.filter_form.reset();', 'reset_filter_form()');
-		$offset = array('-75 0', '-100 0', '-75 0', '-75 0', '-65 0', '-75 0', '-75 0', '-70 0', '-50 0', '-66 0', '-66 0', '-75 0', '-75 0', '-75 0', '-75 0', '-75 0', '-75 0');
-		$at = array('center bottom', 'right bottom', 'center bottom', 'center bottom', 'center bottom', 'center bottom', 'center bottom', 'center bottom', 'left bottom', 'center bottom', 'center bottom', 'center bottom', 'center bottom', 'center bottom', 'center bottom', 'center bottom', 'center bottom');
-		echo easyreservations_execute_pointer(17, $handler, $content, $offset, $at, $execute);
+		$execute = array('','','','','easy_add_tax(1, jQuery(\'#idtaxes\').nextSibling);', 'easy_add_tax(2, jQuery(\'#idtaxesvalue span:last\'));', '', 'show_add_price();document.filter_form.reset();document.getElementById(\'filter-price-field\').value = 100;', '', '', '', 'show_add_discount();document.filter_form.reset();', '', '', '', '', 'javascript:show_add_avail();document.filter_form.reset();', 'reset_filter_form()');
+		$offset = array('-75 0','-75 0', '-100 0', '-75 0', '-75 0', '-65 0', '-75 0', '-75 0', '-70 0', '-50 0', '-66 0', '-66 0', '-75 0', '-75 0', '-75 0', '-75 0', '-75 0', '-75 0');
+		$at = array('center bottom','center bottom', 'right bottom', 'center bottom', 'center bottom', 'center bottom', 'center bottom', 'center bottom', 'center bottom', 'left bottom', 'center bottom', 'center bottom', 'center bottom', 'center bottom', 'center bottom', 'center bottom', 'center bottom', 'center bottom');
+		echo easyreservations_execute_pointer(18, $handler, $content, $offset, $at, $execute);
 	}
 ?>

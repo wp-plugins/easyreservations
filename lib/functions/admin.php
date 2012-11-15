@@ -196,7 +196,6 @@ if(isset($_GET['page'])){
 	*/
 
 	function reservations_get_administration_links($id, $where, $status){
-
 		$countits=0;
 		$administration_links = "";
 		if($where != "approve" && $status != 'yes') { $administration_links.='<a href="admin.php?page=reservations&approve='.$id.'">'.__( 'Approve' , 'easyReservations' ).'</a>'; $countits++; }
@@ -210,7 +209,8 @@ if(isset($_GET['page'])){
 		else $administration_links = str_replace('DASD', '', $administration_links);
 		//if($countits > 0){ $administration_links.=' | '; $countits=0; }
 		//if($where != "trash" AND $checkID != "trashed") { $administration_links.='<a href="admin.php?page=reservations&bulkArr[]='.$id.'&bulk=1">'.__( 'Trash' , 'easyReservations' ).'</a>'; $countits++; }
-
+		$administration_links = apply_filters('easy_administration_links', $administration_links, $id, $where);
+		
 		return $administration_links;
 	}
 
@@ -219,7 +219,6 @@ if(isset($_GET['page'])){
 	*/
  
 	function easyreservations_screen_settings($current, $screen){
-
 		if($screen->id == "toplevel_page_reservations"){
 			if(isset($_POST['main_settings'])){
 				if(isset($_POST['show_overview'])) $show_overview = 1; else $show_overview = 0;
@@ -495,7 +494,6 @@ if(isset($_GET['page'])){
 		if($_POST['orderby'] != '') $orderby = $_POST['orderby'];
 		if($_POST['perpage'] != '') $perpage = $_POST['perpage'];
 		else $perpage = get_option("reservations_on_page");
-
 		$main_options = get_option("reservations_main_options");
 
 		$table_options =  $main_options['table'];
@@ -514,14 +512,12 @@ if(isset($_GET['page'])){
 
 		if($_POST['monthselector'] > 0){
 			$monthselector=date("Y-m-d", strtotime($_POST['monthselector']));
-			
 			$selectors.="AND MONTH('$monthselector') BETWEEN MONTH(arrival) AND MONTH(departure) ";
 		}
 		if($_POST['roomselector'] > 0){
-			$roomselector=$_POST['roomselector'];
-			$selectors.="AND room='$roomselector' ";
+			$roomselector=(int) $_POST['roomselector'];
+			$selectors.="AND room=$roomselector ";
 		}
-		
 		if(isset($_POST['statusselector'] ) && !is_numeric($_POST['statusselector'])){
 			$statusselector=$_POST['statusselector'];
 			$selectors.="AND approve='$statusselector' ";
@@ -531,7 +527,7 @@ if(isset($_GET['page'])){
 			$search_date = $_POST['searchdate'];
 			$search_date_stamp = strtotime($search_date);
 			$search_date_mysql = date("Y-m-d", $search_date_stamp);
-			$selectors .= "AND ('$search_date_mysql' BETWEEN arrival AND departure OR DATE('$search_date_mysql') = DATE(arrival)) ";
+			$selectors .= "AND ('$search_date_mysql' BETWEEN arrival AND departure OR DATE('$search_date_mysql') = DATE(arrival) OR DATE('$search_date_mysql') = DATE(departure)) ";
 		}
 		$rooms_sql  = ''; $permission_selectors = '';
 		if(!current_user_can('manage_options')) $rooms_sql = easyreservations_get_allowed_rooms_mysql();
@@ -571,36 +567,28 @@ if(isset($_GET['page'])){
 		elseif($typ=="trash") { $type="approve='del'"; $items=$items5; $zeichen=""; } // If type is trash
 		elseif($typ=="all") { $type="1=1"; $items=$items6; $zeichen=""; } // If type is all
 		elseif($typ=="favourite") { $type=$favourite_sql; $items=$countfav; $zeichen=""; } // If type is all
-
 		if($order=="ASC") $orders="ASC";
 		elseif($order=="DESC") $orders="DESC";
-
 		if($orderby=="date") $ordersby="arrival";
 		if($orderby=="persons") $ordersby="number+(childs*0.5)";
 		if($orderby=="status") $ordersby="approve";
 		elseif($orderby=="name") $ordersby="name";
 		elseif($orderby=="room"){
-			$ordersby="room";
+			$ordersby = "room";
 			$orders.=", roomnumber ".$orders;
 		}
 		elseif($orderby=="reservated") $ordersby="reservated";
-
 		if(empty($orderby) && $typ=="pending") { $ordersby="id"; $orders="DESC"; }
 		if(empty($orderby) && $typ=="old") { $ordersby="arrival"; $orders="DESC"; }
 		if(empty($orderby) && $typ=="all") { $ordersby="arrival"; $orders="DESC"; }
-
 		if(isset($monthselector) || isset($roomselector) || isset($statusselector)){
 			$variableitems = $wpdb->get_var($wpdb->prepare("SELECT COUNT(*) FROM ".$wpdb->prefix ."reservations WHERE $type $selectors $zeichen $searchstr $permission_selectors", '%' . like_escape($search) . '%'));
 			$items=$variableitems;
 		}
-
 		if(!isset($roomselector)) $roomselector="";
 		if(!isset($statusselector)) $statusselector=0;
-
 		$pagei = 1;
-
 		if(isset($items) && $items > 0) {
-
 			$p = new easy_pagination;
 			$p->items($items);
 			$p->limit($perpage); // Limit entries per page
@@ -614,11 +602,8 @@ if(isset($_GET['page'])){
 			$p->field(array(1, __('of', 'easyReservations')));
 			$p->parameterName('paging');
 			$p->adjacents(1); //No. of page away from the current page
-
 			if(isset($_POST['paging'])) $pagei = $_POST['paging']; else $pagei = 1;
-
 			$p->page = $pagei;
-
 			$limit = "LIMIT " . ($p->page - 1) * $p->limit  . ", " . $p->limit;
 		} else $limit = 'LIMIT 0'; ?>
 		<input type="hidden" id="easy-table-order" value="<?php echo $order;?>"><input type="hidden" id="easy-table-orderby" value="<?php echo $orderby;?>">
@@ -764,14 +749,11 @@ if(isset($_GET['page'])){
 				$result = $wpdb->get_results( $wpdb->prepare($sql, '%' . like_escape($search) . '%'));
 
 				if(count($result) > 0 ){
-
 					foreach($result as $res){
 						$res = new Reservation($res->id, (array) $res);
 						$res->Calculate();
-
 						if($nr%2==0) $class="alternate"; else $class="";
 						$nr++;
-
 						if(in_array($res->email, $regular_guest_array)) $highlightClass='highlighter';
 						else $highlightClass='';
 						$export_ids .= $res->id.', ';
@@ -1008,7 +990,6 @@ if(isset($_GET['page'])){
 				jQuery("#showPrice").html(loading);
 				
 				var customPrices = ''; var coupons = '';
-
 				var fromfield = document.editreservation.date;
 				if(fromfield) var from = fromfield.value;
 				else error = 'arrival date';
@@ -1120,14 +1101,12 @@ if(isset($_GET['page'])){
 		$nonce = wp_create_nonce( 'easy-favourite' );
 		?><script type="text/javascript" >	
 			function easyreservations_send_fav(t){
-
 				var the_id = t.id;
 				if(the_id){
 					var explodeID = the_id.split("-")
 					var id = explodeID[1];
 					var now = explodeID[0];
-					
-				
+
 					if(now == 'unfav'){
 						var mode = 'add';
 						jQuery(t.parentNode.parentNode).addClass('highlighter');
@@ -1180,10 +1159,8 @@ if(isset($_GET['page'])){
 			global $current_user;
 			$current_user = wp_get_current_user();
 			$user = $current_user->ID;
-
 			$favourites = get_user_meta($user, 'reservations-fav', true);
 			$save = $favourites;
-
 			$id = $_POST['id'];
 			$mode = $_POST['mode'];
 			if(is_array($favourites) && $mode == 'add' && !in_array($id, $favourites)){
@@ -1194,7 +1171,6 @@ if(isset($_GET['page'])){
 			}
 	
 			if(!is_array($favourites)) $favourites[] = $id;
-
 			update_user_meta($user, 'reservations-fav', $favourites, $save);
 		}
 		die();
@@ -1220,7 +1196,6 @@ if(isset($_GET['page'])){
 
 		foreach($roles as $key => $role){
 			$da = key($role['capabilities']);
-
 			if(is_numeric($da)) $value = $role['capabilities'][0];
 			else $value = $da;
 			if($sel == $value ) $selected = 'selected="selected"';
@@ -1255,7 +1230,6 @@ if(isset($_GET['page'])){
 
 	function easyreservations_tiny_register($plugin_array){
 		$url = WP_PLUGIN_URL . '/easyreservations/js/tinyMCE/tinyMCE_shortcode_add.js';
-
 		$plugin_array['easyReservations'] = $url;
 		return $plugin_array;
 	}
@@ -1276,7 +1250,6 @@ if(isset($_GET['page'])){
 		if($rooms == 0) $rooms = easyreservations_get_allowed_rooms(0, $user);
 		else $rooms = easyreservations_get_allowed_rooms($rooms, $user);
 		$mysql = "";
-
 		if(count($rooms) > 0){
 			$mysql .= '( ';
 			foreach($rooms as $room){

@@ -443,6 +443,9 @@
 		if(isset($_POST['reservated'])) $resev = $_POST['reservated'];
 		
 		$room_count = get_post_meta($_POST['room'], 'roomcount', true);
+		if(is_array($room_count)){
+			$room_count = $room_count[0];
+		}
 		$month_names = easyreservations_get_date_name(1);
 		$day_names = easyreservations_get_date_name(0,2);
 		if($req == 1) $requirements = get_post_meta($_POST['room'], 'easy-resource-req', TRUE);
@@ -568,7 +571,7 @@
 					}
 				}
 
-				$res = new Reservation(false, array('email' => 'mail@test.com', 'arrival' => $dateofeachday, 'departure' =>  $dateofeachday+easyreservations_get_interval($the_rooms_intervals_array[$_POST['room']], 0, 1)-60,'resource' => (int) $_POST['room'], 'adults' => $pers, 'childs' => $child,'reservated' => time()-($resev*86400)), false);
+				$res = new Reservation(false, array('email' => 'mail@test.com', 'arrival' => $dateofeachday+43200, 'departure' =>  $dateofeachday+43200+easyreservations_get_interval($the_rooms_intervals_array[$_POST['room']], 0, 1)-60,'resource' => (int) $_POST['room'], 'adults' => $pers, 'childs' => $child,'reservated' => time()-($resev*86400)), false);
 				try {
 					if($price > 0){
 						$res->Calculate();
@@ -959,7 +962,13 @@
 		if(file_exists(WP_PLUGIN_DIR . '/easyreservations/css/custom/datepicker.css')) $form1 = 'custom/datepicker.css'; else $form1 = 'jquery-ui.css';
 		wp_register_style('datestyle', WP_PLUGIN_URL . '/easyreservations/css/'.$form1, array(), RESERVATIONS_VERSION);
 	}
+	
+	function easyreservations_register_datepicker_style_normal(){
+		if(file_exists(WP_PLUGIN_DIR . '/easyreservations/css/custom/datepicker.css')) $form1 = 'custom/datepicker.css'; else $form1 = 'jquery-ui.css';
+		wp_register_style('datestyle', WP_PLUGIN_URL . '/easyreservations/css/'.$form1, array(), RESERVATIONS_VERSION);
+	}
 
+	add_action('admin_enqueue_scripts', 'easyreservations_register_datepicker_style_normal');
 	add_action('wp_enqueue_scripts', 'easyreservations_register_scripts');
 
 	add_action('wp_ajax_easyreservations_send_calendar', 'easyreservations_send_calendar_callback');
@@ -1023,8 +1032,9 @@
 		}
 
 		if($substr > 0){
+			mb_internal_encoding("UTF-8");
 			foreach($name as $key => $day){
-				$name[$key] = substr($day, 0, $substr);
+				$name[$key] = mb_substr($day, 0, $substr);
 			}
 		}
 
@@ -1047,13 +1057,14 @@
 	 * @param int $type 0 for standard 1 for frontend
 	 */	
 	function easyreservations_build_datepicker($type, $instances, $trans = false, $search = false){
+		mb_internal_encoding("UTF-8");
 		$daysnames = easyreservations_get_date_name(0,0);
 		$daynames = '["'.$daysnames[6].'", "'.$daysnames[0].'", "'.$daysnames[1].'", "'.$daysnames[2].'", "'.$daysnames[3].'", "'.$daysnames[4].'", "'.$daysnames[5].'"]';
-		$daynamesshort = '["'.substr($daysnames[6],0, 3).'","'.substr($daysnames[0],0, 3).'","'.substr($daysnames[1],0, 3).'","'.substr($daysnames[2],0, 3).'","'.substr($daysnames[3],0, 3).'","'.substr($daysnames[4],0, 3).'","'.substr($daysnames[5],0, 3).'"]';
-		$daynamesmin = '["'.substr($daysnames[6],0, 2).'","'.substr($daysnames[0],0, 2).'","'.substr($daysnames[1],0, 2).'","'.substr($daysnames[2],0, 2).'","'.substr($daysnames[3],0, 2).'","'.substr($daysnames[4],0, 2).'","'.substr($daysnames[5],0, 2).'"]';
+		$daynamesshort = '["'.mb_substr($daysnames[6],0, 3).'","'.mb_substr($daysnames[0],0, 3).'","'.mb_substr($daysnames[1],0, 3).'","'.mb_substr($daysnames[2],0, 3).'","'.mb_substr($daysnames[3],0, 3).'","'.mb_substr($daysnames[4],0, 3).'","'.mb_substr($daysnames[5],0, 3).'"]';
+		$daynamesmin = '["'.mb_substr($daysnames[6],0, 2).'","'.mb_substr($daysnames[0],0, 2).'","'.mb_substr($daysnames[1],0, 2).'","'.mb_substr($daysnames[2],0, 2).'","'.mb_substr($daysnames[3],0, 2).'","'.mb_substr($daysnames[4],0, 2).'","'.mb_substr($daysnames[5],0, 2).'"]';
 		$monthes = easyreservations_get_date_name(1,0);
 		$monthnames =  '["'.$monthes[0].'","'.$monthes[1].'","'.$monthes[2].'","'.$monthes[3].'","'.$monthes[4].'","'.$monthes[5].'","'.$monthes[6].'","'.$monthes[7].'","'.$monthes[8].'","'.$monthes[9].'","'.$monthes[10].'","'.$monthes[11].'"]';
-		$monthnamesshort =  '["'.substr($monthes[0],0,3).'","'.substr($monthes[1],0,3).'","'.substr($monthes[2],0,3).'","'.substr($monthes[3],0,3).'","'.substr($monthes[4],0,3).'","'.substr($monthes[5],0,3).'","'.substr($monthes[6],0,3).'","'.substr($monthes[7],0,3).'","'.substr($monthes[8],0,3).'","'.substr($monthes[9],0,3).'","'.substr($monthes[10],0,3).'","'.substr($monthes[11],0,3).'"]';
+		$monthnamesshort =  '["'.mb_substr($monthes[0],0,3).'","'.mb_substr($monthes[1],0,3).'","'.mb_substr($monthes[2],0,3).'","'.mb_substr($monthes[3],0,3).'","'.mb_substr($monthes[4],0,3).'","'.mb_substr($monthes[5],0,3).'","'.mb_substr($monthes[6],0,3).'","'.mb_substr($monthes[7],0,3).'","'.mb_substr($monthes[8],0,3).'","'.mb_substr($monthes[9],0,3).'","'.mb_substr($monthes[10],0,3).'","'.mb_substr($monthes[11],0,3).'"]';
 		$translations = <<<EOF
 			dayNames: $daynames,
 			dayNamesShort: $daynamesshort,
@@ -1064,11 +1075,11 @@ EOF;
 		
 		if($search) $search = 1;
 		else $search = 2;
-		
+
 		if($trans === true) return $translations;
 		elseif($trans) $format = $trans;
 		else $format = RESERVATIONS_DATE_FORMAT;
-	
+
 		$jquery = '';
 		if(isset($instances[1])) foreach($instances as $instance) $jquery .= '#'.$instance.',';
 		else $jquery = '#'.$instance.',';

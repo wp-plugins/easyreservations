@@ -132,7 +132,7 @@
 				if(date("d.m.Y", $thedaydate) ==  date("d.m.Y", time())) $background_highlight='backgroundtoday';
 				elseif(!isset($background_highlight)) $background_highlight='backgroundnormal';?>
 				<td colspan="<?php echo $diff; ?>" class="<?php echo  $background_highlight; ?> ov-days <?php echo $date_style; ?>" style="vertical-align:middle;padding:1px 0px;<?php if($interval == 86400) echo 'min-width:20px;'; ?>" onclick="overviewSelectDate('<?php echo date(RESERVATIONS_DATE_FORMAT,$thedaydate); ?>');">
-					<?php if($interval == 86400) echo date("j",$thedaydate).'<br><small>'.$days[date("N",$thedaydate)-1]; else echo '<small style="overflow:hidden;display:inline-block;">'.date(RESERVATIONS_DATE_FORMAT, $thedaydate);; echo '</small>'; ?>
+					<?php if($interval == 86400) echo date("j",$thedaydate).'<br><small>'.$days[date("N",$thedaydate)-1]; else echo '<small style="overflow:hidden;display:inline-block;">'.date(RESERVATIONS_DATE_FORMAT, $thedaydate); echo '</small>'; ?>
 				</td><?php
 				unset($background_highlight);
 			}
@@ -140,7 +140,7 @@
 			$lastdate = $thedaydate;
 		} ?>
 	</tr>
-	<?php if($interval == 3600) { ?><tr><?php
+	<?php if($interval == 3600){ ?><tr><?php
 		$co=0;
 		if(isset($nonepage)) $date_style = 'ov-days-hover'; else $date_style = '';
 		while($co < $daysshow){
@@ -154,7 +154,6 @@
 		} ?>
 		</tr>
 	<?php } ?>
-	
 </thead>
 <tfoot>
 	<tr>
@@ -174,20 +173,25 @@
 	if(isset($roomwhere)) $all_resources = $wpdb->get_results("SELECT ID, post_title FROM wp_posts WHERE ID='$roomwhere'");
 	else $all_resources = $show_rooms;
 
-	foreach( $all_resources as $key => $resource ){ /* - + - FOREACH ROOM - + - */
+	foreach( $all_resources as $key => $resource){ /* - + - FOREACH ROOM - + - */
 		$res = new Reservation(false, array('dontclean', 'arrival' => $timesx, 'resource' => (int) $resource->ID ));
 		$res->interval = $interval;
 		$roomID=$resource->ID;
 		$roomcounty = get_post_meta($roomID, 'roomcount', TRUE);
+		if(is_array($roomcounty)){
+			$roomcounty = $roomcounty[0];
+			$bypers = true;
+		} else $bypers = false;
 		$resource_names = get_post_meta($roomID, 'easy-resource-roomnames', TRUE);
 		$rowcount=0;
-
 		$resource_sql = $wpdb->get_results($wpdb->prepare("SELECT id, name, departure, arrival, roomnumber FROM ".$wpdb->prefix ."reservations WHERE approve='yes' AND room='$roomID' AND (arrival BETWEEN '$stardate' AND '$enddate' OR departure BETWEEN '$stardate' AND '$enddate' OR '$stardate'  BETWEEN arrival AND departure) ORDER BY room ASC, roomnumber ASC, arrival ASC"));
 
 		if(isset($reservations)) unset($reservations);
 		foreach($resource_sql as $resourc){
-			if(!empty($resourc->roomnumber)){
-				$reservations[$resourc->roomnumber][] = array($resourc);
+			if($bypers){
+				$reservations[1][] = $resourc;
+			} elseif(!empty($resourc->roomnumber)){
+				$reservations[$resourc->roomnumber][] = $resourc;
 				$co=0;
 			}
 		} ?>
@@ -205,10 +209,14 @@
 					$co++;
 				} ?>
 		</tr><?php
-
 		while($roomcounty > $rowcount){  /* - + - FOREACH EXACTLY ROOM - + - */
-			if(isset($resource_names[$rowcount]) && !empty($resource_names[$rowcount])) $name = $resource_names[$rowcount];
-			else $name = '#'.($rowcount+1);
+			if($bypers){
+				if($rowcount > 0) break;
+				$name = __( $resource->post_title);
+			} else {
+				if(isset($resource_names[$rowcount]) && !empty($resource_names[$rowcount])) $name = $resource_names[$rowcount];
+				else $name = '#'.($rowcount+1);
+			}
 			$rowcount++;
 
 			if($timesx < time()) $lastbackground='#2A78D8';
@@ -219,39 +227,34 @@
 				<td class="roomhead" style="color:#8C8C8C;" onclick="<?php if(isset($edit)){ ?>document.getElementById('datepicker').value='<?php echo date("d.m.Y",$reservation_arrival_stamp); ?>';document.getElementById('datepicker2').value='<?php echo date("d.m.Y",$reservation_departure_stamp); ?>';setVals2(<?php echo $roomID; ?>,<?php echo $rowcount; ?>);<?php } if(isset($edit) || isset($approve)){ ?>changer();clickOne(document.getElementById('<?php echo $roomID.'-'.$rowcount.'-'.$numberhighstart; ?>'),'<?php echo $reservation_arrival_stamp; ?>');clickTwo(document.getElementById('<?php echo $roomID.'-'.$rowcount.'-'.$numberlaststart; ?>'),'<?php echo $reservation_departure_stamp; ?>');<?php } if(isset($approve)){ ?>document.reservation_approve.roomexactly.selectedIndex=<?php echo $rowcount-1; ?>;<?php } ?>"  nowrap>
 					&nbsp;<?php echo $name; ?>
 				</td><?php
-
 			$CoutResNights2=0; $CoutResNights3=0; $CountNumberOfAdd=0; $wasFull=0; $countdifferenz=0; $itIS=0; $cellcount=0; $datesHalfOccupied = '';
-
 			if(isset($reservations[$rowcount])){
-				foreach($reservations[$rowcount] as $reservationsd){
-					foreach($reservationsd as $reservation){
-						$res_id=$reservation->id;
-						$res_name=$reservation->name;
-						$res_adate_stamp = strtotime($reservation->arrival);
-						$res_adate = $res_adate_stamp - (int) date("i", $res_adate_stamp);
-						$res_departure_stamp= strtotime($reservation->departure);
-						$res_departure = $res_departure_stamp - (int) date("i", $res_departure_stamp);
-						$res_nights = ($res_departure_stamp - $res_adate_stamp) / $interval;
-						if(date($date_pat, $res_departure_stamp) == date($date_pat, $res_adate_stamp)){
-							$round = round((($res_adate + $res_departure-$interval)/2)/$interval) * $interval;
-							$datesHalfOccupied[$round]['i'] += 1;
-							$datesHalfOccupied[$round]['v'] .= date('d.m H:i', $res_adate_stamp).' - '.date('d.m H:i', $res_departure_stamp).' <b>'.$res_name.'</b> (#'.$res_id.')<br>';
-							$datesHalfOccupied[$round]['id'][] = $res_id;
-						} else {
-							$res_nights = round($res_nights);
-							for($i=0; $i <= $res_nights; $i++){
-								if($timesx <= $res_adate+($i*$interval) && $res_nights >= 1){
-									$daysOccupied[]=date($date_pat, $res_adate+($i*$interval)+$interval);
-									$numberOccupied[]=$countdifferenz;
-								}
+				foreach($reservations[$rowcount] as $reservation){
+					$res_id=$reservation->id;
+					$res_name=$reservation->name;
+					$res_adate_stamp = strtotime($reservation->arrival);
+					$res_adate = $res_adate_stamp - (int) date("i", $res_adate_stamp);
+					$res_departure_stamp= strtotime($reservation->departure);
+					$res_departure = $res_departure_stamp - (int) date("i", $res_departure_stamp);
+					$res_nights = ($res_departure_stamp - $res_adate_stamp) / $interval;
+					if(date($date_pat, $res_departure_stamp) == date($date_pat, $res_adate_stamp)){
+						$round = round((($res_adate + $res_departure-$interval)/2)/$interval) * $interval;
+						$datesHalfOccupied[$round]['i'] += 1;
+						$datesHalfOccupied[$round]['v'] .= date('d.m H:i', $res_adate_stamp).' - '.date('d.m H:i', $res_departure_stamp).' <b>'.$res_name.'</b> (#'.$res_id.')<br>';
+						$datesHalfOccupied[$round]['id'][] = $res_id;
+					} else {
+						$res_nights = round($res_nights);
+						for($i=0; $i <= $res_nights; $i++){
+							if($timesx <= $res_adate+($i*$interval) && $res_nights >= 1){
+								$daysOccupied[]=date($date_pat, $res_adate+($i*$interval)+$interval);
+								$numberOccupied[]=$countdifferenz;
 							}
 						}
-						$reservationarray[]=array( 'name' =>$res_name, 'ID' =>$res_id, 'departure' => $res_departure, 'arDate' => $res_adate, 'nights' => $res_nights );
-						$countdifferenz++;
 					}
+					$reservationarray[]=array( 'name' =>$res_name, 'ID' =>$res_id, 'departure' => $res_departure, 'arDate' => $res_adate, 'nights' => $res_nights );
+					$countdifferenz++;
 				}
 			}
-
 			$showdatenumber_start=0+$more;
 			$showdatenumber_end=$daysshow+$more;
 
@@ -263,13 +266,10 @@
 				$wasFullTwo=0;
 				$borderside=1;
 				$onClick=0;
-
 				if($cellcount < 10) $preparedCellcount='0'.$cellcount;
 				else $preparedCellcount=$cellcount;
-
 				if($dateToday < time()) $background2="url(".RESERVATIONS_URL ."/images/patbg.png) repeat";
 				else $background2='';
-
 				$res->arrival = $dateToday-$interval;
 				$avail = $res->availFilter($roomcounty, 0, (int) $interval);
 
@@ -277,11 +277,26 @@
 				elseif(date($date_pat, $dateToday-$interval)==date($date_pat, time())) $colorbgfree = '#EDF0FF';
 				elseif(date("N", $dateToday-$interval)==6 OR date("N", $dateToday-$interval)==7) $colorbgfree = '#FFFFEB';
 				else $colorbgfree='#FFFFFF';
-
+				if($bypers){
+					$counts = array_count_values($daysOccupied);
+					$daycount = $counts[date($date_pat, $dateToday)];
+					if(isset($datesHalfOccupied[$dateToday-$interval])) $daycount += $datesHalfOccupied[$dateToday-$interval]['i'];
+					$title = '';
+					if($daycount > 0){
+						$tableclick = 'jQuery(\'#easy-table-roomselector\').val('.$roomID.');document.getElementById(\'easy-table-search-date\').value = \''.date(RESERVATIONS_DATE_FORMAT, $dateToday-$interval).'\';easyreservation_send_table(\'all\', 1);';
+						$percent = 100/$roomcounty*$daycount;
+						if($percent > 95) $farbe2 = '#cc3433';
+						elseif($percent > 70) $farbe2 = '#ff7b00';
+						elseif($percent > 35) $farbe2 = '#128d18';
+						else $farbe2 = '#8FD996'; ?>
+						<td id="<?php echo $roomID.'-'.$rowcount.'-'.$preparedCellcount; ?>"  title="<?php echo $title; ?>" <?php if($borderside == 0) echo 'class="er_overview_cell"'; ?> onclick="<?php if(isset($nonepage) && isset($tableclick)) echo $tableclick; elseif((isset($edit) || isset($add)) && $onClick==0){ ?>changer();clickTwo(this,'<?php echo $dateToday-$interval; ?>');clickOne(this,'<?php echo $dateToday-$interval; ?>');<?php if(!isset($nonepage)){ ?>setVals2('<?php echo $roomID; ?>','<?php echo $rowcount; ?>');<?php }}?>" style="background: <?php echo $farbe2;?>; padding:0px; overflow:hidden; text-shadow:none; border-style:none; text-decoration:none; font: normal 11px Arial, sans-serif; vertical-align:middle;cursor:pointer" abbr="<?php echo $farbe2;?>" axis="<?php echo $cellcount+1; ?>" <?php if($overview_options['overview_onmouseover'] == 1){ ?>onmouseover="hoverEffect(this,'<?php echo date(RESERVATIONS_DATE_FORMAT, $dateToday-$interval); ?>');"<?php } ?>><?php echo $daycount; ?></td><?php
+					} else { ?>
+						<td id="<?php echo $roomID.'-'.$rowcount.'-'.$preparedCellcount; ?>" title="<?php echo $title; ?>" <?php if(isset($edit) || isset($add) || isset($nonepage)){ ?>onclick="changer();clickTwo(this,'<?php echo  $dateToday-$interval; ?>');clickOne(this,'<?php echo $dateToday-$interval; ?>');setVals2('<?php echo $roomID; ?>','<?php echo $rowcount; ?>');"<?php } ?> style="background:<?php echo $background2.' '.$colorbgfree;?>" abbr="<?php echo $background2.' '.$colorbgfree;?>" <?php if($overview_options['overview_onmouseover'] == 1){ ?>onmouseover="hoverEffect(this,'<?php echo date($date_pat, $dateToday-$interval); ?>');"<?php } ?> axis="<?php echo $cellcount+1; ?>"><?php echo '0'; ?></td><?php
+					}
+					continue;
+				}
 				if(isset($daysOccupied)){
-
 					if(in_array(date($date_pat, $dateToday), $daysOccupied)){
-
 						if($numberOccupied[$CoutResNights3] != $CountNumberOfAdd && $cellcount != 1) $CountNumberOfAdd++;
 						if($reservationarray[$CountNumberOfAdd]['nights'] < 1) while($reservationarray[$CountNumberOfAdd]['nights'] < 1) $CountNumberOfAdd++;
 						$arrival = $reservationarray[$CountNumberOfAdd]['arDate'];

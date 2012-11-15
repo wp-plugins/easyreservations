@@ -116,7 +116,7 @@ License:GPL2
 							'content' => __( 'Generate totally customazible Invoices automatically from predefined templates. Including an editor for admins, invoices as email attachments and correct A4 Letter formats.' , 'easyReservations' ),
 							'function' => 'easyreservations_generate_invoice',
 							'least' => '1.0.4',
-							'vers' => '1.0.6',
+							'vers' => '1.0.7',
 							'image' => 'invoice',
 							'beta' => 0
 					),
@@ -134,8 +134,8 @@ License:GPL2
 							'title' => __( 'Payment Module' , 'easyReservations' ),
 							'content' => __( 'Your guest can pay their reservations directly through PayPal or leave their credit card details for manually booking. Automatically approve new reservations and/or paid reservations. Payment verification by IPN.' , 'easyReservations' ),
 							'function' => 'easyreservations_validate_payment',
-							'least' => '1.4',
-							'vers' => '1.4',
+							'least' => '1.4.2',
+							'vers' => '1.4.2',
 							'image' => 'paypal',
 					),
 					'search' => array(
@@ -143,8 +143,8 @@ License:GPL2
 							'title' => __( 'searchForm Module' , 'easyReservations' ),
 							'content' => __( 'New shortcode to let your guests search for available resources. No reload for searching, compatible to calendar, show price, show unavailable resources too, link to form with automatically selection. Each resource can have a small one-column calendar to show when its availble.' , 'easyReservations' ),
 							'function' => 'easyreservations_search_add_tinymce',
-							'least' => '1.1.12',
-							'vers' => '1.1.13',
+							'least' => '1.1.14',
+							'vers' => '1.1.14',
 							'image' => 'search',
 					),
 					'hourlycal' => array(
@@ -152,8 +152,8 @@ License:GPL2
 							'title' => __( 'hourlyCalendar Module' , 'easyReservations' ),
 							'content' => __( 'Show your guests the availability on a hourly basis.' , 'easyReservations' ),
 							'function' => 'easyreservations_send_hourlycal_callback',
-							'least' => '1.0.3',
-							'vers' => '1.0.3',
+							'least' => '1.0.4',
+							'vers' => '1.0.4',
 							'image' => 'time',
 					),
 					'import' => array(
@@ -215,9 +215,9 @@ License:GPL2
 							'slug' => 'coupons',
 							'title' => __( 'Coupon Module' , 'easyReservations' ),
 							'content' => __( 'Let your guests enter coupon codes for discounts.' , 'easyReservations' ),
-							'least' => '1.0.7',
+							'least' => '1.0.8',
 							'function' => 'easyreservations_calculate_coupon',
-							'vers' => '1.0.7',
+							'vers' => '1.0.8',
 							'image' => 'money',
 					),
 					'multical' => array(

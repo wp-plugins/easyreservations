@@ -25,6 +25,7 @@ function reservations_form_shortcode($atts){
 		'paypal' => '',
 		'bg' => '#fff',
 		'pers' => 0,
+		'payment' => 1,
 		'redirect' => ''
 	), $atts);
 
@@ -139,14 +140,14 @@ function reservations_form_shortcode($atts){
 			$res->Calculate(true);
 			if($atts['price'] == 1) $finalform.= '<span class="easy_show_price_submit">'.__('Price','easyReservations').': <b>'.easyreservations_format_money($res->price, 1).'</b></span>';
 			if(!empty($atts['paypal'])) $finalform .= '<span class="easy_show_paypal_text_submit">'.$atts['paypal'].'</span>';
-			if(function_exists('easyreservation_generate_payment_form')){
+			if(function_exists('easyreservation_generate_payment_form') && $atts['payment'] == 1){
 				$finalform .= easyreservation_generate_payment_form($res, $theID);
 			}
 			$finalform.='</div>';
 			$final = $finalform;
 		}
 	}
-
+	
 	$theForm = stripslashes($theForm);
 	$theForm = apply_filters( 'easy-form-content', $theForm);
 	$roomfield = 0;
@@ -390,7 +391,7 @@ function reservations_form_shortcode($atts){
 	$popuptemplate.= '<\\table id="easy_overlay_table"><\\thead><\\tr>';
 	$popuptemplate.= '<\\th>'.__('Time', 'easyReservations').'</th>';
 	$popuptemplate.= '<\\th>'.__($atts['resourcename']).'</th>';
-	$popuptemplate.= '<\\th>'.__('Persons', 'easyReservations').'</th>';
+	if($atts['pers'] && $atts['pers'] == 1) $popuptemplate.= '<\\th>'.__('Persons', 'easyReservations').'</th>';
 	$popuptemplate.= '<\\th>'.__('Price', 'easyReservations').'</th>';
 	$popuptemplate.= '<\\th></th></tr></thead><\\tbody id="easy_overlay_tbody"></tbody></table>';
 	$popuptemplate.= '<\\input type="button" onclick="easyAddAnother();" value="'.__('Add another reservation', 'easyReservations').'">';
