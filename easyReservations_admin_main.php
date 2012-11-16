@@ -262,7 +262,7 @@ function reservation_main_page() {
 			$easy_errors[] = array( 'error' , $e->getMessage());
 		}
 		
-		$global_roomcount = get_post_meta($room, 'roomcount', true);
+		$global_roomcount = get_post_meta($res->resource, 'roomcount', true);
 		if(is_array($global_roomcount)){
 			$global_roomcount = $global_roomcount[0];
 			$bypers = true;

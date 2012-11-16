@@ -430,6 +430,8 @@
 						$enddate = date("Y-m-d H:i:s", $this->departure-60);
 						if($afterpersons){
 							$count = $wpdb->get_var($wpdb->prepare("SELECT SUM(number+childs) FROM ".$wpdb->prefix."reservations WHERE approve='yes' AND $res_sql $idsql '$startdate' <= departure AND '$enddate' >= arrival"));
+							if($count < 1) $count = 0;
+							$count = $count+$this->childs+$this->adults;
 							if($res_number || $count >= $roomcount) $error += $count;
 						} else {
 							$count = $wpdb->get_var($wpdb->prepare("SELECT COUNT(*) FROM ".$wpdb->prefix."reservations WHERE approve='yes' AND $res_sql $res_number $idsql '$startdate' <= departure AND '$enddate' >= arrival"));
@@ -440,15 +442,14 @@
 							$i = $this->arrival + ($t*$this->interval);
 							$startdate=date("Y-m-d H:i:s", $i);
 							$enddate=date("Y-m-d H:i:s", $i+$interval-1);
-							if($interval == 3600){
-								$addstart = " HOUR(arrival) != HOUR('$startdate') AND HOUR(departure) != HOUR('$startdate')) OR (HOUR(arrival) = HOUR('$startdate') AND TIMESTAMPDIFF(SECOND, arrival, departure) <= $interval)";
-							} else {
-								$addstart = " DATE(arrival) != DATE('$startdate') AND DATE(departure) != DATE('$startdate')) OR (DATE(arrival) = DATE('$startdate') AND TIMESTAMPDIFF(SECOND, arrival, departure) <= $interval)";
-							}
+							if($interval == 3600)	$addstart = " HOUR(arrival) != HOUR('$startdate') AND HOUR(departure) != HOUR('$startdate')) OR (HOUR(arrival) = HOUR('$startdate') AND TIMESTAMPDIFF(SECOND, arrival, departure) <= $interval)";
+							else $addstart = " DATE(arrival) != DATE('$startdate') AND DATE(departure) != DATE('$startdate')) OR (DATE(arrival) = DATE('$startdate') AND TIMESTAMPDIFF(SECOND, arrival, departure) <= $interval)";
 							if($afterpersons){
 								$count = $wpdb->get_var($wpdb->prepare("SELECT SUM(number+childs) FROM ".$wpdb->prefix ."reservations WHERE approve='yes' AND $res_sql $idsql (('$startdate' < departure AND '$enddate' > arrival AND $addstart)"));
-								if($mode == 1 && $count >= $roomcount) $error .= date($date_pattern, $i).', ';
-								elseif($mode == 0 && $count >= $roomcount)  $error += $roomcount;
+								if($count < 1) $count = 0;
+								$count = $count+$this->childs+$this->adults;
+								if($mode == 1 && $count > $roomcount) $error .= date($date_pattern, $i).', ';
+								elseif($mode == 0 && $count > $roomcount)  $error += $roomcount;
 							} else {
 								$count = $wpdb->get_var($wpdb->prepare("SELECT COUNT(*) FROM ".$wpdb->prefix ."reservations WHERE approve='yes' AND $res_sql $idsql (('$startdate' <= departure AND '$enddate' >= DATE(arrival) - INTERVAL 1 SECOND AND $addstart)"));
 								if($mode == 1 && $count >= $roomcount) $error .= date($date_pattern, $i).', ';
