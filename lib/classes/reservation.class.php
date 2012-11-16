@@ -621,8 +621,8 @@
 			} else {
 				if($this->interval < 86401) $time = $this->interval/2;
 				else $time = 43200;
-				$arrival = strtotime(date('d.m.Y', $this->arrival))+$time;
-				$departure = strtotime(date('d.m.Y', $this->departure))+$time;
+				$arrival = strtotime(date('d.m.Y', (int) $this->arrival))+$time;
+				$departure = strtotime(date('d.m.Y', (int) $this->departure))+$time;
 			}
 			$number = ($departure-$arrival) / easyreservations_get_interval($this->interval, 0,  $mode);
 			$this->times = ( is_numeric($number)) ? (ceil(ceil($number/0.01)*0.01)) : false;
