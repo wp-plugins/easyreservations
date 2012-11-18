@@ -1082,7 +1082,7 @@ EOF;
 
 		$jquery = '';
 		if(isset($instances[1])) foreach($instances as $instance) $jquery .= '#'.$instance.',';
-		else $jquery = '#'.$instance.',';
+		else $jquery = '#'.$instances;
 		$jquery = substr($jquery, 0, -1);
 
 		if($format == 'Y/m/d') $dateformat = 'yy/mm/dd';

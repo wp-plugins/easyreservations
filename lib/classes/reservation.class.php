@@ -349,7 +349,7 @@
 				} elseif((!isset($this->fake) || !$this->fake) && !empty($this->prices)){
 					$save = easyreservations_calculate_coupon($this->prices, $this, $countpriceadd);
 				}
-					
+
 				if(!empty($save)){
 					$this->price += $save['price'];
 					if($history) $this->history = array_merge((array) $this->history, (array) $save['exactly']);
@@ -439,19 +439,19 @@
 						}
 					} else {
 						for($t = 0; $t < $this->times; $t++){
-							$i = $this->arrival + ($t*$this->interval);
+							$i = $this->arrival + ($t*$interval);
 							$startdate=date("Y-m-d H:i:s", $i);
 							$enddate=date("Y-m-d H:i:s", $i+$interval-1);
 							if($interval == 3600)	$addstart = " HOUR(arrival) != HOUR('$startdate') AND HOUR(departure) != HOUR('$startdate')) OR (HOUR(arrival) = HOUR('$startdate') AND TIMESTAMPDIFF(SECOND, arrival, departure) <= $interval)";
 							else $addstart = " DATE(arrival) != DATE('$startdate') AND DATE(departure) != DATE('$startdate')) OR (DATE(arrival) = DATE('$startdate') AND TIMESTAMPDIFF(SECOND, arrival, departure) <= $interval)";
 							if($afterpersons){
-								$count = $wpdb->get_var($wpdb->prepare("SELECT SUM(number+childs) FROM ".$wpdb->prefix ."reservations WHERE approve='yes' AND $res_sql $idsql (('$startdate' < departure AND '$enddate' > arrival AND $addstart)"));
+								$count = $wpdb->get_var($wpdb->prepare("SELECT SUM(number+childs) FROM ".$wpdb->prefix ."reservations WHERE approve='yes' AND $res_sql $idsql (('$startdate' <= departure AND '$enddate' >= arrival AND $addstart)"));
 								if($count < 1) $count = 0;
 								$count = $count+$this->childs+$this->adults;
 								if($mode == 1 && $count > $roomcount) $error .= date($date_pattern, $i).', ';
 								elseif($mode == 0 && $count > $roomcount)  $error += $roomcount;
 							} else {
-								$count = $wpdb->get_var($wpdb->prepare("SELECT COUNT(*) FROM ".$wpdb->prefix ."reservations WHERE approve='yes' AND $res_sql $idsql (('$startdate' <= departure AND '$enddate' >= DATE(arrival) - INTERVAL 1 SECOND AND $addstart)"));
+								$count = $wpdb->get_var($wpdb->prepare("SELECT COUNT(*) FROM ".$wpdb->prefix ."reservations WHERE approve='yes' AND $res_sql $idsql (('$startdate' <= departure AND '$enddate' >= arrival AND $addstart)"));
 								if($mode == 1 && $count >= $roomcount) $error .= date($date_pattern, $i).', ';
 								elseif($mode == 0 && $count >= $roomcount)  $error += $roomcount;
 							}

@@ -114,7 +114,7 @@ if(isset($_GET['page'])){
 					$type = __('Price filter','easyReservations').' '.$pricefor['name'];
 				} else {
 					$dateposted=date($date_pat, $date);
-					$type = __('Groundprice','easyReservations');
+					$type = __('Base price','easyReservations');
 				}
 				$pricetable.= '<tr'.$class.'><td nowrap>'.$dateposted.'</td><td nowrap>'.$type.'</td><td style="text-align:right;" nowrap>'.easyreservations_format_money($pricefor['priceday'], 1).'</td><td style="text-align:right;" nowrap><b'.$onlastprice.'>'.easyreservations_format_money($pricetotal, 1).'</b></td></tr>';
 				unset($priceforarray[$count-1]);
