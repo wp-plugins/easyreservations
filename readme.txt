@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: booking, reservation, form, reservations, property, resources, hotel, restaurant, hostpatility, managment, calendar, event
 Requires at least: 3.3
 Tested up to: 3.4.2
-Stable tag: 3.1.3
+Stable tag: 3.1.4
 This powerfull property and reservation management plugin that allows you to receive, schedule and handle your bookings easily!
 
 == Description ==

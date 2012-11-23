@@ -193,7 +193,7 @@ if(isset($_POST['filter_form_name_field'])){
 		if(!isset($dfilters)) $dfilters = array();
 
 		$filters = array_merge_recursive($pfilters, $dfilters, $ufilters);
-		if(!isset($prompt)) update_post_meta($resourceID, 'easy_res_filter', $filters);
+		if(!isset($prompt) && empty($error)) update_post_meta($resourceID, 'easy_res_filter', $filters);
 	} else $error.=__( 'Please give the filter a name' , 'easyReservations' ).', ';
 }
 
@@ -202,9 +202,7 @@ if(isset($_GET['addresource'])){
 	$site='addresource';
 }
 
-if(isset($_GET['site'])){
-	$site=$_GET['site'];
-}
+if(isset($_GET['site'])) $site=$_GET['site'];
 
 $offers = get_posts(array('post_type' => 'easy-offers'));
 $offerlink = '';
@@ -280,16 +278,13 @@ if(!isset($site) || $site=='' || $site =='main'){
 		}
 		echo '</tbody>';
 		echo '</table>';
-		
 	} elseif($site=='rooms'){
 		wp_enqueue_style('datestyle');
 		$get_role = get_post_meta($resourceID, 'easy-resource-permission', true);
 		if(!empty($get_role) && !current_user_can($get_role)) die('You havnt the rights to view this resource');
 		$right = '';
-
-		if(isset($_POST['action'])) {
-			$action=$_POST['action'];
-		} else $action = "";
+		if(isset($_POST['action'])) $action=$_POST['action'];
+		else $action = "";
 
 		$allrooms = get_post($resourceID);
 
@@ -306,7 +301,6 @@ if(!isset($site) || $site=='' || $site =='main'){
 			}
 			if(empty($starton)) $error.= 'No arrival possible, ';
 			if(empty($endon)) $error.= 'No depature possible, ';
-
 			if(count($starton) == 7) $starton = 0;
 			if(count($endon) == 7) $endon = 0;
 
@@ -388,7 +382,6 @@ if(!isset($site) || $site=='' || $site =='main'){
 				}
 				if(!empty($taxes)  && $taxes != 'error') update_post_meta($resourceID, 'easy-resource-taxes', $taxes);
 			} else update_post_meta($resourceID, 'easy-resource-taxes', array());
-
 			do_action('er_res_main_save', $resourceID);
 		}
 
@@ -408,9 +401,7 @@ if(!isset($site) || $site=='' || $site =='main'){
 		$reservations_current_tax = get_post_meta($resourceID, 'easy-resource-taxes', TRUE);
 		$reservations_current_int = get_post_meta($resourceID, 'easy-resource-interval', TRUE);
 		$reservations_current_req = get_post_meta($resourceID, 'easy-resource-req', TRUE);
-		if(!$reservations_current_req || !is_array($reservations_current_req)){
-			$reservations_current_req = array('nights-min' => 1, 'nights-max' => 30, 'pers-min' => 1, 'pers-max' => 0);
-		}
+		if(!$reservations_current_req || !is_array($reservations_current_req)) $reservations_current_req = array('nights-min' => 1, 'nights-max' => 30, 'pers-min' => 1, 'pers-max' => 0);
 		$days = easyreservations_get_date_name();
 
 		if(!empty($error)) echo '<div class="error"><p>'.substr($error,0,-2).'</p></div>';
@@ -1357,7 +1348,6 @@ if(!isset($site) || $site=='' || $site =='main'){
 		}
 	});
 </script><?php }
-
 } 
 function easyreservations_send_calendar_res(){
 	echo '<script>easyreservations_send_calendar();</script>';

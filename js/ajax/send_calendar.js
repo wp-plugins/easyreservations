@@ -36,10 +36,24 @@ function easyreservations_click_calendar(t,d,w,m){
 					if(easyCalM == m) axis = parseFloat(t.axis);
 				}
 			}
-			var To = document.getElementById('easy-form-to');
-			if(To) To.value = d;
+			var Too = document.getElementById('easy-form-to');
+			if(Too) Too.value = d;
 			var ToWidget = document.getElementById('easy-widget-datepicker-to');
 			if(ToWidget) ToWidget.value = d;
+			if(document.getElementById('easy-form-units') && document.getElementById('easy-form-from')){
+				instance = jQuery( '#easy-form-from' ).data( "datepicker" );
+				if(instance){
+					dateanf = jQuery.datepicker.parseDate(instance.settings.dateFormat || jQuery.datepicker._defaults.dateFormat, document.getElementById('easy-form-from').value, instance.settings );
+					dateend = jQuery.datepicker.parseDate(instance.settings.dateFormat || jQuery.datepicker._defaults.dateFormat, d, instance.settings );
+					var difference_ms = Math.abs(dateanf - dateend);
+					var diff = difference_ms/1000;
+					var interval = 86400;
+					var interval_array = eval("(" + easyAjax.interval + ")");
+					if(interval_array[document.getElementById('form_room').value]) interval = interval_array[document.getElementById('form_room').value];
+					nights = Math.ceil(diff/interval);
+					jQuery('#easy-form-units').val(nights);
+				}
+			}
 			if(window.easyreservations_send_price) easyreservations_send_price();
 			if(window.easyreservations_send_validate) easyreservations_send_validate();
 			if(window.easyreservations_send_search) easyreservations_send_search();
@@ -105,9 +119,7 @@ function easyreservations_send_calendar(where, e ){
 		monthes:monthes
 	};
 	
-	// since 2.8 ajaxurl is always defined in the admin header and points to admin-ajax.php
 	jQuery.post(easyAjax.ajaxurl , data, function(response) {
-	//jQuery.post('<?php echo admin_url( 'admin-ajax.php' ); ?>' , data, function(response) {
 		if(where == 'shortcode') jQuery("#showCalender").html(response);
 		else jQuery("#show_widget_calendar").html(response);
 		return false;

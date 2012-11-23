@@ -184,7 +184,7 @@
 		} else $bypers = false;
 		$resource_names = get_post_meta($roomID, 'easy-resource-roomnames', TRUE);
 		$rowcount=0;
-		$resource_sql = $wpdb->get_results($wpdb->prepare("SELECT id, name, departure, arrival, roomnumber FROM ".$wpdb->prefix ."reservations WHERE approve='yes' AND room='$roomID' AND (arrival BETWEEN '$stardate' AND '$enddate' OR departure BETWEEN '$stardate' AND '$enddate' OR '$stardate'  BETWEEN arrival AND departure) ORDER BY room ASC, roomnumber ASC, arrival ASC"));
+		$resource_sql = $wpdb->get_results($wpdb->prepare("SELECT id, name, departure, arrival, roomnumber, number+childs as persons FROM ".$wpdb->prefix ."reservations WHERE approve='yes' AND room='$roomID' AND (arrival BETWEEN '$stardate' AND '$enddate' OR departure BETWEEN '$stardate' AND '$enddate' OR '$stardate'  BETWEEN arrival AND departure) ORDER BY room ASC, roomnumber ASC, arrival ASC"));
 
 		if(isset($reservations)) unset($reservations);
 		foreach($resource_sql as $resourc){
@@ -227,7 +227,7 @@
 				<td class="roomhead" style="color:#8C8C8C;" onclick="<?php if(isset($edit)){ ?>document.getElementById('datepicker').value='<?php echo date("d.m.Y",$reservation_arrival_stamp); ?>';document.getElementById('datepicker2').value='<?php echo date("d.m.Y",$reservation_departure_stamp); ?>';setVals2(<?php echo $roomID; ?>,<?php echo $rowcount; ?>);<?php } if(isset($edit) || isset($approve)){ ?>changer();clickOne(document.getElementById('<?php echo $roomID.'-'.$rowcount.'-'.$numberhighstart; ?>'),'<?php echo $reservation_arrival_stamp; ?>');clickTwo(document.getElementById('<?php echo $roomID.'-'.$rowcount.'-'.$numberlaststart; ?>'),'<?php echo $reservation_departure_stamp; ?>');<?php } if(isset($approve)){ ?>document.reservation_approve.roomexactly.selectedIndex=<?php echo $rowcount-1; ?>;<?php } ?>"  nowrap>
 					&nbsp;<?php echo $name; ?>
 				</td><?php
-			$CoutResNights2=0; $CoutResNights3=0; $CountNumberOfAdd=0; $wasFull=0; $countdifferenz=0; $itIS=0; $cellcount=0; $datesHalfOccupied = '';
+			$CoutResNights2=0; $CoutResNights3=0; $CountNumberOfAdd=0; $wasFull=0; $countdifferenz=0; $itIS=0; $cellcount=0; $datesHalfOccupied = ''; $personsOccupied = '';
 			if(isset($reservations[$rowcount])){
 				foreach($reservations[$rowcount] as $reservation){
 					$res_id=$reservation->id;
@@ -242,12 +242,15 @@
 						$datesHalfOccupied[$round]['i'] += 1;
 						$datesHalfOccupied[$round]['v'] .= date('d.m H:i', $res_adate_stamp).' - '.date('d.m H:i', $res_departure_stamp).' <b>'.$res_name.'</b> (#'.$res_id.')<br>';
 						$datesHalfOccupied[$round]['id'][] = $res_id;
+						$datesHalfOccupied[$round]['id'][] = $res_id;
+						$personsOccupied[date($date_pat, $round)] += $reservation->persons;
 					} else {
 						$res_nights = round($res_nights);
 						for($i=0; $i <= $res_nights; $i++){
 							if($timesx <= $res_adate+($i*$interval) && $res_nights >= 1){
 								$daysOccupied[]=date($date_pat, $res_adate+($i*$interval)+$interval);
 								$numberOccupied[]=$countdifferenz;
+								if($bypers) $personsOccupied[date($date_pat, $res_adate+($i*$interval)+$interval)] += $reservation->persons;
 							}
 						}
 					}
@@ -281,6 +284,7 @@
 					$counts = array_count_values($daysOccupied);
 					$daycount = $counts[date($date_pat, $dateToday)];
 					if(isset($datesHalfOccupied[$dateToday-$interval])) $daycount += $datesHalfOccupied[$dateToday-$interval]['i'];
+					$daycount = $personsOccupied[date($date_pat, $dateToday)];
 					$title = '';
 					if($daycount > 0){
 						$tableclick = 'jQuery(\'#easy-table-roomselector\').val('.$roomID.');document.getElementById(\'easy-table-search-date\').value = \''.date(RESERVATIONS_DATE_FORMAT, $dateToday-$interval).'\';easyreservation_send_table(\'all\', 1);';

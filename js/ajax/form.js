@@ -120,7 +120,7 @@ function easyInnerlay(content){
 			var allprice = 0;
 			var thedatas = easyReservationDatas;
 			var theprices = easyReservationsPrice;
-			if(easyLastPrice && easyLastPrice > 0) var budder = 1;
+			if(window.easyLastPrice && window.easyLastPrice > 0) var easyLastPrice= window.easyLastPrice;
 			else var easyLastPrice = 0;
 			if(!easyReservationEdit) thedatas.push(jQuery('#easyFrontendFormular').serialize());
 			if(!easyReservationEdit) theprices.push(easyLastPrice);

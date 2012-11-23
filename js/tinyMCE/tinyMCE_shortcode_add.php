@@ -131,7 +131,7 @@ function jumpto(x){ // Chained inputs;
 			FieldAdd += '</tr>';
 			FieldAdd += '<tr>';
 			FieldAdd += '<td nowrap="nowrap" valign="top"><label for="easyreservation_formstyle_chooser"><?php _e("Style", "easyReservations"); ?></label></td>';
-			FieldAdd += '<td><select id="easyreservation_formstyle_chooser" name="easyreservation_formstyle_chooser" style="width: 100px"><option value="none"><?php _e("White", "easyReservations"); ?></option><option value="blue"><?php _e("Blue", "easyReservations"); ?></option><?php echo $customFormStyleOption ?></select> <?php _e("Select style", "easyReservations"); ?></td>';
+			FieldAdd += '<td><select id="easyreservation_formstyle_chooser" name="easyreservation_formstyle_chooser" style="width: 100px"><option value="none"><?php _e("White", "easyReservations"); ?></option><option value="blue"><?php _e("Blue", "easyReservations"); ?></option><?php echo $customFormStyleOption; do_action('easy-tinymce-add-style'); ?></select> <?php _e("Select style", "easyReservations"); ?></td>';
 			FieldAdd += '</tr>';
 			FieldAdd += '<tr>';
 			FieldAdd += '<td nowrap="nowrap" valign="top"><label for="easyreservation_multiple_check"><?php _e("Multiple reservations", "easyReservations"); ?></label></td>';

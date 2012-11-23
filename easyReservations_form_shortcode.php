@@ -147,7 +147,7 @@ function reservations_form_shortcode($atts){
 			$final = $finalform;
 		}
 	}
-	
+
 	$theForm = stripslashes($theForm);
 	$theForm = apply_filters( 'easy-form-content', $theForm);
 	$roomfield = 0;
@@ -315,15 +315,15 @@ function reservations_form_shortcode($atts){
 			} elseif($field[1]=="radio"){
 				if(preg_match("/^[a-zA-Z0-9_]+$/", $valuefield)){
 					$explodeprice=explode(":", $valuefield);
-					if(!isset($fields['noprice']) && strpos($valuefield, '{') == false) $showprice = ': '.easyreservations_format_money($explodeprice[1], 1);
+					if(!isset($tags['noprice']) && strpos($valuefield, '{') == false) $showprice = ': '.easyreservations_format_money($explodeprice[1], 1);
 					else $showprice = '';
 					$theForm=preg_replace('/\['.$fields.'\]/', '<span class="radio"><input title="'.$title.'" style="'.$style.'" '.$disabled.' id="custom_price'.$customPrices.'" '.$personfield.' type="radio" onchange="'.$price_action.'" name="'.$field[2].'" value="'.$explodeprice[0].':'.$explodeprice[1].$addcontent.'"> '.$explodeprice[0].$showprice.'</span>', $theForm);
-				} elseif(strstr($valuefield,",")) {
+				} elseif(strstr($valuefield,",")){
 					$valueexplodes=explode(",", $valuefield);
 					$custom_radio = '<pre>';
 					foreach($valueexplodes as $value){
 						$explodeprice=explode(":", $value);
-						if(!isset($fields['noprice']) && strpos($valuefield, '{') == false) $showprice = ': '.easyreservations_format_money($explodeprice[1], 1);
+						if(!isset($tags['noprice']) && strpos($valuefield, '{') == false) $showprice = ': '.easyreservations_format_money($explodeprice[1], 1);
 						else $showprice = '';
 						if($value != '') $custom_radio .= '<span class="radio"><input id="custom_price'.$customPrices.'" '.$disabled.' title="'.$title.'" style="'.$style.'" type="radio" '.$personfield.' name="'.$field[2].'" onchange="'.$price_action.'" value="'.$explodeprice[0].':'.$explodeprice[1].$addcontent.'"> '.$explodeprice[0].$showprice.'</span>';
 						$customPrices++;
@@ -333,7 +333,7 @@ function reservations_form_shortcode($atts){
 			} elseif($field[1]=="select"){
 				if(preg_match("/^[a-zA-Z0-9_]+$/", $valuefield)){
 					$explodeprice=explode(":", $valuefield);
-					if(!isset($fields['noprice']) && strpos($valuefield, '{') == false) $showprice = ': '.easyreservations_format_money($explodeprice[1], 1);
+					if(!isset($tags['noprice']) && strpos($valuefield, '{') == false) $showprice = ': '.easyreservations_format_money($explodeprice[1], 1);
 					else $showprice = '';
 					$theForm=preg_replace('/\['.$fields.'\]/', '<select id="custom_price'.$customPrices.'" '.$personfield.' '.$disabled.' name="'.$field[2].'" title="'.$title.'" style="'.$style.'" onchange="'.$price_action.'"><option value="'.$explodeprice[0].':'.$explodeprice[1].$addcontent.'">'.$explodeprice[0].$showprice.'</option></select>', $theForm);
 				} elseif(preg_match("/^[a-zA-Z0-9].+$/", $valuefield)){
@@ -341,7 +341,7 @@ function reservations_form_shortcode($atts){
 					$custom_select='';
 					foreach($valueexplodes as $value){
 						$explodeprice=explode(":", $value);
-						if(!isset($fields['noprice']) && strpos($valuefield, '{') == false) $showprice = ': '.easyreservations_format_money($explodeprice[1], 1);
+						if(!isset($tags['noprice']) && strpos($valuefield, '{') == false) $showprice = ': '.easyreservations_format_money($explodeprice[1], 1);
 						else $showprice = '';
 						if($value != '') $custom_select .= '<option value="'.$explodeprice[0].':'.$explodeprice[1].$addcontent.'">'.$explodeprice[0].$showprice.'</option>';
 					}

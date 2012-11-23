@@ -234,7 +234,7 @@
 	function easyreservations_get_interval($interval = 0, $resourceID = 0, $mode = 0){
 		if($interval == 0) $interval = get_post_meta($resourceID, 'easy-resource-interval', TRUE);
 		if($mode == 0) return $interval;
-		else{
+		else {
 			if($interval == 3600) return 3600;
 			else return 86400;
 		}
@@ -943,11 +943,15 @@
 		wp_register_script('easyreservations_send_form', WP_PLUGIN_URL . '/easyreservations/js/ajax/form.js', array( "jquery" ), RESERVATIONS_VERSION);
 
 		global $the_rooms_intervals_array;
+		
+		$lang = '';
+		if(function_exists('icl_object_id')) $lang = '?lang=' . ICL_LANGUAGE_CODE;
+		elseif(function_exists('qtrans_getLanguage')) $lang = '?lang=' . qtrans_getLanguage();
 
-		wp_localize_script( 'easyreservations_send_calendar', 'easyAjax', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ), 'plugin_url' => WP_PLUGIN_URL, 'interval' => json_encode($the_rooms_intervals_array) ) );
-		wp_localize_script( 'easyreservations_send_price', 'easyAjax', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ), 'plugin_url' => WP_PLUGIN_URL, 'interval' => json_encode($the_rooms_intervals_array) ) );
-		wp_localize_script( 'easyreservations_send_validate', 'easyAjax', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ), 'plugin_url' => WP_PLUGIN_URL, 'interval' => json_encode($the_rooms_intervals_array) ) );
-		wp_localize_script( 'easyreservations_send_form', 'easyDate', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ), 'currency' => RESERVATIONS_CURRENCY,  'easydateformat' => RESERVATIONS_DATE_FORMAT, 'interval' => json_encode($the_rooms_intervals_array) ) );
+		wp_localize_script( 'easyreservations_send_calendar', 'easyAjax', array( 'ajaxurl' => admin_url( 'admin-ajax.php'.$lang ), 'plugin_url' => WP_PLUGIN_URL, 'interval' => json_encode($the_rooms_intervals_array) ) );
+		wp_localize_script( 'easyreservations_send_price', 'easyAjax', array( 'ajaxurl' => admin_url( 'admin-ajax.php'.$lang ), 'plugin_url' => WP_PLUGIN_URL, 'interval' => json_encode($the_rooms_intervals_array) ) );
+		wp_localize_script( 'easyreservations_send_validate', 'easyAjax', array( 'ajaxurl' => admin_url( 'admin-ajax.php'.$lang ), 'plugin_url' => WP_PLUGIN_URL, 'interval' => json_encode($the_rooms_intervals_array) ) );
+		wp_localize_script( 'easyreservations_send_form', 'easyDate', array( 'ajaxurl' => admin_url( 'admin-ajax.php'.$lang ), 'currency' => RESERVATIONS_CURRENCY,  'easydateformat' => RESERVATIONS_DATE_FORMAT, 'interval' => json_encode($the_rooms_intervals_array) ) );
 
 		wp_register_style('easy-frontend', WP_PLUGIN_URL . '/easyreservations/css/frontend.css', array(), RESERVATIONS_VERSION); // widget form style
 		if(file_exists(WP_PLUGIN_DIR . '/easyreservations/css/custom/form.css')) wp_register_style('easy-form-custom', WP_PLUGIN_URL . '/easyreservations/css/custom/form.css', array(), RESERVATIONS_VERSION); // custom form style override

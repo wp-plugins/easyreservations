@@ -1,4 +1,4 @@
-var easyLastPrice = 0;
+window.easyLastPrice = 0;
 function easyreservations_send_price(){
 	if(document.easyFrontendFormular.easyroom) var room = document.easyFrontendFormular.easyroom.value;
 	else alert('no room field - correct that')
@@ -119,7 +119,7 @@ function easyreservations_send_price(){
 			jQuery(".easyFrontendFormular .easy-button").removeClass('deactive2');
 			response = JSON.parse(response);
 			jQuery("#showPrice").html(response[0]);
-			easyLastPrice = parseFloat(response[1]);
+			window.easyLastPrice = parseFloat(response[1]);
 			return false;
 		});
 	}

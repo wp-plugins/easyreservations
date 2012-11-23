@@ -211,7 +211,6 @@
 
 			$checkprice=$this->price;
 			if($price_per_person == 1 && ($this->adults > 1 || $this->childs > 0)) {  // Calculate Price if  "Calculate per person"  was choosen
-
 				if($this->adults > 1){
 					$price_adults = $checkprice*$this->adults;
 					$this->price += $price_adults-$checkprice;
@@ -225,10 +224,7 @@
 						if(substr($childprice, -1) == "%"){
 							$percent=$checkprice/100*(str_replace("%", "", $childprice)*$this->times);
 							$childsPrice = ($checkprice - $percent);
-						} else {
-							$childsPrice = ($checkprice - $childprice*$this->times);
-						}
-
+						} else $childsPrice = ($checkprice - $childprice*$this->times);
 						$childsPrice = $childsPrice*$this->childs;
 						$this->price += $childsPrice;
 						if($history) $this->history[] = array('date'=>$this->arrival+($countpriceadd*$this->interval), 'priceday'=>$childsPrice, 'type'=> 'childs', 'name' => $this->childs);
@@ -290,6 +286,7 @@
 							elseif($filter['type'] == 'loyal' && $loyalwasfull == 0) $loyalwasfull++;
 							elseif($filter['type'] == 'pers' && $perswasfull == 0) $perswasfull++;
 							elseif($filter['type'] == 'early' && $earlywasfull == 0) $earlywasfull++;
+							else break;
 						}
 
 						if($filter['modus'] == '%'){
@@ -349,7 +346,6 @@
 				} elseif((!isset($this->fake) || !$this->fake) && !empty($this->prices)){
 					$save = easyreservations_calculate_coupon($this->prices, $this, $countpriceadd);
 				}
-
 				if(!empty($save)){
 					$this->price += $save['price'];
 					if($history) $this->history = array_merge((array) $this->history, (array) $save['exactly']);
@@ -669,7 +665,7 @@
 			}
 			$this->childs = (int) $this->childs;
 
-			if(!isset($daterror)){
+			if(!isset($daterror) && !$mini){
 				$availability = $this->checkAvailability($avail, ($this->admin) ? false : true);
 				if($availability){
 					if(!$this->admin){
@@ -725,10 +721,7 @@
 			}
 
 			if(empty($errors)) return false;
-			else {
-				global $easy_errors;
-				return $easy_errors = array_merge_recursive((array) $easy_errors, (array) $errors);
-			}
+			else return $errors;
 		}
 		
 		private function checkRequirements($resource_req, $errors, $mini = false){
@@ -810,6 +803,14 @@
 			if(isset($option['active']) && $option['active'] == 1){
 				$theForm = $option['msg'];
 				$subj = $option['subj'];
+
+
+				$local = false;
+				if(isset($_POST['easy-set-local'])){
+					$oldlocal = get_locale();
+					$local = $_POST['easy-set-local'];
+					setlocale(LC_TIME, $local);
+				}
 
 				preg_match_all(' /\[.*\]/U', $theForm, $matchers);
 				$mergearrays=array_merge($matchers[0], array());
@@ -903,8 +904,6 @@
 					}
 				}
 
-				$local = false;
-				if(isset($_POST['easy-set-local'])) $local = $_POST['easy-set-local'];
 				$theForm = apply_filters( 'easy-email-content', $theForm, $local);
 				$subj = apply_filters( 'easy-email-subj', $subj, $local);
 
@@ -915,7 +914,7 @@
 				}
 
 				$reservation_support_mail = get_option("reservations_support_mail");
-				
+
 				if(empty($reservation_support_mail)) throw new easyException( 'No support email found', 6 ); 
 				elseif(is_array($reservation_support_mail)) $send_from = $reservation_support_mail[0];
 				else{
@@ -930,10 +929,12 @@
 				if(!$attachment && function_exists('easyreservations_insert_attachment')) $attachment = easyreservations_insert_attachment($this, str_replace('reservations_email_', '', $options_name));
 				if(!$to || empty($to)){
 					$to = $send_from;
-				} else $headers = "From: \"".$this->name."\" <".$this->email.">\n";
-
+					$headers = "From: \"".$this->name."\" <".$this->email.">\n";
+				} 
 
 				$mail = @wp_mail($to,$subj,$msg,$headers, $attachment);
+				
+				if(isset($oldlocal)) setlocale(LC_TIME, $oldlocal);
 
 				if($attachment) unlink($attachment);	
 				return $mail;
