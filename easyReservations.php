@@ -3,7 +3,7 @@
 Plugin Name: easyReservations
 Plugin URI: http://www.easyreservations.org
 Description: This powerfull property and reservation management plugin allows you to receive, schedule and handle your bookings easily!
-Version: 3.1.4
+Version: 3.1.5
 Author: Feryaz Beer
 Author URI: http://www.feryaz.de
 License:GPL2
@@ -152,11 +152,6 @@ ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrival] <br>To: [depa
 
 <div style="text-align:center;">[submit Send]</div>';
 
-		/*
-
-			Add Options
-
-		*/
 		$permission = array('dashboard' => 'edit_posts', 'statistics' => 'edit_posts', 'resources' => 'edit_posts', 'settings' => 'edit_posts');
 		add_option('reservations_main_permission', $permission, '', 'yes' );
 		add_option( 'reservations_email_to_user', array('msg' => $emailstandart4, 'subj' =>  'Your Reservation on '.get_option('blogname'), 'active' => 1), '', 'no');
@@ -184,12 +179,6 @@ ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrival] <br>To: [depa
 		add_option('reservations_edit_options', $edit_options, '', 'no');
 		add_option('reservations_settings', array( 'style' => "greyfat", 'interval' => 86400, 'currency' => '#36', 'date_format' => 'd.m.Y', 'time' => 1, 'tutorial' => 1 ), '', 'yes');
 
-		/*
-
-			Add Reservations Table to DB
-
-		*/
-
 		global $wpdb;
 		$table_name = $wpdb->prefix . "reservations";
 
@@ -213,12 +202,6 @@ ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrival] <br>To: [depa
 		UNIQUE KEY id (id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci ;";
 		require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
 		dbDelta($sql);
-
-		/*
-
-			Add sample two Resources
-
-		*/
 
 		$room_args = array( 'post_status' => 'publish|private', 'post_type' => 'easy-rooms', 'orderby' => 'post_title', 'order' => 'ASC', 'numberposts' => 1);
 		$roomcategories = get_posts( $room_args );
@@ -493,11 +476,13 @@ ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrival] <br>To: [depa
 	add_filter('upgrader_post_install', 'easyreservations_recover', 10, 2);
 	$reservations_settings = get_option("reservations_settings");
 
-	define('RESERVATIONS_VERSION', '3.1.4');
+	define('RESERVATIONS_VERSION', '3.1.5');
 	define('RESERVATIONS_DIR', WP_PLUGIN_DIR.'/easyreservations/');
 	define('RESERVATIONS_URL', WP_PLUGIN_URL.'/easyreservations/');
 	define('RESERVATIONS_STYLE', $reservations_settings['style']);
-	define('RESERVATIONS_CURRENCY', $reservations_settings['currency']);
+	if(!is_array($reservations_settings['currency'])) $sign = $reservations_settings['currency'];
+	else $sign = $reservations_settings['currency']['sign'];
+	define('RESERVATIONS_CURRENCY', $sign);
 	define('RESERVATIONS_DATE_FORMAT', $reservations_settings['date_format']);
 	define('RESERVATIONS_USE_TIME', $reservations_settings['time']);
 	if(RESERVATIONS_USE_TIME == 1) $usetime = ' H:i'; else $usetime = '';
@@ -539,6 +524,7 @@ ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrival] <br>To: [depa
 
 	require_once(dirname(__FILE__)."/lib/widgets/form_widget.php");
 	if(file_exists(dirname(__FILE__).'/lib/modules/premium/premium.php')) require_once(dirname(__FILE__)."/lib/modules/premium/premium.php");
+	$reservations_active_modules = get_option('reservations_active_modules');
 	if(easyreservations_is_module('paypal')) include_once(dirname(__FILE__)."/lib/modules/paypal/paypal.php");
 	if(easyreservations_is_module('useredit')) include_once(dirname(__FILE__)."/lib/modules/useredit/useredit.php");
 	if(easyreservations_is_module('import')) include_once(dirname(__FILE__)."/lib/modules/import/import.php");

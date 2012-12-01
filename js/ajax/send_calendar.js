@@ -3,6 +3,7 @@ var easyClickFirst = '';
 var easyCellnr = 0;
 var easyCalM = 0;
 function easyreservations_click_calendar(t,d,w,m){
+	
 	jQuery('.reqdisabled').removeClass('reqdisabled');
 	if(easyClick == 2){
 		jQuery(".calendar-cell-selected").removeClass("calendar-cell-selected");
@@ -83,8 +84,10 @@ function easyreservations_click_calendar(t,d,w,m){
 }
 
 function easyreservations_send_calendar(where, e ){
-    e =  window.event;
-    if(e){ e = e.target || e.srcElement; }
+	if(where == 'shortcode' && !jQuery("#showCalender")) return;
+	if(where != 'shortcode' && !jQuery("#show_widget_calendar")) return;
+	e =  window.event;
+	if(e){ e = e.target || e.srcElement; }
 	if(where == 'shortcode'){
 		var tsecurity = document.CalendarFormular.calendarnonce.value;
 		var room = document.CalendarFormular.easyroom.value;

@@ -105,9 +105,10 @@ function easyOverlayDimm(close){
 	}
 }
 
-jQuery(document).keyup(function(e){if(e.keyCode == 27 || e.keyCode == 116 || e.keyCode == 8){ easyCancelSubmit(); }});
-window.onbeforeunload = function(){ easyCancelSubmit(); }
-					
+jQuery(document).keyup(function(e){if(e.keyCode == 116)easyCancelSubmit();});
+jQuery('#easyFormOverlay').keyup(function(e){if(e.keyCode == 27)easyCancelSubmit();});
+window.onbeforeunload = function(){easyCancelSubmit();}
+
 function easyInnerlay(content){
 	if(document.getElementById('easyFormOverlay')){
 		if(easyReservationEdit) easyEdit(easyReservationDatas.length-1, false);
@@ -157,7 +158,7 @@ function easyInnerlay(content){
 					reservations+='</td>';
 				}
 				allprice += parseFloat(theprices[i]);
-				reservations+='<td>'+parseFloat(theprices[i])+' &'+easyDate['currency']+';</td>';
+				reservations+='<td>'+easy_money_format(parseFloat(theprices[i]))+'</td>';
 				if(i == thedatas.length-1){
 					var onclickc = 'easyOverlayDimm(1);';
 					var onclicke = 'easyOverlayDimm(1);';
@@ -169,7 +170,9 @@ function easyInnerlay(content){
 				reservations+='<td><img src="'+easyAjax.plugin_url+'/easyreservations/images/edit.png" onclick="'+onclicke+'" title="edit"> <img src="'+easyAjax.plugin_url+'/easyreservations/images/delete.png" onclick="'+onclickc+'" title="cancel"></td>';
 				reservations+='</tr>';
 			}
-			reservations+='<tr><td></td><td></td><td></td><td style="text-align:right">'+allprice+' &'+easyDate['currency']+';</td><td></td></tr>';
+			reservations+='<tr><td></td><td></td>';
+			if(easyReservationAtts['pers'] && easyReservationAtts['pers'] == 1) reservations+= '<td></td>';
+			reservations+='<td style="text-align:right">'+easy_money_format(allprice)+'</td><td></td></tr>';
 			thedatas = undefined;
 			easyReservationDatas.splice(-1,1);
 			easyReservationsPrice.splice(-1,1);
@@ -183,6 +186,7 @@ function easyInnerlay(content){
 		jQuery("#easyFormInnerlay").fadeIn("slow");
 		jQuery("#easyFormInnerlay").css("display", "inline-block");
 		jQuery('#easyFormOverlay').removeClass('easyloading');
+		window.location.hash = 'easyFormInnerlay';
 		easyReservationEdit = false;
 	}
 }
@@ -192,10 +196,8 @@ function easyFormSubmit(submit){
 	var thesubmit = '';
 	if(submit  && submit == 1){
 		jQuery('#easyFormInnerlay').fadeOut("slow", function(){
-			if(easyEffectSavere){
 				jQuery('#easyFormOverlay').addClass('easyloading');
 				jQuery('#easyFormInnerlay').remove();
-			} else easyEffectSavere = true;
 		});	
 		thesubmit = '&submit=1';
 	}
@@ -225,11 +227,13 @@ function easyFormSubmit(submit){
 					easyInnerlay(response[2]);
 				} else if(submit) submit();
 			}
+			return true;
 		} else {
 			if(window.easyreservations_send_validate) easyreservations_send_validate();
 			easyOverlayDimm(1);
 		}
 	});
+	
 }
 
 function easyEdit(i,dimm){
@@ -356,4 +360,48 @@ function easyrgb2hex(rgb){
 
 function easyhex(x){
 	return isNaN(x) ? "00" : hexDigits[(x - x % 16) / 16] + hexDigits[x % 16];
+}
+
+function easy_money_format(amount){
+	var currency_settings = easyDate['currency'];
+	if(currency_settings instanceof Array || currency_settings instanceof Object) var bla = 1;
+	else {
+		var sign = currency_settings;
+		currency_settings = [];currency_settings['sign'] = sign;currency_settings['divider1'] = '.';currency_settings['divider2'] = ',';currency_settings['decimal'] = 1;currency_settings['place'] = 0;currency_settings['whitespace'] = 1;
+	}
+	var add = '';
+	if(amount < 0){
+		amount = amount.substr(1);
+		add = '-';
+	}
+	amount = parseFloat(amount);
+	var dig = 0;
+	if(currency_settings['decimal'] == 1) dig = 2;
+	var money = add+easy_number_format(amount, dig, currency_settings['divider2'],currency_settings['divider1']);
+	var white = '';
+	if(currency_settings['whitespace'] == 1) white = ' ';
+	if(currency_settings['place'] == 1){
+		return money+white+'&'+currency_settings['sign']+';';
+	} else return '&'+currency_settings['sign']+';'+white+money;
+}
+
+function easy_number_format(number, decimals, dec_point, thousands_sep){
+	number = (number + '').replace(/[^0-9+\-Ee.]/g, '');
+	var n = !isFinite(+number) ? 0 : +number,
+		prec = !isFinite(+decimals) ? 0 : Math.abs(decimals),
+		sep = (typeof thousands_sep === 'undefined') ? ',' : thousands_sep,
+		dec = (typeof dec_point === 'undefined') ? '.' : dec_point,
+		s = '',
+		toFixedFix = function(n, prec){
+			var k = Math.pow(10, prec);
+			return '' + Math.round(n * k) / k;
+		};
+	// Fix for IE parseFloat(0.55).toFixed(0) = 0;
+	s = (prec ? toFixedFix(n, prec) : '' + Math.round(n)).split('.');
+	if(s[0].length > 3) s[0] = s[0].replace(/\B(?=(?:\d{3})+(?!\d))/g, sep);
+	if((s[1] || '').length < prec) {
+		s[1] = s[1] || '';
+		s[1] += new Array(prec - s[1].length + 1).join('0');
+	}
+	return s.join(dec);
 }

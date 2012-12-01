@@ -353,14 +353,17 @@
 				}
 			}
 
-			$checkprice = $this->price ;
+			$checkprice = $this->price;
 			if($taxes && !empty($taxes)){
+				$taxrate = 0;
 				foreach($taxes as $tax){
 					$taxamount = $checkprice / 100 * $tax[1];
 					$this->price += $taxamount;
+					$taxrate += $tax[1];
 					$countpriceadd++;
 					if($history) $this->history[] = array('date'=>$this->arrival+($countpriceadd*$this->interval), 'priceday'=>$taxamount, 'type' => 'tax', 'name' => __($tax[0]), 'amount' => $tax[1]);
 				}
+				if($taxrate > 0) $this->taxrate = $taxrate;
 			}
 
 			if($history && !empty($this->history)){
@@ -428,7 +431,7 @@
 							$count = $wpdb->get_var($wpdb->prepare("SELECT SUM(number+childs) FROM ".$wpdb->prefix."reservations WHERE approve='yes' AND $res_sql $idsql '$startdate' <= departure AND '$enddate' >= arrival"));
 							if($count < 1) $count = 0;
 							$count = $count+$this->childs+$this->adults;
-							if($res_number || $count >= $roomcount) $error += $count;
+							if($res_number || $count > $roomcount) $error += $count;
 						} else {
 							$count = $wpdb->get_var($wpdb->prepare("SELECT COUNT(*) FROM ".$wpdb->prefix."reservations WHERE approve='yes' AND $res_sql $res_number $idsql '$startdate' <= departure AND '$enddate' >= arrival"));
 							if($res_number || $count >= $roomcount) $error += $count;
@@ -461,7 +464,7 @@
 						$addend  = " AND HOUR(departure) = HOUR('$startdate')";
 					}
 					if($afterpersons){
-						$count = $wpdb->get_var("SELECT sum(Case When DATE(arrival) = DATE('$startdate')$addstart Then 0.51*(number+childs) When DATE(departure) = DATE('$startdate')$addend Then 0.5*(number+childs) Else 1*(number+childs) End) as count FROM ".$wpdb->prefix ."reservations WHERE approve='yes' AND $res_sql $idsql DATE('$startdate') BETWEEN DATE(arrival) AND DATE(departure) AND TIMESTAMPDIFF(SECOND, arrival, departure) >= $interval");
+						$count = $wpdb->get_var("SELECT sum(number+childs) as count FROM ".$wpdb->prefix ."reservations WHERE approve='yes' AND $res_sql $idsql DATE('$startdate') BETWEEN arrival AND departure");
 						if($mode == 4 && $count >= $roomcount) $error += $count;
 						elseif($mode == 3) $error += $count;
 					} else {
@@ -670,7 +673,8 @@
 				if($availability){
 					if(!$this->admin){
 						$errors[] = 'date';
-						$errors[] = __( 'Not available at' , 'easyReservations' ).' '.$availability;
+						if($avail > 0) $errors[] = __( 'Not available at' , 'easyReservations' ).' '.$availability;
+						else $errors[] = __( 'Selected time is occupied' , 'easyReservations' );
 					} else $errors[] = __( 'Selected time is occupied' , 'easyReservations' );
 				}
 			}
@@ -935,7 +939,6 @@
 				$mail = @wp_mail($to,$subj,$msg,$headers, $attachment);
 				
 				if(isset($oldlocal)) setlocale(LC_TIME, $oldlocal);
-
 				if($attachment) unlink($attachment);	
 				return $mail;
 			}

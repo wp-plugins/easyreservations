@@ -243,7 +243,7 @@
 						$datesHalfOccupied[$round]['v'] .= date('d.m H:i', $res_adate_stamp).' - '.date('d.m H:i', $res_departure_stamp).' <b>'.$res_name.'</b> (#'.$res_id.')<br>';
 						$datesHalfOccupied[$round]['id'][] = $res_id;
 						$datesHalfOccupied[$round]['id'][] = $res_id;
-						$personsOccupied[date($date_pat, $round)] += $reservation->persons;
+						$personsOccupied[date($date_pat, $round+$interval)] += $reservation->persons;
 					} else {
 						$res_nights = round($res_nights);
 						for($i=0; $i <= $res_nights; $i++){

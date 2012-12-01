@@ -1145,6 +1145,8 @@ if(!isset($approve) && !isset($delete) && !isset($view) && !isset($edit) && !iss
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// EDIT RESERVATION ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 if(isset($edit)){
+	easyreservations_build_datepicker(1,array('datepicker','datepicker2', 'reservation_date'), 'd.m.Y');
+	add_action('admin_print_footer_scripts','easyreservations_restrict_input_dash');
 	$customfields = "";
 	$thenumber0=0;
 	$thenumber1=0;
@@ -1169,7 +1171,6 @@ if(isset($edit)){
 			$customfields .= '<td><input type="text" name="customPvalue'.$key.'" value="'.$customp['value'].'" style="width:200px"><input type="text" name="custom_price'.$key.'" id="custom_price'.$key.'" onchange="easyreservations_send_price_admin();" value="'.$customp['amount'].'" style="width:70px;"> &'.RESERVATIONS_CURRENCY.';<input type="hidden" name="customPmodus'.$key.'" value="'.$customp['mode'].'"></td></tr>';
 		}
 	}
-	easyreservations_build_datepicker(1,array('datepicker','datepicker2', 'reservation_date'), 'd.m.Y');
 ?><script>
 
 	var Add = 1 + <?php echo $thenumber1; ?>;
@@ -1256,7 +1257,7 @@ if(isset($edit)){
 					<tbody id="customPrices">
 					</tbody>
 				</table>
-				<input type="submit" onclick="document.getElementById('editreservation').submit(); return false;" class="easySubmitButton-primary" value="<?php printf ( __( 'Edit reservation' , 'easyReservations' ));?>"><input type="submit" onclick="document.getElementById('copy').value = 'yes';document.getElementById('editreservation').submit(); return false;" class="easySubmitButton-secondary" value="<?php printf ( __( 'Copy' , 'easyReservations' ));?>"><span class="showPrice" style="float:right;"><?php echo __( 'Price' , 'easyReservations' ); ?>: <span id="showPrice" style="font-weight:bold;"><b>0,00</b></span> &<?php echo RESERVATIONS_CURRENCY; ?>;</span></div>
+				<input type="submit" onclick="document.getElementById('editreservation').submit(); return false;" class="easySubmitButton-primary" value="<?php printf ( __( 'Edit reservation' , 'easyReservations' ));?>"><input type="submit" onclick="document.getElementById('copy').value = 'yes';document.getElementById('editreservation').submit(); return false;" class="easySubmitButton-secondary" value="<?php printf ( __( 'Copy' , 'easyReservations' ));?>"><span class="showPrice" style="float:right;"><?php echo __( 'Price' , 'easyReservations' ); ?>: <span id="showPrice" style="font-weight:bold;"><b><?php echo easyreservations_format_money(0,1); ?></b></span></span></div>
 				<div style="width:99%;margin-top:10px;"><?php echo easyreservations_detailed_price($res->history, $res->resource); ?><?php echo $information; ?></div>
 			</td>
 			<td style="width:1%"></td>
@@ -1360,6 +1361,7 @@ get_the_select('<?php echo $res->resourcenumber; ?>', '<?php echo $res->resource
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 if(isset($add)){
 	easyreservations_build_datepicker(1,array('datepicker','datepicker2', 'reservation_date'), 'd.m.Y');
+	add_action('admin_print_footer_scripts','easyreservations_restrict_input_dash');
 ?> <!-- // Content will only show on edit Reservation -->
 	<script>
 	var Add = 0;
@@ -1463,7 +1465,7 @@ if(isset($add)){
 			<tbody id="customPrices">
 			</tbody>
 		</table>
-		<br><input type="button" onclick="document.getElementById('editreservation').submit(); return false;" class="easySubmitButton-primary" value="<?php printf ( __( 'Add reservation' , 'easyReservations' ));?>"><span class="showPrice" style="float:right;"><?php echo __( 'Price' , 'easyReservations' ); ?>: <span id="showPrice" style="font-weight:bold;"><b>0,00</b></span> &<?php echo RESERVATIONS_CURRENCY; ?>;</span></div>
+		<br><input type="button" onclick="document.getElementById('editreservation').submit(); return false;" class="easySubmitButton-primary" value="<?php printf ( __( 'Add reservation' , 'easyReservations' ));?>"><span class="showPrice" style="float:right;"><?php echo __( 'Price' , 'easyReservations' ); ?>: <span id="showPrice" style="font-weight:bold;"><b><?php echo easyreservations_format_money(0,1); ?></b></span></span></div>
 		</td><td style="width:4px"></td>
 		<td valign="top">
 			<table class="<?php echo RESERVATIONS_STYLE; ?>" style="min-width:320px;width:320px;margin-bottom:4px;">
@@ -1601,4 +1603,9 @@ if(isset($sendmail)) {
 <?php }
 	if(isset($approve) || isset($delete) || isset($view) || isset($sendmail)) echo '</td></tr></table>';
 }
+
+function easyreservations_restrict_input_dash(){
+	easyreservations_generate_restrict(array(array('#customPamount,input[name^="custom_price"]', true), array('input[name="priceset"],input[name="EDITwaspaid"],input[name="ccnumber"]', false)));
+}
+
  ?>

@@ -87,33 +87,29 @@
 
 	function easyreservations_format_money($amount, $mode=0, $dig = 2){
 		if($amount == '') $amount = 0;
-
-		if(RESERVATIONS_CURRENCY == "#8364") $separator = true;
-		else $separator = false;
+		$reservations_settings = get_option("reservations_settings");
+		$currency_settings = $reservations_settings['currency'];
+		if(!is_array($currency_settings)) $currency_settings = array('sign' => $currency_settings, 'place' => 0, 'whitespace' => 1, 'divider1' => '.', 'divider2' => ',', 'decimal' => 1);
 
 		if($amount < 0 || substr($amount,0,1) == '-'){
 			$amount = substr($amount, 1);
 			$add = '-';
 		} else $add = '';
-
-		$simple=false;
-		$money =
-		(true===$separator?
-			(false===$simple?
-				number_format($amount,$dig,',','.'):
-				str_replace(',00','',money($amount))
-			):
-			(false===$simple?
-				number_format($amount,$dig,'.','.'):
-				str_replace(',00','',money($amount,false))
-			)
-		);
-
-		$money = $add.$money;
-
+		
+		if($currency_settings['decimal'] == 1) $dig = 2;
+		else $dig = 0;
+		
+		$money = $add.number_format($amount,$dig,$currency_settings['divider2'],$currency_settings['divider1']);
+		
 		if($mode == 1){
-			if(RESERVATIONS_CURRENCY == "#8364") $money = $money.'&'.RESERVATIONS_CURRENCY.';';
-			else  $money = '&'.RESERVATIONS_CURRENCY.';'.$money;
+			if($currency_settings['whitespace'] == 1) $white = ' ';
+			else $white = '';
+
+			if($currency_settings['place'] == 0){
+				$money = $money.$white.'&'.$currency_settings['sign'].';';
+			} else {
+				$money = '&'.$currency_settings['sign'].';'.$white.$money;
+			}
 		}
 
 		return $money;
@@ -450,7 +446,6 @@
 		$day_names = easyreservations_get_date_name(0,2);
 		if($req == 1) $requirements = get_post_meta($_POST['room'], 'easy-resource-req', TRUE);
 		if($width == 0 || empty($width)) $width=300;
-		$currency = '&'.RESERVATIONS_CURRENCY.';';
 		if(isset($_POST['where']) && $_POST['where'] == "widget"){
 			$onClick = "easyreservations_send_calendar('widget');";
 			$formular = "widget_formular";
@@ -494,13 +489,11 @@
 				echo '<tbody style="text-align:center;white-space:nowrap;padding:0px">';
 					echo '<tr>';
 					echo '<td colspan="7" style="white-space:nowrap;padding:0px;margin:0px">';
-
 		if(count($timenows) > 1){
 			$width = $width / $divider;
 			$percent = 100 / $divider;
 		} else $percent = 100;
 		$rand = rand(1,999);
-
 		$month_count=0;
 		foreach($timenows as $timenow){
 			$month_count++;
@@ -542,10 +535,8 @@
 					echo '</tr>';
 				echo '</thead>';
 				echo '<tbody style="text-align:center;padding;0px;margin:0px">';
-
 			$rowcount=0;
 			while($diff <= $num){
-
 				$dateofeachday=strtotime($diff.'.'.$monthnow.'.'.$yearnow);
 				$dayindex=date("N", $dateofeachday);
 				if($setet==0 || $setet==7 || $setet==14 || $setet==21 || $setet==28 || $setet==35){ echo '<tr style="text-align:center">'; $rowcount++; }
@@ -577,11 +568,11 @@
 						$res->Calculate();
 
 						if($price == 1 || $price == 2){ $explode = explode('.', $res->price); $res->price = $explode[0]; }
-						if($price == 1) $formated_price = $res->price.$currency;
+						if($price == 1) $formated_price = $res->price.'&'.RESERVATIONS_CURRENCY.';';
 						elseif($price == 2) $formated_price = $res->price;
 						elseif($price == 3) $formated_price = easyreservations_format_money($res->price, 1);
 						elseif($price == 4) $formated_price = easyreservations_format_money($res->price);
-						elseif($price == 5) $formated_price = $currency.' '.$res->price;
+						elseif($price == 5) $formated_price = '&'.RESERVATIONS_CURRENCY.';'.' '.$res->price;
 
 						$final_price = '<span class="calendar-cell-price">'.$formated_price.'</b>';
 					} else $final_price = '';
@@ -859,7 +850,7 @@
 		$res = new Reservation(false, array('name' => 'abv', 'email' => $email, 'arrival' => $val_from,'departure' => $val_to,'resource' => (int) $room, 'adults' => (int) $persons, 'childs' => $childs,'reservated' => time(),'status' => '', 'prices' => (float) $customp, 'coupon' => $coupon), false);
 		try {
 			$res->Calculate();
-			echo json_encode(array(easyreservations_format_money($res->price), round($res->price,2)));
+			echo json_encode(array(easyreservations_format_money($res->price,1), round($res->price,2)));
 		} catch(easyException $e){
 			echo 'Error:'. $e->getMessage();
 		}
@@ -887,7 +878,7 @@
 			$val_to = strtotime(date("d.m.Y", $val_from)) + ($_POST['nights'] * $the_rooms_intervals_array[$val_room])  + (int) $_POST['toplus'];
 			$field = 'easy-form-units';
 		}
-		if(isset($_POST['id'])) $id = $_POST['id'];
+		if(isset($_POST['id']) && !empty($_POST['id'])) $id = $_POST['id'];
 		else $id = false;
 		$error = "";
 
@@ -941,9 +932,8 @@
 		wp_register_script('easyreservations_send_price', WP_PLUGIN_URL.'/easyreservations/js/ajax/send_price.js' , array( "jquery" ), RESERVATIONS_VERSION);
 		wp_register_script('easyreservations_send_validate', WP_PLUGIN_URL.'/easyreservations/js/ajax/send_validate.js' , array( "jquery" ), RESERVATIONS_VERSION);
 		wp_register_script('easyreservations_send_form', WP_PLUGIN_URL . '/easyreservations/js/ajax/form.js', array( "jquery" ), RESERVATIONS_VERSION);
-
 		global $the_rooms_intervals_array;
-		
+
 		$lang = '';
 		if(function_exists('icl_object_id')) $lang = '?lang=' . ICL_LANGUAGE_CODE;
 		elseif(function_exists('qtrans_getLanguage')) $lang = '?lang=' . qtrans_getLanguage();
@@ -951,7 +941,10 @@
 		wp_localize_script( 'easyreservations_send_calendar', 'easyAjax', array( 'ajaxurl' => admin_url( 'admin-ajax.php'.$lang ), 'plugin_url' => WP_PLUGIN_URL, 'interval' => json_encode($the_rooms_intervals_array) ) );
 		wp_localize_script( 'easyreservations_send_price', 'easyAjax', array( 'ajaxurl' => admin_url( 'admin-ajax.php'.$lang ), 'plugin_url' => WP_PLUGIN_URL, 'interval' => json_encode($the_rooms_intervals_array) ) );
 		wp_localize_script( 'easyreservations_send_validate', 'easyAjax', array( 'ajaxurl' => admin_url( 'admin-ajax.php'.$lang ), 'plugin_url' => WP_PLUGIN_URL, 'interval' => json_encode($the_rooms_intervals_array) ) );
-		wp_localize_script( 'easyreservations_send_form', 'easyDate', array( 'ajaxurl' => admin_url( 'admin-ajax.php'.$lang ), 'currency' => RESERVATIONS_CURRENCY,  'easydateformat' => RESERVATIONS_DATE_FORMAT, 'interval' => json_encode($the_rooms_intervals_array) ) );
+		$reservations_settings = get_option("reservations_settings");
+		$reservations_currency = $reservations_settings['currency'];
+		if(!is_array($reservations_currency)) $reservations_currency = array('sign' => $reservations_currency, 'place' => 0, 'whitespace' => 1, 'divider1' => '.', 'divider2' => ',', 'decimal' => 1);
+		wp_localize_script( 'easyreservations_send_form', 'easyDate', array( 'ajaxurl' => admin_url( 'admin-ajax.php'.$lang ), 'currency' => $reservations_currency,  'easydateformat' => RESERVATIONS_DATE_FORMAT, 'interval' => json_encode($the_rooms_intervals_array) ) );
 
 		wp_register_style('easy-frontend', WP_PLUGIN_URL . '/easyreservations/css/frontend.css', array(), RESERVATIONS_VERSION); // widget form style
 		if(file_exists(WP_PLUGIN_DIR . '/easyreservations/css/custom/form.css')) wp_register_style('easy-form-custom', WP_PLUGIN_URL . '/easyreservations/css/custom/form.css', array(), RESERVATIONS_VERSION); // custom form style override
@@ -1097,7 +1090,7 @@ EOF;
 
 		if($type == 0){
 			$datepicker = <<<EOF
-		<script>
+		<script type="text/javascript">
 			jQuery(document).ready(function(){
 				var dates = jQuery( "$jquery" ).datepicker({
 					dateFormat: '$dateformat',
@@ -1116,7 +1109,7 @@ EOF;
 							var option = this.id == "$instances[0]" ? "minDate" : "maxDate",
 							instance = jQuery( this ).data( "datepicker" ),
 							date = jQuery.datepicker.parseDate( instance.settings.dateFormat ||	jQuery.datepicker._defaults.dateFormat,	selectedDate, instance.settings );
-							date.setDate(date.getDate());
+							date.setDate(date.getDate()+1);
 							dates.not( this ).datepicker( "option", option, date );
 						}
 						if(window.easyreservations_send_validate) easyreservations_send_validate();
@@ -1124,11 +1117,11 @@ EOF;
 					}
 				});
 			});
-		</script>
+		</script type="text/javascript">
 EOF;
 		} else {
 			$datepicker = <<<EOF
-		<script>
+		<script type="text/javascript">
 			jQuery(document).ready(function(){
 				var dates = jQuery( "$jquery" ).datepicker({
 					$translations
@@ -1140,6 +1133,19 @@ EOF;
 EOF;
 		}
 		echo $datepicker;
+	}
+	
+	function easyreservations_generate_restrict($identifier_array){
+		$return = '';
+		foreach($identifier_array as $identifier) $return .= easyreservations_restrict_inputs((is_array($identifier) ? $identifier[0] : $identifier), (isset($identifier[1]) ? $identifier[1] : false));
+		if(!empty($return)) $return = '<script type="text/javascript">'.$return.'</script>';
+		echo $return;
+	}
+
+	function easyreservations_restrict_inputs($identifier,$percent = false){
+		if($percent) $percent = ' || (e.shiftKey && e.keyCode == 53)';
+		else $percent = '';
+		return 'jQuery(\''.$identifier.'\').keydown(function(e){if(e.keyCode == 46 || e.keyCode == 8 || e.keyCode == 45 || (e.keyCode == 190 && !e.shiftKey) || (e.keyCode == 109 && !e.shiftKey) || (e.keyCode == 189 && !e.shiftKey)'.$percent.') return; else if(e.shiftKey || (e.keyCode < 48 || e.keyCode > 57) && (e.keyCode < 96 || e.keyCode > 105 )) {e.preventDefault();}});';
 	}
 
 ?>

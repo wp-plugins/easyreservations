@@ -161,9 +161,9 @@ if(isset($_POST['filter_form_name_field'])){
 		}
 
 		$filters = get_post_meta($resourceID, 'easy_res_filter', true);
-		if(!isset($filters) || empty($filters) || $filters == false) $filters = array();
+		if(!isset($filters) || empty($filters) || !$filters) $filters = array();
 
-		if(isset($_POST['price_filter_edit'])){
+		if(isset($_POST['price_filter_edit']) && !empty($_POST['price_filter_edit']) && isset($filters[$_POST['price_filter_edit']])){
 			unset($filters[$_POST['price_filter_edit']]);
 			$filters[] = $filter;
 		} else {
@@ -189,8 +189,8 @@ if(isset($_POST['filter_form_name_field'])){
 		if(isset($ufiltersSort)) array_multisort($ufiltersSort, SORT_ASC, $ufilters); 
 
 		if(!isset($pfilters)) $pfilters = array();
-		if(!isset($ufilters)) $ufilters = array();
 		if(!isset($dfilters)) $dfilters = array();
+		if(!isset($ufilters)) $ufilters = array();
 
 		$filters = array_merge_recursive($pfilters, $dfilters, $ufilters);
 		if(!isset($prompt) && empty($error)) update_post_meta($resourceID, 'easy_res_filter', $filters);
@@ -384,6 +384,7 @@ if(!isset($site) || $site=='' || $site =='main'){
 			} else update_post_meta($resourceID, 'easy-resource-taxes', array());
 			do_action('er_res_main_save', $resourceID);
 		}
+		add_action('admin_print_footer_scripts','easyreservations_restrict_input_res');
 
 		do_action('er_res_save', $resourceID);
 		$counroooms=0;
@@ -631,7 +632,7 @@ if(!isset($site) || $site=='' || $site =='main'){
 							</td>
 						</tr>
 						<tr>
-							<td style="vertical-align:top;padding-top:7px;"><b id="idtaxes"><?php printf ( __( 'Taxes' , 'easyReservations' ));?></b> <a onClick="easy_add_tax(1, this)" style="cursor: pointer">Add</a></td>
+							<td style="vertical-align:top;padding-top:15px;"><b id="idtaxes"><?php printf ( __( 'Taxes' , 'easyReservations' ));?></b> <a onClick="easy_add_tax(1, this)" style="cursor: pointer">Add</a></td>
 							<td style="text-align:right" id="idtaxesvalue">&nbsp;<?php if($reservations_current_tax && !empty($reservations_current_tax)){ $nr = 0;
 								foreach($reservations_current_tax as $tax){
 									echo '<span><img style="vertical-align:text-middle;" src="'.RESERVATIONS_URL.'/images/delete.png" onClick="easy_add_tax(2, this);"> ';
@@ -1348,7 +1349,12 @@ if(!isset($site) || $site=='' || $site =='main'){
 		}
 	});
 </script><?php }
-} 
+}
+
+function easyreservations_restrict_input_res(){
+	easyreservations_generate_restrict(array(array('#filter-price-field', true), array('input[name="groundprice"],input[name="child_price"],input[name^="res_tax_amounts"]', false)));
+}
+
 function easyreservations_send_calendar_res(){
 	echo '<script>easyreservations_send_calendar();</script>';
 }

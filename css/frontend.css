@@ -135,7 +135,7 @@ div.easy_infobox_border.only-image img {
 	float:right;
 }
 
-.easy_overlay_table {
+#easy_overlay_table {
 	width: 99%;
 	margin:0px;
 	border-bottom: 0px;

@@ -111,123 +111,147 @@ License:GPL2
 		function easyreservations_load_modules_array(){
 			return array(
 				'invoice' => array(
-						'slug' => 'invoice',
-						'title' => __( 'Invoice Module' , 'easyReservations' ),
-						'content' => __( 'Generate totally customazible Invoices automatically from predefined templates. Including an editor for admins, invoices as email attachments and correct A4 Letter formats.' , 'easyReservations' ),
-						'function' => 'easyreservations_generate_invoice',
-						'least' => '1.0.4',
-						'vers' => '1.0.8',
-						'image' => 'invoice',
-						'beta' => 0
+					'slug' => 'invoice',
+					'title' => __( 'Invoice Module' , 'easyReservations' ),
+					'content' => __( 'Generate totally customazible Invoices automatically from predefined templates. Including an editor for admins, invoices as email attachments and correct A4 Letter formats.' , 'easyReservations' ),
+					'function' => 'easyreservations_generate_invoice',
+					'least' => '1.0.9',
+					'vers' => '1.0.9',
+					'image' => 'invoice',
+					'beta' => 0
 				),
 				'htmlmails' => array(
-						'slug' => 'htmlmails',
-						'title' => __( 'htmlMails Module' , 'easyReservations' ),
-						'content' => __( 'Style your eMails with HTML to increase the appereance of your hospitality.' , 'easyReservations' ),
-						'function' => 'easyreservations_send_multipart_mail',
-						'least' => '1.1.2',
-						'vers' => '1.1.2',
-						'image' => 'email',
+					'slug' => 'htmlmails',
+					'title' => __( 'htmlMails Module' , 'easyReservations' ),
+					'content' => __( 'Style your eMails with HTML to increase the appereance of your hospitality.' , 'easyReservations' ),
+					'function' => 'easyreservations_send_multipart_mail',
+					'least' => '1.1.2',
+					'vers' => '1.1.2',
+					'image' => 'email',
 				),
 				'paypal' => array(
-						'slug' => 'paypal',
-						'title' => __( 'Payment Module' , 'easyReservations' ),
-						'content' => __( 'Your guest can pay their reservations directly through PayPal or leave their credit card details for manually booking. Automatically approve new reservations and/or paid reservations. Payment verification by IPN.' , 'easyReservations' ),
-						'function' => 'easyreservations_validate_payment',
-						'least' => '1.4.2',
-						'vers' => '1.4.2',
-						'image' => 'paypal',
+					'slug' => 'paypal',
+					'title' => __( 'Payment Module' , 'easyReservations' ),
+					'content' => __( 'Your guest can pay their reservations directly through PayPal or leave their credit card details for manually booking. Automatically approve new reservations and/or paid reservations. Payment verification by IPN.' , 'easyReservations' ),
+					'function' => 'easyreservations_validate_payment',
+					'least' => '1.4.2',
+					'vers' => '1.4.2',
+					'image' => 'paypal',
 				),
 				'search' => array(
-						'slug' => 'search',
-						'title' => __( 'searchForm Module' , 'easyReservations' ),
-						'content' => __( 'New shortcode to let your guests search for available resources. No reload for searching, compatible to calendar, show price, show unavailable resources too, link to form with automatically selection. Each resource can have a small one-column calendar to show when its availble.' , 'easyReservations' ),
-						'function' => 'easyreservations_search_add_tinymce',
-						'least' => '1.1.15',
-						'vers' => '1.1.15',
-						'image' => 'search',
+					'slug' => 'search',
+					'title' => __( 'searchForm Module' , 'easyReservations' ),
+					'content' => __( 'New shortcode to let your guests search for available resources. No reload for searching, compatible to calendar, show price, show unavailable resources too, link to form with automatically selection. Each resource can have a small one-column calendar to show when its availble.' , 'easyReservations' ),
+					'function' => 'easyreservations_search_add_tinymce',
+					'least' => '1.1.17',
+					'vers' => '1.1.17',
+					'image' => 'search',
+					'addon' => array(
+						array(
+							'slug' => 'relatedpost',
+							'file' => 'searchtypes.php',
+							'title' => __( 'Releated Posts Add-On' , 'easyReservations' ),
+							'content' => __( 'Link post or pages with resources for the search results' , 'easyReservations' ),
+							'function' => 'easyreservations_search_change_values',
+							'link' => 'forums/topic/releated-posts-add-on/',
+							'vers' => '1.0.6',
+							'least' => '1.0.6',
+							'beta' => 1
+						),
+						array(
+							'slug' => 'attributes',
+							'file' => 'attributes.php',
+							'title' => __( 'Resource Attributes Add-On' , 'easyReservations' ),
+							'content' => __( 'Give resource different attributes to let your guests search more detailed' , 'easyReservations' ),
+							'function' => 'easyreservations_search_attributes_check',
+							'link' => 'forums/topic/resource-attributes-add-on/',
+							'vers' => '1.0',
+							'least' => '1.0',
+							'beta' => 1
+						)
+					)
 				),
 				'hourlycal' => array(
-						'slug' => 'hourlycal',
-						'title' => __( 'hourlyCalendar Module' , 'easyReservations' ),
-						'content' => __( 'Show your guests the availability on a hourly basis.' , 'easyReservations' ),
-						'function' => 'easyreservations_send_hourlycal_callback',
-						'least' => '1.0.5',
-						'vers' => '1.0.5',
-						'image' => 'time',
+					'slug' => 'hourlycal',
+					'title' => __( 'hourlyCalendar Module' , 'easyReservations' ),
+					'content' => __( 'Show your guests the availability on a hourly basis.' , 'easyReservations' ),
+					'function' => 'easyreservations_send_hourlycal_callback',
+					'least' => '1.0.5',
+					'vers' => '1.0.5',
+					'image' => 'time',
 				),
 				'import' => array(
-						'slug' => 'import',
-						'title' => __( 'Export &amp; Import Module' , 'easyReservations' ),
-						'content' => __( 'Export selectable reservations informations by time, selection or all as .xls, .csv or .least and Import them from back from the .least files.' , 'easyReservations' ),
-						'function' => 'easyreservations_generate_import',
-						'least' => '1.2.2',
-						'vers' => '1.2.3',
-						'image' => 'import',
+					'slug' => 'import',
+					'title' => __( 'Export &amp; Import Module' , 'easyReservations' ),
+					'content' => __( 'Export selectable reservations informations by time, selection or all as .xls, .csv or .least and Import them from back from the .least files.' , 'easyReservations' ),
+					'function' => 'easyreservations_generate_import',
+					'least' => '1.2.2',
+					'vers' => '1.2.3',
+					'image' => 'import',
 				),
 				'lang' => array(
-						'slug' => 'lang',
-						'title' => __( 'Multilingual Module' , 'easyReservations' ),
-						'content' => __( 'Function to make texts in forms and emails translatable.' , 'easyReservations' ),
-						'function' => 'easyreservations_translate_content',
-						'least' => '1.1.1',
-						'vers' => '1.1.1',
-						'image' => 'country',
+					'slug' => 'lang',
+					'title' => __( 'Multilingual Module' , 'easyReservations' ),
+					'content' => __( 'Function to make texts in forms and emails translatable.' , 'easyReservations' ),
+					'function' => 'easyreservations_translate_content',
+					'least' => '1.1.1',
+					'vers' => '1.1.1',
+					'image' => 'country',
 				),
 				'useredit' => array(
-						'slug' => 'useredit',
-						'title' => __( 'Guest Editing Module' , 'easyReservations' ),
-						'content' => __( ' Let your guests login with their reservations ID and email to edit their reservation afterwards. They can switch between their reservations in a table. In addition it provides a chat-like feature to user-edit and admin. New messages in table, dummy message at start, admin notices, avatars and fully AJAX driven.' , 'easyReservations' ),
-						'function' => 'easyreservations_generate_chat',
-						'least' => '1.2.7',
-						'vers' => '1.2.7',
-						'image' => 'chat',
+					'slug' => 'useredit',
+					'title' => __( 'Guest Editing Module' , 'easyReservations' ),
+					'content' => __( ' Let your guests login with their reservations ID and email to edit their reservation afterwards. They can switch between their reservations in a table. In addition it provides a chat-like feature to user-edit and admin. New messages in table, dummy message at start, admin notices, avatars and fully AJAX driven.' , 'easyReservations' ),
+					'function' => 'easyreservations_generate_chat',
+					'least' => '1.2.7',
+					'vers' => '1.2.7',
+					'image' => 'chat',
 				),
 				'statistics' => array(
-						'slug' => 'statistics',
-						'title' => __( 'Statistics Module' , 'easyReservations' ),
-						'content' => __( 'Detailed statistics, charts, resources usage and a dashboards widget.' , 'easyReservations' ),
-						'function' => 'easyreservations_add_statistics_submenu',
-						'least' => '1.1',
-						'vers' => '1.1.3',
-						'image' => 'statistics',
+					'slug' => 'statistics',
+					'title' => __( 'Statistics Module' , 'easyReservations' ),
+					'content' => __( 'Detailed statistics, charts, resources usage and a dashboards widget.' , 'easyReservations' ),
+					'function' => 'easyreservations_add_statistics_submenu',
+					'least' => '1.1',
+					'vers' => '1.1.3',
+					'image' => 'statistics',
 				),
 				'stream' => array(
-						'slug' => 'stream',
-						'title' => __( 'Stream Module' , 'easyReservations' ),
-						'content' => __( 'Text.' , 'easyReservations' ),
-						'function' => 'easyreservations_install_stream',
-						'least' => '1.0',
-						'vers' => '1.0',
-						'image' => 'stream',
-						'beta' => 1,
+					'slug' => 'stream',
+					'title' => __( 'Stream Module' , 'easyReservations' ),
+					'content' => __( 'Text.' , 'easyReservations' ),
+					'function' => 'easyreservations_install_stream',
+					'least' => '1.0',
+					'vers' => '1.0',
+					'image' => 'stream',
+					'beta' => 1,
 				),
 				'styles' => array(
-						'slug' => 'styles',
-						'title' => __( 'Styles' , 'easyReservations' ),
-						'content' => __( 'New Admin, Calendar and Form stlye. In addition it changes your datepickers style and disable unavailble dates in it.' , 'easyReservations' ),
-						'least' => '1.2',
-						'function' => 'easyreservations_register_datepicker_style',
-						'vers' => '1.2.5',
-						'image' => 'to',
+					'slug' => 'styles',
+					'title' => __( 'Styles' , 'easyReservations' ),
+					'content' => __( 'New Admin, Calendar and Form stlye. In addition it changes your datepickers style and disable unavailble dates in it.' , 'easyReservations' ),
+					'least' => '1.2',
+					'function' => 'easyreservations_register_datepicker_style',
+					'vers' => '1.2.5',
+					'image' => 'to',
 				),
 				'coupons' => array(
-						'slug' => 'coupons',
-						'title' => __( 'Coupon Module' , 'easyReservations' ),
-						'content' => __( 'Let your guests enter coupon codes for discounts.' , 'easyReservations' ),
-						'least' => '1.0.8',
-						'function' => 'easyreservations_calculate_coupon',
-						'vers' => '1.0.8',
-						'image' => 'money',
+					'slug' => 'coupons',
+					'title' => __( 'Coupon Module' , 'easyReservations' ),
+					'content' => __( 'Let your guests enter coupon codes for discounts.' , 'easyReservations' ),
+					'least' => '1.0.9',
+					'function' => 'easyreservations_calculate_coupon',
+					'vers' => '1.0.9',
+					'image' => 'money',
 				),
 				'multical' => array(
-						'slug' => 'multical',
-						'title' => __( 'extentedCalendar Module' , 'easyReservations' ),
-						'content' => __( 'Extend the calendar shortcode to show multiple months by an flexible grid (x*y) at once. Includes a new boxed calendar style.' , 'easyReservations' ),
-						'least' => '1.1',
-						'function' => 'easyreservations_generate_multical',
-						'vers' => '1.1.5',
-						'image' => 'day',
+					'slug' => 'multical',
+					'title' => __( 'extentedCalendar Module' , 'easyReservations' ),
+					'content' => __( 'Extend the calendar shortcode to show multiple months by an flexible grid (x*y) at once. Includes a new boxed calendar style.' , 'easyReservations' ),
+					'least' => '1.1',
+					'function' => 'easyreservations_generate_multical',
+					'vers' => '1.1.5',
+					'image' => 'day',
 				)
 			);
 		}
@@ -303,14 +327,45 @@ License:GPL2
 										<td style="text-align:center;font-weight:bold;<?php echo $color; ?>"><?php echo $actual_version; ?></td>
 										<td style="font-weight:bold;text-align:right"><?php
 											if($login === false){
-												if($newupdate) echo '<a href="admin.php?page=reservation-settings&site=plugins&update='.$module['slug'].'" class="easySubmitButton-secondary">'.__( 'Update' , 'easyReservations' ).'</a>';
-												elseif($status !== 0) echo '<a href="admin.php?page=reservation-settings&site=plugins&install='.$module['slug'].'" class="easySubmitButton-secondary">'.__( 'Reinstall' , 'easyReservations' ).'</a>';
-												else echo '<a class="button-secondary" href="admin.php?page=reservation-settings&site=plugins&install='.$module['slug'].'" class="easySubmitButton-secondary">'. __( 'Install' , 'easyReservations' ).'</a>';
+												if($newupdate) echo '<a class="button-secondary" href="admin.php?page=reservation-settings&site=plugins&update='.$module['slug'].'">'.__( 'Update' , 'easyReservations' ).'</a>';
+												elseif($status !== 0) echo '<a class="button-secondary" href="admin.php?page=reservation-settings&site=plugins&install='.$module['slug'].'">'.__( 'Reinstall' , 'easyReservations' ).'</a>';
+												else echo '<a class="button-secondary" href="admin.php?page=reservation-settings&site=plugins&install='.$module['slug'].'">'. __( 'Install' , 'easyReservations' ).'</a>';
 											} else{
-												if($status > 0) echo  '<a href="http://easyreservations.org/module/'.$module['slug'].'/" target="_blank">'.__( 'Download' , 'easyReservations' ).'</a>'; else echo '<a href="http://easyreservations.org/module/'.$module['slug'].'/" target="_blank">'.__( 'Download' , 'easyReservations' ).'</a>';
+												if($status > 0) echo '<a class="button-secondary" href="http://easyreservations.org/module/'.$module['slug'].'/" target="_blank">'.__( 'Download' , 'easyReservations' ).'</a>'; else echo '<a class="button-secondary" href="http://easyreservations.org/module/'.$module['slug'].'/" target="_blank">'.__( 'Download' , 'easyReservations' ).'</a>';
 											} ?>
 										</td>
 									</tr><?php
+										if($status == 2 && isset($module['addon']) && is_array($module['addon'])){
+											foreach($module['addon'] as $addon){
+												if(!isset($addon['beta']) || file_exists(WP_PLUGIN_DIR.'/easyreservations/lib/modules/'.$module['slug'].'/'.$addon['file'])){
+													$status = 1;
+													$deprecated = false;
+													$data = get_plugin_data(WP_PLUGIN_DIR.'/easyreservations/lib/modules/'.$module['slug'].'/'.$addon['file'], false);
+													$installed_version = $data['Version'];
+													if(version_compare($installed_version, $addon['vers']) == -1) $color = 'color:#FF3B38';
+													else $color = '';
+													if(version_compare($data['Description'], RESERVATIONS_VERSION) == +1) $deprecated = array(true,$data['Description']);
+													elseif(version_compare($data['Version'], $addon['least']) == -1) $deprecated = array(false, $addon['least']);
+													if(function_exists($addon['function'])) $status = 2;
+													$class = '';
+													if($status != 2) $class .=  'inactive '; $class .= 'module_row_'.$addon['slug'];
+
+													if($status == 1) $action = '<form action="'.WP_PLUGIN_URL.'/easyreservations/lib/core/activate.php" method="post" style="display:inline-block;"><input type="hidden" name="activate" value="'.$addon['slug'].'"><a onclick="this.parentNode.submit();" href="#">'.__( 'Activate' , 'easyReservations' ).'</a></form>';
+													else $action = '<form action="'.WP_PLUGIN_URL.'/easyreservations/lib/core/activate.php" method="post" style="display:inline-block;"><input type="hidden" name="deactivate" value="'.$addon['slug'].'"><a onclick="javascript:this.parentNode.submit()" href="#">'.__( 'Deactivate' , 'easyReservations' ).'</a></form>';
+
+													echo '<tr class="'.$class.'"><td></td><td>'.$addon['title'].'<br>'.$action.'</td><td>';
+													if($deprecated){
+														if($deprecated[0]) $message = sprintf( __('Incompatibility - Update easyReservations to at least %s','easyReservations'), $deprecated[1]);
+														else $message = sprintf( __('Incompatibility - This version of easyReservations needs at least version %s of this module','easyReservations'), $deprecated[1]);
+														echo '<b style="color:#FF3B38">'.$message.'</b>';
+													} else echo  $addon['content'];
+													echo '</td><td style="font-weight:bold;text-align:center">';
+													echo '<a style="color:#118D18">'.$installed_version.'</a></td><td style="text-align:center;font-weight:bold;'.$color.'">'.$addon['vers'].'</td><td style="font-weight:bold;text-align:right">';
+													echo '<a class="button-secondary" href="http://easyreservations.org/'.$addon['link'].'/" target="_blank">'.__( 'Download' , 'easyReservations' ).'</a></td>'; 
+													echo '</tr>';
+												}
+											}
+										}
 									}
 								}
 							echo '</table>';
@@ -552,8 +607,8 @@ License:GPL2
 	}
 }
 	function easyreservations_is_module($module){
-		$active = get_option('reservations_active_modules');
-		if(file_exists(WP_PLUGIN_DIR."/easyreservations/lib/modules/$module/$module.php") && is_array($active) && in_array($module, $active)) return true;
+		global $reservations_active_modules;
+		if(file_exists(WP_PLUGIN_DIR."/easyreservations/lib/modules/$module/$module.php") && is_array($reservations_active_modules) && in_array($module, $reservations_active_modules)) return true;
 		else return false;
 	}
 
