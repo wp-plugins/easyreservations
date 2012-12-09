@@ -1,5 +1,6 @@
 window.easyLastPrice = 0;
 function easyreservations_send_price(){
+	if(!document.easyFrontendFormular) return false;
 	if(document.easyFrontendFormular.easyroom) var room = document.easyFrontendFormular.easyroom.value;
 	else alert('no room field - correct that')
 	var interval_array = eval("(" + easyAjax.interval + ")");

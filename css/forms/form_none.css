@@ -131,6 +131,14 @@
 	background: #636363;
 }
 
+.easy-button.back {
+	background: #606060;
+	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #606060), color-stop(1, #7a7979) );
+	background:-moz-linear-gradient( center top, #606060 5%, #7a7979 100% );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#636363', endColorstr='#444444');
+	margin-left:10px;
+}
+
 .easy_show_price_submit {
 	color: #000 !important;
 	font-weight: normal;

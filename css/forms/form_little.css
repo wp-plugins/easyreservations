@@ -14,10 +14,9 @@
 }
 
 #easy_widget_form label{
-	display:inline;
+	display:inline-block;
 	font-weight:bold;
 	width:60px;
-	float:left !important;
 }
 .easy-button {
 	-moz-box-shadow:inset 0px 1px 0px 0px #fff;

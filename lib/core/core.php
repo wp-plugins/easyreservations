@@ -87,7 +87,7 @@ License:GPL2
 								request_filesystem_credentials($url, 'ftp', true, false);
 							} else {
 								global $wp_filesystem;
-								if(class_exists('ZipArchive')){
+									if(class_exists('ZipArchive')){
 									$zip = new ZipArchive();  
 									$x = $zip->open($saved_file_location);  
 									if($x === true){
@@ -134,8 +134,8 @@ License:GPL2
 					'title' => __( 'Payment Module' , 'easyReservations' ),
 					'content' => __( 'Your guest can pay their reservations directly through PayPal or leave their credit card details for manually booking. Automatically approve new reservations and/or paid reservations. Payment verification by IPN.' , 'easyReservations' ),
 					'function' => 'easyreservations_validate_payment',
-					'least' => '1.4.2',
-					'vers' => '1.4.2',
+					'least' => '1.5',
+					'vers' => '1.5',
 					'image' => 'paypal',
 				),
 				'search' => array(
@@ -143,8 +143,8 @@ License:GPL2
 					'title' => __( 'searchForm Module' , 'easyReservations' ),
 					'content' => __( 'New shortcode to let your guests search for available resources. No reload for searching, compatible to calendar, show price, show unavailable resources too, link to form with automatically selection. Each resource can have a small one-column calendar to show when its availble.' , 'easyReservations' ),
 					'function' => 'easyreservations_search_add_tinymce',
-					'least' => '1.1.17',
-					'vers' => '1.1.17',
+					'least' => '1.2',
+					'vers' => '1.2',
 					'image' => 'search',
 					'addon' => array(
 						array(
@@ -213,7 +213,7 @@ License:GPL2
 					'content' => __( 'Detailed statistics, charts, resources usage and a dashboards widget.' , 'easyReservations' ),
 					'function' => 'easyreservations_add_statistics_submenu',
 					'least' => '1.1',
-					'vers' => '1.1.3',
+					'vers' => '1.1.4',
 					'image' => 'statistics',
 				),
 				'stream' => array(

@@ -22,7 +22,7 @@
 		if(isset($atts['interval'])) $interval = $atts['interval']; else $interval = 1;
 		
 		if (wp_style_is('easy-cal-'.$style, 'registered')) wp_enqueue_style('easy-cal-'.$style, false, array(), false, 'all');
-		else wp_enqueue_style('easy-form-none' , false, array(), false, 'all');	
+		else wp_enqueue_style('easy-form-none' , false, array(), false, 'all');
 
 		if(isset($_POST['easyroom']) && is_numeric($_POST['easyroom'])) $room = $_POST['easyroom'];
 

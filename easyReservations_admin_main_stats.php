@@ -12,14 +12,14 @@
 		$day=date("Y-m-d H:i:s", time()+($ii*86400));
 		$dayPastAnf=date("Y-m-d H:i:s", strtotime(date("d.m.Y", time()))-604800+($ii*86400));
 		$dayPastEnd=date("Y-m-d H:i:s", (strtotime(date("d.m.Y", time()))+86399)-604800+($ii*86400));
-		$count_res =  $wpdb->get_var($wpdb->prepare("SELECT COUNT(*) FROM ".$wpdb->prefix ."reservations WHERE reservated BETWEEN '$dayPastAnf' AND '$dayPastEnd'"));
+		$count_res =  $wpdb->get_var($wpdb->prepare("SELECT COUNT(*) FROM ".$wpdb->prefix ."reservations WHERE reservated BETWEEN '%s' AND '%s'", $dayPastAnf, $dayPastEnd));
 		if($count_res > $maxres) $maxres = $count_res;
 		$countReservated .=  '['.$ii.', '.$count_res.'], ';
-		$count_appr = $wpdb->get_var($wpdb->prepare("SELECT COUNT(*) FROM ".$wpdb->prefix ."reservations WHERE approve='yes' AND '$day' BETWEEN arrival AND departure"));
+		$count_appr = $wpdb->get_var($wpdb->prepare("SELECT COUNT(*) FROM ".$wpdb->prefix ."reservations WHERE approve='yes' AND '%s' BETWEEN arrival AND departure", $day));
 		$countApproved .=  '['.$ii.', '.$count_appr.'], ';
-		$count_rej = $wpdb->get_var($wpdb->prepare("SELECT COUNT(*) FROM ".$wpdb->prefix ."reservations WHERE approve='no' AND '$day' BETWEEN arrival AND departure"));
+		$count_rej = $wpdb->get_var($wpdb->prepare("SELECT COUNT(*) FROM ".$wpdb->prefix ."reservations WHERE approve='no' AND '%s' BETWEEN arrival AND departure", $day));
 		$countRejected .=  '['.$ii.', '.$count_rej.'], ';
-		$count_pend = $wpdb->get_var($wpdb->prepare("SELECT COUNT(*) FROM ".$wpdb->prefix ."reservations WHERE approve='' AND '$day' BETWEEN arrival AND departure"));
+		$count_pend = $wpdb->get_var($wpdb->prepare("SELECT COUNT(*) FROM ".$wpdb->prefix ."reservations WHERE approve='' AND '%s' BETWEEN arrival AND departure",$day));
 		$countPending .=  '['.$ii.', '.$count_pend.'], ';
 		if(($count_pend+$count_rej+$count_appr) > $maxall) $maxall = ($count_pend+$count_rej+$count_appr);
 	}

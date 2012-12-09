@@ -26,14 +26,12 @@ function reservation_settings_page() { //Set Settings
 			if(isset($_POST["reservations_uninstall"])) $reservations_uninstall = 1; else $reservations_uninstall = 0;
 			if(isset($_POST["reservations_time"])) $reservations_time = 1; else $reservations_time = 0;
 			if(isset($_POST["reservations_tutorial"])) $tutorial = 1; else $tutorial = 0;
-			if(isset($_POST['reservations_resourcemerge_box'])){
-				$mergeres = $_POST['reservations_resourcemerge'];
-				if($mergeres < 1) $mergeres = 1;
-			} else $mergeres = 0;
+			if(isset($_POST['reservations_resourcemerge_box'])) $mergeres = $_POST['reservations_resourcemerge'];
+			else $mergeres = 0;
 			update_option("reservations_uninstall", $reservations_uninstall);
 			if(isset($_POST['reservations_currency_whitespace'])) $white = 1;
 			else $white = 0;
-			$settings_array = array( 'style' => $_POST["reservations_style"], 'currency' => array('sign' => $_POST["reservations_currency"], 'whitespace' => $white, 'decimal' => $_POST["reservations_currency_decimal"], 'divider1' => $_POST["reservations_currency_divider1"], 'divider2' => $_POST["reservations_currency_divider2"], 'place' => $_POST['reservations_currency_place']), 'date_format' => $_POST["reservations_date_format"], 'time' => $reservations_time, 'tutorial' => $tutorial, 'mergeres' => $mergeres );
+			$settings_array = array( 'style' => $_POST["reservations_style"], 'currency' => array('sign' => $_POST["reservations_currency"], 'whitespace' => $white, 'decimal' => $_POST["reservations_currency_decimal"], 'divider1' => $_POST["reservations_currency_divider1"], 'divider2' => $_POST["reservations_currency_divider2"], 'place' => $_POST['reservations_currency_place']), 'date_format' => $_POST["reservations_date_format"], 'time' => $reservations_time, 'tutorial' => $tutorial, 'mergeres' => array('merge' => $mergeres,'blockbefore'=>$_POST['blockbefore'], 'blockafter' => $_POST['blockafter']));
 			update_option("reservations_settings", $settings_array);
 			update_option("reservations_regular_guests", $_POST["regular_guests"]);
 			update_option("reservations_support_mail", $_POST["reservations_support_mail"]);
@@ -274,6 +272,14 @@ if($settingpage=="general"){
 	$reservations_regular_guests = get_option('reservations_regular_guests');
 	$permission_options=get_option("reservations_main_permission");
 	$reservations_uninstall=get_option("reservations_uninstall");
+	if(isset($reservations_settings['mergeres']) && is_array($reservations_settings['mergeres'])){
+		$blockbefore = $reservations_settings['mergeres']['blockbefore'];
+		$blockafter = $reservations_settings['mergeres']['blockafter'];
+		$reservations_settings['mergeres'] = $reservations_settings['mergeres']['merge'];
+	} else {
+		$blockbefore = 0;
+		$blockafter = 0;
+	}
 	if(!isset($reservations_settings['tutorial'])) $reservations_settings['tutorial'] = 1;?>
 <table cellspacing="0" style="width:99%">
 	<tr cellspacing="0">
@@ -418,14 +424,14 @@ if($settingpage=="general"){
 						<td><img style="vertical-align:text-bottom;margin-right:2px;" src="<?php echo RESERVATIONS_URL; ?>images/background.png"> <b><?php echo __( 'Admin Style' , 'easyReservations' );?></b></td>
 						<td>
 							<select name="reservations_style">
-								<option value="widefat" <?php if($easyReservationSyle=='widefat' OR RESERVATIONS_STYLE=='widefat') echo 'selected'; ?>><?php printf ( __( 'Wordpress' , 'easyReservations' ));?></option>
-								<option value="greyfat" <?php if($easyReservationSyle=='greyfat' OR RESERVATIONS_STYLE=='greyfat') echo 'selected'; ?>><?php printf ( __( 'Grey' , 'easyReservations' ));?></option>
-								<?php if(WP_PLUGIN_URL . '/easyreservations/lib/modules/styles/admin/style_premium.css'){?><option value="premium" <?php if($easyReservationSyle=='premium' OR RESERVATIONS_STYLE=='premium') echo 'selected'; ?>><?php printf ( __( 'Premium' , 'easyReservations' ));?></option><?php } ?>
+								<option value="widefat" <?php if($easyReservationSyle=='widefat' OR RESERVATIONS_STYLE=='widefat') echo 'selected'; ?>><?php echo __( 'Wordpress' , 'easyReservations' );?></option>
+								<option value="greyfat" <?php if($easyReservationSyle=='greyfat' OR RESERVATIONS_STYLE=='greyfat') echo 'selected'; ?>><?php echo __( 'Grey' , 'easyReservations' );?></option>
+								<?php if(WP_PLUGIN_URL . '/easyreservations/lib/modules/styles/admin/style_premium.css'){?><option value="premium" <?php if($easyReservationSyle=='premium' || RESERVATIONS_STYLE=='premium') echo 'selected'; ?>><?php printf ( __( 'Premium' , 'easyReservations' ));?></option><?php } ?>
 							</select>
 						</td>
 					</tr>
 					<tr valign="top">
-						<td><img style="vertical-align:text-bottom;margin-right:2px" src="<?php echo RESERVATIONS_URL; ?>images/day.png"> <b><?php printf ( __( 'Date format' , 'easyReservations' ));?></b></td>
+						<td><img style="vertical-align:text-bottom;margin-right:2px" src="<?php echo RESERVATIONS_URL; ?>images/day.png"> <b><?php echo __( 'Date format' , 'easyReservations' );?></b></td>
 						<td>
 							<select name="reservations_date_format"><?php
 								$date_formats = array(
@@ -448,6 +454,16 @@ if($settingpage=="general"){
 						else $thenum = 0; ?>
 						<td><img style="vertical-align:text-bottom;margin-right:2px;" src="<?php echo RESERVATIONS_URL; ?>images/house.png"> <b><?php printf ( __( 'Merge resources' , 'easyReservations' ));?></b></td>
 						<td><input type="checkbox" id="checkmerge" name="reservations_resourcemerge_box" value="1" <?php if(isset($reservations_settings['mergeres']) && $reservations_settings['mergeres'] > 0) echo 'checked="checked"'; ?>> <?php echo sprintf(__( 'Check availability over all resources with max %s reservations at the same time regardless of the resource' , 'easyReservations' ), '<select name="reservations_resourcemerge" onclick="document.getElementById(\'checkmerge\').checked = true;">'.easyreservations_num_options(0,99,$thenum).'</select>');?></td>
+					</tr>
+					<tr valign="top">
+						<td><img style="vertical-align:text-bottom;margin-right:2px;" src="<?php echo RESERVATIONS_URL; ?>images/house.png"> <b><?php printf ( __( 'Merge resources' , 'easyReservations' ));?></b></td>
+						<td>
+							<?php echo __( 'Block' , 'easyReservations' );?>
+							<select name="blockbefore"><?php echo easyreservations_build_options(array(0 => '0 '.__('minutes', 'easyReservations'),5 => '5 '.__('minutes', 'easyReservations'),10 =>'10 '. __('minutes', 'easyReservations'),15 => '15 '.__('minutes', 'easyReservations'),30 => '30'. __('minutes', 'easyReservations'),45 =>'45 '. __('minutes', 'easyReservations'),60=>'1 '.__('hour', 'easyReservations'),90=>'1.5 '.__('hours', 'easyReservations'),120=>'2 '.__('hours', 'easyReservations'),150=>'2.5 '.__('hours', 'easyReservations'),180=>'3 '.__('hours', 'easyReservations'),240=>'4 '.__('hours', 'easyReservations'),300=>'5 '.__('hours', 'easyReservations'),360=>'6 '.__('hours', 'easyReservations'),600=>'10 '.__('hours', 'easyReservations'),720=>'12 '.__('hours', 'easyReservations'),1080=>'18 '.__('hours', 'easyReservations'),1440=>'1 '.__('day', 'easyReservations'),2160=>'1.5 '.__('days', 'easyReservations'),2880=>'2 '.__('days', 'easyReservations'),4320=>'3 '.__('days', 'easyReservations'),5760=>'4 '.__('days', 'easyReservations'),7200=>'5 '.__('days', 'easyReservations'),8640=>'6 '.__('days', 'easyReservations'),10080=>'7 '.__('days', 'easyReservations'),20160=>'14 '.__('days', 'easyReservations'),40320=>'1 '.__('month', 'easyReservations')), $blockbefore); ?></select>
+							<?php echo __( 'before and' , 'easyReservations' );?>
+							<select name="blockafter"><?php echo easyreservations_build_options(array(0 => '0 '.__('minutes', 'easyReservations'),5 => '5 '.__('minutes', 'easyReservations'),10 =>'10 '. __('minutes', 'easyReservations'),15 => '15 '.__('minutes', 'easyReservations'),30 => '30'. __('minutes', 'easyReservations'),45 =>'45 '. __('minutes', 'easyReservations'),60=>'1 '.__('hour', 'easyReservations'),90=>'1.5 '.__('hours', 'easyReservations'),120=>'2 '.__('hours', 'easyReservations'),150=>'2.5 '.__('hours', 'easyReservations'),180=>'3 '.__('hours', 'easyReservations'),240=>'4 '.__('hours', 'easyReservations'),300=>'5 '.__('hours', 'easyReservations'),360=>'6 '.__('hours', 'easyReservations'),600=>'10 '.__('hours', 'easyReservations'),720=>'12 '.__('hours', 'easyReservations'),1080=>'18 '.__('hours', 'easyReservations'),1440=>'1 '.__('day', 'easyReservations'),2160=>'1.5 '.__('days', 'easyReservations'),2880=>'2 '.__('days', 'easyReservations'),4320=>'3 '.__('days', 'easyReservations'),5760=>'4 '.__('days', 'easyReservations'),7200=>'5 '.__('days', 'easyReservations'),8640=>'6 '.__('days', 'easyReservations'),10080=>'7 '.__('days', 'easyReservations'),20160=>'14 '.__('days', 'easyReservations'),40320=>'1 '.__('month', 'easyReservations')), $blockafter); ?></select>
+							<?php echo __( 'after reservations' , 'easyReservations' );?>
+						</td>
 					</tr>
 					<tr valign="top">
 						<td style="font-weight:bold;height:25px"><img style="vertical-align:text-bottom;margin-right:2px;" src="<?php echo RESERVATIONS_URL; ?>images/help.png"> <b><?php printf ( __( 'Tutorial' , 'easyReservations' ));?></b></td>
@@ -489,7 +505,7 @@ if($settingpage=="general"){
 					</thead>
 					<tbody>
 						<tr>
-							<td style="font-weight:bold;padding:10px;text-align:center"><span style="width:20%;display: inline-block">Version: <?php echo RESERVATIONS_VERSION; ?></span><span style="width:30%;display: inline-block">Last update: 01.12.2012</span><span style="width:30%;display: inline-block">written by Feryaz Beer</span></td>
+							<td style="font-weight:bold;padding:10px;text-align:center"><span style="width:20%;display: inline-block">Version: <?php echo RESERVATIONS_VERSION; ?></span><span style="width:30%;display: inline-block">Last update: 09.12.2012</span><span style="width:30%;display: inline-block">written by Feryaz Beer</span></td>
 						</tr>
 						<tr class="alternate">
 							<td style="font-size:14px;text-align:center;font-weight:bold;padding:10px"><a href="http://easyreservations.org/knowledgebase/" target="_blank" id="iddocumentation"><?php echo __( 'Documentation' , 'easyReservations' );?></a></td>
@@ -1500,7 +1516,7 @@ ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrival] <br>To: [depa
 				</thead>
 				<tbody>
 					<tr>
-						<td style="font-weight:bold;padding:10px;text-align:center"><span style="width:20%;display: inline-block">Version: <?php echo RESERVATIONS_VERSION; ?></span><span style="width:30%;display: inline-block">Last update: 01.12.2012</span><span style="width:30%;display: inline-block">written by Feryaz Beer</span></td>
+						<td style="font-weight:bold;padding:10px;text-align:center"><span style="width:20%;display: inline-block">Version: <?php echo RESERVATIONS_VERSION; ?></span><span style="width:30%;display: inline-block">Last update: 09.12.2012</span><span style="width:30%;display: inline-block">written by Feryaz Beer</span></td>
 					</tr>
 					<tr class="alternate">
 						<td style="font-size:14px;text-align:center;font-weight:bold;padding:10px"><a href="http://easyreservations.org/knowledgebase/" target="_blank" id="iddocumentation"><?php echo __( 'Documentation' , 'easyReservations' );?></a></td>

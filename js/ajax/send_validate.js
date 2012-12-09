@@ -153,28 +153,26 @@ function easyreservations_send_validate(y){
 
 				errors_state = 0;
 				if(errornr == 0 && mode == 'send'){
-					jQuery('[id^="custom_price"]:checked,select[id^="custom_price"]').each(function(){
+					jQuery('*[id^="custom_price"]:checked,select[id^="custom_price"],input[id^="custom_price"][type="radio"]').each(function(){
 						var price = 0;
-						var addprice = 0;
+						var addprice = this;
 						var Type = this.type;
+
 						if(Type == "select-one"){
 							explodenormalprice = this.value.split(':');
-							addprice = 1;
+							addprice = jQuery(this).find('option:selected');
 						} else if(Type == "radio" &&  this.checked != undefined && this.checked){
 							explodenormalprice = this.value.split(':');
-							addprice = 1;
 						} else if(Type == "checkbox" &&  this.checked){
 							explodenormalprice = this.value.split(':');
-							addprice = 1;
 						} else if(Type == "hidden"){
 							explodenormalprice = this.value.split(':');
-							addprice = 1;
-						}
-						if(addprice == 1){
-							fieldprice = explodenormalprice[1];
-							fieldprice = fakeIfStatements(fieldprice, persons, childs, nights, room);
-							if(fieldprice !== false){
-								if(!isNaN(parseFloat(fieldprice)) && isFinite(fieldprice)) this.value = explodenormalprice[0]+':'+fieldprice;
+						} else return;
+						fieldprice = explodenormalprice[1];
+						fieldprice = fakeIfStatements(fieldprice, persons, childs, nights, room);
+						if(fieldprice !== false){
+							if(!isNaN(parseFloat(fieldprice)) && isFinite(fieldprice)){
+								jQuery(addprice).attr('value', explodenormalprice[0]+':'+fieldprice);
 							}
 						}
 					});

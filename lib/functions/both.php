@@ -317,12 +317,29 @@
 		$countryArray = easyReservations_country_array();
 		$country_options = '';
 		foreach($countryArray as $short => $country){
-			if($short == $sel){ $select = ' selected'; }
+			if($short == $sel) $select = ' selected';
 			else $select = "";
 			$country_options .= '<option value="'.$short.'"'.$select.'>'.htmlentities($country,ENT_QUOTES).'</options>';
 		}
 
 		return $country_options;
+	}
+	
+	/**
+	*	Returns options for given by array(value => display)
+	*
+	*	$array = array of options
+	*	$sel = (optional) selected country
+	*/
+	function easyreservations_build_options($array, $sel = false){
+		$options = '';
+		foreach($array as $value => $display){
+			if($sel && $sel == $value) $select = ' selected="selected"';
+			else $select = "";
+			$options .= '<option value="'.$value.'"'.$select.'>'.$display.'</options>';
+		}
+
+		return $options;
 	}
 
 	/**
@@ -564,6 +581,7 @@
 
 				$res = new Reservation(false, array('email' => 'mail@test.com', 'arrival' => $dateofeachday+43200, 'departure' =>  $dateofeachday+43200+easyreservations_get_interval($the_rooms_intervals_array[$_POST['room']], 0, 1)-60,'resource' => (int) $_POST['room'], 'adults' => $pers, 'childs' => $child,'reservated' => time()-($resev*86400)), false);
 				try {
+					$res->admin = false;
 					if($price > 0){
 						$res->Calculate();
 
@@ -739,6 +757,7 @@
 			if(isset($_POST['edit'])){
 				$res = new Reservation((int) $_POST['edit'], $array, false);
 				try {
+					$res->admin = false;
 					$theID = $res->editReservation();
 					$res->Calculate();
 					if(!$theID) echo json_encode(array($res->id, round($res->price,2)));
@@ -796,12 +815,8 @@
 							if(!empty($atts['subsubmit'])) $finalform.= '<span class="easy_subsubmit">'.$atts['subsubmit'].'</span>';
 							if($atts['price'] == 1) $finalform.= '<span class="easy_show_price_submit">'.__('Price','easyReservations').': <b>'.easyreservations_format_money($prices, 1).'</b></span>';
 							if(!empty($atts['paypal'])) $finalform .= '<span class="easy_show_paypal_text_submit">'.$atts['paypal'].'</span>';
-							if(function_exists('easyreservations_generate_paypal_button')){
-								$finalform .= easyreservation_deposit_function($prices);
-								$finalform .= easyreservations_generate_paypal_button($ids, $prices);
-							}
-							if(function_exists('easyreservations_generate_creditcard_form')){
-								$finalform .= easyreservations_generate_creditcard_form($ids);
+							if(function_exists('easyreservation_generate_payment_form') && $atts['payment'] > 0){
+								$finalform .= easyreservation_generate_payment_form($res, $theID, ($atts['payment'] == 2) ? true : false);
 							}
 							$finalform.='</div>';
 						}
@@ -1117,7 +1132,7 @@ EOF;
 					}
 				});
 			});
-		</script type="text/javascript">
+		</script>
 EOF;
 		} else {
 			$datepicker = <<<EOF

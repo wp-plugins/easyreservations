@@ -22,7 +22,8 @@ function reservation_main_page() {
 	if(!isset($edit) && !isset($view) && !isset($add) && !isset($approve) && !isset($sendmail)  && !isset($delete)) $nonepage = 0;
 
 /* - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + BULK ACTIONS (trash,delete,undo trash) + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + */
-
+	do_action('easy_dashboard_header_start'); 
+	
 	if(isset($_GET['bulk']) && check_admin_referer( 'easy-main-bulk', 'easy-main-bulk' )){ // GET Bulk Actions
 		if(isset($_GET['bulkArr'])) {
 			$to=0;
@@ -165,8 +166,14 @@ function reservation_main_page() {
 			if(isset($_POST["sendthemail"])) $mail = 'reservations_email_to_user_admin_edited'; else $mail = '';
 
 			if($_POST['copy'] == 'no'){
-				if(!$res->editReservation(array('all'), true, $mail, $res->email)) $easy_errors[] = array( 'updated' , __( 'Reservation edited.' , 'easyReservations' ).'</p><p><a href="admin.php?page=reservations">&#8592; Back to Dashboard</a>');
-				else $res->destroy();
+				global $easy_errors;
+				$return = $res->editReservation(array('all'), true, $mail, $res->email);
+				if(!$return) $easy_errors[] = array( 'updated' , __( 'Reservation edited.' , 'easyReservations' ).'</p><p><a href="admin.php?page=reservations">&#8592; Back to Dashboard</a>');
+				else{
+					global $easy_errors;
+					$easy_errors = array_merge_recursive((array) $easy_errors, (array) $return);
+					$res->destroy();
+				}
 			} else {
 				$preid = $res->id;
 				$res->id = 0;
@@ -226,13 +233,17 @@ function reservation_main_page() {
 			if($thePriceAdd !== false && $thePricePaid !== false) $res->pricepaid = $thePriceAdd.';'.$thePricePaid;
 			else $easy_errors[] = array( 'error' , __( 'Price couldn\'t be fixed, input isn\'t valid money format' , 'easyReservations' ));
 
-			$id = $res->addReservation();
+			$return = $res->addReservation();
 
-			if(!$id){
+			if(!$return){
 				$easy_errors[] = array( 'updated' , sprintf(__( 'Reservation #%d added' , 'easyReservations' ), $res->id));
 				do_action('easy-add-stream', 'reservation', 'add', '', $res->id);
 				?><meta http-equiv="refresh" content="0; url=admin.php?page=reservations&edit=<?php echo $res->id; ?>"><?php
-			} else $res->destroy();
+			} else{
+				global $easy_errors;
+				$easy_errors = array_merge_recursive((array) $easy_errors, (array) $return);
+				$res->destroy();
+			}
 		} catch(easyException $e){
 			$easy_errors[] = array( 'error' , $e->getMessage());
 		}
@@ -312,7 +323,9 @@ function reservation_main_page() {
 		} catch(easyException $e){
 			$easy_errors[] = array( 'error' , $e->getMessage());
 		}
-	} ?>
+	}
+
+	do_action('easy_dashboard_header_end'); ?>
 <h2>
 	<?php echo __( 'Reservations Dashboard' , 'easyReservations' );?>
 	<a class="add-new-h2" href="admin.php?page=reservations&add"><?php echo __( 'Add New' , 'easyReservations' );?></a>
@@ -478,7 +491,7 @@ if($show['show_overview']==1){ //Hide Overview completly
 		jQuery('#jqueryTooltip').destroy;
 		var jqueryTooltip = jQuery('<div id="jqueryTooltip"></div>');
 		jQuery('body').append(jqueryTooltip);
-		jQuery('!*[title^=""]').hover(function(e) {
+		jQuery('!*[title=""]').hover(function(e) {
 				var ae = jQuery(this);
 			var title = ae.attr('title');
 			ae.attr('title', '');
@@ -921,7 +934,7 @@ if(!isset($approve) && !isset($delete) && !isset($view) && !isset($edit) && !iss
 			<tbody>
 				<tr>
 					<td style="margin:0px;padding:0px;background:#fff">
-						<div id="container" style="margin:5px 0px 0px 0px;padding:0px;background:#ff; height:300px;f"></div>
+						<div id="container" style="margin:5px 0px 0px 0px;padding:0px;background:#fff; height:300px;f"></div>
 					</td>
 				</tr>
 			</tbody>
@@ -1058,7 +1071,7 @@ if(!isset($approve) && !isset($delete) && !isset($view) && !isset($edit) && !iss
 					<th colspan="2">
 						<?php if(isset($approve)) { echo __( 'Approve' , 'easyReservations' ); } elseif(isset($delete)) { echo __( 'Reject' , 'easyReservations' );  } elseif(isset($view)) { echo __( 'View' , 'easyReservations' ); } echo ' '.__( 'Reservation' , 'easyReservations' ); ?> <span class="headerlink"><a href="admin.php?page=reservations&edit=<?php echo $res->id; ?>">#<?php echo $res->id; ?></a></span>
 						<span style="float:right">
-							<a href="admin.php?page=reservations&edit=<?php if(isset($view)) echo $view; if(isset($delete)) echo $delete; if(isset($approve)) echo $approve; ?>" title="<?php echo __( 'edit' , 'easyReservations' ); ?>"><img style="vertical-align:text-bottom;display: inline" src="<?php echo RESERVATIONS_URL; ?>images/message.png"></a>
+							<a href="admin.php?page=reservations&edit=<?php if(isset($theid)) echo $theid; ?>" title="<?php echo __( 'edit' , 'easyReservations' ); ?>"><img style="vertical-align:text-bottom;display: inline" src="<?php echo RESERVATIONS_URL; ?>images/message.png"></a>
 							<?php do_action('easy-view-title-right', $res); ?>
 						</span>
 					</th>
@@ -1076,7 +1089,7 @@ if(!isset($approve) && !isset($delete) && !isset($view) && !isset($edit) && !iss
 				</tr>
 				<tr class="alternate">
 					<td nowrap style="width:40%"><img style="vertical-align:text-bottom;" src="<?php echo RESERVATIONS_URL; ?>images/day.png"> <?php printf ( __( 'Date' , 'easyReservations' ));?></td> 
-					<td><b><?php echo date(RESERVATIONS_DATE_FORMAT_SHOW,$res->arrival);?> - <?php echo date(RESERVATIONS_DATE_FORMAT_SHOW, $res->departure);?> 
+					<td><b><?php echo date(RESERVATIONS_DATE_FORMAT.' H:i',$res->arrival);?> - <?php echo date(RESERVATIONS_DATE_FORMAT.' H:i', $res->departure);?> 
 							<small>(<?php echo $res->times.' '.easyreservations_interval_infos($the_rooms_intervals_array[$res->resource], 0, $res->times); ?>)</small></b></td>
 				</tr>
 				<tr>

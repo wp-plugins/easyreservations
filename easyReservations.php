@@ -3,7 +3,7 @@
 Plugin Name: easyReservations
 Plugin URI: http://www.easyreservations.org
 Description: This powerfull property and reservation management plugin allows you to receive, schedule and handle your bookings easily!
-Version: 3.1.5
+Version: 3.1.6
 Author: Feryaz Beer
 Author URI: http://www.feryaz.de
 License:GPL2
@@ -38,11 +38,10 @@ License:GPL2
 	/**
 	* 	Hook languages to admin & frontend
 	*/
-	function easyreservations_get_pending(){
-
+	function easyreservations_get_pending(){	
 		global $wpdb;
 
-		$count = $wpdb->get_var($wpdb->prepare("SELECT COUNT(*) as Num FROM ".$wpdb->prefix ."reservations WHERE approve='' AND arrival > NOW()"));
+		$count = $wpdb->get_var("SELECT COUNT(*) as Num FROM ".$wpdb->prefix ."reservations WHERE approve='' AND arrival > NOW()");
 		return $count;
 	}
 
@@ -476,7 +475,7 @@ ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrival] <br>To: [depa
 	add_filter('upgrader_post_install', 'easyreservations_recover', 10, 2);
 	$reservations_settings = get_option("reservations_settings");
 
-	define('RESERVATIONS_VERSION', '3.1.5');
+	define('RESERVATIONS_VERSION', '3.1.6');
 	define('RESERVATIONS_DIR', WP_PLUGIN_DIR.'/easyreservations/');
 	define('RESERVATIONS_URL', WP_PLUGIN_URL.'/easyreservations/');
 	define('RESERVATIONS_STYLE', $reservations_settings['style']);

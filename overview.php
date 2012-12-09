@@ -281,8 +281,10 @@
 				elseif(date("N", $dateToday-$interval)==6 OR date("N", $dateToday-$interval)==7) $colorbgfree = '#FFFFEB';
 				else $colorbgfree='#FFFFFF';
 				if($bypers){
-					$counts = array_count_values($daysOccupied);
-					$daycount = $counts[date($date_pat, $dateToday)];
+					if(is_array($daysOccupied)){
+						$counts = array_count_values($daysOccupied);
+						$daycount = $counts[date($date_pat, $dateToday)];
+					} else $daycount = 0;
 					if(isset($datesHalfOccupied[$dateToday-$interval])) $daycount += $datesHalfOccupied[$dateToday-$interval]['i'];
 					$daycount = $personsOccupied[date($date_pat, $dateToday)];
 					$title = '';

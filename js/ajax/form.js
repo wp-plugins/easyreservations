@@ -38,7 +38,7 @@ function fakeIfStatements(fieldprice, persons, childs, nights, room){
 		fieldpriceexplode = fieldprice.split(/-(?=[^\}]*(?:\{|$))/);
 		thetype = fieldpriceexplode[1];
 		explstatements = fieldpriceexplode[0].split(/;(?=[^\}]*(?:\{|$))/);
-		for (var i in explstatements){
+		for(var i in explstatements){
 			explif = explstatements[i].split(/\>(?=[^\}]*(?:\{|$))/);
 			if(thetype == 'pers'){
 				if((parseFloat(persons)+parseFloat(childs)) >= parseFloat(explif[0])){
@@ -60,7 +60,7 @@ function fakeIfStatements(fieldprice, persons, childs, nights, room){
 					fieldprice = fakeIfStatements(explif[1].substr(1, explif[1].length-2), persons, childs, nights, room);
 					if(fieldprice === false) fieldprice = explif[1];
 				}
-			} else if(thetype == 'adul'){
+			} else if(thetype == 'adul' || thetype == 'adult'){
 				if(persons >= parseFloat(explif[0])){
 					fieldprice = fakeIfStatements(explif[1].substr(1, explif[1].length-2), persons, childs, nights, room);
 					if(fieldprice === false) fieldprice = explif[1];
@@ -109,7 +109,14 @@ jQuery(document).keyup(function(e){if(e.keyCode == 116)easyCancelSubmit();});
 jQuery('#easyFormOverlay').keyup(function(e){if(e.keyCode == 27)easyCancelSubmit();});
 window.onbeforeunload = function(){easyCancelSubmit();}
 
-function easyInnerlay(content){
+function easyInnerlay(content,add){
+	if(!add){
+		add = true;
+		jQuery('#easybackbutton').html('<input type="button" class="easy-button back" value="'+easyReservationAtts['cancel']+'" onclick="easyOverlayDimm(0);easyInnerlay(1,342);">');
+	} else {
+		add  = false;
+		window.location.hash = 'easyFormOverlay';
+	}
 	if(document.getElementById('easyFormOverlay')){
 		if(easyReservationEdit) easyEdit(easyReservationDatas.length-1, false);
 		var form = jQuery('#easyFrontendFormular');
@@ -121,10 +128,12 @@ function easyInnerlay(content){
 			var allprice = 0;
 			var thedatas = easyReservationDatas;
 			var theprices = easyReservationsPrice;
-			if(window.easyLastPrice && window.easyLastPrice > 0) var easyLastPrice= window.easyLastPrice;
-			else var easyLastPrice = 0;
-			if(!easyReservationEdit) thedatas.push(jQuery('#easyFrontendFormular').serialize());
-			if(!easyReservationEdit) theprices.push(easyLastPrice);
+			if(add){
+				if(window.easyLastPrice && window.easyLastPrice > 0) var easyLastPrice= window.easyLastPrice;
+				else var easyLastPrice = 0;
+				if(!easyReservationEdit) thedatas.push(jQuery('#easyFrontendFormular').serialize());
+				if(!easyReservationEdit) theprices.push(easyLastPrice);
+			}
 			for(i in thedatas){
 				var datas = thedatas[i];
 				if(typeof(thedatas[i]) == 'string') datas = easyUnserialize(thedatas[i]);
@@ -174,8 +183,10 @@ function easyInnerlay(content){
 			if(easyReservationAtts['pers'] && easyReservationAtts['pers'] == 1) reservations+= '<td></td>';
 			reservations+='<td style="text-align:right">'+easy_money_format(allprice)+'</td><td></td></tr>';
 			thedatas = undefined;
-			easyReservationDatas.splice(-1,1);
-			easyReservationsPrice.splice(-1,1);
+			if(add){
+				easyReservationDatas.splice(-1,1);
+				easyReservationsPrice.splice(-1,1);
+			}
 		}
 		
 		easyEffectSavere = false;
@@ -224,6 +235,7 @@ function easyFormSubmit(submit){
 					easyReservationsPrice = new Array();
 					easyReservationEdit = false;
 					easyEffectSavere = true;
+					jQuery('#easybackbutton').html('');
 					easyInnerlay(response[2]);
 				} else if(submit) submit();
 			}
@@ -337,7 +349,7 @@ function easyUnserialize(serializedString){
 }
 
 function easyParseValue(strVal) {
-	return ( strVal.match(/^[0-9]+$/) ) ? parseInt(strVal) : (strVal == 'true') ? true : (strVal == 'false') ? false : strVal.replace(/[+]/g, " ")
+	return ( strVal.match(/^[0-9]+$/) ) ? parseInt(strVal) : (strVal == 'true') ? true : (strVal == 'false') ? false : strVal.replace(/[+]/g, " ");
 }
 
 function easyGetBackgroundColor(element){
