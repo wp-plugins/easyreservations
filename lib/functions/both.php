@@ -1069,14 +1069,18 @@
 	 * @param int $type 0 for standard 1 for frontend
 	 */	
 	function easyreservations_build_datepicker($type, $instances, $trans = false, $search = false){
-		mb_internal_encoding("UTF-8");
+		if(function_exists('mb_internal_encoding')){
+			mb_internal_encoding("UTF-8");
+			$function = mb_substr;
+		} else $function = substr;
+		
 		$daysnames = easyreservations_get_date_name(0,0);
 		$daynames = '["'.$daysnames[6].'", "'.$daysnames[0].'", "'.$daysnames[1].'", "'.$daysnames[2].'", "'.$daysnames[3].'", "'.$daysnames[4].'", "'.$daysnames[5].'"]';
-		$daynamesshort = '["'.mb_substr($daysnames[6],0, 3).'","'.mb_substr($daysnames[0],0, 3).'","'.mb_substr($daysnames[1],0, 3).'","'.mb_substr($daysnames[2],0, 3).'","'.mb_substr($daysnames[3],0, 3).'","'.mb_substr($daysnames[4],0, 3).'","'.mb_substr($daysnames[5],0, 3).'"]';
-		$daynamesmin = '["'.mb_substr($daysnames[6],0, 2).'","'.mb_substr($daysnames[0],0, 2).'","'.mb_substr($daysnames[1],0, 2).'","'.mb_substr($daysnames[2],0, 2).'","'.mb_substr($daysnames[3],0, 2).'","'.mb_substr($daysnames[4],0, 2).'","'.mb_substr($daysnames[5],0, 2).'"]';
+		$daynamesshort = '["'.$function($daysnames[6],0, 3).'","'.$function($daysnames[0],0, 3).'","'.$function($daysnames[1],0, 3).'","'.$function($daysnames[2],0, 3).'","'.$function($daysnames[3],0, 3).'","'.$function($daysnames[4],0, 3).'","'.$function($daysnames[5],0, 3).'"]';
+		$daynamesmin = '["'.$function($daysnames[6],0, 2).'","'.$function($daysnames[0],0, 2).'","'.$function($daysnames[1],0, 2).'","'.$function($daysnames[2],0, 2).'","'.$function($daysnames[3],0, 2).'","'.$function($daysnames[4],0, 2).'","'.$function($daysnames[5],0, 2).'"]';
 		$monthes = easyreservations_get_date_name(1,0);
 		$monthnames =  '["'.$monthes[0].'","'.$monthes[1].'","'.$monthes[2].'","'.$monthes[3].'","'.$monthes[4].'","'.$monthes[5].'","'.$monthes[6].'","'.$monthes[7].'","'.$monthes[8].'","'.$monthes[9].'","'.$monthes[10].'","'.$monthes[11].'"]';
-		$monthnamesshort =  '["'.mb_substr($monthes[0],0,3).'","'.mb_substr($monthes[1],0,3).'","'.mb_substr($monthes[2],0,3).'","'.mb_substr($monthes[3],0,3).'","'.mb_substr($monthes[4],0,3).'","'.mb_substr($monthes[5],0,3).'","'.mb_substr($monthes[6],0,3).'","'.mb_substr($monthes[7],0,3).'","'.mb_substr($monthes[8],0,3).'","'.mb_substr($monthes[9],0,3).'","'.mb_substr($monthes[10],0,3).'","'.mb_substr($monthes[11],0,3).'"]';
+		$monthnamesshort =  '["'.$function($monthes[0],0,3).'","'.$function($monthes[1],0,3).'","'.$function($monthes[2],0,3).'","'.$function($monthes[3],0,3).'","'.$function($monthes[4],0,3).'","'.$function($monthes[5],0,3).'","'.$function($monthes[6],0,3).'","'.$function($monthes[7],0,3).'","'.$function($monthes[8],0,3).'","'.$function($monthes[9],0,3).'","'.$function($monthes[10],0,3).'","'.$function($monthes[11],0,3).'"]';
 		$translations = <<<EOF
 			dayNames: $daynames,
 			dayNamesShort: $daynamesshort,
