@@ -201,7 +201,7 @@
 				$co=0;
 				while($co < $daysshow){
 					if($overview_options['overview_show_avail'] == 1){
-						$res->arrival = $timesx+($co*$interval);
+						$res->arrival = $timesx+($co*$interval)+($interval/2);
 						$roomDayPersons=round($roomcounty-$res->checkAvailability(3),1);
 						if($roomDayPersons <= 0) $textcolor='#FF3B38'; else $textcolor='#118D18';
 					} else $textcolor = '';

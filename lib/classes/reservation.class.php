@@ -420,7 +420,7 @@
 				$res_sql = '';
 			} else {
 				if($this->resourcenumber > 0) $res_number = " roomnumber='$this->resourcenumber' AND";
-				$res_sql = " room='$this->resource' AND";
+				$res_sql = "room='$this->resource' AND";
 				$roomcount = get_post_meta($this->resource, 'roomcount', true);
 				if(is_array($roomcount)){
 					$roomcount = $roomcount[0];
@@ -467,17 +467,17 @@
 						}
 					}
 				} else {
-					$addstart = ''; $addend = '';
 					$startdate = date("Y-m-d H:i:s", $this->arrival);
-					if($interval == 3600){
-						$addstart = " AND HOUR($arrival) = HOUR('$startdate')";
-						$addend  = " AND HOUR(departure) = HOUR('$startdate')";
-					}
 					if($afterpersons){
-						$count = $wpdb->get_var("SELECT sum(number+childs) as count FROM ".$wpdb->prefix ."reservations WHERE approve='yes' AND $res_sql $idsql DATE('$startdate') BETWEEN $arrival AND $departure");
+						$count = $wpdb->get_var("SELECT sum(number+childs) as count FROM ".$wpdb->prefix ."reservations WHERE approve='yes' AND $res_sql $idsql '$startdate' BETWEEN $arrival AND $departure");
 						if($mode == 4 && $count >= $roomcount) $error += $count;
 						elseif($mode == 3) $error += $count;
 					} else {
+						$addstart = ''; $addend = '';
+						if($interval == 3600){
+							$addstart = " AND HOUR($arrival) = HOUR('$startdate')";
+							$addend  = " AND HOUR($departure) = HOUR('$startdate')";
+						}
 						$count = $wpdb->get_var("SELECT sum(Case When DATE($arrival) = DATE('$startdate')$addstart Then 0.51 When DATE($departure) = DATE('$startdate')$addend Then 0.5 Else 1 End) as count FROM ".$wpdb->prefix ."reservations WHERE approve='yes' AND $res_sql $idsql DATE('$startdate') BETWEEN DATE($arrival) AND DATE($departure) AND TIMESTAMPDIFF(SECOND, $arrival, $departure) >= $interval");
 						if($mode == 4 && $count >= $roomcount) $error += $count;
 						elseif($mode == 3) $error += $count;
