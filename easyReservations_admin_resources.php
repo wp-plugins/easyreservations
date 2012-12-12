@@ -5,7 +5,7 @@ if(isset($_GET['delete']) && check_admin_referer( 'easy-resource-delete')){
 	wp_delete_post($_GET['delete']);
 	global $wpdb;
 	$delete = (int) $_GET['delete'];
-	$return = $wpdb->query( $wpdb->prepare("DELETE FROM ".$wpdb->prefix ."reservations WHERE room='$delete' ") );
+	$return = $wpdb->query( $wpdb->prepare("DELETE FROM ".$wpdb->prefix ."reservations WHERE room='%s' ", $delete) );
 	if($return) $prompt='<div class="updated"><p>'.__( 'Resource and all its reservations deleted' , 'easyReservations' ).'</p></div>';
 	else $prompt='<div class="error"><p>'.__( 'Resource deleted, but reservations couldnt' , 'easyReservations' ).'</p></div>';
 }

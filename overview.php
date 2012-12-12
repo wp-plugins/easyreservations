@@ -1,5 +1,6 @@
 <?php
 	require('../../../wp-config.php');
+	global $reservations_settings;
 
 	$moreget = $_POST['more'];
 	$main_options = get_option("reservations_main_options");
@@ -177,15 +178,22 @@
 		$res = new Reservation(false, array('dontclean', 'arrival' => $timesx, 'resource' => (int) $resource->ID ));
 		$res->interval = $interval;
 		$roomID=$resource->ID;
-		$roomcounty = get_post_meta($roomID, 'roomcount', TRUE);
-		if(is_array($roomcounty)){
-			$roomcounty = $roomcounty[0];
+		if(isset($roomcounty)) unset($roomcounty);
+		if(isset($reservations_settings['mergeres'])){
+			if(is_array($reservations_settings['mergeres']) && isset($reservations_settings['mergeres']['merge']) && $reservations_settings['mergeres']['merge'] > 0) $roomcounty = $reservations_settings['mergeres']['merge'];
+			elseif(is_numeric($reservations_settings['mergeres']) && $reservations_settings['mergeres'] > 0) $roomcounty  = $reservations_settings['mergeres'];
+		}
+		$roomcount = get_post_meta($roomID, 'roomcount', true);
+		if(is_array($roomcount)){
+			if(!isset($roomcounty)) $roomcounty = $roomcount[0];
 			$bypers = true;
-		} else $bypers = false;
+		} else {
+			$bypers = false;
+			if(!isset($roomcounty)) $roomcounty = $roomcount;
+		}
 		$resource_names = get_post_meta($roomID, 'easy-resource-roomnames', TRUE);
 		$rowcount=0;
-		$resource_sql = $wpdb->get_results($wpdb->prepare("SELECT id, name, departure, arrival, roomnumber, number+childs as persons FROM ".$wpdb->prefix ."reservations WHERE approve='yes' AND room='$roomID' AND (arrival BETWEEN '$stardate' AND '$enddate' OR departure BETWEEN '$stardate' AND '$enddate' OR '$stardate'  BETWEEN arrival AND departure) ORDER BY room ASC, roomnumber ASC, arrival ASC"));
-
+		$resource_sql = $wpdb->get_results($wpdb->prepare("SELECT id, name, departure, arrival, roomnumber, number+childs as persons FROM ".$wpdb->prefix ."reservations WHERE approve='yes' AND room='$roomID' AND (arrival BETWEEN '%s' AND '$enddate' OR departure BETWEEN '%s' AND '$enddate' OR '%s' BETWEEN arrival AND departure) ORDER BY room ASC, roomnumber ASC, arrival ASC", array($stardate,$stardate,$stardate)));
 		if(isset($reservations)) unset($reservations);
 		foreach($resource_sql as $resourc){
 			if($bypers){
@@ -201,7 +209,7 @@
 				$co=0;
 				while($co < $daysshow){
 					if($overview_options['overview_show_avail'] == 1){
-						$res->arrival = $timesx+($co*$interval)+($interval/2);
+						$res->arrival = $timesx+($co*$interval)+($interval-1);
 						$roomDayPersons=round($roomcounty-$res->checkAvailability(3),1);
 						if($roomDayPersons <= 0) $textcolor='#FF3B38'; else $textcolor='#118D18';
 					} else $textcolor = '';
@@ -239,18 +247,23 @@
 					$res_nights = ($res_departure_stamp - $res_adate_stamp) / $interval;
 					if(date($date_pat, $res_departure_stamp) == date($date_pat, $res_adate_stamp)){
 						$round = round((($res_adate + $res_departure-$interval)/2)/$interval) * $interval;
-						$datesHalfOccupied[$round]['i'] += 1;
-						$datesHalfOccupied[$round]['v'] .= date('d.m H:i', $res_adate_stamp).' - '.date('d.m H:i', $res_departure_stamp).' <b>'.$res_name.'</b> (#'.$res_id.')<br>';
+						if(isset($datesHalfOccupied[$round]['i'])) $datesHalfOccupied[$round]['i'] += 1;
+						else $datesHalfOccupied[$round]['i'] = 1;
+						if(isset($datesHalfOccupied[$round]['v'])) $datesHalfOccupied[$round]['v'] .= date('d.m H:i', $res_adate_stamp).' - '.date('d.m H:i', $res_departure_stamp).' <b>'.$res_name.'</b> (#'.$res_id.')<br>';
+						else $datesHalfOccupied[$round]['v'] = date('d.m H:i', $res_adate_stamp).' - '.date('d.m H:i', $res_departure_stamp).' <b>'.$res_name.'</b> (#'.$res_id.')<br>';
 						$datesHalfOccupied[$round]['id'][] = $res_id;
-						$datesHalfOccupied[$round]['id'][] = $res_id;
-						$personsOccupied[date($date_pat, $round+$interval)] += $reservation->persons;
+						if(isset($personsOccupied[date($date_pat, $round+$interval)])) $personsOccupied[date($date_pat, $round+$interval)] += $reservation->persons;
+						else $personsOccupied[date($date_pat, $round+$interval)] = $reservation->persons;
 					} else {
 						$res_nights = round($res_nights);
 						for($i=0; $i <= $res_nights; $i++){
 							if($timesx <= $res_adate+($i*$interval) && $res_nights >= 1){
 								$daysOccupied[]=date($date_pat, $res_adate+($i*$interval)+$interval);
 								$numberOccupied[]=$countdifferenz;
-								if($bypers) $personsOccupied[date($date_pat, $res_adate+($i*$interval)+$interval)] += $reservation->persons;
+								if($bypers){
+									if(isset($personsOccupied[date($date_pat, $res_adate+($i*$interval)+$interval)])) $personsOccupied[date($date_pat, $res_adate+($i*$interval)+$interval)] += $reservation->persons;
+									else $personsOccupied[date($date_pat, $res_adate+($i*$interval)+$interval)] = $reservation->persons;
+								}
 							}
 						}
 					}
@@ -281,12 +294,9 @@
 				elseif(date("N", $dateToday-$interval)==6 OR date("N", $dateToday-$interval)==7) $colorbgfree = '#FFFFEB';
 				else $colorbgfree='#FFFFFF';
 				if($bypers){
-					if(is_array($daysOccupied)){
-						$counts = array_count_values($daysOccupied);
-						$daycount = $counts[date($date_pat, $dateToday)];
-					} else $daycount = 0;
+					 $daycount = 0;
 					if(isset($datesHalfOccupied[$dateToday-$interval])) $daycount += $datesHalfOccupied[$dateToday-$interval]['i'];
-					$daycount = $personsOccupied[date($date_pat, $dateToday)];
+					if(isset($personsOccupied[date($date_pat, $dateToday)])) $daycount += $personsOccupied[date($date_pat, $dateToday)];
 					$title = '';
 					if($daycount > 0){
 						$tableclick = 'jQuery(\'#easy-table-roomselector\').val('.$roomID.');document.getElementById(\'easy-table-search-date\').value = \''.date(RESERVATIONS_DATE_FORMAT, $dateToday-$interval).'\';easyreservation_send_table(\'all\', 1);';

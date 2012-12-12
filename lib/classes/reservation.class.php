@@ -248,7 +248,7 @@
 						if($loyalwasfull==0 || $loyalwasfull_charge == 0){
 							if(is_email($this->email)){
 								global $wpdb;
-								$items1 = $wpdb->get_var($wpdb->prepare("SELECT COUNT(*) FROM ".$wpdb->prefix ."reservations WHERE approve='yes' AND email='".$this->email."' AND departure < NOW()")); //number of total rows in the database
+								$items1 = $wpdb->get_var($wpdb->prepare("SELECT COUNT(*) FROM ".$wpdb->prefix ."reservations WHERE approve='yes' AND email='%s' AND departure < NOW()",$this->email)); //number of total rows in the database
 								if($filter['cond'] <= $items1){
 									$discount_add = 1;
 								}
@@ -416,7 +416,7 @@
 			}
 
 			if($mergeres > 0){
-				$roomcount = $reservations_settings['mergeres'];
+				$roomcount = $mergeres;
 				$res_sql = '';
 			} else {
 				if($this->resourcenumber > 0) $res_number = " roomnumber='$this->resourcenumber' AND";
@@ -431,36 +431,36 @@
 			if($this->id) $idsql = " id != '$this->id' AND";
 			else $idsql = '';
 			if($this->resource > 0){
-				if($filter) $error .= $this->availFilter($roomcount, $mode,$interval);
+				if($filter) $error = $this->availFilter($roomcount, $mode, $interval);
 				if($mode < 3){
 					if($mode == 0){
 						$startdate = date("Y-m-d H:i:s", $this->arrival+60);
 						$enddate = date("Y-m-d H:i:s", $this->departure-60);
 						if($afterpersons){
-							$prepare = $wpdb->prepare("SELECT SUM(number+childs) FROM ".$wpdb->prefix."reservations WHERE approve='yes' AND $res_sql $idsql '%s' <= $departure AND '%s' >= $arrival", $startdate, $enddate);
+							$prepare = $wpdb->prepare("SELECT SUM(number+childs) FROM ".$wpdb->prefix."reservations WHERE approve='yes' AND $res_sql $idsql '%s' <= $departure AND '%s' >= $arrival", array($startdate, $enddate));
 							$count = $wpdb->get_var($prepare);
-							if($count < 1) $count = 0;
+							if($count == NULL || $count < 1) $count = 0;
 							$count = $count+$this->childs+$this->adults;
 							if($count > $roomcount) $error += $count;
 						} else {
-							$count = $wpdb->get_var($wpdb->prepare("SELECT COUNT(*) FROM ".$wpdb->prefix."reservations WHERE approve='yes' AND $res_sql $res_number $idsql '%s' <= $departure AND '%s' >= $arrival", $startdate, $enddate));
+							$count = $wpdb->get_var($wpdb->prepare("SELECT COUNT(*) FROM ".$wpdb->prefix."reservations WHERE approve='yes' AND $res_sql $res_number $idsql '%s' <= $departure AND '%s' >= $arrival", array($startdate, $enddate)));
 							if($res_number || $count >= $roomcount) $error += $count;
 						}
 					} else {
 						for($t = 0; $t < $this->times; $t++){
-							$i = $this->arrival+ + ($t*$interval);
+							$i = strtotime(date('Y-m-d', $this->arrival))+($interval/2)+$t*$interval;
 							$startdate=date("Y-m-d H:i:s", $i);
-							$enddate=date("Y-m-d H:i:s", $i+$interval-1);
-							if($interval == 3600)	$addstart = " HOUR($arrival) != HOUR('$startdate') AND HOUR($departure) != HOUR('$startdate')) OR ($arrival) = HOUR('$startdate') AND TIMESTAMPDIFF(SECOND, $arrival, $departure) <= $interval)";
-							else $addstart = " DATE($arrival) != DATE('$startdate') AND DATE($departure) != DATE('$startdate')) OR (DATE($arrival) = DATE('$startdate') AND TIMESTAMPDIFF(SECOND, $arrival, $departure) <= $interval)";
+							$enddate=date("Y-m-d H:i:s", $i+$interval-60);
+							if($interval == 3600)	$addstart = " HOUR($departure) != HOUR('$startdate'))";
+							else $addstart = " DATE($departure) != DATE('$startdate')";
 							if($afterpersons){
-								$count = $wpdb->get_var($wpdb->prepare("SELECT SUM(number+childs) FROM ".$wpdb->prefix ."reservations WHERE approve='yes' AND $res_sql $idsql (('%s' <= $departure AND '$enddate' >= $arrival AND $addstart)", $startdate, $enddate));
+								$count = $wpdb->get_var($wpdb->prepare("SELECT SUM(number+childs) FROM ".$wpdb->prefix ."reservations WHERE approve='yes' AND $res_sql $idsql (%s < $departure AND %s > $arrival) AND $addstart", array($startdate, $enddate)));
 								if($count < 1) $count = 0;
 								$count = $count+$this->childs+$this->adults;
 								if($mode == 1 && $count > $roomcount) $error .= date($date_pattern, $i).', ';
 								elseif($mode == 0 && $count > $roomcount)  $error += $roomcount;
 							} else {
-								$count = $wpdb->get_var($wpdb->prepare("SELECT COUNT(*) FROM ".$wpdb->prefix ."reservations WHERE approve='yes' AND $res_sql $idsql (('$startdate' <= $departure AND '$enddate' >= $arrival AND $addstart)", $startdate, $enddate));
+								$count = $wpdb->get_var($wpdb->prepare("SELECT COUNT(*) FROM ".$wpdb->prefix ."reservations WHERE approve='yes' AND $res_sql $idsql (%s <= $departure AND %s >= $arrival) AND $addstart", array($startdate, $enddate)));
 								if($mode == 1 && $count >= $roomcount) $error .= date($date_pattern, $i).', ';
 								elseif($mode == 0 && $count >= $roomcount)  $error += $roomcount;
 							}
@@ -469,7 +469,7 @@
 				} else {
 					$startdate = date("Y-m-d H:i:s", $this->arrival);
 					if($afterpersons){
-						$count = $wpdb->get_var("SELECT sum(number+childs) as count FROM ".$wpdb->prefix ."reservations WHERE approve='yes' AND $res_sql $idsql '$startdate' BETWEEN $arrival AND $departure");
+						$count = $wpdb->get_var("SELECT sum(number+childs) as count FROM ".$wpdb->prefix ."reservations WHERE approve='yes' AND $res_sql $idsql '$startdate' BETWEEN $arrival AND $departure && DATE('$startdate') != DATE($departure)");
 						if($mode == 4 && $count >= $roomcount) $error += $count;
 						elseif($mode == 3) $error += $count;
 					} else {
@@ -478,7 +478,7 @@
 							$addstart = " AND HOUR($arrival) = HOUR('$startdate')";
 							$addend  = " AND HOUR($departure) = HOUR('$startdate')";
 						}
-						$count = $wpdb->get_var("SELECT sum(Case When DATE($arrival) = DATE('$startdate')$addstart Then 0.51 When DATE($departure) = DATE('$startdate')$addend Then 0.5 Else 1 End) as count FROM ".$wpdb->prefix ."reservations WHERE approve='yes' AND $res_sql $idsql DATE('$startdate') BETWEEN DATE($arrival) AND DATE($departure) AND TIMESTAMPDIFF(SECOND, $arrival, $departure) >= $interval");
+						$count = $wpdb->get_var("SELECT sum(Case When DATE($arrival) = DATE('$startdate')$addstart Then 0.51 When DATE($departure) = DATE('$startdate')$addend Then 0.5 Else 1 End) as count FROM ".$wpdb->prefix ."reservations WHERE approve='yes' AND $res_sql $idsql DATE('$startdate') BETWEEN DATE($arrival) AND DATE($departure)");
 						if($mode == 4 && $count >= $roomcount) $error += $count;
 						elseif($mode == 3) $error += $count;
 					}
@@ -737,7 +737,7 @@
 			if(empty($errors)) return false;
 			else return $errors;
 		}
-		
+
 		private function checkRequirements($resource_req, $errors, $mini = false){
 			global $the_rooms_array, $the_rooms_intervals_array, $easy_max_persons;
 			$easy_max_persons = $resource_req['pers-max'];
@@ -794,7 +794,7 @@
 			}
 			return $errors;
 		}
-		
+
 		public function updatePricepaid($amount){
 			if(!empty($this->pricepaid)){
 				$explode = explode(';', $this->pricepaid);
@@ -802,7 +802,7 @@
 				$this->pricepaid = $explode[0].';'.$amount;
 			} else $this->pricepaid = ';'.$amount;
 		}
-	
+
 		/**
 		 * Send Mail
 		 * @param string $options_name name of email option
@@ -996,7 +996,7 @@
 		public function editReservation($informations = array('all'), $validate = true, $mail = false, $to = false){
 			if(is_array($informations) && !empty($informations)){
 				$array = '';
-				if($informations[0] == 'all') $informations = array('arrival', 'name', 'email', 'departure', 'resource', 'resourcenumber', 'adults', 'childs', 'country', 'status', 'custom', 'prices', 'reservated', 'user', 'pricepaid');
+				if($informations[0] == 'all') $informations = array('arrival', 'name', 'email', 'departure', 'resource', 'resourcenumber', 'adults', 'childs', 'country', 'status', 'custom', 'prices', 'reservated', 'user', 'price');
 				foreach($informations as $information){
 					if(isset($this->$information)) $array[$information] = $this->$information;
 				}
@@ -1094,7 +1094,7 @@
 		 */
 		private function add($array){
 			global $wpdb;
-			$informations = array('arrival', 'name', 'email', 'departure', 'room', 'roomnumber', 'number', 'childs', 'country', 'approve', 'custom', 'customp', 'reservated', 'user', 'pricepaid');
+			$informations = array('arrival', 'name', 'email', 'departure', 'room', 'roomnumber', 'number', 'childs', 'country', 'approve', 'custom', 'customp', 'reservated', 'user', 'price');
 			$rarray = ''; 
 			foreach($array as $key => $info){
 				if(!in_array($key, $informations)) unset($array[$key]);
@@ -1102,6 +1102,7 @@
 					$rarray[$key] = $info;
 				}
 			}
+			if(!isset($rarray['price'])) $rarray['price'] = '';
 			$return = $wpdb->insert( $wpdb->prefix.'reservations', $rarray);
 			if(!$return){
 				throw new easyException( 'Reservation couldn\'t be added. Error: '.mysql_error(), mysql_errno() );
@@ -1119,7 +1120,7 @@
 
 		public function deleteReservation(){
 			global $wpdb;
-			$return =$wpdb->query( $wpdb->prepare("DELETE FROM ".$wpdb->prefix ."reservations WHERE id='$this->id' ") );
+			$return =$wpdb->query( $wpdb->prepare("DELETE FROM ".$wpdb->prefix ."reservations WHERE id='%d'", $this->id) );
 			if(!$return){
 				throw new easyException( 'Reservation couldn\'t be deleted. Error: '.mysql_error(), mysql_errno() );
 				return true;

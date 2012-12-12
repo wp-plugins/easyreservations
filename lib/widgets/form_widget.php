@@ -93,7 +93,7 @@ class easyReservations_form_widget extends WP_Widget {
 		}
 		if(isset($theForm)){
 			if(isset($form_url) && !empty($form_url)){ ?>
-				<form method="post" action="<?php echo clean_url($form_url); ?>" name="easy_widget_form" id="easy_widget_form"><?php
+				<form method="post" action="<?php echo esc_url($form_url); ?>" name="easy_widget_form" id="easy_widget_form"><?php
 			}
 			echo htmlspecialchars_decode($theForm);
 			if(isset($form_url) && !empty($form_url)){ ?>

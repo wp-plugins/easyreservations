@@ -185,8 +185,8 @@ License:GPL2
 					'title' => __( 'Export &amp; Import Module' , 'easyReservations' ),
 					'content' => __( 'Export selectable reservations informations by time, selection or all as .xls, .csv or .least and Import them from back from the .least files.' , 'easyReservations' ),
 					'function' => 'easyreservations_generate_import',
-					'least' => '1.2.2',
-					'vers' => '1.2.3',
+					'least' => '1.2.4',
+					'vers' => '1.2.4',
 					'image' => 'import',
 				),
 				'lang' => array(
@@ -203,8 +203,8 @@ License:GPL2
 					'title' => __( 'Guest Editing Module' , 'easyReservations' ),
 					'content' => __( ' Let your guests login with their reservations ID and email to edit their reservation afterwards. They can switch between their reservations in a table. In addition it provides a chat-like feature to user-edit and admin. New messages in table, dummy message at start, admin notices, avatars and fully AJAX driven.' , 'easyReservations' ),
 					'function' => 'easyreservations_generate_chat',
-					'least' => '1.2.7',
-					'vers' => '1.2.7',
+					'least' => '1.2.9',
+					'vers' => '1.2.9',
 					'image' => 'chat',
 				),
 				'statistics' => array(

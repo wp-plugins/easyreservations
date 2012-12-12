@@ -99,7 +99,7 @@
 		if($currency_settings['decimal'] == 1) $dig = 2;
 		else $dig = 0;
 		
-		$money = $add.number_format($amount,$dig,$currency_settings['divider2'],$currency_settings['divider1']);
+		$money = $add.number_format((float)$amount,$dig,$currency_settings['divider2'],$currency_settings['divider1']);
 		
 		if($mode == 1){
 			if($currency_settings['whitespace'] == 1) $white = ' ';
@@ -434,7 +434,7 @@
 	}
 
 	function easyreservations_send_calendar_callback(){
-		global $the_rooms_intervals_array;
+		global $the_rooms_intervals_array, $reservations_settings;
 		check_ajax_referer( 'easy-calendar', 'security' );
 
 		$explodeSize = explode(",", $_POST['size']);
@@ -454,10 +454,15 @@
 		if(isset($_POST['persons'])) $pers = $_POST['persons'];
 		if(isset($_POST['childs'])) $child = $_POST['childs'];
 		if(isset($_POST['reservated'])) $resev = $_POST['reservated'];
-		
-		$room_count = get_post_meta($_POST['room'], 'roomcount', true);
-		if(is_array($room_count)){
-			$room_count = $room_count[0];
+		if(isset($reservations_settings['mergeres'])){
+			if(is_array($reservations_settings['mergeres']) && isset($reservations_settings['mergeres']['merge']) && $reservations_settings['mergeres']['merge'] > 0) $room_count = $reservations_settings['mergeres']['merge'];
+			elseif(is_numeric($reservations_settings['mergeres']) && $reservations_settings['mergeres'] > 0) $room_count  = $reservations_settings['mergeres'];
+		}
+		if(!isset($room_count)){
+			$room_count = get_post_meta($_POST['room'], 'roomcount', true);
+			if(is_array($room_count)){
+				$room_count = $room_count[0];
+			}
 		}
 		$month_names = easyreservations_get_date_name(1);
 		$day_names = easyreservations_get_date_name(0,2);
@@ -579,7 +584,7 @@
 					}
 				}
 
-				$res = new Reservation(false, array('email' => 'mail@test.com', 'arrival' => $dateofeachday+43200, 'departure' =>  $dateofeachday+43200+easyreservations_get_interval($the_rooms_intervals_array[$_POST['room']], 0, 1)-60,'resource' => (int) $_POST['room'], 'adults' => $pers, 'childs' => $child,'reservated' => time()-($resev*86400)), false);
+				$res = new Reservation(false, array('email' => 'mail@test.com', 'arrival' => $dateofeachday+86400-1, 'departure' =>  $dateofeachday,'resource' => (int) $_POST['room'], 'adults' => $pers, 'childs' => $child,'reservated' => time()-($resev*86400)), false);
 				try {
 					$res->admin = false;
 					if($price > 0){
@@ -1071,8 +1076,8 @@
 	function easyreservations_build_datepicker($type, $instances, $trans = false, $search = false){
 		if(function_exists('mb_internal_encoding')){
 			mb_internal_encoding("UTF-8");
-			$function = mb_substr;
-		} else $function = substr;
+			$function = 'mb_substr';
+		} else $function = 'substr';
 		
 		$daysnames = easyreservations_get_date_name(0,0);
 		$daynames = '["'.$daysnames[6].'", "'.$daysnames[0].'", "'.$daysnames[1].'", "'.$daysnames[2].'", "'.$daysnames[3].'", "'.$daysnames[4].'", "'.$daysnames[5].'"]';

@@ -265,7 +265,7 @@ function easyEdit(i,dimm){
 						switch (this.type) {
 							case "radio":
 							case "checkbox":
-								if (this.value==value) { jQuery(this).click(); }
+								if (this.value && this.value==value) { jQuery(this).click(); }
 								break;
 							default:
 								jQuery(this).val(value);
@@ -274,7 +274,7 @@ function easyEdit(i,dimm){
 						break;
 					case "select":
 						jQuery("option",this).each(function(){
-							if (this.value==value) { this.selected=true; }
+							if (this.value&&this.value==value) { this.selected=true; }
 						});
 						break;
 				}
