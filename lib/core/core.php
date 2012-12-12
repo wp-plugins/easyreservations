@@ -24,8 +24,9 @@ License:GPL2
 
 			if(isset($_GET['site']) && $_GET['site'] == "plugins" && current_user_can('activate_plugins')){
 				if(isset($_GET['check'])){
-					easyreservations_latest_modules_versions(0,false,true);
-					echo '<div class="updated"><p>'.__( 'Checked for updates' , 'easyReservations' ).'</p></div>';
+					$update = easyreservations_latest_modules_versions(0,false,true);
+					if(is_string($update)) echo '<div class="error"><p>'.$update.'</p></div>';
+					else echo '<div class="updated"><p>'.__( 'Checked for updates' , 'easyReservations' ).'</p></div>';
 				} elseif(isset($_POST['prem_login'])){
 					update_option('reservations_login', $_POST['prem_login'].'$%!$&'.$_POST['prem_pw']);
 					echo '<div class="updated"><p>'.__( 'Logging in' , 'easyReservations' ).'</p></div>';
@@ -47,7 +48,8 @@ License:GPL2
 					if(isset($_GET['install'])) $_GET['update'] = $_GET['install'];
 					$update = easyreservations_latest_modules_versions(86400, false, true, $_GET['update']);
 					if($update === false) echo '<div class="error"><p>'.sprintf(__( 'Failure at updating module %1$s - %2$s' , 'easyReservations' ), '<b>'.$_GET['update'].'</b>', '<a href="http://easyreservations.org/module/'.$_GET['update'].'">update manually</a>').'</p></div>';
-					elseif($update === 808) echo '<div class="error"><p>'.sprintf(__( 'Failure at copying module %1$s - %2$s' , 'easyReservations' ), '<b>'.$_GET['update'].'</b>', '<a href="http://easyreservations.org/module/'.$_GET['update'].'">update manually</a>').'</p></div>';
+					elseif(is_object($update)) echo '<div class="error"><p>'.sprintf(__( 'Failure at extracting module %1$s - %2$s' , 'easyReservations' ), '<b>'.$_GET['update'].'</b>', '<a href="http://easyreservations.org/module/'.$_GET['update'].'">update manually</a>').'</p></div>';
+					elseif(is_string($update) && $update != 'creds') echo '<div class="error"><p>'.$update.'</p></div>';
 					elseif($update != 'creds') echo '<div class="updated"><p>'.sprintf(__( 'Module %1$s %2$s' , 'easyReservations' ), '<b>'.$_GET['update'].'</b>', $updatestr).'</p></div>';
 				} elseif(isset($_GET['deactivate'])){
 					echo '<div class="updated"><p>'.sprintf(__( 'Module %s deactivated' , 'easyReservations' ), '<b>'.$_GET['deactivate'].'</b>').'</p></div>';
@@ -265,7 +267,7 @@ License:GPL2
 				if($data = get_option('reservations_login')) $xml = easyreservations_latest_modules_versions(86400,$the_modules, true);
 				else $login = true;
 				if(isset($xml) && $xml && is_array($xml)) $the_modules = $xml;
-				elseif(isset($xml) && $xml && is_string($xml)) $login_error = $xml; ?>
+				elseif(isset($xml) && $xml && is_string($xml) && $xml != 'creds') $login_error = $xml; ?>
 					<input type="hidden" name="action" value="reservation_core_settings">
 					<table class="<?php echo RESERVATIONS_STYLE; ?> easy-modules-table" style="width:99%;">
 						<thead>
@@ -517,6 +519,13 @@ License:GPL2
 					if( function_exists('curl_init')){ // if cURL is available, use it...
 						if($update){
 							$notifier_file_url =  'http://easyreservations.org/req/down/'.$update;
+							$url = 'admin.php?page=reservation-settings&site=plugins&update='.$update;
+							if (false === ($creds = request_filesystem_credentials($url, 'ftp', false, false))){
+								return 'creds';
+							} elseif ( ! WP_Filesystem($creds) ) {
+								request_filesystem_credentials($url, 'ftp', true, false);
+								return 'creds';
+							}
 						} elseif($changelog){
 							$notifier_file_url =  'http://easyreservations.org/req/change/'.$changelog;
 						}
@@ -530,29 +539,31 @@ License:GPL2
 						curl_setopt($ch, CURLOPT_USERPWD, $explode[0]. ':' .$explode[1]);
 						$cache = curl_exec($ch);
 						$responseInfo	= curl_getinfo($ch);
-						if($responseInfo['http_code'] == "401") $error = __('Wrong login data', 'easyReservations');
-						elseif($responseInfo['http_code'] == "401") $error = sprintf(__('No premium account - %s','easyReservations'), '<a target="_blank" href="http://easyreservations.org/remium/">order here</a>');
+						if($responseInfo['http_code'] == "401"){
+							update_option('reservations_login', '');
+							return __('Wrong login data', 'easyReservations');
+						} elseif($responseInfo['http_code'] == "403") return sprintf(__('No premium account - %s','easyReservations'), '<a target="_blank" href="http://easyreservations.org/remium/">order here</a>');
 					} else {
-						$error = __('cURL isnt installed on your server, please contact your host', 'easyReservations');
+						return __('cURL isnt installed on your server, please contact your host', 'easyReservations');
 					}
 					if($update && empty($error)){
 						$newfile = WP_PLUGIN_DIR.'/easyreservations/tmp_file_dasd.zip';
 						$url = 'admin.php?page=reservation-settings&site=plugins&update='.$update;
 						if (false === ($creds = request_filesystem_credentials($url, 'ftp', false, false))){
-							$error = 'creds';
+							return 'creds';
 						} elseif ( ! WP_Filesystem($creds) ) {
 							request_filesystem_credentials($url, 'ftp', true, false);
-							$error = 'creds';
-						} else {			
-							if(!$das = file_put_contents($newfile, $cache)) return 808;
+							return 'creds';
+						} else {
+							if(!$das = file_put_contents($newfile, $cache)) return sprintf(__( 'Failure at copying module %1$s - %2$s' , 'easyReservations' ), '<b>'.$_GET['update'].'</b>', '<a href="http://easyreservations.org/module/'.$_GET['update'].'">update manually</a>');
 							if(class_exists('ZipArchive')){
 								$zip = new ZipArchive();  
 								$x = $zip->open($newfile);
 								if($x === true){
-									$zip->extractTo(WP_PLUGIN_DIR.'/easyreservations/');
+									$copy = $zip->extractTo(WP_PLUGIN_DIR.'/easyreservations/');
 									$zip->close();
 									unlink($newfile);
-									return true;
+									return $copy;
 								} else {
 									$zip = unzip_file($newfile, WP_PLUGIN_DIR.'/easyreservations/');
 									unlink($newfile);
