@@ -75,9 +75,10 @@
 }
 
 #easyFrontendFormular span.row {
+	width: 60%;
 	display:inline-block;
 	margin:0px 0px 12px 9px;
-	max-width: 54%;
+	max-width: 64%;
 }
 
 #easyFrontendFormular span.row * {
