@@ -1,36 +1,3 @@
-function easyreservations_build_datepicker(){
-	var dateformatse = 'dd.mm.yy';
-	if(easyDate.easydateformat == 'Y/m/d') dateformatse = 'yy/mm/dd';
-	else if(easyDate.easydateformat == 'm/d/Y') dateformatse = 'mm/dd/yy';
-	else if(easyDate.easydateformat == 'Y-m-d') dateformatse = 'yy-mm-dd';
-	else if(easyDate.easydateformat == 'd-m-Y') dateformatse = 'dd-mm-yy';
-	else if(easyDate.easydateformat == 'd.m.Y') dateformatse = 'dd.mm.yy';
-
-	var dates = jQuery( "#easy-form-from, #easy-form-to" ).datepicker({
-		dateFormat: dateformatse,
-		minDate: 0,
-		beforeShowDay: function(date){
-			if(window.easydisabledays && document.easyFrontendFormular.easyroom){
-				return easydisabledays(date,document.easyFrontendFormular.easyroom.value);
-			} else {
-				return [true];
-			}
-		},
-		firstDay: 1,
-		onSelect: function( selectedDate ) {
-			if(this.id == 'easy-form-from'){
-				var option = this.id == "easy-form-from" ? "minDate" : "maxDate",
-				instance = jQuery( this ).data( "datepicker" ),
-				date = jQuery.datepicker.parseDate( instance.settings.dateFormat ||	jQuery.datepicker._defaults.dateFormat,	selectedDate, instance.settings );
-				date.setDate(date.getDate());
- 				dates.not( this ).datepicker( "option", option, date );
-			}
-			if(window.easyreservations_send_validate) easyreservations_send_validate();
-			if(window.easyreservations_send_price) easyreservations_send_price();		
-		}
-	});
-}
-
 function fakeIfStatements(fieldprice, persons, childs, nights, room){
 	var myregexp = /;/i;
 	var match = myregexp.exec(fieldprice);
@@ -92,12 +59,12 @@ function easyOverlayDimm(close){
 	} else {
 		if(!document.getElementById('easyFormOverlay')){
 			var form = jQuery('#easyFrontendFormular');
-			var height = form.css('height');
-			var width = form.css('width');
+			var height = form.outerHeight();
+			var width = form.outerWidth();
 			var bgc = easyGetBackgroundColor(document.getElementById('easyFrontendFormular'));
 			if(bgc  && bgc != '') var bgcolor = bgc;
 			else var bgcolor = easyReservationAtts['bg'];
-			form.before('<div id="easyFormOverlay" class="'+easyReservationAtts['multiple']+' easyloading" style="height:'+height+';width:'+width+';background-color:'+bgcolor+';"></div>');
+			form.before('<div id="easyFormOverlay" class="'+easyReservationAtts['multiple']+' easyloading" style="height:'+height+'px;width:'+width+'px;background-color:'+bgcolor+';"></div>');
 			jQuery("#easyFormOverlay").fadeIn("slow");
 		} else {
 			easyOverlayDimm(1);
@@ -120,10 +87,10 @@ function easyInnerlay(content,add){
 	if(document.getElementById('easyFormOverlay')){
 		if(easyReservationEdit) easyEdit(easyReservationDatas.length-1, false);
 		var form = jQuery('#easyFrontendFormular');
-		var width = form.css('width');
+		var width = form.outerWidth();
 		width = parseFloat(width) - 50;
 		if(content == 1){
-			content = easyInnerlayTemplate[0].replace(/\\/g, "");
+			content = easyInnerlayTemplate.replace(/\\/g, "");
 			var reservations = "";
 			var allprice = 0;
 			var thedatas = easyReservationDatas;
@@ -188,12 +155,11 @@ function easyInnerlay(content,add){
 				easyReservationsPrice.splice(-1,1);
 			}
 		}
-		
+
 		easyEffectSavere = false;
 		var thecon = '<div id="easyFormInnerlay" class="'+easyReservationAtts['multiple']+'" style="width:'+width+'px;">'+content+'</div>';
-		jQuery('#easyFormOverlay').after(thecon);
+		var test = jQuery('#easyFormOverlay').after(thecon);
 		if(reservations) jQuery('#easy_overlay_tbody').html(reservations);
-	
 		jQuery("#easyFormInnerlay").fadeIn("slow");
 		jQuery("#easyFormInnerlay").css("display", "inline-block");
 		jQuery('#easyFormOverlay').removeClass('easyloading');
@@ -203,19 +169,24 @@ function easyInnerlay(content,add){
 }
 
 function easyFormSubmit(submit){
-	var data = jQuery('#easyFrontendFormular').serialize();
-	var thesubmit = '';
+	var data = {
+		atts: easyReservationAtts,
+		ids: easyReservationIDs,
+		action: 'easyreservations_send_form'
+	};
 	if(submit  && submit == 1){
 		jQuery('#easyFormInnerlay').fadeOut("slow", function(){
-				jQuery('#easyFormOverlay').addClass('easyloading');
-				jQuery('#easyFormInnerlay').remove();
-		});	
-		thesubmit = '&submit=1';
+			jQuery('#easyFormOverlay').addClass('easyloading');
+		});
+		jQuery('#easyFormInnerlay').remove();
+		data['submit'] =1;
 	}
-	data+='&atts[]='+JSON.stringify(easyReservationAtts);
-	data+='&ids[]='+JSON.stringify(easyReservationIDs);
-	if(easyReservationEdit) data+='&edit='+easyReservationEdit;
-	jQuery.post(easyDate.ajaxurl , data+'&action=easyreservations_send_form'+thesubmit, function(response){
+	var array = jQuery('#easyFrontendFormular').serializeArray();
+	jQuery.each(array, function(i, field){
+		data[field.name] = field.value;
+	});
+	if(easyReservationEdit) data['edit'] = easyReservationEdit;
+	jQuery.post(easyDate.ajaxurl , data, function(response){
 		if(response[0] == '['){
 			response = JSON.parse(response);
 			if(easyReservationEdit){
@@ -239,13 +210,12 @@ function easyFormSubmit(submit){
 					easyInnerlay(response[2]);
 				} else if(submit) submit();
 			}
-			return true;
 		} else {
-			if(window.easyreservations_send_validate) easyreservations_send_validate();
+			document.getElementById('easy-show-error').innerHTML = response;
+			jQuery("#easy-show-error-div").removeClass('hide-it');
 			easyOverlayDimm(1);
 		}
 	});
-	
 }
 
 function easyEdit(i,dimm){
@@ -287,7 +257,7 @@ function easyEdit(i,dimm){
 function easyCancelSubmit(single,ele){
 	if(ele){
 		jQuery(ele).closest('tr').fadeOut("slow", function(){jQuery(ele).closest('tr').remove(); });	
-	} else {		
+	} else {
 		jQuery('#easyFormInnerlay').fadeOut("slow", function(){
 			jQuery('#easyFormOverlay').addClass('easyloading');
 			jQuery('#easyFormInnerlay').remove();
@@ -302,7 +272,8 @@ function easyCancelSubmit(single,ele){
 			var cancel = '';
 			if(single){
 				cancel = '&cancel='+single;
-			}
+			} else jQuery('#easybackbutton').html('');
+
 			jQuery.post(easyDate.ajaxurl , 'delete='+ids+'&action=easyreservations_send_form'+cancel, function(response){
 
 			});
@@ -331,16 +302,13 @@ function easyUnserialize(serializedString){
 	var str = decodeURI(serializedString);
 	var pairs = str.split('&');
 	var obj = {}, p, idx, val;
-	for(var i=0, n=pairs.length; i < n; i++) {
+	for(var i=0, n=pairs.length; i < n; i++){
 		p = pairs[i].split('=');
 		idx = p[0];
-		if(idx.indexOf("[]") == (idx.length - 2)) {
-			// Eh um vetor
+		if(idx.indexOf("[]") == (idx.length - 2)){
 			var ind = idx.substring(0, idx.length-2)
-			if (obj[ind] === undefined) {
-				obj[ind] = [];
-			}
-			obj[ind].push(easyParseValue(unescape(p[1])) );
+			if(obj[ind] === undefined) obj[ind] = [];
+			obj[ind].push(easyParseValue(unescape(p[1])));
 		} else {
 			obj[idx] = easyParseValue(unescape(p[1]));
 		}
@@ -357,7 +325,7 @@ function easyGetBackgroundColor(element){
 	if(element){
 		var bgc = easyrgb2hex(jQuery(element).css('backgroundColor'));
 		if(bgc && bgc != '') return bgc;
-		else{
+		else {
 			if(element === document.body) return false;
 			return easyGetBackgroundColor(element);
 		}

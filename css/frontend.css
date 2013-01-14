@@ -58,6 +58,7 @@ div.easy_infobox_border.only-image img {
 .easyloading {
 	background-image: url(images/formloading.gif);
 	background-repeat: no-repeat;
+	background-position: center 15%;
 	background-position-x: center;
 	background-position-y: 15%;
 }
@@ -232,7 +233,7 @@ div.easy_infobox_border.only-image img {
 
 #easyFormInnerlay #easycreditform {
 	margin-left:5%;
-	width:70%;
+	max-width:70%;
 }
 
 span.creditor {
@@ -244,7 +245,7 @@ span.creditor {
 
 #easycreditform label {
 	display: inline-block;
-	width:100px;
+	width:35%;
 	font-weight: bold;
 }
 
@@ -291,6 +292,7 @@ span.creditor {
 
 .easy_form_success span.submitrow {
 	display:inline-block;
+	width: 100%;
 }
 
 .easy_form_success b.easy_submit {
@@ -306,3 +308,7 @@ span.creditor {
 span.creditor:before, span.creditor:after {
     content: "\2014";
 }​
+
+#easy_overlay_table img {
+	cursor: pointer;
+}

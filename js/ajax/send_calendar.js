@@ -3,9 +3,10 @@ var easyClickFirst = '';
 var easyCellnr = 0;
 var easyCalM = 0;
 function easyreservations_click_calendar(t,d,w,m){
-	
+	if(jQuery(t).closest('#show_widget_calendar').length > 0) atts = easyWidgetCalendarAtts;
+	else atts = easyCalendarAtts;
 	jQuery('.reqdisabled').removeClass('reqdisabled');
-	if(easyClick == 2){
+	if(easyClick == 2 || (atts['select'] == 1 && easyClick == 1)){
 		jQuery(".calendar-cell-selected").removeClass("calendar-cell-selected");
 		easyClick = 0;
 	}
@@ -25,8 +26,7 @@ function easyreservations_click_calendar(t,d,w,m){
 				var element = '#easy-cal-' + w + '-'+ i + '-' + easyCalM;
 				if(i != axis && jQuery(element).hasClass('calendar-cell-full') == true){
 					jQuery(".calendar-cell-selected").removeClass("calendar-cell-selected");
-					var To = document.getElementById('easy-form-to');
-					if(To) To.value = '';
+					jQuery('#easy-form-to').val('');
 					jQuery(t.parentNode.parentNode.parentNode.parentNode).addClass("calendar-full");
 					break;
 				}
@@ -37,10 +37,7 @@ function easyreservations_click_calendar(t,d,w,m){
 					if(easyCalM == m) axis = parseFloat(t.axis);
 				}
 			}
-			var Too = document.getElementById('easy-form-to');
-			if(Too) Too.value = d;
-			var ToWidget = document.getElementById('easy-widget-datepicker-to');
-			if(ToWidget) ToWidget.value = d;
+			jQuery('#easy-form-to,#easy-widget-datepicker-to').val(d);
 			if(document.getElementById('easy-form-units') && document.getElementById('easy-form-from')){
 				instance = jQuery( '#easy-form-from' ).data( "datepicker" );
 				if(instance){
@@ -73,10 +70,7 @@ function easyreservations_click_calendar(t,d,w,m){
 		easyClickFirst = t.id;
 		jQuery(t.parentNode.parentNode.parentNode.parentNode).removeClass("calendar-full");
 		jQuery(t).addClass("calendar-cell-selected");
-		var From = document.getElementById('easy-form-from');
-		if(From) From.value = d;
-		var FromWidget = document.getElementById('easy-widget-datepicker-from');
-		if(FromWidget) FromWidget.value = d;
+		jQuery('#easy-form-from,#easy-widget-datepicker-from').val(d);
 
 		easyCellnr  = t.axis;
 		easyClick = 1;
@@ -84,8 +78,11 @@ function easyreservations_click_calendar(t,d,w,m){
 }
 
 function easyreservations_send_calendar(where, e ){
-	if(where == 'shortcode' && !jQuery("#showCalender")) return;
-	if(where != 'shortcode' && !jQuery("#show_widget_calendar")) return;
+	if(where == 'shortcode' && !jQuery("#showCalender").length > 0) return;
+	if(where != 'shortcode' && !jQuery("#show_widget_calendar").length > 0) return;
+	var atts = '';
+	if(where == 'widget') atts = easyWidgetCalendarAtts;
+	else atts = easyCalendarAtts;
 	e =  window.event;
 	if(e){ e = e.target || e.srcElement; }
 	if(where == 'shortcode'){
@@ -97,34 +94,23 @@ function easyreservations_send_calendar(where, e ){
 		var datefield = document.CalendarFormular.date;
 		if(datefield) var date = datefield.value;
 		else var date = '0';
-		var monthfield = document.CalendarFormular.monthes;
-		if(monthfield) var monthes = monthfield.value;
-		else var monthes = 1;
 	} else {
 		var tsecurity = document.widget_formular.calendarnonce.value;
 		var room = document.widget_formular.easyroom.value;
-		var sizefield = document.widget_formular.size;
-		if(sizefield) var size = sizefield.value;
-		else var size = '300,0,1';
 		var datefield = document.widget_formular.date;
 		if(datefield) var date = datefield.value;
 		else var date = '0';
-		var monthes = 1;
 	}
-
 	var data = {
 		action: 'easyreservations_send_calendar',
 		security:tsecurity,
 		room: room,
-		size: size,
 		date: date,
 		where:where,
-		monthes:monthes
+		atts:atts
 	};
-	
-	jQuery.post(easyAjax.ajaxurl , data, function(response) {
+	jQuery.post(easyAjax.ajaxurl+"?RandomNumber=" + Math.random() , data, function(response) {
 		if(where == 'shortcode') jQuery("#showCalender").html(response);
 		else jQuery("#show_widget_calendar").html(response);
-		return false;
 	});
 }

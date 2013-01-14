@@ -60,6 +60,8 @@ function easyreservations_send_price(){
 	if(document.easyFrontendFormular.thename) var thename = document.easyFrontendFormular.thename.value;
 	else alert('no name field - correct that');
 	if(document.easyFrontendFormular.coupon) var coupon = document.easyFrontendFormular.coupon.value;
+	var reserved = '';
+	if(document.easyFrontendFormular.reserved) reserved = document.easyFrontendFormular.reserved.value;
 	
 	jQuery('[id^="custom_price"]:checked,select[id^="custom_price"]').each(function(){
 		var price = 0;
@@ -112,6 +114,7 @@ function easyreservations_send_price(){
 		room: room,
 		email:email,
 		coupon:coupon,
+		reserved:reserved,
 		customp:customPrices
 	};
 

@@ -13,7 +13,7 @@
 				'<h3>Custom and price fields</h3><p>To insert the information from one custom information or price directly you can use <b>[custom title]</b> and <b>[prices title]</b>.</p>',
 		);
 		$offset = array('-75 0', '-65 0', '-65 0', '-75 0', '-75 0', '-48 0', '-250 0', '-75 0', '-75 0');
-		$at = array('center bottom', 'center bottom', 'center bottom', 'center bottom', 'center bottom', 'center bottom', 'center bottom', 'center bottom', 'center bottom');
+		$at = array('top', 'top', 'top', 'top', 'top', 'top', 'top', 'top', 'top');
 
 		echo easyreservations_execute_pointer(9, $handler, $content, $offset, $at);
 	}

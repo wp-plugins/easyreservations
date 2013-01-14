@@ -23,7 +23,7 @@
 		);
 		$execute = array('','','','','easy_add_tax(1, jQuery(\'#idtaxes\').nextSibling);', 'easy_add_tax(2, jQuery(\'#idtaxesvalue span:last\'));', '', 'show_add_price();document.filter_form.reset();document.getElementById(\'filter-price-field\').value = 100;', '', '', '', 'show_add_discount();document.filter_form.reset();', '', '', '', '', 'javascript:show_add_avail();document.filter_form.reset();', 'reset_filter_form()');
 		$offset = array('-75 0','-75 0', '-100 0', '-75 0', '-75 0', '-65 0', '-75 0', '-75 0', '-70 0', '-50 0', '-66 0', '-66 0', '-75 0', '-75 0', '-75 0', '-75 0', '-75 0', '-75 0');
-		$at = array('center bottom','center bottom', 'right bottom', 'center bottom', 'center bottom', 'center bottom', 'center bottom', 'center bottom', 'center bottom', 'left bottom', 'center bottom', 'center bottom', 'center bottom', 'center bottom', 'center bottom', 'center bottom', 'center bottom', 'center bottom');
+		$at = array('top','top', 'top', 'top', 'top', 'top', 'top', 'top', 'top', 'top', 'top', 'top', 'top', 'top', 'top', 'top', 'top', 'top');
 		echo easyreservations_execute_pointer(18, $handler, $content, $offset, $at, $execute);
 	}
 ?>

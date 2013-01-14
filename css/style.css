@@ -495,10 +495,21 @@ span.table-status- {
 	font-size: 11px;
 }
 
-.easy_stream a.stream_user_admin {
-}
-
 .easy_stream a.stream_reservation {
 	background:#e22d39;
 	color: #fff;
-}		
+}
+#set_groundprice_table tr td:last-child {
+	text-align: right;
+}
+#set_groundprice_table #headline {
+	text-align:left;
+	font-weight:bold;
+}
+#reservation_main_settings_table img {
+	vertical-align:text-bottom;
+	margin-right:2px;
+}
+#reservation_important_guests_table{
+	margin-top: 7px;
+}

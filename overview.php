@@ -161,10 +161,10 @@
 		<th colspan="<?php echo $daysshow+1; ?>" class="overviewFooter">
 			<span style="vertical-align:middle;" id="resetdiv"></span>
 			<span style="float:right;">
-				<img style="vertical-align:text-bottom;" src="<?php echo RESERVATIONS_URL.'/images/blue_dot.png'; ?>">&nbsp;<small><?php echo __( 'Past' , 'easyReservations' ); ?></small> 
-				<img style="vertical-align:text-bottom;" src="<?php echo RESERVATIONS_URL.'/images/green_dot.png'; ?>">&nbsp;<small><?php echo __( 'Present' , 'easyReservations' ); ?></small> 
-				<img style="vertical-align:text-bottom;" src="<?php echo RESERVATIONS_URL.'/images/red_dot.png'; ?>">&nbsp;<small><?php echo __( 'Future' , 'easyReservations' ); ?></small>
-				<?php if(isset($id)){ ?> <img style="vertical-align:text-bottom;" src="<?php echo RESERVATIONS_URL.'/images/yellow_dot.png'; ?>">&nbsp;<small><?php echo __( 'Active' , 'easyReservations' ); ?></small><?php } ?>
+				<img style="vertical-align:text-bottom;" src="<?php echo RESERVATIONS_URL.'images/blue_dot.png'; ?>">&nbsp;<small><?php echo __( 'Past' , 'easyReservations' ); ?></small> 
+				<img style="vertical-align:text-bottom;" src="<?php echo RESERVATIONS_URL.'images/green_dot.png'; ?>">&nbsp;<small><?php echo __( 'Present' , 'easyReservations' ); ?></small> 
+				<img style="vertical-align:text-bottom;" src="<?php echo RESERVATIONS_URL.'images/red_dot.png'; ?>">&nbsp;<small><?php echo __( 'Future' , 'easyReservations' ); ?></small>
+				<?php if(isset($id)){ ?> <img style="vertical-align:text-bottom;" src="<?php echo RESERVATIONS_URL.'images/yellow_dot.png'; ?>">&nbsp;<small><?php echo __( 'Active' , 'easyReservations' ); ?></small><?php } ?>
 			</span>
 		</th>
 	</tr>
@@ -394,7 +394,7 @@
 
 						if($itIS===1){
 							?><td id="<?php echo $roomID.'-'.$rowcount.'-'.$preparedCellcount; ?>"<?php echo $addname; ?> title="<?php echo $title_one; ?>" colspan="<?php echo $nights-1-$minusdays; ?>" class="er_overview_cell" onclick="<?php echo "location.href = 'admin.php?page=reservations&edit=".$reservationarray[$CountNumberOfAdd]['ID']."';"; ?>" style="background: <?php echo $farbe2;?>;cursor: pointer;text-decoration:none;padding:0px;font: normal 11px Arial, sans-serif;vertical-align:middle;; overflow:hidden;"  abbr="<?php echo $farbe2;?>" title="<?php echo $reservationarray[$CountNumberOfAdd]['name']; ?>" <?php if($overview_options['overview_onmouseover'] == 1){ ?>onmouseover="hoverEffect(this,'<?php echo date('d.m H:i', $arrival+$interval).' - '.date('d.m H:i', $departure); ?>');"<?php } ?>>
-							<?php echo substr($reservationarray[$CountNumberOfAdd]['name'], 0, ($nights-1-$minusdays)*3); echo 123 ; ?>
+							<?php echo substr($reservationarray[$CountNumberOfAdd]['name'], 0, ($nights-1-$minusdays)*3); ?>
 							</td><?php
 						} elseif($itIS==$nightsproof+1 || $itIS==$nightsproof || $itIS==0) {
 								$value = ''; $title = '';

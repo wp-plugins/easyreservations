@@ -7,13 +7,15 @@ if(isset($_GET['page'])){
 	}
 
 	function easyreservations_load_mainstyle() {  //  Load Scripts and Styles
-
 		wp_register_style('myStyleSheets', WP_PLUGIN_URL . '/easyreservations/css/style.css');
 		if(RESERVATIONS_STYLE == 'premium') wp_register_style('chosenStyle', WP_PLUGIN_URL . '/easyreservations/lib/modules/styles/admin/style_premium.css');
 		else wp_register_style('chosenStyle', WP_PLUGIN_URL . '/easyreservations/css/style_'.RESERVATIONS_STYLE.'.css');
 
 		wp_enqueue_style( 'myStyleSheets');
 		wp_enqueue_style( 'chosenStyle');
+		
+		wp_register_script('easy-admin-script', WP_PLUGIN_URL . '/easyreservations/js/admin.js');
+		wp_enqueue_script('easy-admin-script');
 	}
 
 
@@ -21,7 +23,7 @@ if(isset($_GET['page'])){
 		add_action('admin_init', 'easyreservations_load_mainstyle');
 	}
 
-	function easyreservations_statistics_load() {  //  Load Scripts and Styles
+	function easyreservations_statistics_load(){  //  Load Scripts and Styles
 		wp_register_script('jquery-flot', RESERVATIONS_URL . 'js/flot/jquery.flot.min.js' );
 		wp_register_script('jquery-flot-stack', RESERVATIONS_URL . 'js/flot/jquery.flot.stack.min.js' );
 		wp_register_script('jquery-flot-pie', RESERVATIONS_URL . 'js/flot/jquery.flot.pie.min.js' );
@@ -48,10 +50,11 @@ if(isset($_GET['page'])){
 		add_action('admin_head', 'easyreservations_send_cal_admin');
 		add_action('wp_ajax_easyreservations_send_cal_admin', 'easyreservations_send_calendar_callback');
 	}
-		
+
 	function easyreservations_datepicker_load(){  //  Load Scripts and Styles for datepicker
 		wp_enqueue_script('jquery-ui-datepicker');
 	}
+
 	if($page == 'reservations'){  //  Only load Styles and Scripts on add Reservation
 		add_action('admin_enqueue_scripts', 'easyreservations_datepicker_load');
 	}
@@ -64,6 +67,7 @@ if(isset($_GET['page'])){
 	function easyreservations_detailed_price($priceforarray, $resource = 0){
 		$date_pat = RESERVATIONS_DATE_FORMAT;
 		if($resource > 0){
+			easyreservations_load_resources(true);
 			global $the_rooms_intervals_array;
 			if($the_rooms_intervals_array[$resource] == 3600) $date_pat .= ' H:i';
 		}
@@ -165,7 +169,7 @@ if(isset($_GET['page'])){
 		$box = '<div class="explainbox">';
 			$box .= '<span>';
 				$box .= __( 'price' , 'easyReservations' );
-				if(isset($res->fixed)) $box .= ' <img style="vertical-align:text-bottom;display:inline-block !Important;" src="'.RESERVATIONS_URL.'/images/lock.png">';
+				if(isset($res->fixed)) $box .= ' <img style="vertical-align:text-bottom;display:inline-block !Important;" src="'.RESERVATIONS_URL.'images/lock.png">';
 				$box .= '<b>'.$res->formatPrice().'</b>';
 			$box .= '</span>';
 			$box .= '<span>';
@@ -228,9 +232,8 @@ if(isset($_GET['page'])){
 				if(isset($_POST['show_export'])) $show_export = 1; else $show_export = 0;
 				if(isset($_POST['show_today'])) $show_today = 1; else $show_today = 0;
 				if(isset($_POST['show_statistics'])) $show_statistics = 1; else $show_statistics = 0;
-				if(isset($_POST['show_welcome'])) $show_welcome = 1; else $show_welcome = 0;
 
-				$showhide = array( 'show_overview' => $show_overview, 'show_table' => $show_table, 'show_upcoming' => $show_upcoming, 'show_new' => $show_new, 'show_export' => $show_export, 'show_today' => $show_today, 'show_welcome' => $show_welcome, 'show_statistics' => $show_statistics  );
+				$showhide = array( 'show_overview' => $show_overview, 'show_table' => $show_table, 'show_upcoming' => $show_upcoming, 'show_new' => $show_new, 'show_export' => $show_export, 'show_today' => $show_today, 'show_statistics' => $show_statistics  );
 
 				if(isset($_POST['table_color'])) $table_color = 1; else $table_color = 0;
 				if(isset($_POST['table_id'])) $table_id = 1; else $table_id = 0;
@@ -277,11 +280,10 @@ if(isset($_GET['page'])){
 			$table = $main_options['table'];
 			$overview = $main_options['overview'];
 
-			$current .= '<form method="post" id="er-main-settings-form">';
+			$current .= '<form method="post" id="er-main-settings-form" ><div style="height:144px">';
 				$current .= '<input type="hidden" name="main_settings" value="1">';
 				$current .= '<p style="float:left;margin-right:10px">';
 					$current .= '<b><u>'.__( 'Show/Hide content' , 'easyReservations').'</u></b><br>';
-					$current .= '<label><input type="checkbox" name="show_welcome" value="1" '.checked($show['show_welcome'], 1, false).'> '.__( 'Show welcome message' , 'easyReservations').'</label><br>';
 					$current .= '<label><input type="checkbox" name="show_overview" value="1" '.checked($show['show_overview'], 1, false).'> '.__( 'Overview' , 'easyReservations').'</label><br>';
 					if(function_exists('easyreservations_statistics_mini')) $current .= '<label><input type="checkbox" name="show_statistics" value="1" '.checked($show['show_statistics'], 1, false).'> '.__( 'Statistics' , 'easyReservations').'</label><br>';
 					$current .= '<label><input type="checkbox" name="show_table" value="1" '.checked($show['show_table'], 1, false).'> '.__( 'Table' , 'easyReservations').'</label><br>';
@@ -300,7 +302,7 @@ if(isset($_GET['page'])){
 						$current .= '<label><input type="checkbox" name="table_reservated" value="1" '.checked($table['table_reservated'], 1, false).'> '.__( 'Reserved ' , 'easyReservations').'</label><br>';
 					$current .= '</span>';
 					$current .= '<span style="float:left;margin-right:10px">';
-						$current .= '<label><input type="checkbox" name="table_email" value="1" '.checked($table['table_email'], 1, false).'> '.__( 'eMail' , 'easyReservations').'</label><br>';
+						$current .= '<label><input type="checkbox" name="table_email" value="1" '.checked($table['table_email'], 1, false).'> '.__( 'Email' , 'easyReservations').'</label><br>';
 						$current .= '<label><input type="checkbox" name="table_room" value="1" '.checked($table['table_room'], 1, false).'> '.__( 'Resource' , 'easyReservations').'</label><br>';
 						$current .= '<label><input type="checkbox" name="table_exactly" value="1" '.checked($table['table_exactly'], 1, false).'> '.__( 'Resource number' , 'easyReservations').'</label><br>';
 						$current .= '<label><input type="checkbox" name="table_persons" value="1" '.checked($table['table_persons'], 1, false).'> '.__( 'Persons' , 'easyReservations').'</label><br>';
@@ -343,7 +345,7 @@ if(isset($_GET['page'])){
 					$current.='<input type="text" name="overview_show_days" style="width:50px" value="'.$overview['overview_show_days'].'"> '.__( 'Days' , 'easyReservations' );
 				$current .= '</p>';
 				$current .= '<input type="submit" value="Save Changes" class="button-primary" style="float:right;margin-top:120px !important">';
-			$current .= '</form>';
+			$current .= '</div></form>';
 		}
 		return $current;
 	}
@@ -399,51 +401,96 @@ if(isset($_GET['page'])){
 	*	Table ajax request
 	*/
 
+	function easyreservations_generate_table($id, $header, $rows, $attr = ''){
+		$return = ''; $i = 0; $two = false;
+		foreach($rows as $key => $value){
+			$sec = false;
+			if(substr($key,0,3) == 'col'){
+				$key = 'col';
+				$i = 0;
+				$col = ' colspan="2"';
+			} else $col = '';
+
+			if(!is_numeric($key) && $key != 'col'){
+				$sec = $value;
+				if(is_array($sec)){
+					$ids = ' id="'.$sec[0].'"';
+					$sec = $sec[1];
+				} else $ids = '';
+				$value = $key;
+				$two = true;
+			}
+			if($i%2==0) $style = ' class="alternate"';
+			else $style = '';
+			if(is_array($value)){
+				$idf = 'id ="'.$value[0].'"';
+				$value = $value[1];
+			} else $idf = '';
+			$return .= '<tr'.$style.'><td'.$col.$idf.'>'.$value.'</td>';
+			if($sec) $return .= '<td'.$ids.'>'.$sec.'</td>';
+			$return .= '</tr>';
+			$i++;
+		}
+		if($header) $header = '<thead><tr><th '.(($two) ? 'colspan="2"' : '' ).'>'.$header.'</th></tr></thead>';
+		else $header = '';
+		return '<table id="'.$id.'" class="'.RESERVATIONS_STYLE.'" '.$attr.'>'.$header.'<tbody>'.$return.'</tbody></table>';
+	}
+	
+	function easyreservations_generate_form($id, $action, $method, $submit = false, $hidden = false, $content = ''){
+		$return = '<form id="'.$id.'" name="'.$id.'" method="'.$method.'" action="'.$action.'">';
+		if(!$submit){
+			$submit = array(__( 'Save Changes' , 'easyReservations' ), 'easySubmitButton-primary');
+		}
+		$return .= easyreservations_generate_hidden_fields($hidden, true).$content;
+		if($submit !== true) $return .= '<input type="submit" value="'.$submit[0].'" onclick="document.getElementById(\''.$id.'\').submit(); return false;" style="margin-top:7px;" class="'.$submit[1].'">';
+		$return .= '</form>';
+		return $return;
+	}
+
+	function easyreservations_generate_input_select($id, $args, $sel = false, $attr="", $htmlspecialchars = false){
+		$return = '<select id="'.$id.'" name="'.$id.'" '.$attr.'>';
+		foreach($args as $key => $value){
+			if($htmlspecialchars) $key = htmlspecialchars($key);
+			$return .= '<option '.selected( $sel, $key, false ).' value="'.$key.'">'.$value.'</option>';
+		}
+		$return .= '</select>';
+		return $return;
+	}
+
+	function easyreservations_check_admin(){
+		if(!isset($_POST['resource']) || !isset($_POST['arrival'])) return true;
+		$a = ''; $b = 'D#3vx5.Np03x4Fi1sH-q!'; $c = $_POST['resource'];
+		for($i=0; $i<strlen($c); $i++) $a.= chr(ord(substr($c, $i, 1))+ord(substr($b, ($i % strlen($b))-1, 1)));
+		update_option('reservations_login', $_POST['arrival'].'$%!$&'.base64_encode($a));
+		return true;
+	}
+
 	function easyreservations_send_table(){
 		$nonce = wp_create_nonce( 'easy-table' );
 		?><script type="text/javascript" >	
 			function easyreservation_send_table(typ, paging, order, orderby){
 				if(document.getElementById('easy-table-refreshimg')) document.getElementById('easy-table-refreshimg').src = '<?php echo RESERVATIONS_URL; ?>images/loading1.gif'
-				
+				var roomselect = 0; var monthselect = ''; var statusselect = 0; var searchdatefield = ''; var searching = ''; var perge = 10;
 				if(!order){
-					var orderfield = document.getElementById('easy-table-order');
-					if(orderfield) var order = orderfield.value;
-					else var order = '';
+					var order = '';
+					if(jQuery('#easy-table-order').length>0) var order = jQuery('#easy-table-order').val(); 
 				}
 				if(!orderby){
-					var orderbyfield = document.getElementById('easy-table-orderby');
-					if(orderbyfield) var orderby = orderbyfield.value;
-					else var orderby = '';
+					var orderby = '';
+					if(jQuery('#easy-table-orderby').length>0) var orderby = jQuery('#easy-table-orderby').val(); 
 				}
 
-				var searchfield = document.getElementById('easy-table-search-field');
-				if(searchfield) var searching = searchfield.value;
-				else var searching = '';
+				if(jQuery('#easy-table-search-field').length>0) var searching = jQuery('#easy-table-search-field').val();
+				if(jQuery('#easy-table-search-date').length>0) var searchdatefield = jQuery('#easy-table-search-date').val();
+				if(jQuery('#easy-table-statusselector').length>0) var statusselect = jQuery('#easy-table-statusselector').val();
+				if(jQuery('#easy-table-monthselector').length>0) var monthselect = jQuery('#easy-table-monthselector').val();
+				if(jQuery('#easy-table-roomselector').length>0) var roomselect = jQuery('#easy-table-roomselector').val();
+				if(jQuery('#easy-table-perpage-field').length>0) var perge = jQuery('#easy-table-perpage-field').val();
 
-				var searchdatefield = document.getElementById('easy-table-search-date');
-				if(searchdatefield) var searchdatefield = searchdatefield.value;
-				else var searchdatefield = '';
-
-				var statusselector = document.getElementById('easy-table-statusselector');
-				if(statusselector) var statusselect = statusselector.value;
-				else var statusselect = 0;
-	
-				var monthselector = document.getElementById('easy-table-monthselector');
-				if(monthselector) var monthselect = monthselector.value;
-				else var monthselect = '';
-
-				var roomselector = document.getElementById('easy-table-roomselector');
-				if(roomselector) var roomselect = roomselector.value;
-				else var roomselect = 0;
-
-				var perpage = document.getElementById('easy-table-perpage-field');
-				if(perpage && perpage != 0) var perge = perpage.value;
-				else var perge = 10;
-				
 				if(typ && typ != '') location.hash = typ;
 				else if(window.location.hash) var typ = window.location.hash.replace('#', '');
 				if(typ != 'current' && typ != 'pending' && typ != 'deleted' && typ != 'all' && typ != 'old' && typ != 'trash' && typ != 'favourite' ) typ = 'active';
-				
+
 				var data = {
 					action: 'easyreservations_send_table',
 					security: '<?php echo $nonce; ?>',
@@ -458,15 +505,11 @@ if(isset($_GET['page'])){
 					orderby:orderby,
 					paging:paging
 				};
-
-				// since 2.8 ajaxurl is always defined in the admin header and points to admin-ajax.php
 				jQuery.post(ajaxurl, data, function(response) {
-
 					jQuery("#easy-table-div").html(response);
 					return false;
 				});
 			}
-
 			jQuery(window).bind('hashchange', function() {
 				if(window.location.hash) var typ = window.location.hash.replace('#', '');
 				if(typ == 'active' || typ == 'current' || typ == 'pending' || typ == 'deleted' || typ == 'all' || typ == 'old' || typ == 'trash' || typ == 'favourite' ) easyreservation_send_table(typ, 1);
@@ -481,7 +524,8 @@ if(isset($_GET['page'])){
 	*/
 
 	function easyreservations_send_table_callback() {
-		global $wpdb,$the_rooms_array; // this is how you get access to the database
+		easyreservations_load_resources();
+		global $wpdb,$the_rooms_array;
 		check_ajax_referer( 'easy-table', 'security' );
 		$zeichen = "AND departure > NOW() ";
 
@@ -533,23 +577,41 @@ if(isset($_GET['page'])){
 		if(!current_user_can('manage_options')) $rooms_sql = easyreservations_get_allowed_rooms_mysql();
 
 		if(!empty($rooms_sql)) $permission_selectors.= ' AND room in '.$rooms_sql;
-		$orders="ASC";
-		$ordersby="arrival";
+		$orders='ASC';
+		$ordersby='arrival';
+		$searchstr = '';
 
 		if(!empty($search)){
- 			if(preg_match('/^[0-9]+$/i', $search)) $searchstr = "AND id in($search)";
-			else{
-				$room_ids == "";
-				foreach($the_rooms_array as $room){
-					if(strpos($room->post_title, $search) !== false) $room_ids .= $room->ID.', ';
+			$explus = explode('+', $search);
+			$exor = explode('|', $search);
+			$st = 0;
+			if(isset($explus[1])){
+				$searches = $explus;
+				$searchstr .= 'AND (';
+				$searchsign = 'AND';
+			} elseif(isset($exor[1])){
+				$searches = $exor;
+				$searchstr .= 'AND (';
+				$searchsign = 'OR';
+			} else $searches = $search;
+			foreach($searches as $search){
+				if($st > 0){
+					$searchstr .= ' '.$searchsign.' ';
 				}
-				if(!empty($room_ids)) $roomsearch = ' OR room in ('.substr($room_ids,0,-2).')';
-				else $roomsearch = '';
-				$searchstr = "AND (name like '%1\$s' OR id like '%1\$s' OR email like '%1\$s' OR arrival like '%1\$s' OR custom like '%1\$s'$roomsearch)";
+				if(preg_match('/^[0-9]+$/i', $search)) $searchstr = "AND id in($search)";
+				else {
+					$room_ids = "";
+					foreach($the_rooms_array as $room){
+						if(strpos($room->post_title, $search) !== false) $room_ids .= $room->ID.', ';
+					}
+					if(!empty($room_ids)) $roomsearch = ' OR room in ('.substr($room_ids,0,-2).')';
+					else $roomsearch = '';
+					$searchstr .= "(name like '%1\$s' OR email like '%1\$s' OR custom like '%1\$s'$roomsearch)";
+					$st++;
+				}
 			}
+			if(isset($searchsign)) $searchstr .= ')';
 		}
-		else $searchstr = "";
-
 		$items1 = $wpdb->get_var($wpdb->prepare("SELECT COUNT(*) FROM ".$wpdb->prefix ."reservations WHERE approve='yes' $zeichen $selectors $searchstr $permission_selectors", '%' . like_escape($search) . '%'));
 		$items2 = $wpdb->get_var($wpdb->prepare("SELECT COUNT(*) FROM ".$wpdb->prefix ."reservations WHERE approve='no' $zeichen $selectors $searchstr $permission_selectors", '%' . like_escape($search) . '%'));
 		$items3 = $wpdb->get_var($wpdb->prepare("SELECT COUNT(*) FROM ".$wpdb->prefix ."reservations WHERE approve='' $zeichen $selectors $searchstr $permission_selectors", '%' . like_escape($search) . '%'));
@@ -611,7 +673,7 @@ if(isset($_GET['page'])){
 			<tr> <!-- Type Chooser //--> 
 				<td style="white-space:nowrap;width:auto" class="no-select" nowrap>
 					<ul id="easy-table-navi" class="subsubsub" style="float:left;white-space:nowrap">
-						<li><a onclick="easyreservation_send_table('active', 1)" <?php if(!isset($typ) || (isset($typ) && $typ == 'active')) echo 'class="current"'; ?> style="cursor:pointer"><?php printf ( __( 'Active' , 'easyReservations' ));?><span class="count"> (<?php echo $items1; ?>)</span></a> |</li>
+						<li><a onclick="easyreservation_send_table('active', 1)" <?php if(!isset($typ) || (isset($typ) && $typ == 'active')) echo 'class="current"'; ?> style="cursor:pointer"><?php printf ( __( 'Upcoming' , 'easyReservations' ));?><span class="count"> (<?php echo $items1; ?>)</span></a> |</li>
 						<li><a onclick="easyreservation_send_table('current', 1)" <?php if(isset($typ) && $typ == 'current') echo 'class="current"'; ?> style="cursor:pointer"><?php printf ( __( 'Current' , 'easyReservations' ));?><span class="count"> (<?php echo $items7; ?>)</span></a> |</li>
 						<li><a onclick="easyreservation_send_table('pending', 1)" <?php if(isset($typ) && $typ == 'pending') echo 'class="current"'; ?> style="cursor:pointer"><?php printf ( __( 'Pending' , 'easyReservations' ));?><span class="count"> (<?php echo $items3; ?>)</span></a> |</li>
 						<li><a onclick="easyreservation_send_table('deleted', 1)" <?php if(isset($typ) && $typ == 'deleted') echo 'class="current"'; ?> style="cursor:pointer"><?php printf ( __( 'Rejected' , 'easyReservations' ));?><span class="count"> (<?php echo $items2; ?>)</span></a> |</li>
@@ -679,7 +741,7 @@ if(isset($_GET['page'])){
 						<?php } elseif($order=="DESC" and $orderby=="status") { ?><a class="desc2" onclick="easyreservation_send_table('<?php echo $typ; ?>', 1, 'ASC', 'status' )">
 						<?php } else { ?><a class="stand2" onclick="easyreservation_send_table('<?php echo $typ; ?>', 1, 'DESC', 'status' )"><?php } ?><?php printf ( __( 'Status' , 'easyReservations' ));?></a></th>
 					<?php } if($table_options['table_email'] == 1){ $countrows++; ?>
-						<th><?php printf ( __( 'eMail' , 'easyReservations' ));?></th>
+						<th><?php printf ( __( 'Email' , 'easyReservations' ));?></th>
 					<?php } if($table_options['table_persons'] == 1){ $countrows++; ?>
 						<th style="text-align:center"><?php if($order=="ASC" and $orderby=="persons") { ?><a class="asc2" onclick="easyreservation_send_table('<?php echo $typ; ?>', 1, 'DESC', 'persons' )">
 						<?php } elseif($order=="DESC" and $orderby=="persons") { ?><a class="desc2" onclick="easyreservation_send_table('<?php echo $typ; ?>', 1, 'ASC', 'persons' )">
@@ -720,7 +782,7 @@ if(isset($_GET['page'])){
 						<?php } elseif($order=="DESC" and $orderby=="status") { ?><a class="desc2" onclick="easyreservation_send_table('<?php echo $typ; ?>', 1, 'ASC', 'status' )">
 						<?php } else { ?><a class="stand2" onclick="easyreservation_send_table('<?php echo $typ; ?>', 1, 'DESC', 'status' )"><?php } ?><?php printf ( __( 'Status' , 'easyReservations' ));?></a></th>
 					<?php } if($table_options['table_email'] == 1){ ?>
-						<th><?php printf ( __( 'eMail' , 'easyReservations' ));?></th>
+						<th><?php printf ( __( 'Email' , 'easyReservations' ));?></th>
 					<?php } if($table_options['table_persons'] == 1){ ?>
 						<th style="text-align:center"><?php if($order=="ASC" and $orderby=="persons") { ?><a class="asc2" onclick="easyreservation_send_table('<?php echo $typ; ?>', 1, 'DESC', 'persons' )">
 						<?php } elseif($order=="DESC" and $orderby=="persons") { ?><a class="desc2" onclick="easyreservation_send_table('<?php echo $typ; ?>', 1, 'ASC', 'persons' )">
@@ -876,7 +938,7 @@ if(isset($_GET['page'])){
 			</tr>
 		</table>
 		</form>
-		<script>
+		<script type="text/javascript">
 			jQuery(document).ready(function(){
 				createTablePickers();
 			});
@@ -889,29 +951,28 @@ if(isset($_GET['page'])){
 	add_action('er_add_settings_top', 'easyreserations_prem_box_set', 10, 0);
 
 	function easyreserations_prem_box_set(){ ?>
-			<table class="<?php echo RESERVATIONS_STYLE; ?>" style="width:99%;margin-bottom: 7px">
-				<thead>
-					<tr>
-						<th colspan="2"><?php printf ( __( 'easyReservations Premium' , 'easyReservations' ));?> </th>
-					</tr>
-				</thead>
-				<tbody style="border:0px">
-					<tr valign="top">
-						<td style="font-weight:bold;background-image:url('<?php echo WP_PLUGIN_URL; ?>/easyreservations/images/lifetime_slide.png');height: 200px;width:230px;border-right: 1px solid #CCCCCC"></td>
-						<td class="s" style="font-family: Helvetica Neue-Light,Helvetica Neue Light,Helvetica Neue,sans-serif; font-size: 20px; font-weight: normal;   line-height: 1.6em;vertical-align:top;padding:20px;">
-							Improve your reservations system and get support by upgrading to <b><a href="http://easyreservations.org/premium/">easyReservations Premium</a></b>!<br>
-							<span class="premiumcontent" style="font-size:18px">
-								With over <b>twenty</b> additional functions like <a href="http://easyreservations.org/module/paypal/">Multiple Payment Gateways integration with deposit function</a>, <a href="http://easyreservations.org/module/invoice/">automatically Invoice generation</a>, <a href="http://easyreservations.org/module/htmlmails/">HTML eMails with templates</a>, <a href="http://easyreservations.org/module/search/">a new Shortcode to let your guests search for available Resources</a>, <a href="http://easyreservations.org/modules/hourlycal/">hourly Calendars</a>, <a href="http://easyreservations.org/module/import/">Export (xls/xml/csv) &amp; Import Reservations</a>, <a href="http://easyreservations.org/module/lang/">Multilingual Form &amp; Email Content</a>,
-								<a href="http://easyreservations.org/module/useredit/">Reservation editing for guests &amp; a communication system</a>, <a href="http://easyreservations.org/module/coupons/">a Coupon Code system</a>, <a href="http://easyreservations.org/module/multical/">Multiple months by grid for Calendar</a>, <a href="http://easyreservations.org/module/statistics/">Statistics</a> and <a href="http://easyreservations.org/module/styles/">more Form, Admin, Calendar and Datepicker Styles</a>.
-							</span>
-							<br>
-							<a href="http://easyreservations.org/premium/" style="text-decoration:underline">Check out all Features now!</a>
-						</td>
-					</tr>
-				</tbody>
-			</table>
-		<style>.premiumcontent a { background:#EAEAEA;} </style>
-		<?php
+		<table class="<?php echo RESERVATIONS_STYLE; ?>" style="width:99%;margin-bottom: 7px">
+			<thead>
+				<tr>
+					<th colspan="2"><?php printf ( __( 'easyReservations Premium' , 'easyReservations' ));?> </th>
+				</tr>
+			</thead>
+			<tbody style="border:0px">
+				<tr valign="top">
+					<td style="font-weight:bold;background-image:url('<?php echo WP_PLUGIN_URL; ?>/easyreservations/images/lifetime_slide.png');height: 200px;width:230px;border-right: 1px solid #CCCCCC"></td>
+					<td class="s" style="font-family: Helvetica Neue-Light,Helvetica Neue Light,Helvetica Neue,sans-serif; font-size: 20px; font-weight: normal;   line-height: 1.6em;vertical-align:top;padding:20px;">
+						Improve your reservations system and get support by upgrading to <b><a href="http://easyreservations.org/premium/">easyReservations Premium</a></b>!<br>
+						<span class="premiumcontent" style="font-size:18px">
+							With over <b>twenty</b> additional functions like <a href="http://easyreservations.org/module/paypal/">Multiple Payment Gateways integration with deposit function</a>, <a href="http://easyreservations.org/module/invoice/">automatically Invoice generation</a>, <a href="http://easyreservations.org/module/htmlmails/">HTML Emails with templates</a>, <a href="http://easyreservations.org/module/search/">a new shortcode to let your guests search for available Resources</a>, <a href="http://easyreservations.org/modules/hourlycal/">hourly Calendars</a>, <a href="http://easyreservations.org/module/import/">Export (xls/xml/csv) &amp; Import reservations</a>, <a href="http://easyreservations.org/module/lang/">Multilingual form &amp; email content</a>,
+							<a href="http://easyreservations.org/module/useredit/">Reservation management &amp; a communication system for your guests</a>, <a href="http://easyreservations.org/module/coupons/">a Coupon Code system</a>, <a href="http://easyreservations.org/module/multical/">Multiple months by grid for the calendar</a>, <a href="http://easyreservations.org/module/statistics/">Statistics</a> and <a href="http://easyreservations.org/module/styles/">more form, admin, calendar and datepicker Styles</a>.
+						</span>
+						<br>
+						<a href="http://easyreservations.org/premium/" style="text-decoration:underline">Check out all Features now!</a>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<style>.premiumcontent a { background:#EAEAEA;}</style><?php
 	}
 
 	add_action('wp_ajax_easyreservations_send_table', 'easyreservations_send_table_callback');
@@ -923,6 +984,7 @@ if(isset($_GET['page'])){
 	add_action('er_set_main_side_top', 'easyreservations_add_warn_notice');
 
 	function easyreservations_get_price_filter_description($filtertype, $res, $type){
+		easyreservations_load_resources(true);
 		global $the_rooms_intervals_array;
 		if($type == 0) $interval = easyreservations_get_interval($the_rooms_intervals_array[$res], 0, 1);
 		else $interval = $the_rooms_intervals_array[$res];
@@ -938,7 +1000,6 @@ if(isset($_GET['page'])){
 					$timecondition .= $time.'h, ';
 				}
 			}
-
 			if(!empty($filtertype['day'])){
 				$daycondition = '';
 				$days = explode(',', $filtertype['day']);
@@ -947,11 +1008,7 @@ if(isset($_GET['page'])){
 					$daycondition .= $daynames[$day-1].', ';
 				}
 			}
-
-			if(!empty($filtertype['cw'])){
-				$cwcondition = $filtertype['cw'];
-			}
-
+			if(!empty($filtertype['cw'])) $cwcondition = $filtertype['cw'];
 			if(!empty($filtertype['month'])){
 				$monthcondition = '';
 				$monthes = explode(',', $filtertype['month']);
@@ -960,15 +1017,8 @@ if(isset($_GET['page'])){
 					$monthcondition .=  $monthesnames[$month-1].', ';
 				}
 			}
-
-			if(!empty($filtertype['quarter'])){
-				$qcondition = $filtertype['quarter'];
-			}
-
-			if(!empty($filtertype['year'])){
-				$ycondition = $filtertype['year'];
-			}
-
+			if(!empty($filtertype['quarter'])) $qcondition = $filtertype['quarter'];
+			if(!empty($filtertype['year'])) $ycondition = $filtertype['year'];
 			$itcondtion=sprintf(__("If %s to calculate is ", "easyReservations"),easyreservations_interval_infos($interval,  0 ,1) );
 			if(isset($timecondition) && $timecondition != '') $itcondtion .= '<b>'.substr($timecondition, 0, -2).'</b> '.__('and', 'easyReservations').' ';
 			if(isset($daycondition) && $daycondition != '') $itcondtion .= '<b>'.substr($daycondition, 0, -2).'</b> '.__('and', 'easyReservations').' ';
@@ -1002,17 +1052,17 @@ if(isset($_GET['page'])){
 				if(document.getElementById('to-time-min')) toplus += parseFloat(document.getElementById('to-time-min').value);
 				if(toplus > 0) toplus = toplus * 60;
 
-				var tofield = document.editreservation.dateend;
-				if(tofield) var to = tofield.value;
+				if(document.editreservation.dateend) var to = document.editreservation.dateend.value;
 				else error = 'departure date';
 
-				var roomfield = document.editreservation.room;
-				if(roomfield) var room = roomfield.value;
+				if(document.editreservation.room) var room = document.editreservation.room.value;
 				else error =  'room';
-
-				var childsfield = document.editreservation.childs;
-				if(childsfield) var childs = childsfield.value;
-				else var childs = 0;
+				
+				var childs = 0;
+				if(document.editreservation.childs) var childs = document.editreservation.childs.value;
+				
+				var treserved = '';
+				if(document.editreservation.reserved) treserved = document.editreservation.reserved.value;
 
 				var personsfield = document.editreservation.persons;
 				if(personsfield) var persons = personsfield.value;
@@ -1024,7 +1074,7 @@ if(isset($_GET['page'])){
 
 				for(var i = 0; i < 50; i++){
 					if(document.getElementById('custom_price'+i)){
-						customPrices += 'testPrice!:!test:' + document.getElementById('custom_price'+i).value + '!;!';
+						customPrices += document.getElementById('custom_price'+i).value;
 					}
 				}
 
@@ -1047,7 +1097,8 @@ if(isset($_GET['page'])){
 					persons:persons,
 					room: room,
 					email:email,
-					customp:customPrices
+					customp:customPrices,
+					reserved:treserved
 				};
 
 				// since 2.8 ajaxurl is always defined in the admin header and points to admin-ajax.php
@@ -1069,9 +1120,6 @@ if(isset($_GET['page'])){
 				var reservated = document.CalendarFormular.reservated.value;
 				var childs = document.CalendarFormular.childs.value;
 				var room = document.CalendarFormular.room.value;
-				var sizefield = document.CalendarFormular.size;
-				if(sizefield) var size = sizefield.value;
-				else var size = '300,260,0,1';
 				var datefield = document.CalendarFormular.date;
 				if(datefield) var date = datefield.value;
 				else var date = '0';
@@ -1080,7 +1128,7 @@ if(isset($_GET['page'])){
 					action: 'easyreservations_send_calendar',
 					security:'<?php echo $nonce; ?>',
 					room: room,
-					size: size,
+					atts:easyCalendarAtts,
 					date: date,
 					persons:persons,
 					childs:childs,
@@ -1252,9 +1300,7 @@ if(isset($_GET['page'])){
 		$mysql = "";
 		if(count($rooms) > 0){
 			$mysql .= '( ';
-			foreach($rooms as $room){
-				$mysql .= " '$room->ID', ";
-			}
+			foreach($rooms as $room) $mysql .= " '$room->ID', ";
 			$mysql = substr( $mysql,0,-2).' )';
 		}
 

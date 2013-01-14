@@ -10,6 +10,7 @@ class Resource {
 
 
 	public function __construct($id = false, $informations  = array('all')){
+		easyreservations_load_resources(true);
 		global $the_rooms_array, $the_rooms_intervals_array;
 		$all = array( 'taxes','req', 'child', 'count', 'countnames', 'groundprice', 'persons', 'permission', 'fitlers' );
 		if($id && is_numeric($id)){

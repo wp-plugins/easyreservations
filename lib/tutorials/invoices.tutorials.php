@@ -10,7 +10,7 @@
 				'<h3>Logo</h3><p>Click here to upload a logo. The image quality wont be perfect. You can try to improve it by changing the size or crop it better.</p>'
 		);
 		$offset = array('-35 0', '-75 0', '-75 0', '-75 0', '-75 0', '-75 0');
-		$at = array('center bottom', 'center bottom', 'center bottom', 'center bottom', 'left bottom', 'center bottom');
+		$at = array('top', 'top', 'top', 'top', 'top', 'top');
 		echo easyreservations_execute_pointer(6, $handler, $content, $offset, $at);
 	}
 ?>

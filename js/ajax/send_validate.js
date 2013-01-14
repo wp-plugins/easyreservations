@@ -7,7 +7,7 @@ function easyreservations_send_validate(y){
 		var errornr = 1; var custom = '';
 		if(y == "send") easyOverlayDimm(0);
 		jQuery("#easy-show-error-div").addClass('hide-it');
-		jQuery(".easyFrontendFormular .easy-button").addClass('deactive1');
+		jQuery(".easyFrontendFormular .easy-button").addClass('deactive1').attr('disabled', 'disabled');
 		jQuery("[id^='easy-custom-req-']").each ( function (i){
 			if(custom.indexOf(this.id+',') >= 0) return;
 			if(this.value == '') custom +=	this.id + ',';
@@ -19,18 +19,14 @@ function easyreservations_send_validate(y){
 			jQuery(this).remove();
 		});
 		document.getElementById('easy-show-error').innerHTML = '';
-
 		if(document.easyFrontendFormular.easyroom) var room = document.easyFrontendFormular.easyroom.value;
 		else alert('no room field - correct that')
 		var interval_array = eval("(" + easyAjax.interval + ")");
 		var interval = interval_array[room];
 		var nights = 1; var to = ''; var toplus = 0; var fromplus = 0; var childs = 0; var persons = 1; var captcha = 'x!'; var captcha_prefix = ''; var tom = 0; var toh = 12*60; var fromm = 0; var fromh = 12*60; var theid = '';
-
 		if(y) var mode = y;
 		else mode = 'normal';
-
 		var tsecurity = document.easyFrontendFormular.pricenonce.value;
-
 		var fromfield = document.easyFrontendFormular.from;
 		if(fromfield){
 			fromfield.style.borderColor = '#DDDDDD';
@@ -45,9 +41,7 @@ function easyreservations_send_validate(y){
 			tofield.style.borderColor = '#DDDDDD';
 			to = tofield.value;
 		} else {
-			if(document.easyFrontendFormular.nights){
-				nights = document.easyFrontendFormular.nights.value;
-			}
+			if(document.easyFrontendFormular.nights) nights = document.easyFrontendFormular.nights.value;
 		}
 		if(document.getElementById('date-to-hour')) toh = parseInt(document.getElementById('date-to-hour').value) * 60;
 		if(document.getElementById('date-to-min')) tom = parseInt(document.getElementById('date-to-min').value);
@@ -148,8 +142,7 @@ function easyreservations_send_validate(y){
 						jQuery("label[class=easy-show-error]").hide();
 						jQuery("label[class=easy-show-error]").fadeIn("slow");
 					}
-				}
-				jQuery(".easyFrontendFormular .easy-button").removeClass('deactive1');
+				} else jQuery(".easyFrontendFormular .easy-button").removeClass('deactive1').removeAttr('disabled');
 
 				errors_state = 0;
 				if(errornr == 0 && mode == 'send'){
@@ -172,7 +165,9 @@ function easyreservations_send_validate(y){
 						fieldprice = fakeIfStatements(fieldprice, persons, childs, nights, room);
 						if(fieldprice !== false){
 							if(!isNaN(parseFloat(fieldprice)) && isFinite(fieldprice)){
-								jQuery(addprice).attr('value', explodenormalprice[0]+':'+fieldprice);
+								var classname = '';
+								if(this.className && this.className != '') classname = ':'+this.className;
+								jQuery(addprice).attr('value', explodenormalprice[0]+':'+fieldprice+classname);
 							}
 						}
 					});

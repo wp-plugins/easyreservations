@@ -33,7 +33,7 @@
 	var d3 = [<?php echo $countPending; ?>];
 	var days = [<?php echo $daysOptions; ?>];
 	jQuery(document).ready(function(){
-		jQuery.plot(jQuery("#container"), [ { data: d1, label: "<?php echo ucfirst(__('approved', 'easyReservations')); ?>", color: "rgb(94,201,105)"}, { data: d2, label: "<?php echo ucfirst(__('rejected', 'easyReservations')); ?>", color: "rgb(229,39,67)"}, { data: d3, label: "<?php echo ucfirst(__('pending', 'easyReservations')); ?>", color: "rgb(116,166,252)"} ], {
+		jQuery.plot(jQuery("#container"), [ { data: d1, label: "<?php echo addslashes(ucfirst(__('approved', 'easyReservations'))); ?>", color: "rgb(94,201,105)"}, { data: d2, label: "<?php echo addslashes(ucfirst(__('rejected', 'easyReservations'))); ?>", color: "rgb(229,39,67)"}, { data: d3, label: "<?php echo addslashes(ucfirst(__('pending', 'easyReservations'))); ?>", color: "rgb(116,166,252)"} ], {
 			series: {
 				stack: true,
 				lines: { show: lines, fill: true, steps: steps },
@@ -44,9 +44,7 @@
 			xaxis: { tickFormatter: function (v) { return days[v]; }, tickDecimals: 0 }
 		});
 	});
-  
 <?php } if($show['show_new'] == 1 ){ ?>
-
 	var s1 = [<?php echo $daysOptionsPast; ?>];
 	var s2 = [<?php echo $countReservated; ?>];
 	jQuery(document).ready(function(){

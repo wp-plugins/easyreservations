@@ -25,9 +25,6 @@ code p {
 	Table
 	
 */
-.greyfat > thead tr th, .greyfat > tfoot tr th {
-	background-color: #575757; /* Fallback */
-}
 .greyfat > thead > th:last-of-type, table.greyfat {
 	-moz-border-radius-topright: 5px;
 	-khtml-border-top-right-radius: 5px;
@@ -126,13 +123,14 @@ table.greyfat  {
 	vertical-align: middle;
 }
 .greyfat > thead th, .greyfat > tfoot th {
+	background-color: #575757;
 	height: 40px !important;
 	padding: 0px 7px 0px 7px ;
 	text-align: left;
-	line-height: 1.3em;
 	font-size: 14px;
 	font-family: "Lucida Grande", "Lucida Sans Unicode", "Trebuchet MS", sans-serif;
 	color: #fff;
+	vertical-align: middle;
 	font-weight: normal;
 }
 .greyfat > tbody > tr > td {
@@ -394,53 +392,52 @@ ul.tabs a.current {
 	Submit Buttons
 	
 */
-.easySubmitButton-primary, input[type="button"].easySubmitButton-primary {
-	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #444444), color-stop(1, #636363) );
-	background:-moz-linear-gradient( center top, #444444 5%, #636363 100% );
-	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#444444', endColorstr='#636363');
-	background-color:#ededed;
-	border:1px solid #575757 !important;
-	display:inline-block;
-	font-family: Arial;
+.easySubmitButton-primary, input[type="button"].easySubmitButton-primary, .easySubmitButton-secondary, input[type="button"].easySubmitButton-secondary {
+	line-height:1em;
+	cursor: pointer;
+	border: 1px solid #999;/* IE */
+	border: rgba(0, 0, 0, .8) 1px solid;
+	border-bottom:rgba(0, 0, 0, .9) 1px solid;
+	-webkit-box-shadow: 0 1px 2px rgba(0,0,0,.5);
+	-moz-box-shadow: 0 1px 2px rgba(0,0,0,.5);
+	box-shadow: 0 1px 2px rgba(0,0,0,.2);
+	background: -moz-linear-gradient(center top,rgba(255, 255, 255, .1) 0%,rgba(0, 0, 0, .1) 100%);/* FF3.6 */
+	background: -webkit-gradient(linear,center bottom,center top,from(rgba(0, 0, 0, .2)),to(rgba(255, 255, 255, .1)));/* Saf4+, Chrome */
+	filter:  progid:DXImageTransform.Microsoft.gradient(startColorStr='#19FFFFFF', EndColorStr='#19000000'); /* IE6,IE7 */
+	-ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorStr='#19FFFFFF', EndColorStr='#19000000')"; /* IE8 */
+	-moz-user-select: none;
+	-webkit-user-select:none;
+	-khtml-user-select: none;
 	color:#fff;
-	line-height:1.1;
-	font-size:12px;
-	font-weight:bold;
-	text-shadow:1px 1px 0px #000;
-	padding:8px 14px !important;
-	text-decoration:none;
-	cursor:pointer;
+	text-shadow:0 1px 1px rgba(0, 0, 0, 0.25);
+	padding:6px 12px;
+	font-family: sans-serif;
+	font-size: 12px;
+	font-weight: bold;	
+	background-color: #222;
+	user-select: none;
+	-moz-border-radius: 3px;-khtml-border-radius: 3px;-webkit-border-radius: 3px;border-radius: 3px;
 }
-.easySubmitButton-primary:hover, input[type="button"].easySubmitButton-primar:hover {
-	-moz-box-shadow:0px 0px 4px #a5a5a5;
-	-webkit-box-shadow: 0px 0px 4px #a5a5a5;
-	box-shadow: 0px 0px 4px #a5a5a5;
-	color:#fff !important;
+.easySubmitButton-primary:hover, input[type="button"].easySubmitButton-primary:hover {
+	background-color: #525151;
+}
+.easySubmitButton-primary.savemark, input[type="button"].easySubmitButton-primary.savemark{
+	-moz-box-shadow: 0px 0px 5px #222;
+	-webkit-box-shadow: 0px 0px 5px #222;
+	-o-box-shadow: 0px 0px 5px #222;
+	box-shadow: 0px 0px 5px #222;
+	background-color: #424242;
+}
+.easySubmitButton-secondary, input[type="button"].easySubmitButton-secondary {
+	background-color: #dadada;
+	color:#000;
 }
 .easySubmitButton-primary:active, .easySubmitButton-secondary:active {
 	position:relative;
 	top:1px;
 }
-.easySubmitButton-secondary, input[type="button"].easySubmitButton-secondary {
-	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #ededed), color-stop(1, #dfdfdf) );
-	background:-moz-linear-gradient( center top, #ededed 5%, #dfdfdf 100% );
-	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ededed', endColorstr='#dfdfdf');
-	background-color:#ededed;
-	border:1px solid #222;
-	display:inline-block;
-	color:#333;
-	line-height:1.1;
-	font-family:arial;
-	font-size:13px;
-	font-weight:bold;
-	text-decoration:none;
-	padding:5px 10px !important;
-	text-shadow:1px 1px 0px #fff;
-	cursor:pointer;
-}
-.easySubmitButton-secondary:hover {
-	background-color:#ccc;
-	border:1px solid #000;
+.easySubmitButton-secondary:hover, input[type="button"].easySubmitButton-secondary:hover {
+	background-color: #c3c3c3;
 }
 
 .showPrice {
@@ -462,4 +459,9 @@ ul.tabs a.current {
 }
 .headerlink {
 	background:#DB2000;padding:2px;text-shadow:0 1px 2px rgba(0,0,0,0.5);
+}
+#set_groundprice_table #headline {
+	background: #575757;
+	border: 1px solid #575757;
+	color:#fff;
 }

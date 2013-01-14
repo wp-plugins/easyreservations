@@ -7,8 +7,8 @@
 			'<h3>URL</h3><p>Enter the URL to a page or post with a form or a searchForm in it. The informations selected in the widget gets transmitted.</p>',
 		);
 		$offset = array('-55 0', '-75 0', '-75 0');
-		$at = array('center bottom', 'center bottom', 'center bottom' );
-		$position = array('', 'position: { edge:\'right\' },', '' );
+		$at = array('top', 'right', 'top' );
+		$position = array('', '', '' );
 
 		echo easyreservations_execute_pointer(3, $handler, $content, $offset, $at, false, $position);
 	}

@@ -1,13 +1,16 @@
 <?php
-$easyreservations_script = '';
-
 function reservations_form_shortcode($atts){
 	global $post,$easyreservations_script;
 	$finalform = "";
 	$error = '';
 	$infobox = false;
-	if(isset($atts[0])) $theForm = stripslashes(get_option('reservations_form_'.$atts[0]));
-	else $theForm = stripslashes (get_option("reservations_form"));
+	if(isset($atts[0])){
+		$theForm = stripslashes(get_option('reservations_form_'.$atts[0]));
+		$formname='<input type="hidden" name="formname" value="'.$atts[0].'">';
+	} else {
+		$theForm = stripslashes (get_option("reservations_form"));
+		$formname = '';
+	}
 	if(empty($theForm)) $theForm = stripslashes(get_option("reservations_form"));
 
 	$atts = shortcode_atts(array(
@@ -21,17 +24,18 @@ function reservations_form_shortcode($atts){
 		'submit' => __( 'Your reservation was sent' , 'easyReservations' ),
 		'validate' =>__( 'Reservation was validated succesfully' , 'easyReservations' ),
 		'subcredit' => '',
+		'discount' => 100,
 		'subsubmit' => '',
 		'subvalidate' => '',
 		'style' => 'none',
-		'paypal' => '',
 		'width' => '',
 		'bg' => '#fff',
 		'pers' => 0,
 		'payment' => 1,
-		'redirect' => ''
+		'datefield' => ''
 	), $atts);
-
+	$atts['width'] = (float) $atts['width'];
+	if($atts['width'] > 100 || $atts['width'] < 3) $atts['width'] = 100;
 	if($atts['room'] > 0) $atts['resource'] = $atts['room'];
 	wp_enqueue_script('jquery');
 	wp_enqueue_script('jquery-ui-datepicker');
@@ -43,9 +47,13 @@ function reservations_form_shortcode($atts){
 	else wp_enqueue_style('easy-form-none' , false, array(), false, 'all');	
 
 	if(strpos($theForm, '[error') !== false){
+		$sumit_disabled = 'disabled="disabled"';
 		$validate_action = 'easyreservations_send_validate();';
 		wp_enqueue_script( 'easyreservations_send_validate' );
-	} else $validate_action = '';
+	} else {
+		$sumit_disabled = '';
+		$validate_action = '';
+	}
 
 	if(strpos($theForm, '[show_price') !== false){
 		$price_action = "easyreservations_send_price();";
@@ -56,26 +64,26 @@ function reservations_form_shortcode($atts){
 	else $isCalendar = false;
 
 	if(isset($_POST['easynonce'])){ // Check and Set the Form Inputs
-
 		if (!wp_verify_nonce($_POST['easynonce'], 'easy-user-add' )) die('Security check <a href="'.$_SERVER['referer_url'].'">('.__( 'Back' , 'easyReservations' ).')</a>' );
+		easyreservations_load_resources(true);
 		global $the_rooms_intervals_array, $current_user;
 
 		if(isset($_POST['captcha_value'])) $captcha = array( 'captcha_prefix' => $_POST['captcha_prefix'], 'captcha_value' => $_POST['captcha_value'] );
-		else $captcha ="";
-		if(isset($_POST['thename'])) $name_form=$_POST['thename'];
-		else $name_form = "";
+		else $captcha = '';
+		if(isset($_POST['thename'])) $name_form = $_POST['thename'];
+		else $name_form = '';
 		if(isset($_POST['from'])) $arrival = strtotime($_POST['from']);
 		else $arrival = time();
-		if(isset($_POST['persons'])) $persons=$_POST['persons'];
+		if(isset($_POST['persons'])) $persons = $_POST['persons'];
 		else $persons = 1;
-		if(isset($_POST['email'])) $email=$_POST['email'];
-		else $email = "";
-		if(isset($_POST['childs'])) $childs=$_POST['childs'];
+		if(isset($_POST['email'])) $email = $_POST['email'];
+		else $email = '';
+		if(isset($_POST['childs'])) $childs = $_POST['childs'];
 		else $childs = 0;
 		if(isset($_POST['to'])) $departure = strtotime($_POST['to']);
 		else $departure = $arrival + $the_rooms_intervals_array[$_POST['easyroom']];
 		if(isset($_POST['nights'])) $departure = $arrival+((int) $_POST['nights'] * $the_rooms_intervals_array[$_POST['easyroom']]);
-		if(isset($_POST['country'])) $country=$_POST['country'];
+		if(isset($_POST['country'])) $country = $_POST['country'];
 		else $country = "";
 		if(isset($_POST['easyroom'])) $room = $_POST['easyroom'];
 		else $room = false;
@@ -92,8 +100,8 @@ function reservations_form_shortcode($atts){
 		if($departureplus > 0) $departureplus = $departureplus*60;
 		$arrival += $arrivalplus;
 		$departure += $departureplus;
-		$custom_form='';
-		$custom_price='';	
+		$custom_form = '';
+		$custom_price = '';
 		$tags = easyreservations_shortcode_parser($theForm, true);
 
 		foreach($tags as $fields){
@@ -102,15 +110,15 @@ function reservations_form_shortcode($atts){
 				if(isset($_POST['easy-custom-'.$field[2]]) && !empty($_POST['easy-custom-'.$field[2]])){
 					$custom_form[] = array( 'type' => 'cstm', 'mode' => 'edit', 'title' => $field[2], 'value' => $_POST['easy-custom-'.$field[2]]);
 				} else {
-					if(isset($field[count($field)-1]) && $field[count($field)-1] == "*") $error.= '<li>'.sprintf(__( '%s is required', 'easyReservations'), ucfirst($field[2])).'</li>'; 
+					if(end($field) == "*") $error.= '<li>'.sprintf(__( '%s is required', 'easyReservations'), ucfirst($field[2])).'</li>'; 
 				}
 			}
 			if($field[0]=="price"){
-				if(isset($_POST[$field[2]])){
-					$explodeprice = explode(":",$_POST[$field[2]]);
-					if(isset($explodeprice[2]) && $explodeprice[2] == 1) $theprice = $explodeprice[1] * ($persons+$childs);
-					elseif(isset($explodeprice[2]) && $explodeprice[2] == 2) $theprice = $explodeprice[1] * easyreservations_get_nights($the_rooms_intervals_array[$room], $arrival,$departure);
-					elseif(isset($explodeprice[2]) && $explodeprice[2] == 3) $theprice = $explodeprice[1] * easyreservations_get_nights($the_rooms_intervals_array[$room], $arrival,$departure) * ($persons+$childs);
+				if(isset($_POST['custom_price'.$field[2]])){
+					$explodeprice = explode(":",$_POST['custom_price'.$field[2]]);
+					if(end($field) == 'pp') $theprice = $explodeprice[1] * ($persons+$childs);
+					elseif(end($field) == 'pn') $theprice = $explodeprice[1] * easyreservations_get_nights($the_rooms_intervals_array[$room], $arrival,$departure);
+					elseif(end($field) == 'pb') $theprice = $explodeprice[1] * easyreservations_get_nights($the_rooms_intervals_array[$room], $arrival,$departure) * ($persons+$childs);
 					else $theprice = $explodeprice[1];
 					$custom_price[] = array( 'type' => 'cstm', 'mode' => 'edit', 'title' => $field[2], 'value' => $explodeprice[0], 'amount' => $theprice );
 				}
@@ -139,9 +147,8 @@ function reservations_form_shortcode($atts){
 			if(!empty($atts['subsubmit'])) $finalform.= '<span class="easy_subsubmit">'.$atts['subsubmit'].'</span>';
 			$res->Calculate(true);
 			if($atts['price'] == 1) $finalform.= '<span class="easy_show_price_submit">'.__('Price','easyReservations').': <b>'.easyreservations_format_money($res->price, 1).'</b></span>';
-			if(!empty($atts['paypal'])) $finalform .= '<span class="easy_show_paypal_text_submit">'.$atts['paypal'].'</span>';
 			if(function_exists('easyreservation_generate_payment_form') && $atts['payment'] > 0){
-				$finalform .= easyreservation_generate_payment_form($res, $theID, ($atts['payment'] == 2) ? true : false);
+				$finalform .= easyreservation_generate_payment_form($res, $res->price, ($atts['payment'] == 2) ? true : false, (is_numeric($atts['discount']) && $atts['discount'] < 100) ? $atts['discount'] : false);
 			}
 			$easyreservations_script .= 'jQuery("#showCalender").remove();window.location.hash = \'formsuccess\';';
 			$finalform.='</div>';
@@ -170,14 +177,14 @@ function reservations_form_shortcode($atts){
 
 		if($field[0]=="date-from"){
 			if(empty($value)) $value = date(RESERVATIONS_DATE_FORMAT, time()+86400);
-			elseif(preg_match('/\+{1}[1-9]+/i', $value)){
+			elseif(preg_match('/\+{1}[0-9]+/i', $value)){
 				$cutplus = str_replace('+', '',$value);
 				$value = date(RESERVATIONS_DATE_FORMAT, time()+($cutplus*86400));
 			}
 			$theForm=str_replace('['.$fields.']', '<input id="easy-form-from" type="text" name="from" value="'.$value.'" '.$disabled.' title="'.$title.'" style="'.$style.'" onchange="'.$price_action.$validate_action.'">', $theForm);
 		} elseif($field[0]=="date-to"){
 			if(empty($value)) $value = date(RESERVATIONS_DATE_FORMAT, time()+172800);
-			elseif(preg_match('/\+{1}[1-9]+/i', $value)){
+			elseif(preg_match('/\+{1}[0-9]+/i', $value)){
 				$cutplus = str_replace('+', '',$value);
 				$value = date(RESERVATIONS_DATE_FORMAT, time()+((int) $cutplus*86400));
 			}
@@ -187,18 +194,19 @@ function reservations_form_shortcode($atts){
 		} elseif($field[0]=="date-from-min" || $field[0]=="date-to-min"){
 			$theForm=str_replace('['.$fields.']', '<select id="'.$field[0].'" name="'.$field[0].'" '.$disabled.' title="'.$title.'" style="'.$style.'" onchange="'.$price_action.$validate_action.'">'.easyreservations_num_options("00", 59, $value).'</select>', $theForm);
 		} elseif($field[0]=="units" || $field[0]=="nights" || $field[0]=="times"){
+			$start = 0;
+			if(isset($field[1])) $start = $field[1]; 
 			if(isset($field[2])) $end = $field[2]; else $end = 6;
-			if(isset($field[3])){ $start = $field[2]; $end = $field[3]; } else $start = 1;
 			$theForm=str_replace('['.$fields.']', '<select id="easy-form-units" name="nights" '.$disabled.' title="'.$title.'" style="'.$style.'" onchange="'.$price_action.$validate_action.'">'.easyreservations_num_options($start, $end, $value).'</select>', $theForm);
 		} elseif($field[0]=="persons" || $field[0]=="adults"){
 			$start = 1;
+			if(isset($field[1])) $start = $field[1]; 
 			if(isset($field[2])) $end = $field[2]; else $end = 6;
-			if(isset($field[3])){ $start = $field[2]; $end = $field[3]; }
 			$theForm=preg_replace('/\['.$fields.'\]/', '<select id="easy-form-persons" name="persons" '.$disabled.' style="'.$style.'" title="'.$title.'" onchange="'.$price_action.$validate_action.'">'.easyreservations_num_options($start,$end,$value).'</select>', $theForm);
 		} elseif($field[0]=="childs"){
 			$start = 0;
+			if(isset($field[1])) $start = $field[1]; 
 			if(isset($field[2])) $end = $field[2]; else $end = 6;
-			if(isset($field[3])){ $start = $field[2]; $end = $field[3]; }
 			$theForm=preg_replace('/\['.$fields.'\]/', '<select name="childs" '.$disabled.' style="'.$style.'" title="'.$title.'" onchange="'.$price_action.$validate_action.'">'.easyreservations_num_options($start,$end,$value).'</select>', $theForm);
 		} elseif($field[0]=="thename"){
 			$theForm=preg_replace('/\['.$fields.'\]/', '<input type="text" id="easy-form-thename" name="thename" '.$disabled.' value="'.$value.'" style="'.$style.'" title="'.$title.'" onchange="'.$validate_action.'">', $theForm);
@@ -217,35 +225,34 @@ function reservations_form_shortcode($atts){
 
 			$theForm=preg_replace('/\['.$fields.'\]/', '<div class="easy-show-error-div'.$class.'" id="easy-show-error-div" style="'.$style.'"><h2>'.$error_title.'</h2>'.$error_message.'<ul id="easy-show-error">'.$form_error.'</ul></div>', $theForm);
 		} elseif($field[0]=="infobox"){
-			$resource_block = '<div id="resource_infobox" style=";"></div>';
+			$resource_block = '<div id="resource_infobox" style="'.$style.'" title="'.$title.'"></div>';
 			$theForm=preg_replace('/\['.$fields.'\]/', $resource_block, $theForm);
 			$infobox = $field;
 		} elseif($field[0]=="email"){
 			$theForm=preg_replace('/\['.$fields.'\]/', '<input type="text" id="easy-form-email" name="email" '.$disabled.' value="'.$value.'" title="'.$title.'" style="'.$style.'" onchange="'.$price_action.$validate_action.'">', $theForm);
 		} elseif($field[0]=="country"){
-			$theForm=str_replace('['.$fields.']', '<select id="easy-form-country" '.$disabled.' title="'.$title.'" name="country">'.easyreservations_country_options($value).'</select>', $theForm);
+			$theForm=str_replace('['.$fields.']', '<select id="easy-form-country" name="country" '.$disabled.' title="'.$title.'" style="'.$style.'">'.easyreservations_country_options($value).'</select>', $theForm);
 		} elseif($field[0]=="show_price"){
 			if(isset($field['before'])) $before = $field['before'];
 			else $before ='';
-			$theForm=preg_replace('/\['.$fields.'\]/', '<span class="easy-form-price" title="'.$title.'" style="'.$style.'">'.$before.'<span id="showPrice" style="font-weight:bold;"><b>'.easyreservations_format_money(0,1).'</b></span></span>', $theForm);
+			$theForm=preg_replace('/\['.$fields.'\]/', '<span class="easy-form-price" title="'.$title.'" style="'.$style.'">'.$before.'<span id="showPrice"><b>'.easyreservations_format_money(0,1).'</b></span></span>', $theForm);
 		} elseif($field[0]=="captcha"){
 			require_once(WP_PLUGIN_DIR.'/easyreservations/lib/captcha/captcha.php');
 			$captcha_instance = new easy_ReallySimpleCaptcha();
-			$word = $captcha_instance->generate_random_word();
 			$prefix = mt_rand();
-			$url = $captcha_instance->generate_image($prefix, $word);
-
-			$theForm=preg_replace('/\['.$fields.'\]/', '<span class="row"><input type="text" title="'.$title.'" name="captcha_value" id="easy-form-captcha" style="width:40px;'.$style.'" ><img id="easy-form-captcha-img"	style="vertical-align:middle;margin-top: -5px;" src="'.RESERVATIONS_URL.'/lib/captcha/tmp/'.$url.'"><input type="hidden" value="'.$prefix.'" name="captcha_prefix"></span>', $theForm);
+			$url = $captcha_instance->generate_image($prefix, $captcha_instance->generate_random_word());
+			$theForm=preg_replace('/\['.$fields.'\]/', '<span class="row"><input type="text" title="'.$title.'" name="captcha_value" id="easy-form-captcha" style="width:40px;'.$style.'" ><img id="easy-form-captcha-img"	style="vertical-align:middle;margin-top: -5px;" src="'.RESERVATIONS_URL.'lib/captcha/tmp/'.$url.'"><input type="hidden" value="'.$prefix.'" name="captcha_prefix"></span>', $theForm);
 		} elseif($field[0]=="hidden"){
 			if($field[1]=="room" || $field[1]=="resource"){
 				$roomfield=1;
+				if(!isset($field[2]) && !is_numeric($field[2])) $field[2] = $atts['resource'];
 				$theForm=preg_replace('/\['.$fields.'\]/', '<input type="hidden" name="easyroom" value="'.$field[2].'">', $theForm);
 			} elseif($field[1]=="from"){
 				$theForm=preg_replace('/\['.$fields.'\]/', '<input type="hidden" name="from" value="'.$field[2].'">', $theForm);
 			} elseif($field[1]=="to"){
-				$theForm=preg_replace('/\['.$fields.'\]/', '<input type="hidden" id="easy-form-units" name="nights" value="'.$field[2].'">', $theForm);
+				$theForm=preg_replace('/\['.$fields.'\]/', '<input type="hidden"  name="to" value="'.$field[2].'">', $theForm);
 			} elseif($field[1]=="units" || $field[1]=="times"){
-				$theForm=preg_replace('/\['.$fields.'\]/', '<input type="hidden" name="nights" value="'.$field[2].'">', $theForm);
+				$theForm=preg_replace('/\['.$fields.'\]/', '<input type="hidden" id="easy-form-units" name="nights" value="'.$field[2].'">', $theForm);
 			} elseif($field[1]=="persons" || $field[1]=="adults"){
 				$theForm=preg_replace('/\['.$fields.'\]/', '<input type="hidden" name="persons" value="'.$field[2].'">', $theForm);
 			} elseif($field[1]=="childs"){
@@ -257,41 +264,47 @@ function reservations_form_shortcode($atts){
 			$roomfield=1;
 			if(isset($field['exclude'])) $exclude = explode(',', $field['exclude']); else $exclude = '';
 			if($isCalendar == true) $calendar_action = "document.CalendarFormular.easyroom.value=this.value;easyreservations_send_calendar('shortcode');"; else $calendar_action = '';
-			$theForm=str_replace('['.$fields.']', '<select name="easyroom" id="form_room" '.$disabled.' onchange="'.$calendar_action.$price_action.$validate_action.'">'.easyreservations_resource_options($value, 0, $exclude).'</select>', $theForm);
+			$theForm=str_replace('['.$fields.']', '<select name="easyroom" id="form_room" '.$disabled.' onchange="'.$calendar_action.$price_action.$validate_action.'">'.easyreservations_resource_options(($value == '') ? $atts['resource'] : $value, 0, $exclude).'</select>', $theForm);
 		} elseif($field[0]=="custom"){
 			if(isset($field[3])) $valuefield=str_replace('"', '', $field[3]);
-			if(end($field) == "*") $req = 'req'; else $req = '';
+			if(end($field) == "*"){
+				$req = 'req'; 
+				$onchange = 'oncheck="'.$validate_action.'"';
+			} else {
+				$req = '';
+				$onchange = '';
+			}
 			if($field[1]=="text"){
-				$theForm=str_replace('['.$fields.']', '<input title="'.$title.'" style="'.$style.'" '.$disabled.' type="text" name="easy-custom-'.$field[2].'" id="easy-custom-'.$req.'-'.$field[2].'" value="'.$value.'">', $theForm);
+				$theForm=str_replace('['.$fields.']', '<input title="'.$title.'" style="'.$style.'" '.$disabled.' type="text" name="easy-custom-'.$field[2].'" id="easy-custom-'.$req.'-'.$field[2].'" '.$onchange.' value="'.$value.'">', $theForm);
 			} elseif($field[1]=="textarea"){
-				$theForm=str_replace('['.$fields.']', '<textarea title="'.$title.'" style="'.$style.'" '.$disabled.' name="easy-custom-'.$field[2].'" id="easy-custom-'.$req.'-'.$field[2].'" value="'.$value.'"></textarea>', $theForm);
+				$theForm=str_replace('['.$fields.']', '<textarea title="'.$title.'" style="'.$style.'" '.$disabled.' name="easy-custom-'.$field[2].'" id="easy-custom-'.$req.'-'.$field[2].'" '.$onchange.' value="'.$value.'"></textarea>', $theForm);
 			} elseif($field[1]=="check" || $field[1]=="checkbox"){
 				if(isset($field['checked'])) $checked = ' checked="'.$field['checked'].'"'; else $checked = '';
 				if(!empty($disabled)) $theForm=str_replace('['.$fields.']', '<input type="hidden" title="'.$title.'" '.$checked.' style="'.$style.'" name="easy-custom-'.$field[2].'" id="easy-custom-'.$req.'-'.$field[2].'">', $theForm);
-				else $theForm=str_replace('['.$fields.']', '<input type="checkbox" title="'.$title.'" '.$checked.' style="'.$style.'" name="easy-custom-'.$field[2].'" id="easy-custom-'.$req.'-'.$field[2].'">', $theForm);
+				else $theForm=str_replace('['.$fields.']', '<input type="checkbox" title="'.$title.'" '.$checked.' style="'.$style.'" name="easy-custom-'.$field[2].'" '.$onchange.' id="easy-custom-'.$req.'-'.$field[2].'">', $theForm);
 			} elseif($field[1]=="radio"){
 				if(preg_match("/^[a-zA-Z0-9_]+$/", $valuefield)){
-					$theForm=str_replace('['.$fields.']', '<span class="radio"><input type="radio" title="'.$title.'" '.$disabled.' style="'.$style.'" name="easy-custom-'.$field[2].'" id="easy-custom-'.$req.'-'.$field[2].'" value="'.$valuefield.'"> '.$valuefield.'</span>', $theForm);
+					$theForm=str_replace('['.$fields.']', '<span class="radio"><input type="radio" title="'.$title.'" '.$disabled.' style="'.$style.'" name="easy-custom-'.$field[2].'" '.$onchange.' id="easy-custom-'.$req.'-'.$field[2].'" value="'.$valuefield.'"> '.$valuefield.'</span>', $theForm);
 				} elseif(preg_match("/^[a-zA-Z0-9_ \\,\\t]+$/", $valuefield)){
 					$valueexplodes=explode(",", $valuefield);
 					$custom_radio='';
 					foreach($valueexplodes as $value){
-						if($value != '') $custom_radio .= '<span class="radio"><input type="radio" title="'.$title.'" '.$disabled.' style="'.$style.'" name="easy-custom-'.$field[2].'" id="easy-custom-'.$req.'-'.$field[2].'" value="'.$value.'"> '.$value.'</span>';
+						if($value != '') $custom_radio .= '<span class="radio"><input type="radio" title="'.$title.'" '.$disabled.' style="'.$style.'" '.$onchange.' name="easy-custom-'.$field[2].'" id="easy-custom-'.$req.'-'.$field[2].'" value="'.$value.'"> '.$value.'</span>';
 					}
 					$theForm=str_replace($fields, $custom_radio, $theForm);
 				}
 			} elseif($field[1]=="select"){
 				if(preg_match("/^[0-9]+$/", $valuefield)){
-					$theForm=preg_replace('/\['.$fields.'\]/', '<select title="'.$title.'" style="'.$style.'" '.$disabled.'  name="easy-custom-'.$field[2].'" id="easy-custom-'.$req.'-'.$field[2].'">'.easyreservations_num_options(1,$valuefield).'</select>', $theForm);
+					$theForm=preg_replace('/\['.$fields.'\]/', '<select title="'.$title.'" style="'.$style.'" '.$disabled.'  name="easy-custom-'.$field[2].'" '.$onchange.' id="easy-custom-'.$req.'-'.$field[2].'">'.easyreservations_num_options(1,$valuefield).'</select>', $theForm);
 				} elseif(preg_match("/^[a-zA-Z0-9_]+$/", $valuefield)){
-					$theForm=preg_replace('/\['.$fields.'\]/', '<select title="'.$title.'" style="'.$style.'" '.$disabled.'  name="easy-custom-'.$field[2].'" id="easy-custom-'.$req.'-'.$field[2].'"><option value="'.$valuefield.'">'.$field[3].'</option></select>', $theForm);
+					$theForm=preg_replace('/\['.$fields.'\]/', '<select title="'.$title.'" style="'.$style.'" '.$disabled.'  name="easy-custom-'.$field[2].'" '.$onchange.' id="easy-custom-'.$req.'-'.$field[2].'"><option value="'.$valuefield.'">'.$field[3].'</option></select>', $theForm);
 				} elseif(strstr($valuefield,",")) {
 					$valueexplodes=explode(",", $valuefield);
 					$custom_select='';
 					foreach($valueexplodes as $value){
 						if($value != '') $custom_select .= '<option value="'.$value.'">'.$value.'</option>';
 					}
-					$theForm=str_replace($fields, '<select title="'.$title.'" style="'.$style.'" '.$disabled.' name="easy-custom-'.$field[2].'" id="easy-custom-'.$req.'-'.$field[2].'">'.$custom_select.'</select>', $theForm);
+					$theForm=str_replace($fields, '<select title="'.$title.'" style="'.$style.'" '.$disabled.' '.$onchange.' name="easy-custom-'.$field[2].'" id="easy-custom-'.$req.'-'.$field[2].'">'.$custom_select.'</select>', $theForm);
 				}
 			}
 		} elseif($field[0]=="price"){
@@ -311,14 +324,14 @@ function reservations_form_shortcode($atts){
 			}
 			if($field[1]=="check" || $field[1]=="checkbox"){
 				if(isset($field['checked'])) $checked = 'checked="'.$field['checked'].'"'; else $checked = '';
-				if(!empty($disabled)) $theForm=preg_replace('/\['.$fields.'\]/', '<input title="'.$title.'" style="'.$style.'" id="custom_price'.$customPrices.'" '.$personfield.' type="hidden" onchange="'.$price_action.'" name="'.$field[2].'" value="'.$valuefield.$addcontent.'">', $theForm);
-				else $theForm=preg_replace('/\['.$fields.'\]/', '<input title="'.$title.'" style="'.$style.'" id="custom_price'.$customPrices.'" '.$personfield.' type="checkbox" '.$checked.' onchange="'.$price_action.'" name="'.$field[2].'" value="'.$valuefield.$addcontent.'">', $theForm);
+				if(!empty($disabled)) $theForm=preg_replace('/\['.$fields.'\]/', '<input title="'.$title.'" style="'.$style.'" id="custom_price'.$customPrices.'" '.$personfield.' type="hidden" onchange="'.$price_action.'" name="custom_price'.$field[2].'" value="'.$valuefield.$addcontent.'">', $theForm);
+				else $theForm=preg_replace('/\['.$fields.'\]/', '<input title="'.$title.'" style="'.$style.'" id="custom_price'.$customPrices.'" '.$personfield.' type="checkbox" '.$checked.' onchange="'.$price_action.'" name="custom_price'.$field[2].'" value="'.$valuefield.$addcontent.'">', $theForm);
 			} elseif($field[1]=="radio"){
 				if(preg_match("/^[a-zA-Z0-9_]+$/", $valuefield)){
 					$explodeprice=explode(":", $valuefield);
 					if(!isset($field['noprice']) && strpos($valuefield, '>') === false) $showprice = ': '.easyreservations_format_money($explodeprice[1], 1);
 					else $showprice = '';
-					$theForm=preg_replace('/\['.$fields.'\]/', '<span class="radio"><input title="'.$title.'" style="'.$style.'" '.$disabled.' id="custom_price'.$customPrices.'" '.$personfield.' type="radio" onchange="'.$price_action.'" name="'.$field[2].'" value="'.$explodeprice[0].':'.$explodeprice[1].$addcontent.'"> '.$explodeprice[0].$showprice.'</span>', $theForm);
+					$theForm=preg_replace('/\['.$fields.'\]/', '<span class="radio"><input title="'.$title.'" style="'.$style.'" '.$disabled.' id="custom_price'.$customPrices.'" '.$personfield.' type="radio" onchange="'.$price_action.'" name="custom_price'.$field[2].'" value="'.$explodeprice[0].':'.$explodeprice[1].$addcontent.'"> '.$explodeprice[0].$showprice.'</span>', $theForm);
 				} elseif(strstr($valuefield,",")){
 					$valueexplodes=explode(",", $valuefield);
 					$custom_radio = '<pre>';
@@ -326,7 +339,7 @@ function reservations_form_shortcode($atts){
 						$explodeprice=explode(":", $value);
 						if(!isset($field['noprice']) && strpos($valuefield, '>') == false) $showprice = ': '.easyreservations_format_money($explodeprice[1], 1);
 						else $showprice = '';
-						if($value != '') $custom_radio .= '<span class="radio"><input id="custom_price'.$customPrices.'" '.$disabled.' title="'.$title.'" style="'.$style.'" type="radio" '.$personfield.' name="'.$field[2].'" onchange="'.$price_action.'" value="'.$explodeprice[0].':'.$explodeprice[1].$addcontent.'"> '.$explodeprice[0].$showprice.'</span>';
+						if($value != '') $custom_radio .= '<span class="radio"><input id="custom_price'.$customPrices.'" '.$disabled.' title="'.$title.'" style="'.$style.'" type="radio" '.$personfield.' name="custom_price'.$field[2].'" onchange="'.$price_action.'" value="'.$explodeprice[0].':'.$explodeprice[1].$addcontent.'"> '.$explodeprice[0].$showprice.'</span>';
 						$customPrices++;
 					}
 					$theForm=preg_replace('/\['.$fields.'\]/', $custom_radio.'</pre>', $theForm);
@@ -336,7 +349,7 @@ function reservations_form_shortcode($atts){
 					$explodeprice=explode(":", $valuefield);
 					if(!isset($field['noprice']) && strpos($valuefield, '>') === false) $showprice = ': '.easyreservations_format_money($explodeprice[1], 1);
 					else $showprice = '';
-					$theForm=preg_replace('/\['.$fields.'\]/', '<select id="custom_price'.$customPrices.'" '.$personfield.' '.$disabled.' name="'.$field[2].'" title="'.$title.'" style="'.$style.'" onchange="'.$price_action.'"><option value="'.$explodeprice[0].':'.$explodeprice[1].$addcontent.'">'.$explodeprice[0].$showprice.'</option></select>', $theForm);
+					$theForm=preg_replace('/\['.$fields.'\]/', '<select id="custom_price'.$customPrices.'" '.$personfield.' '.$disabled.' name="custom_price'.$field[2].'" title="'.$title.'" style="'.$style.'" onchange="'.$price_action.'"><option value="'.$explodeprice[0].':'.$explodeprice[1].$addcontent.'">'.$explodeprice[0].$showprice.'</option></select>', $theForm);
 				} elseif(preg_match("/^[a-zA-Z0-9].+$/", $valuefield)){
 					$valueexplodes=explode(",", $valuefield);
 					$custom_select='';
@@ -346,15 +359,15 @@ function reservations_form_shortcode($atts){
 						else $showprice = '';
 						if($value != '') $custom_select .= '<option value="'.$explodeprice[0].':'.$explodeprice[1].$addcontent.'">'.$explodeprice[0].$showprice.'</option>';
 					}
-					$theForm=str_replace($fields, '<select  '.$personfield.' style="'.$style.'" title="'.$title.'" id="custom_price'.$customPrices.'" '.$disabled.' onchange="'.$price_action.'" name="'.$field[2].'">'.$custom_select.'</select>', $theForm);
+					$theForm=str_replace($fields, '<select  '.$personfield.' style="'.$style.'" title="'.$title.'" id="custom_price'.$customPrices.'" '.$disabled.' onchange="'.$price_action.'" name="custom_price'.$field[2].'">'.$custom_select.'</select>', $theForm);
 				}
 			}
 			$customPrices++;
 		} elseif($field[0]=="submit"){
 			if(isset($field[1])) $value=$field[1];
 			if(!empty($validate_action)) $action = 'easyreservations_send_validate(\'send\'); ';
-			else $action = 'document.getElementById(\'easyFrontendFormular\').submit();';
-			$theForm = preg_replace('/\['.$fields.'\]/', '<input type="submit" title="'.$title.'" style="'.$style.'" class="easy-button" onclick="'.$action.'" value="'.$value.'" '.$disabled.'><span id="easybackbutton"></span>', $theForm);
+			else $action = '';
+			$theForm = preg_replace('/\['.$fields.'\]/', '<input type="submit" title="'.$title.'" style="'.$style.'" class="easy-button deactive1" '.$sumit_disabled.' value="'.$value.'" '.$disabled.'><span id="easybackbutton"></span>', $theForm);
 		} else {
 			$theForm = apply_filters('easy-form-tag', $theForm, $fields);
 		}
@@ -364,32 +377,29 @@ function reservations_form_shortcode($atts){
 	elseif($roomfield == 0 && isset($_POST['easyroom'])) $theForm .= '<input type="hidden" name="easyroom" value="'.$_POST['easyroom'].'">';
 
 	$finalformedgesremoved = str_replace(array('[', ']'), '', $theForm);
-	if(isset($atts[0])) $finalformedgesremoved.='<input type="hidden" name="formname" value="'.$atts[0].'">';
-	if($finalform == '') $finalform.='<div class="easyFrontendFormular" style="width:'.$atts['width'].'"><form onsubmit="'.$action.' return false;" method="post" id="easyFrontendFormular" name="easyFrontendFormular"><input name="easynonce" type="hidden" value="'.wp_create_nonce('easy-user-add').'"><input name="pricenonce" type="hidden" value="'.wp_create_nonce('easy-price').'">'.$finalformedgesremoved.'<!-- Provided by easyReservations free Wordpress Plugin http://www.easyreservations.org --></form></div>';
+	if($finalform == '') $finalform.='<div class="easyFrontendFormular" style="width:'.$atts['width'].'%"><form onsubmit="'.$action.' return false;" method="post" id="easyFrontendFormular" name="easyFrontendFormular">'.$formname.'<input name="easynonce" type="hidden" value="'.wp_create_nonce('easy-user-add').'"><input name="pricenonce" type="hidden" value="'.wp_create_nonce('easy-price').'">'.$finalformedgesremoved.'<!-- Provided by easyReservations free Wordpress Plugin http://www.easyreservations.org --></form></div>';
 	if(isset($_POST) && !empty($_POST))	$easyreservations_script .= 'var posted_array = '.json_encode($_POST).';for(var i in posted_array){ jQuery("*[name="+i+"]").val(posted_array[i]); } ';
 	if(!empty($price_action)) $easyreservations_script .= 'easyreservations_send_price();';
 
-	$popuptemplate = '<\\span class="easy_validate_message">'.$atts['validate'].'</span>';
-	if(!empty($atts['subvalidate'])) $popuptemplate.= '<\\span class="easy_validate_message_sub">'.$atts['subvalidate'].'</span>';
-	$popuptemplate.= '<\\table id="easy_overlay_table"><\\thead><\\tr>';
-	$popuptemplate.= '<\\th>'.__('Time', 'easyReservations').'</th>';
-	$popuptemplate.= '<\\th>'.__($atts['resourcename']).'</th>';
-	if($atts['pers'] && $atts['pers'] == 1) $popuptemplate.= '<\\th>'.__('Persons', 'easyReservations').'</th>';
-	$popuptemplate.= '<\\th>'.__('Price', 'easyReservations').'</th>';
-	$popuptemplate.= '<\\th></th></tr></thead><\\tbody id="easy_overlay_tbody"></tbody></table>';
-	$popuptemplate.= '<\\input type="button" onclick="easyAddAnother();" value="'.__('Add another reservation', 'easyReservations').'"><\\input class="easy_overlay_submit"  type="button" onclick="easyFormSubmit(1);" value="'.__('Submit all reservations', 'easyReservations').'">';
-	$popuptemplate = json_encode(array($popuptemplate));
-	$atts_encode = json_encode($atts);
-	$popuptemplate = str_replace(array("\n","\r"), '', trim('var easyReservationAtts = '.$atts_encode.';var easyInnerlayTemplate = '.$popuptemplate.';'));
-	$easyreservations_script.= $popuptemplate;
+	$popuptemplate = '<span class="easy_validate_message">'.$atts['validate'].'</span>';
+	if(!empty($atts['subvalidate'])) $popuptemplate.= '<span class="easy_validate_message_sub">'.$atts['subvalidate'].'</span>';
+	$popuptemplate.= '<table id="easy_overlay_table"><thead><tr>';
+	$popuptemplate.= '<th>'.__('Time', 'easyReservations').'</th>';
+	$popuptemplate.= '<th>'.__($atts['resourcename']).'</th>';
+	if($atts['pers'] && $atts['pers'] == 1) $popuptemplate.= '<th>'.__('Persons', 'easyReservations').'</th>';
+	$popuptemplate.= '<th>'.__('Price', 'easyReservations').'</th>';
+	$popuptemplate.= '<th></th></tr></thead><tbody id="easy_overlay_tbody"></tbody></table>';
+	$popuptemplate.= '<input type="button" onclick="easyAddAnother();" value="'.__('Add another reservation', 'easyReservations').'"><input class="easy_overlay_submit"  type="button" onclick="easyFormSubmit(1);" value="'.__('Submit all reservations', 'easyReservations').'">';
+	$easyreservations_script.= str_replace(array("\n","\r"), '', trim('var easyReservationAtts = '.json_encode($atts).';var easyInnerlayTemplate = "'.addslashes($popuptemplate).'";'));;
+	if(!empty($atts['datefield'])) define('EASYDATEFIELD', $atts['datefield']);
 	add_action('wp_print_footer_scripts', 'easyreservations_make_datepicker');
 	if(isset($final)) return $final;
 
 	if($infobox !== false){
 		$all_rooms = easyreservations_get_rooms(true);
 		if(isset($infobox['img']) && ($infobox['img'] == "yes" || $infobox['img'] == "true")){
-			if(isset($infobox['img_y']) && is_numeric($infobox['img_y'])) $height = $infobox['img_y'];
-			if(isset($infobox['img_x']) && is_numeric($infobox['img_x'])) $width = $infobox['img_y'];
+			if(isset($infobox['img_y']) && is_numeric($infobox['img_y'])) $width = $infobox['img_y'];
+			if(isset($infobox['img_x']) && is_numeric($infobox['img_x'])) $height = $infobox['img_x'];
 			if(isset($width) && isset($height)) $size = array($width,$height);
 			else $size = 'post-thumbnail';
 			$image = 1;
@@ -421,7 +431,7 @@ function reservations_form_shortcode($atts){
 		foreach($all_rooms as $key => $resource){
 			$all_rooms[$key] = (array) $resource;
 			if($image == 1) $all_rooms[$key]['thumb'] =  get_the_post_thumbnail($resource->ID, $size,array('class' => 'easy_infobox_thumb'));
-			if($content == 1 && is_numeric($infobox['content'])) $all_rooms[$key]['post_content'] = stripslashes(html_entity_decode(strip_tags(substr( $all_rooms[$key]['post_content'], 0 , $infobox['content']))));
+			if($content == 1 && is_numeric($infobox['content'])) $all_rooms[$key]['post_content'] = html_entity_decode(strip_tags(substr( $all_rooms[$key]['post_content'], 0 , $infobox['content'])));
 			if($excerpt == 1){
 				$content_post = get_post($resource->ID);
 				$all_rooms[$key]['excerpt'] = $content_post->post_excerpt;	
@@ -429,15 +439,19 @@ function reservations_form_shortcode($atts){
 		}
 		$all_rooms = json_encode($all_rooms);
 		$easyreservations_script.= <<<JAVASCRIPT
-		var all_resoures_array = $all_rooms;
+		var all_resoures_array=$all_rooms;
 		function easy_load_infobox(){
-			var res = jQuery("*[name=easyroom]").val();
+			var res = jQuery("#easyFrontendFormular *[name='easyroom']").val();
+			if(res == ''){
+				res = document.getElementsByName('easyroom');
+				res = res[0].value;
+			}
 			var res_info = all_resoures_array[res];
 			var start = '<\div class="easy_infobox_border$class" style="$style">';
 			var content = "";
 			if($only == 1) jQuery("#resource_infobox").addClass("only-image");
 			if($title == 1) content += '<span class="easy_infobox_title">'+res_info["post_title"]+'</span>';
-			if(res_info["thumb"] && "$theme" == "big") content += res_info["thumb"];
+			if(res_info["thumb"] && "$theme" == "big") content += res_info["thumb"].replace('\"', '');
 			else if(res_info["thumb"]) content = res_info["thumb"]+content;
 			if(res_info["excerpt"]) content += '<span class="easy_infobox_excerpt">'+res_info["excerpt"]+'</span>';
 			if($content == 1) content += '<span class="easy_infobox_content">'+res_info["post_content"]+'</span>';
@@ -452,20 +466,24 @@ function reservations_form_shortcode($atts){
 		});
 JAVASCRIPT;
 	} else {
+		easyreservations_load_resources();
 		global $the_rooms_array;
 		$rooms = '';
 		foreach($the_rooms_array as $key => $resource){
 			$rooms[$key] = array( 'post_title' => __($resource->post_title));
 		}
-		$easyreservations_script .= 'var all_resoures_array = '.json_encode($rooms).';';
+		$easyreservations_script .= 'var all_resoures_array='.json_encode($rooms).';';
 	}
 	return $finalform;
 }
 
 function easyreservations_make_datepicker(){
-	global $easyreservations_script;
-	echo '<script type="text/javascript">'.$easyreservations_script.'</script>';
-	easyreservations_build_datepicker(0, array('easy-form-from', 'easy-form-to'));
-}
+	$array = array('easy-form-from', 'easy-form-to');
 
+	if(defined('EASYDATEFIELD')){
+		$newfields = explode(',', EASYDATEFIELD);
+		$array = array_merge($array, $newfields);
+	}
+	easyreservations_build_datepicker(0, $array);
+}
 ?>

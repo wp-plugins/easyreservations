@@ -114,7 +114,8 @@ if(jQuery('$handler').length>0){
 		},
 		position: {
 			my: 'left top',
-			at: '$at',
+			at: 'center bottom',
+			edge: '$at',
 			offset: '$offset'
 		},
 		close: function() {

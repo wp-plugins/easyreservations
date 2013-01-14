@@ -3,7 +3,7 @@
 Plugin Name: easyReservations
 Plugin URI: http://www.easyreservations.org
 Description: This powerfull property and reservation management plugin allows you to receive, schedule and handle your bookings easily!
-Version: 3.1.7
+Version: 3.2
 Author: Feryaz Beer
 Author URI: http://www.feryaz.de
 License:GPL2
@@ -28,7 +28,7 @@ License:GPL2
 		if($pending_reservations_cnt != 0) $pending = '<span class="update-plugins count-'.$pending_reservations_cnt.'"><span class="plugin-count">'.$pending_reservations_cnt.'</span></span>';
 		else $pending = '';
 
-		add_menu_page(__('easyReservation','easyReservations'), __('Reservation','easyReservations').' '.$pending, $dashboard, 'reservations', 'reservation_main_page', RESERVATIONS_URL.'/images/logo.png' );
+		add_menu_page(__('easyReservation','easyReservations'), __('Reservation','easyReservations').' '.$pending, $dashboard, 'reservations', 'reservation_main_page', RESERVATIONS_URL.'images/logo.png' );
 		add_submenu_page('reservations', __('Dashboard','easyReservations'), __('Dashboard','easyReservations'), $dashboard, 'reservations', 'reservation_main_page');
 		add_submenu_page('reservations', __('Resources','easyReservations'), __('Resources','easyReservations'), $resources, 'reservation-resources', 'reservation_resources_page');
 		do_action('easy-add-submenu-page');
@@ -62,30 +62,30 @@ License:GPL2
 
 		$emailstandart0="[adminmessage]<br><br>
 Reservation Details:<br>
-ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrival] <br>To: [departure] <br>Persons: [adults] <br>Childs: [childs] <br>Resource: [resource] <br>Price: [price]<br>[customs]<br>edit your reservation on [editlink]";
+ID: [ID]<br>Name: [thename] <br>Email: [email] <br>From: [arrival] <br>To: [departure] <br>Persons: [adults] <br>Childs: [childs] <br>Resource: [resource] <br>Price: [price]<br>[customs]<br>edit your reservation on [editlink]";
 		$emailstandart1="New Reservation on Blogname from<br>
-ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrival] <br>To: [departure] <br>Persons: [adults] <br>Childs: [childs] <br>Resource: [resource] <br>Price: [price]<br>[customs]";
+ID: [ID]<br>Name: [thename] <br>Email: [email] <br>From: [arrival] <br>To: [departure] <br>Persons: [adults] <br>Childs: [childs] <br>Resource: [resource] <br>Price: [price]<br>[customs]";
 		$emailstandart2="Your Reservation on Blogname has been approved.<br>
 [adminmessage]<br><br>
 Reservation Details:<br>
-ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrival] <br>To: [departure] <br>Persons: [adults] <br>Childs: [childs] <br>Resource: [resource] <br>Price: [price]<br>[customs]<br>edit your reservation on [editlink]";
+ID: [ID]<br>Name: [thename] <br>Email: [email] <br>From: [arrival] <br>To: [departure] <br>Persons: [adults] <br>Childs: [childs] <br>Resource: [resource] <br>Price: [price]<br>[customs]<br>edit your reservation on [editlink]";
 		$emailstandart3="Your Reservation on Blogname has been rejected.<br>
 [adminmessage]<br> <br>
 Reservation Details:<br>
-ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrival] <br>To: [departure] <br>Persons: [adults] <br>Childs: [childs] <br>Resource: [resource] <br>[customs]<br>edit your reservation on [editlink]";
+ID: [ID]<br>Name: [thename] <br>Email: [email] <br>From: [arrival] <br>To: [departure] <br>Persons: [adults] <br>Childs: [childs] <br>Resource: [resource] <br>[customs]<br>edit your reservation on [editlink]";
 		$emailstandart4="We've got your reservaion and treat it as soon as possible.<br><br>
 Reservation Details:<br>
-ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrival] <br>To: [departure] <br>Persons: [adults] <br>Childs: [childs] <br>Resource: [resource] <br>Price: [price]<br>[customs]<br><br>edit your reservation on [editlink]";
+ID: [ID]<br>Name: [thename] <br>Email: [email] <br>From: [arrival] <br>To: [departure] <br>Persons: [adults] <br>Childs: [childs] <br>Resource: [resource] <br>Price: [price]<br>[customs]<br><br>edit your reservation on [editlink]";
 		$emailstandart5="Your reservation got edited from you. If this wasnt you, please contact us through this email address.<br><br>
 New Reservation Details:<br>
-ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrival] <br>To: [departure] <br>Persons: [adults] <br>Childs: [childs] <br>Resource: [resource] <br>Price: [price]<br>[customs]<br><br>edit your reservation on [editlink]<br><br>[changelog]";
+ID: [ID]<br>Name: [thename] <br>Email: [email] <br>From: [arrival] <br>To: [departure] <br>Persons: [adults] <br>Childs: [childs] <br>Resource: [resource] <br>Price: [price]<br>[customs]<br><br>edit your reservation on [editlink]<br><br>[changelog]";
 		$emailstandart6="Reservation got edited by Guest.<br><br>
 New Reservation Details:<br>
-ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrival] <br>To: [departure] <br>Persons: [adults] <br>Childs: [childs] <br>Resource: [resource] <br>Price: [price]<br>[customs]<br><br>[changelog]";
+ID: [ID]<br>Name: [thename] <br>Email: [email] <br>From: [arrival] <br>To: [departure] <br>Persons: [adults] <br>Childs: [childs] <br>Resource: [resource] <br>Price: [price]<br>[customs]<br><br>[changelog]";
 		$emailstandart7="Your reservation got edited by admin.<br><br>
 [adminmessage]<br>
 New Reservation Details:<br>
-ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrival] <br>To: [departure] <br>Persons: [adults] <br>Childs: [childs] <br>Resource: [resource] <br>Price: [price]<br>[customs]<br><br>edit your reservation on [editlink]<br><br>[changelog]";
+ID: [ID]<br>Name: [thename] <br>Email: [email] <br>From: [arrival] <br>To: [departure] <br>Persons: [adults] <br>Childs: [childs] <br>Resource: [resource] <br>Price: [price]<br>[customs]<br><br>edit your reservation on [editlink]<br><br>[changelog]";
 
 		$formstandart = '[error]
 <h1>Reserve now!<span style="float:right;margin:10px">[show_price]</span></h1>
@@ -117,7 +117,7 @@ ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrival] <br>To: [depa
 <span class="small">Whats your name?</span>
 </label>[thename]
 
-<label>eMail
+<label>Email
 <span class="small">Whats your email?</span>
 </label>[email]
 
@@ -170,7 +170,7 @@ ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrival] <br>To: [depa
 		add_option( 'reservations_on_page', '10', '', 'no' );
 		add_option( 'reservations_support_mail', '', '', 'yes' );
 		add_option('reservations_db_version', '2.0', '', 'yes' );
-		$showhide = array( 'show_overview' => 1, 'show_table' => 1, 'show_upcoming' => 1, 'show_new' => 1, 'show_export' => 1, 'show_today' => 1, 'show_welcome' => 2 );
+		$showhide = array( 'show_overview' => 1, 'show_table' => 1, 'show_upcoming' => 1, 'show_new' => 1, 'show_export' => 1, 'show_today' => 1 );
 		$table = array( 'table_color' => 1, 'table_id' => 0, 'table_name' => 1, 'table_from' => 1, 'table_to' => 1, 'table_nights' => 1, 'table_email' => 1, 'table_fav' => 1, 'table_room' => 1, 'table_exactly' => 1, 'table_offer' => 1, 'table_persons' => 1, 'table_childs' => 1, 'table_country' => 1, 'table_message' => 0, 'table_custom' => 0, 'table_customp' => 0, 'table_paid' => 0, 'table_price' => 1, 'table_filter_month' => 1, 'table_filter_room' => 1, 'table_filter_offer' => 1, 'table_filter_days' => 1, 'table_search' => 1, 'table_bulk' => 1, 'table_onmouseover' => 1, 'table_reservated' => 0, 'table_status' => 1, 'table_fav' => 1 );
 		$overview = array( 'overview_onmouseover' => 1, 'overview_autoselect' => 1, 'overview_show_days' => 30, 'overview_show_rooms' => '', 'overview_show_avail' => 1 );
 		add_option('reservations_main_options', array('show' => $showhide, 'table' => $table, 'overview' => $overview ), '', 'no');
@@ -451,7 +451,8 @@ ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrival] <br>To: [depa
 		return true;
 	}
 
-	function easyreservations_backup(){
+	function easyreservations_backup($a,$arr){
+		if(strpos($arr['plugin'],'easyreservations') === false) return;
 		$to = dirname(__FILE__)."/../easy_modules_backup/";
 		$to2 = dirname(__FILE__)."/../easy_css_backup/";
 		$from = dirname(__FILE__)."/lib/modules";
@@ -460,7 +461,8 @@ ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrival] <br>To: [depa
 		easyreservations_copyr($from2, $to2);
 	}
 
-	function easyreservations_recover(){
+	function easyreservations_recover($a,$arr){
+		if(strpos($arr['plugin'],'easyreservations') === false) return;
 		$from = dirname(__FILE__)."/../easy_modules_backup/";
 		$from2 = dirname(__FILE__)."/../easy_css_backup/";
 		$to = dirname(__FILE__)."/lib/modules";
@@ -475,7 +477,7 @@ ID: [ID]<br>Name: [thename] <br>eMail: [email] <br>From: [arrival] <br>To: [depa
 	add_filter('upgrader_post_install', 'easyreservations_recover', 10, 2);
 	$reservations_settings = get_option("reservations_settings");
 
-	define('RESERVATIONS_VERSION', '3.1.7');
+	define('RESERVATIONS_VERSION', '3.2');
 	define('RESERVATIONS_DIR', WP_PLUGIN_DIR.'/easyreservations/');
 	define('RESERVATIONS_URL', WP_PLUGIN_URL.'/easyreservations/');
 	define('RESERVATIONS_STYLE', $reservations_settings['style']);

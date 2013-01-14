@@ -15,7 +15,7 @@
 			'<h3>Rate</h3><p>Rate the plugin and recommend it.</p>',
 		);
 		$offset = array('-75 0', '-75 0', '-75 0',  '-75 0', '-65 0', '-75 0', '-75 0', '-75 0', '-75 0', '-75 0', '-75 0', '-75 0', '-75 0');
-		$at = array('center bottom', 'center bottom', 'center bottom', 'center bottom', 'center bottom',  'center bottom', 'center bottom', 'center bottom', 'center bottom', 'center bottom', 'center bottom');
+		$at = array('top', 'top', 'top', 'top', 'top',  'top', 'top', 'top', 'top', 'top', 'top');
 
 		echo easyreservations_execute_pointer(10, $handler, $content, $offset, $at);
 	}

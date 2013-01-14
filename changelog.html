@@ -1,3 +1,164 @@
+<h2>easyReservations 3.2 - 14.01.2012</h2>
+<ul>
+	<li><strong>Premium</strong>
+		<ul>
+			<li><strong>Invoice 1.0.10</strong>
+				<ul>
+					<li>Improved multilingual support</li>
+					<li>Improved date and datetime tag</li>
+					<li>Invoice number goes also up on attachment</li>
+					<li>Option to let the invoice number be calculated back to stay for each reservation</li>
+					<li>Fixed due only worked with number and not the tag</li>
+					<li>Fixed tooltips</li>
+				</ul>
+			</li>
+			<li><strong>htmlMails 1.1.3</strong>
+				<ul>
+					<li>Support for new user control panels email template canceled by guest</li>
+					<li>Minor changes and fixes</li>
+				</ul>
+			</li>
+			<li><strong>Payment 1.6</strong>
+				<ul>
+					<li>Integrated Stripe.com credit card gateway</li>
+					<li>Integrated Ogone payment gateway</li>
+					<li>Add charset option for PayPal</li>
+					<li>Automatically redirect to payment gateway with form shortcode attribute payment="2"</li>
+					<li>Predefine deposit with form shortcode attribute discount="50"</li>
+					<li>PayPal link in email can be html link; example: [paypal x "pay now!"]</li>
+				</ul>
+			</li>
+			<li><strong>searchForm 1.2.1</strong>
+				<ul>
+					<li>Stylesheet responsive</li>
+					<li>Style fixes in IE</li>
+					<li>Fixed [theme] tag</li>
+					<li>Improve shortcode generation</li>
+					<li>Corrected x/y of thumbnail</li>
+					<li>More link better translatable</li>
+					<li>To submit to the resource page insteat of form page enter res into the shortcodes form_url="res" attribute</li>
+				</ul>
+			</li>
+			<li><strong>Hourly Calendar 1.0.6</strong>
+				<ul>
+					<li>Stylesheet responsive</li>
+					<li>12hour Clock with shortcode attribute clock="12"</li>
+					<li>Onclick completely and second click deactivatable with attribute select="" 0,1,2</li>
+				</ul>
+			</li>
+			<li><strong>Export & Import 1.2.5</strong>
+				<ul>
+					<li>Small changes for compatibility  to easyReservation 3.2</li>
+				</ul>
+			</li>
+			<li><strong>Multilingual 1.2</strong>
+				<ul>
+					<li>New tag system allows to translate whole block or the whole content at once</li>
+					<li>Example: [:de_DE]Hallo[:es_Es]Ola[:else]Hello[:end] with unlimited value between</li>
+				</ul>
+			</li>
+			<li><strong>User Control Panel 1.3</strong>
+				<ul>
+					<li>Guest can cancel his reservations</li>
+					<li>Choose which payment gateway to offer</li>
+					<li>New email template for mail to admin at cancellation of guest</li>
+					<li>New Fixed editlink</li>
+					<li>Setting to disable editing by time more clear</li>
+				</ul>
+			</li>
+			<li><strong>Statistics 1.1.5</strong>
+				<ul>
+					<li>Display exactly day for reservations graph</li>
+					<li>Included taxes to detailed statistics</li>
+					<li>Reservations graph displayed date more accuratly</li>
+				</ul>
+			</li>
+			<li><strong>Styles 1.2.6</strong>
+				<ul>
+					<li>Responsive form style</li>
+					<li>Small changes for compatibility to easyReservation 3.2</li>
+				</ul>
+			</li>
+			<li><strong>Coupons 1.0.10</strong>
+				<ul>
+					<li>Image paths in admin</li>
+				</ul>
+			</li>
+			<li><strong>extentedCalendar 1.1.6</strong>
+				<ul>
+					<li>Small changes for compatibility to easyReservation 3.2</li>
+				</ul>
+			</li>
+		</ul>
+	</li>
+	<li><strong>Finally a real documentation</strong>
+		<ul>
+			<li>Documentation explains almost every function of the plugin and premium modules</li>
+			<li>Premium members can download an ordered PDF version</li>
+			<li>Data sheets for all shortcode attributes and all tags</li>
+		</ul>
+	</li>
+	<li><strong>Responsive stylesheets in frontend</strong>
+		<ul>
+			<li>Standard and premium form style are responsive and have two different styles based on screen size</li>
+			<li>Calendar, search form and hourly calendar are also resposive now</li>
+			<li>Width of shortcodes can only be set in percent anymore</li>
+		</ul>
+	</li>
+	<li><strong>Improvements</strong>
+		<ul>
+			<li>Only load all resources if required</li>
+			<li>Only save and restore custom stylesheets and modules if easyreservations gets updated</li>
+			<li>Small GUI improvements</li>
+			<li>Filter condition raised from 99 to 250</li>
+			<li>Flexible generated javscript gets given out in one statement in the footer in frontend</li>
+			<li>Datepicker to form field by entering it's name into shortcode attribute datefield=""</li>
+			<li>Improved forms overlay width and height</li>
+			<li>Back button after first reservation in form</li>
+			<li>Calendar onclick completely and second click deactivatable with attribute select="" 0,1,2</li>
+			<li>Speed optimations for using of many filters</li>
+			<li>Email tags can be used within the admin massage</li>
+			<li>Custom field tags in emails can have default value with the attribute else="text"</li>
+			<li>Custom price tags in emails can have default value with the attribute else="text" and you can hide value or amount with hide="value|amount" </li>
+			<li>Logical rearrangement of resource settings</li>
+			<li>In administration submit buttons will glow to remember to click them</li>
+			<li>Search in table with one AND (+) or OR (|) statement; eg: customtitle1|customtitle2 or customtitle+resourcename</li>
+			<li>Errors at premium login will be shown directly</li>
+			<li>Premium download after ftp credentials are given</li>
+			<li>Small changes, additions and improvements on tutorial mode</li>
+			<li>Post widget automatically to selected resource page by entering resource in the URL field</li>
+		</ul>
+	</li>
+	<li><strong>Bugs fixed</strong>
+		<ul>
+			<li>Escaping translations correctly to prevent javascript issues</li>
+			<li>Many typos</li>
+			<li>Renamed times to billing units</li>
+			<li>Tooltip in overview</li>
+			<li>Set paid amount</li>
+			<li>Hour selection on Overview click</li>
+			<li>Copy resource link in IE</li>
+			<li>Required custom fields of standard form got applied to every form in multiple mode</li>
+			<li>Required custom fields load check on chagne</li>
+			<li>Custom price per person, billing units or both</li>
+			<li>Set date in arrival and departure field to today with +0</li>
+			<li>Min and max value of billing units, adults and children's select</li>
+			<li>Hidden depature field</li>
+			<li>Escaping of javascript in from</li>
+			<li>123 got displayed in overview</li>
+			<li>Early bird discount in admin add and edit live price calculation</li>
+			<li>Price fields in admin add and edit live price calculation</li>
+			<li>Image paths in admin</li>
+			<li>Styles and javascript bugs in older IE's</li>
+			<li>Wrong js file paths in shortcode creator</li>
+			<li>Error in availability check mysql for hourly resources</li>
+			<li>Daily resources in hourly check</li>
+			<li>Multiple support emails seperated by comma</li>
+			<li>Screen settings appearance in dashboard</li>
+			<li>Widget unit select</li>
+		</ul>
+	</li>
+</ul>
 <h2>easyReservations 3.1.7 - 12.12.2012</h2>
 <ul>
 	<li><strong>Premium</strong>
