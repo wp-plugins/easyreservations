@@ -450,8 +450,9 @@ if(isset($_GET['page'])){
 	function easyreservations_generate_input_select($id, $args, $sel = false, $attr="", $htmlspecialchars = false){
 		$return = '<select id="'.$id.'" name="'.$id.'" '.$attr.'>';
 		foreach($args as $key => $value){
-			if($htmlspecialchars) $key = htmlspecialchars($key);
-			$return .= '<option '.selected( $sel, $key, false ).' value="'.$key.'">'.$value.'</option>';
+			if($htmlspecialchars) $key2 = htmlspecialchars($key);
+			else $key2 = $key;
+			$return .= '<option '.selected( $sel, $key, false ).' value="'.$key2.'">'.$value.'</option>';
 		}
 		$return .= '</select>';
 		return $return;
