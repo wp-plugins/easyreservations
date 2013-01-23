@@ -235,7 +235,9 @@ function reservations_form_shortcode($atts){
 		} elseif($field[0]=="show_price"){
 			if(isset($field['before'])) $before = $field['before'];
 			else $before ='';
-			$theForm=preg_replace('/\['.$fields.'\]/', '<span class="easy-form-price" title="'.$title.'" style="'.$style.'">'.$before.'<span id="showPrice"><b>'.easyreservations_format_money(0,1).'</b></span></span>', $theForm);
+			if(isset($field['price']) && $field['price'] !== 'res' && $field['price'] !== 'reservation') $after = '<input type="hidden" name="easypriceper" id="easypriceper" value="'.$field['price'].'">';
+			else $after = '';
+			$theForm=preg_replace('/\['.$fields.'\]/', '<span class="easy-form-price" title="'.$title.'" style="'.$style.'">'.$before.'<span id="showPrice"><b>'.easyreservations_format_money(0,1).'</b></span></span>'.$after, $theForm);
 		} elseif($field[0]=="captcha"){
 			require_once(WP_PLUGIN_DIR.'/easyreservations/lib/captcha/captcha.php');
 			$captcha_instance = new easy_ReallySimpleCaptcha();
@@ -264,12 +266,12 @@ function reservations_form_shortcode($atts){
 			$roomfield=1;
 			if(isset($field['exclude'])) $exclude = explode(',', $field['exclude']); else $exclude = '';
 			if($isCalendar == true) $calendar_action = "document.CalendarFormular.easyroom.value=this.value;easyreservations_send_calendar('shortcode');"; else $calendar_action = '';
-			$theForm=str_replace('['.$fields.']', '<select name="easyroom" id="form_room" '.$disabled.' onchange="'.$calendar_action.$price_action.$validate_action.'">'.easyreservations_resource_options(($value == '') ? $atts['resource'] : $value, 0, $exclude).'</select>', $theForm);
+			$theForm=str_replace('['.$fields.']', '<select name="easyroom" style="'.$style.'" id="form_room" '.$disabled.' onchange="'.$calendar_action.$price_action.$validate_action.'">'.easyreservations_resource_options(($value == '') ? $atts['resource'] : $value, 0, $exclude).'</select>', $theForm);
 		} elseif($field[0]=="custom"){
 			if(isset($field[3])) $valuefield=str_replace('"', '', $field[3]);
 			if(end($field) == "*"){
 				$req = 'req'; 
-				$onchange = 'oncheck="'.$validate_action.'"';
+				$onchange = 'onchange="'.$validate_action.'"';
 			} else {
 				$req = '';
 				$onchange = '';

@@ -158,32 +158,16 @@
 						for($t = 0; $t < $this->times; $t++){
 							$i = $this->arrival + ($t*$this->interval);
 							if(isset($this->once) && $countpriceadd > 0) break;
-							$price_add = 0;
 							if(!is_array($datearray) || !In_array($i, $datearray)){
-								if($filter['cond'] == 'unit'){ // Unit price filter
-									if($this->unitFilter($filter,$i)){
-										$price_add = 1;
-									}
-								} elseif($filter['cond'] == 'date'){ // Date price filter
-									if(date("d.m.Y", $i) == date("d.m.Y", $filter['date']) && ($this->interval > 3600 || date("H",$i) == date("H", $filter['date']))){
-										$price_add = 1;
-									}
-								} else { // Range price filter
-									$from = $filter['from'];
-									$to = $filter['to'];
-									if($i >= $from && $i  <= $to){
-										$price_add = 1;
-									}
+								if($this->timeFilter($filter,$i)){
+									if(strpos($filter['price'], '%') !== false){
+										$percent = str_replace('%',  '', $filter['price']);
+										$amount = round($resource_groundprice/100*$percent,2);
+									} else $amount = $filter['price'];
+									$this->price+=$amount; $countpriceadd++;
+									if($history) $this->history[] = array('date' => $i, 'priceday' => $amount, 'type' => 'pricefilter', 'name' => __($filter['name']));
+									$datearray[] = $i;
 								}
-							}
-							if($price_add == 1){
-								if(strpos($filter['price'], '%') !== false){
-									$percent = str_replace('%',  '', $filter['price']);
-									$amount = round($resource_groundprice/100*$percent,2);
-								} else $amount = $filter['price'];
-								$this->price+=$amount; $countpriceadd++;
-								if($history) $this->history[] = array('date' => $i, 'priceday' => $amount, 'type' => 'pricefilter', 'name' => __($filter['name']));
-								$datearray[] = $i;
 							}
 						}
 						unset($filters[$num]);
@@ -240,19 +224,15 @@
 				foreach($filters as $filter){
 					$discount_add = 0;
 					if($filter['type'] == 'stay'){// Stay Filter
-						if($staywasfull==0 || $staywasfull_charge == 0){
-							if($filter['cond'] <= $this->times){
-								$discount_add = 1;
-							}
+						if(($staywasfull==0 || $staywasfull_charge == 0) && (int) $filter['cond'] <= (int) $this->times){
+ 							$discount_add = 1;
 						}
 					} elseif($filter['type'] == 'loyal'){// Loyal Filter
-						if($loyalwasfull==0 || $loyalwasfull_charge == 0){
-							if(is_email($this->email)){
-								global $wpdb;
-								$items1 = $wpdb->get_var($wpdb->prepare("SELECT COUNT(*) FROM ".$wpdb->prefix ."reservations WHERE approve='yes' AND email='%s' AND departure < NOW()",$this->email)); //number of total rows in the database
-								if($filter['cond'] <= $items1){
-									$discount_add = 1;
-								}
+						if(($loyalwasfull==0 || $loyalwasfull_charge == 0) && is_email($this->email)){
+							global $wpdb;
+							$items1 = $wpdb->get_var($wpdb->prepare("SELECT COUNT(*) FROM ".$wpdb->prefix ."reservations WHERE approve='yes' AND email='%s' AND departure < NOW()",$this->email)); //number of total rows in the database
+							if($filter['cond'] <= $items1){
+								$discount_add = 1;
 							}
 						}
 					} elseif($filter['type'] == 'pers'){// Persons Filter
@@ -314,29 +294,6 @@
 				} 
 			}
 
-			if(!empty($this->prices)){
-				if(is_numeric($this->prices)){
-					$this->price += $this->prices;
-				} else {
-					$customps = $this->getCustoms($this->prices, 'cstm');
-					$customprices = 0;
-					foreach($customps as $customprice){
-						if(isset($customprice['type']) && $customprice['type'] == "cstm"){
-							if(!isset($customprice['amount'])) continue;
-							if(substr($customprice['amount'], -1) == "%"){
-								$percent=$this->price/100*str_replace("%", "", $customprice['amount']);
-								$customprices+=$percent;
-								if($history) $this->history[] = array('date'=>$this->arrival+($countpriceadd*$this->interval), 'priceday'=>$percent, 'type' => 'customp_p', 'name' => __($customprice['title']), 'value' => __($customprice['value']), 'amount' => $customprice['amount']);
-							} else {
-								$customprices+=$customprice['amount'];
-								if($history) $this->history[] = array('date'=>$this->arrival+($countpriceadd*$this->interval), 'priceday'=>$customprice['amount'], 'type' => 'customp_n', 'name' => __($customprice['title']),'value' => __($customprice['value']), 'amount' => $customprice['amount']);
-							}
-						}
-					}
-					$this->price+=$customprices; //Price plus Custom prices
-				}
-			}
-
 			if(function_exists('easyreservations_calculate_coupon')){
 				$save = '';
 				if(isset($this->coupon) && !empty($this->coupon) && $this->coupon !== false){
@@ -354,26 +311,28 @@
 				}
 			}
 
-			$checkprice = $this->price;
-			if($taxes && !empty($taxes)){
-				$this->taxrate = 0;
-				$this->taxamount = 0;
-				foreach($taxes as $tax){
-					$taxamount = $checkprice / 100 * $tax[1];
-					$this->price += $taxamount;
-					$this->taxamount += $taxamount;
-					$this->taxrate += $tax[1];
-					$countpriceadd++;
-					if($history) $this->history[] = array('date'=>$this->arrival+($countpriceadd*$this->interval), 'priceday'=>$taxamount, 'type' => 'tax', 'name' => __($tax[0]), 'amount' => $tax[1]);
+			$customprices = 0;
+			if(!empty($this->prices)){
+				if(is_numeric($this->prices)){
+					$customprices = $this->prices;
+					$this->price += $customprices;
+				} else {
+					$customps = $this->getCustoms($this->prices, 'cstm');
+					foreach($customps as $customprice){
+						if(isset($customprice['type']) && $customprice['type'] == "cstm"){
+							if(!isset($customprice['amount'])) continue;
+							if(substr($customprice['amount'], -1) == "%"){
+								$percent=$this->price/100*str_replace("%", "", $customprice['amount']);
+								$customprices+=$percent;
+								if($history) $this->history[] = array('date'=>$this->arrival+(($countpriceadd+10)*$this->interval), 'priceday'=>$percent, 'type' => 'customp_p', 'name' => __($customprice['title']), 'value' => __($customprice['value']), 'amount' => $customprice['amount']);
+							} else {
+								$customprices+=$customprice['amount'];
+								if($history) $this->history[] = array('date'=>$this->arrival+(($countpriceadd+10)*$this->interval), 'priceday'=>$customprice['amount'], 'type' => 'customp_n', 'name' => __($customprice['title']),'value' => __($customprice['value']), 'amount' => $customprice['amount']);
+							}
+						}
+					}
+					$this->price+=$customprices; //Price plus Custom prices
 				}
-			}
-
-			if($history && !empty($this->history)){
-				$dates = null;
-				foreach ($this->history as $key => $row) {
-					$dates[$key]  = $row['date'];
-				}
-				array_multisort($dates, SORT_ASC, $this->history);
 			}
 
 			if(!empty($this->pricepaid)){
@@ -385,6 +344,40 @@
 				if(isset($pricexpl[1]) && $pricexpl[1] > 0) $this->paid=str_replace(',','.',$pricexpl[1]);
 				if(!is_numeric($this->paid) || $this->paid <= 0) $this->paid = 0;
 			}
+
+			$checkprice = $this->price;
+			$checkprice_both = 0;
+			if($taxes && !empty($taxes)){
+				$this->taxrate = 0;
+				$this->taxamount = 0;
+				foreach($taxes as $tax){
+					if(!isset($tax[2]) || $tax[2] == 0){
+						if($checkprice_both == 0) $checkprice_both = $this->price;
+						$theprice = $checkprice_both;
+						$plus = 20;
+					} elseif($tax[2] == 1){
+						$theprice = $checkprice - $customprices;
+						$plus = 5;
+					} elseif($tax[2] == 2 && !isset($this->fixed)){
+						$theprice = $customprices;
+						$plus = 15;
+					}
+					$taxamount = $theprice / 100 * $tax[1];
+					if(!isset($this->fixed)) $this->price += $taxamount;
+					$this->taxamount += $taxamount;
+					$this->taxrate += $tax[1];
+					if($history) $this->history[] = array('date'=>$this->arrival+(($countpriceadd+$plus)*$this->interval), 'priceday'=>$taxamount, 'type' => 'tax', 'name' => __($tax[0]), 'amount' => $tax[1], 'class' => (isset($tax[2])) ? $tax[2] : 0);
+				}
+			}
+
+			if($history && !empty($this->history)){
+				$dates = null;
+				foreach ($this->history as $key => $row) {
+					$dates[$key]  = $row['date'];
+				}
+				array_multisort($dates, SORT_ASC, $this->history);
+			}
+
 			$this->price = round($this->price,2);
 			return $this->price;
 		}
@@ -401,7 +394,7 @@
 			$error=null;
 			$afterpersons=false;
 			$interval = easyreservations_get_interval($this->interval, $this->resource, 1);
-			$res_number = false;
+			$res_number = '';
 			$arrival = "arrival";
 			$departure = "departure";
 			$mergeres = 0;
@@ -436,6 +429,7 @@
 					if($mode == 0){
 						$startdate = date("Y-m-d H:i:s", $this->arrival+60);
 						$enddate = date("Y-m-d H:i:s", $this->departure-60);
+
 						if($afterpersons){
 							$prepare = $wpdb->prepare("SELECT SUM(number+childs) FROM ".$wpdb->prefix."reservations WHERE approve='yes' AND $res_sql $idsql '%s' <= $departure AND '%s' >= $arrival", array($startdate, $enddate));
 							$count = $wpdb->get_var($prepare);
@@ -444,7 +438,7 @@
 							if($count > $roomcount) $error += $count;
 						} else {
 							$count = $wpdb->get_var($wpdb->prepare("SELECT COUNT(*) FROM ".$wpdb->prefix."reservations WHERE approve='yes' AND $res_sql $res_number $idsql '%s' <= $departure AND '%s' >= $arrival", array($startdate, $enddate)));
-							if($res_number || $count >= $roomcount) $error += $count;
+							if(!empty($res_number) || $count >= $roomcount) $error += $count;
 						}
 					} else {
 						for($t = 0; $t < $this->times; $t++){
@@ -497,34 +491,21 @@
 			$filters = get_post_meta($this->resource, 'easy_res_filter', true);
 			if($this->interval == 3600) $date_pattern = RESERVATIONS_DATE_FORMAT.' H:00';
 			else $date_pattern = RESERVATIONS_DATE_FORMAT;
-			if(!$interval) $interval = $this->interval;
+			if(!$interval) $interval = easyreservations_get_interval($this->interval, $this->resource, 1);
 			if($this->departure == 0) $departure = $this->arrival + $interval;
 			else $departure = $this->departure;
-
 			$error = '';
 			if(!empty($filters)){
 				foreach($filters as $filter){
 					if($filter['type'] == 'unavail'){
 						for($t = 0; $t < $this->times; $t++){
 							$i = $this->arrival + ($t*$this->interval);
-							if($filter['cond'] == 'unit'){ // Unit price filter
-								if($this->unitFilter($filter, $i, $interval)){
-									if($mode == 1) $error .= date($date_pattern, $i).', ';
-									elseif($mode == 2)  $error[$i] = $roomcount;
-									else $error += $roomcount;
-								}
-							} elseif($filter['cond'] == 'date'){ // Date price filter
-								if(date("d.m.Y", $i) == date("d.m.Y", $filter['date']) && ($interval > 3600 || date("H",$i) == date("H", $filter['date']))){
-									if($mode == 1) $error .= date(RESERVATIONS_DATE_FORMAT_REAL, $i).', ';
-									elseif($mode == 2) $error[$i] = $roomcount;
-									else $error += $roomcount;
-								}
-							} else {// Range price filter
-								if($i >= $filter['from'] && $i <= $filter['to']){
-									if($mode == 1) $error .= date($date_pattern, $i).', ';
-									elseif($mode == 2) $error[$i] = $roomcount;
-									else $error += $roomcount;
-								}
+							$check = $this->timeFilter($filter, $i, $interval);
+							if($check){
+								if($mode == 1 && is_string($check)) $error .= $check;
+								elseif($mode == 1) $error .= date($date_pattern, $i).', ';
+								elseif($mode == 2)  $error[$i] = $roomcount;
+								else $error += $roomcount;
 							}
 						}
 					}
@@ -533,15 +514,36 @@
 			return $error;
 		}
 
+		private function timeFilter($filter, $i, $interval = false){
+			if($filter['cond'] == 'unit'){
+				return $this->unitFilter($filter,$i, $interval);
+			} elseif($filter['cond'] == 'date'){
+				if(date("d.m.Y", $i) == date("d.m.Y", $filter['date']) && ($this->interval > 3600 || date("H",$i) == date("H", $filter['date']))) return true;
+			} else {
+				$from = $filter['from'];
+				$to = $filter['to'];
+				if($i >= $from && $i  <= $to){
+					return true;
+				}
+			}
+			return false;
+		}
+
 		private function unitFilter($filter, $i, $interval = false){
 			if(!$interval) $interval = $this->interval;
-			if(empty($filter['year']) || ( in_array(date("Y", $i), explode(",", $filter['year'])))){
-				if(empty($filter['quarter']) || ( in_array(ceil(date("m", $i) / 3), explode(",", $filter['quarter'])))){
-					if(empty($filter['month']) || ( in_array(date("n", $i), explode(",", $filter['month'])))){
-						if(empty($filter['cw']) || ( in_array(date("W", $i), explode(",", $filter['cw'])))){
-							if(empty($filter['day']) || ($interval < 86500 &&  in_array(date("N", $i), explode(",", $filter['day'])))){
-								if( !isset($filter['hour']) || empty($filter['hour']) || ($interval < 3650 && in_array(date("H", $i), explode(",", $filter['hour'])))){
+			if(!isset($filter['year']) || empty($filter['year']) || ( in_array(date("Y", $i), explode(",", $filter['year'])))){
+				if(!isset($filter['quarter']) || empty($filter['quarter']) || ( in_array(ceil(date("m", $i) / 3), explode(",", $filter['quarter'])))){
+					if(!isset($filter['month']) || empty($filter['month']) || ( in_array(date("n", $i), explode(",", $filter['month'])))){
+						if(!isset($filter['cw']) || empty($filter['cw']) || ( in_array(date("W", $i), explode(",", $filter['cw'])))){
+							if(!isset($filter['day']) || empty($filter['day']) || ($interval < 86500 &&  in_array(date("N", $i), explode(",", $filter['day'])))){
+								if(!isset($filter['hour']) || empty($filter['hour']) || ($interval < 3650 && in_array(date("H", $i), explode(",", $filter['hour'])))){
 									return true;
+								} elseif(isset($filter['hour']) && !empty($filter['hour']) && ($interval > 3650)){
+									$time = strtotime(date(RESERVATIONS_DATE_FORMAT,$i));
+									foreach(explode(",", $filter['hour']) as $hour){
+										$checktime = $time+($hour*3600);
+										if($this->arrival <= $checktime && $this->departure >=  $checktime) return date(RESERVATIONS_DATE_FORMAT.' H:00', $checktime).', ';
+									}
 								}
 							}
 						}
@@ -607,7 +609,7 @@
 
 			if(!empty($custom) && is_array($custom)){
 				foreach($custom as $key => $cstm){
-					if( empty($cstm) || ( $type && isset($cstm['type']) && $cstm['type'] !== $type ) || ( $modus && isset($cstm['mode']) && $cstm['mode'] != $modus && $cstm['mode'] != 'visible' )) unset($custom[$key]);
+					if(empty($cstm) || ( $type && isset($cstm['type']) && $cstm['type'] !== $type ) || ( $modus && isset($cstm['mode']) && $cstm['mode'] != $modus && $cstm['mode'] != 'visible' )) unset($custom[$key]);
 					elseif($oderbytitle){
 						$custom[strtolower($cstm['title'])] = $cstm;
 						unset($custom[$key]);
@@ -624,10 +626,11 @@
 			else $price = easyreservations_format_money($amount, 0, $dig);
 
 			if($color_paid){
-				if($this->paid == $this->price) $pricebgcolor='color:#118D18 ;padding:1px;';
-				elseif($this->paid > 0) $pricebgcolor='color:#ffcb49;padding:1px;';
-				else $pricebgcolor='color:#BC0B0B;padding:1px;';
-				$price = '<b style="'.$pricebgcolor.';font-weight:bold !important;">'.$price.'</b>';
+				if($this->paid == $this->price) $pricebgcolor='color:#118D18;';
+				elseif($this->paid > $this->price) $pricebgcolor='color:#ab2ad6;';
+				elseif($this->paid > 0) $pricebgcolor='color:#ffcb49;';
+				else $pricebgcolor='color:#BC0B0B;';
+				$price = '<b style="'.$pricebgcolor.';padding:1px;font-weight:bold !important;">'.$price.'</b>';
 			}
 			return $price;
 		}
@@ -637,12 +640,17 @@
 				$arrival = $this->arrival;
 				$departure = $this->departure;
 			} else {
-				if($this->interval < 86401) $time = $this->interval/2;
-				else $time = 43200;
-				$arrival = strtotime(date('d.m.Y', (int) $this->arrival))+$time;
-				$departure = strtotime(date('d.m.Y', (int) $this->departure))+$time;
+				$arrival = strtotime(date('d.m.Y', (int) $this->arrival))+43200;
+				$departure = strtotime(date('d.m.Y', (int) $this->departure))+43200;
 			}
-			$number = ($departure-$arrival) / easyreservations_get_interval($this->interval, 0,  $mode);
+			$diff = 0;
+			$timezone = new DateTimeZone(date_default_timezone_get ());
+			$transitions = $timezone->getTransitions($arrival, $departure);
+			if(isset($transitions[1]) && $transitions[0]['offset'] != $transitions[1]['offset']){
+				if($transitions[0]['offset'] > $transitions[1]['offset']) $diff = $transitions[0]['offset'] - $transitions[1]['offset'];
+				else $diff = $transitions[1]['offset'] - $transitions[0]['offset'];
+			}
+			$number = ($departure-$arrival-$diff) / easyreservations_get_interval($this->interval, 0,  $mode);
 			$this->times = ( is_numeric($number)) ? (ceil(ceil($number/0.01)*0.01)) : false;
 			if($this->times < 1) $this->times = 1;
 			return $this->times;
@@ -694,7 +702,14 @@
 						if($avail > 0) $errors[] = __( 'Not available at' , 'easyReservations' ).' '.$availability;
 						else $errors[] = __( 'Selected time is occupied' , 'easyReservations' );
 					} else $errors[] = __( 'Selected time is occupied' , 'easyReservations' );
-				}
+				} 
+//				else {
+//					$availability = $this->checkAvailability(0, ($this->admin) ? false : true);
+//					if($availability){
+//						if(!$this->admin) $errors[] = 'date';
+//						$errors[] = __( 'Selected time is occupied' , 'easyReservations' );
+//					}
+//				}
 			}
 
 			if(!$this->admin){
@@ -709,22 +724,10 @@
 					foreach($filters as $filter){
 						if($filter['type'] == 'req'){
 							for($t = 0; $t < $this->times; $t++){
-								$i = $this->arrival + ($t*$this->interval);
 								$price_add = 0;
-								if($filter['cond'] == 'unit'){ // Unit price filter
-									if($this->unitFilter($filter,$i)){
-										$price_add = 1;
-									}
-								} elseif($filter['cond'] == 'date'){ // Date price filter
-									if(date("d.m.Y", $i) == date("d.m.Y", $filter['date']) && ($this->interval > 3600 || date("H",$i) == date("H", $filter['date']))){
-										$price_add = 1;
-									}
-								} else { // Range price filter
-									$from = $filter['from'];
-									$to = $filter['to'];
-									if($i >= $from && $i  <= $to){
-										$price_add = 1;
-									}
+								$i = $this->arrival + ($t*$this->interval);
+								if($this->timeFilter($filter, $i)){
+									$price_add = 1;
 								}
 							}
 							if($price_add == 1){
@@ -926,14 +929,14 @@
 						if(function_exists('easyreservations_generate_paypal_button')){
 							$percent = false;
 							if(isset($field[1]) && is_numeric($field[1])) $percent = $field[1];
-							$link = esc_url_raw(str_replace(' ', '%20', easyreservations_generate_paypal_button($this, $this->id, true, true, $percent)));
+							$link = easyreservations_generate_paypal_button($this, $this->price, true, true, $percent);
 							if(isset($field[2])){
 								$field[2] = str_replace('"', '', $field[2]);
 								$link = '<a href="'.$link.'">'.$field[2].'</a>';
 							}
 						}
 						$theForm = str_replace('['.$fields.']', $link, $theForm);
-					}
+					} else $theForm = apply_filters('easy-email-tag', $theForm, $fields, $field, $this);
 				}
 
 				$theForm = apply_filters( 'easy-email-content', $theForm, $local);
@@ -999,6 +1002,7 @@
 
 			$formated_status = $statuse[$this->status][0];
 			if($color) $formated_status = '<b style="color:'.$statuse[$this->status][1].';text-transform:capitalize">'.$formated_status.'</b>';
+			$formated_status = apply_filters('easy-status-out', $formated_status, $this);
 
 			return $formated_status;
 		}

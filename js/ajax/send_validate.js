@@ -46,20 +46,17 @@ function easyreservations_send_validate(y){
 		if(document.getElementById('date-to-hour')) toh = parseInt(document.getElementById('date-to-hour').value) * 60;
 		if(document.getElementById('date-to-min')) tom = parseInt(document.getElementById('date-to-min').value);
 		toplus = (toh + tom)*60;
-
+		
 		if(from){
 			instance = jQuery( fromfield ).data( "datepicker" );
-			if(instance){
+			if(instance && tofield){
 				dateanf = jQuery.datepicker.parseDate(instance.settings.dateFormat || jQuery.datepicker._defaults.dateFormat, from, instance.settings );
-				if(tofield){
-					instance = jQuery( tofield ).data( "datepicker" );
-					dateend = jQuery.datepicker.parseDate(instance.settings.dateFormat || jQuery.datepicker._defaults.dateFormat, to, instance.settings );
-					var difference_ms = Math.abs(dateanf - dateend);
-					var diff = difference_ms/1000;
-					diff += ((86400-fromplus)+toplus);
-					diff -= 86400;
-					nights = Math.ceil(diff/interval);
-				}
+				dateend = jQuery.datepicker.parseDate(instance.settings.dateFormat || jQuery.datepicker._defaults.dateFormat, to, instance.settings );
+				var difference_ms = Math.abs(dateanf - dateend);
+				var diff = difference_ms/1000;
+				diff += toplus;
+				diff -= fromplus;
+				nights = Math.ceil(diff/interval);
 			}
 		}
 

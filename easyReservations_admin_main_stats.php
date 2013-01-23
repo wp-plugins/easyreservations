@@ -1,7 +1,7 @@
 <?php
 	wp_enqueue_script('jquery-flot');
 	wp_enqueue_script('jquery-flot-stack');
-	if(!$wpdb) global $wpdb;
+	global $wpdb;
 
 	$countReservated = ''; $countApproved = ''; $countRejected = ''; $countPending = ''; $daysOptions = ''; $daysOptionsPast = '';
 	$maxres = 0; $maxall = 0;

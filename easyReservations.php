@@ -3,7 +3,7 @@
 Plugin Name: easyReservations
 Plugin URI: http://www.easyreservations.org
 Description: This powerfull property and reservation management plugin allows you to receive, schedule and handle your bookings easily!
-Version: 3.2
+Version: 3.2.1
 Author: Feryaz Beer
 Author URI: http://www.feryaz.de
 License:GPL2
@@ -88,7 +88,7 @@ New Reservation Details:<br>
 ID: [ID]<br>Name: [thename] <br>Email: [email] <br>From: [arrival] <br>To: [departure] <br>Persons: [adults] <br>Childs: [childs] <br>Resource: [resource] <br>Price: [price]<br>[customs]<br><br>edit your reservation on [editlink]<br><br>[changelog]";
 
 		$formstandart = '[error]
-<h1>Reserve now!<span style="float:right;margin:10px">[show_price]</span></h1>
+<h1>Reserve now![show_price style="float:right;"]</h1>
 <h2>General informations</h2>
 
 <label>Arrival Date
@@ -242,24 +242,19 @@ ID: [ID]<br>Name: [thename] <br>Email: [email] <br>From: [arrival] <br>To: [depa
 	add_action('admin_init','easyReservations_upgrade',1);
 
 	function easyReservations_upgrade(){
-
-		$easyReservations_active_ver=2.0;
+		$easyReservations_active_ver="3.2.1";
 		$easyReservations_installed_ver = get_option("reservations_db_version");
-
 		if($easyReservations_installed_ver != $easyReservations_active_ver ){
-
 			if($easyReservations_installed_ver == 1.2 || $easyReservations_installed_ver == 1.3 || $easyReservations_installed_ver == "1.3.1" || $easyReservations_installed_ver == "1.3.2"){
 				$showhide = array( 'show_overview' => 1, 'show_table' => 1, 'show_upcoming' => 1, 'show_new' => 1, 'show_export' => 1, 'show_today' => 1 );
 				$table = array( 'table_color' => 1, 'table_id' => 0, 'table_name' => 1, 'table_from' => 1, 'table_to' => 1, 'table_nights' => 1, 'table_email' => 1, 'table_room' => 1, 'table_exactly' => 1, 'table_offer' => 1, 'table_persons' => 1, 'table_childs' => 1, 'table_country' => 1, 'table_message' => 0, 'table_custom' => 0, 'table_customp' => 0, 'table_paid' => 0, 'table_price' => 1, 'table_filter_month' => 1, 'table_filter_room' => 1, 'table_filter_offer' => 1, 'table_filter_days' => 1, 'table_search' => 1, 'table_bulk' => 1, 'table_onmouseover' => 1, 'table_reservated' => 0, 'table_status' => 1, 'table_fav' => 1 );
 				$overview = array( 'overview_onmouseover' => 1, 'overview_autoselect' => 1, 'overview_show_days' => 30, 'overview_show_rooms' => '', 'overview_show_avail' => 1 );
 				add_option('reservations_main_options', array('show' => $showhide, 'table' => $table, 'overview' => $overview ), '', 'no');
-
 				$easyReservations_installed_ver = 1.4;
 			}
 			if($easyReservations_installed_ver == 1.4 || $easyReservations_installed_ver == "1.4.5"){
 				$permission = array('dashboard' => 'edit_posts', 'statistics' => 'edit_posts', 'resources' => 'edit_posts', 'settings' => 'edit_posts');
 				update_option( 'reservations_main_permission', $permission );
-
 				add_option( 'reservations_email_to_user', array('msg' => get_option( 'reservations_email_to_user_msg' ), 'subj' => get_option( 'reservations_email_to_user_subj' ), 'active' => 1), '', 'no');
 				add_option( 'reservations_email_to_userapp', array('msg' => get_option( 'reservations_email_to_userapp_msg' ), 'subj' => get_option( 'reservations_email_to_userapp_subj' ), 'active' => 1), '', 'no');
 				add_option( 'reservations_email_to_userdel', array('msg' => get_option( 'reservations_email_to_userdel_msg' ), 'subj' => get_option( 'reservations_email_to_userdel_subj' ), 'active' => 1), '', 'no');
@@ -268,7 +263,6 @@ ID: [ID]<br>Name: [thename] <br>Email: [email] <br>From: [arrival] <br>To: [depa
 				add_option( 'reservations_email_to_admin_edited', array('msg' => get_option( 'reservations_email_to_admin_edited_msg' ), 'subj' => get_option( 'reservations_email_to_admin_edited_subj' ), 'active' => 1), '', 'no');
 				add_option( 'reservations_email_to_user_admin_edited', array('msg' => get_option( 'reservations_email_to_user_admin_edited_msg' ), 'subj' => get_option( 'reservations_email_to_user_admin_edited_subj' ), 'active' => 1), '', 'no');
 				add_option( 'reservations_email_sendmail', array('msg' => get_option( 'reservations_email_sendmail_msg' ), 'subj' => get_option( 'reservations_email_sendmail_subj' ), 'active' => 1), '', 'no');
-
 				delete_option( 'reservations_email_to_userapp_subj' );
 				delete_option( 'reservations_email_to_userapp_msg' );
 				delete_option( 'reservations_email_to_userdel_subj' );
@@ -287,11 +281,9 @@ ID: [ID]<br>Name: [thename] <br>Email: [email] <br>From: [arrival] <br>To: [depa
 				delete_option( 'reservations_email_sendmail_msg' );
 				global $wpdb;
 				$wpdb->query( "DELETE FROM ".$wpdb->prefix ."postmeta WHERE meta_key = 'reservations_filter' ");
-
 				$easyReservations_installed_ver = 1.5;
 			}
 			if($easyReservations_installed_ver == 1.5){
-
 				global $wpdb;
 				$room_category = get_option('reservations_room_category');
 				if(isset($room_category) && !empty($room_category) && is_numeric($room_category)){
@@ -313,12 +305,10 @@ ID: [ID]<br>Name: [thename] <br>Email: [email] <br>From: [arrival] <br>To: [depa
 						$wpdb->query($wpdb->prepare("DELETE FROM ".$wpdb->prefix ."term_relationships WHERE object_id='$id'"));
 					}
 				}
-
 				delete_option('reservations_room_category');
 				delete_option('reservations_special_offer_cat');
 				$wpdb->query($wpdb->prepare("ALTER TABLE ".$wpdb->prefix ."reservations CHANGE custom custom longtext"));
 				$wpdb->query($wpdb->prepare("ALTER TABLE ".$wpdb->prefix ."reservations CHANGE customp customp longtext"));
-
 				$reservations = $wpdb->get_results("SELECT id, custom, customp FROM ".$wpdb->prefix ."reservations");
 				foreach($reservations as $reservation){
 					$id = $reservation->id;
@@ -336,7 +326,6 @@ ID: [ID]<br>Name: [thename] <br>Email: [email] <br>From: [arrival] <br>To: [depa
 						$explode_the_custom = explode('&:&', $explode_customs[0]);
 						$new_customs[] = array( 'type' => 'cstm', 'mode' => 'edit', 'title' => $explode_the_custom[0], 'value' => $explode_the_custom[1] );
 					}
-
 					$customsp = $reservation->customp;
 					$explode_customp = explode('&;&', $customsp);
 					$new_customp='';
@@ -353,22 +342,17 @@ ID: [ID]<br>Name: [thename] <br>Email: [email] <br>From: [arrival] <br>To: [depa
 						$explode_the_price = explode(':', $explode_the_custom[1]);
 						$new_customp[] = array( 'type' => 'cstm', 'mode' => 'edit', 'title' => $explode_the_custom[0], 'value' => $explode_the_price[0], 'amount' => $explode_the_price[1] );
 					}
-
 					$save_custom = '';
 					$save_customp = '';
 					if(!empty($new_customs)) $save_custom = maybe_serialize(array($new_customs));
 					if(!empty($new_customp)) $save_customp = maybe_serialize(array($new_customp));
-
 					$wpdb->query($wpdb->prepare("UPDATE ".$wpdb->prefix ."reservations SET custom='$save_custom', customp='$save_customp' WHERE id='$id' "));
-
 					unset($new_customs);
 					unset($new_customp);
 				}
-
 				$wpdb->query( $wpdb->prepare("ALTER TABLE ".$wpdb->prefix ."reservations ADD user int(10) NOT NULL"));
 				$wpdb->query( $wpdb->prepare("UPDATE ".$wpdb->prefix ."reservations SET user='0'"));
 				add_option( 'reservations_uninstall', '1', '', 'no' );
-
 				$easyReservations_installed_ver = 1.6;
 			}
 			if($easyReservations_installed_ver == 1.6){
@@ -376,15 +360,12 @@ ID: [ID]<br>Name: [thename] <br>Email: [email] <br>From: [arrival] <br>To: [depa
 				$edit_options = array( 'login_text' => stripslashes($edit_text), 'edit_text' => stripslashes($edit_text),  'table_infos' => array('date', 'status', 'price', 'room'), 'table_status' => array('','yes','no'), 'table_time' => array('past','current','future'), 'table_style' => 1, 'table_more' => 1 );
 				add_option('reservations_edit_options', $edit_options, '', false);
 				add_option('reservations_date_format', 'd.m.Y', '', true);
-
 				delete_option( 'reservations_edit_text' );
 				$easyReservations_installed_ver = 1.7;
 			}
-
 			if($easyReservations_installed_ver == 1.7){
 				$easyReservations_installed_ver = 1.8;
 			}
-
 			if($easyReservations_installed_ver == 1.8){
 				global $wpdb;
 				$wpdb->query( $wpdb->prepare("ALTER TABLE ".$wpdb->prefix ."reservations ADD arrival datetime NOT NULL"));
@@ -409,19 +390,16 @@ ID: [ID]<br>Name: [thename] <br>Email: [email] <br>From: [arrival] <br>To: [depa
 
 				$easyReservations_installed_ver = 2.0;
 			}
-
+			
+			$easyReservations_installed_ver = "3.2.1";
 			update_option('reservations_db_version', $easyReservations_installed_ver);
-			$main_options = get_option("reservations_main_options");
-			$main_options['show']['show_welcome'] = 2;
-			update_option('reservations_main_options', $main_options);
 		}
 	}
 
 	function easyreservations_rmdirr($dirname){
-		if (!file_exists($dirname)) return false; // Sanity check
-		if (is_file($dirname)) return unlink($dirname);	// Simple delete for a file
+		if(!file_exists($dirname)) return false; // Sanity check
+		if(is_file($dirname)) return unlink($dirname);	// Simple delete for a file
 
-		// Loop through the folder
 		$dir = dir($dirname);
 		while (false !== $entry = $dir->read()) {
 			if ($entry == '.' || $entry == '..') continue; // Skip pointers
@@ -433,13 +411,11 @@ ID: [ID]<br>Name: [thename] <br>Email: [email] <br>From: [arrival] <br>To: [depa
 	}
 
 	function easyreservations_copyr($source, $dest){
-
-		if (is_link($source)) return symlink(readlink($source), $dest); // Check for symlinks
-		if (is_file($source)) return copy($source, $dest); // Simple copy for a file	
-		if (!is_dir($dest)) mkdir($dest, 0777);
+		if(is_link($source)) return symlink(readlink($source), $dest); // Check for symlinks
+		if(is_file($source)) return copy($source, $dest); // Simple copy for a file	
+		if(!is_dir($dest)) mkdir($dest, 0777);
 
 		if(is_dir($source) && is_dir($dest)){
-			// Loop through the folder
 			$dir = dir($source);
 			while (false !== $entry = $dir->read()) {
 				if ($entry == '.' || $entry == '..') continue; // Skip pointers
@@ -471,13 +447,19 @@ ID: [ID]<br>Name: [thename] <br>Email: [email] <br>From: [arrival] <br>To: [depa
 		easyreservations_copyr($from2, $to2);
 		if(is_dir($from)) easyreservations_rmdirr($from);#http://putraworks.wordpress.com/2006/02/27/php-delete-a-file-or-a-folder-and-its-contents/
 		if(is_dir($from2)) easyreservations_rmdirr($from2);
+		delete_option('easyreservations-notifier-last-updated');
+		$data = get_option('reservations_login');
+		if($data && !empty($data)){
+			echo '<h1>Update Modules</h1><p>';
+			easyreservations_latest_modules_versions(86400, false, true, 'all');
+		}
 	}
 
 	add_filter('upgrader_pre_install', 'easyreservations_backup', 10, 2);
 	add_filter('upgrader_post_install', 'easyreservations_recover', 10, 2);
 	$reservations_settings = get_option("reservations_settings");
 
-	define('RESERVATIONS_VERSION', '3.2');
+	define('RESERVATIONS_VERSION', '3.2.1');
 	define('RESERVATIONS_DIR', WP_PLUGIN_DIR.'/easyreservations/');
 	define('RESERVATIONS_URL', WP_PLUGIN_URL.'/easyreservations/');
 	define('RESERVATIONS_STYLE', $reservations_settings['style']);

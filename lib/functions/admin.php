@@ -191,6 +191,19 @@ if(isset($_GET['page'])){
 	
 		return $box;
 	}
+	
+	function easyreservations_get_emails(){
+		$emails = array(
+			'reservations_email_sendmail'						=> array('name' => __('Mail to guest from admin in dashboard'), 'option' => get_option('reservations_email_sendmail'), 'name_subj' => 'reservations_email_sendmail_subj', 'name_msg' => 'reservations_email_sendmail_msg', 'standard' => '0', 'name_active' => 'reservations_email_sendmail_check'),
+			'reservations_email_to_user'							=> array('name' => __('Mail to guest after new reservation'), 'option' => get_option('reservations_email_to_user'), 'name_subj' => 'reservations_email_to_user_subj', 'name_msg' => 'reservations_email_to_user_msg', 'standard' => '4', 'name_active' => 'reservations_email_to_user_check'),
+			'reservations_email_to_userapp'						=> array('name' => __('Mail to guest after approvement'), 'option' => get_option('reservations_email_to_userapp'), 'name_subj' => 'reservations_email_to_userapp_subj', 'name_msg' => 'reservations_email_to_userapp_msg', 'standard' => '2', 'name_active' => 'reservations_email_to_userapp_check'),
+			'reservations_email_to_userdel'						=> array('name' => __('Mail to guest after rejection'), 'option' => get_option('reservations_email_to_userdel'), 'name_subj' => 'reservations_email_to_userdel_subj', 'name_msg' => 'reservations_email_to_userdel_msg', 'standard' => '3', 'name_active' => 'reservations_email_to_userdel_check'),
+			'reservations_email_to_user_admin_edited'	=> array('name' => __('Mail to guest after admin edited'), 'option' => get_option('reservations_email_to_user_admin_edited'), 'name_subj' => 'reservations_email_to_user_admin_edited_subj', 'name_msg' => 'reservations_email_to_user_admin_edited_msg', 'standard' => '7', 'name_active' => 'reservations_email_to_user_admin_edited_check'),
+			'reservations_email_to_admin'						=> array('name' => __('Mail to admin after new reservation'), 'option' => get_option('reservations_email_to_admin'), 'name_subj' => 'reservations_email_to_admin_subj', 'name_msg' => 'reservations_email_to_admin_msg', 'standard' => '1', 'name_active' => 'reservations_email_to_admin_check'),
+			
+		);
+		return apply_filters('easy-email-types', $emails);
+	}
 
 	/**
 	*	Get administration links
@@ -452,7 +465,7 @@ if(isset($_GET['page'])){
 		foreach($args as $key => $value){
 			if($htmlspecialchars) $key2 = htmlspecialchars($key);
 			else $key2 = $key;
-			$return .= '<option '.selected( $sel, $key, false ).' value="'.$key2.'">'.$value.'</option>';
+			$return .= '<option '.str_replace("'",'"',selected( $sel, $key, false )).' value="'.$key2.'">'.$value.'</option>';
 		}
 		$return .= '</select>';
 		return $return;
@@ -594,16 +607,19 @@ if(isset($_GET['page'])){
 				$searches = $exor;
 				$searchstr .= 'AND (';
 				$searchsign = 'OR';
-			} else $searches = $search;
-			foreach($searches as $search){
+			} else {
+				$searchstr .= 'AND ';
+				$searches = array($search);
+			}
+			foreach($searches as $searchres){
 				if($st > 0){
 					$searchstr .= ' '.$searchsign.' ';
 				}
-				if(preg_match('/^[0-9]+$/i', $search)) $searchstr = "AND id in($search)";
+				if(preg_match('/^[0-9]+$/i', $search)) $searchstr = "AND id in($searchres)";
 				else {
 					$room_ids = "";
 					foreach($the_rooms_array as $room){
-						if(strpos($room->post_title, $search) !== false) $room_ids .= $room->ID.', ';
+						if(strpos(strtoupper($room->post_title), strtoupper($searchres)) !== false) $room_ids .= $room->ID.', ';
 					}
 					if(!empty($room_ids)) $roomsearch = ' OR room in ('.substr($room_ids,0,-2).')';
 					else $roomsearch = '';
@@ -990,9 +1006,9 @@ if(isset($_GET['page'])){
 		if($type == 0) $interval = easyreservations_get_interval($the_rooms_intervals_array[$res], 0, 1);
 		else $interval = $the_rooms_intervals_array[$res];
 		if($filtertype['cond'] == 'range'){
-			$the_condtion = sprintf(__( 'If the %3$s to calculate is beween %1$s and %2$s else' , 'easyReservations' ), '<b>'.date(RESERVATIONS_DATE_FORMAT_SHOW, $filtertype['from']).'</b>', '<b>'.date(RESERVATIONS_DATE_FORMAT_SHOW, $filtertype['to']).'</b>', easyreservations_interval_infos($interval), 0 ,1 ).' <b style="font-size:17px">&#8595;</b>';
+			$the_condtion = sprintf(__( 'If the %3$s to calculate is beween %1$s and %2$s' , 'easyReservations' ), '<b>'.date(RESERVATIONS_DATE_FORMAT_SHOW, $filtertype['from']).'</b>', '<b>'.date(RESERVATIONS_DATE_FORMAT_SHOW, $filtertype['to']).'</b>', easyreservations_interval_infos($interval), 0 ,1 );
 		} elseif($filtertype['cond'] == 'date'){
-			$the_condtion = sprintf(__( 'If the %2$s to calculate is %1$s else' , 'easyReservations' ), '<b>'.date(str_replace(':i', ':00', RESERVATIONS_DATE_FORMAT_SHOW), $filtertype['date']).'</b>', easyreservations_interval_infos($interval),  0 ,1 ).' <b style="font-size:17px">&#8595;</b>';
+			$the_condtion = sprintf(__( 'If the %2$s to calculate is %1$s' , 'easyReservations' ), '<b>'.date(str_replace(':i', ':00', RESERVATIONS_DATE_FORMAT_SHOW), $filtertype['date']).'</b>', easyreservations_interval_infos($interval),  0 ,1 );
 		} else {
 			if(isset($filtertype['hour']) && !empty($filtertype['hour'])){
 				$timecondition = '';
@@ -1027,7 +1043,7 @@ if(isset($_GET['page'])){
 			if(isset($monthcondition) && $monthcondition != '') $itcondtion .= __('in', 'easyReservations')." <b>".substr($monthcondition, 0, -2).'</b> '.__('and', 'easyReservations').' ';
 			if(isset($qcondition) && $qcondition != '') $itcondtion .= __('in quarter', 'easyReservations')." <b>".$qcondition.'</b> '.__('and', 'easyReservations').' ';
 			if(isset($ycondition) && $ycondition != '') $itcondtion .= __('in', 'easyReservations')." <b>".$ycondition.'</b> '.__('and', 'easyReservations').' ';
-			$the_condtion = substr($itcondtion, 0, -4).' '.__('else', 'easyReservations').' <b style="font-size:17px">&#8595;</b>';
+			$the_condtion = substr($itcondtion, 0, -4);
 		}
 
 		return $the_condtion;
@@ -1102,8 +1118,7 @@ if(isset($_GET['page'])){
 					reserved:treserved
 				};
 
-				// since 2.8 ajaxurl is always defined in the admin header and points to admin-ajax.php
-				jQuery.post(ajaxurl, data, function(response) {
+				jQuery.post(ajaxurl, data, function(response){
 					response = JSON.parse(response);
 					jQuery("#showPrice").html(response[0]);
 					return false;
@@ -1307,7 +1322,6 @@ if(isset($_GET['page'])){
 
 		return $mysql;
 	}
-
 
 	function easyreservations_get_color($round){
 		if($round >= 200) return '#ab2ad6';

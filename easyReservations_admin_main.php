@@ -292,8 +292,8 @@ function reservation_main_page() {
 		} catch(easyException $e){
 			$easy_errors[] = array( 'error' , $e->getMessage());
 		}
-	}
-
+	} 
+	
 	if(isset($_POST['approve']) || isset($_POST['delete'])){
 		if(isset($_POST['approve'])){
 			$emailformation = 'reservations_email_to_userapp';
@@ -323,6 +323,8 @@ function reservation_main_page() {
 		} catch(easyException $e){
 			$easy_errors[] = array( 'error' , $e->getMessage());
 		}
+	} elseif(isset($_POST['approvelink'])){
+		do_action('easy-approvelink');
 	}
 
 	do_action('easy_dashboard_header_end'); ?>
@@ -1548,7 +1550,8 @@ if(isset($approve) || isset($delete)) {
 					</td>
 			</tbody>
 		</table>
-	</form><?php if(isset($approve)) { if($res->resourcenumber < 1) $ex = 1; else $ex = $res->resourcenumber;?><script>get_the_select(<?php echo $ex; ?>, <?php echo $res->resource; ?>);</script><?php } ?>
+		
+	</form><?php if(isset($approve)) { if($res->resourcenumber < 1) $ex = 1; else $ex = $res->resourcenumber;?><script>get_the_select(<?php echo $ex; ?>, <?php echo $res->resource; ?>);<?php do_action('easy-approve-script'); ?></script><?php } ?>
 <?php  }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

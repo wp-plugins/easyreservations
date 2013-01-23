@@ -37,17 +37,14 @@ function easyreservations_send_price(){
 
 	if(from){
 		instance = jQuery( fromfield ).data( "datepicker" );
-		if(instance){
+		if(instance && tofield){
 			dateanf = jQuery.datepicker.parseDate(instance.settings.dateFormat || jQuery.datepicker._defaults.dateFormat, from, instance.settings );
-			if(tofield){
-				instance = jQuery( tofield ).data( "datepicker" );
-				dateend = jQuery.datepicker.parseDate(instance.settings.dateFormat || jQuery.datepicker._defaults.dateFormat, to, instance.settings );
-				var difference_ms = Math.abs(dateanf - dateend);
-				var diff = difference_ms/1000;
-				diff += ((86400-fromplus)+toplus);
-				diff -= 86400;
-				nights = Math.ceil(diff/interval);
-			}
+			dateend = jQuery.datepicker.parseDate(instance.settings.dateFormat || jQuery.datepicker._defaults.dateFormat, to, instance.settings );
+			var difference_ms = Math.abs(dateanf - dateend);
+			var diff = difference_ms/1000;
+			diff += toplus;
+			diff -= fromplus;
+			nights = Math.ceil(diff/interval);
 		}
 	}
 
@@ -62,6 +59,8 @@ function easyreservations_send_price(){
 	if(document.easyFrontendFormular.coupon) var coupon = document.easyFrontendFormular.coupon.value;
 	var reserved = '';
 	if(document.easyFrontendFormular.reserved) reserved = document.easyFrontendFormular.reserved.value;
+	var priceper = '';
+	if(document.easyFrontendFormular.easypriceper) priceper = document.easyFrontendFormular.easypriceper.value;
 	
 	jQuery('[id^="custom_price"]:checked,select[id^="custom_price"]').each(function(){
 		var price = 0;
@@ -115,7 +114,8 @@ function easyreservations_send_price(){
 		email:email,
 		coupon:coupon,
 		reserved:reserved,
-		customp:customPrices
+		customp:customPrices,
+		priceper:priceper
 	};
 
 	if(error == 0){

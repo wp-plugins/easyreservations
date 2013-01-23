@@ -59,127 +59,6 @@ function reservation_resources_page(){
 		} else $prompt='<div class="error"><p>'.__( 'Please enter a Title' , 'easyReservations' ).'</p></div>';
 	}
 
-	if(isset($_GET['delete_filter']) && check_admin_referer( 'easy-resource-delete-filter' )){
-		$filters = get_post_meta($resourceID, 'easy_res_filter', true);
-		unset($filters[$_GET['delete_filter']]);
-		update_post_meta($resourceID,'easy_res_filter', $filters);
-	}
-
-	if(isset($_POST['filter_form_name_field'])){
-		if(!empty($_POST['filter_form_name_field'])){
-			$type = $_POST['filter_type'];
-			$filter=array();
-
-			if($type == 'price'){
-				$imp = $_POST['price_filter_imp'];
-				$cond = $_POST['price_filter_cond'];
-				$filter['imp'] = $imp;
-				$filter['type'] = 'price';
-			} elseif($type == 'discount'){
-				$typ = $_POST['filter_form_discount_type'];
-				$cond = $_POST['filter_form_discount_cond'];
-				$modus = $_POST['filter_form_discount_mode'];
-
-				$filter['cond'] = $cond;
-				$filter['type'] = $typ;
-				$filter['modus'] = $modus;
-			} elseif($type == 'unavail'){
-				$filter['type'] = 'unavail';
-				$cond = $_POST['price_filter_cond'];
-			} elseif($type == 'req'){
-				$filter['type'] = 'req';
-				$cond = $_POST['price_filter_cond'];
-			}
-
-			$filter['name'] = $_POST['filter_form_name_field'];
-			if($type == 'price' || $type == 'unavail' || $type == 'req' ){
-				if(isset($_POST['price_filter_cond'])){
-					if($cond == 'date'){
-						$filter['cond'] = 'date';
-						if(isset($_POST['price_filter_date']) && !empty($_POST['price_filter_date'])){
-							$date = strtotime($_POST['price_filter_date']) + (((int) $_POST['price_filter_date_h']*60) + (int) $_POST['price_filter_date_m'])*60;
-							$filter['date'] = $date;
-						} else $error.=__( 'Enter a date' , 'easyReservations' ).', ';
-					} elseif($cond == 'range'){
-						$filter['cond'] = 'range';
-						if(isset($_POST['price_filter_range_from']) && !empty($_POST['price_filter_range_from'])){
-							$from = strtotime($_POST['price_filter_range_from']) + (((int) $_POST['price_filter_range_from_h']*60) + (int) $_POST['price_filter_range_from_m'])*60;
-							$filter['from'] = $from;
-						} else $error.=__( 'Enter a starting date' , 'easyReservations' ).', ';
-						if(isset($_POST['price_filter_range_to']) && !empty($_POST['price_filter_range_to'])){
-							$to = strtotime($_POST['price_filter_range_to']) + (((int) $_POST['price_filter_range_to_h']*60) + (int) $_POST['price_filter_range_to_m'])*60;
-							$filter['to'] = $to;
-						} else $error.=__( 'Enter an ending date' , 'easyReservations' ).', ';
-					} else {
-						$filter['cond'] = 'unit';
-
-						if(isset($_POST['price_filter_unit_year'])) $filter['year'] = implode(',', $_POST['price_filter_unit_year']);
-						else $filter['year'] ='';
-
-						if(isset($_POST['price_filter_unit_quarter'])) $filter['quarter'] = implode(',', $_POST['price_filter_unit_quarter']);
-						else $filter['quarter'] ='';
-
-						if(isset($_POST['price_filter_unit_month'])) $filter['month'] = implode(',', $_POST['price_filter_unit_month']);
-						else $filter['month'] ='';
-
-						if(isset($_POST['price_filter_unit_cw'])) $filter['cw'] = implode(',', $_POST['price_filter_unit_cw']);
-						else $filter['cw'] ='';
-
-						if(isset($_POST['price_filter_unit_days'])) $filter['day'] = implode(',', $_POST['price_filter_unit_days']);
-						else $filter['day'] ='';
-
-						if(isset($_POST['price_filter_unit_hour'])) $filter['hour'] = implode(',', $_POST['price_filter_unit_hour']);
-						else $filter['hour'] ='';
-					}
-				} else $error.=__( 'Select a condition' , 'easyReservations' ).', ';
-			}
-
-			if($type == 'price' || $type == 'discount'){
-				if(isset($_POST['filter-price-field'])) $filter['price'] = $_POST['filter-price-field'];
-			} elseif($type == 'req'){
-				if(!isset($_POST['req_filter_end_on']) || !isset($_POST['req_filter_start_on'])) $error.=__( 'No arrival or departure possible - use unavailability filter to disable reservations by time' , 'easyReservations' ).', ';
-				if(count($_POST['req_filter_start_on']) == 7) $_POST['req_filter_start_on'] = 0;
-				if(count($_POST['req_filter_end_on']) == 7) $_POST['req_filter_end_on'] = 0;
-				$filter['req'] = array('pers-min' => $_POST['req_filter_min_pers'], 'pers-max' => $_POST['req_filter_max_pers'], 'nights-min' => $_POST['req_filter_min_nights'], 'nights-max' => $_POST['req_filter_max_nights'], 'start-on' => $_POST['req_filter_start_on'], 'end-on' => $_POST['req_filter_end_on']);
-			}
-
-			$filters = get_post_meta($resourceID, 'easy_res_filter', true);
-			if(!isset($filters) || empty($filters) || !$filters) $filters = array();
-
-			if(isset($_POST['price_filter_edit']) && !empty($_POST['price_filter_edit']) && isset($filters[$_POST['price_filter_edit']])){
-				unset($filters[$_POST['price_filter_edit']]);
-				$filters[] = $filter;
-			} else {
-				$filters[] = $filter;
-			}
-
-			foreach($filters as $key => $filter) {
-				if($filter['type'] == 'price'){
-					$pfilters[] = $filter;
-					$psortArray[$key] = $filter['imp'];
-				} elseif($filter['type'] == 'unavail' || $filter['type'] == 'req'){
-					$ufilters[] = $filter;
-					$ufiltersSort[] = $filter['type'];
-				} else {
-					$dfilters[] = $filter;
-					$dsortArray[$key] = $filter['cond'];
-					$dtsortArray[$key] = $filter['type'];
-				}
-			}
-
-			if(isset($psortArray)) array_multisort($psortArray, SORT_ASC, SORT_NUMERIC, $pfilters);
-			if(isset($dtsortArray)) array_multisort($dtsortArray, SORT_ASC, $dsortArray, SORT_DESC, SORT_NUMERIC, $dfilters);
-			if(isset($ufiltersSort)) array_multisort($ufiltersSort, SORT_ASC, $ufilters);
-
-			if(!isset($pfilters)) $pfilters = array();
-			if(!isset($dfilters)) $dfilters = array();
-			if(!isset($ufilters)) $ufilters = array();
-
-			$filters = array_merge($pfilters, $dfilters, $ufilters);
-			if(!isset($prompt) && empty($error)) update_post_meta($resourceID, 'easy_res_filter', $filters);
-		} else $error.=__( 'Please give the filter a name' , 'easyReservations' ).', ';
-	}
-
 	if(isset($_GET['addresource'])){
 		$addresource=$_GET['addresource'];
 		$site='addresource';
@@ -262,15 +141,12 @@ if(!isset($site) || $site=='' || $site =='main'){
 		$get_role = get_post_meta($resourceID, 'easy-resource-permission', true);
 		if(!empty($get_role) && !current_user_can($get_role)) die('You havnt the rights to view this resource');
 		$right = '';
-		if(isset($_POST['action'])) $action=$_POST['action'];
-		else $action = "";
-
 		$allrooms = get_post($resourceID);
 
 		if(isset($_POST['room_names'])){
 			update_post_meta($resourceID, 'easy-resource-roomnames', $_POST['room_names']);
 			$right.=__( 'Resource\'s count names changed' , 'easyReservations' ).', ';
-		} elseif($action=='set_groundprice'){ /* SET GROUND PRICE */
+		} elseif(isset($_POST['action']) && $_POST['action']=='set_groundprice'){ /* SET GROUND PRICE */
 
 			$reservations_current_req = get_post_meta($resourceID, 'easy-resource-req', TRUE);
 			$starton = ''; $endon = '';
@@ -348,20 +224,130 @@ if(!isset($site) || $site=='' || $site =='main'){
 			}
 
 			if(isset($_POST['res_tax_names']) && !empty($_POST['res_tax_names']) && isset($_POST['res_tax_amounts']) && !empty($_POST['res_tax_amounts'])){
-				$array = array_merge($_POST['res_tax_names'], $_POST['res_tax_amounts']);
-				$taxes = '';
+				$taxes = ''; $sort = '';
 				foreach($_POST['res_tax_names'] as $key => $tax){
 					if(is_numeric($_POST['res_tax_amounts'][$key])){
-						$taxes[] = array($_POST['res_tax_names'][$key],$_POST['res_tax_amounts'][$key]);
+						$taxes[] = array($_POST['res_tax_names'][$key],$_POST['res_tax_amounts'][$key],$_POST['res_tax_class'][$key]);
+						if($_POST['res_tax_class'][$key] == 0) $sort[] = 2;
+						elseif($_POST['res_tax_class'][$key] == 1) $sort[] = 0;
+						elseif($_POST['res_tax_class'][$key] == 2) $sort[] = 1;
 					} else {
 						$error.=__( 'Tax percentage has to be numeric' , 'easyReservations' ).', ';
 						$taxes = 'error';
 						break;
 					}
 				}
-				if(!empty($taxes)  && $taxes != 'error') update_post_meta($resourceID, 'easy-resource-taxes', $taxes);
+				if(!empty($taxes)  && $taxes != 'error'){
+					array_multisort($sort, $taxes);
+					update_post_meta($resourceID, 'easy-resource-taxes', $taxes);
+				}
 			} else update_post_meta($resourceID, 'easy-resource-taxes', array());
 			do_action('er_res_main_save', $resourceID);
+		} elseif(isset($_POST['filter_form_name_field'])){
+			if(!empty($_POST['filter_form_name_field'])){
+				$type = $_POST['filter_type'];
+				$filter=array();
+
+				if($type == 'price'){
+					$imp = $_POST['price_filter_imp'];
+					$cond = $_POST['price_filter_cond'];
+					$filter['imp'] = $imp;
+					$filter['type'] = 'price';
+				} elseif($type == 'discount'){
+					$typ = $_POST['filter_form_discount_type'];
+					$cond = $_POST['filter_form_discount_cond'];
+					$modus = $_POST['filter_form_discount_mode'];
+
+					$filter['cond'] = $cond;
+					$filter['type'] = $typ;
+					$filter['modus'] = $modus;
+				} elseif($type == 'unavail'){
+					$filter['type'] = 'unavail';
+					$cond = $_POST['price_filter_cond'];
+				} elseif($type == 'req'){
+					$filter['type'] = 'req';
+					$cond = $_POST['price_filter_cond'];
+				}
+
+				$filter['name'] = $_POST['filter_form_name_field'];
+				if($type == 'price' || $type == 'unavail' || $type == 'req' ){
+					if(isset($_POST['price_filter_cond'])){
+						if($cond == 'date'){
+							$filter['cond'] = 'date';
+							if(isset($_POST['price_filter_date']) && !empty($_POST['price_filter_date'])){
+								$date = strtotime($_POST['price_filter_date']) + (((int) $_POST['price_filter_date_h']*60) + (int) $_POST['price_filter_date_m'])*60;
+								$filter['date'] = $date;
+							} else $error.=__( 'Enter a date' , 'easyReservations' ).', ';
+						} elseif($cond == 'range'){
+							$filter['cond'] = 'range';
+							if(isset($_POST['price_filter_range_from']) && !empty($_POST['price_filter_range_from'])){
+								$from = strtotime($_POST['price_filter_range_from']) + (((int) $_POST['price_filter_range_from_h']*60) + (int) $_POST['price_filter_range_from_m'])*60;
+								$filter['from'] = $from;
+							} else $error.=__( 'Enter a starting date' , 'easyReservations' ).', ';
+							if(isset($_POST['price_filter_range_to']) && !empty($_POST['price_filter_range_to'])){
+								$to = strtotime($_POST['price_filter_range_to']) + (((int) $_POST['price_filter_range_to_h']*60) + (int) $_POST['price_filter_range_to_m'])*60;
+								$filter['to'] = $to;
+							} else $error.=__( 'Enter an ending date' , 'easyReservations' ).', ';
+						} else {
+							$filter['cond'] = 'unit';
+							if(isset($_POST['price_filter_unit_year'])) $filter['year'] = implode(',', $_POST['price_filter_unit_year']);
+							if(isset($_POST['price_filter_unit_quarter'])) $filter['quarter'] = implode(',', $_POST['price_filter_unit_quarter']);
+							if(isset($_POST['price_filter_unit_month'])) $filter['month'] = implode(',', $_POST['price_filter_unit_month']);
+							if(isset($_POST['price_filter_unit_cw'])) $filter['cw'] = implode(',', $_POST['price_filter_unit_cw']);
+							if(isset($_POST['price_filter_unit_days'])) $filter['day'] = implode(',', $_POST['price_filter_unit_days']);
+							if(isset($_POST['price_filter_unit_hour'])) $filter['hour'] = implode(',', $_POST['price_filter_unit_hour']);
+						}
+					} else $error.=__( 'Select a condition' , 'easyReservations' ).', ';
+				}
+
+				if($type == 'price' || $type == 'discount'){
+					if(isset($_POST['filter-price-field'])) $filter['price'] = $_POST['filter-price-field'];
+				} elseif($type == 'req'){
+					if(!isset($_POST['req_filter_end_on']) || !isset($_POST['req_filter_start_on'])) $error.=__( 'No arrival or departure possible - use unavailability filter to disable reservations by time' , 'easyReservations' ).', ';
+					if(count($_POST['req_filter_start_on']) == 7) $_POST['req_filter_start_on'] = 0;
+					if(count($_POST['req_filter_end_on']) == 7) $_POST['req_filter_end_on'] = 0;
+					$filter['req'] = array('pers-min' => $_POST['req_filter_min_pers'], 'pers-max' => $_POST['req_filter_max_pers'], 'nights-min' => $_POST['req_filter_min_nights'], 'nights-max' => $_POST['req_filter_max_nights'], 'start-on' => $_POST['req_filter_start_on'], 'end-on' => $_POST['req_filter_end_on']);
+				}
+
+				$filters = get_post_meta($resourceID, 'easy_res_filter', true);
+				if(!isset($filters) || empty($filters) || !$filters) $filters = array();
+
+				if(isset($_POST['price_filter_edit']) && !empty($_POST['price_filter_edit']) && isset($filters[$_POST['price_filter_edit']])){
+					unset($filters[$_POST['price_filter_edit']]);
+					$filters[] = $filter;
+				} else {
+					$filters[] = $filter;
+				}
+
+				foreach($filters as $key => $filter) {
+					if($filter['type'] == 'price'){
+						$pfilters[] = $filter;
+						$psortArray[$key] = $filter['imp'];
+					} elseif($filter['type'] == 'unavail' || $filter['type'] == 'req'){
+						$ufilters[] = $filter;
+						$ufiltersSort[] = $filter['type'];
+					} else {
+						$dfilters[] = $filter;
+						$dsortArray[$key] = $filter['cond'];
+						$dtsortArray[$key] = $filter['type'];
+					}
+				}
+
+				if(isset($psortArray)) array_multisort($psortArray, SORT_ASC, SORT_NUMERIC, $pfilters);
+				if(isset($dtsortArray)) array_multisort($dtsortArray, SORT_ASC, $dsortArray, SORT_DESC, SORT_NUMERIC, $dfilters);
+				if(isset($ufiltersSort)) array_multisort($ufiltersSort, SORT_ASC, $ufilters);
+
+				if(!isset($pfilters)) $pfilters = array();
+				if(!isset($dfilters)) $dfilters = array();
+				if(!isset($ufilters)) $ufilters = array();
+
+				$filters = array_merge($pfilters, $dfilters, $ufilters);
+				if(!isset($prompt) && empty($error)) update_post_meta($resourceID, 'easy_res_filter', $filters);
+			} else $error.=__( 'Please give the filter a name' , 'easyReservations' ).', ';
+		} elseif(isset($_GET['delete_filter']) && check_admin_referer( 'easy-resource-delete-filter' )){
+			$filters = get_post_meta($resourceID, 'easy_res_filter', true);
+			unset($filters[$_GET['delete_filter']]);
+			update_post_meta($resourceID,'easy_res_filter', $filters);
 		}
 		add_action('admin_print_footer_scripts','easyreservations_restrict_input_res');
 
@@ -424,32 +410,32 @@ if(!isset($site) || $site=='' || $site =='main'){
 								if(isset($filter['from'])) $filter['from_str'] = date("Y,n,j,G:i:s:u", $filter['from']);
 								if(isset($filter['to'])) $filter['to_str'] = date("Y,n,j,G:i:s:u", $filter['to']);
 								if(isset($filter['date'])) $filter['date_str'] = date("Y,n,j,G:i:s:u", $filter['date']);
-								if($filter['type'] == 'price') {
+								if($filter['type'] == 'price'){
 									$numberoffilter++; //count filters
 									if($numberoffilter%2==0) $class="alternate"; else $class=""; ?>
 									<tr class="<?php echo $class; ?>">
 										<script>filter[<?php echo $nummer; ?>] = new Object(); filter[<?php echo $nummer; ?>] = <?php echo json_encode($filter); ?>;</script>
 										<td class="resourceType"><code  style="color:#30B24A;font-weight:bold;display:inline-block">[Time]</code> <?php echo stripslashes($filter['name']); ?></td>
 										<td style="vertical-align:middle;text-align:center;width:40px"><?php echo $filter['imp']; ?></td>
-										<td>
-											<?php echo easyreservations_get_price_filter_description($filter, $resourceID, 1); ?>
+										<td><?php
+											echo easyreservations_get_price_filter_description($filter, $resourceID, 1);
+											if(isset($theFilters[$nummer+1]) && $theFilters[$nummer+1]['type'] == 'price') echo ' '.__('else', 'easyReservations').' <b style="font-size:17px">&#8595;</b>';
+											else echo ' '.__('else base price', 'easyReservations'); ?>
 										</td>
-											<td>
-												<?php 
-													if(strpos($filter['price'], '%') !== false){
-														echo $filter['price'];
-														$percent = str_replace('%',  '', $filter['price']);
-														echo ' ('.easyreservations_format_money(round($gp/100*$percent,2),1).')';
-
-													} else if(isset($filter['price']) && $filter['price'] > 0){
-														echo easyreservations_format_money($filter['price'], 1); 
-													} else {
-														echo easyreservations_format_money('0', 1);
-													} ?>
+											<td><?php 
+												if(strpos($filter['price'], '%') !== false){
+													echo $filter['price'];
+													$percent = str_replace('%',  '', $filter['price']);
+													echo ' ('.easyreservations_format_money(round($gp/100*$percent,2),1).')';
+												} else if(isset($filter['price']) && $filter['price'] > 0){
+													echo easyreservations_format_money($filter['price'], 1); 
+												} else {
+													echo easyreservations_format_money('0', 1);
+												} ?>
 											</td>
 										<td style="vertical-align:middle;text-align:center">
-											<a href="javascript:filter_edit(<?php echo $nummer; ?>);"><img style="vertical-align:text-middle;" src="<?php echo RESERVATIONS_URL.'/images/edit.png'; ?>"></a>
-											<a href="<?php echo wp_nonce_url('admin.php?page=reservation-resources&room='.$resourceID.'&delete_filter='.$nummer, 'easy-resource-delete-filter'); ?>"><img style="vertical-align:text-middle;" src="<?php echo RESERVATIONS_URL.'/images/delete.png'; ?>"></a>
+											<a href="javascript:filter_edit(<?php echo $nummer; ?>);"><img style="vertical-align:middle;" src="<?php echo RESERVATIONS_URL.'/images/edit.png'; ?>"></a>
+											<a href="<?php echo wp_nonce_url('admin.php?page=reservation-resources&room='.$resourceID.'&delete_filter='.$nummer, 'easy-resource-delete-filter'); ?>"><img style="vertical-align:middle;" src="<?php echo RESERVATIONS_URL.'/images/delete.png'; ?>"></a>
 										</td>
 									</tr>
 									<?php
@@ -482,7 +468,7 @@ if(!isset($site) || $site=='' || $site =='main'){
 									$condition_string = sprintf(__('If guest stays %s days or more the price changes by','easyReservations'), '<b>'.$filter['cond'].'</b>');
 								} elseif($filter['type'] =="unavail"){
 									$bgcolor='#D8211E';
-									$condition_string =str_replace(__("calculate", 'easyReservations'), __("check", 'easyReservations'),substr(easyreservations_get_price_filter_description($filter, $resourceID, 0),0,-42)).' '.__('resource is unavailable','easyReservations');
+									$condition_string =str_replace(__("calculate", 'easyReservations'), __("check", 'easyReservations'),easyreservations_get_price_filter_description($filter, $resourceID, 0)).' '.__('resource is unavailable','easyReservations');
 								} elseif($filter['type'] =="pers"){
 									$bgcolor='#3059C1';
 									$condition_string = sprintf(__('If %s or more persons reservating the price changes by','easyReservations'), '<b>'.$filter['cond'].'</b>');
@@ -498,7 +484,7 @@ if(!isset($site) || $site=='' || $site =='main'){
 									$condition_string = sprintf(__('If the guest reservates %s days before his arrival the price changes by','easyReservations'), '<b>'.$filter['cond'].'</b>');
 								} elseif($filter['type']=="req"){
 									$bgcolor='#F4AA33';
-									$condition_string = str_replace(__("calculate", 'easyReservations'), __("check", 'easyReservations'),substr(easyreservations_get_price_filter_description($filter, $resourceID, 0),0,-42)).' '.__('resources condtion change to','easyReservations');
+									$condition_string = str_replace(__("calculate", 'easyReservations'), __("check", 'easyReservations'),easyreservations_get_price_filter_description($filter, $resourceID, 0)).' '.__('resources condtion change to','easyReservations');
 									$max_nights = ($filter['req']['nights-max'] == 0) ? '&infin;' : $filter['req']['nights-max'];
 									$max_pers = ($filter['req']['pers-max'] == 0) ? '&infin;' : $filter['req']['pers-max'];
 									$condition_string .=  ' Persons: <b>'.$filter['req']['pers-min'].'</b> - <b>'.$max_pers.'</b>, '.ucfirst(easyreservations_interval_infos($reservations_current_int,0,2)).': <b>'.$filter['req']['nights-min'].'</b> - <b>'.$max_nights.'</b><br>';
@@ -517,7 +503,6 @@ if(!isset($site) || $site=='' || $site =='main'){
 										}
 									}
 									$condition_string .= 'Arrival: '.$start_on.'Departure: '.substr($end_on,0,-2);
-
 								} ?>
 								<tr class="<?php echo $class; ?>" name="notsort">
 									<script>filter[<?php echo $nummer; ?>] = new Object(); filter[<?php echo $nummer; ?>] = <?php echo json_encode($filter); ?>;</script>
@@ -538,8 +523,8 @@ if(!isset($site) || $site=='' || $site =='main'){
 										</td>
 									<?php } ?>
 									<td style="vertical-align:middle;text-align:center">
-										<a href="javascript:filter_edit(<?php echo $nummer; ?>);"><img style="vertical-align:text-middle;" src="<?php echo RESERVATIONS_URL.'/images/edit.png'; ?>"></a>
-										<a href="<?php echo wp_nonce_url('admin.php?page=reservation-resources&room='.$resourceID.'&delete_filter='.$nummer, 'easy-resource-delete-filter'); ?>"><img style="vertical-align:text-middle;" src="<?php echo RESERVATIONS_URL.'/images/delete.png'; ?>"></a>
+										<a href="javascript:filter_edit(<?php echo $nummer; ?>);"><img style="vertical-align:text-bottom;" src="<?php echo RESERVATIONS_URL.'/images/edit.png'; ?>"></a>
+										<a href="<?php echo wp_nonce_url('admin.php?page=reservation-resources&room='.$resourceID.'&delete_filter='.$nummer, 'easy-resource-delete-filter'); ?>"><img style="vertical-align:text-bottom;" src="<?php echo RESERVATIONS_URL.'/images/delete.png'; ?>"></a>
 									</td>
 								</tr>
 							<?php
@@ -576,7 +561,9 @@ if(!isset($site) || $site=='' || $site =='main'){
 				<?php
 					$tax_string = '';
 					if($reservations_current_tax && !empty($reservations_current_tax)){
-						foreach($reservations_current_tax as $tax) $tax_string .=  '<span><img style="vertical-align:text-middle;cursor:pointer" src="'.RESERVATIONS_URL.'/images/delete.png" onClick="easy_add_tax(2, this);"> <input type="text" name="res_tax_names[]" value="'.$tax[0].'" style="width:150px;margin-bottom:3px"><input type="text" name="res_tax_amounts[]" value="'.$tax[1].'" style="width:30px;margin-bottom:3px">%<br></span>';
+						foreach($reservations_current_tax as $tax){
+							$tax_string .=  '<span><img style="vertical-align:text-bottom;cursor:pointer" src="'.RESERVATIONS_URL.'/images/delete.png" onClick="easy_add_tax(2, this);"> '.easyreservations_generate_input_select('res_tax_class[]', array('both','stay','prices'), (isset($tax[2])) ? $tax[2] : 0).' <input type="text" name="res_tax_names[]" value="'.$tax[0].'" style="width:150px;margin-bottom:3px"><input type="text" name="res_tax_amounts[]" value="'.$tax[1].'" style="width:30px;margin-bottom:3px">%<br></span>';
+						}
 					}
 					if(!isset($reservations_current_req['start-on'])) $starton = 0; else $starton = $reservations_current_req['start-on'];
 					if(!isset($reservations_current_req['end-on'])) $endon = 0; else $endon = $reservations_current_req['end-on'];
@@ -615,7 +602,7 @@ if(!isset($site) || $site=='' || $site =='main'){
 						</tr>
 						<tr>
 							<td id="filter_form_name" class="hide-it">
-								<b style="padding:4px;display:inline-block;min-width:65px"><?php echo __( 'Name' , 'easyReservations' ); ?>:</b> <input type="text" name="filter_form_name_field" id="filter_form_name_field"> <i><?php echo __( 'Give your filter a name' , 'easyReservations' ); ?></i><br>
+								<b style="padding:4px;display:inline-block;min-width:65px"><?php echo __( 'Name' , 'easyReservations' ); ?>:</b> <input type="text" name="filter_form_name_field" id="filter_form_name_field">
 							</td>
 						</tr>
 						<tr class="alternate">
@@ -637,7 +624,7 @@ if(!isset($site) || $site=='' || $site =='main'){
 						</tr>
 						<tr>
 							<td style="padding:2px 0px 5px 18px;">
-								<label for="price_filter_cond_date" id="price_filter_cond_date"><?php echo __( 'At' , 'easyReservations' ); ?> <input type="text" id="price_filter_date" name="price_filter_date" style="width:71px"></label> <select id="price_filter_date_h" name="price_filter_date_h"><?php echo easyreservations_num_options("00", 23, 12); ?></select> : <select id="price_filter_date_m" name="price_filter_date_m"><?php echo easyreservations_num_options("00", 59); ?></select>
+								<label for="price_filter_cond_date" id="price_filter_cond_date" style="display: inline-block;width:60px"><?php echo __( 'At' , 'easyReservations' ); ?></label> <input type="text" id="price_filter_date" name="price_filter_date" style="width:71px"> <select id="price_filter_date_h" name="price_filter_date_h"><?php echo easyreservations_num_options("00", 23, 12); ?></select> : <select id="price_filter_date_m" name="price_filter_date_m"><?php echo easyreservations_num_options("00", 59); ?></select>
 							</td>
 						</tr>
 						<tr  class="alternate">
@@ -647,7 +634,8 @@ if(!isset($site) || $site=='' || $site =='main'){
 						</tr>
 						<tr>
 							<td style="padding:2px 0px 5px 18px;">
-								<label for="price_filter_cond_range" id="price_filter_cond_range"><?php echo __( 'Between' , 'easyReservations' ); ?> <input type="text" id="price_filter_range_from" name="price_filter_range_from" style="width:71px"></label><select id="price_filter_range_from_h" name="price_filter_range_from_h"><?php echo easyreservations_num_options("00", 23, 12); ?></select>:<select id="price_filter_range_from_m" name="price_filter_range_from_m"><?php echo easyreservations_num_options("00", 59); ?></select> - <input type="text" id="price_filter_range_to" name="price_filter_range_to" style="width:71px"><select id="price_filter_range_to_h" name="price_filter_range_to_h"><?php echo easyreservations_num_options("00", 23, 12); ?></select>:<select id="price_filter_range_to_m" name="price_filter_range_to_m"><?php echo easyreservations_num_options("00", 59); ?></select>
+								<label for="price_filter_range_from" id="price_filter_range_from" style="display: inline-block;width:60px"><?php echo __( 'From' , 'easyReservations' ); ?></label> <input type="text" id="price_filter_range_from" name="price_filter_range_from" style="width:71px"><select id="price_filter_range_from_h" name="price_filter_range_from_h"><?php echo easyreservations_num_options("00", 23, 12); ?></select>:<select id="price_filter_range_from_m" name="price_filter_range_from_m"><?php echo easyreservations_num_options("00", 59); ?></select><br>
+								<label for="price_filter_range_to" id="price_filter_range_to" style="display: inline-block;width:60px"><?php echo __( 'To' , 'easyReservations' ); ?></label> <input type="text" id="price_filter_range_to" name="price_filter_range_to" style="width:71px"><select id="price_filter_range_to_h" name="price_filter_range_to_h"><?php echo easyreservations_num_options("00", 23, 12); ?></select>:<select id="price_filter_range_to_m" name="price_filter_range_to_m"><?php echo easyreservations_num_options("00", 59); ?></select>
 							</td>
 						</tr>
 						<tr  class="alternate">
@@ -989,7 +977,7 @@ if(!isset($site) || $site=='' || $site =='main'){
 			} else {
 				document.getElementsByName('price_filter_cond')[2].checked = true;
 				var hour_checkboxes = document.getElementsByName('price_filter_unit_hour[]');
-				if(hour_checkboxes && filter[i]['hour'] != ''){
+				if(hour_checkboxes && filter[i]['hour'] != '' && filter[i]['hour']){
 					var hours =  filter[i]['hour'];
 					var explode_hours = hours.split(",");
 					for(var x = 0; x < explode_hours.length; x++){
@@ -998,7 +986,7 @@ if(!isset($site) || $site=='' || $site =='main'){
 					}
 				}
 				var day_checkboxes = document.getElementsByName('price_filter_unit_days[]');
-				if(day_checkboxes && filter[i]['day'] != ''){
+				if(day_checkboxes && filter[i]['day'] != '' && filter[i]['day']){
 					var days =  filter[i]['day'];
 					var explode_days = days.split(",");
 					for(var x = 0; x < explode_days.length; x++){
@@ -1007,7 +995,7 @@ if(!isset($site) || $site=='' || $site =='main'){
 					}
 				}
 				var cw_checkboxes = document.getElementsByName('price_filter_unit_cw[]');
-				if(filter[i]['cw'] != ''){
+				if(filter[i]['cw'] != '' && filter[i]['cw']){
 					var cws =  filter[i]['cw'];
 					var explode_cws = cws.split(",");
 					for(var x = 0; x < explode_cws.length; x++){
@@ -1016,7 +1004,7 @@ if(!isset($site) || $site=='' || $site =='main'){
 					}
 				}
 				var month_checkboxes = document.getElementsByName('price_filter_unit_month[]');
-				if(filter[i]['month'] != ''){
+				if(filter[i]['month'] != '' && filter[i]['month']){
 					var month =  filter[i]['month'];
 					var explode_month = month.split(",");
 					for(var x = 0; x < explode_month.length; x++){
@@ -1025,7 +1013,7 @@ if(!isset($site) || $site=='' || $site =='main'){
 					}
 				}
 				var q_checkboxes = document.getElementsByName('price_filter_unit_quarter[]');
-				if(filter[i]['quarter'] != ''){
+				if(filter[i]['quarter'] != '' && filter[i]['quarter']){
 					var quarters =  filter[i]['quarter'];
 					var explode_quarters = quarters.split(",");
 					for(var x = 0; x < explode_quarters.length; x++){
@@ -1034,7 +1022,7 @@ if(!isset($site) || $site=='' || $site =='main'){
 					}
 				}
 				var year_checkboxes = document.getElementsByName('price_filter_unit_year[]');
-				if(filter[i]['year'] != ''){
+				if(filter[i]['year'] != '' && filter[i]['year']){
 					var years =  filter[i]['year'];
 					var explode_years = years.split(",");
 					for(var x = 0; x < explode_years.length; x++){
@@ -1199,7 +1187,7 @@ if(!isset($site) || $site=='' || $site =='main'){
 		}
 	}
 	function easy_add_tax(x,y){
-		if(x == 1) jQuery('.placeholder').before( '<span><img style="vertical-align:text-middle;" src="<?php echo RESERVATIONS_URL; ?>images/delete.png" onClick="easy_add_tax(2, this);"> <input type="text" name="res_tax_names[]" value="Name" style="width:150px;margin-bottom:3px"><input type="text" name="res_tax_amounts[]" value="20" style="width:30px;margin-bottom:3px">%<br></span>');
+		if(x == 1) jQuery('.placeholder').before( '<span><img style="vertical-align:text-bottom;" src="<?php echo RESERVATIONS_URL; ?>images/delete.png" onClick="easy_add_tax(2, this);"> <?php echo easyreservations_generate_input_select('res_tax_class[]', array('both','stay','prices'), 0); ?> <input type="text" name="res_tax_names[]" value="Name" style="width:150px;margin-bottom:3px"><input type="text" name="res_tax_amounts[]" value="20" style="width:30px;margin-bottom:3px">%<br></span>');
 		else {
 			jQuery(y.parentNode).remove();
 			jQuery(y).remove();

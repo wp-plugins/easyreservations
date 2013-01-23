@@ -203,7 +203,7 @@ function jumpto(x){ // Chained inputs;
 			FieldAdd += '</tr>';
 			FieldAdd += '<tr>';
 			FieldAdd += '<td nowrap="nowrap" valign="top"><label for="easyreservation_calendar_checkreq"><?php echo addslashes(__("Check", "easyReservations")); ?></label></td>';
-			FieldAdd += '<td><input type="checkbox" id="easyreservation_calendar_checkreq"> <?php echo addslashes(__("Check resources global possible arrival and depature days so they cant be clicked", "easyReservations")); ?></td>';
+			FieldAdd += '<td><input type="checkbox" id="easyreservation_calendar_checkreq"> <?php echo addslashes(__("Check resources global possible arrival and departure days so they cant be clicked", "easyReservations")); ?></td>';
 			FieldAdd += '</tr>';
 			FieldAdd += '<?php do_action('easy-tinymce-cal',1); ?>';
 			FieldAdd += '<tr><td colspan="2"><?php echo addslashes(__("This shortcode adds an availability calendar to the post or page", "easyReservations")); ?>. <?php echo addslashes(__("You can combine it with a form or the edit-form by add it to the same page", "easyReservations")); ?>.<br><b><?php echo addslashes(__("Only add the calendar once per page or post", "easyReservations")); ?>.</b></td></tr>';
