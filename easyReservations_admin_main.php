@@ -1,6 +1,7 @@
 <?php
 
 function reservation_main_page() {
+	do_action('easy-header');
 	wp_enqueue_style( 'datestyle');
 	$main_options = get_option("reservations_main_options");
 	$show = $main_options['show'];
