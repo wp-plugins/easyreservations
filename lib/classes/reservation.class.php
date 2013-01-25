@@ -644,11 +644,13 @@
 				$departure = strtotime(date('d.m.Y', (int) $this->departure))+43200;
 			}
 			$diff = 0;
-			$timezone = new DateTimeZone(date_default_timezone_get ());
-			$transitions = $timezone->getTransitions($arrival, $departure);
-			if(isset($transitions[1]) && $transitions[0]['offset'] != $transitions[1]['offset']){
-				if($transitions[0]['offset'] > $transitions[1]['offset']) $diff = $transitions[0]['offset'] - $transitions[1]['offset'];
-				else $diff = $transitions[1]['offset'] - $transitions[0]['offset'];
+			if(version_compare(PHP_VERSION, '5.3.0') >= 0){
+				$timezone = new DateTimeZone(date_default_timezone_get ());
+				$transitions = $timezone->getTransitions($arrival, $departure);
+				if(isset($transitions[1]) && $transitions[0]['offset'] != $transitions[1]['offset']){
+					if($transitions[0]['offset'] > $transitions[1]['offset']) $diff = $transitions[0]['offset'] - $transitions[1]['offset'];
+					else $diff = $transitions[1]['offset'] - $transitions[0]['offset'];
+				}
 			}
 			$number = ($departure-$arrival-$diff) / easyreservations_get_interval($this->interval, 0,  $mode);
 			$this->times = ( is_numeric($number)) ? (ceil(ceil($number/0.01)*0.01)) : false;

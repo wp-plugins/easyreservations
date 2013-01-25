@@ -47,7 +47,7 @@ function reservations_form_shortcode($atts){
 	else wp_enqueue_style('easy-form-none' , false, array(), false, 'all');	
 
 	if(strpos($theForm, '[error') !== false){
-		$sumit_disabled = 'disabled="disabled"';
+		$sumit_disabled = '';
 		$validate_action = 'easyreservations_send_validate();';
 		wp_enqueue_script( 'easyreservations_send_validate' );
 	} else {
