@@ -1,7 +1,6 @@
 <?php
 
 function reservation_main_page() {
-	do_action('easy-header');
 	wp_enqueue_style( 'datestyle');
 	$main_options = get_option("reservations_main_options");
 	$show = $main_options['show'];
@@ -44,7 +43,7 @@ function reservation_main_page() {
 					$theres->editReservation(array('status'), false);
 					$theres->destroy();
 				}
-				if ($to!=1) $linkundo=implode("&bulkArr[]=", $listes); else $linkundo=$liste;
+				if ($to!=1) $linkundo=implode("&bulkArr[]=", $listes); else $linkundo=$listes;
 				if($to==1)  $anzahl=__('Reservation', 'easyReservations'); else $anzahl=$to.' '.__('Reservations', 'easyReservations');
 				$easy_errors[] = array( 'updated', $anzahl.' '.__( 'moved to trash' , 'easyReservations' ).'. <a href="'.wp_nonce_url('admin.php?page=reservations&bulkArr[]='.$linkundo.'&bulk=2', 'easy-main-bulk').'">'.__( 'Undo' , 'easyReservations' ).'</a>');
 			}

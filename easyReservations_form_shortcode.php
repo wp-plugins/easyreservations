@@ -369,7 +369,7 @@ function reservations_form_shortcode($atts){
 			if(isset($field[1])) $value=$field[1];
 			if(!empty($validate_action)) $action = 'easyreservations_send_validate(\'send\'); ';
 			else $action = '';
-			$theForm = preg_replace('/\['.$fields.'\]/', '<input type="submit" title="'.$title.'" style="'.$style.'" class="easy-button deactive1" '.$sumit_disabled.' value="'.$value.'" '.$disabled.'><span id="easybackbutton"></span>', $theForm);
+			$theForm = preg_replace('/\['.$fields.'\]/', '<input type="submit" title="'.$title.'" style="'.$style.'" class="easy-button" value="'.$value.'" '.$disabled.'><span id="easybackbutton"></span>', $theForm);
 		} else {
 			$theForm = apply_filters('easy-form-tag', $theForm, $fields);
 		}

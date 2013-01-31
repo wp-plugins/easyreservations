@@ -190,7 +190,7 @@ if(!isset($site) || $site=='' || $site =='main'){
 			if(isset($_POST['easy-resource-once'])) $reservations_res_price_once = 1;
 			else $reservations_res_price_once = 0;
 			
-			if($reservations_current_price_set[0] != $reservations_res_price_set || $reservations_current_price_set[1] != $reservations_res_price_once){/* SET PRICE SETTINGS */
+			if(!isset($reservations_current_price_set[0]) || $reservations_current_price_set[0] != $reservations_res_price_set || $reservations_current_price_set[1] != $reservations_res_price_once){/* SET PRICE SETTINGS */
 				if(is_numeric($reservations_res_price_set)){
 					update_post_meta($resourceID, 'easy-resource-price', array($reservations_res_price_set,$reservations_res_price_once));
 					$right.=__( 'Price setting changed' , 'easyReservations' ).', ';
@@ -312,7 +312,7 @@ if(!isset($site) || $site=='' || $site =='main'){
 				$filters = get_post_meta($resourceID, 'easy_res_filter', true);
 				if(!isset($filters) || empty($filters) || !$filters) $filters = array();
 
-				if(isset($_POST['price_filter_edit']) && !empty($_POST['price_filter_edit']) && isset($filters[$_POST['price_filter_edit']])){
+				if(isset($_POST['price_filter_edit']) && isset($filters[$_POST['price_filter_edit']])){
 					unset($filters[$_POST['price_filter_edit']]);
 					$filters[] = $filter;
 				} else {
@@ -447,10 +447,10 @@ if(!isset($site) || $site=='' || $site =='main'){
 						</tbody>
 						<thead>
 							<tr class="tmiddle">
-								<th class="tmiddle"><?php echo __( 'Filter' , 'easyReservations' ); ?></td>
-								<th class="tmiddle" colspan="2"><?php echo __( 'Condition' , 'easyReservations' ); ?></td>
-								<th class="tmiddle"><?php echo __( 'Price' , 'easyReservations' ); ?></td>
-								<th class="tmiddle"></td>
+								<th class="tmiddle"><?php echo __( 'Filter' , 'easyReservations' ); ?></th>
+								<th class="tmiddle" colspan="2"><?php echo __( 'Condition' , 'easyReservations' ); ?></th>
+								<th class="tmiddle"><?php echo __( 'Price' , 'easyReservations' ); ?></th>
+								<th class="tmiddle"></th>
 							</tr>
 						</thead>
 						<tbody>
@@ -624,7 +624,7 @@ if(!isset($site) || $site=='' || $site =='main'){
 						</tr>
 						<tr>
 							<td style="padding:2px 0px 5px 18px;">
-								<label for="price_filter_cond_date" id="price_filter_cond_date" style="display: inline-block;width:60px"><?php echo __( 'At' , 'easyReservations' ); ?></label> <input type="text" id="price_filter_date" name="price_filter_date" style="width:71px"> <select id="price_filter_date_h" name="price_filter_date_h"><?php echo easyreservations_num_options("00", 23, 12); ?></select> : <select id="price_filter_date_m" name="price_filter_date_m"><?php echo easyreservations_num_options("00", 59); ?></select>
+								<label for="price_filter_date" style="display: inline-block;width:60px"><?php echo __( 'At' , 'easyReservations' ); ?></label> <input type="text" id="price_filter_date" name="price_filter_date" style="width:71px"> <select id="price_filter_date_h" name="price_filter_date_h"><?php echo easyreservations_num_options("00", 23, 12); ?></select> : <select id="price_filter_date_m" name="price_filter_date_m"><?php echo easyreservations_num_options("00", 59); ?></select>
 							</td>
 						</tr>
 						<tr  class="alternate">
@@ -634,8 +634,8 @@ if(!isset($site) || $site=='' || $site =='main'){
 						</tr>
 						<tr>
 							<td style="padding:2px 0px 5px 18px;">
-								<label for="price_filter_range_from" id="price_filter_range_from" style="display: inline-block;width:60px"><?php echo __( 'From' , 'easyReservations' ); ?></label> <input type="text" id="price_filter_range_from" name="price_filter_range_from" style="width:71px"><select id="price_filter_range_from_h" name="price_filter_range_from_h"><?php echo easyreservations_num_options("00", 23, 12); ?></select>:<select id="price_filter_range_from_m" name="price_filter_range_from_m"><?php echo easyreservations_num_options("00", 59); ?></select><br>
-								<label for="price_filter_range_to" id="price_filter_range_to" style="display: inline-block;width:60px"><?php echo __( 'To' , 'easyReservations' ); ?></label> <input type="text" id="price_filter_range_to" name="price_filter_range_to" style="width:71px"><select id="price_filter_range_to_h" name="price_filter_range_to_h"><?php echo easyreservations_num_options("00", 23, 12); ?></select>:<select id="price_filter_range_to_m" name="price_filter_range_to_m"><?php echo easyreservations_num_options("00", 59); ?></select>
+								<label for="price_filter_range_from" style="display: inline-block;width:60px"><?php echo __( 'From' , 'easyReservations' ); ?></label> <input type="text" id="price_filter_range_from" name="price_filter_range_from" style="width:71px"><select id="price_filter_range_from_h" name="price_filter_range_from_h"><?php echo easyreservations_num_options("00", 23, 12); ?></select>:<select id="price_filter_range_from_m" name="price_filter_range_from_m"><?php echo easyreservations_num_options("00", 59); ?></select><br>
+								<label for="price_filter_range_to" style="display: inline-block;width:60px"><?php echo __( 'To' , 'easyReservations' ); ?></label> <input type="text" id="price_filter_range_to" name="price_filter_range_to" style="width:71px"><select id="price_filter_range_to_h" name="price_filter_range_to_h"><?php echo easyreservations_num_options("00", 23, 12); ?></select>:<select id="price_filter_range_to_m" name="price_filter_range_to_m"><?php echo easyreservations_num_options("00", 59); ?></select>
 							</td>
 						</tr>
 						<tr  class="alternate">
@@ -728,6 +728,7 @@ if(!isset($site) || $site=='' || $site =='main'){
 								<div style="margin:3px;width:36px;float:left;">
 									<label><input type="checkbox" name="price_filter_unit_cw[]" value="21"> 21</label>
 									<label><input type="checkbox" name="price_filter_unit_cw[]" value="22"> 22</label>
+									<label><input type="checkbox" name="price_filter_unit_cw[]" value="23"> 23</label>
 									<label><input type="checkbox" name="price_filter_unit_cw[]" value="23"> 23</label>
 									<label><input type="checkbox" name="price_filter_unit_cw[]" value="24"> 24</label>
 									<label><input type="checkbox" name="price_filter_unit_cw[]" value="25"> 25</label>
@@ -1222,7 +1223,7 @@ if(!isset($site) || $site=='' || $site =='main'){
 				<td>
 					<label for="upload_image">
 						<input id="upload_image" type="text" size="32" name="upload_image" value="" /> 
-						<a id="upload_image_button" style="vertical-align:t"><img src="<?php echo admin_url().'images/media-button-image.gif'; ?>"></a>
+						<a id="upload_image_button"><img src="<?php echo admin_url().'images/media-button-image.gif'; ?>"></a>
 					</label>
 				</td>
 			</tr>

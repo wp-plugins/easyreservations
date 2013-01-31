@@ -3,7 +3,7 @@
 Plugin Name: easyReservations
 Plugin URI: http://www.easyreservations.org
 Description: This powerfull property and reservation management plugin allows you to receive, schedule and handle your bookings easily!
-Version: 3.2.1
+Version: 3.2.2
 Author: Feryaz Beer
 Author URI: http://www.feryaz.de
 License:GPL2
@@ -459,7 +459,7 @@ ID: [ID]<br>Name: [thename] <br>Email: [email] <br>From: [arrival] <br>To: [depa
 	add_filter('upgrader_post_install', 'easyreservations_recover', 10, 2);
 	$reservations_settings = get_option("reservations_settings");
 
-	define('RESERVATIONS_VERSION', '3.2.1');
+	define('RESERVATIONS_VERSION', '3.2.2');
 	define('RESERVATIONS_DIR', WP_PLUGIN_DIR.'/easyreservations/');
 	define('RESERVATIONS_URL', WP_PLUGIN_URL.'/easyreservations/');
 	define('RESERVATIONS_STYLE', $reservations_settings['style']);
@@ -470,7 +470,7 @@ ID: [ID]<br>Name: [thename] <br>Email: [email] <br>From: [arrival] <br>To: [depa
 	define('RESERVATIONS_USE_TIME', $reservations_settings['time']);
 	if(RESERVATIONS_USE_TIME == 1) $usetime = ' H:i'; else $usetime = '';
 	define('RESERVATIONS_DATE_FORMAT_SHOW', RESERVATIONS_DATE_FORMAT.$usetime);
-	date_default_timezone_set(get_option('timezone_string'));
+	if(get_option('timezone_string')) date_default_timezone_set(get_option('timezone_string'));
 	add_action('init','easyreservations_init_language');
 	add_action('admin_init','easyreservations_init_language');
 
