@@ -120,7 +120,7 @@ License:GPL2
 					'content' => __( 'Generate totally customazible Invoices automatically from predefined templates. Including an editor for admins, invoices as email attachments and correct A4 Letter formats.' , 'easyReservations' ),
 					'function' => 'easyreservations_generate_invoice',
 					'least' => '1.0.11',
-					'vers' => '1.0.11',
+					'vers' => '1.0.12',
 					'image' => 'invoice',
 				),
 				'htmlmails' => array(
@@ -129,7 +129,7 @@ License:GPL2
 					'content' => __( 'Style your emails with HTML to increase the appereance of your hospitality.' , 'easyReservations' ),
 					'function' => 'easyreservations_send_multipart_mail',
 					'least' => '1.1.4',
-					'vers' => '1.1.4',
+					'vers' => '1.1.5',
 					'image' => 'email',
 				),
 				'paypal' => array(
@@ -147,7 +147,7 @@ License:GPL2
 					'content' => __( 'New shortcode to let your guests search for available resources. No page reload for searching, compatible to calendar, show price, show unavailable resources, link to form with automatically selection. Each resource can have a small one-column calendar to show when its availble. The results can be shown as list or table.' , 'easyReservations' ),
 					'function' => 'easyreservations_search_add_tinymce',
 					'least' => '1.2.2',
-					'vers' => '1.2.2',
+					'vers' => '1.2.3',
 					'image' => 'search',
 					'addon' => array(
 						array(
@@ -180,7 +180,7 @@ License:GPL2
 					'content' => __( 'Show your guests the availability of the resources on a hourly basis.' , 'easyReservations' ),
 					'function' => 'easyreservations_send_hourlycal_callback',
 					'least' => '1.0.7',
-					'vers' => '1.0.7',
+					'vers' => '1.0.8',
 					'image' => 'time',
 				),
 				'import' => array(
@@ -631,17 +631,15 @@ License:GPL2
 		$changes = easyreservations_latest_modules_versions(86400,false,true);
 		$deprecated_plugin = ''; $deprecated_modules = '';
 		foreach($changes as $module){
-			if(file_exists(WP_PLUGIN_DIR.'/easyreservations/lib/modules/'.$module['slug'].'/'.$module['slug'].'.php')){
-				$deprecated = false;
-				$data = get_plugin_data(WP_PLUGIN_DIR.'/easyreservations/lib/modules/'.$module['slug'].'/'.$module['slug'].'.php', false);
-				if(version_compare($data['Description'], RESERVATIONS_VERSION) == +1) $deprecated = array(true,$data['Description']);
-				elseif(version_compare($data['Version'], $module['least']) == -1) $deprecated = array(false, $module['least']);
-				if($deprecated){
-					if($deprecated[0]){
-						$deprecated_plugin .=  '<li>'.sprintf( __('Modules %1$s is incopatible to easyReservations %2$s - update to version %3$s','easyReservations'), $module['title'], RESERVATIONS_VERSION, $deprecated[1]).'</li>';
-					} else {
-						$deprecated_modules .=  '<li>'.sprintf( __('easyReservations %1$s is incompatible to %2$s %3$s - update at least to version %4$s','easyReservations'), RESERVATIONS_VERSION, $module['title'], $data['Version'], $deprecated[1]).'</li>';
-					}
+			$deprecated = false;
+			$data = get_plugin_data(WP_PLUGIN_DIR.'/easyreservations/lib/modules/'.$module['slug'].'/'.$module['slug'].'.php', false);
+			if(version_compare($data['Description'], RESERVATIONS_VERSION) == +1) $deprecated = array(true,$data['Description']);
+			elseif(version_compare($data['Version'], $module['least']) == -1) $deprecated = array(false, $module['least']);
+			if($deprecated){
+				if($deprecated[0]){
+					$deprecated_plugin .=  '<li>'.sprintf( __('Modules %1$s is incopatible to easyReservations %2$s - update to version %3$s','easyReservations'), $module['title'], RESERVATIONS_VERSION, $deprecated[1]).'</li>';
+				} else {
+					$deprecated_modules .=  '<li>'.sprintf( __('easyReservations %1$s is incompatible to %2$s %3$s - update at least to version %4$s','easyReservations'), RESERVATIONS_VERSION, $module['title'], $data['Version'], $deprecated[1]).'</li>';
 				}
 			}
 		}

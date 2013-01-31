@@ -7,7 +7,7 @@ function easyreservations_send_validate(y){
 		var errornr = 1; var custom = '';
 		if(y == "send") easyOverlayDimm(0);
 		jQuery("#easy-show-error-div").addClass('hide-it');
-		jQuery(".easyFrontendFormular .easy-button").addClass('deactive1').attr('disabled', 'disabled');
+		//jQuery(".easyFrontendFormular .easy-button").addClass('deactive1').attr('disabled', 'disabled');
 		jQuery("[id^='easy-custom-req-']").each ( function (i){
 			if(custom.indexOf(this.id+',') >= 0) return;
 			if(this.value == '') custom +=	this.id + ',';
@@ -139,7 +139,9 @@ function easyreservations_send_validate(y){
 						jQuery("label[class=easy-show-error]").hide();
 						jQuery("label[class=easy-show-error]").fadeIn("slow");
 					}
-				} else jQuery(".easyFrontendFormular .easy-button").removeClass('deactive1').removeAttr('disabled');
+				} else {
+                    //jQuery(".easyFrontendFormular .easy-button").removeClass('deactive1').removeAttr('disabled');
+                }
 
 				errors_state = 0;
 				if(errornr == 0 && mode == 'send'){

@@ -124,7 +124,7 @@
 	}
 	
 	function easyreservations_load_resources($interval = false){
-		global $the_rooms_array;
+      global $the_rooms_array;
 		if(empty($the_rooms_array)) $the_rooms_array = easyreservations_get_rooms();
 		if($interval){
 			global $the_rooms_intervals_array;
@@ -245,7 +245,9 @@
 	*	$afterArray = array of reservation after editation
 	*/
 
-	function easyreservations_generate_res_changelog($beforeArray, $afterArray){		
+	function easyreservations_generate_res_changelog($beforeArray, $afterArray){
+    easyreservations_load_resources();
+    global $the_rooms_array;
 		$changelog = '';
 
 		if($beforeArray['arrival'] != $afterArray['arrival']){
@@ -277,7 +279,7 @@
 		}
 
 		if($beforeArray['room'] != $afterArray['room']){
-			$changelog .= __('The room was edited' , 'easyReservations' ).': '.__(easyreservations_get_roomname($beforeArray['room'])).' => '.__(easyreservations_get_roomname($afterArray['room'])).'<br>';
+			$changelog .= __('The room was edited' , 'easyReservations' ).': '.__($the_rooms_array[$beforeArray['room']]->post_title).' => '.__($the_rooms_array[$afterArray['room']]->post_title).'<br>';
 		}
 
 		if($beforeArray['message'] != $afterArray['message']){
@@ -460,7 +462,7 @@
 		}
 
 		if(function_exists('easyreservations_generate_multical') && $where == 'shortcode' && $monthes != 1) $timenows = easyreservations_generate_multical($_POST['date'], $monthes);
-		else $timenows=array(time()+($_POST['date']*86400*30));
+		else $timenows=array(strtotime("+".$_POST['date']." month", strtotime(date("01.m.Y", time()) )));
 
 		if(!isset($timenows[1])) $month = $month_names[date("n", $timenows[0])-1].' '.date("Y", $timenows[0]);
 		else {
@@ -508,7 +510,7 @@
 			}
 
 			$num2 = cal_days_in_month(CAL_GREGORIAN, $monthnowFix-1, $yearnowFix); // 31
-			if(count($timenows) > 1 && $divider % 2 != 0) $thewidth = ($atts['width']-0.33).'px';
+			if(count($timenows) > 1 && $divider % 2 != 0) $thewidth = ($atts['width']-0.33).'%';
 			else $thewidth = $percent.'%';
 			if($month_count % $divider == 0) $float = '';
 			else $float = 'float:left';
@@ -586,7 +588,7 @@
 					if($avail  == 0.51) $backgroundtd.=" calendar-cell-halfstart";
 					elseif($avail == 0.5) $backgroundtd.=" calendar-cell-halfend";
 
-					if($atts['style'] == 3 && $diff < 10) $show = '0'.$diff;
+					if(isset($atts['style']) && $atts['style'] == 3 && $diff < 10) $show = '0'.$diff;
 					else $show = $diff;
 
 					if($dateofeachday > time() && $atts['select'] > 0) $onclick = 'onclick="easyreservations_click_calendar(this,\''.date(RESERVATIONS_DATE_FORMAT, $dateofeachday).'\', \''.$rand.'\', \''.$key.'\');"'; else $onclick ='style="cursor:default"';
@@ -737,8 +739,9 @@
 					$res->Calculate();
 					if(!$theID) echo json_encode(array($res->id, round($res->price,2)));
 					else echo 'error';
-				} catch(easyException $e){
-					echo $e->getMessage();
+				} catch(Exception $e){
+					echo '<li><label>'.$e->getMessage().'</label></li>';
+          exit;
 				}
 			} else {
 				$res = new Reservation(false, $array, false);
@@ -768,24 +771,33 @@
 						if(!empty($ids)){
 							foreach($ids as $id){
 								$new = new Reservation((int) $id);
-								$new->Calculate();
-								$new->sendMail( 'reservations_email_to_admin', false);
-								$new->sendMail( 'reservations_email_to_user', $new->email);
-								$prices += $new->price;
+                try{
+                  $new->Calculate();
+                  $new->sendMail( 'reservations_email_to_admin', false);
+                  $new->sendMail( 'reservations_email_to_user', $new->email);
+                  $prices += $new->price;
+                } catch(Exception $e){
+                  echo '<li><label>'.$e->getMessage().'</label></li>';
+                  exit;
+                }
 							}
 							$res->Calculate();
 							$prices += $res->price;
 							$ids[]=$res->id;
 							$payment = $ids;
 						} else {
-							$ids = $res;
 							$res->Calculate();
 							$prices = $res->price;
 							$payment = $res;
 						}
 						$prices = round($prices,2);
-						$res->sendMail( 'reservations_email_to_admin', false);
-						$res->sendMail( 'reservations_email_to_user', $res->email);
+            try {
+						  $res->sendMail( 'reservations_email_to_admin', false);
+						  $res->sendMail( 'reservations_email_to_user', $res->email);
+            } catch(Exception $e){
+              echo '<li><label>'.$e->getMessage().'</label></li>';
+              exit;
+            }
 
 						if(empty($error) && isset($arrival)){
 							if(!empty($atts['submit'])) $finalform.= '<div class="easy_form_success"><b class="easy_submit">'.$atts['submit'].'!</b>';
@@ -1027,9 +1039,10 @@
 			$name[] = __( 'December' , 'easyReservations' );
 		}
 
-		if($substr > 0) mb_internal_encoding("UTF-8");
+		if($substr > 0 && function_exists('mb_internal_encoding')) mb_internal_encoding("UTF-8");
 		foreach($name as $key => $day){
-			if($substr > 0) $name[$key] = mb_substr($day, 0, $substr);
+			if($substr > 0 && function_exists('mb_substr')) $name[$key] = mb_substr($day, 0, $substr);
+			elseif($substr > 0) $name[$key] = substr($day, 0, $substr);
 			if($addslashes) $name[$key] = addslashes($name[$key]);
 		}
 

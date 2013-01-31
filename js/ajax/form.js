@@ -162,7 +162,7 @@ function easyInnerlay(content,add){
 		if(reservations) jQuery('#easy_overlay_tbody').html(reservations);
 		jQuery("#easyFormInnerlay").fadeIn("slow");
 		jQuery("#easyFormInnerlay").css("display", "inline-block");
-		jQuery('#easyFormOverlay').removeClass('easyloading');
+		jQuery("#easyFormOverlay").removeClass('easyloading');
 		window.location.hash = 'easyFormInnerlay';
 		easyReservationEdit = false;
 	}

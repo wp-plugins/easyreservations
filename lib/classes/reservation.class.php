@@ -218,6 +218,7 @@
 				}
 			}
 
+      $checkprice = $this->price;
 			if(!empty($filters)){  //IF Filter array has elemts left they should be discounts or unavails or nonsense
 				$staywasfull=0; $loyalwasfull=0; $perswasfull=0; $earlywasfull=0;
 				$staywasfull_charge=0; $loyalwasfull_charge=0; $perswasfull_charge=0; $earlywasfull_charge=0;
@@ -271,7 +272,7 @@
 						}
 
 						if($filter['modus'] == '%'){
-							$percent=$this->price/100* (int) $discount_amount;
+							$percent=$checkprice/100* (int) $discount_amount;
 							$this->price+=$percent;
 							if($history) $this->history[] = array('date'=>$this->arrival+($countpriceadd*$this->interval), 'priceday'=>$percent, 'type'=>$filter['type'], 'name' => __($filter['name']), 'cond' => $filter['cond'] );
 						} elseif($filter['modus'] == "price_res"){
@@ -307,7 +308,7 @@
 				if(!empty($save)){
 					$this->price += $save['price'];
 					if($history) $this->history = array_merge((array) $this->history, (array) $save['exactly']);
-					$countpriceadd = $save['countpriceadd'];
+					$countpricepriceadd = $save['countpriceadd'];
 				}
 			}
 
@@ -338,7 +339,7 @@
 			if(!empty($this->pricepaid)){
 				$pricexpl=explode(";", $this->pricepaid);
 				if($pricexpl[0]  > 0 && $pricexpl[0]!=''){
-					$this->price=$pricexpl[0];
+					$this->price = $pricexpl[0];
 					$this->fixed = true;
 				}
 				if(isset($pricexpl[1]) && $pricexpl[1] > 0) $this->paid=str_replace(',','.',$pricexpl[1]);
@@ -644,7 +645,7 @@
 				$departure = strtotime(date('d.m.Y', (int) $this->departure))+43200;
 			}
 			$diff = 0;
-			if(version_compare(PHP_VERSION, '5.3.0') >= 0){
+			if(version_compare(PHP_VERSION, '5.3.0') >= 0 && is_numeric($departure)){
 				$timezone = new DateTimeZone(date_default_timezone_get ());
 				$transitions = $timezone->getTransitions($arrival, $departure);
 				if(isset($transitions[1]) && $transitions[0]['offset'] != $transitions[1]['offset']){
