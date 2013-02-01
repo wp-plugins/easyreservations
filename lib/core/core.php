@@ -630,27 +630,31 @@ License:GPL2
 	function easyreservations_modules_check_incompability(){
 		$changes = easyreservations_latest_modules_versions(86400,false,true);
 		$deprecated_plugin = ''; $deprecated_modules = '';
-		foreach($changes as $module){
-			$deprecated = false;
-			$data = get_plugin_data(WP_PLUGIN_DIR.'/easyreservations/lib/modules/'.$module['slug'].'/'.$module['slug'].'.php', false);
-			if(version_compare($data['Description'], RESERVATIONS_VERSION) == +1) $deprecated = array(true,$data['Description']);
-			elseif(version_compare($data['Version'], $module['least']) == -1) $deprecated = array(false, $module['least']);
-			if($deprecated){
+		if($changes && !empty($changes)){
+		  foreach($changes as $module){
+			if(file_exists(WP_PLUGIN_DIR.'/easyreservations/lib/modules/'.$module['slug'].'/'.$module['slug'].'.php')){
+			  $deprecated = false;
+			  $data = get_plugin_data(WP_PLUGIN_DIR.'/easyreservations/lib/modules/'.$module['slug'].'/'.$module['slug'].'.php', false);
+			  if(version_compare($data['Description'], RESERVATIONS_VERSION) == +1) $deprecated = array(true,$data['Description']);
+			  elseif(version_compare($data['Version'], $module['least']) == -1) $deprecated = array(false, $module['least']);
+			  if($deprecated){
 				if($deprecated[0]){
-					$deprecated_plugin .=  '<li>'.sprintf( __('Modules %1$s is incopatible to easyReservations %2$s - update to version %3$s','easyReservations'), $module['title'], RESERVATIONS_VERSION, $deprecated[1]).'</li>';
+				  $deprecated_plugin .=  '<li>'.sprintf( __('Modules %1$s is incopatible to easyReservations %2$s - update to version %3$s','easyReservations'), $module['title'], RESERVATIONS_VERSION, $deprecated[1]).'</li>';
 				} else {
-					$deprecated_modules .=  '<li>'.sprintf( __('easyReservations %1$s is incompatible to %2$s %3$s - update at least to version %4$s','easyReservations'), RESERVATIONS_VERSION, $module['title'], $data['Version'], $deprecated[1]).'</li>';
+				  $deprecated_modules .=  '<li>'.sprintf( __('easyReservations %1$s is incompatible to %2$s %3$s - update at least to version %4$s','easyReservations'), RESERVATIONS_VERSION, $module['title'], $data['Version'], $deprecated[1]).'</li>';
 				}
+			  }
 			}
-		}
-		if(!empty($deprecated_plugin)){
+		  }
+		  if(!empty($deprecated_plugin)){
 			$file = 'easyreservations/easyReservations.php';
 			$deprecated_plugin = '<h2>Update easyReservations</h2><ul>'.$deprecated_plugin.'</ul><strong><a href="'.wp_nonce_url( self_admin_url('update.php?action=upgrade-plugin&plugin=') . $file, 'upgrade-plugin_' . $file).'">'.__('Update easyReservations now', 'easyReservations').'</a></strong>';
-		}
-		if(!empty($deprecated_modules)){
+		  }
+		  if(!empty($deprecated_modules)){
 			$deprecated_modules = '<h2>Incompatible Modules</h2><ul style="list-style:disc;padding-left:30px">'.$deprecated_modules.'</ul><strong><a href="admin.php?page=reservation-settings&site=plugins&update=all">'.__(' Update Modules now', 'easyReservations').'</a></strong>';
+		  }
+		  if(!empty($deprecated_plugin) || !empty($deprecated_modules)) echo '<div class="error" style="padding-bottom	:5px;">'.$deprecated_plugin.$deprecated_modules.'</div>';
 		}
-		if(!empty($deprecated_plugin) || !empty($deprecated_modules)) echo '<div class="error" style="padding-bottom	:5px;">'.$deprecated_plugin.$deprecated_modules.'</div>';
 	}
 
 	add_action('easy-header', 'easyreservations_modules_check_incompability');
