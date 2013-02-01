@@ -630,7 +630,7 @@ License:GPL2
 	function easyreservations_modules_check_incompability(){
 		$changes = easyreservations_latest_modules_versions(86400,false,true);
 		$deprecated_plugin = ''; $deprecated_modules = '';
-		if($changes && !empty($changes)){
+		if($changes && !empty($changes) && is_array($changes)){
 		  foreach($changes as $module){
 			if(file_exists(WP_PLUGIN_DIR.'/easyreservations/lib/modules/'.$module['slug'].'/'.$module['slug'].'.php')){
 			  $deprecated = false;
