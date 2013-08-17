@@ -1,0 +1,14 @@
+#toplevel_page_reservations div.wp-menu-image {
+    background: url(../images/logo.png) center center no-repeat;
+    background-position: center center !important;
+}
+
+@media print,
+(-o-min-device-pixel-ratio: 5/4),
+(-webkit-min-device-pixel-ratio: 1.25),
+(min-resolution: 120dpi) {
+    #toplevel_page_reservations div.wp-menu-image {
+        background: url(../images/logo32.png) center center no-repeat;
+        background-size: 16px 16px;
+    }
+}

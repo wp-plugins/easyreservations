@@ -1,0 +1,5204 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: easyReservations\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-08-17 14:23+0100\n"
+"PO-Revision-Date: 2013-08-17 14:23+0100\n"
+"Last-Translator: 波波 <11173389@qq.com>\n"
+"Language-Team: 波波 <11173389@qq.com>\n"
+"Language: zh_CN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: __;_e\n"
+"X-Poedit-Basepath: .\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Generator: Poedit 1.5.4\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: easyReservations.php:31
+msgid "easyReservation"
+msgstr "简单预订"
+
+#: easyReservations.php:31 easyReservations_admin_main.php:46
+#: easyReservations_admin_main.php:62 easyReservations_admin_main.php:78
+#: easyReservations_admin_main.php:1069
+#: easyReservations_admin_resources.php:22 lib/modules/stream/stream.php:149
+msgid "Reservation"
+msgstr "预约"
+
+#: easyReservations.php:32 easyReservations_admin_settings.php:333
+msgid "Dashboard"
+msgstr "仪表盘"
+
+#: easyReservations.php:33 easyReservations_admin_settings.php:337
+#: easyReservations_admin_settings.php:703
+#: easyReservations_admin_settings.php:1040
+msgid "Resources"
+msgstr "资源"
+
+#: easyReservations.php:35 easyReservations_admin_settings.php:345
+#: lib/modules/paypal/paypal.php:184 lib/modules/useredit/useredit.php:366
+msgid "Settings"
+msgstr "设置"
+
+#: easyReservations_admin_main.php:46 easyReservations_admin_main.php:62
+#: easyReservations_admin_main.php:78 easyReservations_admin_resources.php:220
+msgid "Reservations"
+msgstr "预订"
+
+#: easyReservations_admin_main.php:47
+msgid "moved to trash"
+msgstr "移至垃圾桶"
+
+#: easyReservations_admin_main.php:47
+msgid "Undo"
+msgstr "复原"
+
+#: easyReservations_admin_main.php:63
+msgid "restored from trash"
+msgstr "从回收站中恢复"
+
+#: easyReservations_admin_main.php:79
+msgid "deleted permanently"
+msgstr "永久删除"
+
+#: easyReservations_admin_main.php:91
+msgid "Custom information deleted"
+msgstr "自定义信息已删除"
+
+#: easyReservations_admin_main.php:92
+msgid "Custom information isn't existing"
+msgstr "自定义信息不存在"
+
+#: easyReservations_admin_main.php:105
+msgid "Custom price deleted"
+msgstr "删除自定义价格"
+
+#: easyReservations_admin_main.php:106
+msgid "Custom price isn't existing"
+msgstr "自定义价格是不存在"
+
+#: easyReservations_admin_main.php:128 easyReservations_admin_main.php:204
+msgid "Wrong money format in custom price"
+msgstr "自定义格式错误的货币价格"
+
+#: easyReservations_admin_main.php:164 easyReservations_admin_main.php:238
+msgid "Price couldn't be fixed, input isn't valid money format"
+msgstr "价格不能是固定的，输入的不是有效的货币格式"
+
+#: easyReservations_admin_main.php:169
+msgid "Reservation edited."
+msgstr "预订编辑。"
+
+#: easyReservations_admin_main.php:179
+#, php-format
+msgid "Reservation #%1$d copied as #%2$d"
+msgstr "预订＃%1$d复制＃%2$d"
+
+#: easyReservations_admin_main.php:242
+#, php-format
+msgid "Reservation #%d added"
+msgstr "预订第%d"
+
+#: easyReservations_admin_main.php:253 lib/functions/admin.php:1704
+#: lib/functions/admin.php:1713
+#, fuzzy
+msgid "Wrong date format"
+msgstr "日期格式"
+
+#: easyReservations_admin_main.php:274
+#, fuzzy
+msgid ""
+"This is how the price would get calculated now. After changing filters, base "
+"price or settings or the reservations price it wont match the fixed price "
+"anymore."
+msgstr ""
+"这是现在的价格会得到计算。更改后的过滤器/ Groundprice的/设置或保留价格不会再"
+"匹配的固定价格。"
+
+#: easyReservations_admin_main.php:298
+msgid "Email sent successfully"
+msgstr "电子邮件发送成功"
+
+#: easyReservations_admin_main.php:326
+msgid "Reservation approved"
+msgstr "预订批准"
+
+#: easyReservations_admin_main.php:327
+msgid "Reservation rejected"
+msgstr "预订拒绝"
+
+#: easyReservations_admin_main.php:342
+msgid "Reservations Dashboard"
+msgstr "预订仪表板"
+
+#: easyReservations_admin_main.php:343
+#: easyReservations_admin_resources.php:205
+msgid "Add New"
+msgstr "添加新"
+
+#: easyReservations_admin_main.php:355 easyReservations_admin_main.php:988
+#: easyReservations_admin_main.php:1013 easyReservations_admin_main.php:1303
+#: easyReservations_admin_main.php:1504 lib/core/core.php:338
+#: lib/modules/hourlycal/hourlycal.php:206 lib/modules/paypal/paypal.php:344
+msgid "None"
+msgstr "无"
+
+#: easyReservations_admin_main.php:467 easyReservations_admin_main.php:866
+#: easyReservations_admin_resources.php:1367
+msgid "choose date"
+msgstr "选择日期"
+
+#: easyReservations_admin_main.php:583
+msgid "full"
+msgstr "满"
+
+#: easyReservations_admin_main.php:910 lib/functions/admin.php:306
+#: lib/modules/statistics/statistics.php:493
+msgid "Upcoming reservations"
+msgstr "即将到期的预订"
+
+#: easyReservations_admin_main.php:927 lib/functions/admin.php:307
+msgid "New reservations"
+msgstr "新的预订"
+
+#: easyReservations_admin_main.php:955 lib/functions/admin.php:309
+msgid "What happen today"
+msgstr "今天发生了什么"
+
+#: easyReservations_admin_main.php:955
+msgid "workload today"
+msgstr "今天的工作量"
+
+#: easyReservations_admin_main.php:965
+msgid "Arrival today"
+msgstr "今日到达"
+
+#: easyReservations_admin_main.php:967 easyReservations_admin_main.php:1084
+#: easyReservations_admin_main.php:1239 easyReservations_admin_main.php:1439
+#: easyReservations_admin_resources.php:731
+#: easyReservations_admin_settings.php:776
+#: easyReservations_admin_settings.php:907
+#: easyReservations_admin_settings.php:936
+#: easyReservations_admin_settings.php:1055 lib/core/core.php:287
+#: lib/functions/admin.php:316 lib/functions/admin.php:753
+#: lib/functions/admin.php:794 lib/modules/htmlmails/htmlmails.php:127
+#: lib/modules/import/import.php:72 lib/modules/paypal/creditcards.php:225
+#: lib/modules/paypal/creditcards.php:250
+#: lib/modules/paypal/creditcards.php:345 lib/modules/paypal/paypal.php:226
+#: lib/modules/paypal/paypal.php:243 lib/modules/search/attributes.php:116
+#: lib/modules/statistics/statistics.php:712
+#: lib/modules/useredit/useredit.php:345 lib/modules/useredit/useredit.php:666
+#: lib/modules/useredit/useredit.php:767
+msgid "Name"
+msgstr "名称"
+
+#: easyReservations_admin_main.php:967 easyReservations_admin_main.php:1102
+#: easyReservations_admin_main.php:1260 easyReservations_admin_main.php:1466
+#: easyReservations_admin_main.php:1581
+#: easyReservations_admin_settings.php:415
+#: js/tinyMCE/tinyMCE_shortcode_add.php:123
+#: js/tinyMCE/tinyMCE_shortcode_add.php:183 lib/functions/admin.php:322
+#: lib/functions/admin.php:771 lib/functions/admin.php:812
+#: lib/modules/hourlycal/hourlycal.php:185
+#: lib/modules/hourlycal/hourlycal.php:205
+#: lib/modules/htmlmails/htmlmails.php:122
+#: lib/modules/htmlmails/htmlmails.php:386 lib/modules/import/import.php:74
+#: lib/modules/invoice/invoice.php:566 lib/modules/search/search.php:69
+#: lib/modules/statistics/statistics.php:515
+#: lib/modules/statistics/statistics.php:714
+#: lib/modules/useredit/useredit.php:350 lib/modules/useredit/useredit.php:547
+msgid "Resource"
+msgstr "资源"
+
+#: easyReservations_admin_main.php:967 easyReservations_admin_main.php:1098
+#: easyReservations_admin_main.php:1251 easyReservations_admin_main.php:1457
+#: easyReservations_admin_resources.php:670
+#: easyReservations_admin_resources.php:707
+#: easyReservations_admin_resources.php:962
+#: easyReservations_admin_resources.php:1015
+#: easyReservations_form_shortcode.php:428 lib/functions/admin.php:324
+#: lib/functions/admin.php:767 lib/functions/admin.php:808
+#: lib/modules/htmlmails/htmlmails.php:124 lib/modules/import/import.php:72
+#: lib/modules/statistics/statistics.php:518
+#: lib/modules/statistics/statistics.php:715
+#: lib/modules/useredit/useredit.php:347 lib/modules/useredit/useredit.php:668
+#: lib/modules/useredit/useredit.php:771
+msgid "Persons"
+msgstr "人"
+
+#: easyReservations_admin_main.php:967 easyReservations_admin_main.php:1281
+#: easyReservations_admin_main.php:1488 easyReservations_admin_main.php:1515
+#: easyReservations_admin_resources.php:550
+#: easyReservations_admin_resources.php:698
+#: easyReservations_admin_resources.php:723
+#: easyReservations_admin_resources.php:1039
+#: easyReservations_admin_resources.php:1046
+#: easyReservations_admin_settings.php:264
+#: easyReservations_admin_settings.php:925
+#: easyReservations_admin_settings.php:953
+#: easyReservations_admin_settings.php:1091
+#: easyReservations_admin_settings.php:1215
+#: easyReservations_form_shortcode.php:167
+#: easyReservations_form_shortcode.php:429
+#: js/tinyMCE/tinyMCE_shortcode_add.php:191 lib/functions/admin.php:81
+#: lib/functions/admin.php:331 lib/functions/admin.php:779
+#: lib/functions/admin.php:820 lib/functions/admin.php:1666
+#: lib/modules/hourlycal/hourlycal.php:189
+#: lib/modules/htmlmails/htmlmails.php:131
+#: lib/modules/htmlmails/htmlmails.php:137
+#: lib/modules/htmlmails/htmlmails.php:388 lib/modules/search/search.php:54
+#: lib/modules/search/search.php:58 lib/modules/search/search.php:356
+#: lib/modules/statistics/statistics.php:716
+#: lib/modules/useredit/useredit.php:352 lib/modules/useredit/useredit.php:671
+#: lib/modules/useredit/useredit.php:729 lib/modules/useredit/useredit.php:810
+#: lib/modules/useredit/useredit.php:871
+msgid "Price"
+msgstr "价格"
+
+#: easyReservations_admin_main.php:992
+msgid "Departure today"
+msgstr "今天离开退房"
+
+#: easyReservations_admin_main.php:1041
+#: easyReservations_admin_resources.php:1010
+#: easyReservations_admin_resources.php:1040
+#: easyReservations_admin_settings.php:412
+#: easyReservations_admin_settings.php:414
+#: easyReservations_admin_settings.php:901
+#: easyReservations_admin_settings.php:930
+#: easyReservations_admin_settings.php:984
+#: easyReservations_admin_settings.php:1033
+#: easyReservations_admin_settings.php:1077
+#: easyReservations_admin_settings.php:1165
+#: easyReservations_admin_settings.php:1210
+#: lib/modules/search/attributes.php:120
+msgid "Type"
+msgstr "类型"
+
+#: easyReservations_admin_main.php:1041 easyReservations_admin_main.php:1295
+#: easyReservations_admin_main.php:1500 lib/functions/admin.php:709
+msgid "Approved"
+msgstr "已批准"
+
+#: easyReservations_admin_main.php:1041 easyReservations_admin_main.php:1295
+#: easyReservations_admin_main.php:1500 lib/functions/admin.php:697
+#: lib/functions/admin.php:709
+msgid "Pending"
+msgstr "有待"
+
+#: easyReservations_admin_main.php:1041 easyReservations_admin_main.php:1295
+#: easyReservations_admin_main.php:1500 lib/functions/admin.php:698
+#: lib/functions/admin.php:709
+msgid "Rejected"
+msgstr "拒绝"
+
+#: easyReservations_admin_main.php:1041 easyReservations_admin_main.php:1295
+#: lib/functions/admin.php:709
+msgid "Trashed"
+msgstr "丢弃"
+
+#: easyReservations_admin_main.php:1042
+#: easyReservations_admin_resources.php:549
+#: easyReservations_admin_settings.php:266
+#: easyReservations_form_shortcode.php:426 lib/modules/coupons/coupons.php:36
+#: lib/modules/useredit/useredit.php:360
+msgid "Time"
+msgstr "时间"
+
+#: easyReservations_admin_main.php:1042 overview.php:159
+#: lib/modules/useredit/useredit.php:361
+msgid "Past"
+msgstr "过去的"
+
+#: easyReservations_admin_main.php:1042 overview.php:109 overview.php:160
+msgid "Present"
+msgstr "目前"
+
+#: easyReservations_admin_main.php:1042 overview.php:161
+#: lib/modules/useredit/useredit.php:363
+msgid "Future"
+msgstr "将来"
+
+#: easyReservations_admin_main.php:1069 easyReservations_admin_main.php:1572
+#: easyReservations_admin_main.php:1587 lib/functions/admin.php:221
+#: lib/functions/admin.php:895
+msgid "Approve"
+msgstr "批准"
+
+#: easyReservations_admin_main.php:1069 easyReservations_admin_main.php:1572
+#: easyReservations_admin_main.php:1587 lib/functions/admin.php:223
+#: lib/functions/admin.php:896
+msgid "Reject"
+msgstr "拒绝"
+
+#: easyReservations_admin_main.php:1069
+msgid "View"
+msgstr "查看"
+
+#: easyReservations_admin_main.php:1071 lib/functions/admin.php:225
+#: lib/functions/admin.php:894 lib/modules/search/attributes.php:137
+msgid "Edit"
+msgstr "编辑"
+
+#: easyReservations_admin_main.php:1088 lib/functions/admin.php:81
+#: lib/functions/admin.php:749 lib/functions/admin.php:790
+#: lib/modules/import/import.php:73 lib/modules/statistics/statistics.php:713
+#: lib/modules/useredit/useredit.php:346 lib/modules/useredit/useredit.php:665
+msgid "Date"
+msgstr "日期"
+
+#: easyReservations_admin_main.php:1094 easyReservations_admin_main.php:1267
+#: easyReservations_admin_main.php:1475
+#: easyReservations_admin_settings.php:791
+#: easyReservations_admin_settings.php:1060 lib/functions/admin.php:321
+#: lib/functions/admin.php:763 lib/functions/admin.php:804
+#: lib/modules/htmlmails/htmlmails.php:128 lib/modules/import/import.php:72
+#: lib/modules/paypal/creditcards.php:344
+#: lib/modules/useredit/useredit.php:768 lib/modules/useredit/useredit.php:833
+msgid "Email"
+msgstr "邮箱"
+
+#: easyReservations_admin_main.php:1099 easyReservations_admin_main.php:1459
+#: easyReservations_admin_resources.php:1016
+#: easyReservations_admin_settings.php:423
+#: easyReservations_admin_settings.php:722
+#: easyReservations_admin_settings.php:1045
+#: lib/modules/htmlmails/htmlmails.php:125
+#: lib/modules/htmlmails/htmlmails.php:383
+msgid "Adults"
+msgstr "成人"
+
+#: easyReservations_admin_main.php:1099 easyReservations_admin_main.php:1255
+#: easyReservations_admin_resources.php:1017
+#: easyReservations_admin_settings.php:424
+#: easyReservations_admin_settings.php:749
+#: easyReservations_admin_settings.php:1050
+#: lib/modules/useredit/useredit.php:772
+msgid "Children's"
+msgstr "儿童"
+
+#: easyReservations_admin_main.php:1107 easyReservations_admin_main.php:1271
+#: easyReservations_admin_main.php:1479
+#: easyReservations_admin_settings.php:806
+#: easyReservations_admin_settings.php:1065 lib/functions/admin.php:328
+#: lib/functions/admin.php:773 lib/functions/admin.php:814
+#: lib/modules/htmlmails/htmlmails.php:129
+#: lib/modules/htmlmails/htmlmails.php:385 lib/modules/import/import.php:74
+#: lib/modules/useredit/useredit.php:773
+msgid "Country"
+msgstr "国家"
+
+#: easyReservations_admin_main.php:1141
+msgid "GuestContact"
+msgstr "留言联系我们"
+
+#: easyReservations_admin_main.php:1222 easyReservations_admin_main.php:1281
+msgid "Edit reservation"
+msgstr "编辑预订"
+
+#: easyReservations_admin_main.php:1225
+#, fuzzy
+msgid "Really delete this reservation permanently?"
+msgstr "真的要删除该资源和所有保留吗？"
+
+#: easyReservations_admin_main.php:1225
+#: easyReservations_admin_resources.php:266
+#: lib/modules/useredit/useredit.php:62 lib/modules/useredit/useredit.php:63
+#: lib/modules/useredit/useredit.php:126 lib/modules/useredit/useredit.php:132
+msgid "delete"
+msgstr "删除"
+
+#: easyReservations_admin_main.php:1227
+#, fuzzy
+msgid "Really move this reservation to trash?"
+msgstr "拒绝预订"
+
+#: easyReservations_admin_main.php:1227
+msgid "trash"
+msgstr "垃圾"
+
+#: easyReservations_admin_main.php:1243 easyReservations_admin_main.php:1443
+#: easyReservations_admin_resources.php:755 lib/modules/coupons/coupons.php:76
+#: lib/modules/useredit/useredit.php:769
+msgid "From"
+msgstr "从"
+
+#: easyReservations_admin_main.php:1247 easyReservations_admin_main.php:1450
+#: easyReservations_admin_main.php:1587
+#: easyReservations_admin_resources.php:759 lib/modules/coupons/coupons.php:80
+#: lib/modules/useredit/useredit.php:770
+msgid "To"
+msgstr "到"
+
+#: easyReservations_admin_main.php:1253
+msgid "Adult's"
+msgstr "成人"
+
+#: easyReservations_admin_main.php:1272 easyReservations_admin_main.php:1480
+#: lib/modules/useredit/useredit.php:686
+msgid "Unknown"
+msgstr "不知道"
+
+#: easyReservations_admin_main.php:1281
+msgid "Copy"
+msgstr "复制"
+
+#: easyReservations_admin_main.php:1289 easyReservations_admin_main.php:1494
+msgid "Status & Price"
+msgstr "状态和价格"
+
+#: easyReservations_admin_main.php:1294 easyReservations_admin_main.php:1499
+#: easyReservations_admin_resources.php:222
+#: easyReservations_admin_resources.php:539
+#: easyReservations_admin_settings.php:284
+#: easyReservations_admin_settings.php:1409 lib/functions/admin.php:325
+#: lib/functions/admin.php:761 lib/functions/admin.php:802
+#: lib/modules/import/import.php:72 lib/modules/statistics/statistics.php:516
+#: lib/modules/useredit/useredit.php:349 lib/modules/useredit/useredit.php:355
+#: lib/modules/useredit/useredit.php:667 lib/modules/useredit/useredit.php:867
+msgid "Status"
+msgstr "状态"
+
+#: easyReservations_admin_main.php:1298 easyReservations_admin_main.php:1511
+#: lib/functions/admin.php:757 lib/functions/admin.php:798
+#: lib/modules/import/import.php:73 lib/modules/useredit/useredit.php:670
+msgid "Reserved"
+msgstr "保留"
+
+#: easyReservations_admin_main.php:1302 easyReservations_admin_main.php:1503
+msgid "Assign user"
+msgstr "指定用户"
+
+#: easyReservations_admin_main.php:1310
+msgid "Fixed Price"
+msgstr "定价"
+
+#: easyReservations_admin_main.php:1314 easyReservations_admin_main.php:1418
+#: lib/modules/htmlmails/htmlmails.php:138
+#: lib/modules/htmlmails/htmlmails.php:389
+#: lib/modules/statistics/statistics.php:517
+#: lib/modules/useredit/useredit.php:729
+msgid "Paid"
+msgstr "缴款"
+
+#: easyReservations_admin_main.php:1323
+msgid "Send mail"
+msgstr "发送邮件"
+
+#: easyReservations_admin_main.php:1328
+msgid "Send mail to user on edit"
+msgstr "用户在编辑发送邮件"
+
+#: easyReservations_admin_main.php:1339 easyReservations_admin_main.php:1347
+#: easyReservations_admin_main.php:1525 easyReservations_admin_main.php:1533
+msgid "Add custom Field"
+msgstr "添加自定义字段"
+
+#: easyReservations_admin_main.php:1345 easyReservations_admin_main.php:1531
+msgid "Editable"
+msgstr "编辑"
+
+#: easyReservations_admin_main.php:1345 easyReservations_admin_main.php:1361
+#: easyReservations_admin_main.php:1531 easyReservations_admin_main.php:1546
+msgid "Visible"
+msgstr "可见"
+
+#: easyReservations_admin_main.php:1345 easyReservations_admin_main.php:1361
+#: easyReservations_admin_main.php:1531 easyReservations_admin_main.php:1546
+#: easyReservations_admin_settings.php:822
+#: easyReservations_admin_settings.php:1083
+msgid "Hidden"
+msgstr "隐藏"
+
+#: easyReservations_admin_main.php:1345 easyReservations_admin_main.php:1361
+#: easyReservations_admin_main.php:1531 easyReservations_admin_main.php:1546
+msgid "for Guest"
+msgstr "为访客"
+
+#: easyReservations_admin_main.php:1355 easyReservations_admin_main.php:1363
+#: easyReservations_admin_main.php:1540 easyReservations_admin_main.php:1548
+msgid "Add custom Price Field"
+msgstr "添加自定义价格字段"
+
+#: easyReservations_admin_main.php:1361 easyReservations_admin_main.php:1546
+msgid "Selectable"
+msgstr "可选"
+
+#: easyReservations_admin_main.php:1416
+msgid "set price"
+msgstr "设置价格"
+
+#: easyReservations_admin_main.php:1417
+msgid "fix the sum of the normal calculation"
+msgstr "修复正常计算的总和"
+
+#: easyReservations_admin_main.php:1434
+msgid "Add Reservation"
+msgstr "添加预订"
+
+#: easyReservations_admin_main.php:1461
+#: easyReservations_admin_resources.php:671
+#: lib/modules/htmlmails/htmlmails.php:126
+msgid "Childs"
+msgstr "蔡尔兹"
+
+#: easyReservations_admin_main.php:1488
+msgid "Add reservation"
+msgstr "添加预订"
+
+#: easyReservations_admin_main.php:1516
+msgid "Fix Price"
+msgstr "修复价格"
+
+#: easyReservations_admin_main.php:1572
+msgid "Approve the reservation"
+msgstr "批准保留"
+
+#: easyReservations_admin_main.php:1572
+msgid "Reject the reservation"
+msgstr "拒绝预订"
+
+#: easyReservations_admin_main.php:1586 easyReservations_admin_main.php:1608
+msgid "Send mail to guest"
+msgstr "发送邮件给客人"
+
+#: easyReservations_admin_main.php:1586
+msgid "Has been paid"
+msgstr "已支付"
+
+#: easyReservations_admin_main.php:1587
+msgid "the reservation, write a message and press send"
+msgstr "保留，写的消息，然后按“发送”"
+
+#: easyReservations_admin_main.php:1587
+msgid "The Guest will recieve that message in an email"
+msgstr "客户会在邮箱中收到此消息"
+
+#: easyReservations_admin_main.php:1608 lib/modules/useredit/useredit.php:76
+msgid "Send"
+msgstr "发送"
+
+#: easyReservations_admin_main_stats.php:36
+#: lib/classes/reservation.class.php:1071
+#: lib/modules/statistics/statistics.php:423
+#: lib/modules/useredit/useredit.php:356
+msgid "approved"
+msgstr "批准"
+
+#: easyReservations_admin_main_stats.php:36
+#: lib/classes/reservation.class.php:1071
+#: lib/modules/statistics/statistics.php:423
+#: lib/modules/useredit/useredit.php:358
+msgid "rejected"
+msgstr "拒绝"
+
+#: easyReservations_admin_main_stats.php:36
+#: lib/classes/reservation.class.php:1071
+#: lib/modules/statistics/statistics.php:423
+#: lib/modules/useredit/useredit.php:357
+msgid "pending"
+msgstr "有待"
+
+#: easyReservations_admin_resources.php:11
+#, fuzzy
+msgid "the base price changes to"
+msgstr "基准价格仅计算一次，"
+
+#: easyReservations_admin_resources.php:23
+#: lib/modules/useredit/useredit.php:444
+msgid "Day"
+msgstr "填"
+
+#: easyReservations_admin_resources.php:24
+#: easyReservations_admin_resources.php:705
+msgid "Person"
+msgstr "人"
+
+#: easyReservations_admin_resources.php:25
+msgid "Person and Day"
+msgstr "每人每天"
+
+#: easyReservations_admin_resources.php:26
+#: easyReservations_admin_resources.php:93
+#, fuzzy
+msgid "Adult"
+msgstr "成人"
+
+#: easyReservations_admin_resources.php:27
+#: easyReservations_admin_resources.php:97
+#, fuzzy
+msgid "Children"
+msgstr "儿童"
+
+#: easyReservations_admin_resources.php:29
+msgid "the price increases by"
+msgstr ""
+
+#: easyReservations_admin_resources.php:30
+msgid "the price decreases by"
+msgstr ""
+
+#: easyReservations_admin_resources.php:37
+#, php-format
+msgid "If %s to calculate is "
+msgstr "如果%s来计算"
+
+#: easyReservations_admin_resources.php:39
+#, fuzzy, php-format
+msgid "beween %1$s and %2$s"
+msgstr "分钟%1$s %2$s"
+
+#: easyReservations_admin_resources.php:70
+#: easyReservations_admin_resources.php:71
+#: easyReservations_admin_resources.php:72
+#: easyReservations_admin_resources.php:73
+#: easyReservations_admin_resources.php:74
+#: easyReservations_admin_resources.php:75
+#: easyReservations_admin_resources.php:76
+#: easyReservations_admin_resources.php:114
+msgid "and"
+msgstr "和"
+
+#: easyReservations_admin_resources.php:72
+msgid "in calendar week"
+msgstr "在日历周"
+
+#: easyReservations_admin_resources.php:73
+#: easyReservations_admin_resources.php:75
+msgid "in"
+msgstr "在"
+
+#: easyReservations_admin_resources.php:74
+msgid "in quarter"
+msgstr "季"
+
+#: easyReservations_admin_resources.php:85
+msgid "Stay"
+msgstr ""
+
+#: easyReservations_admin_resources.php:87
+#, fuzzy, php-format
+msgid "guest stays %s days or more"
+msgstr "如果客人停留%s天或以上的价格变化"
+
+#: easyReservations_admin_resources.php:89
+#, fuzzy
+msgid "Pers"
+msgstr "人"
+
+#: easyReservations_admin_resources.php:91
+#, fuzzy, php-format
+msgid "%s or more persons reserving"
+msgstr "如果%s或以上的人预订的价格变化"
+
+#: easyReservations_admin_resources.php:95
+#, php-format
+msgid "%s or more adults reserving"
+msgstr ""
+
+#: easyReservations_admin_resources.php:99
+#, php-format
+msgid "%s or more children's reserving"
+msgstr ""
+
+#: easyReservations_admin_resources.php:101
+msgid "Loyal"
+msgstr ""
+
+#: easyReservations_admin_resources.php:107
+#, fuzzy, php-format
+msgid "guest comes the %1$s%2$s time"
+msgstr "如果客人来的%1$s%2$s的时间的价格变化"
+
+#: easyReservations_admin_resources.php:109
+msgid "Early"
+msgstr ""
+
+#: easyReservations_admin_resources.php:111
+#, fuzzy, php-format
+msgid "the guest reserves %s days before his arrival"
+msgstr "如果客人reservates%s天前，他的到来的价格变化"
+
+#: easyReservations_admin_resources.php:115
+msgid "If"
+msgstr ""
+
+#: easyReservations_admin_resources.php:119
+msgid "Base"
+msgstr ""
+
+#: easyReservations_admin_resources.php:123
+#: easyReservations_admin_resources.php:1043
+#: lib/modules/coupons/coupons.php:38
+msgid "Discount"
+msgstr "折扣"
+
+#: easyReservations_admin_resources.php:126
+#: easyReservations_admin_resources.php:129
+#, fuzzy
+msgid "Charge"
+msgstr "字符集"
+
+#: easyReservations_admin_resources.php:142
+msgid "Resource and all its reservations deleted"
+msgstr "资源和所有保留删除"
+
+#: easyReservations_admin_resources.php:143
+msgid "Resource deleted, but reservations couldnt"
+msgstr "资源被删除，但保留想不出"
+
+#: easyReservations_admin_resources.php:159
+#: easyReservations_admin_resources.php:191
+#, php-format
+msgid "Resource #%d added"
+msgstr "资源第%d"
+
+#: easyReservations_admin_resources.php:192
+msgid "Please enter a Title"
+msgstr "请输入标题"
+
+#: easyReservations_admin_resources.php:205
+msgid "Reservations Resources"
+msgstr "预订资源"
+
+#: easyReservations_admin_resources.php:205
+msgid "Post View"
+msgstr "邮政查看"
+
+#: easyReservations_admin_resources.php:216
+#: easyReservations_admin_settings.php:552
+#: easyReservations_admin_settings.php:572
+#: easyReservations_admin_settings.php:1164
+#: easyReservations_admin_settings.php:1221
+#: easyReservations_admin_settings.php:1229 lib/modules/paypal/paypal.php:179
+#: lib/modules/useredit/useredit.php:398
+msgid "Title"
+msgstr "标题"
+
+#: easyReservations_admin_resources.php:217
+#: easyReservations_admin_settings.php:1350 lib/functions/admin.php:315
+#: lib/modules/import/import.php:72 lib/modules/useredit/useredit.php:344
+#: lib/modules/useredit/useredit.php:664 lib/modules/useredit/useredit.php:831
+msgid "ID"
+msgstr "ID"
+
+#: easyReservations_admin_resources.php:218
+msgid "Quantity"
+msgstr "数量"
+
+#: easyReservations_admin_resources.php:219
+msgid "Base Price"
+msgstr "基价"
+
+#: easyReservations_admin_resources.php:221
+#: easyReservations_admin_resources.php:547
+#: easyReservations_admin_resources.php:590
+msgid "Filter"
+msgstr "过滤器"
+
+#: easyReservations_admin_resources.php:223
+#: easyReservations_admin_settings.php:851
+msgid "Excerpt"
+msgstr "片段"
+
+#: easyReservations_admin_resources.php:245
+#: js/tinyMCE/tinyMCE_shortcode_add.php:132
+msgid "Full"
+msgstr "满"
+
+#: easyReservations_admin_resources.php:246 lib/modules/search/search.php:432
+msgid "Available"
+msgstr "可用的"
+
+#: easyReservations_admin_resources.php:251
+#: easyReservations_admin_resources.php:534
+#: lib/modules/useredit/useredit.php:61 lib/modules/useredit/useredit.php:131
+msgid "edit"
+msgstr "编辑"
+
+#: easyReservations_admin_resources.php:254
+msgid "edit "
+msgstr "编辑"
+
+#: easyReservations_admin_resources.php:263
+msgid "edit post"
+msgstr "编辑文章"
+
+#: easyReservations_admin_resources.php:264
+msgid "edit resource"
+msgstr "编辑资源"
+
+#: easyReservations_admin_resources.php:265
+msgid "copy resource settings"
+msgstr "复制资源设置"
+
+#: easyReservations_admin_resources.php:266
+msgid "Really delete this resource and all its reservations?"
+msgstr "真的要删除该资源和所有保留吗？"
+
+#: easyReservations_admin_resources.php:281
+msgid "Resource's count names changed"
+msgstr "资源的数名改变"
+
+#: easyReservations_admin_resources.php:299
+msgid "Requirements edited"
+msgstr "要求编辑"
+
+#: easyReservations_admin_resources.php:309
+#, fuzzy
+msgid "Base price edited"
+msgstr "基价"
+
+#: easyReservations_admin_resources.php:310
+#: easyReservations_admin_resources.php:359
+msgid "Insert right money format"
+msgstr "插入正确的金钱格式"
+
+#: easyReservations_admin_resources.php:319
+msgid "Count of resource space edited"
+msgstr "计数的资源空间编辑"
+
+#: easyReservations_admin_resources.php:332
+msgid "Price setting changed"
+msgstr "价格设置改变"
+
+#: easyReservations_admin_resources.php:341
+msgid "Resource permission edited"
+msgstr "资源的权限编辑"
+
+#: easyReservations_admin_resources.php:342
+#: easyReservations_admin_settings.php:162
+msgid "Only admins can change the permissions for"
+msgstr "只有管理员可以更改的权限"
+
+#: easyReservations_admin_resources.php:342
+msgid "resource"
+msgstr "资源"
+
+#: easyReservations_admin_resources.php:349
+#, fuzzy
+msgid "Billing unit changed"
+msgstr "计费单位"
+
+#: easyReservations_admin_resources.php:358
+msgid "Children's discount edited"
+msgstr "儿童折扣编辑"
+
+#: easyReservations_admin_resources.php:371
+msgid "Tax percentage has to be numeric"
+msgstr "税收比例是数字"
+
+#: easyReservations_admin_resources.php:425
+msgid "Enter a starting date"
+msgstr "输入起始日期"
+
+#: easyReservations_admin_resources.php:429
+msgid "Enter an ending date"
+msgstr "输入结束日期"
+
+#: easyReservations_admin_resources.php:440
+msgid "Select a condition"
+msgstr "选择条件"
+
+#: easyReservations_admin_resources.php:443
+msgid ""
+"No arrival or departure possible - use unavailability filter to disable "
+"reservations by time"
+msgstr "没有到达或离开的可能 - 使用无法使用过滤器来禁用保留时间"
+
+#: easyReservations_admin_resources.php:501
+msgid "Please give the filter a name"
+msgstr "请给过滤器起个名字"
+
+#: easyReservations_admin_resources.php:509
+#, fuzzy, php-format
+msgid "From %1$s till %2$s"
+msgstr "分钟%1$s %2$s"
+
+#: easyReservations_admin_resources.php:539
+msgid "Comments"
+msgstr "评论"
+
+#: easyReservations_admin_resources.php:548
+#: easyReservations_admin_resources.php:736
+msgid "Priority"
+msgstr "优先"
+
+#: easyReservations_admin_resources.php:586
+msgid "No price filter set"
+msgstr "没有价格的过滤器集"
+
+#: easyReservations_admin_resources.php:591
+#: easyReservations_admin_resources.php:741
+#: easyReservations_admin_resources.php:1019
+msgid "Condition"
+msgstr "条件"
+
+#: easyReservations_admin_resources.php:612
+#: easyReservations_admin_resources.php:616
+msgid "calculate"
+msgstr "计算"
+
+#: easyReservations_admin_resources.php:612
+#: easyReservations_admin_resources.php:616
+msgid "check"
+msgstr "检查"
+
+#: easyReservations_admin_resources.php:612
+msgid "resource is unavailable"
+msgstr "资源不可用"
+
+#: easyReservations_admin_resources.php:616
+#, fuzzy
+msgid "resources condition change to"
+msgstr "资源常征变化"
+
+#: easyReservations_admin_resources.php:622
+#: easyReservations_admin_resources.php:632 lib/functions/admin.php:699
+msgid "All"
+msgstr "全部"
+
+#: easyReservations_admin_resources.php:655
+msgid "No filter set"
+msgstr "无滤波器组"
+
+#: easyReservations_admin_resources.php:662
+msgid "Price simulator"
+msgstr "价格模拟器"
+
+#: easyReservations_admin_resources.php:699
+msgid "Base price per billing unit"
+msgstr "每个计费单位的基本价格"
+
+#: easyReservations_admin_resources.php:700
+msgid "Children's discount per billing unit"
+msgstr "儿童每计费单位的折扣"
+
+#: easyReservations_admin_resources.php:701
+msgid "Billing"
+msgstr "计费"
+
+#: easyReservations_admin_resources.php:701
+#: easyReservations_admin_resources.php:767
+msgid "Unit"
+msgstr "单位"
+
+#: easyReservations_admin_resources.php:701
+msgid "Hourly billing"
+msgstr "按时计费"
+
+#: easyReservations_admin_resources.php:701
+msgid "Daily billing"
+msgstr "按天计费"
+
+#: easyReservations_admin_resources.php:701
+msgid "Weekly billing"
+msgstr "按周计费"
+
+#: easyReservations_admin_resources.php:701
+msgid "Monthly billing"
+msgstr "按月计费"
+
+#: easyReservations_admin_resources.php:701
+msgid "Calculate base price only once"
+msgstr "基准价格仅计算一次，"
+
+#: easyReservations_admin_resources.php:701
+#: easyReservations_admin_settings.php:533
+msgid "Price per person"
+msgstr "每人价格"
+
+#: easyReservations_admin_resources.php:702 lib/modules/import/import.php:73
+#: lib/modules/statistics/statistics.php:588
+msgid "Taxes"
+msgstr "税"
+
+#: easyReservations_admin_resources.php:702
+#: easyReservations_admin_resources.php:722
+#: easyReservations_admin_resources.php:1435
+#: easyReservations_admin_settings.php:401 lib/modules/invoice/invoice.php:630
+msgid "Add"
+msgstr "添加"
+
+#: easyReservations_admin_resources.php:703 lib/modules/search/search.php:54
+msgid "Availability"
+msgstr "可用性"
+
+#: easyReservations_admin_resources.php:704
+msgid "Resources count"
+msgstr "资源数"
+
+#: easyReservations_admin_resources.php:705
+msgid "Availability by"
+msgstr "可用性"
+
+#: easyReservations_admin_resources.php:705
+msgid "Object"
+msgstr "物体"
+
+#: easyReservations_admin_resources.php:706
+#: easyReservations_admin_resources.php:707
+#: easyReservations_admin_resources.php:956
+#: easyReservations_admin_resources.php:964
+#: easyReservations_admin_settings.php:680
+#: easyReservations_admin_settings.php:726
+#: easyReservations_admin_settings.php:753
+msgid "Min"
+msgstr "最小"
+
+#: easyReservations_admin_resources.php:706
+#: easyReservations_admin_resources.php:707
+#: easyReservations_admin_resources.php:956
+#: easyReservations_admin_resources.php:964
+#: easyReservations_admin_settings.php:686
+#: easyReservations_admin_settings.php:732
+#: easyReservations_admin_settings.php:759 lib/modules/search/search.php:352
+msgid "Max"
+msgstr "最大"
+
+#: easyReservations_admin_resources.php:708
+#: easyReservations_admin_resources.php:970
+msgid "Arrival possible on"
+msgstr "到达有可能在"
+
+#: easyReservations_admin_resources.php:709
+#: easyReservations_admin_resources.php:985
+msgid "Departure possible on"
+msgstr "离开可能"
+
+#: easyReservations_admin_resources.php:710
+msgid "Required  permission"
+msgstr "所需权限"
+
+#: easyReservations_admin_resources.php:711
+msgid "Filters"
+msgstr "过滤器"
+
+#: easyReservations_admin_resources.php:714
+msgid "Resources settings"
+msgstr "资源设置"
+
+#: easyReservations_admin_resources.php:714
+#: easyReservations_admin_resources.php:1061
+#: easyReservations_admin_settings.php:328
+msgid "Set"
+msgstr "套"
+
+#: easyReservations_admin_resources.php:724
+msgid "Unavailability"
+msgstr "不可用"
+
+#: easyReservations_admin_resources.php:725
+#: easyReservations_admin_resources.php:949
+msgid "Requirements"
+msgstr "需求"
+
+#: easyReservations_admin_resources.php:743
+#, fuzzy
+msgid "Filter by time"
+msgstr "按月筛选"
+
+#: easyReservations_admin_resources.php:750
+msgid "Date range"
+msgstr "日期范围"
+
+#: easyReservations_admin_resources.php:772
+#: lib/modules/hourlycal/hourlycal.php:209
+#: lib/modules/htmlmails/htmlmails.php:119
+#: lib/modules/useredit/useredit.php:442 lib/modules/useredit/useredit.php:443
+msgid "Hours"
+msgstr "小时"
+
+#: easyReservations_admin_resources.php:773
+#: easyReservations_admin_resources.php:809
+#: easyReservations_admin_resources.php:826
+#: easyReservations_admin_resources.php:896
+#: easyReservations_admin_resources.php:920
+msgid "select nothing to change price/availability for entire"
+msgstr "选择什么改变价格/可用性对整个"
+
+#: easyReservations_admin_resources.php:773
+#: easyReservations_admin_settings.php:260
+msgid "day"
+msgstr "日"
+
+#: easyReservations_admin_resources.php:808 overview.php:106 overview.php:107
+#: overview.php:108 overview.php:110 overview.php:111 overview.php:112
+#: lib/functions/admin.php:361 lib/modules/hourlycal/hourlycal.php:201
+msgid "Days"
+msgstr "天"
+
+#: easyReservations_admin_resources.php:809
+msgid "calendar week"
+msgstr "日历周"
+
+#: easyReservations_admin_resources.php:825
+msgid "Calendar Week"
+msgstr "日历周"
+
+#: easyReservations_admin_resources.php:826
+#: easyReservations_admin_settings.php:260
+msgid "month"
+msgstr "月"
+
+#: easyReservations_admin_resources.php:894
+msgid "Months"
+msgstr "个月"
+
+#: easyReservations_admin_resources.php:896
+msgid "quarter"
+msgstr "季"
+
+#: easyReservations_admin_resources.php:919
+msgid "Quarter"
+msgstr "季"
+
+#: easyReservations_admin_resources.php:920
+msgid "year"
+msgstr "年"
+
+#: easyReservations_admin_resources.php:928
+#: lib/modules/paypal/creditcards.php:253
+msgid "Year"
+msgstr "年"
+
+#: easyReservations_admin_resources.php:1003
+#, fuzzy
+msgid "Filter by condition"
+msgstr "按月筛选"
+
+#: easyReservations_admin_resources.php:1012
+msgid "between reservation and arrival"
+msgstr "预订和到达之间"
+
+#: easyReservations_admin_resources.php:1013
+msgid "Recurring guests"
+msgstr "常客"
+
+#: easyReservations_admin_resources.php:1014
+msgid "Amount of"
+msgstr "量"
+
+#: easyReservations_admin_resources.php:1021 lib/modules/paypal/paypal.php:192
+#: lib/modules/paypal/paypal.php:209 lib/modules/paypal/paypal.php:223
+#: lib/modules/paypal/paypal.php:240 lib/modules/paypal/paypal.php:254
+#: lib/modules/paypal/paypal.php:269
+msgid "Mode"
+msgstr "方式模式"
+
+#: easyReservations_admin_resources.php:1023
+msgid "Price per Reservation"
+msgstr "价格每预订"
+
+#: easyReservations_admin_resources.php:1024
+msgid "Price per"
+msgstr "价格每"
+
+#: easyReservations_admin_resources.php:1025 lib/functions/admin.php:108
+msgid "Price per Person"
+msgstr "每人价格"
+
+#: easyReservations_admin_resources.php:1026
+#, fuzzy
+msgid "Price per Adult"
+msgstr "价格每"
+
+#: easyReservations_admin_resources.php:1027
+#, fuzzy
+msgid "Price per Child"
+msgstr "每儿童价格"
+
+#: easyReservations_admin_resources.php:1028
+#, fuzzy, php-format
+msgid "Price per %s and Person"
+msgstr "每人价格"
+
+#: easyReservations_admin_resources.php:1029
+msgid "Percent"
+msgstr "百分之"
+
+#: easyReservations_admin_resources.php:1032
+#, fuzzy
+msgid "Only the first condition match from high to low will be given"
+msgstr "如果你只添加一个以上的折让相同类型的第一个条件匹配将获得由高向低的"
+
+#: easyReservations_admin_resources.php:1042
+msgid "Extra Charge"
+msgstr ""
+
+#: easyReservations_admin_resources.php:1044
+#, fuzzy
+msgid "Change base price"
+msgstr "其他的基本价格"
+
+#: easyReservations_admin_resources.php:1053
+#: easyReservations_admin_resources.php:1352
+msgid "Add filter"
+msgstr "添加过滤器"
+
+#: easyReservations_admin_resources.php:1061
+msgid "Resources Numbers/Names"
+msgstr "资源编号/名称"
+
+#: easyReservations_admin_resources.php:1099
+msgid "Edit filter"
+msgstr "编辑筛选器"
+
+#: easyReservations_admin_resources.php:1356
+msgid "visits"
+msgstr "访问"
+
+#: easyReservations_admin_resources.php:1357
+#: lib/modules/statistics/statistics.php:157
+msgid "persons"
+msgstr "人"
+
+#: easyReservations_admin_resources.php:1358
+#, fuzzy
+msgid "adults"
+msgstr "成人"
+
+#: easyReservations_admin_resources.php:1359
+#, fuzzy
+msgid "children's"
+msgstr "儿童"
+
+#: easyReservations_admin_resources.php:1408
+msgid "Copy resource"
+msgstr "复制资源"
+
+#: easyReservations_admin_resources.php:1408
+msgid "Add resource"
+msgstr "添加资源"
+
+#: easyReservations_admin_resources.php:1413
+msgid ""
+"This will add a custom post that's private and only visible in forms and "
+"admin"
+msgstr "这是私有的，只能显示在形式和管理，这将添加一个自定义文章"
+
+#: easyReservations_admin_resources.php:1416
+msgid "Resource's Title"
+msgstr "资源的标题"
+
+#: easyReservations_admin_resources.php:1420
+msgid "Resource's Content"
+msgstr "资源的内容"
+
+#: easyReservations_admin_resources.php:1424
+msgid "Resource Image"
+msgstr "资源图片"
+
+#: easyReservations_admin_settings.php:15
+msgid "Database cleaned"
+msgstr "数据库清理"
+
+#: easyReservations_admin_settings.php:19
+#: easyReservations_form_shortcode.php:70 lib/functions/admin.php:1517
+#: lib/modules/coupons/coupons.php:135 lib/modules/invoice/invoice.php:336
+#: lib/modules/paypal/creditcards.php:280 lib/modules/paypal/paypal.php:71
+msgid "Back"
+msgstr "背面，返回"
+
+#: easyReservations_admin_settings.php:34
+msgid "General settings saved"
+msgstr "一般设置保存"
+
+#: easyReservations_admin_settings.php:138
+msgid "Email settings saved"
+msgstr "保存电子邮件设置"
+
+#: easyReservations_admin_settings.php:154
+#, php-format
+msgid "Form%ssaved"
+msgstr "保存表单%s"
+
+#: easyReservations_admin_settings.php:161
+msgid "Permissions changed"
+msgstr "权限改变"
+
+#: easyReservations_admin_settings.php:167
+#, php-format
+msgid "Form %s has been deleted"
+msgstr "表%s已被删除"
+
+#: easyReservations_admin_settings.php:179
+#, php-format
+msgid "Form %s has been added"
+msgstr "表%s已加入"
+
+#: easyReservations_admin_settings.php:180
+msgid "Please enter a name for the form"
+msgstr "请输入一个名称的形式"
+
+#: easyReservations_admin_settings.php:200
+msgid "Reservations Settings"
+msgstr "预订设置"
+
+#: easyReservations_admin_settings.php:205
+msgid "General"
+msgstr "一般"
+
+#: easyReservations_admin_settings.php:206
+#: js/tinyMCE/tinyMCE_shortcode_add.php:81
+#: js/tinyMCE/tinyMCE_shortcode_add.php:119 lib/modules/search/search.php:33
+msgid "Form"
+msgstr "形式"
+
+#: easyReservations_admin_settings.php:207
+msgid "Emails"
+msgstr "电子邮件"
+
+#: easyReservations_admin_settings.php:209
+msgid "About"
+msgstr "关于"
+
+#: easyReservations_admin_settings.php:254
+msgid "Wordpress"
+msgstr "Wordpress"
+
+#: easyReservations_admin_settings.php:254
+msgid "Grey"
+msgstr "灰色"
+
+#: easyReservations_admin_settings.php:255
+#: easyReservations_admin_settings.php:298
+#: easyReservations_admin_settings.php:1423 lib/core/core.php:16
+msgid "Premium"
+msgstr "高级"
+
+#: easyReservations_admin_settings.php:260
+msgid "minutes"
+msgstr "分钟"
+
+#: easyReservations_admin_settings.php:260
+msgid "hour"
+msgstr "小时"
+
+#: easyReservations_admin_settings.php:260
+#: lib/modules/hourlycal/hourlycal.php:198
+msgid "hours"
+msgstr "小时"
+
+#: easyReservations_admin_settings.php:260
+msgid "days"
+msgstr "天"
+
+#: easyReservations_admin_settings.php:263
+msgid "Support email"
+msgstr "支持电子邮件"
+
+#: easyReservations_admin_settings.php:264
+msgid "Money format"
+msgstr "货币格式"
+
+#: easyReservations_admin_settings.php:264
+msgid "after"
+msgstr "之后"
+
+#: easyReservations_admin_settings.php:264
+msgid "before"
+msgstr "之前"
+
+#: easyReservations_admin_settings.php:264
+msgid "Whitespace between price and currency sign"
+msgstr "价格和货币符号之间的空白"
+
+#: easyReservations_admin_settings.php:264
+msgid "Th. seperator"
+msgstr "TH。分隔符"
+
+#: easyReservations_admin_settings.php:264
+msgid "Dec. seperator"
+msgstr "十二月分隔符"
+
+#: easyReservations_admin_settings.php:264
+msgid "show decimals"
+msgstr "显示小数"
+
+#: easyReservations_admin_settings.php:264
+msgid "round"
+msgstr "圆"
+
+#: easyReservations_admin_settings.php:264
+msgid "Example"
+msgstr "例子"
+
+#: easyReservations_admin_settings.php:265
+msgid "Date format"
+msgstr "日期格式"
+
+#: easyReservations_admin_settings.php:266
+msgid ""
+"Enable display of time and that the time gets used to calculate the billing "
+"units instead of only the date"
+msgstr ""
+
+#: easyReservations_admin_settings.php:267
+msgid "Admin Style"
+msgstr "管理风格"
+
+#: easyReservations_admin_settings.php:268
+msgid "Merge resources"
+msgstr "合并资源"
+
+#: easyReservations_admin_settings.php:268
+#, fuzzy, php-format
+msgid ""
+"Only allow %s reservations at the same time in all resources regardless of "
+"the resource counts"
+msgstr "检查供应量最大%s有所保留的所有资源的同时，无论在资源"
+
+#: easyReservations_admin_settings.php:269
+msgid "Block time"
+msgstr "座时间"
+
+#: easyReservations_admin_settings.php:269
+msgid "Block"
+msgstr "阻止"
+
+#: easyReservations_admin_settings.php:269
+msgid "before and"
+msgstr "前，"
+
+#: easyReservations_admin_settings.php:269
+msgid "after reservations"
+msgstr "保留后"
+
+#: easyReservations_admin_settings.php:270
+msgid "Tutorial"
+msgstr "教程"
+
+#: easyReservations_admin_settings.php:270
+msgid "Enable tutorial mode"
+msgstr "启用教程模式"
+
+#: easyReservations_admin_settings.php:270
+#: easyReservations_admin_settings.php:1148
+msgid "Reset"
+msgstr "复位"
+
+#: easyReservations_admin_settings.php:271
+msgid "Uninstall"
+msgstr "卸载"
+
+#: easyReservations_admin_settings.php:271
+msgid "Delete settings, reservations and resources"
+msgstr "删除设置，保留和资源"
+
+#: easyReservations_admin_settings.php:274
+#, fuzzy
+msgid "Important guests"
+msgstr "VIP客户"
+
+#: easyReservations_admin_settings.php:274
+#, fuzzy
+msgid ""
+"Enter emails of important guests; saperated by comma. Reservations with this "
+"email will be highlighted."
+msgstr "输入电子邮件的重要嘉宾，由逗号分隔。与此电子邮件的预订将被高亮显示。"
+
+#: easyReservations_admin_settings.php:275
+msgid "Execute scripts"
+msgstr ""
+
+#: easyReservations_admin_settings.php:275
+#, fuzzy
+msgid "After successful reservation."
+msgstr "成功后返回"
+
+#: easyReservations_admin_settings.php:276
+msgid "General Settings"
+msgstr "“常规设置”"
+
+#: easyReservations_admin_settings.php:276
+#: easyReservations_admin_settings.php:1316 lib/functions/admin.php:458
+#: lib/modules/htmlmails/htmlmails.php:151 lib/modules/invoice/invoice.php:760
+#: lib/modules/paypal/creditcards.php:372
+#: lib/modules/paypal/creditcards.php:416
+#: lib/modules/search/attributes.php:128 lib/modules/useredit/useredit.php:374
+#: lib/modules/useredit/useredit.php:463
+msgid "Save Changes"
+msgstr "保存更改"
+
+#: easyReservations_admin_settings.php:292
+#: easyReservations_admin_settings.php:1417
+msgid "Documentation"
+msgstr "文档"
+
+#: easyReservations_admin_settings.php:295
+#: easyReservations_admin_settings.php:1420
+msgid "Report bug"
+msgstr "报告错误"
+
+#: easyReservations_admin_settings.php:301
+#: easyReservations_admin_settings.php:1426
+msgid "Rate the Plugin"
+msgstr "点评插件"
+
+#: easyReservations_admin_settings.php:311
+msgid "Clean Database"
+msgstr "清除数据库"
+
+#: easyReservations_admin_settings.php:311
+msgid "Clean"
+msgstr "清除"
+
+#: easyReservations_admin_settings.php:317
+#, fuzzy
+msgid "Delete all unapproved old reservations"
+msgstr "删除所有未经批准的旧预订"
+
+#: easyReservations_admin_settings.php:328
+msgid "Change Permissions"
+msgstr "更改权限"
+
+#: easyReservations_admin_settings.php:341 lib/core/core.php:217
+#: lib/functions/admin.php:304 lib/modules/statistics/statistics.php:24
+msgid "Statistics"
+msgstr "统计"
+
+#: easyReservations_admin_settings.php:392
+#: easyReservations_admin_settings.php:394
+#: js/tinyMCE/tinyMCE_shortcode_add.php:9
+msgid "Standard"
+msgstr "标准"
+
+#: easyReservations_admin_settings.php:416
+#: easyReservations_admin_settings.php:586
+#: easyReservations_admin_settings.php:991
+#: lib/modules/htmlmails/htmlmails.php:116
+msgid "Arrival date"
+msgstr "抵达日期"
+
+#: easyReservations_admin_settings.php:417
+#: easyReservations_admin_settings.php:616
+#: easyReservations_admin_settings.php:996
+#, fuzzy
+msgid "Arrival hour"
+msgstr "到达一小时"
+
+#: easyReservations_admin_settings.php:418
+#: easyReservations_admin_settings.php:646
+#: easyReservations_admin_settings.php:1001
+#, fuzzy
+msgid "Arrival minute"
+msgstr "到达分钟"
+
+#: easyReservations_admin_settings.php:419
+msgid "Departure Date"
+msgstr "出发日期"
+
+#: easyReservations_admin_settings.php:420
+#: easyReservations_admin_settings.php:631
+#: easyReservations_admin_settings.php:1016
+#, fuzzy
+msgid "Departure hour"
+msgstr "出发一小时"
+
+#: easyReservations_admin_settings.php:421
+#: easyReservations_admin_settings.php:661
+#: easyReservations_admin_settings.php:1021
+#, fuzzy
+msgid "Departure minute"
+msgstr "出发分钟"
+
+#: easyReservations_admin_settings.php:422
+#: easyReservations_admin_settings.php:676
+#: easyReservations_admin_settings.php:1011
+msgid "Billing units"
+msgstr "计费单位"
+
+#: easyReservations_admin_settings.php:460
+#: easyReservations_admin_settings.php:590
+#: easyReservations_admin_settings.php:605
+#: easyReservations_admin_settings.php:780
+#: easyReservations_admin_settings.php:795
+#: easyReservations_admin_settings.php:888
+#: easyReservations_admin_settings.php:911
+#: easyReservations_admin_settings.php:940
+#: easyReservations_admin_settings.php:1166 lib/modules/lang/lang.php:112
+msgid "Value"
+msgstr "值"
+
+#: easyReservations_admin_settings.php:488
+#, fuzzy
+msgid "Display featured image"
+msgstr "显示价格"
+
+#: easyReservations_admin_settings.php:489
+#: js/tinyMCE/tinyMCE_shortcode_add.php:195
+#: lib/modules/hourlycal/hourlycal.php:193 lib/modules/search/search.php:29
+#: lib/modules/search/search.php:50
+msgid "Width"
+msgstr "宽度"
+
+#: easyReservations_admin_settings.php:490 lib/modules/search/search.php:50
+msgid "Height"
+msgstr "高度"
+
+#: easyReservations_admin_settings.php:498
+#, fuzzy
+msgid "Display content with"
+msgstr "显示月"
+
+#: easyReservations_admin_settings.php:498
+#: easyReservations_admin_settings.php:506
+msgid "characters"
+msgstr ""
+
+#: easyReservations_admin_settings.php:506
+#, fuzzy
+msgid "Display excerpt with"
+msgstr "显示价格"
+
+#: easyReservations_admin_settings.php:521
+#: easyReservations_admin_settings.php:919
+msgid "Required"
+msgstr "需要"
+
+#: easyReservations_admin_settings.php:530
+#, fuzzy
+msgid "Price per billing unit"
+msgstr "每个计费单位的基本价格"
+
+#: easyReservations_admin_settings.php:548
+#: js/tinyMCE/tinyMCE_shortcode_add.php:127
+#: js/tinyMCE/tinyMCE_shortcode_add.php:187 lib/modules/search/search.php:21
+msgid "Style"
+msgstr "样式"
+
+#: easyReservations_admin_settings.php:556
+msgid "Max-length"
+msgstr ""
+
+#: easyReservations_admin_settings.php:562
+#, fuzzy
+msgid "Disabled"
+msgstr "编辑"
+
+#: easyReservations_admin_settings.php:568
+#, fuzzy
+msgid "Errors"
+msgstr "错误消息"
+
+#: easyReservations_admin_settings.php:569
+msgid ""
+"Shows the warning messages in form. Is required for the multiple "
+"reservations form function."
+msgstr ""
+
+#: easyReservations_admin_settings.php:577
+#, fuzzy
+msgid "Message"
+msgstr "管理员留言"
+
+#: easyReservations_admin_settings.php:587
+#, fuzzy
+msgid "Field with datepicker for the arrival date. Is required in any form."
+msgstr "请填写您要修复的日期的到来日期"
+
+#: easyReservations_admin_settings.php:601
+#: easyReservations_admin_settings.php:1006
+#: lib/modules/htmlmails/htmlmails.php:117
+msgid "Departure date"
+msgstr "出发日期"
+
+#: easyReservations_admin_settings.php:602
+msgid ""
+"Field with datepicker for the departure date. Can be replaced by billing "
+"units selection or deleted so that every reservation lasts one billing unit."
+msgstr ""
+
+#: easyReservations_admin_settings.php:617
+msgid ""
+"Select for arrival hour. Can be replaced by a hidden field and defaults to "
+"12:00 if not in form."
+msgstr ""
+
+#: easyReservations_admin_settings.php:620
+#: easyReservations_admin_settings.php:635
+#: easyReservations_admin_settings.php:650
+#: easyReservations_admin_settings.php:665
+#: easyReservations_admin_settings.php:692
+#: easyReservations_admin_settings.php:707
+#: easyReservations_admin_settings.php:738
+#: easyReservations_admin_settings.php:765
+#: easyReservations_admin_settings.php:810
+msgid "Selected"
+msgstr "选"
+
+#: easyReservations_admin_settings.php:632
+msgid ""
+"Select for departure hour. Can be replaced by a hidden field and defaults to "
+"12:00 if not in form."
+msgstr ""
+
+#: easyReservations_admin_settings.php:647
+#, fuzzy
+msgid "Select for arrival minute."
+msgstr "选择表单模板"
+
+#: easyReservations_admin_settings.php:662
+#, fuzzy
+msgid "Select for departure minute."
+msgstr "选择表单模板"
+
+#: easyReservations_admin_settings.php:677
+msgid ""
+"Select of billing units to define the length of stay. Can be replaced by "
+"depature date field or defaults to one billing unit if not in form."
+msgstr ""
+
+#: easyReservations_admin_settings.php:704
+msgid ""
+"Select of resources. Is required and can only be replaced by hidden field. "
+"You can exclude resources with comma saperated IDs."
+msgstr ""
+
+#: easyReservations_admin_settings.php:712 lib/modules/search/search.php:41
+msgid "Exclude"
+msgstr "排除"
+
+#: easyReservations_admin_settings.php:723
+msgid "Select of adults. Is required and can only be replaced by hidden field."
+msgstr ""
+
+#: easyReservations_admin_settings.php:750
+msgid "Select of children's. Can be replaced by hidden field or deleted."
+msgstr ""
+
+#: easyReservations_admin_settings.php:777
+msgid "Text field for name. Is required in any form."
+msgstr ""
+
+#: easyReservations_admin_settings.php:792
+#: easyReservations_admin_settings.php:807
+#: easyReservations_admin_settings.php:858
+msgid "Text field for email. Is required in any form."
+msgstr ""
+
+#: easyReservations_admin_settings.php:823
+msgid ""
+"Date and information fields can be replaced by hidden fields to force the "
+"selection without the guest choosing or seeing it. They are helpful for "
+"special offers or forms for just one resource."
+msgstr ""
+
+#: easyReservations_admin_settings.php:827
+#: easyReservations_admin_settings.php:1095
+#, fuzzy
+msgid "Resources infobox"
+msgstr "资源"
+
+#: easyReservations_admin_settings.php:828
+msgid ""
+"Shows the information title, image, content and excerpt of the currently "
+"selected resource."
+msgstr ""
+
+#: easyReservations_admin_settings.php:832
+msgid "Size"
+msgstr ""
+
+#: easyReservations_admin_settings.php:834
+#, fuzzy
+msgid "Big"
+msgstr "计费"
+
+#: easyReservations_admin_settings.php:834
+msgid "Medium"
+msgstr ""
+
+#: easyReservations_admin_settings.php:838
+#, fuzzy
+msgid "Featured image"
+msgstr "资源图片"
+
+#: easyReservations_admin_settings.php:842
+#, fuzzy
+msgid "Show title"
+msgstr "显示价格"
+
+#: easyReservations_admin_settings.php:847
+msgid "Content"
+msgstr "内容"
+
+#: easyReservations_admin_settings.php:857
+#: easyReservations_admin_settings.php:1100
+#: lib/modules/useredit/useredit.php:835
+msgid "Captcha"
+msgstr "验证码"
+
+#: easyReservations_admin_settings.php:861
+msgid "Color of code"
+msgstr ""
+
+#: easyReservations_admin_settings.php:863
+msgid "Black"
+msgstr ""
+
+#: easyReservations_admin_settings.php:863
+#: js/tinyMCE/tinyMCE_shortcode_add.php:128
+msgid "White"
+msgstr "白色"
+
+#: easyReservations_admin_settings.php:871
+#, fuzzy
+msgid "display price"
+msgstr "显示价格"
+
+#: easyReservations_admin_settings.php:872
+msgid "Shows the price as of selections."
+msgstr ""
+
+#: easyReservations_admin_settings.php:875
+#, fuzzy
+msgid "Text before price"
+msgstr "其他的基本价格"
+
+#: easyReservations_admin_settings.php:884
+#: easyReservations_admin_settings.php:1147
+#: js/tinyMCE/tinyMCE_shortcode_add.php:154 lib/modules/search/search.php:61
+#: lib/modules/useredit/useredit.php:811 lib/modules/useredit/useredit.php:837
+msgid "Submit"
+msgstr "提交"
+
+#: easyReservations_admin_settings.php:885
+msgid "Button to submit the form."
+msgstr ""
+
+#: easyReservations_admin_settings.php:897
+#: easyReservations_admin_settings.php:1087
+#: lib/modules/htmlmails/htmlmails.php:130
+msgid "Custom"
+msgstr "习惯"
+
+#: easyReservations_admin_settings.php:898
+msgid ""
+"Can be any form element and used to get more information. The name can't "
+"have whitespaces in it. The value has to be a comma separated list for "
+"select and radio elements, for the others it defines the default value."
+msgstr ""
+
+#: easyReservations_admin_settings.php:903
+#, fuzzy
+msgid "Text"
+msgstr "文本"
+
+#: easyReservations_admin_settings.php:903
+#, fuzzy
+msgid "Textarea"
+msgstr "文本"
+
+#: easyReservations_admin_settings.php:903
+#: easyReservations_admin_settings.php:932
+#: js/tinyMCE/tinyMCE_shortcode_add.php:77
+#: lib/modules/hourlycal/hourlycal.php:206 lib/modules/paypal/paypal.php:200
+#: lib/modules/paypal/paypal.php:214 lib/modules/paypal/paypal.php:231
+#: lib/modules/paypal/paypal.php:261 lib/modules/paypal/paypal.php:278
+#: lib/modules/search/attributes.php:122
+msgid "Select"
+msgstr "选择"
+
+#: easyReservations_admin_settings.php:903
+#: easyReservations_admin_settings.php:932
+msgid "Radio"
+msgstr "无线电"
+
+#: easyReservations_admin_settings.php:903
+#: easyReservations_admin_settings.php:932
+#: lib/modules/search/attributes.php:122
+msgid "Checkbox"
+msgstr "复选框"
+
+#: easyReservations_admin_settings.php:926
+msgid ""
+"Form elements with an impact on the price for optionale or choosable "
+"services."
+msgstr ""
+
+#: easyReservations_admin_settings.php:948
+#, fuzzy
+msgid "Don't display price "
+msgstr "显示价格"
+
+#: easyReservations_admin_settings.php:978
+#, fuzzy
+msgid "Date fields"
+msgstr "价格领域"
+
+#: easyReservations_admin_settings.php:985
+#: easyReservations_admin_settings.php:1034
+#: easyReservations_admin_settings.php:1149
+#: easyReservations_admin_settings.php:1324
+msgid "Default"
+msgstr "默认"
+
+#: easyReservations_admin_settings.php:991
+#: easyReservations_admin_settings.php:1006
+msgid "Text field with datepicker"
+msgstr "与datepicker的文本字段"
+
+#: easyReservations_admin_settings.php:996
+#: easyReservations_admin_settings.php:1016
+msgid "Select field as of the time pattern selection"
+msgstr ""
+
+#: easyReservations_admin_settings.php:1001
+#: easyReservations_admin_settings.php:1021
+#, fuzzy
+msgid "Select field"
+msgstr "选"
+
+#: easyReservations_admin_settings.php:1011
+msgid "Select field to choose length of stay"
+msgstr ""
+
+#: easyReservations_admin_settings.php:1027
+#, fuzzy
+msgid "Information fields"
+msgstr "信息"
+
+#: easyReservations_admin_settings.php:1040
+#, fuzzy
+msgid "Select of resource"
+msgstr "选择一个资源"
+
+#: easyReservations_admin_settings.php:1045
+#, fuzzy
+msgid "Select field for adults"
+msgstr "选择的国家的"
+
+#: easyReservations_admin_settings.php:1050
+msgid "Select field for children's"
+msgstr ""
+
+#: easyReservations_admin_settings.php:1055
+#, fuzzy
+msgid "Text field for name"
+msgstr "文本字段"
+
+#: easyReservations_admin_settings.php:1060
+#, fuzzy
+msgid "Text field for mail"
+msgstr "文本字段"
+
+#: easyReservations_admin_settings.php:1065
+#, fuzzy
+msgid "Select field of country's"
+msgstr "选择的国家的"
+
+#: easyReservations_admin_settings.php:1071
+#, fuzzy
+msgid "Special fields"
+msgstr "价格领域"
+
+#: easyReservations_admin_settings.php:1083
+#, fuzzy
+msgid "Fix information and hide from guest"
+msgstr "修复和隐藏信息的形式"
+
+#: easyReservations_admin_settings.php:1087
+msgid "Custom form elements to get more information"
+msgstr ""
+
+#: easyReservations_admin_settings.php:1091
+msgid "Custom form elements with impact on price"
+msgstr ""
+
+#: easyReservations_admin_settings.php:1095
+msgid "Displays information of currently selected resource"
+msgstr ""
+
+#: easyReservations_admin_settings.php:1100
+msgid "To verify only humans use the form"
+msgstr ""
+
+#: easyReservations_admin_settings.php:1104
+#: js/tinyMCE/tinyMCE_shortcode_add.php:165
+#: lib/modules/useredit/useredit.php:872
+msgid "Show price"
+msgstr "显示价格"
+
+#: easyReservations_admin_settings.php:1104
+#, fuzzy
+msgid "Display price live"
+msgstr "显示价格"
+
+#: easyReservations_admin_settings.php:1108
+#, fuzzy
+msgid "Error"
+msgstr "错误标题"
+
+#: easyReservations_admin_settings.php:1108
+#, fuzzy
+msgid "Displays errors"
+msgstr "显示错误"
+
+#: easyReservations_admin_settings.php:1112
+#, fuzzy
+msgid "Submit button"
+msgstr "“提交”按钮："
+
+#: easyReservations_admin_settings.php:1112
+msgid "Button to submit the form"
+msgstr ""
+
+#: easyReservations_admin_settings.php:1117
+#, fuzzy
+msgid "Format"
+msgstr "形式"
+
+#: easyReservations_admin_settings.php:1122
+msgid "Label"
+msgstr ""
+
+#: easyReservations_admin_settings.php:1122
+msgid "Used for description of tags. Should be before the tag."
+msgstr ""
+
+#: easyReservations_admin_settings.php:1125
+msgid "Sub-label"
+msgstr ""
+
+#: easyReservations_admin_settings.php:1125
+msgid "Small sub-label. Should be used inside labels."
+msgstr ""
+
+#: easyReservations_admin_settings.php:1128
+msgid "Row"
+msgstr ""
+
+#: easyReservations_admin_settings.php:1128
+msgid ""
+"To use multiple elements in one row. It may be nesecarry to define their "
+"width's."
+msgstr ""
+
+#: easyReservations_admin_settings.php:1131
+msgid "Bold"
+msgstr ""
+
+#: easyReservations_admin_settings.php:1131
+#, fuzzy
+msgid "Bold text"
+msgstr "“纯文本”"
+
+#: easyReservations_admin_settings.php:1134
+msgid "Italic"
+msgstr ""
+
+#: easyReservations_admin_settings.php:1134
+#, fuzzy
+msgid "Italic text"
+msgstr "“纯文本”"
+
+#: easyReservations_admin_settings.php:1137
+msgid "Headline"
+msgstr ""
+
+#: easyReservations_admin_settings.php:1137
+msgid "Big headline."
+msgstr ""
+
+#: easyReservations_admin_settings.php:1140
+msgid "Sub-headline"
+msgstr ""
+
+#: easyReservations_admin_settings.php:1140
+msgid "Smaller headline to divide the form."
+msgstr ""
+
+#: easyReservations_admin_settings.php:1163
+msgid "Slug"
+msgstr ""
+
+#: easyReservations_admin_settings.php:1167
+msgid "Else"
+msgstr ""
+
+#: easyReservations_admin_settings.php:1192
+#, fuzzy
+msgid "No custom fields defined"
+msgstr "自定义字段了编辑"
+
+#: easyReservations_admin_settings.php:1203
+#, fuzzy
+msgid "Add and edit custom fields"
+msgstr "添加自定义字段"
+
+#: easyReservations_admin_settings.php:1214
+msgid "Information"
+msgstr "信息"
+
+#: easyReservations_admin_settings.php:1315 overview.php:162
+#: lib/modules/paypal/creditcards.php:391
+#: lib/modules/paypal/creditcards.php:397
+msgid "Active"
+msgstr "​​活跃"
+
+#: easyReservations_admin_settings.php:1323
+msgid "Subject"
+msgstr "主题"
+
+#: easyReservations_admin_settings.php:1341
+msgid "Tags"
+msgstr "标签"
+
+#: easyReservations_admin_settings.php:1348
+msgid "wordwrap"
+msgstr "自动换行"
+
+#: easyReservations_admin_settings.php:1349
+msgid "message from admin"
+msgstr "从管理的消息"
+
+#: easyReservations_admin_settings.php:1351
+#: lib/modules/invoice/invoice.php:564
+msgid "name"
+msgstr "姓名"
+
+#: easyReservations_admin_settings.php:1352
+#: lib/modules/invoice/invoice.php:565
+msgid "email"
+msgstr "email"
+
+#: easyReservations_admin_settings.php:1353
+#: lib/modules/invoice/invoice.php:561
+msgid "arrival date"
+msgstr "抵达日期"
+
+#: easyReservations_admin_settings.php:1354
+#: lib/modules/invoice/invoice.php:562
+msgid "departure date"
+msgstr "出发日期"
+
+#: easyReservations_admin_settings.php:1355
+#: lib/modules/invoice/invoice.php:563
+msgid "amount of billing units"
+msgstr "量计费单位"
+
+#: easyReservations_admin_settings.php:1356
+#, php-format
+msgid "amount of %s from date of reservation"
+msgstr "量的%s之日起预订"
+
+#: easyReservations_admin_settings.php:1357
+#: lib/modules/invoice/invoice.php:568
+#, fuzzy
+msgid "amount of adults and childs"
+msgstr "成人量"
+
+#: easyReservations_admin_settings.php:1358
+#: lib/modules/invoice/invoice.php:569
+msgid "amount of adults"
+msgstr "成人量"
+
+#: easyReservations_admin_settings.php:1359
+#: lib/modules/invoice/invoice.php:570
+msgid "amount of childs"
+msgstr "孩子的数量"
+
+#: easyReservations_admin_settings.php:1360
+#: lib/modules/invoice/invoice.php:571
+msgid "country of guest"
+msgstr "国家的客人"
+
+#: easyReservations_admin_settings.php:1361
+msgid "name of resource"
+msgstr "资源名称"
+
+#: easyReservations_admin_settings.php:1362
+msgid "name of resource number"
+msgstr "资源数量的名称"
+
+#: easyReservations_admin_settings.php:1363
+#: lib/modules/invoice/invoice.php:573
+#, fuzzy
+msgid "price of reservation"
+msgstr "ID预订"
+
+#: easyReservations_admin_settings.php:1364
+#: lib/modules/invoice/invoice.php:574
+#, fuzzy
+msgid "paid amount"
+msgstr "显示支付金额"
+
+#: easyReservations_admin_settings.php:1365
+msgid "custom fields"
+msgstr "自定义字段"
+
+#: easyReservations_admin_settings.php:1366
+msgid "price fields"
+msgstr "价格领域"
+
+#: easyReservations_admin_settings.php:1367
+msgid "show changes after edits"
+msgstr "显示编辑后的变化"
+
+#: easyReservations_admin_settings.php:1368
+msgid "link to user control panel"
+msgstr "链接到用户控制面板"
+
+#: easyReservations_admin_settings.php:1385 lib/core/core.php:324
+#: lib/modules/htmlmails/htmlmails.php:135
+msgid "Changelog"
+msgstr "更新日志"
+
+#: easyReservations_admin_settings.php:1429
+msgid "Chrome Extension"
+msgstr "Chrome扩展"
+
+#: easyReservations_admin_settings.php:1436
+msgid "Latest News"
+msgstr "最新消息"
+
+#: easyReservations_form_shortcode.php:22 lib/modules/search/search.php:208
+msgid "Room"
+msgstr "房间"
+
+#: easyReservations_form_shortcode.php:23
+#: js/tinyMCE/tinyMCE_shortcode_add.php:99 lib/modules/paypal/paypal.php:197
+#: lib/modules/paypal/paypal.php:213 lib/modules/paypal/paypal.php:228
+#: lib/modules/paypal/paypal.php:245 lib/modules/paypal/paypal.php:258
+#: lib/modules/paypal/paypal.php:274 lib/modules/useredit/useredit.php:311
+msgid "Cancel"
+msgstr "取消"
+
+#: easyReservations_form_shortcode.php:24
+msgid "Your reservation is complete"
+msgstr "您的预订完成"
+
+#: easyReservations_form_shortcode.php:25
+msgid "Your reservation was sent"
+msgstr "发送您的预订"
+
+#: easyReservations_form_shortcode.php:26
+msgid "Reservation was validated succesfully"
+msgstr "验证成功地自然保护区被"
+
+#: easyReservations_form_shortcode.php:124 lib/functions/admin.php:1581
+#, php-format
+msgid "%s is required"
+msgstr "%s需要"
+
+#: easyReservations_form_shortcode.php:431
+msgid "Add another reservation"
+msgstr "另一个预订"
+
+#: easyReservations_form_shortcode.php:431
+msgid "Submit all reservations"
+msgstr "提交所有预订"
+
+#: js/tinyMCE/tinyMCE_shortcode_add.php:5
+msgid "You are not allowed to access this file."
+msgstr "你不能访问此文件。"
+
+#: js/tinyMCE/tinyMCE_shortcode_add.php:20
+msgid "easyReservations Shortcode Creator"
+msgstr "easyReservations简易的创造者"
+
+#: js/tinyMCE/tinyMCE_shortcode_add.php:80
+msgid "choose"
+msgstr "choose"
+
+#: js/tinyMCE/tinyMCE_shortcode_add.php:82 lib/modules/search/search.php:57
+msgid "Calendar"
+msgstr "日历"
+
+#: js/tinyMCE/tinyMCE_shortcode_add.php:84
+msgid "Choose type of shortcode"
+msgstr "选择类型的简码"
+
+#: js/tinyMCE/tinyMCE_shortcode_add.php:90
+#: js/tinyMCE/tinyMCE_shortcode_add.php:206
+msgid ""
+"The shortcodes wont work if more then one of the same type are on the same "
+"site"
+msgstr "不会工作，如果有一个以上的同类型是在同一个站点的简"
+
+#: js/tinyMCE/tinyMCE_shortcode_add.php:90
+#: js/tinyMCE/tinyMCE_shortcode_add.php:206
+msgid "This can happen with posts in category-views or on homepage"
+msgstr "这可以发生在职位类别的意见或网页"
+
+#: js/tinyMCE/tinyMCE_shortcode_add.php:90
+#: js/tinyMCE/tinyMCE_shortcode_add.php:206
+msgid "To prevent this add the shortcodes after the [more] tag"
+msgstr "为了防止这种情况后添加的简[更多]标签"
+
+#: js/tinyMCE/tinyMCE_shortcode_add.php:96
+msgid "Insert"
+msgstr "插入"
+
+#: js/tinyMCE/tinyMCE_shortcode_add.php:113
+#: js/tinyMCE/tinyMCE_shortcode_add.php:115
+#: lib/modules/hourlycal/hourlycal.php:182 lib/modules/search/search.php:18
+msgid "Custom Style"
+msgstr "自定义样式"
+
+#: js/tinyMCE/tinyMCE_shortcode_add.php:120
+msgid "Select form template"
+msgstr "选择表单模板"
+
+#: js/tinyMCE/tinyMCE_shortcode_add.php:124
+msgid "Attached to reservations if no resource [tag] in form"
+msgstr "保留，如果没有资源[标签]的形式"
+
+#: js/tinyMCE/tinyMCE_shortcode_add.php:128
+msgid "Blue"
+msgstr "蓝色"
+
+#: js/tinyMCE/tinyMCE_shortcode_add.php:128
+msgid "Select style"
+msgstr "选择样式"
+
+#: js/tinyMCE/tinyMCE_shortcode_add.php:131
+msgid "Multiple reservations"
+msgstr "多保留"
+
+#: js/tinyMCE/tinyMCE_shortcode_add.php:132
+msgid "Allow multiple reservations in a"
+msgstr "允许在多个预订"
+
+#: js/tinyMCE/tinyMCE_shortcode_add.php:132
+msgid "Popup"
+msgstr "弹出"
+
+#: js/tinyMCE/tinyMCE_shortcode_add.php:132
+#: js/tinyMCE/tinyMCE_shortcode_add.php:135
+msgid "Overlay"
+msgstr "覆盖"
+
+#: js/tinyMCE/tinyMCE_shortcode_add.php:135
+msgid ""
+"If multiple reservations are enabled the overlay will show the list of the "
+"reservations."
+msgstr "如果启用了多个预订的覆盖会显示在列表的保留。"
+
+#: js/tinyMCE/tinyMCE_shortcode_add.php:138
+msgid "Overlay message"
+msgstr "覆盖信息"
+
+#: js/tinyMCE/tinyMCE_shortcode_add.php:142
+msgid "Overlay sub-message"
+msgstr "覆盖子消息"
+
+#: js/tinyMCE/tinyMCE_shortcode_add.php:146 lib/modules/search/search.php:70
+msgid "Name for resources"
+msgstr "资源的名称。"
+
+#: js/tinyMCE/tinyMCE_shortcode_add.php:150
+msgid "Persons in list"
+msgstr "人在名单"
+
+#: js/tinyMCE/tinyMCE_shortcode_add.php:154
+msgid ""
+"After submit one or multiple reservations the overlay or page will show this "
+"messages, the price and, if available, the paypal button and the credit "
+"cards form."
+msgstr ""
+"提交后保留一个或多个覆盖或页面将显示此消息，价格，如果可以的话，PayPal按钮和"
+"信用卡的形式。"
+
+#: js/tinyMCE/tinyMCE_shortcode_add.php:157
+msgid "Submit message"
+msgstr "提交信息"
+
+#: js/tinyMCE/tinyMCE_shortcode_add.php:161
+msgid "Submit sub-message"
+msgstr "提交子消息"
+
+#: js/tinyMCE/tinyMCE_shortcode_add.php:169
+#: lib/modules/paypal/creditcards.php:224
+#: lib/modules/paypal/creditcards.php:244
+msgid "Credit Card"
+msgstr "信用卡"
+
+#: js/tinyMCE/tinyMCE_shortcode_add.php:169
+msgid ""
+"If the credit card form is enabled this messages will be shown after a "
+"successfully submit of it."
+msgstr "如果信用卡的形式被启用，将显示此消息后成功提交。"
+
+#: js/tinyMCE/tinyMCE_shortcode_add.php:172
+msgid "Credit Card message"
+msgstr "信用卡信息"
+
+#: js/tinyMCE/tinyMCE_shortcode_add.php:176
+msgid "Credit Card sub-message"
+msgstr "信用卡子消息"
+
+#: js/tinyMCE/tinyMCE_shortcode_add.php:179
+msgid "Only add one form per page or post"
+msgstr "只能添加一个表格每页或邮寄"
+
+#: js/tinyMCE/tinyMCE_shortcode_add.php:184
+msgid "Select default resource"
+msgstr "选择默认的资源"
+
+#: js/tinyMCE/tinyMCE_shortcode_add.php:188
+msgid "simple"
+msgstr "简单"
+
+#: js/tinyMCE/tinyMCE_shortcode_add.php:188 lib/modules/search/search.php:22
+msgid "modern"
+msgstr "现代"
+
+#: js/tinyMCE/tinyMCE_shortcode_add.php:188
+msgid "Select calendar style"
+msgstr "选择日历样式"
+
+#: js/tinyMCE/tinyMCE_shortcode_add.php:192
+#: lib/modules/hourlycal/hourlycal.php:190
+msgid "no"
+msgstr "不"
+
+#: js/tinyMCE/tinyMCE_shortcode_add.php:192
+#: lib/modules/hourlycal/hourlycal.php:190
+msgid "Show price in calendar"
+msgstr "在日历显示价格"
+
+#: js/tinyMCE/tinyMCE_shortcode_add.php:199
+msgid "Check"
+msgstr "校验"
+
+#: js/tinyMCE/tinyMCE_shortcode_add.php:200
+msgid ""
+"Check resources global possible arrival and departure days so they cant be "
+"clicked"
+msgstr "检查资源，全球可能，所以他们不能被点击的抵港及离港日"
+
+#: js/tinyMCE/tinyMCE_shortcode_add.php:203
+msgid "This shortcode adds an availability calendar to the post or page"
+msgstr "这短代码添加到文章或页面的可用性日历"
+
+#: js/tinyMCE/tinyMCE_shortcode_add.php:203
+msgid ""
+"You can combine it with a form or the edit-form by add it to the same page"
+msgstr "您可以将它与表单或编辑的形式把它添加到同一个页面"
+
+#: js/tinyMCE/tinyMCE_shortcode_add.php:203
+msgid "Only add the calendar once per page or post"
+msgstr "只有每个页面添加日历或后"
+
+#: lib/classes/reservation.class.php:718
+#, fuzzy
+msgid "Please enter your name"
+msgstr "请输入正确的名称"
+
+#: lib/classes/reservation.class.php:724
+#, fuzzy
+msgid "Please enter a correct email"
+msgstr "请输入正确的Email"
+
+#: lib/classes/reservation.class.php:729
+msgid "Please enter correct dates"
+msgstr "请输入正确的日期"
+
+#: lib/classes/reservation.class.php:735
+msgid "The departure date has to be after the arrival date"
+msgstr "出发日期后抵达日期"
+
+#: lib/classes/reservation.class.php:741
+msgid "Adults has to be a number at least one"
+msgstr "成人必须是一个至少一个"
+
+#: lib/classes/reservation.class.php:747
+msgid "Children's has to be a number"
+msgstr "儿童是一个数字"
+
+#: lib/classes/reservation.class.php:756 lib/modules/search/search.php:427
+msgid "Not available at"
+msgstr "不提供"
+
+#: lib/classes/reservation.class.php:757 lib/classes/reservation.class.php:758
+msgid "Selected time is occupied"
+msgstr "选定的时间被占用"
+
+#: lib/classes/reservation.class.php:772
+msgid "The arrival date has to be in future"
+msgstr "抵达日期必须在未来"
+
+#: lib/classes/reservation.class.php:809
+#, php-format
+msgid "At least %1$s persons in %2$s"
+msgstr "至少有%1$s 的人，%2$s"
+
+#: lib/classes/reservation.class.php:816
+#, php-format
+msgid "Maximum %1$s persons in %2$s"
+msgstr "最大的%1$s 人在%2$s"
+
+#: lib/classes/reservation.class.php:823
+#, php-format
+msgid "At least %1$s %2$s in %3$s"
+msgstr "至少有%1$s %2$s在%3$s"
+
+#: lib/classes/reservation.class.php:830
+#, php-format
+msgid "Maximum %1$s %2$s in %3$s"
+msgstr "最大的%1$s %2$s在%3$s"
+
+#: lib/classes/reservation.class.php:842
+#, php-format
+msgid "Arrival only possible on %s"
+msgstr "到达只可能在%s"
+
+#: lib/classes/reservation.class.php:853
+#, php-format
+msgid "Departure only possible on %s"
+msgstr "日期只可能在%s"
+
+#: lib/classes/reservation.class.php:860
+#, fuzzy, php-format
+msgid "Arrival only possible from %s"
+msgstr "到达只可能在%s"
+
+#: lib/classes/reservation.class.php:864
+#, fuzzy, php-format
+msgid "Arrival only possible till %s"
+msgstr "到达只可能在%s"
+
+#: lib/classes/reservation.class.php:870
+#, fuzzy, php-format
+msgid "Departure only possible from %s"
+msgstr "日期只可能在%s"
+
+#: lib/classes/reservation.class.php:874
+#, fuzzy, php-format
+msgid "Departure only possible till %s"
+msgstr "日期只可能在%s"
+
+#: lib/classes/reservation.class.php:1056 lib/functions/both.php:300
+msgid "The arrival date was edited"
+msgstr "抵达日期被编辑"
+
+#: lib/classes/reservation.class.php:1057 lib/functions/both.php:304
+msgid "The departure date was edited"
+msgstr "出发日期编辑"
+
+#: lib/classes/reservation.class.php:1058 lib/functions/both.php:308
+msgid "The name was edited"
+msgstr "他的名字是编辑"
+
+#: lib/classes/reservation.class.php:1059 lib/functions/both.php:312
+msgid "The email was edited"
+msgstr "编辑的电子邮件"
+
+#: lib/classes/reservation.class.php:1060
+msgid "The amount of adults was edited"
+msgstr "成人编辑"
+
+#: lib/classes/reservation.class.php:1061 lib/functions/both.php:320
+msgid "The amount of childs was edited"
+msgstr "孩子的编辑"
+
+#: lib/classes/reservation.class.php:1062 lib/functions/both.php:324
+msgid "The country was edited"
+msgstr "国家的编辑"
+
+#: lib/classes/reservation.class.php:1063
+msgid "The resource was edited"
+msgstr "编辑资源"
+
+#: lib/classes/reservation.class.php:1064 lib/functions/both.php:336
+msgid "Custom fields got edited"
+msgstr "自定义字段了编辑"
+
+#: lib/classes/reservation.class.php:1065
+msgid "Prices got edited"
+msgstr "价格得到了编辑"
+
+#: lib/classes/reservation.class.php:1071
+#: lib/modules/useredit/useredit.php:359
+msgid "trashed"
+msgstr "丢弃"
+
+#: lib/core/core.php:28
+msgid "Checked for updates"
+msgstr "检查更新"
+
+#: lib/core/core.php:31
+msgid "Logging in"
+msgstr "登录"
+
+#: lib/core/core.php:34
+#, php-format
+msgid "Module %s activated"
+msgstr "%s模组启动"
+
+#: lib/core/core.php:37
+msgid "Logged out"
+msgstr "已注销"
+
+#: lib/core/core.php:39
+msgid "All installed modules activated"
+msgstr "所有已安装的模块激活"
+
+#: lib/core/core.php:41
+msgid "All installed modules deactivated"
+msgstr "所有已安装的模块停用"
+
+#: lib/core/core.php:46
+msgid "updated"
+msgstr "更新"
+
+#: lib/core/core.php:49
+msgid "installed"
+msgstr "安装"
+
+#: lib/core/core.php:54
+#, php-format
+msgid "Failure at updating module %1$s - %2$s"
+msgstr "失败更新模块%1$s  - %2$s"
+
+#: lib/core/core.php:55
+#, php-format
+msgid "Failure at extracting module %1$s - %2$s"
+msgstr "未能在提取模块%1$s  - %2$s"
+
+#: lib/core/core.php:57
+#, php-format
+msgid "Module %1$s %2$s"
+msgstr "模块%1$s %2$s"
+
+#: lib/core/core.php:59
+#, php-format
+msgid "Module %s deactivated"
+msgstr "Module %s deactivated"
+
+#: lib/core/core.php:74
+#, php-format
+msgid "Module %s deleted"
+msgstr "模块%s删除"
+
+#: lib/core/core.php:107
+#, php-format
+msgid "Module %s installed successfully"
+msgstr "Module %s installed successfully"
+
+#: lib/core/core.php:109
+msgid "Upload failed"
+msgstr "Upload failed"
+
+#: lib/core/core.php:110 lib/modules/import/import.php:46
+msgid "Wrong file"
+msgstr "Wrong file"
+
+#: lib/core/core.php:121 lib/modules/invoice/invoice.php:326
+#: lib/modules/useredit/useredit.php:726 lib/modules/useredit/useredit.php:876
+msgid "Invoice"
+msgstr "Invoice"
+
+#: lib/core/core.php:122
+#, fuzzy
+msgid ""
+"Generate totally customizable Invoices automatically from predefined "
+"templates. Including an editor for admins, invoices as email attachments and "
+"correct A4 Letter formats."
+msgstr ""
+"生成完全customazible的发票自动从预定义的模板。包括管理员，发票作为电子邮件附"
+"件和正确的A4信件格式的编辑器。"
+
+#: lib/core/core.php:130
+msgid "htmlMails"
+msgstr "HTML格式的电子邮件"
+
+#: lib/core/core.php:131
+#, fuzzy
+msgid ""
+"Style your emails with HTML to increase the appearance of your hospitality."
+msgstr "您的电子邮件与HTML风格，以增加外观的效果招待。"
+
+#: lib/core/core.php:139 lib/modules/paypal/paypal.php:63
+msgid "Payment"
+msgstr "付款"
+
+#: lib/core/core.php:140
+msgid ""
+"Integration of multiple payment gateways like PayPal, Google Wallet, "
+"Authorize.net, 2checkout, DIBSpayment or Ogone. Further implementing of "
+"Stripe.com Credit Cards gateway and a function to store credit cards for "
+"manual treatment. Automatically approve new reservations and/or after "
+"payment.."
+msgstr ""
+"整合多种支付网关，如贝宝，谷歌钱包，Authorize.net，没有任何额外DIBSpayment或"
+"Ogone。进一步贯彻落实Stripe.com的信用卡网关和一个人工处理功能来存储信用卡。自"
+"动批准新的保留和/或付款后.."
+
+#: lib/core/core.php:148
+msgid "searchForm"
+msgstr "搜索表单"
+
+#: lib/core/core.php:149
+#, fuzzy
+msgid ""
+"New shortcode to let your guests search for available resources. No page "
+"reload for searching, compatible to calendar, show price, show unavailable "
+"resources, link to form with automatically selection. Each resource can have "
+"a small one-column calendar to show when its available. The results can be "
+"shown as list or table."
+msgstr ""
+"新的短代码，让你的客人搜索可用的资源。没有页面重载的搜索，兼容日历，价格，显"
+"示不可用的资源为纽带，形成具有自动选择。每个资源都可以有一列小日历显示时，其"
+"availble的。结果可以显示为列表或表格。"
+
+#: lib/core/core.php:158
+msgid "Releated Posts Add-On"
+msgstr "可主动防御此类的挂马发表的"
+
+#: lib/core/core.php:159
+msgid "Link post or pages with resources for the search results"
+msgstr "链接后或资源的搜索结果页面"
+
+#: lib/core/core.php:169
+msgid "Resource Attributes Add-On"
+msgstr "资源属性附加组件"
+
+#: lib/core/core.php:170
+msgid ""
+"Give resource different attributes to let your guests search more detailed"
+msgstr "给不同的属性资源让你的客人更详细的搜索"
+
+#: lib/core/core.php:181
+msgid "hourlyCalendar"
+msgstr "每小时日历"
+
+#: lib/core/core.php:182
+msgid "Show your guests the availability of the resources on a hourly basis."
+msgstr "每小时的基础上，显示您的客人提供所需资源。"
+
+#: lib/core/core.php:190
+msgid "Export &amp; Import"
+msgstr "进出口"
+
+#: lib/core/core.php:191
+#, fuzzy
+msgid ""
+"Export selectable reservation information by time, selection or all as ."
+"xls, .csv or .least and Import them from back from the .least files."
+msgstr "可选的预订信息导出时，选择或为XLS，CSV或至少，并将其导入。至少文件。"
+
+#: lib/core/core.php:199
+msgid "Multilingual"
+msgstr "多种语言"
+
+#: lib/core/core.php:200
+#, fuzzy
+msgid ""
+"Function to make texts in forms, emails, search bar and invoices "
+"translatable."
+msgstr "功能，使文本的形式，电子邮件，搜索栏和发票翻译。"
+
+#: lib/core/core.php:208 lib/modules/paypal/paypal.php:196
+#: lib/modules/paypal/paypal.php:212 lib/modules/paypal/paypal.php:227
+#: lib/modules/paypal/paypal.php:244 lib/modules/paypal/paypal.php:257
+#: lib/modules/paypal/paypal.php:273 lib/modules/useredit/useredit.php:252
+#: lib/modules/useredit/useredit.php:906
+msgid "User Control Panel"
+msgstr "用户控制面板"
+
+#: lib/core/core.php:209
+#, fuzzy
+msgid ""
+" Let your guests login with their reservations ID and email to edit their "
+"reservation afterwards. They can switch between their reservations in a "
+"table. In addition it provides a chat-like feature. New messages in table, "
+"dummy message at start, admin notices, avatars and fully AJAX driven. The "
+"guest can see his invoice and cancel his reservation."
+msgstr ""
+"让你的客人请其保留的ID和电子邮件编辑之后他们的保留。他们可以切换其保留在表"
+"中。此外，它提供了一个类似聊天的功能。表中的新邮件，在开始的假消息，管理员通"
+"知，化身，充分AJAX驱动的。客人可以看到他的的发票和CANCLE他的保留。"
+
+#: lib/core/core.php:218
+#, fuzzy
+msgid "Detailed statistics, charts, resource usages and a dashboard widget."
+msgstr "详细的统计数据，图表，资源使用和一个Dashboard widget工具。"
+
+#: lib/core/core.php:226 lib/modules/stream/stream.php:193
+msgid "Stream"
+msgstr "流"
+
+#: lib/core/core.php:227
+msgid "Text."
+msgstr "文本"
+
+#: lib/core/core.php:236
+msgid "Synchronization"
+msgstr ""
+
+#: lib/core/core.php:237
+msgid "Add reservations to the shopping card of WooCommerce."
+msgstr ""
+
+#: lib/core/core.php:245
+msgid "Styles"
+msgstr "样式"
+
+#: lib/core/core.php:246
+msgid ""
+"New Admin, Calendar and Form style. In addition it changes your datepickers "
+"style and disable unavailble dates in it."
+msgstr ""
+"新的管理，日历和形式风格。此外，它改变了你的datepickers风格和禁用的可用日期。"
+
+#: lib/core/core.php:254 lib/functions/admin.php:110
+#: lib/modules/coupons/coupons.php:205 lib/modules/coupons/coupons.php:220
+#: lib/modules/useredit/useredit.php:805
+msgid "Coupon"
+msgstr "优惠券"
+
+#: lib/core/core.php:255
+msgid "Let your guests enter coupon codes for discounts."
+msgstr "让你的客人输入优惠券代码折扣。"
+
+#: lib/core/core.php:263
+msgid "extentedCalendar"
+msgstr "扩展日历"
+
+#: lib/core/core.php:264
+msgid ""
+"Extend the calendar shortcode to show multiple months by an flexible grid "
+"(x*y). Includes a new boxed calendar style."
+msgstr ""
+"扩展的日历简码，显示多个月的一个灵活的网格（X * Y）。包括一个新的盒装日历样"
+"式。"
+
+#: lib/core/core.php:288 lib/functions/admin.php:81
+#: lib/modules/paypal/creditcards.php:340
+msgid "Description"
+msgstr "描述"
+
+#: lib/core/core.php:289
+msgid "Installed"
+msgstr "安装"
+
+#: lib/core/core.php:290
+msgid "Actual"
+msgstr "实际"
+
+#: lib/core/core.php:291
+msgid "Link"
+msgstr "链接"
+
+#: lib/core/core.php:320 lib/core/core.php:365
+msgid "Activate"
+msgstr "激活"
+
+#: lib/core/core.php:321 lib/modules/paypal/creditcards.php:236
+msgid "Delete"
+msgstr "删除"
+
+#: lib/core/core.php:322 lib/core/core.php:366
+msgid "Deactivate"
+msgstr "停用"
+
+#: lib/core/core.php:334 lib/core/core.php:370
+#, php-format
+msgid "Incompatibility - Update easyReservations to at least %s"
+msgstr "不相容性 - 至少%s的的更新easyReservations到"
+
+#: lib/core/core.php:335 lib/core/core.php:371
+#, php-format
+msgid ""
+"Incompatibility - This version of easyReservations needs at least version %s "
+"of this module"
+msgstr "不相容性 - 此版本的easyReservations至少需要该模块的版本是%s"
+
+#: lib/core/core.php:342
+msgid "Update"
+msgstr "更新"
+
+#: lib/core/core.php:343
+msgid "Reinstall"
+msgstr "重新安装"
+
+#: lib/core/core.php:344 lib/core/core.php:448
+#: lib/modules/stream/stream.php:146
+msgid "Install"
+msgstr "安装"
+
+#: lib/core/core.php:346 lib/core/core.php:376
+#: lib/modules/useredit/useredit.php:725
+msgid "Download"
+msgstr "下载"
+
+#: lib/core/core.php:387
+msgid "Premium Login"
+msgstr "高级登录"
+
+#: lib/core/core.php:387
+msgid "Premium Features"
+msgstr "高级功能"
+
+#: lib/core/core.php:388
+msgid "Login"
+msgstr "注册"
+
+#: lib/core/core.php:399
+msgid "Username"
+msgstr "用户名"
+
+#: lib/core/core.php:403
+msgid "Password"
+msgstr "密码"
+
+#: lib/core/core.php:413
+msgid "Install all modules"
+msgstr "安装的所有模块"
+
+#: lib/core/core.php:417
+msgid "Activate All"
+msgstr "全部激活"
+
+#: lib/core/core.php:421
+msgid "Deactivate All"
+msgstr "停用所有"
+
+#: lib/core/core.php:424
+msgid "Check for updates"
+msgstr "检查更新"
+
+#: lib/core/core.php:425
+#, fuzzy
+msgid "Turn off update notifier"
+msgstr "打开更新通知"
+
+#: lib/core/core.php:426
+msgid "Last check"
+msgstr "最后检查"
+
+#: lib/core/core.php:435
+msgid "Install or Update Module manually"
+msgstr "手动安装或更新模块"
+
+#: lib/core/core.php:538
+msgid "Wrong login data"
+msgstr "错误的登录数据"
+
+#: lib/core/core.php:539
+#, php-format
+msgid "No premium account - %s"
+msgstr "无溢价账 - %s的"
+
+#: lib/core/core.php:541
+msgid "cURL isnt installed on your server, please contact your host"
+msgstr "cURL是安装在服务器上，请联系您的主机"
+
+#: lib/core/core.php:552
+#, php-format
+msgid "Failure at copying module %1$s - %2$s"
+msgstr "复制模块%1$s 失败 - %2$s"
+
+#: lib/core/core.php:651
+#, php-format
+msgid ""
+"Modules %1$s is incopatible to easyReservations %2$s - update to version %3$s"
+msgstr "模块“%1$s 的兼容”到easyReservations“%2$s - 更新到版本%3$s"
+
+#: lib/core/core.php:653
+#, php-format
+msgid ""
+"easyReservations %1$s is incompatible to %2$s %3$s - update at least to "
+"version %4$s"
+msgstr "easyReservations%1$s的%2$s%3$s的兼容 - 至少更新到版本%4$s的"
+
+#: lib/core/core.php:660
+msgid "Update easyReservations now"
+msgstr "立即更新easyReservations“"
+
+#: lib/core/core.php:663
+msgid " Update Modules now"
+msgstr "更新模块的现在"
+
+#: lib/functions/admin.php:81
+msgid "Price calculation"
+msgstr "价格计算"
+
+#: lib/functions/admin.php:81
+msgid "Total"
+msgstr "Total"
+
+#: lib/functions/admin.php:92
+#, fuzzy, php-format
+msgid "Custom price %s"
+msgstr "自定义价格"
+
+#: lib/functions/admin.php:94
+msgid "Custom price"
+msgstr "自定义价格"
+
+#: lib/functions/admin.php:96
+msgid "Stay filter"
+msgstr "保持过滤器"
+
+#: lib/functions/admin.php:98
+msgid "Loyal filter"
+msgstr "忠诚的过滤器"
+
+#: lib/functions/admin.php:100
+msgid "Person filter"
+msgstr "联系人过滤器"
+
+#: lib/functions/admin.php:102
+#, fuzzy
+msgid "Discount filter"
+msgstr "联系人过滤器"
+
+#: lib/functions/admin.php:104
+#, fuzzy
+msgid "Extra charge filter"
+msgstr "价格过滤器"
+
+#: lib/functions/admin.php:106
+msgid "Earlybird filter"
+msgstr "Earlybird的过滤器"
+
+#: lib/functions/admin.php:112
+msgid "Price per Children"
+msgstr "每儿童价格"
+
+#: lib/functions/admin.php:114
+msgid "Tax"
+msgstr "税"
+
+#: lib/functions/admin.php:117
+msgid "Price filter"
+msgstr "价格过滤器"
+
+#: lib/functions/admin.php:120
+msgid "Base price"
+msgstr "基价"
+
+#: lib/functions/admin.php:157
+msgid "active"
+msgstr "​​活跃"
+
+#: lib/functions/admin.php:162
+msgid "future"
+msgstr "将来"
+
+#: lib/functions/admin.php:167
+msgid "past"
+msgstr "过去"
+
+#: lib/functions/admin.php:175 lib/modules/statistics/statistics.php:104
+msgid "price"
+msgstr "价格"
+
+#: lib/functions/admin.php:180 lib/modules/statistics/statistics.php:115
+#: lib/modules/statistics/statistics.php:127
+msgid "paid"
+msgstr "支付"
+
+#: lib/functions/admin.php:184
+msgid "time"
+msgstr "时间"
+
+#: lib/functions/admin.php:188
+msgid "status"
+msgstr "状态"
+
+#: lib/functions/admin.php:201
+msgid "Mail to guest from admin in dashboard"
+msgstr "旅客在仪表板，从管理邮件"
+
+#: lib/functions/admin.php:202
+msgid "Mail to guest after new reservation"
+msgstr "邮件对客人后，新的预订"
+
+#: lib/functions/admin.php:203
+#, fuzzy
+msgid "Mail to guest after approval"
+msgstr "Mail to guest after approvement"
+
+#: lib/functions/admin.php:204
+msgid "Mail to guest after rejection"
+msgstr "邮件被拒绝后向客人"
+
+#: lib/functions/admin.php:205
+msgid "Mail to guest after admin edited"
+msgstr "邮件为客人后管理编辑"
+
+#: lib/functions/admin.php:206
+msgid "Mail to admin after new reservation"
+msgstr "邮件管理后，新的预订"
+
+#: lib/functions/admin.php:227 lib/functions/admin.php:897
+#: lib/modules/invoice/editor.php:24
+msgid "Mail"
+msgstr "邮件"
+
+#: lib/functions/admin.php:291
+msgid "Reservations dashboard settings saved"
+msgstr "预订仪表板设置保存"
+
+#: lib/functions/admin.php:302
+msgid "Show/Hide content"
+msgstr "显示/隐藏内容"
+
+#: lib/functions/admin.php:303 lib/functions/admin.php:356
+msgid "Overview"
+msgstr "概观"
+
+#: lib/functions/admin.php:305 lib/modules/search/search.php:26
+#: lib/modules/useredit/useredit.php:863
+msgid "Table"
+msgstr "表"
+
+#: lib/functions/admin.php:308 lib/modules/import/import.php:58
+msgid "Export"
+msgstr "出口"
+
+#: lib/functions/admin.php:312
+#, fuzzy
+msgid "Table information"
+msgstr "表信息"
+
+#: lib/functions/admin.php:314
+msgid "Color"
+msgstr "颜色"
+
+#: lib/functions/admin.php:317
+msgid "Date  "
+msgstr "日期"
+
+#: lib/functions/admin.php:318
+msgid "Reserved "
+msgstr "保留的"
+
+#: lib/functions/admin.php:323
+msgid "Resource number"
+msgstr "资源数量"
+
+#: lib/functions/admin.php:329 lib/functions/admin.php:775
+#: lib/functions/admin.php:816 lib/modules/htmlmails/htmlmails.php:393
+msgid "Custom fields"
+msgstr "自定义字段"
+
+#: lib/functions/admin.php:330 lib/functions/admin.php:777
+#: lib/functions/admin.php:818
+msgid "Custom prices"
+msgstr "自定义价格"
+
+#: lib/functions/admin.php:332
+msgid "Favourites"
+msgstr "我的最爱"
+
+#: lib/functions/admin.php:336
+msgid "Table actions"
+msgstr "表行动"
+
+#: lib/functions/admin.php:337
+msgid "Filter by month"
+msgstr "按月筛选"
+
+#: lib/functions/admin.php:338
+msgid "Filter by resource"
+msgstr "过滤器通过资源"
+
+#: lib/functions/admin.php:339
+msgid "Filter by status"
+msgstr "过滤器的状态"
+
+#: lib/functions/admin.php:340
+msgid "Choose days to show"
+msgstr "选择天显示"
+
+#: lib/functions/admin.php:341 lib/functions/admin.php:735
+#: lib/modules/search/search.php:37 lib/modules/search/search.php:111
+#: lib/modules/search/search.php:210
+msgid "Search"
+msgstr "搜索"
+
+#: lib/functions/admin.php:342
+msgid "Bulk & Checkboxes"
+msgstr "散复选框"
+
+#: lib/functions/admin.php:345
+msgid "Show Resources"
+msgstr "显示资源"
+
+#: lib/functions/admin.php:357
+msgid "Overview onMouseOver Date & Select animation"
+msgstr "：概述的的onmouseover日期选择动画"
+
+#: lib/functions/admin.php:358
+msgid "Overview autoselect with inputs on add/edit"
+msgstr "概述自动选择输入“添加/编辑"
+
+#: lib/functions/admin.php:359
+#, fuzzy, php-format
+msgid "Show empty space for each room and day (+20% load)"
+msgstr "显示空的空间,每间客房和天(20%负载)"
+
+#: lib/functions/admin.php:360
+msgid "Hourly mode as standard"
+msgstr "每小时模式标准"
+
+#: lib/functions/admin.php:683
+msgid "of"
+msgstr "的"
+
+#: lib/functions/admin.php:695
+msgid "Upcoming"
+msgstr "即将"
+
+#: lib/functions/admin.php:696 lib/modules/useredit/useredit.php:362
+msgid "Current"
+msgstr "当前"
+
+#: lib/functions/admin.php:700
+msgid "Old"
+msgstr "旧的"
+
+#: lib/functions/admin.php:701
+msgid "Trash"
+msgstr "垃圾桶"
+
+#: lib/functions/admin.php:709
+msgid "View all statuses"
+msgstr "查看所有状态"
+
+#: lib/functions/admin.php:711
+#, fuzzy
+msgid "Show all monthes"
+msgstr "显示所有日期"
+
+#: lib/functions/admin.php:725
+msgid "View all Resources"
+msgstr "查看所有资源"
+
+#: lib/functions/admin.php:897 lib/functions/admin.php:948
+msgid "Restore"
+msgstr "恢复"
+
+#: lib/functions/admin.php:897 lib/functions/admin.php:948
+msgid "Delete Permanently"
+msgstr "永久删除"
+
+#: lib/functions/admin.php:901 lib/modules/stream/stream.php:130
+#: lib/modules/useredit/useredit.php:30 lib/modules/useredit/useredit.php:58
+#: lib/modules/useredit/useredit.php:138 lib/modules/useredit/useredit.php:688
+msgid "ago"
+msgstr "前"
+
+#: lib/functions/admin.php:940
+msgid "No Reservations found!"
+msgstr "毫无保留的资料！"
+
+#: lib/functions/admin.php:948
+msgid "Bulk Actions"
+msgstr "批量操作"
+
+#: lib/functions/admin.php:948
+msgid "Move to Trash"
+msgstr "移动到回收站"
+
+#: lib/functions/admin.php:948
+msgid "Apply"
+msgstr "申请"
+
+#: lib/functions/admin.php:954
+msgid "Elements"
+msgstr "分子"
+
+#: lib/functions/admin.php:975
+msgid "easyReservations Premium"
+msgstr "easyReservations高级"
+
+#: lib/functions/admin.php:1343
+msgid "prev"
+msgstr "上一页"
+
+#: lib/functions/admin.php:1345
+msgid "next"
+msgstr "下"
+
+#: lib/functions/admin.php:1572
+msgid "Please enter the correct captcha"
+msgstr "请输入正确的验证码"
+
+#: lib/functions/admin.php:1742
+#, php-format
+msgid "%1$s is required"
+msgstr "%1$s 需要"
+
+#: lib/functions/admin.php:1748
+msgid "Captcha is required"
+msgstr "验证码需要"
+
+#: lib/functions/admin.php:1751 lib/functions/admin.php:1759
+msgid "Enter correct captcha"
+msgstr "输入正确的验证码"
+
+#: lib/functions/both.php:17
+msgid "Add New Resource"
+msgstr "添加新的资源"
+
+#: lib/functions/both.php:18
+msgid "Edit Resource"
+msgstr "编辑资源"
+
+#: lib/functions/both.php:19
+msgid "New Resource"
+msgstr "新资源"
+
+#: lib/functions/both.php:20
+msgid "All Resources"
+msgstr "所有资源"
+
+#: lib/functions/both.php:21
+msgid "View Resource"
+msgstr "查看资源"
+
+#: lib/functions/both.php:316
+msgid "The amount of persons was edited"
+msgstr "的量的人的时间是编辑"
+
+#: lib/functions/both.php:328
+msgid "The room was edited"
+msgstr "编辑房间"
+
+#: lib/functions/both.php:332
+msgid "The message was edited"
+msgstr "文章被编辑"
+
+#: lib/functions/both.php:340
+msgid "Prices  got edited"
+msgstr "价格已设置"
+
+#: lib/functions/both.php:562
+msgid "Monday"
+msgstr "星期一"
+
+#: lib/functions/both.php:563
+msgid "Tuesday"
+msgstr "星期二"
+
+#: lib/functions/both.php:564
+msgid "Wednesday"
+msgstr "星期三"
+
+#: lib/functions/both.php:565
+msgid "Thursday"
+msgstr "星期四"
+
+#: lib/functions/both.php:566
+msgid "Friday"
+msgstr "星期五"
+
+#: lib/functions/both.php:567
+msgid "Saturday"
+msgstr "星期六"
+
+#: lib/functions/both.php:568
+msgid "Sunday"
+msgstr "星期日"
+
+#: lib/functions/both.php:570
+msgid "January"
+msgstr "1月"
+
+#: lib/functions/both.php:571
+msgid "February"
+msgstr "2月"
+
+#: lib/functions/both.php:572
+msgid "March"
+msgstr "3月"
+
+#: lib/functions/both.php:573
+msgid "April"
+msgstr "4月"
+
+#: lib/functions/both.php:574
+msgid "May"
+msgstr "5月"
+
+#: lib/functions/both.php:575
+msgid "June"
+msgstr "6月"
+
+#: lib/functions/both.php:576
+msgid "July"
+msgstr "7月"
+
+#: lib/functions/both.php:577
+msgid "August"
+msgstr "8月"
+
+#: lib/functions/both.php:578
+msgid "September"
+msgstr "9月"
+
+#: lib/functions/both.php:579
+msgid "October"
+msgstr "10月"
+
+#: lib/functions/both.php:580
+msgid "November"
+msgstr "11月"
+
+#: lib/functions/both.php:581
+msgid "December"
+msgstr "12月"
+
+#: lib/modules/coupons/coupons.php:19 lib/modules/coupons/coupons.php:180
+msgid "Coupons"
+msgstr "优惠券"
+
+#: lib/modules/coupons/coupons.php:35 lib/modules/coupons/coupons.php:72
+msgid "Code"
+msgstr "码"
+
+#: lib/modules/coupons/coupons.php:37
+msgid "Used"
+msgstr "使用"
+
+#: lib/modules/coupons/coupons.php:59
+msgid "No coupons"
+msgstr "暂时没有优惠券"
+
+#: lib/modules/coupons/coupons.php:67 lib/modules/coupons/coupons.php:188
+msgid "Add coupon"
+msgstr "添加优惠券"
+
+#: lib/modules/coupons/coupons.php:84
+msgid "Maximum usages"
+msgstr "最大的用途"
+
+#: lib/modules/coupons/coupons.php:88
+msgid "Amount"
+msgstr "量"
+
+#: lib/modules/coupons/coupons.php:139
+#, php-format
+msgid "Coupon %s added"
+msgstr "优惠券%s添加"
+
+#: lib/modules/coupons/coupons.php:145
+#, php-format
+msgid "Coupon %s deleted"
+msgstr "优惠券%s删除"
+
+#: lib/modules/coupons/coupons.php:206
+#, fuzzy
+msgid "Text field to enter coupon codes."
+msgstr "与datepicker的文本字段"
+
+#: lib/modules/coupons/coupons.php:220
+#, fuzzy
+msgid "Text field to enter coupon codes"
+msgstr "与datepicker的文本字段"
+
+#: lib/modules/hourlycal/hourlycal.php:70
+msgid "<"
+msgstr "<"
+
+#: lib/modules/hourlycal/hourlycal.php:71
+msgid "0"
+msgstr "0"
+
+#: lib/modules/hourlycal/hourlycal.php:71
+msgid ">"
+msgstr ">"
+
+#: lib/modules/hourlycal/hourlycal.php:186
+msgid "Select default room"
+msgstr "选择默认的房间"
+
+#: lib/modules/hourlycal/hourlycal.php:197
+msgid "Clock"
+msgstr "时钟"
+
+#: lib/modules/hourlycal/hourlycal.php:206
+msgid "Display"
+msgstr "显示"
+
+#: lib/modules/hourlycal/hourlycal.php:206
+msgid "Navigation"
+msgstr "导航"
+
+#: lib/modules/hourlycal/hourlycal.php:210
+msgid "Display hours from"
+msgstr "显示时间从"
+
+#: lib/modules/hourlycal/hourlycal.php:210
+msgid "to"
+msgstr "到"
+
+#: lib/modules/hourlycal/hourlycal.php:240
+msgid "Hourly Calendar"
+msgstr "每小时日历"
+
+#: lib/modules/htmlmails/htmlmails.php:33
+msgid "Email Settings"
+msgstr "电子邮件设置"
+
+#: lib/modules/htmlmails/htmlmails.php:38
+msgid "Choose type of email"
+msgstr "选择类型的邮件"
+
+#: lib/modules/htmlmails/htmlmails.php:42
+msgid "Subj"
+msgstr "主旨"
+
+#: lib/modules/htmlmails/htmlmails.php:42
+msgid "Activate email"
+msgstr "激活电子邮件"
+
+#: lib/modules/htmlmails/htmlmails.php:47
+msgid "Plain text"
+msgstr "“纯文本”"
+
+#: lib/modules/htmlmails/htmlmails.php:50
+msgid "HTML"
+msgstr "HTML"
+
+#: lib/modules/htmlmails/htmlmails.php:118
+msgid "Times of stay"
+msgstr "停留时间"
+
+#: lib/modules/htmlmails/htmlmails.php:120
+msgid "Nights"
+msgstr "夜"
+
+#: lib/modules/htmlmails/htmlmails.php:121
+msgid "Weeks"
+msgstr "周"
+
+#: lib/modules/htmlmails/htmlmails.php:123
+#: lib/modules/htmlmails/htmlmails.php:387
+#: lib/modules/useredit/useredit.php:351
+msgid "Resource Number"
+msgstr "资源数量"
+
+#: lib/modules/htmlmails/htmlmails.php:132
+msgid "Date today"
+msgstr "今天日期"
+
+#: lib/modules/htmlmails/htmlmails.php:133
+msgid "ID of reservation"
+msgstr "ID预订"
+
+#: lib/modules/htmlmails/htmlmails.php:134
+msgid "Message from admin"
+msgstr "从管理的消息"
+
+#: lib/modules/htmlmails/htmlmails.php:136
+msgid "Link to edit"
+msgstr "链接编辑"
+
+#: lib/modules/htmlmails/htmlmails.php:139
+#: lib/modules/htmlmails/htmlmails.php:395
+msgid "PayPal URL"
+msgstr "贝宝URL"
+
+#: lib/modules/htmlmails/htmlmails.php:379
+msgid "Line Break"
+msgstr "断行"
+
+#: lib/modules/htmlmails/htmlmails.php:380
+msgid "Arrival"
+msgstr "到来"
+
+#: lib/modules/htmlmails/htmlmails.php:381
+msgid "Departure"
+msgstr "出发"
+
+#: lib/modules/htmlmails/htmlmails.php:382
+msgid "Times"
+msgstr "时"
+
+#: lib/modules/htmlmails/htmlmails.php:384
+msgid "Childrens"
+msgstr "儿童"
+
+#: lib/modules/htmlmails/htmlmails.php:390
+msgid "Changlog"
+msgstr "更新日志"
+
+#: lib/modules/htmlmails/htmlmails.php:391
+msgid "Editlink"
+msgstr "编辑链接"
+
+#: lib/modules/htmlmails/htmlmails.php:392
+msgid "Admin Message"
+msgstr "管理员留言"
+
+#: lib/modules/htmlmails/htmlmails.php:394
+msgid "Price fields"
+msgstr "价格领域"
+
+#: lib/modules/import/import.php:15 lib/modules/import/import.php:25
+msgid "Import"
+msgstr "进口"
+
+#: lib/modules/import/import.php:40
+#, php-format
+msgid "%s reservations imported"
+msgstr "导入%s有所保留。"
+
+#: lib/modules/import/import.php:42
+msgid "Error at access server"
+msgstr "在访问服务器时出错"
+
+#: lib/modules/import/import.php:44
+msgid "Only admins can import reservations"
+msgstr "只有管理员可以导入保留"
+
+#: lib/modules/import/import.php:68
+msgid "Reservations in table"
+msgstr "预订表"
+
+#: lib/modules/import/import.php:68
+msgid "All reservations"
+msgstr "所有预订"
+
+#: lib/modules/import/import.php:68
+msgid "Select reservations"
+msgstr "选择保留"
+
+#: lib/modules/import/import.php:68
+msgid "Exel File"
+msgstr "Excel文件"
+
+#: lib/modules/import/import.php:68
+msgid "Backup (XML)"
+msgstr "备份（XML）"
+
+#: lib/modules/import/import.php:68
+msgid "CSV File"
+msgstr "CSV文件"
+
+#: lib/modules/import/import.php:71 lib/modules/useredit/useredit.php:343
+#: lib/modules/useredit/useredit.php:404 lib/modules/useredit/useredit.php:722
+msgid "Informations"
+msgstr "信息"
+
+#: lib/modules/import/import.php:73
+msgid "Price/Paid"
+msgstr "价格/支付"
+
+#: lib/modules/import/import.php:74
+msgid "Customs"
+msgstr "海关"
+
+#: lib/modules/import/import.php:78
+msgid "Export reservations"
+msgstr "进出口预订"
+
+#: lib/modules/invoice/editor.php:22
+msgid "Generate"
+msgstr "产生"
+
+#: lib/modules/invoice/editor.php:23
+msgid "Preview"
+msgstr "预览"
+
+#: lib/modules/invoice/invoice.php:151
+msgid "Due date"
+msgstr "截止日期"
+
+#: lib/modules/invoice/invoice.php:443
+msgid "Invoice settings changed"
+msgstr "发票更改的设置。"
+
+#: lib/modules/invoice/invoice.php:551
+msgid "Invoice Settings"
+msgstr "发票设置"
+
+#: lib/modules/invoice/invoice.php:551 lib/modules/search/attributes.php:200
+#: lib/modules/search/search.php:123
+msgid "Save"
+msgstr "保存"
+
+#: lib/modules/invoice/invoice.php:605
+#, fuzzy
+msgid "with template"
+msgstr "选择表单模板"
+
+#: lib/modules/invoice/invoice.php:630
+msgid "Copy & Add"
+msgstr "复制和添加"
+
+#: lib/modules/lang/lang.php:63
+msgid "translateable content"
+msgstr "翻译的内容"
+
+#: lib/modules/lang/lang.php:107 lib/modules/lang/lang.php:132
+#, fuzzy
+msgid "Translation"
+msgstr "翻译"
+
+#: lib/modules/lang/lang.php:108
+msgid ""
+"For multilingual content. It can be used inside other tags and used in "
+"emails, the search bar or invoice templates."
+msgstr ""
+
+#: lib/modules/lang/lang.php:117
+#, fuzzy
+msgid "Translations"
+msgstr "翻译"
+
+#: lib/modules/lang/lang.php:126 lib/modules/paypal/paypal.php:195
+#: lib/modules/paypal/paypal.php:229 lib/modules/paypal/paypal.php:260
+#: lib/modules/paypal/paypal.php:276
+msgid "Language"
+msgstr "语言"
+
+#: lib/modules/lang/lang.php:132
+#, fuzzy
+msgid "For multilingual content"
+msgstr "多种语言"
+
+#: lib/modules/multical/multical.php:23
+msgid "Display months"
+msgstr "显示月"
+
+#: lib/modules/multical/multical.php:24 lib/modules/paypal/creditcards.php:252
+#: lib/modules/useredit/useredit.php:446
+msgid "Month"
+msgstr "月份"
+
+#: lib/modules/multical/multical.php:25
+msgid "Interval"
+msgstr "间隔"
+
+#: lib/modules/multical/multical.php:28
+msgid "Display month name"
+msgstr "显示月份名称"
+
+#: lib/modules/multical/multical.php:36
+msgid "boxes"
+msgstr "箱"
+
+#: lib/modules/paypal/creditcards.php:103
+msgid "Credit card data deleted"
+msgstr "信用卡数据删除"
+
+#: lib/modules/paypal/creditcards.php:104
+msgid "Credit card data couldn't be deleted"
+msgstr "信用卡数据不能被删除"
+
+#: lib/modules/paypal/creditcards.php:122
+msgid "All credit cards deleted"
+msgstr "删除所有信用卡"
+
+#: lib/modules/paypal/creditcards.php:129
+msgid "Unknown card type"
+msgstr "未知的卡类型"
+
+#: lib/modules/paypal/creditcards.php:130
+msgid "No card number provided"
+msgstr "无卡号码"
+
+#: lib/modules/paypal/creditcards.php:131
+msgid "Credit card number has invalid format"
+msgstr "信用卡号码的格式无效"
+
+#: lib/modules/paypal/creditcards.php:132
+msgid "Credit card number is invalid"
+msgstr "信用卡号码无效"
+
+#: lib/modules/paypal/creditcards.php:133
+msgid "Credit card number is wrong length"
+msgstr "信用卡号码的长度是错误的"
+
+#: lib/modules/paypal/creditcards.php:134
+msgid "Please enter credit cards owner name"
+msgstr "请输入信用卡的拥有者名称"
+
+#: lib/modules/paypal/creditcards.php:212
+#: lib/modules/paypal/creditcards.php:213
+msgid "Enter correct CVV code"
+msgstr "输入正确的CVV代码"
+
+#: lib/modules/paypal/creditcards.php:225
+#: lib/modules/paypal/creditcards.php:251
+msgid "Number"
+msgstr "数目"
+
+#: lib/modules/paypal/creditcards.php:225
+#: lib/modules/paypal/creditcards.php:439
+msgid "Expires"
+msgstr "到期"
+
+#: lib/modules/paypal/creditcards.php:267
+msgid ""
+"Credit Card Number must be a number and between 12 and 16 characters long"
+msgstr "信用卡号码必须是数字，12至16个字符长"
+
+#: lib/modules/paypal/creditcards.php:291
+msgid "Credit Cards settings changed"
+msgstr "信用卡更改的设置。"
+
+#: lib/modules/paypal/creditcards.php:292
+msgid "Stripe settings changed"
+msgstr "条纹更改的设置。"
+
+#: lib/modules/paypal/creditcards.php:304
+#, php-format
+msgid "Before using open the file %1$s and enter a long random password"
+msgstr "在使用打开文件%1$s 和输入一个长的随机密码"
+
+#: lib/modules/paypal/creditcards.php:305
+#, php-format
+msgid ""
+"Can't open the file %1$s with the security key. Try to give it and it's "
+"folder CHMOD 755 or higher."
+msgstr "无法打开文件%1$s 使用的安全密钥。尽量给它和它的文件夹CHMOD755或更高。"
+
+#: lib/modules/paypal/creditcards.php:306
+#, php-format
+msgid "Before using create a file named %1$s in %2$s and enter %3$s"
+msgstr "在使用之前创建一个文件名为%1$s%2$s和%3$s"
+
+#: lib/modules/paypal/creditcards.php:317
+msgid "Stripe settings"
+msgstr "条纹设置"
+
+#: lib/modules/paypal/creditcards.php:322 lib/modules/sync/sync.php:31
+#: lib/modules/useredit/useredit.php:388
+msgid "Modus"
+msgstr "作案"
+
+#: lib/modules/paypal/creditcards.php:325 lib/modules/paypal/paypal.php:192
+#: lib/modules/paypal/paypal.php:209 lib/modules/paypal/paypal.php:223
+#: lib/modules/paypal/paypal.php:240 lib/modules/paypal/paypal.php:254
+#: lib/modules/paypal/paypal.php:269 lib/modules/sync/sync.php:30
+#: lib/modules/useredit/useredit.php:391
+msgid "Off"
+msgstr "离，空"
+
+#: lib/modules/paypal/creditcards.php:326
+msgid "Normal credit card form get send to stripe"
+msgstr "普通信用卡的形式发送到条纹"
+
+#: lib/modules/paypal/creditcards.php:327
+msgid "Stripe button with blue style popup form"
+msgstr "条纹蓝色风格按钮，弹出形式"
+
+#: lib/modules/paypal/creditcards.php:332
+msgid "Secret Key"
+msgstr "秘密钥匙"
+
+#: lib/modules/paypal/creditcards.php:336
+msgid "Publishable Key"
+msgstr "可发布重点"
+
+#: lib/modules/paypal/creditcards.php:342
+msgid "Attach transaction to"
+msgstr "附加交易，"
+
+#: lib/modules/paypal/creditcards.php:347
+msgid "in Stripes system"
+msgstr "条纹系统"
+
+#: lib/modules/paypal/creditcards.php:351
+msgid "Stripe button"
+msgstr "条纹按钮"
+
+#: lib/modules/paypal/creditcards.php:353
+msgid "Ask for address in popup form"
+msgstr "问地址，在弹出的形式"
+
+#: lib/modules/paypal/creditcards.php:354
+msgid "Title in popup"
+msgstr ""
+
+#: lib/modules/paypal/creditcards.php:355
+msgid "Subtitle in popup"
+msgstr ""
+
+#: lib/modules/paypal/creditcards.php:359 lib/modules/paypal/paypal.php:194
+#: lib/modules/paypal/paypal.php:246 lib/modules/paypal/paypal.php:259
+#: lib/modules/paypal/paypal.php:275
+msgid "Currency"
+msgstr "货币"
+
+#: lib/modules/paypal/creditcards.php:376
+msgid "Credit Card settings"
+msgstr "信用卡设置"
+
+#: lib/modules/paypal/creditcards.php:376
+msgid "Delete all credit cards"
+msgstr "删除所有信用卡"
+
+#: lib/modules/paypal/creditcards.php:393
+#, fuzzy
+msgid ""
+"Check to give your guests the opportunity to enter their credit card "
+"information after submit"
+msgstr "检查给你的客人有机会进入自己的信用卡信息后提交"
+
+#: lib/modules/paypal/creditcards.php:399
+msgid "Ask for name of card holder"
+msgstr "向卡持有人的名称"
+
+#: lib/modules/paypal/creditcards.php:403
+msgid "Automatical Approval"
+msgstr "全自动批准"
+
+#: lib/modules/paypal/creditcards.php:405
+#, fuzzy
+msgid "Auto-approve after entered correctly credit card information"
+msgstr "自动批准后，输入正确的信用卡信息"
+
+#: lib/modules/paypal/creditcards.php:409
+msgid "Available Credit Cards"
+msgstr "可用信用卡"
+
+#: lib/modules/paypal/creditcards.php:436
+msgid "Card Type"
+msgstr "卡类型"
+
+#: lib/modules/paypal/creditcards.php:437
+msgid "Holders name"
+msgstr "持有人名称"
+
+#: lib/modules/paypal/creditcards.php:438
+msgid "Card Number"
+msgstr "身份证号码"
+
+#: lib/modules/paypal/creditcards.php:440
+msgid "CCV"
+msgstr "卡号有效期的末三位码"
+
+#: lib/modules/paypal/creditcards.php:467
+msgid "Pay"
+msgstr "支付"
+
+#: lib/modules/paypal/creditcards.php:467
+msgid "Secure"
+msgstr ""
+
+#: lib/modules/paypal/paypal.php:97
+msgid "PayPal settings changed"
+msgstr "贝宝更改设置"
+
+#: lib/modules/paypal/paypal.php:105
+msgid "Authorize.Net settings changed"
+msgstr "Authorize.Net更改的设置。"
+
+#: lib/modules/paypal/paypal.php:115
+msgid "2checkout settings changed"
+msgstr "没有任何额外的设置改变"
+
+#: lib/modules/paypal/paypal.php:125
+msgid "Google Wallet settings changed"
+msgstr "谷歌钱包更改的设置。"
+
+#: lib/modules/paypal/paypal.php:133
+msgid "DIBS settings changed"
+msgstr "有权更改的设置"
+
+#: lib/modules/paypal/paypal.php:141
+msgid "Ogone settings changed"
+msgstr "Ogone酒店预订公司更改的设置"
+
+#: lib/modules/paypal/paypal.php:180
+msgid "Title when paying multiple reservations"
+msgstr "标题支付时多保留"
+
+#: lib/modules/paypal/paypal.php:181
+msgid "Deposit"
+msgstr "存款"
+
+#: lib/modules/paypal/paypal.php:183
+msgid "General Payment Gateway settings"
+msgstr "一般的支付网关设置"
+
+#: lib/modules/paypal/paypal.php:192 lib/modules/paypal/paypal.php:209
+#: lib/modules/paypal/paypal.php:223 lib/modules/paypal/paypal.php:240
+#: lib/modules/paypal/paypal.php:254 lib/modules/paypal/paypal.php:269
+msgid "Sandbox"
+msgstr "砂箱"
+
+#: lib/modules/paypal/paypal.php:192 lib/modules/paypal/paypal.php:209
+#: lib/modules/paypal/paypal.php:223 lib/modules/paypal/paypal.php:240
+#: lib/modules/paypal/paypal.php:254 lib/modules/paypal/paypal.php:269
+msgid "Live"
+msgstr "生活"
+
+#: lib/modules/paypal/paypal.php:192
+msgid "The validation only works with SSL in Sandbox"
+msgstr "在沙箱中的验证只适用于SSL"
+
+#: lib/modules/paypal/paypal.php:193
+msgid "Owner"
+msgstr "业主"
+
+#: lib/modules/paypal/paypal.php:193
+msgid "Paypal email or Secure Merchant ID"
+msgstr "PayPal电子邮件或安全商家ID"
+
+#: lib/modules/paypal/paypal.php:196 lib/modules/paypal/paypal.php:212
+#: lib/modules/paypal/paypal.php:227 lib/modules/paypal/paypal.php:244
+#: lib/modules/paypal/paypal.php:257 lib/modules/paypal/paypal.php:273
+msgid "After success return to"
+msgstr "成功后返回"
+
+#: lib/modules/paypal/paypal.php:196 lib/modules/paypal/paypal.php:212
+#: lib/modules/paypal/paypal.php:227 lib/modules/paypal/paypal.php:244
+#: lib/modules/paypal/paypal.php:257 lib/modules/paypal/paypal.php:273
+msgid "Page"
+msgstr "页面"
+
+#: lib/modules/paypal/paypal.php:196 lib/modules/paypal/paypal.php:212
+#: lib/modules/paypal/paypal.php:227 lib/modules/paypal/paypal.php:244
+#: lib/modules/paypal/paypal.php:257 lib/modules/paypal/paypal.php:273
+msgid "URL"
+msgstr "URL网址"
+
+#: lib/modules/paypal/paypal.php:198
+msgid "Label above note"
+msgstr "上面的注释标签"
+
+#: lib/modules/paypal/paypal.php:199
+msgid "Charset"
+msgstr "字符集"
+
+#: lib/modules/paypal/paypal.php:200 lib/modules/paypal/paypal.php:214
+#: lib/modules/paypal/paypal.php:231 lib/modules/paypal/paypal.php:261
+#: lib/modules/paypal/paypal.php:278
+msgid "Button"
+msgstr "钮"
+
+#: lib/modules/paypal/paypal.php:201
+msgid "Instant Payment Notifications"
+msgstr "即时付款通知"
+
+#: lib/modules/paypal/paypal.php:201
+msgid "Validate payment & set paid amount"
+msgstr "验证支付一套支付的金额"
+
+#: lib/modules/paypal/paypal.php:203
+msgid "PayPal settings"
+msgstr "贝宝设置"
+
+#: lib/modules/paypal/paypal.php:210 lib/modules/paypal/paypal.php:225
+msgid "Login ID"
+msgstr "登录ID"
+
+#: lib/modules/paypal/paypal.php:211
+msgid "Transaction Key"
+msgstr "交易的关键"
+
+#: lib/modules/paypal/paypal.php:216
+msgid "Authorize.Net settings"
+msgstr "Authorize.Net设置"
+
+#: lib/modules/paypal/paypal.php:224
+msgid "Routine"
+msgstr "常规"
+
+#: lib/modules/paypal/paypal.php:224
+msgid "Multi-page Payment"
+msgstr "多页付款"
+
+#: lib/modules/paypal/paypal.php:224
+msgid "Single Page Payment"
+msgstr "单页金"
+
+#: lib/modules/paypal/paypal.php:230
+msgid "Skip review page"
+msgstr "跳过审核页面"
+
+#: lib/modules/paypal/paypal.php:233
+msgid "2checkout settings"
+msgstr "没有任何额外的设置"
+
+#: lib/modules/paypal/paypal.php:241 lib/modules/paypal/paypal.php:255
+msgid "Merchant ID"
+msgstr "商家ID"
+
+#: lib/modules/paypal/paypal.php:242
+msgid "Merchant Key"
+msgstr "商家金钥"
+
+#: lib/modules/paypal/paypal.php:248
+msgid "Google Wallet settings"
+msgstr "谷歌钱包设置"
+
+#: lib/modules/paypal/paypal.php:256
+msgid "Mac Key"
+msgstr "苹果电脑密码"
+
+#: lib/modules/paypal/paypal.php:263
+msgid "DIBS settings"
+msgstr "有权更改的设置"
+
+#: lib/modules/paypal/paypal.php:270
+msgid "PSPID"
+msgstr "日本SONY开发的多功能掌机系列ID"
+
+#: lib/modules/paypal/paypal.php:271
+msgid "SHA-IN pass phrase"
+msgstr "SHA-IN 短密码"
+
+#: lib/modules/paypal/paypal.php:272
+msgid "SHA-OUT pass phrase"
+msgstr "SHA-OUT的密码短语"
+
+#: lib/modules/paypal/paypal.php:277
+msgid "Logo"
+msgstr "标志"
+
+#: lib/modules/paypal/paypal.php:279
+msgid "Button Background"
+msgstr "按钮背景"
+
+#: lib/modules/paypal/paypal.php:281
+msgid "Ogone settings"
+msgstr "Ogone设置"
+
+#: lib/modules/paypal/paypal.php:285
+msgid "Dont forget the new email types!"
+msgstr "不要忘了新的电子邮件！"
+
+#: lib/modules/paypal/paypal.php:338
+msgid "Payment button"
+msgstr "付款按钮"
+
+#: lib/modules/paypal/paypal.php:344
+#, fuzzy
+msgid "Automatically approval"
+msgstr "全自动批准"
+
+#: lib/modules/paypal/paypal.php:344
+msgid "After submit"
+msgstr "提交后"
+
+#: lib/modules/paypal/paypal.php:344
+msgid "After payment"
+msgstr "付款后"
+
+#: lib/modules/paypal/paypal.php:344
+msgid "Both"
+msgstr "俩个"
+
+#: lib/modules/paypal/paypal.php:344
+msgid "If there's free space in resource"
+msgstr "如果有免费的空间资源"
+
+#: lib/modules/paypal/paypal.php:355
+msgid "Mail to admin after payment"
+msgstr "付款后，以管理员邮件"
+
+#: lib/modules/paypal/paypal.php:356
+msgid "Mail to guest after payment"
+msgstr "客人付款后发送邮件"
+
+#: lib/modules/paypal/paypal.php:417
+msgid "or pay with credit card"
+msgstr "或用信用卡支付"
+
+#: lib/modules/paypal/paypal.php:423
+msgid "Choose payment gateway"
+msgstr ""
+
+#: lib/modules/paypal/paypal.php:780 lib/modules/paypal/paypal.php:786
+msgid "Pay a deposit of"
+msgstr ""
+
+#: lib/modules/paypal/paypal.php:790
+msgid "Pay the full price of"
+msgstr ""
+
+#: lib/modules/paypal/paypal.php:842
+#, php-format
+msgid "Payment about %1$s successful"
+msgstr "%1$s 成功付款"
+
+#: lib/modules/search/attributes.php:21
+msgid "Attribute deleted"
+msgstr "属性删除"
+
+#: lib/modules/search/attributes.php:22
+msgid "Attribute not found"
+msgstr "属性未找到"
+
+#: lib/modules/search/attributes.php:29
+msgid "There is already an attribute with a similar title"
+msgstr "已经有一个类似的标题属性"
+
+#: lib/modules/search/attributes.php:36
+msgid "Select a type for the attribute"
+msgstr "选择一个类型的属性"
+
+#: lib/modules/search/attributes.php:40
+msgid "No options provided"
+msgstr "没有选项"
+
+#: lib/modules/search/attributes.php:46
+msgid "Minimum value must be entered and be a number"
+msgstr "最小值必须输入是一个数字"
+
+#: lib/modules/search/attributes.php:50 lib/modules/search/attributes.php:61
+msgid "Maximum value must be entered and be a number"
+msgstr "最大值必须输入是一个数字"
+
+#: lib/modules/search/attributes.php:59
+msgid "Attribute edited"
+msgstr "属性编辑"
+
+#: lib/modules/search/attributes.php:65
+msgid "Attribute added"
+msgstr "属性添加"
+
+#: lib/modules/search/attributes.php:81 lib/modules/search/attributes.php:200
+msgid "searchForm attributes"
+msgstr "搜索表单属性"
+
+#: lib/modules/search/attributes.php:106
+msgid "No attributes"
+msgstr "无属性"
+
+#: lib/modules/search/attributes.php:111
+msgid "Add attribute"
+msgstr "添加属性"
+
+#: lib/modules/search/attributes.php:122
+msgid "Min - Max"
+msgstr "最小 - 最大"
+
+#: lib/modules/search/attributes.php:155
+#, fuzzy
+msgid "Comma separated options"
+msgstr "用逗号分隔的选项"
+
+#: lib/modules/search/attributes.php:159
+msgid "Only numbers"
+msgstr "只有数字"
+
+#: lib/modules/search/attributes.php:178
+msgid "Value of $s must be a number"
+msgstr "$ S的值必须是一个数字"
+
+#: lib/modules/search/search.php:25
+msgid "Theme"
+msgstr "主题"
+
+#: lib/modules/search/search.php:26
+msgid "List"
+msgstr "表"
+
+#: lib/modules/search/search.php:34
+msgid "URL to page or post with form"
+msgstr "到页面的URL或后与形式"
+
+#: lib/modules/search/search.php:38
+msgid "Search after page loaded"
+msgstr "搜索后，页面加载"
+
+#: lib/modules/search/search.php:38
+msgid "Search after every change"
+msgstr "搜索后，每一次变化"
+
+#: lib/modules/search/search.php:42
+#, fuzzy
+msgid "Exclude resource by comma saperated IDs"
+msgstr "由逗号分隔的ID排除资源"
+
+#: lib/modules/search/search.php:45
+msgid "Unavailable"
+msgstr "不可用"
+
+#: lib/modules/search/search.php:46
+msgid "Show unavailable resources too"
+msgstr "不可用的资源太多"
+
+#: lib/modules/search/search.php:49
+msgid "Thumbnail"
+msgstr "缩略图"
+
+#: lib/modules/search/search.php:53
+msgid "Show"
+msgstr "显示"
+
+#: lib/modules/search/search.php:54
+msgid " first characters of content"
+msgstr "第一个字符的内容"
+
+#: lib/modules/search/search.php:54
+msgid "More link to rooms post"
+msgstr "链接到房间后"
+
+#: lib/modules/search/search.php:58
+#, php-format
+msgid "Show %s days in calendar with %s"
+msgstr "显示在日历与%s%s天"
+
+#: lib/modules/search/search.php:58
+msgid "Nothing"
+msgstr "无"
+
+#: lib/modules/search/search.php:58
+msgid "Left resources"
+msgstr "左资源"
+
+#: lib/modules/search/search.php:62
+msgid "Text for seach button"
+msgstr "进击按钮的文字"
+
+#: lib/modules/search/search.php:65
+msgid "Reserve"
+msgstr "储备"
+
+#: lib/modules/search/search.php:66
+msgid "Text for reserve link/button"
+msgstr "储备的文字链接/按钮"
+
+#: lib/modules/search/search.php:72
+msgid "This shortcode adds an availability search form to the post or page"
+msgstr "短代码添加了一个查询的表的文章或页面"
+
+#: lib/modules/search/search.php:72
+msgid "You can combine it with a calendar by add it to the same page"
+msgstr "您可以将日历添加到同一个页面"
+
+#: lib/modules/search/search.php:72
+msgid "Only add it once per page or post"
+msgstr "只有每个页面添加或邮寄"
+
+#: lib/modules/search/search.php:123
+msgid "searchForm bar"
+msgstr "搜索表单栏"
+
+#: lib/modules/search/search.php:178
+msgid "Search form settings saved"
+msgstr "搜索表单保存的设置"
+
+#: lib/modules/search/search.php:211 lib/widgets/form_widget.php:142
+#: lib/widgets/form_widget.php:149
+msgid "Reserve now!"
+msgstr "马上预订！"
+
+#: lib/modules/search/search.php:382
+#, php-format
+msgid "min %s pers"
+msgstr "分钟%s的市盈率"
+
+#: lib/modules/search/search.php:383
+#, php-format
+msgid "max %s pers"
+msgstr "最大%s的市盈率"
+
+#: lib/modules/search/search.php:384
+#, php-format
+msgid "min %1$s %2$s"
+msgstr "分钟%1$s %2$s"
+
+#: lib/modules/search/search.php:385
+#, php-format
+msgid "max %1$s %2$s"
+msgstr "最多%1$s %2$s"
+
+#: lib/modules/search/search.php:386
+#, php-format
+msgid "arrival only %s"
+msgstr "到达只有%s"
+
+#: lib/modules/search/search.php:387
+#, php-format
+msgid "departure only %s"
+msgstr "出发只有%s"
+
+#: lib/modules/search/search.php:436
+msgid "more"
+msgstr "更多"
+
+#: lib/modules/search/search.php:534
+msgid "None available in this period"
+msgstr "在此期间没有"
+
+#: lib/modules/search/searchtypes.php:15
+#, fuzzy
+msgid "Post Types"
+msgstr "邮政查看"
+
+#: lib/modules/statistics/statistics.php:93
+msgid "reservations"
+msgstr "预订"
+
+#: lib/modules/statistics/statistics.php:144
+msgid "reserved"
+msgstr "保留的"
+
+#: lib/modules/statistics/statistics.php:258
+msgid "Reservations Statistics"
+msgstr "预订统计"
+
+#: lib/modules/statistics/statistics.php:259
+#, fuzzy
+msgid "All resources"
+msgstr "所有资源"
+
+#: lib/modules/statistics/statistics.php:531
+msgid "Detailed Statistics"
+msgstr "详细的统计"
+
+#: lib/modules/statistics/statistics.php:536
+msgid "Total reservations"
+msgstr "总预订"
+
+#: lib/modules/statistics/statistics.php:540
+msgid "Future approved reservations"
+msgstr "未来批准保留"
+
+#: lib/modules/statistics/statistics.php:544
+msgid "Past approved reservations"
+msgstr "过去批准保留"
+
+#: lib/modules/statistics/statistics.php:548
+msgid "Pending reservations"
+msgstr "未决保留"
+
+#: lib/modules/statistics/statistics.php:552
+msgid "Rejected reservations"
+msgstr "拒绝预订"
+
+#: lib/modules/statistics/statistics.php:556
+msgid "Trashed reservations"
+msgstr "丢弃预订"
+
+#: lib/modules/statistics/statistics.php:560
+msgid "Guests per reservations"
+msgstr "每预订的客人"
+
+#: lib/modules/statistics/statistics.php:564
+msgid "Times per reservations"
+msgstr "次保留"
+
+#: lib/modules/statistics/statistics.php:568
+msgid "Paid amount of all reservations"
+msgstr "所有预订支付的金额"
+
+#: lib/modules/statistics/statistics.php:572
+msgid "Paid per reservations"
+msgstr "每预订支付"
+
+#: lib/modules/statistics/statistics.php:576
+msgid "Revenue of all reservations"
+msgstr "所有保留的收入"
+
+#: lib/modules/statistics/statistics.php:580
+msgid "Revenue of future reservations"
+msgstr "未来的预订收入"
+
+#: lib/modules/statistics/statistics.php:584
+msgid "Revenue of past reservations"
+msgstr "过去的保留收入"
+
+#: lib/modules/statistics/statistics.php:592
+#: lib/modules/statistics/statistics.php:597
+msgid "Gross"
+msgstr "总共赚得"
+
+#: lib/modules/statistics/statistics.php:596
+msgid "Revenue per reservations"
+msgstr "每次预订所得收入"
+
+#: lib/modules/statistics/statistics.php:597
+msgid "Net"
+msgstr "净"
+
+#: lib/modules/statistics/statistics.php:609
+msgid "Approved and reservated graph"
+msgstr "已批准和reservated的图"
+
+#: lib/modules/statistics/statistics.php:623
+msgid "Add reservations first"
+msgstr "添加保留第一"
+
+#: lib/modules/stream/stream.php:141 lib/modules/stream/stream.php:172
+msgid "Admin"
+msgstr "管理员"
+
+#: lib/modules/stream/stream.php:143 lib/modules/stream/stream.php:172
+msgid "Guest"
+msgstr "客人"
+
+#: lib/modules/stream/stream.php:147
+msgid "installed stream module"
+msgstr "安装流模块"
+
+#: lib/modules/stream/stream.php:151
+msgid "added reservation"
+msgstr "添加预订"
+
+#: lib/modules/stream/stream.php:159
+msgid "No result"
+msgstr "没有结果"
+
+#: lib/modules/stream/stream.php:172
+msgid "Everyone"
+msgstr "每人"
+
+#: lib/modules/styles/styles.php:36
+msgid "premium"
+msgstr "溢价"
+
+#: lib/modules/styles/styles.php:81
+msgid "Datepicker style"
+msgstr "日期选择器风格"
+
+#: lib/modules/styles/styles.php:82
+msgid "Datepicker availability"
+msgstr "日期选择器的可用性"
+
+#: lib/modules/styles/styles.php:82
+#, fuzzy, php-format
+msgid "Check availability for %s days"
+msgstr "日期选择器的可用性"
+
+#: lib/modules/styles/styles.php:82
+msgid "Cost at least one ms loading time per day and resource"
+msgstr "每天和资源成本至少1毫秒的时间"
+
+#: lib/modules/sync/google.cal.php:33
+msgid "Connect to google"
+msgstr ""
+
+#: lib/modules/sync/google.cal.php:51
+msgid "client id"
+msgstr ""
+
+#: lib/modules/sync/google.cal.php:52
+msgid "client secret"
+msgstr ""
+
+#: lib/modules/sync/google.cal.php:53
+msgid "developer key"
+msgstr ""
+
+#: lib/modules/sync/google.cal.php:79
+#, fuzzy
+msgid "Deactive"
+msgstr "停用"
+
+#: lib/modules/sync/google.cal.php:79
+#, fuzzy
+msgid "New"
+msgstr "净"
+
+#: lib/modules/sync/sync.php:27
+msgid "This function will add reservations to the woocommerce cart."
+msgstr ""
+
+#: lib/modules/sync/sync.php:28
+msgid "After first activation save the settings of each resource once."
+msgstr ""
+
+#: lib/modules/sync/sync.php:29
+msgid "On"
+msgstr ""
+
+#: lib/modules/sync/sync.php:32
+msgid "WooCommerce compatibility"
+msgstr ""
+
+#: lib/modules/sync/sync.php:57
+msgid "Sync"
+msgstr ""
+
+#: lib/modules/useredit/useredit.php:72
+msgid "Message to guest"
+msgstr "对客人的信息"
+
+#: lib/modules/useredit/useredit.php:72
+msgid "Message to admin or Note"
+msgstr "信息管理员或注"
+
+#: lib/modules/useredit/useredit.php:241
+msgid "Mail to guest after guest edited"
+msgstr "邮件为客人后，客人编辑"
+
+#: lib/modules/useredit/useredit.php:242
+msgid "Mail to admin after guest edited"
+msgstr "邮件管理后，来宾编辑"
+
+#: lib/modules/useredit/useredit.php:243
+msgid "Mail to admin after guest canceled"
+msgstr "客人取消之后邮件管理"
+
+#: lib/modules/useredit/useredit.php:284
+msgid "User Control Panel settings saved"
+msgstr "用户控制面板设置保存"
+
+#: lib/modules/useredit/useredit.php:297
+msgid "User Control Panel settings"
+msgstr "用户控制面板设置"
+
+#: lib/modules/useredit/useredit.php:303
+msgid "URL of page with shortcode"
+msgstr "URL的页面与简码"
+
+#: lib/modules/useredit/useredit.php:314
+#, fuzzy, php-format
+msgid "Let the guest cancel his reservation till %s days before arrival"
+msgstr "如果客人reservates%s天前，他的到来的价格变化"
+
+#: lib/modules/useredit/useredit.php:319
+msgid "Text after Submit"
+msgstr "后的文本提交"
+
+#: lib/modules/useredit/useredit.php:328
+msgid "Text over login area - optional"
+msgstr "登录区上方的文本 - 可选"
+
+#: lib/modules/useredit/useredit.php:332
+msgid "Text over edit area - optional"
+msgstr "编辑区上方的文本 - 可选"
+
+#: lib/modules/useredit/useredit.php:339
+msgid "Table Settings"
+msgstr "表设置"
+
+#: lib/modules/useredit/useredit.php:340
+msgid "Table cointains other reservations of the same email"
+msgstr "表cointains其他保留相同的电子邮件"
+
+#: lib/modules/useredit/useredit.php:348
+msgid "Reservated"
+msgstr "接待人员"
+
+#: lib/modules/useredit/useredit.php:367
+msgid "Use style for table"
+msgstr "使用样式表"
+
+#: lib/modules/useredit/useredit.php:368
+msgid "Only display table if guest reserved more than once"
+msgstr "如果客人保留不止一次只显示表"
+
+#: lib/modules/useredit/useredit.php:383
+msgid "Guest contact settings"
+msgstr "家庭联系人设置"
+
+#: lib/modules/useredit/useredit.php:392
+msgid "Only admin"
+msgstr "只有以管理员"
+
+#: lib/modules/useredit/useredit.php:393
+msgid "User Control Panel and admin"
+msgstr "用户控制面板和管理"
+
+#: lib/modules/useredit/useredit.php:400
+msgid "Title over textarea"
+msgstr "在文字区域的标题"
+
+#: lib/modules/useredit/useredit.php:406
+msgid "Show avatars"
+msgstr "显示头像"
+
+#: lib/modules/useredit/useredit.php:407
+msgid "Show time ago"
+msgstr "显示时间前"
+
+#: lib/modules/useredit/useredit.php:408
+msgid "Show unanswered messages in table"
+msgstr "未解答的显示信息，在表"
+
+#: lib/modules/useredit/useredit.php:412
+msgid "Guest Avatar"
+msgstr "访客头像"
+
+#: lib/modules/useredit/useredit.php:414
+msgid "Image as avatar for guests"
+msgstr "图片作为头像，为客人"
+
+#: lib/modules/useredit/useredit.php:418
+msgid "Dummy"
+msgstr "假的"
+
+#: lib/modules/useredit/useredit.php:420
+msgid "Show dummy"
+msgstr "显示假的"
+
+#: lib/modules/useredit/useredit.php:424
+msgid "Dummy user"
+msgstr "虚拟用户"
+
+#: lib/modules/useredit/useredit.php:425
+msgid "User of dummy"
+msgstr "用户的虚拟"
+
+#: lib/modules/useredit/useredit.php:428
+msgid "Dummy message"
+msgstr "假消息"
+
+#: lib/modules/useredit/useredit.php:434
+msgid "Time to delete"
+msgstr "时间删除"
+
+#: lib/modules/useredit/useredit.php:437
+msgid "Not at all"
+msgstr "绝不，不谢。"
+
+#: lib/modules/useredit/useredit.php:438 lib/modules/useredit/useredit.php:439
+#: lib/modules/useredit/useredit.php:440
+msgid "Minutes"
+msgstr "会议纪要"
+
+#: lib/modules/useredit/useredit.php:441
+msgid "Hour"
+msgstr "小时"
+
+#: lib/modules/useredit/useredit.php:445
+msgid "Week"
+msgstr "周"
+
+#: lib/modules/useredit/useredit.php:501 lib/modules/useredit/useredit.php:528
+#: lib/modules/useredit/useredit.php:551 lib/modules/useredit/useredit.php:605
+msgid "An error occurred, please try again"
+msgstr "发生错误，请再试一次"
+
+#: lib/modules/useredit/useredit.php:501 lib/modules/useredit/useredit.php:513
+#: lib/modules/useredit/useredit.php:516 lib/modules/useredit/useredit.php:528
+#: lib/modules/useredit/useredit.php:551 lib/modules/useredit/useredit.php:605
+#: lib/modules/useredit/useredit.php:612 lib/modules/useredit/useredit.php:703
+#: lib/modules/useredit/useredit.php:822
+msgid "back"
+msgstr "返回"
+
+#: lib/modules/useredit/useredit.php:513
+msgid "Please enter the correct captcha code"
+msgstr "请输入正确的验证码"
+
+#: lib/modules/useredit/useredit.php:516
+msgid "Link is only 24h valid"
+msgstr "链接是唯一的24小时有效"
+
+#: lib/modules/useredit/useredit.php:612
+msgid "Reservation canceled"
+msgstr "预订取消"
+
+#: lib/modules/useredit/useredit.php:613
+#, fuzzy
+msgid "Too late to cancel"
+msgstr "取消太晚了"
+
+#: lib/modules/useredit/useredit.php:622
+msgid "Your Reservation was edited"
+msgstr "编辑您的预订"
+
+#: lib/modules/useredit/useredit.php:703
+#, fuzzy
+msgid "Wrong email"
+msgstr "错误的ID或电子邮件"
+
+#: lib/modules/useredit/useredit.php:707
+msgid "Please contact us to edit your reservation"
+msgstr "编辑您的预订，请与我们联系"
+
+#: lib/modules/useredit/useredit.php:715
+msgid "Pay now"
+msgstr "立即付款"
+
+#: lib/modules/useredit/useredit.php:730
+msgid "logout"
+msgstr "注销，退出"
+
+#: lib/modules/useredit/useredit.php:767
+msgid "Your name"
+msgstr "你的名字"
+
+#: lib/modules/useredit/useredit.php:768 lib/modules/useredit/useredit.php:834
+msgid "Your email"
+msgstr "您的邮件"
+
+#: lib/modules/useredit/useredit.php:769
+msgid "The arrival date"
+msgstr "抵达日期"
+
+#: lib/modules/useredit/useredit.php:770
+msgid "The departure date"
+msgstr "出发日期"
+
+#: lib/modules/useredit/useredit.php:771
+msgid "Amount of persons"
+msgstr "每人的量"
+
+#: lib/modules/useredit/useredit.php:772
+msgid "Amount of children's"
+msgstr "儿童量"
+
+#: lib/modules/useredit/useredit.php:773
+#, fuzzy
+msgid "Select your country"
+msgstr "选择国家"
+
+#: lib/modules/useredit/useredit.php:776
+msgid "Choose the"
+msgstr "选择"
+
+#: lib/modules/useredit/useredit.php:782
+msgid "Type in information"
+msgstr "在信息类型"
+
+#: lib/modules/useredit/useredit.php:795
+msgid "Pay service"
+msgstr "收费服务"
+
+#: lib/modules/useredit/useredit.php:805
+#, fuzzy
+msgid "Discount Code"
+msgstr "折扣"
+
+#: lib/modules/useredit/useredit.php:812
+msgid "Cancel reservation"
+msgstr "取消预订"
+
+#: lib/modules/useredit/useredit.php:822
+msgid "Wrong ID or email"
+msgstr "错误的ID或电子邮件"
+
+#: lib/modules/useredit/useredit.php:832
+msgid "ID of your reservation"
+msgstr "您的预订编号"
+
+#: lib/modules/useredit/useredit.php:836
+msgid "Type in code"
+msgstr "在代码中的类型"
+
+#: lib/modules/useredit/useredit.php:859
+msgid "Reservations are editable till"
+msgstr "预订是可编辑的，直到"
+
+#: lib/modules/useredit/useredit.php:860
+msgid "days before their arrival"
+msgstr "前几天他们的到来，"
+
+#: lib/modules/useredit/useredit.php:864
+msgid "Show table with other reservations by the same email"
+msgstr "与其他保留相同的电子邮件显示表"
+
+#: lib/modules/useredit/useredit.php:868
+msgid "Show status"
+msgstr "显示状态"
+
+#: lib/modules/useredit/useredit.php:877
+msgid ""
+"Let your guests view and download their invoices by invoice guest template"
+msgstr "让你的客人查看和下载发票发票客人模板的"
+
+#: lib/modules/useredit/useredit.php:881
+msgid "Name for resource"
+msgstr "资源的名称。"
+
+#: lib/modules/useredit/useredit.php:882
+msgid "e.g. Apartment"
+msgstr "例如房间"
+
+#: lib/modules/useredit/useredit.php:884
+msgid ""
+"This shortcode adds the function for your guests to edit their reservations "
+"afterwards"
+msgstr "短代码添加编辑功能为您的客人预订后"
+
+#: lib/modules/useredit/useredit.php:884
+msgid ""
+"You have to copy the URL of this site to the easyReservations general "
+"settings"
+msgstr "你必须复制本网站的URL的easyReservations一般设置"
+
+#: lib/modules/useredit/useredit.php:884
+msgid "Only add the edit-form on one page or post"
+msgstr "只添加编辑在一个页面上或后"
+
+#: lib/widgets/form_widget.php:148
+msgid "type in URL to a form"
+msgstr "键入URL的形式"
+
+#: lib/widgets/form_widget.php:156
+msgid "Title:"
+msgstr "标题："
+
+#: lib/widgets/form_widget.php:160
+msgid "Show calendar:"
+msgstr "显示日历"
+
+#: lib/widgets/form_widget.php:164
+msgid "Calendar style:"
+msgstr "日历样式："
+
+#: lib/widgets/form_widget.php:168
+msgid "Default room:"
+msgstr "默认的房间："
+
+#: lib/widgets/form_widget.php:172
+msgid "Calendar width:"
+msgstr "日历宽度："
+
+#: lib/widgets/form_widget.php:176
+msgid "Show price in calendar:"
+msgstr "在日历显示价格："
+
+#: lib/widgets/form_widget.php:180
+#, fuzzy
+msgid "Widgets form template:"
+msgstr "选择表单模板"
+
+#: lib/widgets/form_widget.php:185
+msgid "Form URL:"
+msgstr "URL表："
+
+#: lib/widgets/form_widget.php:189
+msgid "Submit button:"
+msgstr "“提交”按钮："
+
+#~ msgid "Groundprice edited"
+#~ msgstr "Groundprice编辑"
+
+#~ msgid "Resource interval edited"
+#~ msgstr "资源间隔编辑"
+
+#~ msgid "Enter a date"
+#~ msgstr "输入日期"
+
+#~ msgid "else"
+#~ msgstr "其他"
+
+#~ msgid "Conditional"
+#~ msgstr "条件"
+
+#~ msgid "At"
+#~ msgstr "在"
+
+#~ msgid "Time reservations"
+#~ msgstr "时间预订"
+
+#~ msgid "Enable time for reservations "
+#~ msgstr "启用时间为保留“"
+
+#~ msgid "Reservation Form"
+#~ msgstr "预订表格"
+
+#~ msgid "Add Field"
+#~ msgstr "添加字段"
+
+#~ msgid "Arrival Date"
+#~ msgstr "到达日期"
+
+#~ msgid "Custom field"
+#~ msgstr "自定义字段"
+
+#~ msgid "Price field"
+#~ msgstr "价格领域"
+
+#~ msgid "Hidden field"
+#~ msgstr "隐藏域"
+
+#~ msgid "Infobox"
+#~ msgstr "信息箱"
+
+#~ msgid "Submit Button"
+#~ msgstr "“提交”按钮"
+
+#~ msgid "Default Form"
+#~ msgstr "默认表"
+
+#~ msgid "Reset Form"
+#~ msgstr "重设表单“"
+
+#~ msgid "Include to Page or Post with"
+#~ msgstr "包括页面或邮政与"
+
+#~ msgid "Tag"
+#~ msgstr "标签"
+
+#~ msgid "If unused"
+#~ msgstr "如果不使用"
+
+#~ msgid "Select from 00-23"
+#~ msgstr "从00-23中选择"
+
+#~ msgid "Select from 00-59"
+#~ msgstr "从00-59中选择"
+
+#~ msgid "Select of definable numbers"
+#~ msgstr "选择自定义数字"
+
+#~ msgid "Select of excludable resources"
+#~ msgstr "选择的排他性资源"
+
+#~ msgid "Custom field, area, select, radio or checkbox"
+#~ msgstr "自定义字段，地区，选择，电台或复选框"
+
+#~ msgid "Price Field"
+#~ msgstr "价格字段"
+
+#~ msgid "Custom select, radio or checkbox with effect on price"
+#~ msgstr "自定义选择，影响价格的电台或复选框"
+
+#~ msgid "Show selected resources informations flexible"
+#~ msgstr "显示所选资源的信息灵活"
+
+#~ msgid "Text field and captcha image"
+#~ msgstr "文本字段和验证码图片"
+
+#~ msgid "Box with live price calculation"
+#~ msgstr "实时价格计算盒"
+
+#~ msgid "Box with errors"
+#~ msgstr "盒错误"
+
+#~ msgid "Submit button with definable text"
+#~ msgstr "“提交”按钮自定义文本"
+
+#~ msgid "No"
+#~ msgstr "不"
+
+#~ msgid "Tag in Form"
+#~ msgstr "在表格的标签"
+
+#~ msgid "or"
+#~ msgstr "或者"
+
+#~ msgid "Dont use"
+#~ msgstr "不使用"
+
+#~ msgid "in the same Form"
+#~ msgstr "在同一表格"
+
+#~ msgid "Custom field name entered multiple times - must be unique. Name:"
+#~ msgstr "自定义字段名称多次输入 - 必须是唯一的。产品名称："
+
+#~ msgid "Price field name entered multiple times - must be unique. Name:"
+#~ msgstr "价格字段的名称多次输入 - 必须是唯一的。产品名称："
+
+#~ msgid "This form is not valid"
+#~ msgstr "这种形式是不合法的"
+
+#~ msgid "This form is valid"
+#~ msgstr "这种形式是有效的"
+
+#~ msgid "Select type of Input you want to add"
+#~ msgstr "选择类型，输入你想添加"
+
+#~ msgid "Select Type of custom price field"
+#~ msgstr "Select Type of custom price field"
+
+#~ msgid "Add a dropdown select field with effect on the price to the form"
+#~ msgstr "添加下拉列表中选择字段对价的形式与效果"
+
+#~ msgid "Add a radio select field with effect on the price to the form"
+#~ msgstr "选择一个无线电领域对价的形式与效果"
+
+#~ msgid "Add a checkbox input with effect on the price to the form"
+#~ msgstr "添加一个复选框，输入的形式对价格的影响"
+
+#~ msgid "Exclude by ID"
+#~ msgstr "排除的ID"
+
+#~ msgid "Image"
+#~ msgstr "图片"
+
+#~ msgid "Type in value of submit button"
+#~ msgstr "在提交按钮的值类型"
+
+#~ msgid "Select type of hidden input"
+#~ msgstr "选择隐藏输入类型"
+
+#~ msgid ""
+#~ "Fix a resource to the form; dont use it with [resources] in the same form"
+#~ msgstr "资源，以固定的形式;不使用它以同样的形式[资源]"
+
+#~ msgid ""
+#~ "Fix an arrival date to the form; dont use it with [date-from] in the same "
+#~ "form"
+#~ msgstr "抵达日期的形式固定，不使用它[日期从以同样的形式"
+
+#~ msgid ""
+#~ "Fix a departure date to the form; dont use it with [date-to] in the same "
+#~ "form"
+#~ msgstr "固定出发日期的形式，不使用它[日期]以同样的形式"
+
+#~ msgid ""
+#~ "Fix billing units to the form; dont use it with [date-to] or [units] in "
+#~ "the same form"
+#~ msgstr "修复计费单位的形式，不使用它，[日期]或[单位]以同样的形式"
+
+#~ msgid ""
+#~ "Fix an amount of adults to the form; dont use it with [adults] in the "
+#~ "same form"
+#~ msgstr "固定金额形式的成人，不使用它与成人相同的形式"
+
+#~ msgid ""
+#~ "Fix an amount of childrens to the form; dont use it with [childs] in the "
+#~ "same form"
+#~ msgstr "固定金额形式的儿童不使用它以同样的形式[孩子]"
+
+#~ msgid "Type in a name for the"
+#~ msgstr "类型中的名称"
+
+#~ msgid "input you want to add"
+#~ msgstr "输入你想添加"
+
+#~ msgid "Type in a Name for the Checkbox"
+#~ msgstr "键入一个名称的复选框"
+
+#~ msgid "Type in a value for the checkbox"
+#~ msgstr "在该复选框的值类型"
+
+#~ msgid "The value has to match "
+#~ msgstr "值匹配"
+
+#~ msgid ""
+#~ "Price: negative for reduction %1$s  zero for no change %2$s positiv for "
+#~ "increase %3$s "
+#~ msgstr "价格：负减量%1$s 的零没有变化%2$s的阳性增加%3$s"
+
+#~ msgid "Type in a name for the dropdown select"
+#~ msgstr "键入一个名称的下拉列表中选择"
+
+#~ msgid "Type in the options field for the"
+#~ msgstr "的选项字段中键入"
+
+#~ msgid "The options field has to match "
+#~ msgstr "选项字段必须匹配"
+
+#~ msgid "Type in a Name for the"
+#~ msgstr "输入一个名称为"
+
+#~ msgid "Type in the options field"
+#~ msgstr "输入选项字段中"
+
+#~ msgid "Fill in the date of the departure date you want to fix"
+#~ msgstr "请填写你要修复之日起出发日期"
+
+#~ msgid "Select the amount of billing units you want to fix"
+#~ msgstr "选择你要修复的计费单位"
+
+#~ msgid "price per person"
+#~ msgstr "每人价格"
+
+#~ msgid "price per night"
+#~ msgstr "每晚价格"
+
+#~ msgid "show price"
+#~ msgstr "显示价格"
+
+#~ msgid "If the %3$s to calculate is beween %1$s and %2$s"
+#~ msgstr "如果在%3$s的计算之间的%1$s，%2$s"
+
+#~ msgid "If the %2$s to calculate is %1$s"
+#~ msgstr "如果%2$s的计算是%1$s "
+
+#~ msgid "Value of send button in popup form"
+#~ msgstr "发送“按钮，在弹出的形式价值"
+
+#~ msgid "Automatically approvement"
+#~ msgstr "自动除需"
+
+#~ msgid "Edit form:"
+#~ msgstr "编辑形式："
