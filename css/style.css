@@ -7,9 +7,7 @@ div.easy_pagination a {
 div.easy_pagination a.disabled {
 	cursor: default;
 }
-
-.navnavnav { padding:0 950px 0 0 ; } 
-
+.navnavnav { padding:0 950px 0 0 ; }
 .test2 {
 	text-decoration:none;
 	font-weight:normal;
@@ -161,6 +159,8 @@ h2 {
 	font-size: 14px;
 	font-weight: bold;
     margin: 3px !important;
+    margin-bottom: 5px;
+    display: block;
 }
 #filter-table{
 	background:#fff;
@@ -510,6 +510,135 @@ span.table-status- {
 	vertical-align:text-bottom;
 	margin-right:2px;
 }
-#reservation_important_guests_table{
-	margin-top: 7px;
+#reservation_important_guests_table{ margin-top: 7px; }
+.ui-datepicker-trigger {width: 16px; height: 16px;}
+b.legend, label.legend {
+    padding:4px;
+    display:inline-block;
+    min-width:65px;
+    color: #000;
 }
+
+#set_groundprice { margin-bottom: 0px; }
+
+table.premium tbody tr td,
+table.widefat tbody tr td,
+table.greyfat tbody tr td { vertical-align: text-top }
+
+#accordion_container {
+    width:35%;
+    display: inline-block;
+}
+#accordion {
+    display: inline-block;
+    width:99%;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: moz-none;
+    -ms-user-select: none;
+    user-select: none;
+    background: #fff;
+    border:1px solid #CCC;
+    border-left:0px;
+    cursor: default;
+}
+
+#accordion .ui-accordion-header {
+    border-bottom:1px solid #ccc;
+    padding: 5px 0px 5px 25px;
+    background-color: #ECECEC;
+    font-weight: normal;
+    margin:0px;
+    cursor: pointer;
+    background-image: url(images/sortright.gif);
+    background-repeat: no-repeat;
+    background-position: 11px;
+    outline: none;
+}
+#accordion .ui-accordion-header.ui-state-active {
+    background-image: url(images/sortdown.gif);
+    background-position: 10px;
+}
+#accordion .ui-accordion-header.ui-state-hover {background-color: #DFDFDF}
+#accordion div.ui-accordion-content { border-bottom:1px solid #ccc;padding: 4px 6px; }
+#accordion:last-child {border-bottom: 0px; }
+#accordion p, #accordion h4 { margin: 3px 0px; }
+#accordion p.desc {font-style: italic; padding:2px 0px; max-width: 300px; font-size: 13px}
+
+table.formtable {
+    width: 100%;
+    padding:0px;
+    margin: 0px;
+    border-collapse:collapse;
+}
+table.formtable thead th {
+    padding: 3px 6px;
+    font-weight: normal;
+    text-transform: uppercase;
+    border-bottom:1px solid #DEDEDE;
+    border-right:1px solid #DEDEDE;
+}
+table.formtable tbody tr:hover td {
+    background-color: #f0f0f0;
+    cursor: pointer;
+}
+table.formtable tbody td {
+    padding: 3px 6px;
+    border-bottom:1px solid #DEDEDE;
+    border-right:1px solid #DEDEDE;
+}
+table.formtable .hidden {display: table-row;}
+table.formtable thead th:nth-child(2){ text-align: left; }
+table.formtable thead th:nth-child(3),
+table.formtable tbody td:nth-child(3){ text-align: center }
+table.formtable tbody td:nth-child(1){ width: 25px;background-position: center center; background-repeat: no-repeat }
+table.formtable tbody td:last-of-type,
+table.formtable thead th:last-of-type {
+    border-right: 0px;
+}
+table.formtable tbody tr:last-of-type td { border-bottom: 0px; }
+#accordion div.table {
+    padding:0px;
+}
+
+ul.navtabs {display: inline-block;margin-bottom:0px;color:#111;margin: 0px;}
+ul.navtabs li {list-style:none; float:left;display:inline-block;padding:6px 10px;border-left:1px solid #BFBFBF;border-top:1px solid #BFBFBF;margin:0px;background:#ECECEC;	}
+ul.navtabs li:last-of-type {float: none;border-right:1px solid #BFBFBF;}
+ul.navtabs a {color:#4F4F4F;height: 100%;display:inline-block;text-decoration:none!important;}
+ul.navtabs li:hover {background:#DFDFDF;}
+ul.navtabs a.selected, ul.navtabs li.curr, ul.navtabs li.curr a {margin-bottom:0;background:#353535;border-color:#353535;color:#ffffff;font-weight: bold;cursor:default;}
+
+formtag {
+    background: #0191C8;
+    color: #fff;
+    cursor: pointer;
+}
+
+formtag.error {
+    background: #FF5C5C;
+    color: #fff;
+}
+formtag.taghover {
+    background: #A4CCE9;
+}
+
+table.formsubmit {background: #fff; width: 99%;border-collapse:collapse; }
+table.formsubmit td {background: #fff; width: 34%; border-bottom:1px solid #CCC; border-right:1px solid #CCC;text-align: center;font-weight: bold; padding:5px;}
+table.formsubmit td:first-of-type { background: #fff; width: 34%;}
+
+
+<!--[if IE]>
+#ieerror {
+    display: block !important;
+    line-height: 20px !important;
+    max-height: inherit !important;
+}
+<![endif]-->
+@media print,
+(-o-min-device-pixel-ratio: 5/4),
+(-webkit-min-device-pixel-ratio: 1.25),
+(min-resolution: 120dpi) {
+
+}
+

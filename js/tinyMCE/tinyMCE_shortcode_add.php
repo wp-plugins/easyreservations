@@ -1,12 +1,7 @@
 <?php
-//Load bootstrap file
-require('../../../../../wp-config.php');
-$wp->init(); $wp->parse_request();
-$wp->register_globals(); $wp->send_headers();
-
+require('../../../../../wp-load.php');
 global $wpdb;
-//Check for rights
-if ( !is_user_logged_in() || !current_user_can('edit_posts') ) 
+if ( !is_user_logged_in() || !current_user_can('edit_posts') )
 	wp_die(__("You are not allowed to access this file.", "easyReservations"));
 
 	$form = "SELECT option_name FROM ".$wpdb->prefix ."options WHERE option_name like 'reservations_form_%' "; // Get User made Forms
@@ -19,29 +14,28 @@ if ( !is_user_logged_in() || !current_user_can('edit_posts') )
 		}
 	}
 
-	$roomsoptions = easyreservations_resource_options();
+	$roomsoptions = easyreservations_resource_options('',0,'',true);
 ?><html xmlns="http://www.w3.org/1999/xhtml" style="background:#fff">
 	<head>
 	<title><?php _e("easyReservations Shortcode Creator", "easyReservations"); ?></title>
 	<script language="javascript" type='text/javascript' src='<?php echo get_option('siteurl'); ?>/wp-includes/js/jquery/jquery.js'></script>
 	<script language="javascript" type='text/javascript' src='<?php echo get_option('siteurl'); ?>/wp-admin/js/common.js'></script>
-	<script language="javascript" type='text/javascript' src='<?php echo get_option('siteurl'); ?>/wp-admin/js/utils.js'></script>
 	<script language="javascript" type="text/javascript" src="<?php echo get_option('siteurl'); ?>/wp-includes/js/tinymce/tiny_mce_popup.js"></script>
 	<script language="javascript" type="text/javascript" src="<?php echo get_option('siteurl'); ?>/wp-includes/js/tinymce/utils/form_utils.js"></script>
 	<script language="javascript" type='text/javascript' src='<?php echo get_option('siteurl'); ?>/wp-includes/js/hoverIntent.js'></script>
 	<script type='text/javascript'>
-	/* <![CDATA[ */
-	var commonL10n = {"warnDelete":"You are about to permanently delete the selected items.\n  'Cancel' to stop, 'OK' to delete."};
-	/* ]]> */
+		/* <![CDATA[ */
+		var commonL10n = {"warnDelete":"You are about to permanently delete the selected items.\n  'Cancel' to stop, 'OK' to delete."};
+		/* ]]> */
 	</script>
 	<script type='text/javascript' src='<?php echo get_option('siteurl'); ?>/wp-includes/js/jquery/jquery.color.min.js'></script>
 	<script type='text/javascript' src='<?php echo get_option('siteurl'); ?>/wp-includes/js/jquery/ui/jquery.ui.widget.min.js'></script>
 	<script type='text/javascript' src='<?php echo get_option('siteurl'); ?>/wp-includes/js/jquery/ui/jquery.ui.position.min.js'></script>
 	<script type='text/javascript' src='<?php echo get_option('siteurl'); ?>/wp-includes/js/wp-pointer.js'></script>
 	<script type='text/javascript'>
-	/* <![CDATA[ */
-	var thickboxL10n = {"next":"Next >","prev":"< Prev","image":"Image","of":"of","close":"Close","noiframes":"This feature requires inline frames. You have iframes disabled or your browser does not support them.","loadingAnimation":"<?php echo addslashes(get_option('siteurl')); ?>\/wp-includes\/js\/thickbox\/loadingAnimation.gif","closeImage":"http:\/\/127.0.0.1\/er\/wp-includes\/js\/thickbox\/tb-close.png"};
-	/* ]]> */
+		/* <![CDATA[ */
+		var thickboxL10n = {"next":"Next >","prev":"< Prev","image":"Image","of":"of","close":"Close","noiframes":"This feature requires inline frames. You have iframes disabled or your browser does not support them.","loadingAnimation":"<?php echo addslashes(get_option('siteurl')); ?>\/wp-includes\/js\/thickbox\/loadingAnimation.gif","closeImage":"http:\/\/127.0.0.1\/er\/wp-includes\/js\/thickbox\/tb-close.png"};
+		/* ]]> */
 	</script>
 	<style>
 		input[tcype="text"], select {
@@ -108,7 +102,7 @@ if ( !is_user_logged_in() || !current_user_can('edit_posts') )
 		</form>
 	</body>
 </html>
-<script>
+<script type='text/javascript'>
 function jumpto(x){ // Chained inputs;
 
 	var click = 0;
@@ -249,17 +243,13 @@ function insertEasyShortcode() {
 	tinyMCEPopup.close();
 	return;
 }
-</script>
-<script type="text/javascript">
+
 var userSettings = {
 		'url': '<?php echo SITECOOKIEPATH; ?>',
 		'uid': '<?php if ( ! isset($current_user) ) $current_user = wp_get_current_user(); echo $current_user->ID; ?>',
 		'time':'<?php echo time() ?>'
 	},
 	ajaxurl = '<?php echo admin_url( 'admin-ajax.php', 'relative' ); ?>',
-	pagenow = '<?php echo $current_screen->id; ?>',
-	typenow = '<?php echo $current_screen->post_type; ?>',
-	adminpage = '<?php echo $admin_body_class; ?>',
 	thousandsSeparator = '<?php echo addslashes( $wp_locale->number_format['thousands_sep'] ); ?>',
 	decimalPoint = '<?php echo addslashes( $wp_locale->number_format['decimal_point'] ); ?>',
 	isRtl = <?php echo (int) is_rtl(); ?>;

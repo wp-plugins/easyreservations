@@ -130,9 +130,14 @@ td.hover  { background: #C6C6C6; }
 	border-style:none;
 	border-left: 1px dotted #9E9E9E !important;
 	border-bottom: 1px solid #9E9E9E !important;
+    overflow:hidden;
+    text-shadow:none;
+    text-decoration:none;
+    font: normal 12px Arial, sans-serif;
+    vertical-align:middle;
 }
 .overview tbody tr td.ov-no-border {
-		border-left: 0px !important;
+    border-left: 0px !important;
 }
 .overview tbody tr td.er_overview_cell  {
 	border-left: 0px !important;

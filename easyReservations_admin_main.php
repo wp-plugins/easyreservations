@@ -1,6 +1,6 @@
 <?php
 
-function reservation_main_page() {
+function reservation_main_page(){
 	wp_enqueue_style( 'datestyle');
 	$main_options = get_option("reservations_main_options");
 	$show = $main_options['show'];
@@ -28,7 +28,6 @@ function reservation_main_page() {
 		if(isset($_GET['bulkArr'])) {
 			$to=0;
 			$listes=$_GET['bulkArr'];
-
 			if($_GET['bulk']==1){ //  If Move to Trash 
 				if(count($listes)  > 1) {
 					foreach($listes as $id){
@@ -46,8 +45,7 @@ function reservation_main_page() {
 				if ($to!=1) $linkundo=implode("&bulkArr[]=", $listes); else $linkundo=$listes;
 				if($to==1)  $anzahl=__('Reservation', 'easyReservations'); else $anzahl=$to.' '.__('Reservations', 'easyReservations');
 				$easy_errors[] = array( 'updated', $anzahl.' '.__( 'moved to trash' , 'easyReservations' ).'. <a href="'.wp_nonce_url('admin.php?page=reservations&bulkArr[]='.$linkundo.'&bulk=2', 'easy-main-bulk').'">'.__( 'Undo' , 'easyReservations' ).'</a>');
-			}
-			if($_GET['bulk']=="2"){ //  If Undo Trashing
+			} elseif($_GET['bulk']=="2"){ //  If Undo Trashing
 				if(count($listes)  > "1" ) { 
 					foreach($listes as $id){
 						$to++;
@@ -63,9 +61,7 @@ function reservation_main_page() {
 				}
 				if($to==1) $anzahl=__('Reservation', 'easyReservations'); else $anzahl=$to.' '.__('Reservations', 'easyReservations');
 				$easy_errors[] = array( 'updated', $anzahl.' '.__( 'restored from trash' , 'easyReservations' ));
-			}
-			if($_GET['bulk']=="3"){ //  If Delete Permanently 
-
+			} elseif($_GET['bulk']=="3"){ //  If Delete Permanently
 				if(count($listes)  > "1" ) { 
 					foreach($listes as $id){
 						$to++;
@@ -79,7 +75,6 @@ function reservation_main_page() {
 					$theres->deleteReservation();
 					$theres->destroy();
 				}
-
 			if($to==1) $anzahl=__('Reservation', 'easyReservations'); else $anzahl=$to.' '.__('Reservations', 'easyReservations');
 			$easy_errors[] = array( 'updated', $anzahl.' '.__('deleted permanently', 'easyReservations'));
 			}
@@ -150,38 +145,41 @@ function reservation_main_page() {
 			$res->user = (int) $_POST["edit_user"];
 			if(isset($_POST["roomexactly"])) $res->resourcenumber = $_POST["roomexactly"];
 			else $res->resourcenumber = 0;
-			$res->reservated = strtotime($_POST["reservation_date"]);
-			$res->arrival = (strtotime($_POST["date"])+($from_hour*60));
-			$res->departure = (strtotime($_POST["dateend"])+($to_hour*60));
-			if(!empty($customfields))	$res->Customs($customfields, true, false, false, 'cstm');
-			if(!empty($custompfields)) $res->Customs($custompfields, true, false, true, 'cstm');
-			$res = apply_filters('easy-edit-prices', $res);
-
-			$set_price = '';
-			if(isset($_POST["priceset"]) && !empty($_POST["priceset"])) $set_price = easyreservations_check_price($_POST["priceset"]);
-			if(!isset($_POST["EDITwaspaid"]) || empty($_POST["EDITwaspaid"]) || $_POST["EDITwaspaid"] < 0 || $_POST["EDITwaspaid"] === null ) $paid = 0;
-			else $paid = easyreservations_check_price($_POST["EDITwaspaid"]);
-			if($set_price !== false && $paid !== false) $res->pricepaid = $set_price.';'.$paid;
-			else $easy_errors[] = array( 'error' , __( 'Price couldn\'t be fixed, input isn\'t valid money format' , 'easyReservations' ));
-			if(isset($_POST["sendthemail"])) $mail = 'reservations_email_to_user_admin_edited'; else $mail = '';
-
-			if($_POST['copy'] == 'no'){
+			$reservation_date = EasyDateTime::createFromFormat(RESERVATIONS_DATE_FORMAT.' H:i:s', $_POST["reservation_date"].' 00:00:00');
+			$arrival = EasyDateTime::createFromFormat(RESERVATIONS_DATE_FORMAT.' H:i:s', $_POST["date"].' 00:00:00');
+			$departure = EasyDateTime::createFromFormat(RESERVATIONS_DATE_FORMAT.' H:i:s', $_POST["dateend"].' 00:00:00');
+			if($arrival instanceof DateTime && $departure instanceof DateTime && $reservation_date instanceof DateTime){
+				$res->reservated = $reservation_date->getTimestamp();
+				$res->arrival = $arrival->getTimestamp()+($from_hour*60);
+				$res->departure = $departure->getTimestamp()+($to_hour*60);
+				if(!empty($customfields))	$res->Customs($customfields, true, false, false, 'cstm');
+				if(!empty($custompfields)) $res->Customs($custompfields, true, false, true, 'cstm');
+	      $res->getTimes();
+				$res = apply_filters('easy-edit-prices', $res);
+	      $set_price = '';
+	      if(isset($_POST["priceset"]) && !empty($_POST["priceset"])) $set_price = easyreservations_check_price($_POST["priceset"]);
+	      if(!isset($_POST["EDITwaspaid"]) || empty($_POST["EDITwaspaid"]) || $_POST["EDITwaspaid"] < 0 || $_POST["EDITwaspaid"] === null ) $paid = 0;
+	      else $paid = easyreservations_check_price($_POST["EDITwaspaid"]);
+	      if($set_price !== false && $paid !== false) $res->pricepaid = $set_price.';'.$paid;
+	      else $easy_errors[] = array( 'error' , __( 'Price couldn\'t be fixed, input isn\'t valid money format' , 'easyReservations' ));
+	      if(isset($_POST["sendthemail"])) $mail = 'reservations_email_to_user_admin_edited'; else $mail = '';
 				global $easy_errors;
-				$return = $res->editReservation(array('all'), true, $mail, $res->email);
-				if(!$return) $easy_errors[] = array( 'updated' , __( 'Reservation edited.' , 'easyReservations' ).'</p><p><a href="admin.php?page=reservations">&#8592; Back to Dashboard</a>');
-				else{
-					global $easy_errors;
-					$easy_errors = array_merge_recursive((array) $easy_errors, (array) $return);
-					$res->destroy();
+				if($_POST['copy'] == 'no'){
+					$return = $res->editReservation(array('all'), true, $mail, $res->email);
+					if(!$return) $easy_errors[] = array( 'updated' , __( 'Reservation edited.' , 'easyReservations' ).'</p><p><a href="admin.php?page=reservations">&#8592; Back to Dashboard</a>');
+					else {
+						$easy_errors = array_merge_recursive((array) $easy_errors, (array) $return);
+						$res->destroy();
+					}
+				} else {
+					$preid = $res->id;
+					$res->id = 0;
+					$return = $res->addReservation();
+					if(!$return){
+						$easy_errors[] = array( 'updated' , sprintf(__( 'Reservation #%1$d copied as #%2$d' , 'easyReservations'), $preid, $res->id ));
+						?><meta http-equiv="refresh" content="0; url=admin.php?page=reservations&edit=<?php echo $res->id; ?>"><?php
+					} else $res->destroy();
 				}
-			} else {
-				$preid = $res->id;
-				$res->id = 0;
-				$return = $res->addReservation();
-				if(!$return){
-					$easy_errors[] = array( 'updated' , sprintf(__( 'Reservation #%1$d copied as #%2$d' , 'easyReservations'), $preid, $res->id ));
-					?><meta http-equiv="refresh" content="0; url=admin.php?page=reservations&edit=<?php echo $res->id; ?>"><?php
-				} else $res->destroy();
 			}
 		} catch(easyException $e){
 			$easy_errors[] = array( 'error' , $e->getMessage());
@@ -214,39 +212,45 @@ function reservation_main_page() {
 		else $resadults = 1;
 		if(isset($_POST["childs"])) $reschilds = (int) $_POST["childs"];
 		else $reschilds = 1;
-		$res = new Reservation(false, array('name' => $_POST["name"], 'email' => $_POST["email"], 'arrival' => (strtotime($_POST["date"])+($from_hour*60)),'departure' => (strtotime($_POST["dateend"])+($to_hour*60)),'resource' => (int) $_POST["room"],'resourcenumber' => $resresourcenumber,'country' => $_POST["country"], 'adults' => $resadults,	'custom' => maybe_unserialize($ADDcustomFields),'prices' => maybe_unserialize($ADDcustomPfields),'childs' => $reschilds,'reservated' => strtotime($_POST["reservation_date"]),'status' => $_POST["reservationStatus"],'user' => $_POST["edit_user"]));
-		try {
-			$thePriceAdd = '';
 
-			if(isset($_POST["fixReservation"]) && $_POST["fixReservation"] == "on"){
-				if($_POST["setChoose"] == "custm"){
-					$thePriceAdd = easyreservations_check_price($_POST["priceAmount"]);
-				} else {
-					$res->Calculate();
-					$thePriceAdd = easyreservations_check_price($res->price);
+		$arrival = EasyDateTime::createFromFormat(RESERVATIONS_DATE_FORMAT.' H:i:s', $_POST["date"].' 00:00:00');
+		$departure = EasyDateTime::createFromFormat(RESERVATIONS_DATE_FORMAT.' H:i:s', $_POST["dateend"].' 00:00:00');
+		$reservation_date = EasyDateTime::createFromFormat(RESERVATIONS_DATE_FORMAT.' H:i:s', $_POST["reservation_date"].' 00:00:00');
+		if(!$reservation_date instanceof DateTime) $reservation_date = time();
+		if($arrival instanceof DateTime && $departure instanceof DateTime){
+			$res = new Reservation(false, array('name' => $_POST["name"], 'email' => $_POST["email"], 'arrival' => $arrival->getTimestamp()+($from_hour*60),'departure' => $departure->getTimestamp()+($to_hour*60),'resource' => (int) $_POST["room"],'resourcenumber' => $resresourcenumber,'country' => $_POST["country"], 'adults' => $resadults,	'custom' => maybe_unserialize($ADDcustomFields),'prices' => maybe_unserialize($ADDcustomPfields),'childs' => $reschilds,'reservated' => $reservation_date->getTimestamp(),'status' => $_POST["reservationStatus"],'user' => $_POST["edit_user"]));
+			try {
+				$thePriceAdd = '';
+
+				if(isset($_POST["fixReservation"]) && $_POST["fixReservation"] == "on"){
+					if($_POST["setChoose"] == "custm"){
+						$thePriceAdd = easyreservations_check_price($_POST["priceAmount"]);
+					} else {
+						$res->Calculate();
+						$thePriceAdd = easyreservations_check_price($res->price);
+					}
 				}
+
+				if(!isset($_POST["paidAmount"]) || empty($_POST["paidAmount"]) || $_POST["paidAmount"] < 0 || $_POST["paidAmount"] === null ) $thePricePaid = 0;
+				else $thePricePaid = easyreservations_check_price($_POST["paidAmount"]);
+
+				if($thePriceAdd !== false && $thePricePaid !== false) $res->pricepaid = $thePriceAdd.';'.$thePricePaid;
+				else $easy_errors[] = array( 'error' , __( 'Price couldn\'t be fixed, input isn\'t valid money format' , 'easyReservations' ));
+
+				$return = $res->addReservation();
+				if(!$return){
+					$easy_errors[] = array( 'updated' , sprintf(__( 'Reservation #%d added' , 'easyReservations' ), $res->id));
+					do_action('easy-add-stream', 'reservation', 'add', '', $res->id);
+					?><meta http-equiv="refresh" content="0; url=admin.php?page=reservations&edit=<?php echo $res->id; ?>"><?php
+				} else{
+					global $easy_errors;
+					$easy_errors = array_merge_recursive((array) $easy_errors, (array) $return);
+					$res->destroy();
+				}
+			} catch(Exception $e){
+				$easy_errors[] = array( 'error' , $e->getMessage());
 			}
-
-			if(!isset($_POST["paidAmount"]) || empty($_POST["paidAmount"]) || $_POST["paidAmount"] < 0 || $_POST["paidAmount"] === null ) $thePricePaid = 0;
-			else $thePricePaid = easyreservations_check_price($_POST["paidAmount"]);
-
-			if($thePriceAdd !== false && $thePricePaid !== false) $res->pricepaid = $thePriceAdd.';'.$thePricePaid;
-			else $easy_errors[] = array( 'error' , __( 'Price couldn\'t be fixed, input isn\'t valid money format' , 'easyReservations' ));
-
-			$return = $res->addReservation();
-
-			if(!$return){
-				$easy_errors[] = array( 'updated' , sprintf(__( 'Reservation #%d added' , 'easyReservations' ), $res->id));
-				do_action('easy-add-stream', 'reservation', 'add', '', $res->id);
-				?><meta http-equiv="refresh" content="0; url=admin.php?page=reservations&edit=<?php echo $res->id; ?>"><?php
-			} else{
-				global $easy_errors;
-				$easy_errors = array_merge_recursive((array) $easy_errors, (array) $return);
-				$res->destroy();
-			}
-		} catch(easyException $e){
-			$easy_errors[] = array( 'error' , $e->getMessage());
-		}
+		} else $easy_errors[] = array( 'error' , __( 'Wrong date format' , 'easyReservations' ));
 	}
 /* - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + GET INFORMATIONS IF A RESERVATION IS CALLED DIRECTLY (view,edit,approve,reject,sendmail) + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + */
 
@@ -267,7 +271,7 @@ function reservation_main_page() {
 
 			$get_role = get_post_meta($res->resource, 'easy-resource-permission', true);
 			if(!empty($get_role) && !current_user_can($get_role)) die('You havn\'t the rights to access this reservation');
-			$information = '<small>'.__( 'This is how the price would get calculated now. After changing Filters/Groundprice/Settings or the reservations price it wont match the fixed price anymore.' , 'easyReservations' ).'</small>';
+			$information = '<small>'.__( 'This is how the price would get calculated now. After changing filters, base price or settings or the reservations price it wont match the fixed price anymore.' , 'easyReservations' ).'</small>';
 			$pricepaid_explode = explode(";", $res->pricepaid);
 		} catch(easyException $e){
 			$easy_errors[] = array( 'error' , $e->getMessage());
@@ -282,14 +286,17 @@ function reservation_main_page() {
 		$moreget+=ceil(($res->arrival-strtotime(date("d.m.Y", time()))-259200)/86400);
 	}
 
-	if(isset($res)) $res->Calculate(true);
+	if(isset($res)){
+    $res->getTimes();
+    $res->Calculate(true);
+  }
 
 	if(isset($sendmail) && isset($_POST['thesendmail'])){
-		$theres = new Reservation($sendmail);
+		$theres = new Reservation((int) $sendmail);
 		try {
-			$theres->sendMail('reservations_email_sendmail', $theres->email);
+			$test = $theres->sendMail('reservations_email_sendmail', $theres->email);
 			$easy_errors[] = array( 'updated' , __( 'Email sent successfully', 'easyReservations' ));
-		} catch(easyException $e){
+		} catch(Exception $e){
 			$easy_errors[] = array( 'error' , $e->getMessage());
 		}
 	} 
@@ -319,8 +326,11 @@ function reservation_main_page() {
 				if(isset($_GET['approve'])) $easy_errors[] = array( 'updated' , __( 'Reservation approved', 'easyReservations' ));
 				else $easy_errors[] = array( 'updated' , __( 'Reservation rejected', 'easyReservations' ));
 				?><meta http-equiv="refresh" content="0; url=admin.php?page=reservations"><?php
+			} else {
+				if(is_array($return)) $easy_errors[] = array( 'error' , $return[0]);
+				else $easy_errors[] = array( 'error' , $return);
 			}
-		} catch(easyException $e){
+		} catch(Exception $e){
 			$easy_errors[] = array( 'error' , $e->getMessage());
 		}
 	} elseif(isset($_POST['approvelink'])){
@@ -347,10 +357,11 @@ function reservation_main_page() {
 				selects[<?php echo $roome->ID; ?>] = new Array('<?php echo $select; ?>');<?php
 			}
 		} ?>
+
 		if(selects[resourceId]){
 			document.getElementById('the_room_exactly').innerHTML = selects[resourceId];
 			if(selected != 0) document.getElementById('roomexactly').selectedIndex = selected-1;
-			else document.getElementById('roomexactly').selectedIndex = document.getElementById('roomexactly').length;
+			else document.getElementById('roomexactly').selectedIndex = 0;
 		} else document.getElementById('the_room_exactly').innerHTML = '';
 	}
 </script>
@@ -421,11 +432,11 @@ if($show['show_overview']==1){ //Hide Overview completly
 
 		if((y != "" || x != "") && save == 0){
 			save = 1;
-			resObjektThree.open('post', '<?php echo WP_PLUGIN_URL; ?>/easyreservations/overview.php', true);
+			resObjektThree.open('post', '<?php echo WP_PLUGIN_URL; ?>/easyreservations/overview.php?rand=<?php echo rand(1,999); ?>', true);
 			resObjektThree.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 			resObjektThree.onreadystatechange = handleResponseValidate;
 			resObjektThree.send(string + '&interval=' + interval);
-			if(document.getElementById('pickForm')) document.getElementById('pickForm').innerHTML = '<img style="vertical-align:text-bottom;" src="<?php echo RESERVATIONS_URL; ?>images/loading1.gif">';
+			if(document.getElementById('pickForm')) document.getElementById('pickForm').innerHTML = '<img style="vertical-align:text-bottom;margin-left:12px" src="<?php echo RESERVATIONS_URL; ?>images/loading1.gif">';
 		}
 	}
 
@@ -439,7 +450,7 @@ if($show['show_overview']==1){ //Hide Overview completly
 			Click = 0;
 			var from = document.getElementById('datepicker');
 			var to = document.getElementById('datepicker2');
-			if(countov != 0 && window.dofakeClick && from && from.value != '<?php if(isset($res->arrival)) echo date('d.m.Y', $res->arrival); ?>' && to && to != '<?php if(isset($res->departure)) echo date('d.m.Y', $res->departure); ?>'){
+			if(countov != 0 && window.dofakeClick && from && from.value != '<?php if(isset($res->arrival)) echo date(RESERVATIONS_DATE_FORMAT, $res->arrival); ?>' && to && to != '<?php if(isset($res->departure)) echo date(RESERVATIONS_DATE_FORMAT, $res->departure); ?>'){
 				dofakeClick(2);
 			}
 			countov++;
@@ -454,7 +465,7 @@ if($show['show_overview']==1){ //Hide Overview completly
 			changeYear: true,
 			firstDay: 1,
 			buttonText: '<?php echo __( 'choose date' , 'easyReservations' ); ?>',
-			showOn: 'both',
+			showOn: 'button',
 			buttonImage: '<?php echo RESERVATIONS_URL; ?>images/day.png',
 			buttonImageOnly: true,
 			defaultDate: +10,
@@ -479,12 +490,12 @@ if($show['show_overview']==1){ //Hide Overview completly
 				if(curCol) jQuery('#overview').column(curCol).removeClass("hover"); 
 			});
 		});
-		
+
 		jQuery('#jqueryTooltip').destroy;
 		var jqueryTooltip = jQuery('<div id="jqueryTooltip"></div>');
 		jQuery('body').append(jqueryTooltip);
 		jQuery('*[title][title!=""]').hover(function(e) {
-				var ae = jQuery(this);
+			var ae = jQuery(this);
 			var title = ae.attr('title');
 			ae.attr('title', '');
 			ae.data('titleText', title);
@@ -515,21 +526,21 @@ if($show['show_overview']==1){ //Hide Overview completly
 	var Click = 0;
 	function clickOne(t,d,color,mode){
 		deletecActiveRes();
-		if( Click == 0){
-			if(t){
-				if(color) var color = color; else var color = "black";
-				document.getElementById("hiddenfieldclick").value=t.id;
-				if(mode == 1) t.style.background='url("<?php echo RESERVATIONS_URL; ?>images/'+ color +'_middle.png") repeat-x';
-				else t.style.background='url("<?php echo RESERVATIONS_URL; ?>images/'+ color +'_start.png") right top no-repeat, '+t.abbr;
-				<?php if(isset($edit) || isset($add)){ ?>document.getElementById('datepicker').value=formDate(d);<?php } elseif(isset($nonepage)){ ?>document.getElementById('room-saver-from').value=d;<?php } ?>
-				if(document.getElementById('from-time-hour')){
-					var theDate = new Date(d*1000);
-					if(the_ov_interval == 3600) document.getElementById('from-time-hour').selectedIndex = theDate.getHours();
-					else document.getElementById('from-time-hour').selectedIndex = 12;
-				}
-				if(document.getElementById('resetdiv')) document.getElementById('resetdiv').innerHTML='<img src="<?php echo RESERVATIONS_URL; ?>images/refreshBlack.png" style="vertical-align:bottom;cursor:pointer;" onclick="resetSet()">';
-				Click = 1;
+		if(Click == 0 && t){
+			if(color) var color = color; else var color = "black";
+			document.getElementById("hiddenfieldclick").value=t.id;
+      if(!d) d = jQuery(t).attr('date');
+      if(mode == 1) t.style.background='url("<?php echo RESERVATIONS_URL; ?>images/'+ color +'_middle.png") repeat-x';
+			else t.style.background='url("<?php echo RESERVATIONS_URL; ?>images/'+ color +'_start.png") right top no-repeat, '+t.abbr;
+			<?php if(isset($edit) || isset($add)){ ?>document.getElementById('datepicker').value=easyFormatDate(d);<?php } elseif(isset($nonepage)){ ?>document.getElementById('room-saver-from').value=d;<?php } ?>
+			if(document.getElementById('from-time-hour')){
+				var theDate = easyTimestampToDate(d*1000);
+				if(the_ov_interval == 3600) document.getElementById('from-time-hour').selectedIndex = theDate.getHours();
+				else document.getElementById('from-time-hour').selectedIndex = 12;
 			}
+			if(document.getElementById('resetdiv')) document.getElementById('resetdiv').innerHTML='<img src="<?php echo RESERVATIONS_URL; ?>images/refreshBlack.png" style="vertical-align:bottom;cursor:pointer;" onclick="resetSet()">';
+			Click = 1;
+
 		}
 	}
 
@@ -555,9 +566,10 @@ if($show['show_overview']==1){ //Hide Overview completly
 				if(way == 0) t.style.background='url("<?php echo RESERVATIONS_URL; ?>images/'+ color +'_end.png") left top no-repeat, '+t.abbr;
 				else t.style.background='url("<?php echo RESERVATIONS_URL; ?>images/'+ color +'_middle.png") repeat-x';
 				jQuery(t).addClass('ov-no-border');
-				<?php if(isset($edit) || isset($add)){ ?>document.getElementById('datepicker2').value=formDate(d);<?php } elseif(isset($nonepage)){ ?>document.getElementById('room-saver-to').value=d;<?php } ?>
+        if(!d) d = jQuery(t).attr('date');
+				<?php if(isset($edit) || isset($add)){ ?>document.getElementById('datepicker2').value=easyFormatDate(d);<?php } elseif(isset($nonepage)){ ?>document.getElementById('room-saver-to').value=d;<?php } ?>
 				if(document.getElementById('to-time-hour')){
-					var theDate = new Date(d*1000);
+          var theDate = easyTimestampToDate(d*1000);
 					if(the_ov_interval == 3600) document.getElementById('to-time-hour').selectedIndex = theDate.getHours();
 					else document.getElementById('to-time-hour').selectedIndex = 12;
 				}
@@ -685,8 +697,9 @@ if($show['show_overview']==1){ //Hide Overview completly
 	}
 
 	<?php if($overview_options['overview_onmouseover'] == 1){ ?>
-	function hoverEffect(t,d) {
-		if(d == 0) document.getElementById("ov_datefield").innerHTML = ""; else document.getElementById("ov_datefield").innerHTML = ' (' + d + ')';
+	function hoverEffect(t,d){
+    if(!d) d = easyFormatDate(jQuery(t).attr('date'));
+    if(d == 0) document.getElementById("ov_datefield").innerHTML = ""; else document.getElementById("ov_datefield").innerHTML = ' (' + d + ')';
 		if(Click == 1){
 			var Last = document.getElementById("hiddenfieldclick").value;
 			var Now = t.id;
@@ -823,13 +836,11 @@ if($show['show_overview']==1){ //Hide Overview completly
 	});
 </script><?php
 	}
-
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 																			//START LIST//
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 if(!isset($approve) && !isset($delete) && !isset($view) && !isset($edit) && !isset($sendmail) && !isset($add)){
 	if(!isset($show['show_statistics']) || $show['show_statistics'] == 1) do_action('easy-dashboard-between');
-
 	if($show['show_table']==1){ ?>
 	<div id="showError"></div>
 	<div id="easy-table-div"></div>
@@ -930,8 +941,8 @@ if(!isset($approve) && !isset($delete) && !isset($view) && !isset($edit) && !iss
 		} if($show['show_today']==1){ ?>
 		<?php
 			$rooms = 0;
-			foreach ( $the_rooms_array as $theroom ) {
-				$roomcount = get_post_meta($theroom->ID, 'roomcount', true);
+			foreach ( $the_rooms_array as $theresource ) {
+				$roomcount = get_post_meta($theresource->ID, 'roomcount', true);
 				if(is_array($roomcount)) $roomcount = $roomcount[0];
 				$rooms += $roomcount;
 			}
@@ -973,7 +984,7 @@ if(!isset($approve) && !isset($delete) && !isset($view) && !isset($edit) && !iss
 										<td style="text-align:right;"><?php echo $depature->formatPrice(true); ?></td>
 									</tr><?php 
 									$depature->destroy();
-								} 
+								}
 								if($count == 0) echo '<tr><td>'.__('None' ,'easyReservations').'</td></tr>'; ?>
 							</tbody>
 							<thead>
@@ -1008,6 +1019,23 @@ if(!isset($approve) && !isset($delete) && !isset($view) && !isset($edit) && !iss
 		</table>
 	<?php } ?>
 	<script>
+		jQuery('select[name="export_tech"]').bind('change', function(){
+			if(jquery(this).value == 'xls') exportExcelCharset();
+			else jQuery('#charset').html('');
+		});
+		function exportExcelCharset(){
+			var charset = '<select name="charset">';
+			jQuery.each(['UTF-8', 'UCS-4', 'UCS-4BE', 'UCS-4LE', 'UCS-2', 'UCS-2BE', 'UCS-2LE', 'UTF-32', 'UTF-32BE', 'UTF-32LE', 'UTF-16', 'UTF-16BE', 'UTF-16LE', 'UTF-7', 'UTF7-IMAP',
+			'ASCII', 'EUC-JP', 'SJIS', 'eucJP-win', 'SJIS-win', 'ISO-2022-JP', 'ISO-2022-JP-MS', 'CP932', 'CP51932', 'SJIS-mac', 'SJIS-Mobile#DOCOMO', 'SJIS-Mobile#KDDI', 'SJIS-Mobile#SOFTBANK',
+			'UTF-8-Mobile#DOCOMO', 'UTF-8-Mobile#KDDI-A', 'UTF-8-Mobile#KDDI-B', 'UTF-8-Mobile#SOFTBANK', 'ISO-2022-JP-MOBILE#KDDI', 'JIS', 'JIS-ms', 'CP50220', 'CP50220raw', 'CP50220', 'CP50222',
+			'ISO-8859-1', 'ISO-8859-2', 'ISO-8859-3', 'ISO-8859-4', 'ISO-8859-5', 'ISO-8859-6', 'ISO-8859-7', 'ISO-8859-8', 'ISO-8859-9', 'ISO-8859-10', 'ISO-8859-13', 'ISO-8859-14', 'ISO-8859-15',
+			'byte2be', 'byte2le', 'byte4be', 'byte4le', 'BASE64', 'HTML-ENTITIES', '7bit', '8bit', 'EUC-CN', 'CP936', 'GB18030', 'HZ', 'EUC-TW', 'CP950', 'BIG-5', 'EUC-KR', 'UHC', 'ISO-2022-KR',
+			'Windows-1251', 'Windows-1252', 'CP866', 'KOI8-R'], function(k,v){
+          charset += '<option value="'+v+'">'+v+'</option>';
+			});
+      charset += '</select>';
+			jQuery('#charset').html('Charset: '+charset);
+		}
 		function exportSelect(x){
 			if(x == "sel"){
 				var ExportOptions = '<div class="fakehr"></div><span style="float:left;width:100px;"><b><?php echo addslashes(__( 'Type' , 'easyReservations' ));?></b><br><input type="checkbox" name="approved" checked> <?php echo addslashes(__( 'Approved' , 'easyReservations' ));?><br><input type="checkbox" name="pending" checked> <?php echo addslashes(__( 'Pending' , 'easyReservations' ));?><br><input type="checkbox" name="rejected" checked> <?php echo addslashes(__( 'Rejected' , 'easyReservations' ));?><br><input type="checkbox" name="trashed" checked> <?php echo addslashes(__( 'Trashed' , 'easyReservations' )); ?></span>';
@@ -1033,7 +1061,7 @@ if(!isset($approve) && !isset($delete) && !isset($view) && !isset($edit) && !iss
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// EDIT RESERVATION /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	if(isset($approve) || isset($delete) || isset($view) || isset($sendmail)){ ?>
-	<table style="width:99%;margin-top:8px" cellspacing="0"><tr><td style="width:30%;" valign="top">
+  <table style="width:99%;margin-top:8px" cellspacing="0"><tr><td style="width:30%;" valign="top">
 		<table class="<?php echo RESERVATIONS_STYLE; ?> withicons">
 			<thead>
 				<tr>
@@ -1057,27 +1085,29 @@ if(!isset($approve) && !isset($delete) && !isset($view) && !isset($edit) && !iss
 					<td nowrap style="width:60%"><b><?php echo $res->name;?></b></td>
 				</tr>
 				<tr class="alternate">
-					<td nowrap style="width:40%"><img style="vertical-align:text-bottom;" src="<?php echo RESERVATIONS_URL; ?>images/day.png"> <?php printf ( __( 'Date' , 'easyReservations' ));?></td> 
-					<td><b><?php echo date(RESERVATIONS_DATE_FORMAT.' H:i',$res->arrival);?> - <?php echo date(RESERVATIONS_DATE_FORMAT.' H:i', $res->departure);?> 
+					<td nowrap style="width:40%"><img style="vertical-align:text-bottom;width:16px;height:16px;" src="<?php echo RESERVATIONS_URL; ?>images/day.png"> <?php printf ( __( 'Date' , 'easyReservations' ));?></td>
+					<td><b><?php echo date(RESERVATIONS_DATE_FORMAT_SHOW,$res->arrival); ?> - <?php echo date(RESERVATIONS_DATE_FORMAT_SHOW, $res->departure);?>
 							<small>(<?php echo $res->times.' '.easyreservations_interval_infos($the_rooms_intervals_array[$res->resource], 0, $res->times); ?>)</small></b></td>
 				</tr>
+
 				<tr>
 					<td nowrap><img style="vertical-align:text-bottom;" src="<?php echo RESERVATIONS_URL; ?>images/email.png"> <?php printf ( __( 'Email' , 'easyReservations' ));?></td> 
 					<td><b><?php echo $res->email;?></b></td>
 				</tr>
 				<tr class="alternate">
-					<td nowrap><img style="vertical-align:text-bottom;" src="<?php echo RESERVATIONS_URL; ?>images/persons.png"> <?php printf ( __( 'Persons' , 'easyReservations' ));?></td> 
-					<td><?php printf ( __( 'Adults' , 'easyReservations' ));?>: <b><?php echo $res->adults;?></b> <?php printf ( __( 'Children\'s' , 'easyReservations' ));?>: <b><?php echo $res->childs;?></b></td>
+					<td nowrap><img style="vertical-align:text-bottom;" src="<?php echo RESERVATIONS_URL; ?>images/persons.png"> <?php echo __( 'Persons' , 'easyReservations' );?></td>
+					<td><?php echo __( 'Adults' , 'easyReservations' );?>: <b><?php echo $res->adults;?></b> <?php echo __( 'Children\'s' , 'easyReservations' );?>: <b><?php echo $res->childs;?></b></td>
 				</tr>
 				<tr>
 					<td nowrap><img style="vertical-align:text-bottom;" src="<?php echo RESERVATIONS_URL; ?>images/room.png"> <?php printf ( __( 'Resource' , 'easyReservations' ));?></td> 
-					<td><b><?php echo __($resource_name); ?> <?php if(!$bypers) echo '-'.$res->resourcenumbername; ?></b></td>
+					<td><b><?php echo __($resource_name); if(!$bypers && $res->resourcenumbername) echo ' - '.$res->resourcenumbername; ?></b></td>
 				</tr>
-				<tr class="alternate">
-					<td nowrap><img style="vertical-align:text-bottom;" src="<?php echo RESERVATIONS_URL; ?>images/country.png"> <?php printf ( __( 'Country' , 'easyReservations' ));?></td> 
-					<td><b><?php echo easyreservations_country_name($res->country); ?></b></td>
-				</tr>
-				<?php 
+				<?php if(!empty($res->country)){ ?>
+					<tr class="alternate">
+						<td nowrap><img style="vertical-align:text-bottom;" src="<?php echo RESERVATIONS_URL; ?>images/country.png"> <?php printf ( __( 'Country' , 'easyReservations' ));?></td>
+						<td><b><?php echo easyreservations_country_name($res->country); ?></b></td>
+					</tr>
+				<?php }
 				do_action('easy-res-view-table-bottom', $res);
 				$thenumber = 0;
 				if(!empty($customs) && is_array($customs)){
@@ -1127,7 +1157,7 @@ if(!isset($approve) && !isset($delete) && !isset($view) && !isset($edit) && !iss
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// EDIT RESERVATION ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 if(isset($edit)){
-	easyreservations_build_datepicker(1,array('datepicker','datepicker2', 'reservation_date'), 'd.m.Y');
+	easyreservations_build_datepicker(1,array('datepicker','datepicker2', 'reservation_date'), RESERVATIONS_DATE_FORMAT);
 	add_action('admin_print_footer_scripts','easyreservations_restrict_input_dash');
 	$customfields = "";
 	$thenumber0=0;
@@ -1153,8 +1183,7 @@ if(isset($edit)){
 			$customfields .= '<td><input type="text" name="customPvalue'.$key.'" value="'.$customp['value'].'" style="width:200px"><input type="text" name="custom_price'.$key.'" id="custom_price'.$key.'" onchange="easyreservations_send_price_admin();" value="'.$customp['amount'].'" style="width:70px;"> &'.RESERVATIONS_CURRENCY.';<input type="hidden" name="customPmodus'.$key.'" value="'.$customp['mode'].'"></td></tr>';
 		}
 	}
-?><script>
-
+	?><script type="text/javascript">
 	var Add = 1 + <?php echo $thenumber1; ?>;
 	function addtoForm(){ // Add field to the Form
 		Add += 1;
@@ -1191,7 +1220,15 @@ if(isset($edit)){
 						<tr>
 							<th colspan="2">
 								<?php printf ( __( 'Edit reservation' , 'easyReservations' ));?> <span class="headerlink"><a href="admin.php?page=reservations&view=<?php echo $edit; ?>">#<?php echo $edit; ?></a></span>
-							<span style="float:right"><a class="easySubmitButton-secondary" href="<?php echo 'admin.php?page=reservations&bulkArr[]='.$res->id.'&bulk=1&easy-main-bulk='.wp_create_nonce('easy-main-bulk'); ?>"><?php echo ucfirst(__( 'delete' , 'easyReservations' ));?></a><?php do_action('easy-edit-title-right', $res); ?></span></th>
+								<span style="float:right">
+									<?php if($res->status == 'del'){ ?>
+	                  <a class="easySubmitButton-secondary" onClick="if(confirm('<?php echo __( 'Really delete this reservation permanently?' , 'easyReservations'); ?>')) { window.location = '<?php echo 'admin.php?page=reservations&bulkArr[]='.$res->id.'&bulk=3&easy-main-bulk='.wp_create_nonce('easy-main-bulk'); ?>'; }" title="<?php echo __( 'delete' , 'easyReservations' ); ?>"><?php echo ucfirst(__( 'delete' , 'easyReservations' ));?></a>
+									<?php } else { ?>
+										<a class="easySubmitButton-secondary" onClick="if(confirm('<?php echo __( 'Really move this reservation to trash?' , 'easyReservations'); ?>')) { window.location = '<?php echo 'admin.php?page=reservations&bulkArr[]='.$res->id.'&bulk=1&easy-main-bulk='.wp_create_nonce('easy-main-bulk'); ?>'; }" title="<?php echo __( 'trash' , 'easyReservations' ); ?>"><?php echo ucfirst(__( 'trash' , 'easyReservations' ));?></a>
+									<?php }
+									do_action('easy-edit-title-right', $res); ?>
+								</span>
+							</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -1200,15 +1237,15 @@ if(isset($edit)){
 						</tr>
 						<tr>
 							<td nowrap style="min-width:35%;width:35%"><img style="vertical-align:text-bottom;" src="<?php echo RESERVATIONS_URL; ?>images/user.png"> <?php printf ( __( 'Name' , 'easyReservations' ));?></td> 
-							<td nowrap style="min-width:65%;width:65%"><input type="text" name="name" align="middle" value="<?php echo $res->name;?>"></td>
+							<td nowrap style="min-width:65%;width:65%"><input type="text" name="name" value="<?php echo $res->name;?>"></td>
 						</tr>
 						<tr class="alternate">
-							<td nowrap><img style="vertical-align:text-bottom;" src="<?php echo RESERVATIONS_URL; ?>images/day.png"> <?php printf ( __( 'From' , 'easyReservations' ));?>:</td> 
-							<td><input type="text" id="datepicker" style="width:80px" name="date" value="<?php echo date(RESERVATIONS_DATE_FORMAT,$res->arrival); ?>" onchange="easyreservations_send_price_admin();<?php if($overview_options['overview_autoselect'] == 1){ ?>dofakeClick(1);<?php }?>"> <select name="from-time-hour" id="from-time-hour" onchange="easyreservations_send_price_admin();<?php if($overview_options['overview_autoselect'] == 1){ ?>dofakeClick(0);<?php }?>"><?php echo easyreservations_num_options("00",23,date("H",$res->arrival)); ?></select>:<select name="from-time-min"><?php echo easyreservations_num_options("00",59,date("i",$res->arrival)); ?></select></td>
+							<td nowrap><img style="vertical-align:text-bottom;width:16px;height:16px;" src="<?php echo RESERVATIONS_URL; ?>images/day.png"> <?php printf ( __( 'From' , 'easyReservations' ));?>:</td>
+							<td><input type="text" id="datepicker" style="width:80px" name="date" value="<?php echo date(RESERVATIONS_DATE_FORMAT,$res->arrival); ?>" onchange="easyreservations_send_price_admin();<?php if($overview_options['overview_autoselect'] == 1){ ?>dofakeClick(1);<?php }?>"> <select name="from-time-hour" id="from-time-hour" onchange="easyreservations_send_price_admin();<?php if($overview_options['overview_autoselect'] == 1){ ?>dofakeClick(0);<?php }?>"><?php echo easyreservations_time_options(date("H",$res->arrival)); ?></select>:<select name="from-time-min"><?php echo easyreservations_num_options("00",59,date("i",$res->arrival)); ?></select></td>
 						</tr>
 						<tr>
 							<td nowrap><img style="vertical-align:text-bottom;" src="<?php echo RESERVATIONS_URL; ?>images/to.png"> <?php printf ( __( 'To' , 'easyReservations' ));?>:</td> 
-							<td><input type="text" id="datepicker2" style="width:80px" name="dateend" value="<?php echo date(RESERVATIONS_DATE_FORMAT,$res->departure); ?>" onchange="easyreservations_send_price_admin();changer();<?php if($overview_options['overview_autoselect'] == 1){ ?>dofakeClick(2);<?php }?>"> <select name="to-time-hour" id="to-time-hour" onchange="easyreservations_send_price_admin();<?php if($overview_options['overview_autoselect'] == 1){ ?>dofakeClick(0);<?php }?>"><?php echo easyreservations_num_options("00",23,date("H",$res->departure)); ?></select>:<select name="to-time-min"><?php echo easyreservations_num_options("00",59,date("i",$res->departure)); ?></select></td>
+							<td><input type="text" id="datepicker2" style="width:80px" name="dateend" value="<?php echo date(RESERVATIONS_DATE_FORMAT,$res->departure); ?>" onchange="easyreservations_send_price_admin();changer();<?php if($overview_options['overview_autoselect'] == 1){ ?>dofakeClick(2);<?php }?>"> <select name="to-time-hour" id="to-time-hour" onchange="easyreservations_send_price_admin();<?php if($overview_options['overview_autoselect'] == 1){ ?>dofakeClick(0);<?php }?>"><?php echo easyreservations_time_options(date("H",$res->departure)); ?></select>:<select name="to-time-min"><?php echo easyreservations_num_options("00",59,date("i",$res->departure)); ?></select></td>
 						</tr>
 						<tr class="alternate" id="easy_edit_persons">
 							<td nowrap><img style="vertical-align:text-bottom;" src="<?php echo RESERVATIONS_URL; ?>images/persons.png"> <?php echo __( 'Persons' , 'easyReservations' );?></td> 
@@ -1305,9 +1342,10 @@ if(isset($edit)){
 					<tbody>
 						<tr>
 							<td nowrap>
-							<select name="custommodus" style="margin-bottom:4px" id="custommodus"><option value="edit"><?php printf ( __( 'Editable' , 'easyReservations' ));?></option><option value="visible"><?php printf ( __( 'Visible' , 'easyReservations' ));?></option><option value="hidden"><?php printf ( __( 'Hidden' , 'easyReservations' ));?></option></select> <?php printf ( __( 'for Guest' , 'easyReservations' ));?><br>
-							<input type="text" name="customtitle" id="customtitle" style="width:260px" value="Title" onfocus="if (this.value == 'Title') this.value = '';" onblur="if (this.value == '') this.value = 'Title';"><br><textarea type="text" name="customvalue" id="customvalue" value="Value" style="width:260px;margin-top:2px;" onfocus="if (this.value == 'Value') this.value = '';" onblur="if (this.value == '') this.value = 'Value';">Value</textarea>
-							<br><input type="button" onclick="addtoForm();" class="easySubmitButton-secondary" value="<?php printf ( __( 'Add custom Field' , 'easyReservations' ));?>"></td>
+								<select name="custommodus" style="margin-bottom:4px" id="custommodus"><option value="edit"><?php printf ( __( 'Editable' , 'easyReservations' ));?></option><option value="visible"><?php printf ( __( 'Visible' , 'easyReservations' ));?></option><option value="hidden"><?php printf ( __( 'Hidden' , 'easyReservations' ));?></option></select> <?php printf ( __( 'for Guest' , 'easyReservations' ));?><br>
+								<input type="text" name="customtitle" id="customtitle" style="width:260px" value="Title" onfocus="if (this.value == 'Title') this.value = '';" onblur="if (this.value == '') this.value = 'Title';"><br><textarea type="text" name="customvalue" id="customvalue" value="Value" style="width:260px;margin-top:2px;" onfocus="if (this.value == 'Value') this.value = '';" onblur="if (this.value == '') this.value = 'Value';">Value</textarea>
+								<br><input type="button" onclick="addtoForm();" class="easySubmitButton-secondary" value="<?php printf ( __( 'Add custom Field' , 'easyReservations' ));?>">
+							</td>
 						</tr>
 					</tbody>
 				</table>
@@ -1342,7 +1380,7 @@ get_the_select('<?php echo $res->resourcenumber; ?>', '<?php echo $res->resource
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 if(isset($add)){
-	easyreservations_build_datepicker(1,array('datepicker','datepicker2', 'reservation_date'), 'd.m.Y');
+	easyreservations_build_datepicker(1,array('datepicker','datepicker2', 'reservation_date'), RESERVATIONS_DATE_FORMAT);
 	add_action('admin_print_footer_scripts','easyreservations_restrict_input_dash');
 ?> <!-- // Content will only show on edit Reservation -->
 	<script>
@@ -1402,18 +1440,18 @@ if(isset($add)){
 					<td><input type="text" name="name" value="<?php if(isset($_POST['name'])) echo $_POST['name']; ?>" align="middle"></td>
 				</tr>
 				<tr class="alternate">
-					<td nowrap><img style="vertical-align:text-bottom;" src="<?php echo RESERVATIONS_URL; ?>images/day.png"> <?php printf ( __( 'From' , 'easyReservations' ));
+					<td nowrap><img style="vertical-align:text-bottom;width:16px;height:16px;" src="<?php echo RESERVATIONS_URL; ?>images/day.png"> <?php printf ( __( 'From' , 'easyReservations' ));
 					if(isset($_POST['from-time-hour'])) $fromtimeh = $_POST['from-time-hour']; else $fromtimeh = 12;
 					if(isset($_POST['from-time-min'])) $fromtimem = $_POST['from-time-min']; else $fromtimem = 00;
 					?>:</td> 
-					<td><input type="text" id="datepicker" style="width:80px" name="date" value="<?php if(isset($_POST['date'])) echo $_POST['date']; ?>" onchange="easyreservations_send_price_admin();<?php if($overview_options['overview_autoselect'] == 1){ ?>dofakeClick(1);<?php }?>"> <select name="from-time-hour" id="from-time-hour" onchange="easyreservations_send_price_admin();<?php if($overview_options['overview_autoselect'] == 1){ ?>dofakeClick(0);<?php }?>"><?php echo easyreservations_num_options("00",23,$fromtimeh); ?></select>:<select name="from-time-min"><?php echo easyreservations_num_options("00",59,$fromtimem); ?></select></td>
+					<td><input type="text" id="datepicker" style="width:80px" name="date" value="<?php if(isset($_POST['date'])) echo $_POST['date']; ?>" onchange="easyreservations_send_price_admin();<?php if($overview_options['overview_autoselect'] == 1){ ?>dofakeClick(1);<?php }?>"> <select name="from-time-hour" id="from-time-hour" onchange="easyreservations_send_price_admin();<?php if($overview_options['overview_autoselect'] == 1){ ?>dofakeClick(0);<?php }?>"><?php echo easyreservations_time_options($fromtimeh); ?></select>:<select name="from-time-min"><?php echo easyreservations_num_options("00",59,$fromtimem); ?></select></td>
 				</tr>
 				<tr>
 					<td nowrap><img style="vertical-align:text-bottom;" src="<?php echo RESERVATIONS_URL; ?>images/to.png"> <?php printf ( __( 'To' , 'easyReservations' ));
 					if(isset($_POST['to-time-hour'])) $totimeh = $_POST['to-time-hour']; else $totimeh = 12;
 					if(isset($_POST['to-time-min'])) $totimem = $_POST['to-time-min']; else $totimem = 00;
 					?>:</td> 
-					<td><input type="text" id="datepicker2" style="width:80px" name="dateend" value="<?php if(isset($_POST['dateend'])) echo $_POST['dateend']; ?>" onchange="easyreservations_send_price_admin();changer();<?php if($overview_options['overview_autoselect'] == 1){ ?>dofakeClick(2);<?php }?>"> <select name="to-time-hour" id="to-time-hour" onchange="easyreservations_send_price_admin();<?php if($overview_options['overview_autoselect'] == 1){ ?>dofakeClick(0);<?php }?>"><?php echo easyreservations_num_options("00",23,$totimeh); ?></select>:<select name="to-time-min"><?php echo easyreservations_num_options("00",59,$totimem); ?></select></td>
+					<td><input type="text" id="datepicker2" style="width:80px" name="dateend" value="<?php if(isset($_POST['dateend'])) echo $_POST['dateend']; ?>" onchange="easyreservations_send_price_admin();changer();<?php if($overview_options['overview_autoselect'] == 1){ ?>dofakeClick(2);<?php }?>"> <select name="to-time-hour" id="to-time-hour" onchange="easyreservations_send_price_admin();<?php if($overview_options['overview_autoselect'] == 1){ ?>dofakeClick(0);<?php }?>"><?php echo easyreservations_time_options($totimeh); ?></select>:<select name="to-time-min"><?php echo easyreservations_num_options("00",59,$totimem); ?></select></td>
 				</tr>
 				<tr valign="top" class="alternate">
 					<td nowrap><img style="vertical-align:text-bottom;" src="<?php echo RESERVATIONS_URL; ?>images/persons.png"> <?php printf ( __( 'Persons' , 'easyReservations' ));?></td> 
@@ -1429,7 +1467,7 @@ if(isset($add)){
 					if(isset($_POST['room'])) $reso = $_POST['room']; else $reso = '';
 					if(isset($_POST['roomexactly'])) $resoex = $_POST['roomexactly']; else $resoex = 1;?></td>
 					<td>
-						<select id="room" name="room" onchange="easyreservations_send_price_admin();changer();<?php if($overview_options['overview_autoselect'] == 1){ ?>dofakeClick(2);<?php }?>"><?php echo easyreservations_resource_options($reso, 1); ?></select>
+						<select id="room" name="room" onchange="easyreservations_send_price_admin();changer();get_the_select(1,this.value);<?php if($overview_options['overview_autoselect'] == 1){ ?>dofakeClick(2);<?php }?>"><?php echo easyreservations_resource_options($reso, 1); ?></select>
 						<span id="the_room_exactly"></span>
 					</td>
 				</tr>
@@ -1516,7 +1554,7 @@ if(isset($add)){
 </table>
 </form>
 <script>get_the_select(<?php echo $resoex; ?>, document.getElementById('room').value);</script>
-<?php if(isset($_POST['room-saver-to'])){ ?><script>jQuery(document).ready(function(){ fakeClick('<?php echo $_POST['room-saver-from']; ?>','<?php echo $_POST['room-saver-to']; ?>','<?php echo $_POST['room']; ?>','<?php echo $_POST['roomexactly']; ?>', '');setVals2(<?php echo $_POST['room'].','.$_POST['roomexactly']; ?>);document.getElementById('datepicker').value='<?php echo date("d.m.Y", $_POST['room-saver-from']); ?>';document.getElementById('datepicker2').value='<?php echo date("d.m.Y", $_POST['room-saver-to']); ?>';easyreservations_send_price_admin();});</script><?php } //Set Room and Roomexactly after click on Overview and redirected to add 
+<?php if(isset($_POST['room-saver-to'])){ ?><script>jQuery(document).ready(function(){ fakeClick('<?php echo $_POST['room-saver-from']; ?>','<?php echo $_POST['room-saver-to']; ?>','<?php echo $_POST['room']; ?>','<?php echo $_POST['roomexactly']; ?>', '');setVals2(<?php echo $_POST['room'].','.$_POST['roomexactly']; ?>);document.getElementById('datepicker').value='<?php echo date(RESERVATIONS_DATE_FORMAT, $_POST['room-saver-from']); ?>';document.getElementById('datepicker2').value='<?php echo date(RESERVATIONS_DATE_FORMAT, $_POST['room-saver-to']); ?>';easyreservations_send_price_admin();});</script><?php } //Set Room and Roomexactly after click on Overview and redirected to add
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -1535,19 +1573,22 @@ if(isset($approve) || isset($delete)) {
 				</tr>
 			</thead>
 			<tbody>
-			<tr>
-				<td nowrap><?php echo easyreservations_reservation_info_box($res, $delorapptext, $res->status); ?></td>
-			</tr>
-				<?php if(isset($approve)){ ?><tr>
-					<td><?php printf ( __( 'Resource' , 'easyReservations' ));?>: <?php echo __($resource_name);?> # <span id="the_room_exactly"></span><?php } ?>
-				<?php do_action('easy-mail-add-input'); ?>
+				<tr>
+					<td nowrap><?php echo easyreservations_reservation_info_box($res, $delorapptext, $res->status); ?></td>
+				</tr>
+				<?php if(isset($approve)){ ?>
+					<tr>
+						<td><?php printf ( __( 'Resource' , 'easyReservations' ));?>: <?php echo __($resource_name);?> # <span id="the_room_exactly"></span>
+          </tr>
+				<?php } do_action('easy-mail-add-input'); ?>
 				<tr>
 					<td>
-							<p><input type="checkbox" name="sendthemail" checked><small> <?php printf ( __( 'Send mail to guest' , 'easyReservations' ));  ?></small> <input type="checkbox" name="hasbeenpayed"><small>  <?php printf ( __( 'Has been paid' , 'easyReservations' ));  ?></small></p>
-							<p><?php printf ( __( 'To' , 'easyReservations' ));?> <?php if(isset($approve)) { printf ( __( 'Approve' , 'easyReservations' )); } if(isset($delete)) printf ( __( 'Reject' , 'easyReservations' ));?> <?php printf ( __( 'the reservation, write a message and press send' , 'easyReservations' ));?> &amp; <?php if(isset($approve)) echo "Approve"; if(isset($delete)) echo "reject"; ?>. <?php printf ( __( 'The Guest will recieve that message in an email' , 'easyReservations' ));?>.</p>
-							<p class="label"><strong>Text:</strong></p>
-							<textarea cols="60" rows="4" name="approve_message" class="er-mail-textarea" width="100px"></textarea>
+						<p><input type="checkbox" name="sendthemail" checked><small> <?php printf ( __( 'Send mail to guest' , 'easyReservations' ));  ?></small> <input type="checkbox" name="hasbeenpayed"><small>  <?php printf ( __( 'Has been paid' , 'easyReservations' ));  ?></small></p>
+						<p><?php printf ( __( 'To' , 'easyReservations' ));?> <?php if(isset($approve)) { printf ( __( 'Approve' , 'easyReservations' )); } if(isset($delete)) printf ( __( 'Reject' , 'easyReservations' ));?> <?php printf ( __( 'the reservation, write a message and press send' , 'easyReservations' ));?> &amp; <?php if(isset($approve)) echo "Approve"; if(isset($delete)) echo "reject"; ?>. <?php printf ( __( 'The Guest will recieve that message in an email' , 'easyReservations' ));?>.</p>
+						<p class="label"><strong>Text:</strong></p>
+						<textarea cols="60" rows="4" name="approve_message" class="er-mail-textarea" width="100px"></textarea>
 					</td>
+				</tr>
 			</tbody>
 		</table>
 		
@@ -1559,8 +1600,7 @@ if(isset($approve) || isset($delete)) {
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 if(isset($sendmail)) {
-?>  <!-- Content will only show on delete or approve Reservation //--> 
-	<form method="post" action=""  id="reservation_sendmail" name="reservation_sendmail">
+	?><form method="post" action=""  id="reservation_sendmail" name="reservation_sendmail">
 		<input type="hidden" name="thesendmail" value="thesendmail"/>
 		<table class="<?php echo RESERVATIONS_STYLE; ?>" cellspacing="0" cellpadding="0">
 			<thead>
@@ -1588,6 +1628,4 @@ if(isset($sendmail)) {
 
 function easyreservations_restrict_input_dash(){
 	easyreservations_generate_restrict(array(array('#customPamount,input[name^="custom_price"]', true), array('input[name="priceset"],input[name="EDITwaspaid"],input[name="ccnumber"]', false)));
-}
-
- ?>
+}?>

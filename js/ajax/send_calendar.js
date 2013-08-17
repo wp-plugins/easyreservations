@@ -3,13 +3,15 @@ var easyClickFirst = '';
 var easyCellnr = 0;
 var easyCalM = 0;
 function easyreservations_click_calendar(t,d,w,m){
-	if(jQuery(t).closest('#show_widget_calendar').length > 0) atts = easyWidgetCalendarAtts;
+    var atts = null;
+	if(jQuery(t).closest('#showCalender.widget').length > 0) atts = easyWidgetCalendarAtts;
 	else atts = easyCalendarAtts;
 	jQuery('.reqdisabled').removeClass('reqdisabled');
 	if(easyClick == 2 || (atts['select'] == 1 && easyClick == 1)){
 		jQuery(".calendar-cell-selected").removeClass("calendar-cell-selected");
 		easyClick = 0;
 	}
+
 	if(easyClick == 1){
 		jQuery('.reqstartdisabled').addClass('reqdisabled');
 		if(jQuery(t).hasClass('reqenddisabled')) return false;
@@ -52,8 +54,8 @@ function easyreservations_click_calendar(t,d,w,m){
 					jQuery('#easy-form-units').val(nights);
 				}
 			}
-			if(window.easyreservations_send_price) easyreservations_send_price();
-			if(window.easyreservations_send_validate) easyreservations_send_validate();
+			if(window.easyreservations_send_price) easyreservations_send_price('easyFrontendFormular');
+			if(window.easyreservations_send_validate) easyreservations_send_validate(false, 'easyFrontendFormular');
 			if(window.easyreservations_send_search) easyreservations_send_search();
 
 			easyClick = 2;
@@ -79,7 +81,7 @@ function easyreservations_click_calendar(t,d,w,m){
 
 function easyreservations_send_calendar(where, e ){
 	if(where == 'shortcode' && !jQuery("#showCalender").length > 0) return;
-	if(where != 'shortcode' && !jQuery("#show_widget_calendar").length > 0) return;
+	if(where != 'shortcode' && !jQuery("#showCalender.widget").length > 0) return;
 	var atts = '';
 	if(where == 'widget') atts = easyWidgetCalendarAtts;
 	else atts = easyCalendarAtts;
@@ -109,8 +111,8 @@ function easyreservations_send_calendar(where, e ){
 		where:where,
 		atts:atts
 	};
-	jQuery.post(easyAjax.ajaxurl+"?RandomNumber=" + Math.random() , data, function(response) {
+	jQuery.post(easyAjax.ajaxurl , data, function(response) {
 		if(where == 'shortcode') jQuery("#showCalender").html(response);
-		else jQuery("#show_widget_calendar").html(response);
+    else jQuery("#showCalender.widget").html(response);
 	});
 }

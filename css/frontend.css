@@ -119,10 +119,6 @@ div.easy_infobox_border.only-image img {
 	font-weight: bold;
 }
 
-#easyFormInnerlay .depositbox {
-	width:100% !important
-}
-
 #easyFormInnerlay img {
 	max-width:100%;
 }
@@ -237,7 +233,7 @@ div.easy_infobox_border.only-image img {
 }
 
 span.creditor {
-	margin-bottom: 10px;
+	margin: 10px 0px 10px 0px;
 	display:block;
 	font-weight: bold;
 	text-align: center;
@@ -286,28 +282,45 @@ span.creditor {
 	margin-bottom: 5px;
 }
 
-.easy_form_success input[type="text"]{
+#easy_form_success input[type="text"]{
 	line-height: 1;
 }
 
-.easy_form_success span.submitrow {
+#easy_form_success span.submitrow {
 	display:inline-block;
 	width: 100%;
 }
 
-.easy_form_success b.easy_submit {
+#easy_form_success b.easy_submit {
 	color:#009B1C;
 	display:block;
-	font-weight: bold;
+	font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 5px;
 }
 
-.easy_show_price_submit {
-	margin-bottom:5px;
+#easy_form_success span {
+    display:block;
+    margin: 3px 0px;
+}
+#easy_form_success select { margin-bottom:5px;}
+
+#easy_form_success .depositbox {
+    color:#000;font-weight:normal;text-align:left;width:250px;display:block;margin: 0 auto;
 }
 
-span.creditor:before, span.creditor:after {
+
+#easy_form_success .easy_show_price_submit {
+	margin-bottom: 5px;
+}
+
+#easy_form_success span.creditor:before, #easy_form_success span.creditor:after {
     content: "\2014";
 }​
+
+#easy_payment_div {
+    margin: 15px;
+}
 
 #easy_overlay_table img {
 	cursor: pointer;

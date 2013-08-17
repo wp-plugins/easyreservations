@@ -14,7 +14,6 @@ class easyReservations_form_widget extends WP_Widget {
 		wp_enqueue_style('datestyle');
 		wp_enqueue_style('easy-form-little', false, array(), false, 'all');
 		wp_enqueue_script('jquery-ui-datepicker');
-
 		extract( $args );
 		$title = apply_filters( 'widget_title', $instance['title'] );
 		$calendar = esc_attr( $instance[ 'calendar' ] );
@@ -25,13 +24,13 @@ class easyReservations_form_widget extends WP_Widget {
 		$form_url = esc_attr( $instance[ 'form_url' ] );
 		$form_button = esc_attr( $instance[ 'form_button' ] );
 		$form_editor = esc_attr( $instance[ 'form_editor' ] );
-		
 		$calendar_width = (float) $calendar_width;
 		if($calendar_width > 100) $calendar_width = 100;
 		if($calendar_price == "on") $showPrice = 1;
 		else $showPrice = 0;
 
 		if(!empty($form_editor)){
+			$form_editor = apply_filters( 'easy-widget-content', $form_editor);
 			$theForm = stripslashes($form_editor);
 			$tags = easyreservations_shortcode_parser($theForm, true);
 			$form_date = 0;
@@ -43,10 +42,10 @@ class easyReservations_form_widget extends WP_Widget {
 					$theForm=str_replace('['.$fields.']', '<input id="easy-widget-datepicker-to"  type="text" name="to" value="'.date(RESERVATIONS_DATE_FORMAT, time()+172800).'">', $theForm); $form_date++;
 				} elseif($field[0]=="date-from-hour" || $field[0]=="date-to-hour"){
 					if(isset($field[1])) $end = $field[1]; else $end = 0;
-					$theForm=str_replace('['.$fields.']', '<select id="easy-widget-'.$field[0].'" name="'.$field[0].'" style="width:42px">'.easyreservations_num_options("00", 23, $end).'</select>', $theForm);
+					$theForm=str_replace('['.$fields.']', '<select id="easy-widget-'.$field[0].'" name="'.$field[0].'" style="width:45px">'.easyreservations_num_options("00", 23, $end).'</select>', $theForm);
 				} elseif($field[0]=="date-from-min" || $field[0]=="date-to-min"){
 					if(isset($field[1])) $end = $field[1]; else $end = 0;
-					$theForm=str_replace('['.$fields.']', '<select id="easy-widget-'.$field[0].'" name="'.$field[0].'" style="width:42px">'.easyreservations_num_options("00", 59, $end).'</select>', $theForm);
+					$theForm=str_replace('['.$fields.']', '<select id="easy-widget-'.$field[0].'" name="'.$field[0].'" style="width:45px">'.easyreservations_num_options("00", 59, $end).'</select>', $theForm);
 				} elseif($field[0]=="units" || $field[0]=="nights" || $field[0]=="times"){
 					if(isset($field[1])) $number=$field[1]; else $number=31;
 					$theForm=preg_replace('/\['.$fields.'\]/', '<select id="easy-widget-nights" name="nights">'.easyreservations_num_options(1,$number).'</select>', $theForm);
@@ -72,10 +71,10 @@ class easyReservations_form_widget extends WP_Widget {
 			}
 		}
 
-		echo $before_widget;
-		if($title && !empty($title)) echo $before_title . $title . $after_title;
+		if(isset($before_widget)) echo $before_widget;
+		if($title && !empty($title) && isset($before_title) && isset($after_title)) echo $before_title.$title.$after_title;
 		if($calendar == "on"){
-			$array = array('width' => $calendar_width, 'style' =>  $calendar_style, 'price' => $calendar_price, 'header' => 0, 'req' => 0, 'interval' => 1, 'monthes' => 1, 'select' => 2);
+			$array = array('width' => $calendar_width, 'style' =>  $calendar_style, 'price' => $showPrice, 'header' => 0, 'req' => 0, 'interval' => 1, 'monthes' => 1, 'select' => 2);
 			wp_enqueue_script( 'easyreservations_send_calendar' );
 			wp_enqueue_style('easy-cal-'.$calendar_style, false, array(), false, 'all'); ?>
 			<form name="widget_formular" id="widget_formular">
@@ -83,7 +82,7 @@ class easyReservations_form_widget extends WP_Widget {
 				<input type="hidden" name="easyroom" onChange="easyreservations_send_calendar('widget')" value="<?php echo $calendar_room; ?>">
 				<input type="hidden" name="date" onChange="easyreservations_send_calendar('widget')" value="0">
 			</form>
-			<div id="show_widget_calendar"></div><?php
+			<div id="showCalender" class="widget"></div><?php
 			$easyreservations_script .= ';var easyWidgetCalendarAtts='.json_encode($array).';easyreservations_send_calendar("widget");';
 		}  
 		if($form_date > 0){
@@ -101,7 +100,7 @@ class easyReservations_form_widget extends WP_Widget {
 					}
 					$easyreservations_script .= 'var easyResourcePermalinkArray = '.json_encode($array).'; var easyWidgetResField = jQuery(\'#easy_widget_form #form_room\'); easyWidgetResField.bind(\'change\', function(){jQuery(\'form[name=easy_widget_form]\').attr(\'action\', easyResourcePermalinkArray[easyWidgetResField.val()]);});';
 				} ?>
-				<form method="post" action="<?php echo esc_url($form_url); ?>" name="easy_widget_form" id="easy_widget_form">
+				<form method="post" action="<?php echo esc_url(__($form_url)); ?>" name="easy_widget_form" id="easy_widget_form">
 					<?php echo htmlspecialchars_decode($theForm); ?>
 					<p class="easy-submit"><input type="submit" class="easybutton" value="<?php echo $form_button; ?>"></p>
 				</form><?php
@@ -111,7 +110,7 @@ class easyReservations_form_widget extends WP_Widget {
 	}
 
 	/** @see WP_Widget::update */
-	function update( $new_instance, $old_instance ) {
+	function update($new_instance, $old_instance){
 		$instance = $old_instance;
 		$instance['title'] = strip_tags($new_instance['title']);
 		$instance['calendar'] = strip_tags($new_instance['calendar']);
@@ -126,8 +125,8 @@ class easyReservations_form_widget extends WP_Widget {
 	}
 
 	/** @see WP_Widget::form */
-	function form( $instance ) {
-		if ( $instance ) {
+	function form($instance){
+		if($instance){
 			$title = esc_attr( $instance[ 'title' ] );
 			$calendar_style = esc_attr( $instance[ 'calendar_style' ] );
 			$calendar_width = esc_attr( $instance[ 'calendar_width' ] );
@@ -178,7 +177,7 @@ class easyReservations_form_widget extends WP_Widget {
 			<input id="" <?php checked( (bool) $calendar_price, true ); ?> name="<?php echo $this->get_field_name('calendar_price'); ?>" type="checkbox" /></label> 
 		</p>
 		<p>
-			<label for="<?php echo $this->get_field_id('form_editor'); ?>"><?php _e('Edit form:', 'easyReservations'); ?><br>
+			<label for="<?php echo $this->get_field_id('form_editor'); ?>"><?php _e('Widgets form template:', 'easyReservations'); ?><br>
 			<textarea id="<?php echo $this->get_field_id('form_editor'); ?>" name="<?php echo $this->get_field_name('form_editor'); ?>" cols="40" rows="10"><?php echo $form_editor; ?></textarea></label> 
 		</p>
 		<code style="cursor:pointer" onclick="document.getElementById('<?php echo $this->get_field_id('form_editor'); ?>').value += '[date-from]';">[date-from]</code>, <code style="cursor:pointer" onclick="document.getElementById('<?php echo $this->get_field_id('form_editor'); ?>').value += '[date-to]';">[date-to]</code>, <code style="cursor:pointer" onclick="document.getElementById('<?php echo $this->get_field_id('form_editor'); ?>').value += '[adults 1 5]';">[adults *]</code>, <code style="cursor:pointer" onclick="document.getElementById('<?php echo $this->get_field_id('form_editor'); ?>').value += '[childs Select]';">[childs *]</code>, <code style="cursor:pointer" onclick="document.getElementById('<?php echo $this->get_field_id('form_editor'); ?>').value += '[resources]';">[resources]</code>, <code style="cursor:pointer" onclick="document.getElementById('<?php echo $this->get_field_id('form_editor'); ?>').value += '[country]';">[country]</code>, <code style="cursor:pointer" onclick="document.getElementById('<?php echo $this->get_field_id('form_editor'); ?>').value += '[email]';">[email]</code>, <code style="cursor:pointer" onclick="document.getElementById('<?php echo $this->get_field_id('form_editor'); ?>').value += '[thename]';">[thename]</code>
@@ -195,23 +194,23 @@ class easyReservations_form_widget extends WP_Widget {
 }
 add_action( 'widgets_init', create_function( '', 'register_widget("easyReservations_form_widget");' ) );
 
-function easyreservatons_call_datepickers(){?>
-	<script>
-		jQuery(document).ready(function() {
+function easyreservatons_call_datepickers(){
+	easyreservations_build_datepicker(0, array("easy-widget-datepicker-from", "easy-widget-datepicker-to"));
+	return true;?>
+
+	<script type="text/javascript">
+		jQuery(document).ready(function(){
 			var dateformat = '<?php echo RESERVATIONS_DATE_FORMAT; ?>';
-			if(dateformat == 'Y/m/d') var dateformatse = 'yy/mm/dd';	else if(dateformat == 'm/d/Y') var dateformatse = 'mm/dd/yy'; else if(dateformat == 'Y-m-d') var dateformatse = 'yy-mm-dd';	else if(dateformat == 'd/m/Y') var dateformatse = 'dd/mm/yy'; else if(dateformat == 'd.m.Y') var dateformatse = 'dd.mm.yy';
-			jQuery("#easy-widget-datepicker-from, #easy-widget-datepicker-to").datepicker( { 
+			if(dateformat == 'Y/m/d') var dateformatse = 'yy/mm/dd'; else if(dateformat == 'm/d/Y') var dateformatse = 'mm/dd/yy'; else if(dateformat == 'Y-m-d') var dateformatse = 'yy-mm-dd';	else if(dateformat == 'd/m/Y') var dateformatse = 'dd/mm/yy'; else if(dateformat == 'd.m.Y') var dateformatse = 'dd.mm.yy';
+			jQuery("#easy-widget-datepicker-from, #easy-widget-datepicker-to").datepicker({
 				dateFormat: dateformatse, 		
 				beforeShowDay: function(date){
-					if(window.easydisabledays && document.easy_widget_form.easyroom){
-						return easydisabledays(date,document.easy_widget_form.easyroom.value);
-					} else {
-						return [true];
-					}
+					if(window.easydisabledays && document.easy_widget_form.easyroom) return easydisabledays(date,document.easy_widget_form.easyroom.value);
+					return [true];
 				}
 			});
 		});
-		easyreservations_send_calendar('widget');
+		if(window.easyreservations_send_calendar) easyreservations_send_calendar('widget');
 	</script>
 <?php
 }

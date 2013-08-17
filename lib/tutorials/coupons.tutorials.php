@@ -4,8 +4,8 @@
 		$content = array(
 			'<h3>Coupons</h3><p>After adding <b>[coupons]</b> to the forms your guests can enter here defined codes to get discounts.</p>',
 			'<h3>Code</h3><p>Enter the code here. The generator adds randomized codes by numbers and big letters.</p>',
-			'<h3>Available</h3><p>Define the date range that this code is useable.</p>',
-			'<h3>Amount</h3><p>The amount can be a price or percentage and positve or negative. <b>154.8/10%/-584/-15%</b></p>',
+			'<h3>Available</h3><p>Define the date range that this code is usable.</p>',
+			'<h3>Amount</h3><p>The amount can be a price or percentage and positive or negative. <b>154.8/10%/-584/-15%</b></p>',
 		);
 		$offset = array('-35 0', '-75 0', '-75 0', '-75 0');
 		$at = array('top', 'top', 'top', 'top');

@@ -1,3 +1,144 @@
+<h2>easyReservations 3.3 - 17.08.2013</h2>
+<ul>
+    <li><strong>Premium</strong>
+        <ul>
+            <li><strong>New Module: Synchronization 1.0</strong>
+                <ul>
+                    <li>Compatibility to WooCommerce</li>
+                    <li>Adds reservations to shopping card of WooCommerce</li>
+                </ul>
+            </li>
+            <li><strong>Invoice 1.0.13</strong>
+                <ul>
+                    <li>Improved display of taxes in invoice</li>
+                    <li>Better special sign handling in editor</li>
+                    <li>Fixed emails not sending as attachment in some cases</li>
+                    <li>Invoices to send gets cached in temp folder now</li>
+                </ul>
+            </li>
+            <li><strong>Payment 1.7</strong>
+                <ul>
+                    <li>Gateways get defined flexible now and can be added without changes in easyreservations code [<a href="http://easyreservations.org/kb/add-custom-payment-gateway/">TUT</a>]</li>
+                    <li>Discount settings have proper GUI and can be fixed or by percent</li>
+                    <li>Improved paypal link in emails</li>
+                </ul>
+            </li>
+            <li><strong>searchForm 1.2.4</strong>
+                <ul>
+                    <li>Fixed display of errors</li>
+                    <li>Fixed showing unavailable resources</li>
+                    <li>Fixed calendar for hourly resources</li>
+                    <li>Fixed naming of date fields</li>
+                </ul>
+            </li>
+            <li><strong>Hourly Calendar 1.0.9</strong>
+                <ul>
+                    <li>Checks availability hourly even if resource is billing daily</li>
+                    <li>Corrected selection of time</li>
+                </ul>
+            </li>
+            <li><strong>Export & Import 1.2.6</strong>
+                <ul>
+                    <li>Select charset for excel export</li>
+                </ul>
+            </li>
+            <li><strong>Multilingual 1.2.1</strong>
+                <ul>
+                    <li>Fixed alternative language format [:en_EN]hello[:de_DE]hallo[:end]</li>
+                    <li>Changes for new form editor</li>
+                    <li>Tag works in widgets form</li>
+                </ul>
+            </li>
+            <li><strong>User Control Panel 1.3.1</strong>
+                <ul>
+                    <li>Corrected formular to limit editation by time</li>
+                    <li>Better error handling</li>
+                    <li>Added support for coupon</li>
+                    <li>Login form text definable by shortcode attributes</li>
+                    <li>Fixed link for logged in users</li>
+                </ul>
+            </li>
+            <li><strong>Statistics 1.2</strong>
+                <ul>
+                    <li>Filter whole statistics page per resource</li>
+                    <li>Some minor corrections</li>
+                </ul>
+            </li>
+            <li><strong>Styles 1.2.7</strong>
+                <ul>
+                    <li>Many improvements to the stylesheets</li>
+                </ul>
+            </li>
+            <li><strong>Coupons 1.0.12</strong>
+                <ul>
+                    <li>Fixed filter adding and calculation in a few minor situations</li>
+                    <li>Changes for new form editor</li>
+                </ul>
+            </li>
+            <li><strong>extendedCalendar 1.1.7</strong>
+                <ul>
+                    <li>Improved stylesheet</li>
+                </ul>
+            </li>
+        </ul>
+    </li>
+
+    <li><strong>Filters</strong>
+        <ul>
+            <li>Merged price and discount filter to one so they can be used together</li>
+            <li>Able to filter for unit and range time condition in the same filter</li>
+            <li>Deleted date condition as it's same to select one day in the range condition</li>
+            <li>New conditions and multipliers by adults and by children's</li>
+        </ul>
+    </li>
+    <li><strong>New form editor</strong>
+        <ul>
+            <li>Clean look, better usability and more explanations</li>
+            <li>Tags get highlighted in the editor</li>
+            <li>Click on tags to edit them easily</li>
+        </ul>
+    </li>
+    <li><strong>New setting to define possible arrival and departure time per resource</strong></li>
+    <li><strong>Support of 12-hour time format</strong></li>
+    <li><strong>New function to execute javascript after successfully reservations</strong></li>
+    <li><strong>Improvements</strong>
+        <ul>
+            <li>Availability errors get shown by "from - to" instead of listing each unavailable billing interval</li>
+            <li>Tags usable in email subject too</li>
+            <li>Better handling of date fields and their default values if not used</li>
+            <li>Technically compatibility to every date format - still needs to be fully tested before implementation of new ones</li>
+            <li>Price fields have new multipliers per adults (pa) and per child (pc)</li>
+            <li>Handling if multiple forms are on the same page</li>
+            <li>Email triggers get saved flexible and can be extended more easily</li>
+            <li>Improvements on availability check</li>
+            <li>First reservations get added to availability check before submit of all to prevent overbooking</li>
+            <li>Shortcode attribute to not reset form at additional reservations (reset="0")</li>
+            <li>No frontend calculations done by javascript anymore</li>
+            <li>Improved compatibility to WPML a lot</li>
+            <li>Loading wordpress by wp-load.php instead of wp-config.php</li>
+            <li>Form overlay fade-in and display of time and children's</li>
+            <li>Compatibility to NextGenGallery by preventing a bug in script loading order of it</li>
+            <li>Value of submit button can have whitespaces</li>
+            <li>Improved applicability and overwriting of frontend stylesheets</li>
+            <li>Print all scripts in footer</li>
+            <li>Warning if using admin area with internet explorer</li>
+            <li>Handling of reservations shorter then the overviews interval</li>
+            <li>Tutorials</li>
+            <li>Many typos</li>
+        </ul>
+    </li>
+    <li><strong>Bugs fixed</strong>
+        <ul>
+            <li>Chinese translation use- and editable</li>
+            <li>Disabled form elements</li>
+            <li>Some javascript fixes in shortcode creator</li>
+            <li>Order of detailed price calculation for admin</li>
+            <li>Search in reservation table</li>
+            <li>Fixed translatabitlity of some strings</li>
+            <li>Bug in overview that reservations hot displayed one day to short in some cases</li>
+        </ul>
+    </li>
+</ul>
 <h2>easyReservations 3.2.4 - 01.02.2013</h2>
 <ul>
     <li><strong>Bugs fixed</strong>
@@ -6,7 +147,6 @@
         </ul>
     </li>
 </ul>
-
 <h2>easyReservations 3.2.2 & 3.2.3 - 31.01.2013</h2>
 <ul>
 	<li><strong>Premium</strong>
@@ -204,7 +344,7 @@
 					<li>Image paths in admin</li>
 				</ul>
 			</li>
-			<li><strong>extentedCalendar 1.1.6</strong>
+			<li><strong>extendedCalendar 1.1.6</strong>
 				<ul>
 					<li>Small changes for compatibility to easyReservation 3.2</li>
 				</ul>
@@ -273,7 +413,7 @@
 			<li>Wrong js file paths in shortcode creator</li>
 			<li>Error in availability check mysql for hourly resources</li>
 			<li>Daily resources in hourly check</li>
-			<li>Multiple support emails seperated by comma</li>
+			<li>Multiple support emails saperated by comma</li>
 			<li>Screen settings appearance in dashboard</li>
 			<li>Widget unit select</li>
 		</ul>
@@ -481,15 +621,15 @@
 		<ul>
 			<li><strong>Payment 1.4.1 & 1.4.2</strong>
 				<ul>
-					<li>Updated automatically approvment for availabilty by persons</li>
+					<li>Updated automatically approval for availability by persons</li>
 					<li>Fixed credit card edit box</li>
 					<li>Fixed deposit function for google wallet and 2checkout</li>
 				</ul>
 			</li>
 			<li><strong>SearchForm 1.1.14</strong>
 				<ul>
-					<li>Updated for availabilty by persons</li>
-					<li>Improved content substration of search results</li>
+					<li>Updated for availability by persons</li>
+					<li>Improved content substraction of search results</li>
 				</ul>
 			</li>
 			<li><strong>Coupons 1.0.8</strong>
@@ -499,14 +639,14 @@
 			</li>
 			<li><strong>Invoice 1.0.7</strong>
 				<ul>
-					<li>Updated for availabilty by persons</li>
+					<li>Updated for availability by persons</li>
 					<li>Fixed typo in tag</li>
 					<li>If Image uploaded in /wp-content/uploads use a relative path instead of URL</li>
 				</ul>
 			</li>
 			<li><strong>hourlyCalendar 1.0.4</strong>
 				<ul>
-					<li>Updated for availabilty by persons</li>
+					<li>Updated for availability by persons</li>
 				</ul>
 			</li>
 		</ul>
@@ -516,7 +656,7 @@
 	<li><strong>Availability by persons</strong>
 		<ul>
 			<li>Resources can now be reservated by the amount of persons instead of per unit for hostels, tours, events or courses</li>
-			<li>These resources just have one row in the overview that shows the amounts of reservation backgrounded by percentages per day or hour</li>
+			<li>These resources just have one row in the overview that shows the amounts of reservation in the background by percentages per day or hour</li>
 			<li>Tutorial popup for it</li>
 		</ul>
 	</li>
@@ -524,8 +664,8 @@
 <ul>
 	<li><strong>Improvements</strong>
 		<ul>
-			<li>Rewrote "dont use time" mode to technically only calculate full intervals instead of simply hidding it from the admin</li>
-			<li>New resource option to calculate the (maybe filtred) base price only once and independed from the duration of the reservation</li>
+			<li>Rewrote "don't use time" mode to technically only calculate full intervals instead of simply hide it from the admin</li>
+			<li>New resource option to calculate the (maybe filtered) base price only once and independent from the duration of the reservation</li>
 			<li>New currency norwegian krone</li>
 			<li>Updated spanish translation - thanks to Carles Yuste!</li>
 		</ul>
@@ -609,9 +749,9 @@
 				<ul>
 					<li>Log in your premium account in the premium settings</li>
 					<li>Automatically update and install modules from there</li>
-					<li>New completly working update notifier</li>
+					<li>New completely working update notifier</li>
 					<li>Read changelogs</li>
-					<li>Checking Compability both ways - alerts if the Modules version is to low for the Plugin and if the Plugins version is to low for the Module</li>
+					<li>Checking compatibility both ways - alerts if the Modules version is to low for the Plugin and if the Plugins version is to low for the Module</li>
 					<li>Re-Install all Modules</li>
 					<li>De-/Activate all Modules at once</li>
 					<li>Removed old update notifier completly</li>
@@ -624,18 +764,18 @@
 							<li>Ask for credit card after submit</li>
 							<li>Check for number, type and cvv</li>
 							<li>Can execute auto approve</li>
-							<li>Saved encrypted by a defineable password in the database</li>
+							<li>Saved encrypted by a definable password in the database</li>
 							<li>View, add and edit as admin</li>
 						</ul>
 					</li>
 					<li>Made it ready to pay multiple reservations at once</li>
-					<li>Extended [paypal] emails tag by percanteges of price with e.g. [paypal 30]</li>
+					<li>Extended [paypal] emails tag by percentages of price with e.g. [paypal 30]</li>
 					<li>Fixed language selection bug</li>
 				</ul>
 			</li>
 			<li><strong>SearchForm 1.1.12</strong>
 				<ul>
-					<li>Build in new requirment and the filters</li>
+					<li>Build in new requirement and the filters</li>
 					<li>Build in translatable datepicker</li>
 					<li>SearchTypes Addon WPML ready</li>
 					<li>Fixed a rounding bug</li>
@@ -648,7 +788,7 @@
 					<li>Fixed a rounding bug</li>
 				</ul>
 			</li>
-			<li><strong>extentedCalendar 1.1.3</strong>
+			<li><strong>extendedCalendar 1.1.3</strong>
 				<ul>
 					<li>Calendar cells fix in boxed style</li>
 				</ul>
@@ -747,7 +887,7 @@
 			<li>Tutorial in shortcode popup</li>
 			<li>Tutorial setting seamed off but was on if never saved, now appear correctly</li>
 			<li>Reservations that in a deleted resource can still be edited</li>
-			<li>Tables date count -0 to proper 0 and improved aligment</li>
+			<li>Tables date count -0 to proper 0 and improved alignment</li>
 		</ul>
 	</li>
 </ul>
@@ -758,8 +898,8 @@
 			<li>Time in form in all possible relations (hidden,with [times])</li>
 			<li>Conditional price fields</li>
 			<li>Overview header if today was first day</li>
-			<li>More check before sendmail</li>
-			<li>Sendmail after add/edit reservation instead of before</li>
+			<li>More check before send mail</li>
+			<li>Send mail after add/edit reservation instead of before</li>
 		</ul>
 	</li>
 </ul>
@@ -768,7 +908,7 @@
 	<li><strong>Calendar shows simple arrival and departure by half/diagonal fillings in all styles expect of boxed</strong></li>
 </ul>
 <ul>
-	<li><strong>Relpy's for emails to admin goes to the guest now</strong></li>
+	<li><strong>Reply for emails to admin goes to the guest now</strong></li>
 </ul>
 <ul>
 	<li><strong>Bugs fixed</strong>
@@ -788,7 +928,7 @@
 			<li>Elseif statements for price fields in forms</li>
 			<li>Conditions can be resource, times, persons, childrens and adults </li>
 			<li>Example: If 4 or more persons reserve price is 5€ and if 6 or more the price is 37€</li>
-			<li>Nested Conditions: If resource 4 AND (if 1 (or more) person: 4 elseif 2 persons: 5) elseif resource 24 AND (if 2 childrens: 4€ elseif 5 childrens: 25€)</li>
+			<li>Nested Conditions: If resource 4 AND (if 1 (or more) person: 4 elseif 2 persons: 5) elseif resource 24 AND (if 2 children's: 4€ elseif 5 children's: 25€)</li>
 			<li>Complicated to set up -> <a href="http://easyreservations.org/kb/price-fields/">Tutorial</a></li>
 		</ul>
 	</li>
@@ -810,7 +950,7 @@
 		<ul>
 			<li>Resources can be re-ordered by menu order in post settings</li>
 			<li>Table order by persons and status</li>
-			<li>Widget select calendas resource in resource select as default</li>
+			<li>Widget select calendars resource in resource select as default</li>
 		</ul>
 	</li>
 </ul>
@@ -838,9 +978,9 @@
 	<li>Updated all Modules to easyReservations 3.0</li>
 	<li><strong>Statistics</strong>
 		<ul>
-			<li>Completly rewrote of statistics page</li>
+			<li>Completely rewrote of statistics page</li>
 			<li>Monthly statistics to dashboard, statistic and dashboard</li>
-			<li>Navigate throught time in graph and bar statistic</li>
+			<li>Navigate through time in graph and bar statistic</li>
 			<li>Pie charts for status, paid and persons with seamless change</li>
 			<li>Statistics for paid</li>
 		</ul>
@@ -848,7 +988,7 @@
 	<li><strong>Styles</strong>
 		<ul>
 			<li>New professional admin style</li>
-			<li>Finallay, after over a year, a new form style!</li>
+			<li>Finally, after over a year, a new form style!</li>
 			<li>New calendar style</li>
 		</ul>
 	</li>
@@ -898,8 +1038,8 @@
 <ul>
 	<li>Merged all reservations functions into a central class</li>
 	<li>Very automatically system, less bug susceptible, better error capturing and much easier to work with</li>
-	<li>Reduced amount of code alot</li>
-	<li>Rewrotes, improvments and cleans for nearly all functions</li>
+	<li>Reduced amount of code a lot</li>
+	<li>Rewrote, improvements and clean ups for nearly all functions</li>
 	<li>In total a change from a manually pump to a precious clockwork mechanism systematically</li>
 </ul>
 </li>
@@ -918,7 +1058,7 @@
 <ul>
 	<li><strong>Interface</strong>
 <ul>
-	<li>New reservations info bar with more informations and better style</li>
+	<li>New reservations info bar with more information and better style</li>
 	<li>Improved tables data visualization</li>
 	<li>Better estimation of the distance of reservations</li>
 	<li>Removed a few useless table options</li>
@@ -929,7 +1069,7 @@
 <ul>
 	<li><strong>Beta-Release of the  <a href="http://easyreservations.org/chrome" target="_blank">easyReservations ChromeExtension</a></strong>
 <ul>
-	<li>Checks your system for new reservations and shows count of them in icons badge automatically at defineable interval</li>
+	<li>Checks your system for new reservations and shows count of them in icons badge automatically at definable interval</li>
 	<li>Optional to click on icon to get to pending reservations table</li>
 	<li>Or open a chrome Pop-Up with a short list of active and pending reservations</li>
 	<li>Free</li>
@@ -942,9 +1082,9 @@
 			<li>Availability check works finally properly with arrival dates in calendar and form check</li>
 			<li>Function to check availability over all resources</li>
 			<li>Custom styles function for all types of styles and selectable instead of overwriting</li>
-			<li>Search for custom informations in table</li>
+			<li>Search for custom information in table</li>
 			<li>Order by resource in table orders by resource count too</li>
-			<li>Alot, or even more, minor ones</li>
+			<li>A lot, or even more, minor ones</li>
 		</ul>
 	</li>
 </ul>
@@ -953,13 +1093,13 @@
 <ul>
 	<li>Forms working on mobiles now</li>
 	<li>Probably fixed the 404 error that occurred on some servers</li>
-	<li>Required checkboxes promt error if unchecked before submit too</li>
+	<li>Required checkboxes prompt error if unchecked before submit too</li>
 	<li>Forms submit on enter</li>
 	<li>Toolbar icon everywhere and updating to new wordpress function</li>
 	<li>Resources error on post add</li>
-	<li>Table options adults and childs works properly</li>
+	<li>Table options adults and children's works properly</li>
 	<li>Reject</li>
-	<li>Calendars availablity checks at 12:00 of day instead of 0:00</li>
+	<li>Calendars availability checks at 12:00 of day instead of 0:00</li>
 	<li>Overview onclick over current time at edit</li>
 	<li>Countless...</li>
 </ul>
@@ -967,7 +1107,7 @@
 </ul>
 <h2>easyReservations 2.1.3 - 09.07.2012</h2>
 <ul>
-	<li><strong>Cutted functions user-edit, dashboard widged, statistics page and export for premium</strong></li>
+	<li><strong>Removed functions user-edit, dashboard widged, statistics page and export for premium</strong></li>
 </ul>
 <ul>
 	<li><strong>Module system Improved</strong></li>
@@ -977,7 +1117,7 @@
 <ul>
 	<li>Forum submit bug again</li>
 	<li>Style corrections</li>
-	<li>Numerous minnor bug</li>
+	<li>Numerous minor bug</li>
 </ul>
 </li>
 </ul>
@@ -995,8 +1135,8 @@
 	<li><strong>Bugs fixed</strong>
 <ul>
 	<li>Form and Calendar on Mobiles should style and work correctly now (untested)</li>
-	<li>Calendar &amp; Widget's Calenar not showing</li>
-	<li>Module installation error due to max filesize</li>
+	<li>Calendar &amp; Widget's Calendar not showing</li>
+	<li>Module installation error due to max file size</li>
 	<li>Error in form because of "has to be in future" only happens if more as 24h past</li>
 </ul>
 </li>
@@ -1034,9 +1174,9 @@
 	<li>Multiple optimizations in email function</li>
 	<li>Country select</li>
 	<li>Dashboard options hide resource</li>
-	<li>Requird custom fields working with each type now</li>
+	<li>Required custom fields working with each type now</li>
 	<li>Price and custom fields support check and checkbox to build a checkbox</li>
-	<li>Overview cell-background for today in hourly mode at non-horuly resources</li>
+	<li>Overview cell-background for today in hourly mode at non-hourly resources</li>
 	<li>Renamed filters: Price =&gt; Time; Discount =&gt; Conditional;</li>
 	<li>Days per reservation statistic</li>
 	<li>Optimized reservations navigation hitbox in table</li>
@@ -1067,7 +1207,7 @@
 	<li><strong>Bugs fixed</strong>
 <ul>
 	<li>Overworked module system to store them at upgrading (from now) - please update your modules</li>
-	<li>All captcha releated bugs</li>
+	<li>All captcha related bugs</li>
 	<li>Availability check if no resource number selected</li>
 	<li>Resource number at approving</li>
 	<li>Date format 30-05-2012</li>
@@ -1093,12 +1233,12 @@
 	<li><strong>Bugs fixed</strong>
 <ul>
 	<li>[units] form tag</li>
-	<li>Childrens at required persons</li>
+	<li>Children's at required persons</li>
 	<li>Calendars availability check at departure date</li>
 	<li>Overviews availability check with reservations under day/hour</li>
 	<li>Resource number select</li>
 	<li>Directly price/custom fields in emails</li>
-	<li>Date/range filters editation</li>
+	<li>Date/range filters editing</li>
 	<li>Forms redirection</li>
 </ul>
 </li>
@@ -1145,7 +1285,7 @@
 	<li><strong>Improvements</strong>
 <ul>
 	<li>Updated french language - 100% translated! Thanks and free module to Remy Perona</li>
-	<li>Datepicker's first day is monday</li>
+	<li>Datepickers first day is monday</li>
 </ul>
 </li>
 </ul>
@@ -1155,7 +1295,7 @@
 	<li>Price per person in resource settings</li>
 	<li>Range filters</li>
 	<li>[show_price] before attribute</li>
-	<li>Multiple small preperations and fixes for some modules</li>
+	<li>Multiple small preparations and fixes for some modules</li>
 </ul>
 </li>
 </ul>
@@ -1193,7 +1333,7 @@
 	<li>Overview simple tooltip</li>
 	<li>Selects for time were added everywhere</li>
 	<li>Two reservations can share one minute in the same room</li>
-	<li>It's optionial at settings - If turned of it will just show full days everywhere like before</li>
+	<li>It's optional at settings - If turned of it will just show full days everywhere like before</li>
 </ul>
 </li>
 </ul>
@@ -1221,7 +1361,7 @@
 <ul>
 	<li><strong>Deleted functions</strong>
 <ul>
-	<li>Offer's: Too complicated and not much use left with all the filters and discounts</li>
+	<li>Offers: Too complicated and not much use left with all the filters and discounts</li>
 	<li>Message: Use custom fields</li>
 </ul>
 </li>
@@ -1229,7 +1369,7 @@
 <ul>
 	<li><strong>Improvements</strong>
 <ul>
-	<li>Resouce's table button to custom post table</li>
+	<li>Resources table button to custom post table</li>
 	<li>Modules Update Notifier much smaller and faster</li>
 	<li>French language</li>
 	<li>Most input's stay after error's at admin add reservation</li>
@@ -1262,7 +1402,7 @@
 <ul>
 	<li>Add/edit reservation admin</li>
 	<li>Prices in simple calendar style</li>
-	<li>Filters availabilty</li>
+	<li>Filters availability</li>
 	<li>Custom forms</li>
 	<li>Blue form style</li>
 	<li>Export if no custom fields used but checked</li>
@@ -1282,7 +1422,7 @@
 	<li>Error checking at sending</li>
 	<li>Box above form as overview of errors</li>
 	<li>Included min/max nights/persons in live validation</li>
-	<li>Name, eMail and Custom fields gets checked for emptyness before sending</li>
+	<li>Name, eMail and Custom fields gets checked for emptiness before sending</li>
 	<li>Better name validation</li>
 	<li>Focus field on click on the error</li>
 	<li>Select title and message of error box</li>
@@ -1304,7 +1444,7 @@
 	<li>No errors with .csv files</li>
 	<li>Custom fields</li>
 	<li>Reserved</li>
-	<li>Roomnumber</li>
+	<li>Room number</li>
 </ul>
 </li>
 </ul>
@@ -1312,12 +1452,12 @@
 	<li><strong>Improvements</strong>
 <ul>
 	<li>Custom prices can be per persons and night now (price*persons*nights)</li>
-	<li>Improved Module Installation alot</li>
-	<li>Set text after succesfull edit in userCP</li>
+	<li>Improved Module Installation a lot</li>
+	<li>Set text after successful edit in userCP</li>
 	<li>Custom prices in email</li>
 	<li>Trash reservation from edit</li>
 	<li>Rewrote email generation script</li>
-	<li>New infomations in emails: paid, reserved ago, custom prices</li>
+	<li>New infomation in emails: paid, reserved ago, custom prices</li>
 	<li>Update notifier</li>
 	<li>File loading</li>
 	<li>Day and Month names everywhere translatable with just one string each</li>
@@ -1332,10 +1472,10 @@
 	<li><strong>Bugs fixed</strong>
 <ul>
 	<li>Editlink</li>
-	<li>Many email releated bugs</li>
+	<li>Many email related bugs</li>
 	<li>Calendar selection</li>
 	<li>Offer discounts</li>
-	<li>The first unavailable day from filters can be depature day now</li>
+	<li>The first unavailable day from filters can be departure day now</li>
 	<li>Date unavailability</li>
 	<li>Display price zero</li>
 	<li>Custom prices at view reservation</li>
@@ -1344,7 +1484,7 @@
 </ul>
 <h2>easyReservations 1.7 - 03.04.2012</h2>
 <ul>
-	<li><strong>Extented form tags!</strong>
+	<li><strong>Extended form tags!</strong>
 <ul>
 	<li>up to 5 new tag options for each form tag</li>
 	<li>Value/Selected/Checked</li>
@@ -1363,7 +1503,7 @@
 	<li><strong>More resources options!</strong>
 <ul>
 	<li>Set minimum and maximum nights to stay for each resource</li>
-	<li>Set minimum and maximum persons (adults+childs) for each resource</li>
+	<li>Set minimum and maximum persons (adults+children's) for each resource</li>
 </ul>
 </li>
 </ul>
@@ -1376,11 +1516,11 @@
 	<li>Real login function with sessions</li>
 	<li>Sessions stay till browser close</li>
 	<li>Logout function</li>
-	<li>Errors dont break site anymore without lowering security</li>
+	<li>Errors don't break site anymore without lowering security</li>
 	<li>Swap between reservations</li>
 	<li>Customizable table to show all reservation from the same email</li>
 	<li>Rename rooms</li>
-	<li>Split text over login and over the editation itself</li>
+	<li>Split text over login and over the editing itself</li>
 	<li>Much more options</li>
 	<li>Improved security</li>
 </ul>
@@ -1391,14 +1531,14 @@
 <ul>
 	<li>Custom prices gets added/subtracted after discounts</li>
 	<li>Calendar style and generation</li>
-	<li>Resources table splited</li>
+	<li>Resources table divided</li>
 	<li>tinyMCE Shortcode button</li>
 	<li>Central status function</li>
 	<li>Custom API extended</li>
 	<li>Filters builder &amp; dashboard screen settings checkboxes/radios</li>
-	<li>New get_the_title function for frontend (casue of Private:)</li>
+	<li>New get_the_title function for frontend (beccasue of Private:)</li>
 	<li>Core module installation &amp; update notifier</li>
-	<li>New currencys</li>
+	<li>New currency's</li>
 	<li>Filters prices after deleting a resource get displayed properly</li>
 	<li>Modules update notifier needs to be turned on once</li>
 </ul>
@@ -1478,12 +1618,12 @@
 <ul>
 	<li><strong>Custom &amp; Price fields</strong>
 <ul>
-	<li>Storred as arrays</li>
+	<li>Get stored as arrays</li>
 	<li>Can be editable, visible and hidden</li>
-	<li>Central function for editation</li>
+	<li>Central function for editing</li>
 	<li>Preparation for new types in flexible and central function</li>
-	<li> Can be completly seperated from custom fields</li>
-	<li> Can have different amount and type of informations</li>
+	<li> Can be completely separated from custom fields</li>
+	<li> Can have different amount and type of information</li>
 </ul>
 </li>
 </ul>
@@ -1494,7 +1634,7 @@
 	<li><strong>Improvements</strong>
 <ul>
 	<li>Table works with #hashtags to save current group for refresh and acces a group directly by url#hashtag</li>
-	<li>Table new rows Reservated and Status</li>
+	<li>Table new rows reserved and status</li>
 	<li>Discounts can be per person</li>
 	<li>User-edit status/price is selectable</li>
 	<li>Image and menu for adminbar</li>
@@ -1505,8 +1645,8 @@
 	<li>Dozens of new currency tags</li>
 	<li>Got rid of offers &amp; rooms category</li>
 	<li>Replacement of icons due to legal issues</li>
-	<li>Delete informations on uninstall is selectable</li>
-	<li>Multiple reservation support mails by comma seperation</li>
+	<li>Delete information on uninstall is selectable</li>
+	<li>Multiple reservation support mails by comma separation</li>
 	<li>Filters modes get displayed properly</li>
 	<li>Custom form element to forms Quicktag</li>
 	<li>Updated german language</li>
@@ -1517,7 +1657,7 @@
 	<li><strong>Bugs fixed</strong>
 <ul>
 	<li>Table color</li>
-	<li>Table reservations that ending today/tommorw/yesterday gets displayed in the right group</li>
+	<li>Table reservations that ending today/tommorow/yesterday gets displayed in the right group</li>
 	<li>Datepicker in forms</li>
 	<li>Multiple style fixes</li>
 	<li>Overview hide rooms</li>

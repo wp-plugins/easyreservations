@@ -3,7 +3,7 @@
 Plugin Name: easyReservations
 Plugin URI: http://www.easyreservations.org
 Description: This powerfull property and reservation management plugin allows you to receive, schedule and handle your bookings easily!
-Version: 3.2.4
+Version: 3.3
 Author: Feryaz Beer
 Author URI: http://www.feryaz.de
 License:GPL2
@@ -28,7 +28,7 @@ License:GPL2
 		if($pending_reservations_cnt != 0) $pending = '<span class="update-plugins count-'.$pending_reservations_cnt.'"><span class="plugin-count">'.$pending_reservations_cnt.'</span></span>';
 		else $pending = '';
 
-		add_menu_page(__('easyReservation','easyReservations'), __('Reservation','easyReservations').' '.$pending, $dashboard, 'reservations', 'reservation_main_page', RESERVATIONS_URL.'images/logo.png' );
+		add_menu_page(__('easyReservation','easyReservations'), __('Reservation','easyReservations').' '.$pending, $dashboard, 'reservations', 'reservation_main_page' );
 		add_submenu_page('reservations', __('Dashboard','easyReservations'), __('Dashboard','easyReservations'), $dashboard, 'reservations', 'reservation_main_page');
 		add_submenu_page('reservations', __('Resources','easyReservations'), __('Resources','easyReservations'), $resources, 'reservation-resources', 'reservation_resources_page');
 		do_action('easy-add-submenu-page');
@@ -38,7 +38,7 @@ License:GPL2
 	/**
 	* 	Hook languages to admin & frontend
 	*/
-	function easyreservations_get_pending(){	
+	function easyreservations_get_pending(){
 		global $wpdb;
 
 		$count = $wpdb->get_var("SELECT COUNT(*) as Num FROM ".$wpdb->prefix ."reservations WHERE approve='' AND arrival > NOW()");
@@ -89,14 +89,14 @@ ID: [ID]<br>Name: [thename] <br>Email: [email] <br>From: [arrival] <br>To: [depa
 
 		$formstandart = '[error]
 <h1>Reserve now![show_price style="float:right;"]</h1>
-<h2>General informations</h2>
+<h2>General information</h2>
 
 <label>Arrival Date
-<span class="small">When do you come?</span>
+<span class="small">When will you come?</span>
 </label><span class="row">[date-from style="width:75px"] [date-from-hour style="width:50px" value="12"]:[date-from-min style="width:50px"]</span>
 
 <label>Departure Date
-<span class="small">When do you go?</span>
+<span class="small">When will you go?</span>
 </label><span class="row">[date-to style="width:75px"] [date-to-hour style="width:50px" value="12"]:[date-to-min style="width:50px"]</span>
 
 <label>Resource
@@ -111,14 +111,14 @@ ID: [ID]<br>Name: [thename] <br>Email: [email] <br>From: [arrival] <br>To: [depa
 <span class="small">With children&rsquo;s?</span>
 </label>[childs 0 10]
 
-<h2>Personal information&rsquo;s</h2>
+<h2>Personal information</h2>
 
 <label>Name
-<span class="small">Whats your name?</span>
+<span class="small">What is your name?</span>
 </label>[thename]
 
 <label>Email
-<span class="small">Whats your email?</span>
+<span class="small">What is your email?</span>
 </label>[email]
 
 <label>Phone
@@ -250,135 +250,6 @@ ID: [ID]<br>Name: [thename] <br>Email: [email] <br>From: [arrival] <br>To: [depa
 				$table = array( 'table_color' => 1, 'table_id' => 0, 'table_name' => 1, 'table_from' => 1, 'table_to' => 1, 'table_nights' => 1, 'table_email' => 1, 'table_room' => 1, 'table_exactly' => 1, 'table_offer' => 1, 'table_persons' => 1, 'table_childs' => 1, 'table_country' => 1, 'table_message' => 0, 'table_custom' => 0, 'table_customp' => 0, 'table_paid' => 0, 'table_price' => 1, 'table_filter_month' => 1, 'table_filter_room' => 1, 'table_filter_offer' => 1, 'table_filter_days' => 1, 'table_search' => 1, 'table_bulk' => 1, 'table_onmouseover' => 1, 'table_reservated' => 0, 'table_status' => 1, 'table_fav' => 1 );
 				$overview = array( 'overview_onmouseover' => 1, 'overview_autoselect' => 1, 'overview_show_days' => 30, 'overview_show_rooms' => '', 'overview_show_avail' => 1 );
 				add_option('reservations_main_options', array('show' => $showhide, 'table' => $table, 'overview' => $overview ), '', 'no');
-				$easyReservations_installed_ver = 1.4;
-			}
-			if($easyReservations_installed_ver == 1.4 || $easyReservations_installed_ver == "1.4.5"){
-				$permission = array('dashboard' => 'edit_posts', 'statistics' => 'edit_posts', 'resources' => 'edit_posts', 'settings' => 'edit_posts');
-				update_option( 'reservations_main_permission', $permission );
-				add_option( 'reservations_email_to_user', array('msg' => get_option( 'reservations_email_to_user_msg' ), 'subj' => get_option( 'reservations_email_to_user_subj' ), 'active' => 1), '', 'no');
-				add_option( 'reservations_email_to_userapp', array('msg' => get_option( 'reservations_email_to_userapp_msg' ), 'subj' => get_option( 'reservations_email_to_userapp_subj' ), 'active' => 1), '', 'no');
-				add_option( 'reservations_email_to_userdel', array('msg' => get_option( 'reservations_email_to_userdel_msg' ), 'subj' => get_option( 'reservations_email_to_userdel_subj' ), 'active' => 1), '', 'no');
-				add_option( 'reservations_email_to_admin', array('msg' => get_option( 'reservations_email_to_admin_msg' ), 'subj' => get_option( 'reservations_email_to_admin_subj' ), 'active' => 1), '', 'no');
-				add_option( 'reservations_email_to_user_edited', array('msg' => get_option( 'reservations_email_to_user_edited_msg' ), 'subj' => get_option( 'reservations_email_to_user_edited_subj' ), 'active' => 1), '', 'no');
-				add_option( 'reservations_email_to_admin_edited', array('msg' => get_option( 'reservations_email_to_admin_edited_msg' ), 'subj' => get_option( 'reservations_email_to_admin_edited_subj' ), 'active' => 1), '', 'no');
-				add_option( 'reservations_email_to_user_admin_edited', array('msg' => get_option( 'reservations_email_to_user_admin_edited_msg' ), 'subj' => get_option( 'reservations_email_to_user_admin_edited_subj' ), 'active' => 1), '', 'no');
-				add_option( 'reservations_email_sendmail', array('msg' => get_option( 'reservations_email_sendmail_msg' ), 'subj' => get_option( 'reservations_email_sendmail_subj' ), 'active' => 1), '', 'no');
-				delete_option( 'reservations_email_to_userapp_subj' );
-				delete_option( 'reservations_email_to_userapp_msg' );
-				delete_option( 'reservations_email_to_userdel_subj' );
-				delete_option( 'reservations_email_to_userdel_msg' );
-				delete_option( 'reservations_email_to_admin_subj' );
-				delete_option( 'reservations_email_to_admin_msg' );
-				delete_option( 'reservations_email_to_user_subj' );
-				delete_option( 'reservations_email_to_user_msg' );
-				delete_option( 'reservations_email_to_user_edited_subj' );
-				delete_option( 'reservations_email_to_user_edited_msg' );
-				delete_option( 'reservations_email_to_admin_edited_subj' );
-				delete_option( 'reservations_email_to_admin_edited_msg' );
-				delete_option( 'reservations_email_to_user_admin_edited_subj' );
-				delete_option( 'reservations_email_to_user_admin_edited_msg' );
-				delete_option( 'reservations_email_sendmail_subj' );
-				delete_option( 'reservations_email_sendmail_msg' );
-				global $wpdb;
-				$wpdb->query( "DELETE FROM ".$wpdb->prefix ."postmeta WHERE meta_key = 'reservations_filter' ");
-				$easyReservations_installed_ver = 1.5;
-			}
-			if($easyReservations_installed_ver == 1.5){
-				global $wpdb;
-				$room_category = get_option('reservations_room_category');
-				if(isset($room_category) && !empty($room_category) && is_numeric($room_category)){
-					$args=array( 'category' => $room_category, 'post_type' => 'post', 'post_status' => 'publish|private', 'orderby' => 'post_title', 'order' => 'ASC', 'numberposts'     => -1 );
-					$getids = get_posts($args);
-					foreach($getids as $post){
-						$id = $post->ID;
-						$wpdb->query($wpdb->prepare("UPDATE ".$wpdb->prefix ."posts SET post_type='easy-rooms' WHERE ID='$id' "));
-						$wpdb->query( $wpdb->prepare("DELETE FROM ".$wpdb->prefix ."term_relationships WHERE object_id='$id'  ") );
-					}
-				}
-				$offer_category = get_option('reservations_special_offer_cat');
-				if(isset($offer_category) && !empty($offer_category) && is_numeric($room_category)){
-					$args=array( 'category' => $offer_category, 'post_type' => 'post', 'post_status' => 'publish|private', 'orderby' => 'post_title', 'order' => 'ASC', 'numberposts'     => -1 );
-					$getids = get_posts($args);
-					foreach($getids as $post){
-						$id = $post->ID;
-						$wpdb->query($wpdb->prepare("UPDATE ".$wpdb->prefix ."posts SET post_type='easy-offers' WHERE ID='$id' "));
-						$wpdb->query($wpdb->prepare("DELETE FROM ".$wpdb->prefix ."term_relationships WHERE object_id='$id'"));
-					}
-				}
-				delete_option('reservations_room_category');
-				delete_option('reservations_special_offer_cat');
-				$wpdb->query($wpdb->prepare("ALTER TABLE ".$wpdb->prefix ."reservations CHANGE custom custom longtext"));
-				$wpdb->query($wpdb->prepare("ALTER TABLE ".$wpdb->prefix ."reservations CHANGE customp customp longtext"));
-				$reservations = $wpdb->get_results("SELECT id, custom, customp FROM ".$wpdb->prefix ."reservations");
-				foreach($reservations as $reservation){
-					$id = $reservation->id;
-					$customs = $reservation->custom;
-					$explode_customs = explode('&;&', $customs);
-					$new_customs='';
-					if(isset($explode_customs[1])){
-						foreach($explode_customs as $custom){
-							if(!empty($custom)){
-								$explode_the_custom = explode('&:&', $custom);
-								$new_customs[] = array( 'type' => 'cstm', 'mode' => 'edit', 'title' => $explode_the_custom[0], 'value' => $explode_the_custom[1] );
-							}
-						}
-					} elseif(isset($explode_customs[0]) && strlen($explode_customs[0]) > 5){
-						$explode_the_custom = explode('&:&', $explode_customs[0]);
-						$new_customs[] = array( 'type' => 'cstm', 'mode' => 'edit', 'title' => $explode_the_custom[0], 'value' => $explode_the_custom[1] );
-					}
-					$customsp = $reservation->customp;
-					$explode_customp = explode('&;&', $customsp);
-					$new_customp='';
-					if(isset($explode_customp[1])){
-						foreach($explode_customp as $customp){
-							if(!empty($customp)){
-								$explode_the_custom = explode('&:&', $customp);
-								$explode_the_price = explode(':', $explode_the_custom[1]);
-								$new_customp[] = array( 'type' => 'cstm', 'mode' => 'edit', 'title' => $explode_the_custom[0], 'value' => $explode_the_price[0], 'amount' => $explode_the_price[1] );
-							}
-						}
-					} elseif(isset($explode_customp[0]) && strlen($explode_customp[0]) > 5){
-						$explode_the_custom = explode('&:&', $explode_customp[0]);
-						$explode_the_price = explode(':', $explode_the_custom[1]);
-						$new_customp[] = array( 'type' => 'cstm', 'mode' => 'edit', 'title' => $explode_the_custom[0], 'value' => $explode_the_price[0], 'amount' => $explode_the_price[1] );
-					}
-					$save_custom = '';
-					$save_customp = '';
-					if(!empty($new_customs)) $save_custom = maybe_serialize(array($new_customs));
-					if(!empty($new_customp)) $save_customp = maybe_serialize(array($new_customp));
-					$wpdb->query($wpdb->prepare("UPDATE ".$wpdb->prefix ."reservations SET custom='$save_custom', customp='$save_customp' WHERE id='$id' "));
-					unset($new_customs);
-					unset($new_customp);
-				}
-				$wpdb->query( $wpdb->prepare("ALTER TABLE ".$wpdb->prefix ."reservations ADD user int(10) NOT NULL"));
-				$wpdb->query( $wpdb->prepare("UPDATE ".$wpdb->prefix ."reservations SET user='0'"));
-				add_option( 'reservations_uninstall', '1', '', 'no' );
-				$easyReservations_installed_ver = 1.6;
-			}
-			if($easyReservations_installed_ver == 1.6){
-				$edit_text = get_option('reservations_edit_text');
-				$edit_options = array( 'login_text' => stripslashes($edit_text), 'edit_text' => stripslashes($edit_text),  'table_infos' => array('date', 'status', 'price', 'room'), 'table_status' => array('','yes','no'), 'table_time' => array('past','current','future'), 'table_style' => 1, 'table_more' => 1 );
-				add_option('reservations_edit_options', $edit_options, '', false);
-				add_option('reservations_date_format', 'd.m.Y', '', true);
-				delete_option( 'reservations_edit_text' );
-				$easyReservations_installed_ver = 1.7;
-			}
-			if($easyReservations_installed_ver == 1.7){
-				$easyReservations_installed_ver = 1.8;
-			}
-			if($easyReservations_installed_ver == 1.8){
-				global $wpdb;
-				$wpdb->query( $wpdb->prepare("ALTER TABLE ".$wpdb->prefix ."reservations ADD arrival datetime NOT NULL"));
-				$wpdb->query( $wpdb->prepare("ALTER TABLE ".$wpdb->prefix ."reservations ADD departure datetime NOT NULL"));
-				$reservations = $wpdb->get_results($wpdb->prepare("SELECT id, arrivalDate, nights, notes FROM ".$wpdb->prefix ."reservations"));
-				foreach($reservations as $reservation){
-					$id = $reservation->id;
-					$arrivalDate = strtotime($reservation->arrivalDate);
-					$nights = $reservation->nights;
-					$arrival = date("Y-m-d H:i", $arrivalDate+43200);
-					$departure = date("Y-m-d H:i", $arrivalDate+(86400*$nights)+43200);
-					$wpdb->query($wpdb->prepare("UPDATE ".$wpdb->prefix ."reservations SET arrival='$arrival', departure='$departure' WHERE id='$id' "));
-				}
 
 				$settings_array = array( 'style' => get_option("reservations_style"), 'interval' => 86400, 'currency' => get_option("reservations_currency"), 'date_format' => get_option("reservations_date_format"), 'time' => 1 );
 				add_option("reservations_settings", $settings_array);
@@ -388,7 +259,135 @@ ID: [ID]<br>Name: [thename] <br>Email: [email] <br>From: [arrival] <br>To: [depa
 				delete_option("reservations_date_format");
 				$wpdb->query( $wpdb->prepare("DROP TABLE ".$wpdb->prefix ."reservations DROP arrivalDate, nights, special, dat, notes"));
 
-				$easyReservations_installed_ver = 2.0;
+				$easyReservations_installed_ver = 1.4;
+			}
+      if($easyReservations_installed_ver == 1.4 || $easyReservations_installed_ver == "1.4.5"){
+        $permission = array('dashboard' => 'edit_posts', 'statistics' => 'edit_posts', 'resources' => 'edit_posts', 'settings' => 'edit_posts');
+        update_option( 'reservations_main_permission', $permission );
+        add_option( 'reservations_email_to_user', array('msg' => get_option( 'reservations_email_to_user_msg' ), 'subj' => get_option( 'reservations_email_to_user_subj' ), 'active' => 1), '', 'no');
+        add_option( 'reservations_email_to_userapp', array('msg' => get_option( 'reservations_email_to_userapp_msg' ), 'subj' => get_option( 'reservations_email_to_userapp_subj' ), 'active' => 1), '', 'no');
+        add_option( 'reservations_email_to_userdel', array('msg' => get_option( 'reservations_email_to_userdel_msg' ), 'subj' => get_option( 'reservations_email_to_userdel_subj' ), 'active' => 1), '', 'no');
+        add_option( 'reservations_email_to_admin', array('msg' => get_option( 'reservations_email_to_admin_msg' ), 'subj' => get_option( 'reservations_email_to_admin_subj' ), 'active' => 1), '', 'no');
+        add_option( 'reservations_email_to_user_edited', array('msg' => get_option( 'reservations_email_to_user_edited_msg' ), 'subj' => get_option( 'reservations_email_to_user_edited_subj' ), 'active' => 1), '', 'no');
+        add_option( 'reservations_email_to_admin_edited', array('msg' => get_option( 'reservations_email_to_admin_edited_msg' ), 'subj' => get_option( 'reservations_email_to_admin_edited_subj' ), 'active' => 1), '', 'no');
+        add_option( 'reservations_email_to_user_admin_edited', array('msg' => get_option( 'reservations_email_to_user_admin_edited_msg' ), 'subj' => get_option( 'reservations_email_to_user_admin_edited_subj' ), 'active' => 1), '', 'no');
+        add_option( 'reservations_email_sendmail', array('msg' => get_option( 'reservations_email_sendmail_msg' ), 'subj' => get_option( 'reservations_email_sendmail_subj' ), 'active' => 1), '', 'no');
+        delete_option( 'reservations_email_to_userapp_subj' );
+        delete_option( 'reservations_email_to_userapp_msg' );
+        delete_option( 'reservations_email_to_userdel_subj' );
+        delete_option( 'reservations_email_to_userdel_msg' );
+        delete_option( 'reservations_email_to_admin_subj' );
+        delete_option( 'reservations_email_to_admin_msg' );
+        delete_option( 'reservations_email_to_user_subj' );
+        delete_option( 'reservations_email_to_user_msg' );
+        delete_option( 'reservations_email_to_user_edited_subj' );
+        delete_option( 'reservations_email_to_user_edited_msg' );
+        delete_option( 'reservations_email_to_admin_edited_subj' );
+        delete_option( 'reservations_email_to_admin_edited_msg' );
+        delete_option( 'reservations_email_to_user_admin_edited_subj' );
+        delete_option( 'reservations_email_to_user_admin_edited_msg' );
+        delete_option( 'reservations_email_sendmail_subj' );
+        delete_option( 'reservations_email_sendmail_msg' );
+        global $wpdb;
+        $wpdb->query( "DELETE FROM ".$wpdb->prefix ."postmeta WHERE meta_key = 'reservations_filter' ");
+        $easyReservations_installed_ver = 1.5;
+      }
+      if($easyReservations_installed_ver == 1.5){
+        global $wpdb;
+        $room_category = get_option('reservations_room_category');
+        if(isset($room_category) && !empty($room_category) && is_numeric($room_category)){
+          $args=array( 'category' => $room_category, 'post_type' => 'post', 'post_status' => 'publish|private', 'orderby' => 'post_title', 'order' => 'ASC', 'numberposts'     => -1 );
+          $getids = get_posts($args);
+          foreach($getids as $post){
+            $id = $post->ID;
+            $wpdb->query($wpdb->prepare("UPDATE ".$wpdb->prefix ."posts SET post_type='easy-rooms' WHERE ID='$id' "));
+            $wpdb->query( $wpdb->prepare("DELETE FROM ".$wpdb->prefix ."term_relationships WHERE object_id='$id'  ") );
+          }
+        }
+        $offer_category = get_option('reservations_special_offer_cat');
+        if(isset($offer_category) && !empty($offer_category) && is_numeric($room_category)){
+          $args=array( 'category' => $offer_category, 'post_type' => 'post', 'post_status' => 'publish|private', 'orderby' => 'post_title', 'order' => 'ASC', 'numberposts'     => -1 );
+          $getids = get_posts($args);
+          foreach($getids as $post){
+            $id = $post->ID;
+            $wpdb->query($wpdb->prepare("UPDATE ".$wpdb->prefix ."posts SET post_type='easy-offers' WHERE ID='$id' "));
+            $wpdb->query($wpdb->prepare("DELETE FROM ".$wpdb->prefix ."term_relationships WHERE object_id='$id'"));
+          }
+        }
+        delete_option('reservations_room_category');
+        delete_option('reservations_special_offer_cat');
+        $wpdb->query($wpdb->prepare("ALTER TABLE ".$wpdb->prefix ."reservations CHANGE custom custom longtext"));
+        $wpdb->query($wpdb->prepare("ALTER TABLE ".$wpdb->prefix ."reservations CHANGE customp customp longtext"));
+        $reservations = $wpdb->get_results("SELECT id, custom, customp FROM ".$wpdb->prefix ."reservations");
+        foreach($reservations as $reservation){
+          $id = $reservation->id;
+          $customs = $reservation->custom;
+          $explode_customs = explode('&;&', $customs);
+          $new_customs='';
+          if(isset($explode_customs[1])){
+            foreach($explode_customs as $custom){
+              if(!empty($custom)){
+                $explode_the_custom = explode('&:&', $custom);
+                $new_customs[] = array( 'type' => 'cstm', 'mode' => 'edit', 'title' => $explode_the_custom[0], 'value' => $explode_the_custom[1] );
+              }
+            }
+          } elseif(isset($explode_customs[0]) && strlen($explode_customs[0]) > 5){
+            $explode_the_custom = explode('&:&', $explode_customs[0]);
+            $new_customs[] = array( 'type' => 'cstm', 'mode' => 'edit', 'title' => $explode_the_custom[0], 'value' => $explode_the_custom[1] );
+          }
+          $customsp = $reservation->customp;
+          $explode_customp = explode('&;&', $customsp);
+          $new_customp='';
+          if(isset($explode_customp[1])){
+            foreach($explode_customp as $customp){
+              if(!empty($customp)){
+                $explode_the_custom = explode('&:&', $customp);
+                $explode_the_price = explode(':', $explode_the_custom[1]);
+                $new_customp[] = array( 'type' => 'cstm', 'mode' => 'edit', 'title' => $explode_the_custom[0], 'value' => $explode_the_price[0], 'amount' => $explode_the_price[1] );
+              }
+            }
+          } elseif(isset($explode_customp[0]) && strlen($explode_customp[0]) > 5){
+            $explode_the_custom = explode('&:&', $explode_customp[0]);
+            $explode_the_price = explode(':', $explode_the_custom[1]);
+            $new_customp[] = array( 'type' => 'cstm', 'mode' => 'edit', 'title' => $explode_the_custom[0], 'value' => $explode_the_price[0], 'amount' => $explode_the_price[1] );
+          }
+          $save_custom = '';
+          $save_customp = '';
+          if(!empty($new_customs)) $save_custom = maybe_serialize(array($new_customs));
+          if(!empty($new_customp)) $save_customp = maybe_serialize(array($new_customp));
+          $wpdb->query($wpdb->prepare("UPDATE ".$wpdb->prefix ."reservations SET custom='$save_custom', customp='$save_customp' WHERE id='$id' "));
+          unset($new_customs);
+          unset($new_customp);
+        }
+        $wpdb->query( $wpdb->prepare("ALTER TABLE ".$wpdb->prefix ."reservations ADD user int(10) NOT NULL"));
+        $wpdb->query( $wpdb->prepare("UPDATE ".$wpdb->prefix ."reservations SET user='0'"));
+        add_option( 'reservations_uninstall', '1', '', 'no' );
+        $easyReservations_installed_ver = 1.6;
+      }
+      if($easyReservations_installed_ver == 1.6){
+        $edit_text = get_option('reservations_edit_text');
+        $edit_options = array( 'login_text' => stripslashes($edit_text), 'edit_text' => stripslashes($edit_text),  'table_infos' => array('date', 'status', 'price', 'room'), 'table_status' => array('','yes','no'), 'table_time' => array('past','current','future'), 'table_style' => 1, 'table_more' => 1 );
+        add_option('reservations_edit_options', $edit_options, '', false);
+        add_option('reservations_date_format', 'd.m.Y', '', true);
+        delete_option( 'reservations_edit_text' );
+        $easyReservations_installed_ver = 1.7;
+      }
+      if($easyReservations_installed_ver == 1.7){
+        $easyReservations_installed_ver = 1.8;
+      }
+      if($easyReservations_installed_ver == 1.8){
+        global $wpdb;
+        $wpdb->query( $wpdb->prepare("ALTER TABLE ".$wpdb->prefix ."reservations ADD arrival datetime NOT NULL"));
+        $wpdb->query( $wpdb->prepare("ALTER TABLE ".$wpdb->prefix ."reservations ADD departure datetime NOT NULL"));
+        $reservations = $wpdb->get_results($wpdb->prepare("SELECT id, arrivalDate, nights, notes FROM ".$wpdb->prefix ."reservations"));
+        foreach($reservations as $reservation){
+          $id = $reservation->id;
+          $arrivalDate = strtotime($reservation->arrivalDate);
+          $nights = $reservation->nights;
+          $arrival = date("Y-m-d H:i", $arrivalDate+43200);
+          $departure = date("Y-m-d H:i", $arrivalDate+(86400*$nights)+43200);
+          $wpdb->query($wpdb->prepare("UPDATE ".$wpdb->prefix ."reservations SET arrival='$arrival', departure='$departure' WHERE id='$id' "));
+        }
 			}
 			
 			$easyReservations_installed_ver = "3.2.1";
@@ -454,12 +453,41 @@ ID: [ID]<br>Name: [thename] <br>Email: [email] <br>From: [arrival] <br>To: [depa
 			easyreservations_latest_modules_versions(86400, false, true, 'all');
 		}
 	}
+	class EasyDateTime extends DateTime {
+		public static function createFromFormat($format, $time, $lang = null){
+			if(version_compare(PHP_VERSION, '5.3.0') >= 0){
+				$date = parent::createFromFormat($format, $time);
+				return new self('@'.$date->format('U'), $date->getTimeZone());
+			}
+			$format = str_replace(array('d', 'm', 'Y', 'H', 'i', 's'), array('%d', '%m', '%Y', '%H', '%M', '%S'), $format);
+			$ugly = strptime($time, $format);
+			$ymd = sprintf(
+				'%04d-%02d-%02d %02d:%02d:%02d',
+				$ugly['tm_year'] + 1900,  // This will be "111", so we need to add 1900.
+				$ugly['tm_mon'] + 1,      // This will be the month minus one, so we add one.
+				$ugly['tm_mday'],
+				$ugly['tm_hour'],
+				$ugly['tm_min'],
+				$ugly['tm_sec']
+			);
+
+			$date = new DateTime($ymd);
+			return new self('@'.$date->format('U'), $date->getTimeZone());
+		}
+
+		public function getTimestamp(){
+			if(version_compare(PHP_VERSION, '5.3.0') >= 0){
+				return parent::getTimestamp();
+			}
+			return $this->format('U');
+		}
+	}
 
 	add_filter('upgrader_pre_install', 'easyreservations_backup', 10, 2);
 	add_filter('upgrader_post_install', 'easyreservations_recover', 10, 2);
 	$reservations_settings = get_option("reservations_settings");
 
-	define('RESERVATIONS_VERSION', '3.2.4');
+	define('RESERVATIONS_VERSION', '3.3');
 	define('RESERVATIONS_DIR', WP_PLUGIN_DIR.'/easyreservations/');
 	define('RESERVATIONS_URL', WP_PLUGIN_URL.'/easyreservations/');
 	define('RESERVATIONS_STYLE', $reservations_settings['style']);
@@ -468,13 +496,20 @@ ID: [ID]<br>Name: [thename] <br>Email: [email] <br>From: [arrival] <br>To: [depa
 	define('RESERVATIONS_CURRENCY', $sign);
 	define('RESERVATIONS_DATE_FORMAT', $reservations_settings['date_format']);
 	define('RESERVATIONS_USE_TIME', $reservations_settings['time']);
-	if(RESERVATIONS_USE_TIME == 1) $usetime = ' H:i'; else $usetime = '';
+	if(RESERVATIONS_USE_TIME == 1){
+		if(isset($reservations_settings['time_format'])) $usetime = ' '.$reservations_settings['time_format'];
+		else $usetime = ' H:i';
+	} else $usetime = '';
 	define('RESERVATIONS_DATE_FORMAT_SHOW', RESERVATIONS_DATE_FORMAT.$usetime);
 	if(get_option('timezone_string')) date_default_timezone_set(get_option('timezone_string'));
-	add_action('init','easyreservations_init_language');
+	add_action('wp_footer','easyreservations_init_language');
 	add_action('admin_init','easyreservations_init_language');
 
 	function easyreservations_init_language() {
+		if(isset($_GET['lang'])){
+			global $sitepress;
+			if($sitepress && is_object($sitepress)) $sitepress->switch_lang($_GET['lang']);
+		}
 		load_plugin_textdomain('easyReservations', false, dirname(plugin_basename( __FILE__ )).'/languages/' );
 	}
 
@@ -508,18 +543,21 @@ ID: [ID]<br>Name: [thename] <br>Email: [email] <br>From: [arrival] <br>To: [depa
 	require_once(dirname(__FILE__)."/lib/widgets/form_widget.php");
 	if(file_exists(dirname(__FILE__).'/lib/modules/premium/premium.php')) require_once(dirname(__FILE__)."/lib/modules/premium/premium.php");
 	$reservations_active_modules = get_option('reservations_active_modules');
-	if(easyreservations_is_module('paypal')) include_once(dirname(__FILE__)."/lib/modules/paypal/paypal.php");
-	if(easyreservations_is_module('useredit')) include_once(dirname(__FILE__)."/lib/modules/useredit/useredit.php");
-	if(easyreservations_is_module('import')) include_once(dirname(__FILE__)."/lib/modules/import/import.php");
-	if(easyreservations_is_module('multical')) include_once(dirname(__FILE__)."/lib/modules/multical/multical.php");
-	if(easyreservations_is_module('search')) include_once(dirname(__FILE__)."/lib/modules/search/search.php");
-	if(easyreservations_is_module('lang')) include_once(dirname(__FILE__)."/lib/modules/lang/lang.php");
-	if(easyreservations_is_module('styles')) include_once(dirname(__FILE__)."/lib/modules/styles/styles.php");
-	if(easyreservations_is_module('hourlycal')) include_once(dirname(__FILE__)."/lib/modules/hourlycal/hourlycal.php");
-	if(easyreservations_is_module('htmlmails')) include_once(dirname(__FILE__)."/lib/modules/htmlmails/htmlmails.php");
-	if(easyreservations_is_module('coupons')) include_once(dirname(__FILE__)."/lib/modules/coupons/coupons.php");
-	if(easyreservations_is_module('invoice')) include_once(dirname(__FILE__)."/lib/modules/invoice/invoice.php");
-	if(easyreservations_is_module('statistics')) include_once(dirname(__FILE__)."/lib/modules/statistics/statistics.php");
-	if(easyreservations_is_module('stream')) include_once(dirname(__FILE__)."/lib/modules/stream/stream.php");
+	if($reservations_active_modules){
+		if(easyreservations_is_module('paypal')) include_once(dirname(__FILE__)."/lib/modules/paypal/paypal.php");
+		if(easyreservations_is_module('useredit')) include_once(dirname(__FILE__)."/lib/modules/useredit/useredit.php");
+		if(easyreservations_is_module('import')) include_once(dirname(__FILE__)."/lib/modules/import/import.php");
+		if(easyreservations_is_module('multical')) include_once(dirname(__FILE__)."/lib/modules/multical/multical.php");
+		if(easyreservations_is_module('search')) include_once(dirname(__FILE__)."/lib/modules/search/search.php");
+		if(easyreservations_is_module('lang')) include_once(dirname(__FILE__)."/lib/modules/lang/lang.php");
+		if(easyreservations_is_module('styles')) include_once(dirname(__FILE__)."/lib/modules/styles/styles.php");
+		if(easyreservations_is_module('hourlycal')) include_once(dirname(__FILE__)."/lib/modules/hourlycal/hourlycal.php");
+		if(easyreservations_is_module('htmlmails')) include_once(dirname(__FILE__)."/lib/modules/htmlmails/htmlmails.php");
+		if(easyreservations_is_module('coupons')) include_once(dirname(__FILE__)."/lib/modules/coupons/coupons.php");
+		if(easyreservations_is_module('invoice')) include_once(dirname(__FILE__)."/lib/modules/invoice/invoice.php");
+		if(easyreservations_is_module('statistics')) include_once(dirname(__FILE__)."/lib/modules/statistics/statistics.php");
+		if(easyreservations_is_module('stream')) include_once(dirname(__FILE__)."/lib/modules/stream/stream.php");
+		if(easyreservations_is_module('sync')) include_once(dirname(__FILE__)."/lib/modules/sync/sync.php");
+	}
 	if(is_admin()) if(!isset($reservations_settings['tutorial'] ) || $reservations_settings['tutorial'] == 1) include_once(dirname(__FILE__)."/lib/tutorials/handle.tutorials.php");
 ?>

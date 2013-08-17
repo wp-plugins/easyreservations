@@ -1,5 +1,4 @@
 <?php
-
 class Resource {
 	
 	public $id;
@@ -112,7 +111,7 @@ class Resource {
 					return true;
 				}
 				if(isset($this->groundprice) && (!is_numeric($this->groundprice) || $this->groundprice < 0)){
-					throw new easyException( 'Groundprice must be float and >= 0 - Groundprice: '.$this->groundprice );
+					throw new easyException( 'Base price must be float and >= 0 | Base price: '.$this->groundprice );
 					return true;
 				}
 				if(isset($this->child) && (!is_numeric($this->child))){
