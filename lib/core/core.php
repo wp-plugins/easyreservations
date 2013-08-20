@@ -208,8 +208,8 @@ License:GPL2
 					'title' => __( 'User Control Panel' , 'easyReservations' ),
 					'content' => __( ' Let your guests login with their reservations ID and email to edit their reservation afterwards. They can switch between their reservations in a table. In addition it provides a chat-like feature. New messages in table, dummy message at start, admin notices, avatars and fully AJAX driven. The guest can see his invoice and cancel his reservation.' , 'easyReservations' ),
 					'function' => 'easyreservations_generate_chat',
-					'least' => '1.3.1',
-					'vers' => '1.3.1',
+					'least' => '1.3.2',
+					'vers' => '1.3.2',
 					'image' => 'chat',
 				),
 				'statistics' => array(

@@ -1020,7 +1020,7 @@ if(!isset($approve) && !isset($delete) && !isset($view) && !isset($edit) && !iss
 	<?php } ?>
 	<script>
 		jQuery('select[name="export_tech"]').bind('change', function(){
-			if(jquery(this).value == 'xls') exportExcelCharset();
+			if(jQuery(this).value == 'xls') exportExcelCharset();
 			else jQuery('#charset').html('');
 		});
 		function exportExcelCharset(){

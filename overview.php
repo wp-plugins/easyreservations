@@ -251,8 +251,8 @@ foreach( $all_resources as $key => $resource){ /* - + - FOREACH ROOM - + - */
 					else $personsOccupied[date($date_pat, $round+$interval)] = $reservation->persons;
 				} else {
 					$res_nights = round(($res_departure_stamp - $res_adate_stamp) / $interval);
-					if($res_nights >= 1){
-						for($i=0; $i <= $res_nights; $i++){
+					for($i=0; $i <= $res_nights; $i++){
+						if($timesx <= $res_adate+($i*$interval) && $res_nights >= 1){
 							$daysOccupied[]=date($date_pat, $res_adate+($i*$interval)+$interval);
 							$numberOccupied[]=$countdifferenz;
 							if($bypers){
@@ -310,12 +310,12 @@ foreach( $all_resources as $key => $resource){ /* - + - FOREACH ROOM - + - */
 			if(isset($daysOccupied)){
 				if(in_array(date($date_pat, $dateToday), $daysOccupied)){
 					if($numberOccupied[$CoutResNights3] != $CountNumberOfAdd && $cellcount != 1) $CountNumberOfAdd++;
-					if($reservationarray[$CountNumberOfAdd]['nights'] < 1) while($reservationarray[$CountNumberOfAdd]['nights'] < 1) $CountNumberOfAdd++;
+					//if($reservationarray[$CountNumberOfAdd]['nights'] < 1) while($reservationarray[$CountNumberOfAdd]['nights'] < 1) $CountNumberOfAdd++;
 					$arrival = $reservationarray[$CountNumberOfAdd]['arDate'];
 					$departure = $reservationarray[$CountNumberOfAdd]['departure'];
 					$nights = $reservationarray[$CountNumberOfAdd]['nights'];
 
-					if(isset($daysOccupied[$CoutResNights3+1]) && isset($numberOccupied[$CoutResNights3-1]) && $numberOccupied[$CoutResNights3-1] != $daysOccupied[$CoutResNights3] && $numberOccupied[$CoutResNights3-1] != $numberOccupied[$CoutResNights3]) $wasFullTwo=1;
+					if(isset($daysOccupied[$CoutResNights3+1]) && isset($numberOccupied[$CoutResNights3-1]) && $numberOccupied[$CoutResNights3-1] != $daysOccupied[$CoutResNights3] && $numberOccupied[$CoutResNights3-1] != $numberOccupied[$CoutResNights3])$wasFullTwo=1;
 
 					if(($CoutResNights2 == 0 && $cellcount != 1) || ($wasFullTwo == 1 && $cellcount != 1) || $dateToday - $arrival <= $interval){
 						$farbe2="url(".RESERVATIONS_URL ."images/DERSTRING_start.png) right top no-repeat, ".$background2." ".$colorbgfree;
@@ -325,7 +325,7 @@ foreach( $all_resources as $key => $resource){ /* - + - FOREACH ROOM - + - */
 						if($cellcount != 1) $borderside=0;
 						$itIS++;
 					}
-					if(isset($daysOccupied[$CoutResNights3+1]) AND $daysOccupied[$CoutResNights3] != $daysOccupied[$CoutResNights3+1] && $numberOccupied[$CoutResNights3] != $numberOccupied[$CoutResNights3+1]){
+					if(isset($daysOccupied[$CoutResNights3+1]) && $daysOccupied[$CoutResNights3] != $daysOccupied[$CoutResNights3+1] && $numberOccupied[$CoutResNights3] != $numberOccupied[$CoutResNights3+1]){
 						$farbe2="url(".RESERVATIONS_URL ."images/DERSTRING_end.png) left top no-repeat, ".$background2." ".$colorbgfree;
 						$itIS=0;
 					}
