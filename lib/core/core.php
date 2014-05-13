@@ -121,8 +121,8 @@ License:GPL2
 					'title' => __( 'Invoice' , 'easyReservations' ),
 					'content' => __( 'Generate totally customizable Invoices automatically from predefined templates. Including an editor for admins, invoices as email attachments and correct A4 Letter formats.' , 'easyReservations' ),
 					'function' => 'easyreservations_load_invoice_template',
-					'least' => '1.0.13',
-					'vers' => '1.0.13',
+					'least' => '1.0.14',
+					'vers' => '1.0.14',
 					'image' => 'invoice',
 				),
 				'htmlmails' => array(
@@ -131,7 +131,7 @@ License:GPL2
 					'content' => __( 'Style your emails with HTML to increase the appearance of your hospitality.' , 'easyReservations' ),
 					'function' => 'easyreservations_send_multipart_mail',
 					'least' => '1.1.5',
-					'vers' => '1.1.5',
+					'vers' => '1.1.6',
 					'image' => 'email',
 				),
 				'paypal' => array(
@@ -139,8 +139,8 @@ License:GPL2
 					'title' => __( 'Payment' , 'easyReservations' ),
 					'content' => __( 'Integration of multiple payment gateways like PayPal, Google Wallet, Authorize.net, 2checkout, DIBSpayment or Ogone. Further implementing of Stripe.com Credit Cards gateway and a function to store credit cards for manual treatment. Automatically approve new reservations and/or after payment..' , 'easyReservations' ),
 					'function' => 'easyreservations_validate_payment',
-					'least' => '1.7',
-					'vers' => '1.7',
+					'least' => '1.7.1',
+					'vers' => '1.7.1',
 					'image' => 'paypal',
 				),
 				'search' => array(
@@ -148,8 +148,8 @@ License:GPL2
 					'title' => __( 'searchForm' , 'easyReservations' ),
 					'content' => __( 'New shortcode to let your guests search for available resources. No page reload for searching, compatible to calendar, show price, show unavailable resources, link to form with automatically selection. Each resource can have a small one-column calendar to show when its available. The results can be shown as list or table.' , 'easyReservations' ),
 					'function' => 'easyreservations_search_add_tinymce',
-					'least' => '1.2.4',
-					'vers' => '1.2.4',
+					'least' => '1.2.5',
+					'vers' => '1.2.5',
 					'image' => 'search',
 					'addon' => array(
 						array(
@@ -181,8 +181,8 @@ License:GPL2
 					'title' => __( 'hourlyCalendar' , 'easyReservations' ),
 					'content' => __( 'Show your guests the availability of the resources on a hourly basis.' , 'easyReservations' ),
 					'function' => 'easyreservations_send_hourlycal_callback',
-					'least' => '1.0.9',
-					'vers' => '1.0.9',
+					'least' => '1.1',
+					'vers' => '1.1',
 					'image' => 'time',
 				),
 				'import' => array(
@@ -190,8 +190,8 @@ License:GPL2
 					'title' => __( 'Export &amp; Import' , 'easyReservations' ),
 					'content' => __( 'Export selectable reservation information by time, selection or all as .xls, .csv or .least and Import them from back from the .least files.' , 'easyReservations' ),
 					'function' => 'easyreservations_generate_import',
-					'least' => '1.2.6',
-					'vers' => '1.2.6',
+					'least' => '1.2.7',
+					'vers' => '1.2.7',
 					'image' => 'import',
 				),
 				'lang' => array(
@@ -199,8 +199,8 @@ License:GPL2
 					'title' => __( 'Multilingual' , 'easyReservations' ),
 					'content' => __( 'Function to make texts in forms, emails, search bar and invoices translatable.' , 'easyReservations' ),
 					'function' => 'easyreservations_translate_content',
-					'least' => '1.2.1',
-					'vers' => '1.2.1',
+					'least' => '1.2.2',
+					'vers' => '1.2.2',
 					'image' => 'country',
 				),
 				'useredit' => array(
@@ -208,8 +208,8 @@ License:GPL2
 					'title' => __( 'User Control Panel' , 'easyReservations' ),
 					'content' => __( ' Let your guests login with their reservations ID and email to edit their reservation afterwards. They can switch between their reservations in a table. In addition it provides a chat-like feature. New messages in table, dummy message at start, admin notices, avatars and fully AJAX driven. The guest can see his invoice and cancel his reservation.' , 'easyReservations' ),
 					'function' => 'easyreservations_generate_chat',
-					'least' => '1.3.2',
-					'vers' => '1.3.2',
+					'least' => '1.3.3',
+					'vers' => '1.3.3',
 					'image' => 'chat',
 				),
 				'statistics' => array(
@@ -218,7 +218,7 @@ License:GPL2
 					'content' => __( 'Detailed statistics, charts, resource usages and a dashboard widget.' , 'easyReservations' ),
 					'function' => 'easyreservations_add_statistics_submenu',
 					'least' => '1.2',
-					'vers' => '1.2',
+					'vers' => '1.2.1',
 					'image' => 'statistics',
 				),
 				'stream' => array(
@@ -236,35 +236,35 @@ License:GPL2
 					'title' => __( 'Synchronization' , 'easyReservations' ),
 					'content' => __( 'Add reservations to the shopping card of WooCommerce.' , 'easyReservations' ),
 					'function' => 'easyreservations_sync_check',
-					'least' => '1.0',
-					'vers' => '1.0',
+					'least' => '1.0.1',
+					'vers' => '1.0.1',
 					'image' => 'reload',
 				),
 				'styles' => array(
 					'slug' => 'styles',
 					'title' => __( 'Styles' , 'easyReservations' ),
 					'content' => __( 'New Admin, Calendar and Form style. In addition it changes your datepickers style and disable unavailble dates in it.' , 'easyReservations' ),
-					'least' => '1.2.7',
+					'least' => '1.2.8',
 					'function' => 'easyreservations_register_datepicker_style',
-					'vers' => '1.2.7',
+					'vers' => '1.2.8',
 					'image' => 'to',
 				),
 				'coupons' => array(
 					'slug' => 'coupons',
 					'title' => __( 'Coupon' , 'easyReservations' ),
 					'content' => __( 'Let your guests enter coupon codes for discounts.' , 'easyReservations' ),
-					'least' => '1.0.12',
+					'least' => '1.0.13',
 					'function' => 'easyreservations_calculate_coupon',
-					'vers' => '1.0.12',
+					'vers' => '1.0.13',
 					'image' => 'money',
 				),
 				'multical' => array(
 					'slug' => 'multical',
 					'title' => __( 'extentedCalendar' , 'easyReservations' ),
 					'content' => __( 'Extend the calendar shortcode to show multiple months by an flexible grid (x*y). Includes a new boxed calendar style.' , 'easyReservations' ),
-					'least' => '1.1.7',
+					'least' => '1.1.8',
 					'function' => 'easyreservations_generate_multical',
-					'vers' => '1.1.7',
+					'vers' => '1.1.8',
 					'image' => 'day',
 				)
 			);
@@ -385,7 +385,7 @@ License:GPL2
 						<thead>
 							<tr>
 								<th><?php if($login) echo __( 'Premium Login' , 'easyReservations' ); else echo __( 'Premium Features' , 'easyReservations' ); ?>
-									<?php if($login){?><input type="button" value="<?php printf ( __( 'Login' , 'easyReservations' ));?>" onclick="document.getElementById('reservation_prem_login').submit(); return false;" style="padding:4px 6px;float:right" class="easySubmitButton-primary" ><?php } ?></th>
+									<?php if($login){?><input type="button" value="<?php printf ( __( 'Login' , 'easyReservations' ));?>" onclick="document.getElementById('reservation_prem_login').submit(); return false;" style="padding:4px 6px;float:right" class="easybutton button-primary" ><?php } ?></th>
 							</tr>
 						</thead>
 						<tbody>
@@ -410,19 +410,19 @@ License:GPL2
 											For all of these functions the script calls easyreservations.org's API to get the information, but isn't collecting any datas or personal information.
 										</span>
 									<?php } else { ?>
-										<p><a href="admin.php?page=reservation-settings&site=plugins&install=all" class="easySubmitButton-secondary"><?php echo __( 'Install all modules' , 'easyReservations' ); ?></a></p>
+										<p><a href="admin.php?page=reservation-settings&site=plugins&install=all" class="button"><?php echo __( 'Install all modules' , 'easyReservations' ); ?></a></p>
 										<p>
 											<form action="<?php echo WP_PLUGIN_URL; ?>/easyreservations/lib/core/activate.php" method="post" style="display:inline-block;">
 												<input type="hidden" name="activate_all" value="bla">
-												<a href="#" onclick="this.parentNode.submit();" class="easySubmitButton-secondary"><?php echo __( 'Activate All' , 'easyReservations' ); ?></a>
+												<a href="#" onclick="this.parentNode.submit();" class="button"><?php echo __( 'Activate All' , 'easyReservations' ); ?></a>
 											</form>
 											<form action="<?php echo WP_PLUGIN_URL; ?>/easyreservations/lib/core/activate.php" method="post" style="display:inline-block;">
 												<input type="hidden" name="deactivate_all" value="bla">
-												<a href="#" onclick="this.parentNode.submit();" class="easySubmitButton-secondary"><?php echo __( 'Deactivate All' , 'easyReservations' ); ?></a>
+												<a href="#" onclick="this.parentNode.submit();" class="button"><?php echo __( 'Deactivate All' , 'easyReservations' ); ?></a>
 											</form>
 										</p>
-										<p><a href="admin.php?page=reservation-settings&site=plugins&check" class="easySubmitButton-secondary"><?php echo __( 'Check for updates' , 'easyReservations' ); ?></a></p>
-										<p><a href="admin.php?page=reservation-settings&site=plugins&logout" class="easySubmitButton-secondary"><?php echo __( 'Turn off update notifier' , 'easyReservations' ); ?></a></p>
+										<p><a href="admin.php?page=reservation-settings&site=plugins&check" class="button"><?php echo __( 'Check for updates' , 'easyReservations' ); ?></a></p>
+										<p><a href="admin.php?page=reservation-settings&site=plugins&logout" class="button"><?php echo __( 'Turn off update notifier' , 'easyReservations' ); ?></a></p>
 										<p><?php echo __( 'Last check' , 'easyReservations' );?>: <?php echo date(RESERVATIONS_DATE_FORMAT." H:i", (int) get_option( 'easyreservations-notifier-last-updated')); ?></p>
 									<?php } ?>
 								</td>
@@ -445,7 +445,7 @@ License:GPL2
 										<input type="hidden" name="action" value="reservation_core_upload_plugin">
 										<input type="hidden" name="max_file_size" value="1000000000">
 										<input name="reservation_core_upload_file" type="file" size="50" maxlength="100000" accept="text/*"><br>
-										<input type="button" value="<?php printf ( __( 'Install' , 'easyReservations' ));?>" onclick="document.getElementById('reservation_core_upload').submit(); return false;" style="margin-top:7px;" class="easySubmitButton-primary" >
+										<input type="button" value="<?php printf ( __( 'Install' , 'easyReservations' ));?>" onclick="document.getElementById('reservation_core_upload').submit(); return false;" style="margin-top:7px;" class="easybutton button-primary" >
 									</form>
 								</td>
 							</tr>

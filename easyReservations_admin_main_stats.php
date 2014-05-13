@@ -26,8 +26,7 @@
 	$maxres++; $maxall++;
 ?><script type="text/javascript">
 <?php if( $show['show_upcoming'] == 1 ){ ?>
-    var bars = true, lines = false, steps = false;
-
+  var bars = true, lines = false, steps = false;
 	var d1 = [<?php echo $countApproved; ?>];
 	var d2 = [<?php echo $countRejected; ?>];
 	var d3 = [<?php echo $countPending; ?>];

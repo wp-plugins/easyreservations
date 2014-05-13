@@ -67,6 +67,7 @@ div.easy_infobox_border.only-image img {
 	display:none;
 	-moz-opacity:0.80;
 	opacity:0.80;
+    z-index: 1;
 	-ms-filter:\'progid:DXImageTransform.Microsoft.Alpha\'(Opacity=80);
 }
 
@@ -87,6 +88,7 @@ div.easy_infobox_border.only-image img {
 	-webkit-border-radius: 5px;
 	-moz-border-radius: 5px;
 	border-radius: 5px;
+    z-index:2;
 }
 
 #easyFormInnerlay a {

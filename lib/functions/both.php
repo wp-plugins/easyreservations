@@ -265,6 +265,8 @@
 			$string = _n('day', 'days', $singular, 'easyReservations');
 		} elseif($interval == 604800){
 			$string = _n('week', 'weeks', $singular, 'easyReservations');
+		} elseif($interval == 2592000){
+			$string = _n('month', 'months', $singular, 'easyReservations');
 		} else $string = _n('time', 'times', $singular, 'easyReservations');
 
 		return $string;
@@ -317,7 +319,7 @@
 		}
 
 		if($beforeArray['childs'] != $afterArray['childs']){
-			$changelog .= __('The amount of childs was edited' , 'easyReservations' ).': '.$beforeArray['childs'].' => '.$afterArray['childs'].'<br>';
+			$changelog .= __('The amount of children was edited' , 'easyReservations' ).': '.$beforeArray['childs'].' => '.$afterArray['childs'].'<br>';
 		}
 
 		if($beforeArray['country'] != $afterArray['country']){
@@ -325,7 +327,7 @@
 		}
 
 		if($beforeArray['room'] != $afterArray['room']){
-			$changelog .= __('The room was edited' , 'easyReservations' ).': '.__($the_rooms_array[$beforeArray['room']]->post_title).' => '.__($the_rooms_array[$afterArray['room']]->post_title).'<br>';
+			$changelog .= __('The resource got changed' , 'easyReservations' ).': '.__($the_rooms_array[$beforeArray['room']]->post_title).' => '.__($the_rooms_array[$afterArray['room']]->post_title).'<br>';
 		}
 
 		if($beforeArray['message'] != $afterArray['message']){
@@ -369,6 +371,7 @@
 
 		return $country_options;
 	}
+
 	/**
 	*	Returns full name of a country
 	*
@@ -381,6 +384,96 @@
 			$countryArray = easyReservations_country_array();
 			return $countryArray[$country];
 		}
+	}
+
+	function get_custom_submit($array, $error){
+		global $the_rooms_intervals_array;
+		if(isset($_POST['formname']))$theForm = stripslashes(get_option('reservations_form_'.$_POST['formname']));
+		else $theForm = stripslashes(get_option("reservations_form"));
+		if(empty($theForm)) $theForm = stripslashes(get_option("reservations_form"));
+
+		$theForm = apply_filters( 'easy-form-content', $theForm);
+		$tags = easyreservations_shortcode_parser($theForm, true);
+		$custom_fields = get_option('reservations_custom_fields');
+		$custom_price = '';
+		$done = '';
+
+		foreach($tags as $fields){
+			$field=shortcode_parse_atts( $fields);
+			if($field[0]=="custom"){
+				if(isset($field["id"])){
+					if(isset($_POST['easy-new-custom-'.$field["id"]])){
+						$custom = array( 'type' => 'cstm', 'mode' => 'edit', 'id' => $field["id"], 'value' => $_POST['easy-new-custom-'.$field["id"]]);
+						if(isset($custom_fields['fields'][$field["id"]]['price'])) $custom_price[] = $custom;
+						else $custom_form[] = $custom;
+					} elseif(isset($custom_fields[$field["id"]]['required'])){
+						$error.= '<li>'.sprintf(__( '%s is required', 'easyReservations'), $custom_fields[$field["id"]]['title']).'</li>';
+					}
+				} else {
+					if(isset($_POST['easy-custom-'.$field[2]]) && !empty($_POST['easy-custom-'.$field[2]])){
+						$custom_form[] = array( 'type' => 'cstm', 'mode' => 'edit', 'title' => $field[2], 'value' => $_POST['easy-custom-'.$field[2]]);
+					} else {
+						if(end($field)  == "*") $error.= '<li>'.sprintf(__( '%s is required', 'easyReservations'), ucfirst($field[2])).'</li>';
+					}
+				}
+			} elseif($field[0]=="price"){
+				if(isset($_POST['custom_price'.$field[2]])){
+					$nights = easyreservations_get_nights($the_rooms_intervals_array[$array['resource']], $array['arrival'],$array['departure']);
+					$explodeprice = explode(":",$_POST['custom_price'.$field[2]]);
+					if(end($field) == 'pp') $theprice = $explodeprice[1] * ($array['adults']+$array['childs']);
+					elseif(end($field) == 'pa') $theprice = $explodeprice[1] * $array['adults'];
+					elseif(end($field) == 'pan') $theprice = $explodeprice[1] * $array['adults'] * $nights;
+					elseif(end($field) == 'pc') $theprice = $explodeprice[1] * $array['childs'];
+					elseif(end($field) == 'pcn') $theprice = $explodeprice[1] * $array['childs'] * $nights;
+					elseif(end($field)  == 'pn') $theprice = $explodeprice[1] * $nights;
+					elseif(end($field)  == 'pb') $theprice = $explodeprice[1] * $nights * ($array['adults']+$array['childs']);
+					else $theprice = $explodeprice[1];
+					$custom_price[] = array( 'type' => 'cstm', 'mode' => 'edit', 'title' => $field[2], 'value' => $explodeprice[0], 'amount' => $theprice );
+				}
+			}
+		}
+		return array($custom_form, $custom_price, $error);
+	}
+
+	function easyreservations_generate_custom_field($id, $sel = false, $after = ''){
+		$custom_fields = get_option('reservations_custom_fields');
+		$form_field = '';
+		if(isset($custom_fields['fields'][$id])){
+			$custom_field = $custom_fields['fields'][$id];
+			if($custom_field['type'] == 'text'){
+				$value = '';
+				if($sel) $value = $sel;
+				$form_field = '<input type="text" name="easy-new-custom-'.$id.'" id="easy-new-custom-'.$id.'" value="'.$value.'" '.$after.'>';
+			} elseif($custom_field['type'] == 'area'){
+				$value = '';
+				if($sel) $value = $sel;
+				$form_field = '<textarea name="easy-new-custom-'.$id.'" id="easy-new-custom-'.$id.'"'.$after.'>'.$value.'</textarea>';
+			} elseif($custom_field['type'] == 'check'){
+				$checked = '';
+				foreach($custom_field['options'] as $opt_id => $option){
+					if($sel || (!$sel && $option['checked'])) $checked = ' checked="checked"';
+					$form_field .= '<input type="checkbox" name="easy-new-custom-'.$id.'" id="easy-new-custom-'.$id.'" value="'.$opt_id.'" '.$checked.$after.'>';
+				}
+			} elseif($custom_field['type'] == 'radio'){
+				$form_field .= '<span class="radio">';
+				foreach($custom_field['options'] as $opt_id => $option){
+					$checked = '';
+					if(($sel && $sel == $opt_id) || (!$sel && $option['checked'])) $checked = ' checked="checked"';
+					$form_field .= '<span><input type="radio" name="easy-new-custom-'.$id.'" id="easy-new-custom-'.$id.'" value="'.$opt_id.'" '.$checked.$after.'> '.$option['value'].'</span>';
+				}
+				$form_field .= '</span>';
+			} elseif($custom_field['type'] == 'select'){
+				$form_field = '<select name="easy-new-custom-'.$id.'" id="easy-new-custom-'.$id.'" '.$after.'>';
+				foreach($custom_field['options'] as $opt_id => $option){
+					$checked = '';
+					if($sel && $sel == $opt_id) $checked = ' selected="selected"';
+					$form_field .= '<option value="'.$opt_id.'"'.$checked.'>'.$option['value'].'</option>';
+				}
+				$form_field .= '</select>';
+			}
+		}
+		return $form_field;
+
 	}
 
 	/**
@@ -643,14 +736,14 @@ EOF;
 					dateFormat: '$dateformat',
 					minDate: 0,
 					beforeShowDay: function(date){
-						if($search == 2 && window.easydisabledays && document.easyFrontendFormular.easyroom){
-							return easydisabledays(date,document.easyFrontendFormular.easyroom.value);
+						if($search == 2 && window.easydisabledays ){
+								return easydisabledays(date, jQuery(this).parents("form:first").find( "[name=easyroom],#room" ).val());
 						} else {
 							return [true];
 						}
 					},
 					$translations
-					firstDay: 0,
+					firstDay: 1,
 					onSelect: function( selectedDate ){
 						if(this.id == '$instances[0]'){
 							var option = this.id == "$instances[0]" ? "minDate" : "maxDate",
@@ -672,11 +765,14 @@ EOF;
 				var dates = jQuery( "$jquery" ).datepicker({
 					$translations
 					dateFormat: '$dateformat',
-					firstDay: 0
+					firstDay: 1
 				});
 			});
 		</script>
 EOF;
+		}
+		if($type == 0 && function_exists("easyreservations_header_datepicker_script")){
+			easyreservations_header_datepicker_script();
 		}
 		echo $datepicker;
 	}

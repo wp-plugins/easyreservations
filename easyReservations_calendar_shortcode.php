@@ -7,6 +7,7 @@
 
 		$atts = shortcode_atts(array(
 			'room' => 0,
+			'date' => 0,
 			'resource' => 0,
 			'width' => '300',
 			'style' => 1,
@@ -15,7 +16,8 @@
 			'req' => 0,
 			'interval' => 1,
 			'monthes' => 1,
-			'select' => 2
+			'select' => 2,
+			'id' => rand(1,99999)
 		), $atts);
 
 		$atts['width'] = (float) $atts['width'];
@@ -26,13 +28,13 @@
 		if (wp_style_is('easy-cal-'.$atts['style'], 'registered')) wp_enqueue_style('easy-cal-'.$atts['style'], false, array(), false, 'all');
 		else wp_enqueue_style('easy-form-none' , false, array(), false, 'all');
 
-		$return = '<form name="CalendarFormular" id="CalendarFormular" style="width:'.$atts['width'].'%">';
-			$return .= '<input type="hidden" name="easyroom" onChange="easyreservations_send_calendar(\'shortcode\')" value="'.$atts['resource'].'">';
-			$return .= '<input type="hidden" name="date" onChange="easyreservations_send_calendar(\'shortcode\')" value="0">';
-			$return .= '<input type="hidden" name="calendarnonce" value="'.wp_create_nonce( 'easy-calendar' ).'">';
+		$return = '<form name="CalendarFormular" id="CalendarFormular-'.$atts['id'].'" style="width:'.$atts['width'].'%";margin:0px;padding:0px;display:inline-block;>';
 			$return .= '<div id="showCalender" style="margin-right:auto;margin-left:auto;vertical-align:middle;padding:0;width:100%"></div>';
 		$return .= '</form><!-- Provided by easyReservations free Wordpress Plugin http://www.easyreservations.org -->';
-		$easyreservations_script .= ';var easyCalendarAtts='.json_encode($atts).';if(window.easyreservations_send_calendar) easyreservations_send_calendar("shortcode"); else jQuery(document).ready(function(){easyreservations_send_calendar("shortcode");});';
+
+		$cal = 'new easyCalendar("'.wp_create_nonce( 'easy-calendar' ).'", '.json_encode($atts).', "shortcode");';
+		if(!function_exists('wpseo_load_textdomain')) $easyreservations_script .= 'if(window.easyCalendar) '.$cal.' else ';
+		$easyreservations_script .= 'jQuery(window).ready(function(){'.$cal.'});';
 
 		return $return;
 	}

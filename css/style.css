@@ -50,9 +50,9 @@ ul.tabs li {
     padding: 5px;
 }
 .explainbox {
-	padding: 10px; 
+	padding: 0px;
 	width:95%;
-	text-align:center;
+	text-align:left;
 }
 .explainbox > span {
 	display: inline-block;
@@ -627,6 +627,33 @@ table.formsubmit {background: #fff; width: 99%;border-collapse:collapse; }
 table.formsubmit td {background: #fff; width: 34%; border-bottom:1px solid #CCC; border-right:1px solid #CCC;text-align: center;font-weight: bold; padding:5px;}
 table.formsubmit td:first-of-type { background: #fff; width: 34%;}
 
+#custom_fields_table ul {
+    margin: 3px;
+}
+
+#options_sortable {
+    width: 600px;
+}
+
+.sortable {
+    color: #000;
+    margin: 2px 0px 2px 5px;
+    padding: 5px 5px 5px 8px;
+    background: #d8d8d8;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -khtml-border-radius: 5px;
+    border-radius:5px;
+    cursor: pointer;
+}
+
+.sortable strong {
+    font-weight: bold !important;
+}
+
+.sortable.clause {
+  background: #c3c3c3;
+}
 
 <!--[if IE]>
 #ieerror {

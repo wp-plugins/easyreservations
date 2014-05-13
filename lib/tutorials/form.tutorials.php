@@ -7,9 +7,8 @@
 				'<h3>Fields</h3><p>The form elements are represented by [tags] in the form editor. You can click on these tags to edit their settings.</p>',
 				'<h3>Add fields</h3><p>All available fields are listed in this tables, divided into three groups. Just click on one to add it to the form.</p>',
 		);
-		$offset = array('-75 0', '-75 0', '-75 0', '-75 0',);
 		$at = array('top', 'top', 'top', 'top');
 
-		echo easyreservations_execute_pointer(4, $handler, $content, $offset, $at);
+		echo easyreservations_execute_pointer(4, $handler, $content, $at);
 	}
 ?>

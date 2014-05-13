@@ -5,7 +5,7 @@
 	line-height:1em;
 }
 
-#easyFrontendFormular > label, #easyFrontendFormular > div.usereditdiv > label {
+#easyFrontendFormular label, #easyFrontendFormular > div.usereditdiv label {
     line-height: 1em;
 	display:inline-block;
 	font-weight:bold;
@@ -14,7 +14,7 @@
 	float:left !important;
 }
 
-#easyFrontendFormular > h2 {
+#easyFrontendFormular h2 {
 	font-size:11px;
 	color:#666666;
 	margin: 0px 10px 20px 10px;
@@ -70,6 +70,20 @@
 #easyFrontendFormular textarea {
 	margin:0px 0px 12px 10px;
 	width:52%;
+}
+#easyFrontendFormular span.radio {
+    width: 55%;
+    display: inline-block;
+    max-width:68%;
+    margin:0px 0px 8px 10px;
+}
+
+#easyFrontendFormular span.radio span {
+    display: block;
+}
+
+#easyFrontendFormular img {
+   box-shadow: none;
 }
 
 #easyFrontendFormular .form-error {

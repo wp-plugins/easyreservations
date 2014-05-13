@@ -5,13 +5,13 @@ function fakeIfStatements(fieldprice, persons, childs, nights, room){
 		var fieldpriceexplode = fieldprice.split(/-(?=[^\}]*(?:\{|$))/);
 		var thetype = fieldpriceexplode[1];
 		var explstatements = fieldpriceexplode[0].split(/;(?=[^\}]*(?:\{|$))/);
-        for(var i in explstatements){
+		for(var i in explstatements){
 			var explif = explstatements[i].split(/\>(?=[^\}]*(?:\{|$))/);
 			if(thetype == 'pers'){
 				if((parseFloat(persons)+parseFloat(childs)) >= parseFloat(explif[0])){
 					fieldprice = fakeIfStatements(explif[1].substr(1, explif[1].length-2), persons, childs, nights, room);
 					if(fieldprice === false) fieldprice = explif[1];
-                }
+        }
 			} else if(thetype == 'child'){
 				if(childs >= parseFloat(explif[0])){
 					fieldprice = fakeIfStatements(explif[1].substr(1, explif[1].length-2), persons, childs, nights, room);
@@ -27,7 +27,7 @@ function fakeIfStatements(fieldprice, persons, childs, nights, room){
 					fieldprice = fakeIfStatements(explif[1].substr(1, explif[1].length-2), persons, childs, nights, room);
 					if(fieldprice === false) fieldprice = explif[1];
 				}
-			} else if(thetype == 'adul' || thetype == 'adult'){
+			} else if(thetype == 'adul' || thetype == 'adults' || thetype == 'adult'){
 				if(persons >= parseFloat(explif[0])){
 					fieldprice = fakeIfStatements(explif[1].substr(1, explif[1].length-2), persons, childs, nights, room);
 					if(fieldprice === false) fieldprice = explif[1];
@@ -39,7 +39,7 @@ function fakeIfStatements(fieldprice, persons, childs, nights, room){
 				}
 			}
 		}
-		return fieldprice;
+		return fieldprice.replace('+','-');
 	}
 	return false;
 }
@@ -48,6 +48,7 @@ var easyReservationIDs = new Array();
 var easyReservationDatas = new Array();
 var easyReservationsPrice = new Array();
 var easyReservationEdit = false;
+var easyReservationFSubmit = false;
 var easyEffectSavere = true;
 var hexDigits = new Array("0","1","2","3","4","5","6","7","8","9","a","b","c","d","e","f"); 
 
@@ -72,9 +73,15 @@ function easyOverlayDimm(close){
 	}
 }
 
-jQuery(document).keyup(function(e){if(e.keyCode == 116)easyCancelSubmit();});
-jQuery('#easyFormOverlay').keyup(function(e){if(e.keyCode == 27)easyCancelSubmit();});
-window.onbeforeunload = function(){easyCancelSubmit();}
+jQuery(document).keyup(function(e){if(e.keyCode == 116) easyCancelSubmit();});
+jQuery('#easyFormOverlay').keyup(function(e){if(e.keyCode == 27) easyCancelSubmit();});
+jQuery('#easyFrontendFormular input[type="submit"]').bind("click",function(){
+	jQuery('#easyFrontendFormular *[disabled="disabled"]').attr('disabled', false).attr('temp', 'disabled');
+});
+//window.onbeforeunload = function(e){}
+jQuery( window ).bind('beforeunload', function() {
+	if (!easyReservationFSubmit) easyCancelSubmit();
+});
 
 function easyInnerlay(content,add){
 	if(!add){
@@ -99,62 +106,66 @@ function easyInnerlay(content,add){
 				if(window.easyLastPrice && window.easyLastPrice > 0) var easyLastPrice= window.easyLastPrice;
 				else var easyLastPrice = 0;
 				if(!easyReservationEdit){
-                    var ndata = new Array();
-                    jQuery.each(jQuery('#easyFrontendFormular').serializeArray(), function(i, field){
-                        ndata[field.name] = field.value;
-                    });
-                    theprices.push(easyLastPrice);
-                    thedatas.push(ndata);
-                }
-            }
+          var ndata = new Array();
+
+					jQuery('#easyFrontendFormular *[disabled="disabled"]').attr('disabled', false).attr('temp', 'disabled');
+					jQuery.each(jQuery('#easyFrontendFormular').serializeArray(), function(i, field){
+            ndata[field.name] = field.value;
+          });
+					jQuery('#easyFrontendFormular *[temp="disabled"]').attr('disabled', 'disabled').attr('temp', false);
+
+					theprices.push(easyLastPrice);
+          thedatas.push(ndata);
+        }
+      }
 			for(i in thedatas){
 				var datas = thedatas[i];
-                if(datas && datas['easyroom']){
-                    if(typeof(thedatas[i]) == 'string') datas = easyUnserialize(thedatas[i]);
-                    if(i == thedatas.length-1) reservations += '<tr class="active">';
-                    else reservations += '<tr>';
-                    reservations+='<td>'+datas['from'];
-                    if(datas['date-from-hour']){
-                        reservations+= ' ';
-                        if(datas['date-from-hour'] < 10) reservations += '0';
-                        reservations+= datas['date-from-hour']+':';
-                        if(datas['date-from-min']) {
-                            if(datas['date-from-min'] < 10) reservations += '0';
-                            reservations+= datas['date-from-min'];
-                        } else reservations+='00';
-                    }
-                    if(datas['to']){
-                        reservations+= '<br>'+datas['to'];
-                        if(datas['date-to-hour']){
-                            reservations+=' ';
-                            if(datas['date-to-hour'] < 10) reservations += '0';
-                            reservations+=datas['date-to-hour']+':';
-                            if(datas['date-to-min']){
-                                if(datas['date-to-min'] < 10) reservations += '0';
-                                reservations+=datas['date-to-min'];
-                            } else reservations+='00';
-                        }
-                    }
-                    var res_info = all_resoures_array[datas['easyroom']]['post_title'];
-                    reservations+='</td><td>'+res_info+'</td>';
-                    if(easyReservationAtts['pers'] && easyReservationAtts['pers'] == 1){
-                        reservations+='<td>'+datas['persons'];
-                        if(datas['childs']) reservations+='+'+datas['childs'];
-                        reservations+='</td>';
-                    }
-                    allprice += parseFloat(theprices[i]);
-                    reservations+='<td>'+easy_money_format(parseFloat(theprices[i]))+'</td>';
-                    if(i == thedatas.length-1){
-                        var onclickc = 'easyOverlayDimm(1);';
-                        var onclicke = 'easyOverlayDimm(1);';
-                    } else {
-                        var onclickc = 'easyCancelSubmit('+easyReservationIDs[i]+', this);';
-                        var onclicke = 'easyEdit('+i+',true);';
-                    }
-                    reservations+='<td><img src="'+easyAjax.plugin_url+'/easyreservations/images/edit.png" onclick="'+onclicke+'" title="edit"> <img src="'+easyAjax.plugin_url+'/easyreservations/images/delete.png" onclick="'+onclickc+'" title="cancel"></td>';
-                    reservations+='</tr>';
-                }
+        if(datas && datas['easyroom']){
+          if(typeof(thedatas[i]) == 'string') datas = easyUnserialize(thedatas[i]);
+          if(i == thedatas.length-1) reservations += '<tr class="active">';
+          else reservations += '<tr>';
+          reservations+='<td>'+datas['from'];
+          if(datas['date-from-hour']){
+            reservations+= ' ';
+            if(datas['date-from-hour'] < 10) reservations += '0';
+            reservations+= datas['date-from-hour']+':';
+            if(datas['date-from-min']) {
+              if(datas['date-from-min'] < 10) reservations += '0';
+              reservations+= datas['date-from-min'];
+            } else reservations+='00';
+          }
+          if(datas['to']){
+            reservations+= '<br>'+datas['to'];
+            if(datas['date-to-hour']){
+              reservations+=' ';
+              if(datas['date-to-hour'] < 10) reservations += '0';
+              reservations+=datas['date-to-hour']+':';
+              if(datas['date-to-min']){
+                if(datas['date-to-min'] < 10) reservations += '0';
+                reservations+=datas['date-to-min'];
+              } else reservations+='00';
             }
+          }
+          var res_info = all_resoures_array[datas['easyroom']]['post_title'];
+          reservations+='</td><td>'+res_info+'</td>';
+          if(easyReservationAtts['pers'] && easyReservationAtts['pers'] == 1){
+            reservations+='<td>'+datas['persons'];
+            if(datas['childs']) reservations+='+'+datas['childs'];
+            reservations+='</td>';
+          }
+          allprice += parseFloat(theprices[i]);
+          reservations+='<td>'+easy_money_format(parseFloat(theprices[i]))+'</td>';
+          if(i == thedatas.length-1){
+            var onclickc = 'easyOverlayDimm(1);';
+            var onclicke = 'easyOverlayDimm(1);';
+          } else {
+            var onclickc = 'easyCancelSubmit('+easyReservationIDs[i]+', this);';
+            var onclicke = 'easyEdit('+i+',true);';
+          }
+          reservations+='<td><img src="'+easyAjax.plugin_url+'/easyreservations/images/edit.png" onclick="'+onclicke+'" title="edit"> <img src="'+easyAjax.plugin_url+'/easyreservations/images/delete.png" onclick="'+onclickc+'" title="cancel"></td>';
+          reservations+='</tr>';
+        }
+      }
 			reservations+='<tr><td></td><td></td>';
 			if(easyReservationAtts['pers'] && easyReservationAtts['pers'] == 1) reservations+= '<td></td>';
 			reservations+='<td style="text-align:right">'+easy_money_format(allprice)+'</td><td></td></tr>';
@@ -169,6 +180,7 @@ function easyInnerlay(content,add){
 		var thecon = '<div id="easyFormInnerlay" class="'+easyReservationAtts['multiple']+'" style="width:'+width+'px;">'+content+'</div>';
 		var test = jQuery('#easyFormOverlay').after(thecon);
 		if(reservations) jQuery('#easy_overlay_tbody').html(reservations);
+		jQuery('#easyFormInnerlay').focus();
 		jQuery("#easyFormInnerlay").fadeIn("fast");
 		jQuery("#easyFormInnerlay").css("display", "inline-block");
 		jQuery("#easyFormOverlay").removeClass('easyloading');
@@ -188,9 +200,13 @@ function easyFormSubmit(submit){
 			jQuery('#easyFormOverlay').addClass('easyloading');
 		});
 		jQuery('#easyFormInnerlay').remove();
-		data['submit'] =1;
+		data['submit'] = 1;
 	}
+
+	jQuery('#easyFrontendFormular *[disabled="disabled"]').attr('disabled', false).attr('temp', 'disabled');
 	var array = jQuery('#easyFrontendFormular').serializeArray();
+	jQuery('#easyFrontendFormular *[temp="disabled"]').attr('disabled', 'disabled').attr('temp', false);
+
 	jQuery.each(array, function(i, field){
 		data[field.name] = field.value;
 	});
@@ -221,13 +237,12 @@ function easyFormSubmit(submit){
 				} else if(submit) submit();
 			}
 		} else {
-		    document.getElementById('easy-show-error').innerHTML = response;
+		  document.getElementById('easy-show-error').innerHTML = response;
 			jQuery("#easy-show-error-div").removeClass('hide-it');
 			easyOverlayDimm(1);
 		}
 	});
 }
-
 function easyEdit(i,dimm){
 	if(dimm && dimm !== false){
 		if(!easyLastPrice) var easyLastPrice = 0;
@@ -240,12 +255,12 @@ function easyEdit(i,dimm){
 		data = easyUnserialize(data);
 		jQuery.each(data, function (name,value) {
 			jQuery("input[name='"+name+"'],select[name='"+name+"']").each(function() {
-				switch (this.nodeName.toLowerCase()) {
+				switch (this.nodeName.toLowerCase()){
 					case "input":
-						switch (this.type) {
+						switch (this.type){
 							case "radio":
 							case "checkbox":
-								if (this.value && this.value==value) { jQuery(this).click(); }
+								if(this.value && this.value==value) jQuery(this).click();
 								break;
 							default:
 								jQuery(this).val(value);
@@ -254,7 +269,7 @@ function easyEdit(i,dimm){
 						break;
 					case "select":
 						jQuery("option",this).each(function(){
-							if (this.value&&this.value==value) { this.selected=true; }
+							if(this.value&&this.value==value) this.selected=true;
 						});
 						break;
 				}
@@ -370,7 +385,7 @@ function easy_money_format(amount){
 	var money = add+easy_number_format(amount, dig, currency_settings['divider2'],currency_settings['divider1']);
 	var white = '';
 	if(currency_settings['whitespace'] == 1) white = ' ';
-	if(currency_settings['place'] == 1){
+	if(currency_settings['place'] == 0){
 		return money+white+'&'+currency_settings['sign']+';';
 	} else return '&'+currency_settings['sign']+';'+white+money;
 }

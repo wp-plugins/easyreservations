@@ -3,47 +3,12 @@
 Plugin Name: easyReservations
 Plugin URI: http://www.easyreservations.org
 Description: This powerfull property and reservation management plugin allows you to receive, schedule and handle your bookings easily!
-Version: 3.3.1
+Version: 3.4
 Author: Feryaz Beer
 Author URI: http://www.feryaz.de
 License:GPL2
 */
 
-	add_action('admin_menu', 'easyreservations_add_pages');
-
-	function easyreservations_add_pages(){  //  Add Pages Admincenter and Order them
-		$reservation_main_permission=get_option("reservations_main_permission");
-		if($reservation_main_permission && is_array($reservation_main_permission)){
-			if(isset($reservation_main_permission['dashboard']) && !empty($reservation_main_permission['dashboard'])) $dashboard = $reservation_main_permission['dashboard'];
-			else $dashboard = 'edit_posts';
-			if(isset($reservation_main_permission['resources']) && !empty($reservation_main_permission['resources'])) $resources = $reservation_main_permission['resources'];
-			else $resources = 'edit_posts';
-			if(isset($reservation_main_permission['settings']) && !empty($reservation_main_permission['settings'])) $settings = $reservation_main_permission['settings'];
-			else $settings = 'edit_posts';
-		} else {
-			$settings = 'edit_posts';  $resources = 'edit_posts'; $dashboard = 'edit_posts';
-		}
-
-		$pending_reservations_cnt = easyreservations_get_pending();
-		if($pending_reservations_cnt != 0) $pending = '<span class="update-plugins count-'.$pending_reservations_cnt.'"><span class="plugin-count">'.$pending_reservations_cnt.'</span></span>';
-		else $pending = '';
-
-		add_menu_page(__('easyReservation','easyReservations'), __('Reservation','easyReservations').' '.$pending, $dashboard, 'reservations', 'reservation_main_page' );
-		add_submenu_page('reservations', __('Dashboard','easyReservations'), __('Dashboard','easyReservations'), $dashboard, 'reservations', 'reservation_main_page');
-		add_submenu_page('reservations', __('Resources','easyReservations'), __('Resources','easyReservations'), $resources, 'reservation-resources', 'reservation_resources_page');
-		do_action('easy-add-submenu-page');
-		add_submenu_page('reservations', __('Settings','easyReservations'), __('Settings','easyReservations'), $settings, 'reservation-settings', 'reservation_settings_page');
-	}
-
-	/**
-	* 	Hook languages to admin & frontend
-	*/
-	function easyreservations_get_pending(){
-		global $wpdb;
-
-		$count = $wpdb->get_var("SELECT COUNT(*) as Num FROM ".$wpdb->prefix ."reservations WHERE approve='' AND arrival > NOW()");
-		return $count;
-	}
 
 	/**
 	*	Install script
@@ -51,41 +16,34 @@ License:GPL2
 	*/
 
 	register_activation_hook(__FILE__, 'easyreservations_install');
-//	register_activation_hook(__FILE__, 'save_error');
-//	function save_error(){
-//
-//		update_option('plugin_error',  ob_get_contents());
-//
-//	}
-
 	function easyreservations_install(){ // Install Plugin Database
 
 		$emailstandart0="[adminmessage]<br><br>
 Reservation Details:<br>
-ID: [ID]<br>Name: [thename] <br>Email: [email] <br>From: [arrival] <br>To: [departure] <br>Persons: [adults] <br>Childs: [childs] <br>Resource: [resource] <br>Price: [price]<br>[customs]<br>edit your reservation on [editlink]";
+ID: [ID]<br>Name: [thename] <br>Email: [email] <br>From: [arrival] <br>To: [departure] <br>Persons: [adults] <br>Children: [childs] <br>Resource: [resource] <br>Price: [price]<br>edit your reservation on [editlink]";
 		$emailstandart1="New Reservation on Blogname from<br>
-ID: [ID]<br>Name: [thename] <br>Email: [email] <br>From: [arrival] <br>To: [departure] <br>Persons: [adults] <br>Childs: [childs] <br>Resource: [resource] <br>Price: [price]<br>[customs]";
+ID: [ID]<br>Name: [thename] <br>Email: [email] <br>From: [arrival] <br>To: [departure] <br>Persons: [adults] <br>Children: [childs] <br>Resource: [resource] <br>Price: [price]";
 		$emailstandart2="Your Reservation on Blogname has been approved.<br>
 [adminmessage]<br><br>
 Reservation Details:<br>
-ID: [ID]<br>Name: [thename] <br>Email: [email] <br>From: [arrival] <br>To: [departure] <br>Persons: [adults] <br>Childs: [childs] <br>Resource: [resource] <br>Price: [price]<br>[customs]<br>edit your reservation on [editlink]";
+ID: [ID]<br>Name: [thename] <br>Email: [email] <br>From: [arrival] <br>To: [departure] <br>Persons: [adults] <br>Children: [childs] <br>Resource: [resource] <br>Price: [price]<br>edit your reservation on [editlink]";
 		$emailstandart3="Your Reservation on Blogname has been rejected.<br>
 [adminmessage]<br> <br>
 Reservation Details:<br>
-ID: [ID]<br>Name: [thename] <br>Email: [email] <br>From: [arrival] <br>To: [departure] <br>Persons: [adults] <br>Childs: [childs] <br>Resource: [resource] <br>[customs]<br>edit your reservation on [editlink]";
+ID: [ID]<br>Name: [thename] <br>Email: [email] <br>From: [arrival] <br>To: [departure] <br>Persons: [adults] <br>Children: [childs] <br>Resource: [resource] <br>edit your reservation on [editlink]";
 		$emailstandart4="We've got your reservaion and treat it as soon as possible.<br><br>
 Reservation Details:<br>
-ID: [ID]<br>Name: [thename] <br>Email: [email] <br>From: [arrival] <br>To: [departure] <br>Persons: [adults] <br>Childs: [childs] <br>Resource: [resource] <br>Price: [price]<br>[customs]<br><br>edit your reservation on [editlink]";
+ID: [ID]<br>Name: [thename] <br>Email: [email] <br>From: [arrival] <br>To: [departure] <br>Persons: [adults] <br>Children: [childs] <br>Resource: [resource] <br>Price: [price]<br><br>edit your reservation on [editlink]";
 		$emailstandart5="Your reservation got edited from you. If this wasnt you, please contact us through this email address.<br><br>
 New Reservation Details:<br>
-ID: [ID]<br>Name: [thename] <br>Email: [email] <br>From: [arrival] <br>To: [departure] <br>Persons: [adults] <br>Childs: [childs] <br>Resource: [resource] <br>Price: [price]<br>[customs]<br><br>edit your reservation on [editlink]<br><br>[changelog]";
+ID: [ID]<br>Name: [thename] <br>Email: [email] <br>From: [arrival] <br>To: [departure] <br>Persons: [adults] <br>Children: [childs] <br>Resource: [resource] <br>Price: [price]<br><br>edit your reservation on [editlink]<br><br>[changelog]";
 		$emailstandart6="Reservation got edited by Guest.<br><br>
 New Reservation Details:<br>
-ID: [ID]<br>Name: [thename] <br>Email: [email] <br>From: [arrival] <br>To: [departure] <br>Persons: [adults] <br>Childs: [childs] <br>Resource: [resource] <br>Price: [price]<br>[customs]<br><br>[changelog]";
+ID: [ID]<br>Name: [thename] <br>Email: [email] <br>From: [arrival] <br>To: [departure] <br>Persons: [adults] <br>Children: [childs] <br>Resource: [resource] <br>Price: [price]<br><br>[changelog]";
 		$emailstandart7="Your reservation got edited by admin.<br><br>
 [adminmessage]<br>
 New Reservation Details:<br>
-ID: [ID]<br>Name: [thename] <br>Email: [email] <br>From: [arrival] <br>To: [departure] <br>Persons: [adults] <br>Childs: [childs] <br>Resource: [resource] <br>Price: [price]<br>[customs]<br><br>edit your reservation on [editlink]<br><br>[changelog]";
+ID: [ID]<br>Name: [thename] <br>Email: [email] <br>From: [arrival] <br>To: [departure] <br>Persons: [adults] <br>Children: [childs] <br>Resource: [resource] <br>Price: [price]<br><br>edit your reservation on [editlink]<br><br>[changelog]";
 
 		$formstandart = '[error]
 <h1>Reserve now![show_price style="float:right;"]</h1>
@@ -108,7 +66,7 @@ ID: [ID]<br>Name: [thename] <br>Email: [email] <br>From: [arrival] <br>To: [depa
 </label>[adults 1 10]
 
 <label>Children&rsquo;s	
-<span class="small">With children&rsquo;s?</span>
+<span class="small">With children?</span>
 </label>[childs 0 10]
 
 <h2>Personal information</h2>
@@ -121,29 +79,9 @@ ID: [ID]<br>Name: [thename] <br>Email: [email] <br>From: [arrival] <br>To: [depa
 <span class="small">What is your email?</span>
 </label>[email]
 
-<label>Phone
-<span class="small">Your phone number?</span>
-</label>[custom text Phone *]
-
-<label>Street
-<span class="small">Your street?</span>
-</label>[custom text Street *]
-
-<label>Postal code
-<span class="small">Your postal code?</span>
-</label>[custom text PostCode *]
-
-<label>City
-<span class="small">Your city?</span>
-</label>[custom text City *]
-
 <label>Country
 <span class="small">Your country?</span>
 </label>[country]
-
-<label>Message
-<span class="small">Any comments?</span>
-</label>[custom textarea Message]
 
 <label>Captcha
 <span class="small">Type in code</span>
@@ -242,6 +180,7 @@ ID: [ID]<br>Name: [thename] <br>Email: [email] <br>From: [arrival] <br>To: [depa
 	add_action('admin_init','easyReservations_upgrade',1);
 
 	function easyReservations_upgrade(){
+		global $wpdb;
 		$easyReservations_active_ver="3.2.1";
 		$easyReservations_installed_ver = get_option("reservations_db_version");
 		if($easyReservations_installed_ver != $easyReservations_active_ver ){
@@ -453,11 +392,88 @@ ID: [ID]<br>Name: [thename] <br>Email: [email] <br>From: [arrival] <br>To: [depa
 			easyreservations_latest_modules_versions(86400, false, true, 'all');
 		}
 	}
+
+if(!function_exists("strptime")){
+	function strptime($sDate, $sFormat){
+		$aResult = array(
+			'tm_sec'   => 0,
+			'tm_min'   => 0,
+			'tm_hour'  => 0,
+			'tm_mday'  => 1,
+			'tm_mon'   => 0,
+			'tm_year'  => 0,
+			'tm_wday'  => 0,
+			'tm_yday'  => 0,
+			'unparsed' => $sDate,
+		);
+		while($sFormat != ""){
+			$nIdxFound = strpos($sFormat, '%');
+			if($nIdxFound === false){
+				$aResult['unparsed'] = ($sFormat == $sDate) ? "" : $sDate;
+				break;
+			}
+			$sFormatBefore = substr($sFormat, 0, $nIdxFound);
+			$sDateBefore   = substr($sDate,   0, $nIdxFound);
+			if($sFormatBefore != $sDateBefore) break;
+			$sFormat = substr($sFormat, $nIdxFound);
+			$sDate   = substr($sDate,   $nIdxFound);
+			$aResult['unparsed'] = $sDate;
+			$sFormatCurrent = substr($sFormat, 0, 2);
+			$sFormatAfter   = substr($sFormat, 2);
+			$nValue = -1;
+			$sDateAfter = "";
+			switch($sFormatCurrent){
+				case '%S': // Seconds after the minute (0-59)
+					sscanf($sDate, "%2d%[^\\n]", $nValue, $sDateAfter);
+					if(($nValue < 0) || ($nValue > 59)) return false;
+					$aResult['tm_sec']  = $nValue;
+					break;
+				case '%M': // Minutes after the hour (0-59)
+					sscanf($sDate, "%2d%[^\\n]", $nValue, $sDateAfter);
+					if(($nValue < 0) || ($nValue > 59)) return false;
+					$aResult['tm_min']  = $nValue;
+					break;
+				case '%H': // Hour since midnight (0-23)
+					sscanf($sDate, "%2d%[^\\n]", $nValue, $sDateAfter);
+					if(($nValue < 0) || ($nValue > 23)) return false;
+					$aResult['tm_hour']  = $nValue;
+					break;
+				case '%d': // Day of the month (1-31)
+					sscanf($sDate, "%2d%[^\\n]", $nValue, $sDateAfter);
+					if(($nValue < 1) || ($nValue > 31)) return false;
+					$aResult['tm_mday']  = $nValue;
+					break;
+				case '%m': // Months since January (0-11)
+					sscanf($sDate, "%2d%[^\\n]", $nValue, $sDateAfter);
+					if(($nValue < 1) || ($nValue > 12)) return false;
+					$aResult['tm_mon']  = ($nValue - 1);
+					break;
+				case '%Y': // Years since 1900
+					sscanf($sDate, "%4d%[^\\n]", $nValue, $sDateAfter);
+					if($nValue < 1900) return false;
+					$aResult['tm_year']  = ($nValue - 1900);
+					break;
+				default:
+					break 2; // Break Switch and while
+			}
+			$sFormat = $sFormatAfter;
+			$sDate   = $sDateAfter;
+			$aResult['unparsed'] = $sDate;
+		}
+		$nParsedDateTimestamp = mktime($aResult['tm_hour'], $aResult['tm_min'], $aResult['tm_sec'], $aResult['tm_mon'] + 1, $aResult['tm_mday'], $aResult['tm_year'] + 1900);
+		if(($nParsedDateTimestamp === false) ||($nParsedDateTimestamp === -1)) return false;
+		$aResult['tm_wday'] = (int) strftime("%w", $nParsedDateTimestamp); // Days since Sunday (0-6)
+		$aResult['tm_yday'] = (strftime("%j", $nParsedDateTimestamp) - 1); // Days since January 1 (0-365)
+
+		return $aResult;
+	}
+}
+
 	class EasyDateTime extends DateTime {
 		public static function createFromFormat($format, $time, $lang = null){
 			if(version_compare(PHP_VERSION, '5.3.0') >= 0){
 				$date = parent::createFromFormat($format, $time);
-				return new self('@'.$date->format('U'), $date->getTimeZone());
+				if($date) return new self('@'.$date->format('U'), $date->getTimeZone());
 			}
 			$format = str_replace(array('d', 'm', 'Y', 'H', 'i', 's'), array('%d', '%m', '%Y', '%H', '%M', '%S'), $format);
 			$ugly = strptime($time, $format);
@@ -487,7 +503,7 @@ ID: [ID]<br>Name: [thename] <br>Email: [email] <br>From: [arrival] <br>To: [depa
 	add_filter('upgrader_post_install', 'easyreservations_recover', 10, 2);
 	$reservations_settings = get_option("reservations_settings");
 
-	define('RESERVATIONS_VERSION', '3.3.1');
+	define('RESERVATIONS_VERSION', '3.4');
 	define('RESERVATIONS_DIR', WP_PLUGIN_DIR.'/easyreservations/');
 	define('RESERVATIONS_URL', WP_PLUGIN_URL.'/easyreservations/');
 	define('RESERVATIONS_STYLE', $reservations_settings['style']);
@@ -502,8 +518,6 @@ ID: [ID]<br>Name: [thename] <br>Email: [email] <br>From: [arrival] <br>To: [depa
 	} else $usetime = '';
 	define('RESERVATIONS_DATE_FORMAT_SHOW', RESERVATIONS_DATE_FORMAT.$usetime);
 	if(get_option('timezone_string')) date_default_timezone_set(get_option('timezone_string'));
-	add_action('wp_footer','easyreservations_init_language');
-	add_action('admin_init','easyreservations_init_language');
 
 	function easyreservations_init_language() {
 		if(isset($_GET['lang'])){
@@ -513,6 +527,10 @@ ID: [ID]<br>Name: [thename] <br>Email: [email] <br>From: [arrival] <br>To: [depa
 		load_plugin_textdomain('easyReservations', false, dirname(plugin_basename( __FILE__ )).'/languages/' );
 	}
 
+	add_action('wp_footer','easyreservations_init_language');
+	add_action('plugins_loaded','easyreservations_init_language');
+	add_action('admin_menu', 'easyreservations_add_pages');
+
 	require_once(dirname(__FILE__)."/lib/functions/both.php");
 	if(file_exists(dirname(__FILE__).'/lib/core/core.php')) require_once(dirname(__FILE__)."/lib/core/core.php");
 	require_once(dirname(__FILE__)."/lib/classes/reservation.class.php");
@@ -521,7 +539,7 @@ ID: [ID]<br>Name: [thename] <br>Email: [email] <br>From: [arrival] <br>To: [depa
 		require_once(dirname(__FILE__)."/lib/classes/resource.class.php");
 		require_once(dirname(__FILE__)."/pagination.class.php");
 		require_once(dirname(__FILE__)."/lib/functions/admin.php");
-
+		if(strpos($_SERVER['SCRIPT_FILENAME'],'admin-ajax.php') !== false) require_once(dirname(__FILE__)."/lib/functions/ajax.php");
 		if(isset($_GET['page']) && $_GET['page'] == 'reservations') require_once(dirname(__FILE__)."/easyReservations_admin_main.php");
 		if(isset($_GET['page']) && $_GET['page'] == 'reservation-resources') require_once(dirname(__FILE__)."/easyReservations_admin_resources.php");
 		if(isset($_GET['page']) && $_GET['page'] == 'reservation-settings') require_once(dirname(__FILE__)."/easyReservations_admin_settings.php");
@@ -560,4 +578,3 @@ ID: [ID]<br>Name: [thename] <br>Email: [email] <br>From: [arrival] <br>To: [depa
 		if(easyreservations_is_module('sync')) include_once(dirname(__FILE__)."/lib/modules/sync/sync.php");
 	}
 	if(is_admin()) if(!isset($reservations_settings['tutorial'] ) || $reservations_settings['tutorial'] == 1) include_once(dirname(__FILE__)."/lib/tutorials/handle.tutorials.php");
-?>

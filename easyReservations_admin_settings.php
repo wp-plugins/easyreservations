@@ -5,10 +5,9 @@ function reservation_settings_page(){
 
 	if(isset($_GET["deleteform"])) $namtetodelete = $_GET['deleteform'];
 	if(isset($_POST["action"])) $action = $_POST['action'];
-	if(isset($_GET["site"])) $settingpage = $_GET['site'];
-	else { $settingpage="general"; $ifgeneralcurrent='class="current"'; }
-
-	if($settingpage=="about") $ifaboutcurrent='class="current"';
+	if(isset($_GET["site"])) $setting_current_page = $_GET['site'];
+	else { $setting_current_page="general"; $ifgeneralcurrent='class="current"'; }
+	if($setting_current_page=="about") $ifaboutcurrent='class="current"';
 
 	if(isset($action) && $action == "reservation_clean_database"){
 		$wpdb->query( "DELETE FROM ".$wpdb->prefix ."reservations WHERE departure < NOW() AND approve != 'yes' " );
@@ -167,7 +166,7 @@ function reservation_settings_page(){
 		$prompt = '<div class="updated"><p>'.sprintf(__( 'Form %s has been deleted' , 'easyReservations' ), '<b>'.$namtetodelete.'</b>' ).'</p></div>';
 	}
 
-	if(isset($action) && $action == "reservations_form_add"){// Add form after check twice for stupid Users :D
+	if(isset($action) && $action == "reservations_form_add"){
 		if($_POST["formname"]!=""){
 			$formname0='reservations_form_'.strtolower(str_replace(' ', '', $_POST["formname"]));
 			$formname1=$formname0.'_1';
@@ -180,7 +179,7 @@ function reservation_settings_page(){
 		} else $prompt = '<div class="error"><p>'.__( 'Please enter a name for the form' , 'easyReservations' ).'</p></div>';
 	}
 
-	if($settingpage == "form"){//Get current form Options
+	if($setting_current_page == "form"){//Get current form Options
 		$forms = '';
 		$ifformcurrent='class="current"';
 
@@ -196,7 +195,7 @@ function reservation_settings_page(){
 	}
 	do_action( 'er_set_save' );
 
-	if($settingpage == "email") $ifemailcurrent='class="current"';
+	if($setting_current_page == "email") $ifemailcurrent='class="current"';
 	echo '<h2>'.__( 'Reservations Settings' , 'easyReservations' ).'</h2>';
 	if(isset($prompt)) echo $prompt; ?>
 <div id="wrap">
@@ -204,6 +203,9 @@ function reservation_settings_page(){
 	<ul class="tabs">
 		<li><a <?php if(isset($ifgeneralcurrent)) echo $ifgeneralcurrent; ?> href="admin.php?page=reservation-settings"><img style="vertical-align:text-bottom ;" src="<?php echo RESERVATIONS_URL; ?>images/pref.png"> <?php printf ( __( 'General' , 'easyReservations' ));?></a></li>
 		<li><a <?php if(isset($ifformcurrent)) echo $ifformcurrent; ?> href="admin.php?page=reservation-settings&site=form"><img style="vertical-align:text-bottom ;" src="<?php echo RESERVATIONS_URL; ?>images/form.png"> <?php printf ( __( 'Form' , 'easyReservations' ));?></a></li>
+		<li><a <?php if($setting_current_page == 'custom') echo 'class="current"'; ?> href="admin.php?page=reservation-settings&site=custom">
+				<img style="vertical-align:text-bottom ;" src="<?php echo RESERVATIONS_URL; ?>images/list.png"> <?php printf ( __( 'Custom' , 'easyReservations' ));?>
+		</a></li>
 		<li><a <?php if(isset($ifemailcurrent)) echo $ifemailcurrent; ?> href="admin.php?page=reservation-settings&site=email"><img style="vertical-align:text-bottom ;" src="<?php echo RESERVATIONS_URL; ?>images/email.png"> <?php printf ( __( 'Emails' , 'easyReservations' ));?></a></li>
 		<?php do_action( 'er_set_tab_add' ); ?>
 		<li><a <?php if(isset($ifaboutcurrent)) echo $ifaboutcurrent; ?> href="admin.php?page=reservation-settings&site=about"><img style="vertical-align:text-bottom ;" src="<?php echo RESERVATIONS_URL; ?>images/logo.png"> <?php printf ( __( 'About' , 'easyReservations' ));?></a></li>
@@ -211,7 +213,7 @@ function reservation_settings_page(){
 </div>
 <?php do_action( 'er_add_settings_top' );
 
-if($settingpage == "general"){
+if($setting_current_page == "general"){
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /* - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + GENERAL SETTINGS + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + */
@@ -248,7 +250,7 @@ if($settingpage == "general"){
 	<tr cellspacing="0">
 		<td style="width:70%;" valign="top" >
 		<?php
-			$currencys = array('#8364' => 'Euro','#36' => 'Dollar','#165' => 'Yen','#162' => 'Cent','#402' => 'Florin','#163' => 'Pound','#8356' => 'Lire','#20803' => 'Hongkong Dollar','#x20b8' => 'Tenge','#8365' => 'Laos Kip','#8353' => 'Colon','#8370' => 'Guarani','#70;&#116' => 'Hungary Forint','#8369' => 'Uruguay Peso','#8360' => 'Indian Rupee','#8377' => 'Indian Rupee 2nd','#2547' => 'Bengali Rupee','#2801' => 'Gujarati  Rupee','#3065' => 'Tamil Rupee','#3647' => 'Thai Baht','#6107' => 'Khmer Riel','#66;&#90;&#36' => 'Belize Dollar','#36;&#98' => 'Bolivia Boliviano','#75;&#77' => 'Bosnia and Herzegovina Marka','#80' => 'Botswana Pula','#1083;&#1074' => 'Bulgaria Lev','#6107' => 'Cambodia Riel','#20803' => 'China Yuan','#8371' => 'Austral','#8372' => 'Hryvnia','#81' => 'Guatemala Quetzal','#8373' => 'Cedi','#8366' => 'Tugril','#84;&#76' => 'Turkish Lira','#8367' => 'Drachma','#76' => 'Honduras Lempira','#8363' => 'Vietnam Dong','#8358' => 'Naira','#1084;&#1072;&#1085' => 'Azerbaijan New Manat','#83;&#71;&#68' => 'Singapore Dollar',	'#1076;&#1077;&#1085' => 'Macedonia Denar','#8366' => 'Mongolia Tughrik','#1547' => 'Afghanistan Afghani','#8354' => 'Cruzeiro','#65020' => 'Omani Rial','#65510' => 'Won','#82&#112;&#46' => 'Indonesian rupiah sign','#73&#68;&#82' => 'Indonesian rupiah ISO','#608' => 'Philippine Peso','#80;&#104;&#11' => 'Philippine Peso 2nd','#986' => 'Brazilian Real','#76;&#115' => 'Brazilian Real 2nd','#77;&#84' => 'Nicaragua Cordoba','#82;&#77' => 'Malaysia Ringgit','#82;&#36' => 'Latvia Lat','#1083;&#1074' => 'Kazakhstan Tenge','#74;&#36' => 'Jamaica Dollar','#75;&#269' => 'Czech Koruna','#107;&#114' => 'Danish Krone','#107;&#110' => 'Croatia Kuna','#122;&#322' => 'Polish Zloty','#122;&#322' => 'Israeli Sheqel','#66;&#47;&#46' => 'Panamanian Balboa','#82;&#68;&#36' => 'Dominican Republic Peso','#78;&#79;&#75' => 'Norwegian Krone','#67;&#72;&#70' => 'Switzerland Franc','#108;&#101;&#105' => 'Romanian Leu', '#78;&#90;&#68' => 'New Zealand dollar', '#1088;&#1091' => 'Russian Rouble','#82' => 'South African ZAR','#67;&#79;&#80' => 'Colombian peso','#66;&#115;&#46' => 'Venezuelan Bolivares', '#76;&#84;&#76' => 'Lithuanian litas');
+			$currencys = array('#8364' => 'Euro','#36' => 'Dollar','#165' => 'Yen','#162' => 'Cent','#402' => 'Florin','#163' => 'Pound','#8356' => 'Lire','#20803' => 'Hongkong Dollar','#x20b8' => 'Tenge','#8365' => 'Laos Kip','#8353' => 'Colon','#8370' => 'Guarani','#70;&#116' => 'Hungary Forint','#8369' => 'Uruguay Peso','#8360' => 'Indian Rupee','#8377' => 'Indian Rupee 2nd','#2547' => 'Bengali Rupee','#2801' => 'Gujarati  Rupee','#3065' => 'Tamil Rupee','#3647' => 'Thai Baht','#6107' => 'Khmer Riel','#66;&#90;&#36' => 'Belize Dollar','#36;&#98' => 'Bolivia Boliviano','#75;&#77' => 'Bosnia and Herzegovina Marka', '#77;&#88;&#36;' => 'Mexican Pesos', '#80' => 'Botswana Pula','#1083;&#1074' => 'Bulgaria Lev','#6107' => 'Cambodia Riel','#20803' => 'China Yuan','#8371' => 'Austral','#8372' => 'Hryvnia','#81' => 'Guatemala Quetzal','#8373' => 'Cedi','#8366' => 'Tugril','#84;&#76' => 'Turkish Lira','#8367' => 'Drachma','#76' => 'Honduras Lempira','#8363' => 'Vietnam Dong','#8358' => 'Naira','#1084;&#1072;&#1085' => 'Azerbaijan New Manat','#83;&#71;&#68' => 'Singapore Dollar',	'#1076;&#1077;&#1085' => 'Macedonia Denar','#8366' => 'Mongolia Tughrik','#1547' => 'Afghanistan Afghani','#8354' => 'Cruzeiro','#65020' => 'Omani Rial','#65510' => 'Won','#82&#112;&#46' => 'Indonesian rupiah sign','#73&#68;&#82' => 'Indonesian rupiah ISO','#608' => 'Philippine Peso','#80;&#104;&#11' => 'Philippine Peso 2nd','#986' => 'Brazilian Real','#76;&#115' => 'Brazilian Real 2nd','#77;&#84' => 'Nicaragua Cordoba','#82;&#77' => 'Malaysia Ringgit','#82;&#36' => 'Latvia Lat','#1083;&#1074' => 'Kazakhstan Tenge','#74;&#36' => 'Jamaica Dollar','#75;&#269' => 'Czech Koruna','#107;&#114' => 'Danish Krone','#107;&#110' => 'Croatia Kuna','#122;&#322' => 'Polish Zloty','#8362' => 'Israeli Sheqel','#66;&#47;&#46' => 'Panamanian Balboa','#82;&#68;&#36' => 'Dominican Republic Peso','#78;&#79;&#75' => 'Norwegian Krone','#67;&#72;&#70' => 'Switzerland Franc','#108;&#101;&#105' => 'Romanian Leu', '#78;&#90;&#68' => 'New Zealand dollar', '#1088;&#1091' => 'Russian Rouble','#82' => 'South African ZAR','#67;&#79;&#80' => 'Colombian peso','#66;&#115;&#46' => 'Venezuelan Bolivares', '#76;&#84;&#76' => 'Lithuanian litas', '#67;&#36' => 'Canadian Dollar');
  			asort($currencys);
 			$divider = array('.' => '.', ',' => ',', ' ' => 'whitespace', '' => '');
 			$styles = array('widefat' =>__( 'Wordpress' , 'easyReservations' ),'greyfat' =>__( 'Grey' , 'easyReservations' ));
@@ -273,7 +275,7 @@ if($settingpage == "general"){
 			$rows = apply_filters('er_add_set_main_table_row', $rows);
 			$rows['<img src="'.RESERVATIONS_URL.'css/images/star_full.png"> <b>'.__( 'Important guests', 'easyReservations' ).'</b>'] =  '<i>'.__( 'Enter emails of important guests; saperated by comma. Reservations with this email will be highlighted.' , 'easyReservations' ).'</i><textarea name="regular_guests" style="width:100%;height:80px;margin-top:5px;">'.$reservations_regular_guests.'</textarea>';
 			$rows['<img src="'.RESERVATIONS_URL.'images/lightning.png"> <b>'.__( 'Execute scripts', 'easyReservations' ).'</b>'] =  '<i>'.__( 'After successful reservation.' , 'easyReservations' ).'</i><textarea name="javascript" style="width:100%;height:100px;margin-top:5px;">'.stripslashes($reservations_javascript).'</textarea>';
-			$table = easyreservations_generate_table('reservation_main_settings_table', __( 'General Settings', 'easyReservations' ).'<input type="submit" value="'. __( 'Save Changes' , 'easyReservations' ).'" onclick="document.getElementById(\'er_main_set\').submit(); return false;" class="easySubmitButton-primary" style="float:right" >', $rows);
+			$table = easyreservations_generate_table('reservation_main_settings_table', __( 'General Settings', 'easyReservations' ).'<input type="submit" value="'. __( 'Save Changes' , 'easyReservations' ).'" onclick="document.getElementById(\'er_main_set\').submit(); return false;" class="easybutton button-primary" style="float:right" >', $rows);
 			echo easyreservations_generate_form('er_main_set', 'admin.php?page=reservation-settings', 'post', false, array('easy-set-main' => wp_create_nonce('easy-set-main')), $table);
 			 do_action( 'er_set_main_out' ); ?>
 			</td><td style="width:1%;" valign="top">
@@ -286,7 +288,7 @@ if($settingpage == "general"){
 					</thead>
 					<tbody>
 						<tr>
-							<td style="font-weight:bold;padding:10px;text-align:center"><span style="width:20%;display: inline-block">Version: <?php echo RESERVATIONS_VERSION; ?></span><span style="width:30%;display: inline-block">Last update: 20.08.2013</span><span style="width:30%;display: inline-block">written by Feryaz Beer</span></td>
+							<td style="font-weight:bold;padding:10px;text-align:center"><span style="width:20%;display: inline-block">Version: <?php echo RESERVATIONS_VERSION; ?></span><span style="width:30%;display: inline-block">Last update: 13.05.2013</span><span style="width:30%;display: inline-block">written by Feryaz Beer</span></td>
 						</tr>
 						<tr class="alternate">
 							<td style="font-size:14px;text-align:center;font-weight:bold;padding:10px"><a href="http://easyreservations.org/knowledgebase/" target="_blank" id="iddocumentation"><?php echo __( 'Documentation' , 'easyReservations' );?></a></td>
@@ -308,7 +310,7 @@ if($settingpage == "general"){
 					<table class="<?php echo RESERVATIONS_STYLE; ?>" style="width:100%;" cellspacing="0" cellpadding="0">
 						<thead>
 							<tr>
-								<th> <?php printf ( __( 'Clean Database' , 'easyReservations' ));?><input type="button" onclick="document.getElementById('reservation_clean_database').submit(); return false;" style="float:right;" title="" class="easySubmitButton-secondary" value="<?php printf ( __( 'Clean' , 'easyReservations' ));?>"></th>
+								<th> <?php printf ( __( 'Clean Database' , 'easyReservations' ));?><input type="button" onclick="document.getElementById('reservation_clean_database').submit(); return false;" style="float:right;" title="" class="button" value="<?php printf ( __( 'Clean' , 'easyReservations' ));?>"></th>
 							</tr>
 						</thead>
 						<tbody>
@@ -325,7 +327,7 @@ if($settingpage == "general"){
 					<table class="<?php echo RESERVATIONS_STYLE; ?>" style="width:100%;margin-top:7px;" cellspacing="0" cellpadding="0">
 						<thead>
 							<tr>
-								<th colspan="2" id="idpermission"> <?php printf ( __( 'Change Permissions' , 'easyReservations' ));?><input type="submit" onclick="document.getElementById('reservation_change_permissions').submit(); return false;" class="easySubmitButton-primary" style="float:right;" value="<?php printf ( __( 'Set' , 'easyReservations' ));?>"></th>
+								<th colspan="2" id="idpermission"> <?php printf ( __( 'Change Permissions' , 'easyReservations' ));?><input type="submit" onclick="document.getElementById('reservation_change_permissions').submit(); return false;" class="easybutton button-primary" style="float:right;" value="<?php printf ( __( 'Set' , 'easyReservations' ));?>"></th>
 							</tr>
 						</thead>
 						<tbody>
@@ -378,13 +380,20 @@ if($settingpage == "general"){
 	});
 	easyreservations_currency_example();
 </script><?php
-} elseif($settingpage == "form"){
+} elseif($setting_current_page == "form"){
 	if(isset($_GET["form"])){
 		$formnameget = $_GET['form'];
 		$reservations_form = get_option("reservations_form_".$formnameget);
 	} else {
 		$formnameget='';
 		$reservations_form = get_option("reservations_form");
+	}
+	$custom_fields = get_option('reservations_custom_fields');
+	$custom_fields_array = '';
+	if($custom_fields){
+		foreach($custom_fields['fields'] as $id => $custom){
+			$custom_fields_array[$id] = $custom['title'];
+		}
 	} ?>
 		<div class="formnavigation" style="width:99%;height: 29px">
 			<ul class="navtabs">
@@ -398,14 +407,14 @@ if($settingpage == "general"){
 	      <form method="post" action="admin.php?page=reservation-settings&site=form" id="reservations_form_add">
 	        <input type="hidden" name="action" value="reservations_form_add">
 	        <input name="formname" type="text" style="width:200px;height:25px;">
-	        <input type="button" onclick="document.getElementById('reservations_form_add').submit(); return false;" style="height:25px;padding:5px 5px;" class="easySubmitButton-primary" value="<?php echo __( 'Add' , 'easyReservations' );?>">
+	        <input type="button" onclick="document.getElementById('reservations_form_add').submit(); return false;" class="easybutton button-primary" value="<?php echo __( 'Add' , 'easyReservations' );?>">
 	      </form>
 	    </div>
 		</div>
 		<script type="text/javascript">
 		function submitForm(){
-				jQuery('*[name="reservations_formvalue"]').val(jQuery('#formcontainer').html());
-				jQuery('#easyform').submit();
+			jQuery('*[name="reservations_formvalue"]').val(jQuery('#formcontainer').html());
+			jQuery('#easyform').submit();
 		}
 
 		function generateHiddenOptions(tag){
@@ -421,7 +430,7 @@ if($settingpage == "general"){
         "date-to-min": "<?php echo addslashes(__( 'Departure minute' , 'easyReservations' ));?>",
         units: "<?php echo addslashes(__( 'Billing units' , 'easyReservations' ));?>",
         adults: "<?php echo addslashes(__( 'Adults' , 'easyReservations' ));?>",
-        childs: "<?php echo addslashes(__( 'Children\'s' , 'easyReservations' ));?>"
+        childs: "<?php echo addslashes(__( 'Children' , 'easyReservations' ));?>"
       }, function(ok,ov){
         var selected = '';
         if(tag && tag[1] == ok) selected = 'selected="selected"';
@@ -545,8 +554,8 @@ if($settingpage == "general"){
 		}
 
     var style = {
-	          title: '<?php echo addslashes(__( 'Style' , 'easyReservations' ));?>',
-	          input: 'text'
+	        title: '<?php echo addslashes(__( 'Style' , 'easyReservations' ));?>',
+	        input: 'text'
 	      },
 	      title = {
 	          title: '<?php echo addslashes(__( 'Title' , 'easyReservations' ));?>',
@@ -658,46 +667,46 @@ if($settingpage == "general"){
 	              }
 	          },
 	          "date-to-min": {
-	              name: '<?php echo addslashes(__( 'Departure minute' , 'easyReservations' ));?>',
-	              desc: '<?php echo addslashes(__( 'Select for departure minute.' , 'easyReservations' ));?>',
-	              options: {
-	                  value: {
-	                      title: '<?php echo addslashes(__( 'Selected' , 'easyReservations' ));?>',
-	                      input: 'select',
-	                      options: '0-59',
-	                      default: '0'
-	                  },
-	                  style: style,
-	                  title: title,
-	                  disabled:disabled
-	              }
+              name: '<?php echo addslashes(__( 'Departure minute' , 'easyReservations' ));?>',
+              desc: '<?php echo addslashes(__( 'Select for departure minute.' , 'easyReservations' ));?>',
+              options: {
+                value: {
+                    title: '<?php echo addslashes(__( 'Selected' , 'easyReservations' ));?>',
+                    input: 'select',
+                    options: '0-59',
+                    default: '0'
+                },
+                style: style,
+                title: title,
+                disabled:disabled
+              }
 	          },
 	          units: {
-	              name: '<?php echo addslashes(__( 'Billing units' , 'easyReservations' ));?>',
-	              desc: '<?php echo addslashes(__( 'Select of billing units to define the length of stay. Can be replaced by depature date field or defaults to one billing unit if not in form.' , 'easyReservations' ));?>',
-	              options: {
-	                  1: {
-	                      title: '<?php echo addslashes(__( 'Min' , 'easyReservations' ));?>',
-	                      input: 'select',
-	                      options: '1-100',
-	                      default: '1'
-	                  },
-	                  2: {
-	                      title: '<?php echo addslashes(__( 'Max' , 'easyReservations' ));?>',
-	                      input: 'select',
-	                      options: '1-100',
-	                      default: '10'
-	                  },
-	                  value: {
-	                      title: '<?php echo addslashes(__( 'Selected' , 'easyReservations' ));?>',
-	                      input: 'select',
-	                      options: '1-100',
-	                      default: '7'
-	                  },
-	                  style: style,
-	                  title: title,
-	                  disabled:disabled
-	              }
+              name: '<?php echo addslashes(__( 'Billing units' , 'easyReservations' ));?>',
+              desc: '<?php echo addslashes(__( 'Select of billing units to define the length of stay. Can be replaced by depature date field or defaults to one billing unit if not in form.' , 'easyReservations' ));?>',
+              options: {
+                1: {
+                  title: '<?php echo addslashes(__( 'Min' , 'easyReservations' ));?>',
+                  input: 'select',
+                  options: '1-100',
+                  default: '1'
+                },
+                2: {
+                  title: '<?php echo addslashes(__( 'Max' , 'easyReservations' ));?>',
+                  input: 'select',
+                  options: '1-100',
+                  default: '10'
+                },
+                value: {
+                    title: '<?php echo addslashes(__( 'Selected' , 'easyReservations' ));?>',
+                    input: 'select',
+                    options: '1-100',
+                    default: '7'
+                },
+                style: style,
+                title: title,
+                disabled:disabled
+              }
 	          },
 	          resources: {
 	              name: '<?php echo addslashes(__( 'Resources' , 'easyReservations' ));?>',
@@ -895,64 +904,15 @@ if($settingpage == "general"){
             },
 			      custom: {
               name: '<?php echo addslashes(__( 'Custom' , 'easyReservations' ));?>',
-              desc: '<?php echo addslashes(__( 'Can be any form element and used to get more information. The name can\'t have whitespaces in it. The value has to be a comma separated list for select and radio elements, for the others it defines the default value.' , 'easyReservations' ));?>',
+              desc: '<?php echo addslashes(sprintf( __( 'Can be any form element, can have an impact on the price and are used to get more information. Define them %s first' , 'easyReservations' ), '<a href="admin.php?page=reservation-settings&site=custom">here</a>'));?>',
 							options: {
-								1: {
-                    title: '<?php echo addslashes(__( 'Type' , 'easyReservations' ));?>',
+								id: {
+                    title: '<?php echo addslashes(__( 'Select field' , 'easyReservations' ));?>',
                     input: 'select',
-                    options: {text: "<?php echo addslashes(__( 'Text' , 'easyReservations' ));?>", textarea: "<?php echo addslashes(__( 'Textarea' , 'easyReservations' ));?>", select: "<?php echo addslashes(__( 'Select' , 'easyReservations' ));?>", radio: "<?php echo addslashes(__( 'Radio' , 'easyReservations' ));?>", check: "<?php echo addslashes(__( 'Checkbox' , 'easyReservations' ));?>"},
-                    default: 'text'
-								},
-								2: {
-                    title: '<?php echo addslashes(__( 'Name' , 'easyReservations' ));?>',
-                    input: 'text'
-								},
-								3: {
-                    title: '<?php echo addslashes(__( 'Value' , 'easyReservations' ));?>',
-                    input: 'textarea',
-                    class: 'quote'
+                    options: <?php if(!isset($custom_fields_array)) $custom_fields_array = array(); echo json_encode($custom_fields_array);?>
 								},
                 style: style,
-                title: title,
-                disabled: disabled,
-								"*": {
-                    title: '<?php echo addslashes(__( 'Required' , 'easyReservations' ));?>',
-                    input: customRequired
-                }
-              }
-            },
-			      price: {
-              name: '<?php echo addslashes(__( 'Price' , 'easyReservations' ));?>',
-              desc: '<?php echo addslashes(__( 'Form elements with an impact on the price for optionale or choosable services.' , 'easyReservations' ));?> <a href="http://easyreservations.org/kb/price-fields/" target="_blank">Read more</a>',
-					    generate: generatePrice,
-							options: {
-								1: {
-                    title: '<?php echo addslashes(__( 'Type' , 'easyReservations' ));?>',
-                    input: 'select',
-                    options: {select: "<?php echo addslashes(__( 'Select' , 'easyReservations' ));?>", radio: "<?php echo addslashes(__( 'Radio' , 'easyReservations' ));?>", check: "<?php echo addslashes(__( 'Checkbox' , 'easyReservations' ));?>"},
-                    default: 'text'
-								},
-								2: {
-                    title: '<?php echo addslashes(__( 'Name' , 'easyReservations' ));?>',
-                    input: 'text'
-								},
-								3: {
-                    title: '<?php echo addslashes(__( 'Value' , 'easyReservations' ));?>',
-                    input: 'textarea',
-                    class: 'quote'
-								},
-                style: style,
-                title: title,
-                disabled: disabled,
-								"*": {
-                    title: '<?php echo addslashes(__( 'Don\'t display price ', 'easyReservations' ));?>',
-                    input: 'check',
-                    default: 'noprice'
-                },
-								check: {
-                    title: '<?php echo addslashes(__( 'Price', 'easyReservations' ));?>',
-                    input: priceCheckBoxes
-                }
+                title: title
               }
             }
 	      };
@@ -973,220 +933,349 @@ if($settingpage == "general"){
 	$textfield .= stripslashes($new_form);
 	$textfield .= '</div>';
 
-	$accordeon = '<div id="accordion_container">';
-		$accordeon .= '<div id="accordion">';
-			$accordeon .= '<h3>'.__('Date fields','easyReservations').'</h3>';
-			$accordeon .= '<div class="table">';
-				$accordeon .= '<table class="formtable">';
-					$accordeon .= '<thead>';
-						$accordeon .= '<tr>';
-							$accordeon .= '<th></th>';
-							$accordeon .= '<th>'.__('Type','easyReservations').'</th>';
-							$accordeon .= '<th>'.__('Default','easyReservations').'</th>';
-						$accordeon .= '</tr>';
-					$accordeon .= '</thead>';
-					$accordeon .= '<tbody>';
-						$accordeon .= '<tr attr="date-from">';
-							$accordeon .= '<td style="background-image:url('.RESERVATIONS_URL.'images/day.png);"></td>';
-							$accordeon .= '<td><strong>'.__('Arrival date','easyReservations').'</strong><br><i>'.__('Text field with datepicker','easyReservations').'</i></td>';
-							$accordeon .= '<td>&#10008;</td>';
-						$accordeon .= '</tr>';
-						$accordeon .= '<tr attr="date-from-hour">';
-							$accordeon .= '<td style="background-image:url('.RESERVATIONS_URL.'images/clock.png);"></td>';
-							$accordeon .= '<td><strong>'.__('Arrival hour','easyReservations').'</strong><br><i>'.__('Select field as of the time pattern selection','easyReservations').'</i></td>';
-							$accordeon .= '<td>12</td>';
-						$accordeon .= '</tr>';
-						$accordeon .= '<tr attr="date-from-min">';
-							$accordeon .= '<td style="background-image:url('.RESERVATIONS_URL.'images/hour.png);"></td>';
-							$accordeon .= '<td><strong>'.__('Arrival minute','easyReservations').'</strong><br><i>'.__('Select field','easyReservations').' 00-59</i></td>';
-							$accordeon .= '<td>12</td>';
-						$accordeon .= '</tr>';
-						$accordeon .= '<tr attr="date-to">';
-							$accordeon .= '<td style="background-image:url('.RESERVATIONS_URL.'images/day.png);"></td>';
-							$accordeon .= '<td><strong>'.__('Departure date','easyReservations').'</strong><br><i>'.__('Text field with datepicker','easyReservations').'</i></td>';
-							$accordeon .= '<td>&#10008;</td>';
-						$accordeon .= '</tr>';
-						$accordeon .= '<tr attr="units">';
-							$accordeon .= '<td style="background-image:url('.RESERVATIONS_URL.'images/units.png);"></td>';
-							$accordeon .= '<td><strong>'.__('Billing units','easyReservations').'</strong><br><i>'.__('Select field to choose length of stay','easyReservations').'</i></td>';
-							$accordeon .= '<td>&#10008;</td>';
-						$accordeon .= '</tr>';
-						$accordeon .= '<tr attr="date-to-hour">';
-							$accordeon .= '<td style="background-image:url('.RESERVATIONS_URL.'images/clock.png);"></td>';
-							$accordeon .= '<td><strong>'.__('Departure hour','easyReservations').'</strong><br><i>'.__('Select field as of the time pattern selection','easyReservations').'</i></td>';
-							$accordeon .= '<td>12</td>';
-						$accordeon .= '</tr>';
-						$accordeon .= '<tr attr="date-to-min">';
-							$accordeon .= '<td style="background-image:url('.RESERVATIONS_URL.'images/hour.png);"></td>';
-							$accordeon .= '<td><strong>'.__('Departure minute','easyReservations').'</strong><br><i>'.__('Select field','easyReservations').' 00-59</i></td>';
-							$accordeon .= '<td>12</td>';
-						$accordeon .= '</tr>';
-					$accordeon .= '</tbody>';
-				$accordeon .= '</table>';
-			$accordeon .= '</div>';
-			$accordeon .= '<h3>'.__('Information fields','easyReservations').'</h3>';
-			$accordeon .= '<div class="table">';
-				$accordeon .= '<table class="formtable">';
-					$accordeon .= '<thead>';
-						$accordeon .= '<tr>';
-							$accordeon .= '<th></th>';
-							$accordeon .= '<th>'.__('Type','easyReservations').'</th>';
-							$accordeon .= '<th>'.__('Default','easyReservations').'</th>';
-						$accordeon .= '</tr>';
-					$accordeon .= '</thead>';
-					$accordeon .= '<tbody>';
-						$accordeon .= '<tr attr="resources">';
-							$accordeon .= '<td style="background-image:url('.RESERVATIONS_URL.'images/house.png);"></td>';
-							$accordeon .= '<td><strong>'.__('Resources','easyReservations').'</strong><br><i>'.__('Select of resource','easyReservations').'</i></td>';
-							$accordeon .= '<td>&#10008;</td>';
-						$accordeon .= '</tr>';
-						$accordeon .= '<tr attr="adults">';
-							$accordeon .= '<td style="background-image:url('.RESERVATIONS_URL.'images/user.png);"></td>';
-							$accordeon .= '<td><strong>'.__('Adults','easyReservations').'</strong><br><i>'.__('Select field for adults','easyReservations').'</i></td>';
-							$accordeon .= '<td>&#10008;</td>';
-						$accordeon .= '</tr>';
-						$accordeon .= '<tr attr="childs">';
-							$accordeon .= '<td style="background-image:url('.RESERVATIONS_URL.'images/persons.png);"></td>';
-							$accordeon .= '<td><strong>'.__('Children\'s','easyReservations').'</strong><br><i>'.__('Select field for children\'s','easyReservations').'</i></td>';
-							$accordeon .= '<td>0</td>';
-						$accordeon .= '</tr>';
-						$accordeon .= '<tr attr="thename">';
-							$accordeon .= '<td style="background-image:url('.RESERVATIONS_URL.'images/day.png);"></td>';
-							$accordeon .= '<td><strong>'.__('Name','easyReservations').'<br><i></strong>'.__('Text field for name','easyReservations').'</i></td>';
-							$accordeon .= '<td>&#10008;</td>';
-						$accordeon .= '</tr>';
-						$accordeon .= '<tr attr="email">';
-							$accordeon .= '<td style="background-image:url('.RESERVATIONS_URL.'images/email.png);"></td>';
-							$accordeon .= '<td><strong>'.__('Email','easyReservations').'</strong><br><i>'.__('Text field for mail','easyReservations').'</i></td>';
-							$accordeon .= '<td>&#10008;</td>';
-						$accordeon .= '</tr>';
-						$accordeon .= '<tr attr="country">';
-							$accordeon .= '<td style="background-image:url('.RESERVATIONS_URL.'images/country.png);"></td>';
-							$accordeon .= '<td><strong>'.__('Country','easyReservations').'</strong><br><i>'.__('Select field of country\'s','easyReservations').'</i></td>';
-							$accordeon .= '<td></td>';
-						$accordeon .= '</tr>';
-					$accordeon .= '</tbody>';
-				$accordeon .= '</table>';
-			$accordeon .= '</div>';
-			$accordeon .= '<h3>'.__('Special fields','easyReservations').'</h3>';
-			$accordeon .= '<div class="table">';
-				$accordeon .= '<table class="formtable">';
-					$accordeon .= '<thead>';
-						$accordeon .= '<tr>';
-							$accordeon .= '<th></th>';
-							$accordeon .= '<th>'.__('Type','easyReservations').'</th>';
-						$accordeon .= '</tr>';
-					$accordeon .= '</thead>';
-					$accordeon .= '<tbody>';
-						$accordeon .= '<tr attr="hidden">';
-							$accordeon .= '<td style="background-image:url('.RESERVATIONS_URL.'images/lock.png);"></td>';
-							$accordeon .= '<td><strong>'.__('Hidden','easyReservations').'</strong><br><i>'.__('Fix information and hide from guest','easyReservations').'</i></td>';
-						$accordeon .= '</tr>';
-						$accordeon .= '<tr attr="custom">';
-							$accordeon .= '<td style="background-image:url('.RESERVATIONS_URL.'images/form.png);"></td>';
-							$accordeon .= '<td><strong>'.__('Custom','easyReservations').'</strong><br><i>'.__('Custom form elements to get more information','easyReservations').'</i></td>';
-						$accordeon .= '</tr>';
-						$accordeon .= '<tr attr="price">';
-							$accordeon .= '<td style="background-image:url('.RESERVATIONS_URL.'images/money.png);"></td>';
-							$accordeon .= '<td><strong>'.__('Price','easyReservations').'</strong><br><i>'.__('Custom form elements with impact on price','easyReservations').'</i></td>';
-						$accordeon .= '</tr>';
-						$accordeon .= '<tr attr="infobox">';
-							$accordeon .= '<td style="background-image:url('.RESERVATIONS_URL.'images/house.png);"></td>';
-							$accordeon .= '<td><strong>'.__('Resources infobox','easyReservations').'<br><i></strong>'.__('Displays information of currently selected resource','easyReservations').'</i></td>';
-						$accordeon .= '</tr>';
-						$accordeon = apply_filters('easy-form-list', $accordeon);
-						$accordeon .= '<tr attr="captcha">';
-							$accordeon .= '<td style="background-image:url('.RESERVATIONS_URL.'images/user.png);"></td>';
-							$accordeon .= '<td><strong>'.__('Captcha','easyReservations').'</strong><br><i>'.__('To verify only humans use the form','easyReservations').'</i></td>';
-						$accordeon .= '</tr>';
-						$accordeon .= '<tr attr="show_price">';
-							$accordeon .= '<td style="background-image:url('.RESERVATIONS_URL.'images/invoice.png);"></td>';
-							$accordeon .= '<td><strong>'.__('Show price','easyReservations').'</strong><br><i>'.__('Display price live','easyReservations').'</i></td>';
-						$accordeon .= '</tr>';
-						$accordeon .= '<tr attr="error">';
-							$accordeon .= '<td style="background-image:url('.RESERVATIONS_URL.'images/delete.png);"></td>';
-							$accordeon .= '<td><strong>'.__('Error','easyReservations').'</strong><br><i>'.__('Displays errors','easyReservations').'</i></td>';
-						$accordeon .= '</tr>';
-						$accordeon .= '<tr attr="submit">';
-							$accordeon .= '<td style="background-image:url('.RESERVATIONS_URL.'images/lightning.png);"></td>';
-							$accordeon .= '<td><strong>'.__('Submit button','easyReservations').'</strong><br><i>'.__('Button to submit the form','easyReservations').'</i></td>';
-						$accordeon .= '</tr>';
-					$accordeon .= '</tbody>';
-				$accordeon .= '</table>';
-			$accordeon .= '</div>';
-			$accordeon .= '<h3>'.__('Format','easyReservations').'</h3>';
-			$accordeon .= '<div class="table">';
-				$accordeon .= '<table class="formtable">';
-					$accordeon .= '<tbody>';
-						$accordeon .= '<tr bttr="label">';
-							$accordeon .= '<td><strong>'.__('Label','easyReservations').' <tag>&lt;label&gt;</tag></strong><br><i>'.__('Used for description of tags. Should be before the tag.','easyReservations').'</i></td>';
-						$accordeon .= '</tr>';
-						$accordeon .= '<tr bttr="span">';
-							$accordeon .= '<td><strong>'.__('Sub-label','easyReservations').' <tag>&lt;span class="small"&gt;</tag><br><i></strong>'.__('Small sub-label. Should be used inside labels.','easyReservations').'</i></td>';
-						$accordeon .= '</tr>';
-						$accordeon .= '<tr bttr="row">';
-							$accordeon .= '<td><strong>'.__('Row','easyReservations').' <tag>&lt;span class="row"&gt;</tag><br><i></strong>'.__('To use multiple elements in one row. It may be nesecarry to define their width\'s.','easyReservations').'</i></td>';
-						$accordeon .= '</tr>';
-						$accordeon .= '<tr bttr="b">';
-							$accordeon .= '<td><strong>'.__('Bold','easyReservations').' <tag>&lt;strong&gt;</tag></strong><br><i>'.__('Bold text','easyReservations').'</i></td>';
-						$accordeon .= '</tr>';
-						$accordeon .= '<tr bttr="i">';
-							$accordeon .= '<td><strong>'.__('Italic','easyReservations').' <tag>&lt;i&gt;</tag></strong><br><i>'.__('Italic text','easyReservations').'</i></td>';
-						$accordeon .= '</tr>';
-						$accordeon .= '<tr bttr="h1">';
-							$accordeon .= '<td><strong>'.__('Headline','easyReservations').' <tag>&lt;h1&gt;</tag></strong><br><i>'.__('Big headline.','easyReservations').'</i></td>';
-						$accordeon .= '</tr>';
-						$accordeon .= '<tr bttr="h2">';
-							$accordeon .= '<td><strong>'.__('Sub-headline','easyReservations').' <tag>&lt;h2&gt;</tag></strong><br><i>'.__('Smaller headline to divide the form.','easyReservations').'</i></td>';
-						$accordeon .= '</tr>';
-					$accordeon .= '</tbody>';
-				$accordeon .= '</table>';
-			$accordeon .= '</div>';
-		$accordeon .= '</div>';
-	$accordeon .= '</div>';
-	$accordeon .= '<a href="javascript:submitForm();" class="easySubmitButton-primary" style="margin:5px;">'.__( 'Submit' , 'easyReservations' ).'</a>';
-	$accordeon .= '<a href="javascript:submitForm();" class="easySubmitButton-secondary" style="margin:5px 5px 5px 0px;">'.__( 'Reset' , 'easyReservations' ).'</a>';
-	$accordeon .= '<a href="javascript:resetToDefault();" class="easySubmitButton-secondary" style="margin:5px 5px 5px 0px;">'.__( 'Default' , 'easyReservations' ).'</a>';
-	$accordeon .= '<form id="easyform" method="post">';
-		$accordeon .= '<input type="hidden" name="action" value="reservations_form_settings">';
-		$accordeon .= '<input type="hidden" name="reservations_formvalue" value="">';
-	$accordeon .= '</form>';
+	$accordion = '<div id="accordion_container">';
+		$accordion .= '<div id="accordion">';
+			$accordion .= '<h3>'.__('Date fields','easyReservations').'</h3>';
+			$accordion .= '<div class="table">';
+				$accordion .= '<table class="formtable">';
+					$accordion .= '<thead>';
+						$accordion .= '<tr>';
+							$accordion .= '<th></th>';
+							$accordion .= '<th>'.__('Type','easyReservations').'</th>';
+							$accordion .= '<th>'.__('Default','easyReservations').'</th>';
+						$accordion .= '</tr>';
+					$accordion .= '</thead>';
+					$accordion .= '<tbody>';
+						$accordion .= '<tr attr="date-from">';
+							$accordion .= '<td style="background-image:url('.RESERVATIONS_URL.'images/day.png);"></td>';
+							$accordion .= '<td><strong>'.__('Arrival date','easyReservations').'</strong><br><i>'.__('Text field with datepicker','easyReservations').'</i></td>';
+							$accordion .= '<td>&#10008;</td>';
+						$accordion .= '</tr>';
+						$accordion .= '<tr attr="date-from-hour">';
+							$accordion .= '<td style="background-image:url('.RESERVATIONS_URL.'images/clock.png);"></td>';
+							$accordion .= '<td><strong>'.__('Arrival hour','easyReservations').'</strong><br><i>'.__('Select field as of the time pattern selection','easyReservations').'</i></td>';
+							$accordion .= '<td>12</td>';
+						$accordion .= '</tr>';
+						$accordion .= '<tr attr="date-from-min">';
+							$accordion .= '<td style="background-image:url('.RESERVATIONS_URL.'images/hour.png);"></td>';
+							$accordion .= '<td><strong>'.__('Arrival minute','easyReservations').'</strong><br><i>'.__('Select field','easyReservations').' 00-59</i></td>';
+							$accordion .= '<td>12</td>';
+						$accordion .= '</tr>';
+						$accordion .= '<tr attr="date-to">';
+							$accordion .= '<td style="background-image:url('.RESERVATIONS_URL.'images/day.png);"></td>';
+							$accordion .= '<td><strong>'.__('Departure date','easyReservations').'</strong><br><i>'.__('Text field with datepicker','easyReservations').'</i></td>';
+							$accordion .= '<td>&#10008;</td>';
+						$accordion .= '</tr>';
+						$accordion .= '<tr attr="units">';
+							$accordion .= '<td style="background-image:url('.RESERVATIONS_URL.'images/units.png);"></td>';
+							$accordion .= '<td><strong>'.__('Billing units','easyReservations').'</strong><br><i>'.__('Select field to choose length of stay','easyReservations').'</i></td>';
+							$accordion .= '<td>&#10008;</td>';
+						$accordion .= '</tr>';
+						$accordion .= '<tr attr="date-to-hour">';
+							$accordion .= '<td style="background-image:url('.RESERVATIONS_URL.'images/clock.png);"></td>';
+							$accordion .= '<td><strong>'.__('Departure hour','easyReservations').'</strong><br><i>'.__('Select field as of the time pattern selection','easyReservations').'</i></td>';
+							$accordion .= '<td>12</td>';
+						$accordion .= '</tr>';
+						$accordion .= '<tr attr="date-to-min">';
+							$accordion .= '<td style="background-image:url('.RESERVATIONS_URL.'images/hour.png);"></td>';
+							$accordion .= '<td><strong>'.__('Departure minute','easyReservations').'</strong><br><i>'.__('Select field','easyReservations').' 00-59</i></td>';
+							$accordion .= '<td>12</td>';
+						$accordion .= '</tr>';
+					$accordion .= '</tbody>';
+				$accordion .= '</table>';
+			$accordion .= '</div>';
+			$accordion .= '<h3>'.__('Information fields','easyReservations').'</h3>';
+			$accordion .= '<div class="table">';
+				$accordion .= '<table class="formtable">';
+					$accordion .= '<thead>';
+						$accordion .= '<tr>';
+							$accordion .= '<th></th>';
+							$accordion .= '<th>'.__('Type','easyReservations').'</th>';
+							$accordion .= '<th>'.__('Default','easyReservations').'</th>';
+						$accordion .= '</tr>';
+					$accordion .= '</thead>';
+					$accordion .= '<tbody>';
+						$accordion .= '<tr attr="resources">';
+							$accordion .= '<td style="background-image:url('.RESERVATIONS_URL.'images/house.png);"></td>';
+							$accordion .= '<td><strong>'.__('Resources','easyReservations').'</strong><br><i>'.__('Select of resource','easyReservations').'</i></td>';
+							$accordion .= '<td>&#10008;</td>';
+						$accordion .= '</tr>';
+						$accordion .= '<tr attr="adults">';
+							$accordion .= '<td style="background-image:url('.RESERVATIONS_URL.'images/user.png);"></td>';
+							$accordion .= '<td><strong>'.__('Adults','easyReservations').'</strong><br><i>'.__('Select field for adults','easyReservations').'</i></td>';
+							$accordion .= '<td>&#10008;</td>';
+						$accordion .= '</tr>';
+						$accordion .= '<tr attr="childs">';
+							$accordion .= '<td style="background-image:url('.RESERVATIONS_URL.'images/persons.png);"></td>';
+							$accordion .= '<td><strong>'.__('Children','easyReservations').'</strong><br><i>'.__('Select field for children\'s','easyReservations').'</i></td>';
+							$accordion .= '<td>0</td>';
+						$accordion .= '</tr>';
+						$accordion .= '<tr attr="thename">';
+							$accordion .= '<td style="background-image:url('.RESERVATIONS_URL.'images/day.png);"></td>';
+							$accordion .= '<td><strong>'.__('Name','easyReservations').'<br><i></strong>'.__('Text field for name','easyReservations').'</i></td>';
+							$accordion .= '<td>&#10008;</td>';
+						$accordion .= '</tr>';
+						$accordion .= '<tr attr="email">';
+							$accordion .= '<td style="background-image:url('.RESERVATIONS_URL.'images/email.png);"></td>';
+							$accordion .= '<td><strong>'.__('Email','easyReservations').'</strong><br><i>'.__('Text field for mail','easyReservations').'</i></td>';
+							$accordion .= '<td>&#10008;</td>';
+						$accordion .= '</tr>';
+						$accordion .= '<tr attr="country">';
+							$accordion .= '<td style="background-image:url('.RESERVATIONS_URL.'images/country.png);"></td>';
+							$accordion .= '<td><strong>'.__('Country','easyReservations').'</strong><br><i>'.__('Select field of country\'s','easyReservations').'</i></td>';
+							$accordion .= '<td></td>';
+						$accordion .= '</tr>';
+					$accordion .= '</tbody>';
+				$accordion .= '</table>';
+			$accordion .= '</div>';
+			$accordion .= '<h3>'.__('Special fields','easyReservations').'</h3>';
+			$accordion .= '<div class="table">';
+				$accordion .= '<table class="formtable">';
+					$accordion .= '<thead>';
+						$accordion .= '<tr>';
+							$accordion .= '<th></th>';
+							$accordion .= '<th>'.__('Type','easyReservations').'</th>';
+						$accordion .= '</tr>';
+					$accordion .= '</thead>';
+					$accordion .= '<tbody>';
+						$accordion .= '<tr attr="hidden">';
+							$accordion .= '<td style="background-image:url('.RESERVATIONS_URL.'images/lock.png);"></td>';
+							$accordion .= '<td><strong>'.__('Hidden','easyReservations').'</strong><br><i>'.__('Fix information and hide from guest','easyReservations').'</i></td>';
+						$accordion .= '</tr>';
+						$accordion .= '<tr attr="custom">';
+							$accordion .= '<td style="background-image:url('.RESERVATIONS_URL.'images/form.png);"></td>';
+							$accordion .= '<td><strong>'.__('Custom','easyReservations').'</strong><br><i>'.__('Custom form elements to get more information','easyReservations').'</i></td>';
+						$accordion .= '</tr>';
+						$accordion .= '<tr attr="infobox">';
+							$accordion .= '<td style="background-image:url('.RESERVATIONS_URL.'images/house.png);"></td>';
+							$accordion .= '<td><strong>'.__('Resources infobox','easyReservations').'<br><i></strong>'.__('Displays information of currently selected resource','easyReservations').'</i></td>';
+						$accordion .= '</tr>';
+						$accordion = apply_filters('easy-form-list', $accordion);
+						$accordion .= '<tr attr="captcha">';
+							$accordion .= '<td style="background-image:url('.RESERVATIONS_URL.'images/user.png);"></td>';
+							$accordion .= '<td><strong>'.__('Captcha','easyReservations').'</strong><br><i>'.__('To verify only humans use the form','easyReservations').'</i></td>';
+						$accordion .= '</tr>';
+						$accordion .= '<tr attr="show_price">';
+							$accordion .= '<td style="background-image:url('.RESERVATIONS_URL.'images/invoice.png);"></td>';
+							$accordion .= '<td><strong>'.__('Show price','easyReservations').'</strong><br><i>'.__('Display price live','easyReservations').'</i></td>';
+						$accordion .= '</tr>';
+						$accordion .= '<tr attr="error">';
+							$accordion .= '<td style="background-image:url('.RESERVATIONS_URL.'images/delete.png);"></td>';
+							$accordion .= '<td><strong>'.__('Error','easyReservations').'</strong><br><i>'.__('Displays errors','easyReservations').'</i></td>';
+						$accordion .= '</tr>';
+						$accordion .= '<tr attr="submit">';
+							$accordion .= '<td style="background-image:url('.RESERVATIONS_URL.'images/lightning.png);"></td>';
+							$accordion .= '<td><strong>'.__('Submit button','easyReservations').'</strong><br><i>'.__('Button to submit the form','easyReservations').'</i></td>';
+						$accordion .= '</tr>';
+					$accordion .= '</tbody>';
+				$accordion .= '</table>';
+			$accordion .= '</div>';
+			$accordion .= '<h3>'.__('Format','easyReservations').'</h3>';
+			$accordion .= '<div class="table">';
+				$accordion .= '<table class="formtable">';
+					$accordion .= '<tbody>';
+						$accordion .= '<tr bttr="label">';
+							$accordion .= '<td><strong>'.__('Label','easyReservations').' <tag>&lt;label&gt;</tag></strong><br><i>'.__('Used for description of tags. Should be before the tag.','easyReservations').'</i></td>';
+						$accordion .= '</tr>';
+						$accordion .= '<tr bttr="span">';
+							$accordion .= '<td><strong>'.__('Sub-label','easyReservations').' <tag>&lt;span class="small"&gt;</tag><br><i></strong>'.__('Small sub-label. Should be used inside labels.','easyReservations').'</i></td>';
+						$accordion .= '</tr>';
+						$accordion .= '<tr bttr="row">';
+							$accordion .= '<td><strong>'.__('Row','easyReservations').' <tag>&lt;span class="row"&gt;</tag><br><i></strong>'.__('To use multiple elements in one row. It may be nesecarry to define their width\'s.','easyReservations').'</i></td>';
+						$accordion .= '</tr>';
+						$accordion .= '<tr bttr="b">';
+							$accordion .= '<td><strong>'.__('Bold','easyReservations').' <tag>&lt;strong&gt;</tag></strong><br><i>'.__('Bold text','easyReservations').'</i></td>';
+						$accordion .= '</tr>';
+						$accordion .= '<tr bttr="i">';
+							$accordion .= '<td><strong>'.__('Italic','easyReservations').' <tag>&lt;i&gt;</tag></strong><br><i>'.__('Italic text','easyReservations').'</i></td>';
+						$accordion .= '</tr>';
+						$accordion .= '<tr bttr="h1">';
+							$accordion .= '<td><strong>'.__('Headline','easyReservations').' <tag>&lt;h1&gt;</tag></strong><br><i>'.__('Big headline.','easyReservations').'</i></td>';
+						$accordion .= '</tr>';
+						$accordion .= '<tr bttr="h2">';
+							$accordion .= '<td><strong>'.__('Sub-headline','easyReservations').' <tag>&lt;h2&gt;</tag></strong><br><i>'.__('Smaller headline to divide the form.','easyReservations').'</i></td>';
+						$accordion .= '</tr>';
+					$accordion .= '</tbody>';
+				$accordion .= '</table>';
+			$accordion .= '</div>';
+		$accordion .= '</div>';
+	$accordion .= '</div>';
+	$accordion .= '<a href="javascript:submitForm();" class="easybutton button-primary" style="margin:5px;">'.__( 'Submit' , 'easyReservations' ).'</a>';
+	$accordion .= '<a href="javascript:;" class="button" style="margin:5px 5px 5px 0px;">'.__( 'Reset' , 'easyReservations' ).'</a>';
+	$accordion .= '<a href="javascript:resetToDefault();" class="button" style="margin:5px 5px 5px 0px;">'.__( 'Default' , 'easyReservations' ).'</a>';
+	$accordion .= '<form id="easyform" method="post">';
+		$accordion .= '<input type="hidden" name="action" value="reservations_form_settings">';
+		$accordion .= '<input type="hidden" name="reservations_formvalue" value="">';
+	$accordion .= '</form>';
 
-	echo $textfield.$accordeon;
+	echo $textfield.$accordion;
 
-} elseif($settingpage=="custom"){
+} elseif($setting_current_page=="custom"){
+	wp_enqueue_script('custom-fields', RESERVATIONS_URL.'js/functions/custom.settings.js');
+	wp_enqueue_script('jquery-ui-sortable');
+	wp_enqueue_script('jquery-ui-datepicker');
+	wp_enqueue_style( 'datestyle' );
+	easyreservations_load_resources();
 
-	$customfields = get_option('reservations_custom_fields');
-	$table = '<table id="custom_fields_table" class="'.RESERVATIONS_STYLE.'" style="width:60%;float:left">';
-		$table .= '<thead>';
-			$table .= '<tr>';
-				$table .= '<td>'.__('Slug', 'easyReservations').'</td>';
-				$table .= '<td>'.__('Title', 'easyReservations').'</td>';
-				$table .= '<td>'.__('Type', 'easyReservations').'</td>';
-				$table .= '<td>'.__('Value', 'easyReservations').'</td>';
-				$table .= '<td colspan="2">'.__('Else', 'easyReservations').'</td>';
-			$table .= '</tr>';
-		$table .= '</thead>';
-		$table .= '<tbody>';
-	if($customfields && !empty($customfields)){
-		foreach($customfields as $key => $customfield){
-			$table .= '<tr>';
+	global $the_rooms_array;
+	$resources_array = array();
+	foreach($the_rooms_array as $key => $resource){
+		$resources_array[$key] = $resource->post_title;
+	}
+
+	$custom_fields = get_option('reservations_custom_fields');
+	if(isset($_POST['custom_name'])){
+		$custom = array();
+		$custom["title"] = $_POST['custom_name'];
+		$custom["type"] = $_POST['custom_field_type'];
+		$custom["unused"] = $_POST['custom_field_unused'];
+		if($custom["type"] == 'text' || $custom["type"] == 'area'){
+			$custom["value"] = $_POST['custom_field_value'];
+		} else {
+			$custom['options'] = array();
+			$get_id = '';
+			foreach($_POST['id'] as $nr => $id){
+				$final_id = $id;
+				if(is_numeric($id)){
+					$uid = uniqid($id);
+					$get_id[$id] = $uid;
+					$final_id = $uid;
+				}
+				$custom['options'][$final_id] = array();
+				$custom['options'][$final_id]["value"] = $_POST['value'][$nr];
+				if(isset($_POST['price'])) $custom['options'][$final_id]["price"] = $_POST['price'][$nr];
+				if(isset($_POST['checked'][$nr]) && $_POST['checked'][$nr] == 1) $custom['options'][$final_id]['checked'] = 1;
+			}
+
+			if(isset($_POST['if_option'])){
+				foreach($_POST['if_option'] as $nr => $opt_id){
+					if(is_numeric($opt_id)) $opt_id = $get_id[$opt_id];
+					$option = '';
+					$option['type'] = $_POST['if_cond_type'][$nr];
+					$option['operator'] = $_POST['if_cond_operator'][$nr];
+					$option['cond'] = $_POST['if_cond'][$nr];
+					if($_POST['if_cond_happens'][$nr] == "price") $option['price'] = $_POST['if_cond_amount'][$nr];
+					else $option['price'] = $_POST['if_cond_happens'][$nr];
+					$option['mult'] = $_POST['if_cond_mult'][$nr];
+					$custom['options'][$opt_id]['clauses'][] = $option;
+				}
+			}
+		}
+		if(isset($_POST['custom_price_field'])) $custom['price'] = 1;
+		if(isset($_POST['custom_field_required'])) $custom['required'] = 1;
+		if(isset($_POST['custom_id'])){
+			$custom_id = $_POST['custom_id'];
+			$prompt = '<div class="updated"><p>'.__( 'Custom field edited', 'easyReservations' ).'</p></div>';
+		} else {
+			if(isset($custom_fields['id'])) $custom_fields['id'] = $custom_fields['id'] + 1;
+			else $custom_fields['id'] = 1;
+			$custom_id = $custom_fields['id'];
+			$prompt = '<div class="updated"><p>'.__( 'Added custom field', 'easyReservations' ).'</p></div>';
+		}
+		if(!isset($custom_fields['fields'])) $custom_fields['fields'] = '';
+		$custom_fields['fields'][$custom_id] = $custom;
+		update_option('reservations_custom_fields', $custom_fields);
+	} elseif(isset($_GET['delete'])){
+		$prompt = '<div class="updated"><p>'.__( 'Custom field deleted', 'easyReservations' ).'</p></div>';
+		unset($custom_fields['fields'][$_GET['delete']]);
+		update_option('reservations_custom_fields', $custom_fields);
+	}
+	if(isset($prompt)) echo $prompt;
+
+	$creator = '<div style="margin:5px;">This function is not completely finished, but should be usable and needs testing. With it you can define custom and price fields more convenient and their form element can be generated in the whole plugin.<br>Add custom fields to the form with [custom id="*"] and to emails with [custom id="*" show="title|value|amount"].<br>If you\'ve further suggestions or find any bugs please post in the forum.</div>';
+
+
+	$creator = '<form name="custom_creator" id="custom_creator" method="post" method="post" style="float:right;margin-right: 15px;width:628px">';
+		$creator .= '<table id="custom_fields_table" class="'.RESERVATIONS_STYLE.'">';
+			$creator .= '<thead>';
+				$creator .= '<tr>';
+					$creator .= '<th colspan="2" style="text-align: left">';
+						$creator .= __('Add and edit custom fields', 'easyReservations');
+					$creator .= '</th>';
+				$creator .= '</tr>';
+			$creator .= '</thead>';
+			$creator .= '<tbody>';
+				$creator .= '<tr class="alternate">';
+					$creator .= '<td>';
+						$creator .= __('Title', 'easyReservations');
+					$creator .= '</td>';
+					$creator .= '<td>';
+						$creator .= '<input type="text" name="custom_name" id="custom_name">';
+					$creator .= '</td>';
+				$creator .= '</tr>';
+				$creator .= '<tr>';
+					$creator .= '<td>';
+						$creator .= __('Price field', 'easyReservations');
+					$creator .= '</td>';
+					$creator .= '<td>';
+						$creator .= '<input id="custom_price_field" name="custom_price_field" type="checkbox"> ';
+						$creator .= __('Field has influence on price', 'easyReservations');
+					$creator .= '</td>';
+				$creator .= '</tr>';
+				$creator .= '<tr id="custom_type_tr" class="alternate">';
+					$creator .= '<td>';
+						$creator .= __('Form Element', 'easyReservations');
+					$creator .= '</td>';
+					$creator .= '<td>';
+						$creator .= '<select name="custom_field_type" id="custom_field_type">';
+						$creator .= '</select>';
+					$creator .= '</td>';
+				$creator .= '</tr>';
+				$creator .= '<tr>';
+					$creator .= '<td colspan="2" id="custom_field_extras">';
+					$creator .= '</td>';
+				$creator .= '</tr>';
+				$creator .= '<tr>';
+					$creator .= '<td colspan="2">';
+						$creator .= '<input type="submit" value="'.__('Submit', 'easyReservations').'" class="button">';
+					$creator .= '</td>';
+				$creator .= '</tr>';
+			$creator .= '</tbody>';
+		$creator .= '</table>';
+	$creator .= '</form>';
+	$creator .= '<script>var plugin_url = "'.WP_PLUGIN_URL.'";var currency = "'.RESERVATIONS_CURRENCY.'";var custom_nonce = "'.wp_create_nonce('easy-custom').'";var all_custom_fields = '.json_encode($custom_fields['fields']);
+	$creator .= ';var resources = '.str_replace('\\"', '"', addslashes(json_encode($resources_array))).';</script>';
+	echo $creator;
+
+	$table = '<table id="custom_fields_table" class="'.RESERVATIONS_STYLE.'" style="min-width:40%;width:62%;margin:0px 5px 5px 0px;clear:none">';
+	$table .= '<thead>';
+	$table .= '<tr>';
+	$table .= '<th>'.__('ID', 'easyReservations').'</th>';
+	$table .= '<th>'.__('Title', 'easyReservations').'</th>';
+	$table .= '<th>'.__('Type', 'easyReservations').'</th>';
+	$table .= '<th>'.__('Value', 'easyReservations').'</th>';
+	$table .= '<th colspan="2">'.__('Else', 'easyReservations').'</th>';
+	$table .= '</tr>';
+	$table .= '</thead>';
+	$table .= '<tbody>';
+	if($custom_fields && !empty($custom_fields)){
+		$c = 0;
+		foreach($custom_fields['fields'] as $key => $custom_field){
+			$c++;
+			$class = '';
+			if($c%2!==0) $class = ' class="alternate"';
+			$table .= '<tr '.$class.'>';
 			$table .= '<td>'.$key.'</td>';
-			$table .= '<td>'.$customfield['title'].'</td>';
-			$table .= '<td>'.$customfield['type'].'</td>';
+			$table .= '<td>'.$custom_field['title'].'</td>';
+			$table .= '<td>'.$custom_field['type'].'</td>';
 			$table .= '<td>';
-			if($customfield['type'] == 'select' || $customfield['type'] == 'radio' ){
+			if($custom_field['type'] == 'select' || $custom_field['type'] == 'radio' ){
 				$table .= '<ul class="options">';
-				foreach($customfield['option'] as $key => $option){
-					if($key == $customfield['value']) $class = ' class="selectedoption"';
-					else $class = '';
-					$table .= '<li'.$class.'>'.$option.'</li>';
+				foreach($custom_field['options'] as $opt_id => $option){
+					//if($opt_id == $customfield['value']) $class = ' class="selectedoption"';
+					$class = '';
+					$table .= '<li'.$class.'>'.$option['value'];
+					if(isset($option['price'])) $table .= ' '.easyreservations_format_money($option['price'], true);
+					if(isset($option['clauses'])) $table.= ' ('.count($option['clauses']).' '._n('condition', 'conditions', count($option['clauses']), 'easyReservations').')';
+					$table .= '</li>';
 				}
 				$table .= '</ul>';
+			} else {
+				$table .= $custom_field['value'];
 			}
-			$table .= '</td><td>'.$customfield['else'].'</td><td>';
-			$table .= '<a href="javascript:custom_edit(<?php echo $nummer; ?>);"><img style="vertical-align:middle;" src="'.RESERVATIONS_URL.'/images/edit.png"></a>';
-			$table .= '<a href="'.wp_nonce_url('admin.php?page=reservation-settings&site=custom&custom='.$key, 'easy-delete-custom').'"><img style="vertical-align:middle;" src="'.RESERVATIONS_URL.'/images/delete.png"></a>';
+			$table .= '</td><td>'.$custom_field['unused'].'</td><td>';
+			$table .= '<a href="javascript:custom_edit(\''.$key.'\');"><img style="vertical-align:middle;" src="'.RESERVATIONS_URL.'/images/edit.png"></a>';
+			$table .= '<a href="'.wp_nonce_url('admin.php?page=reservation-settings&site=custom&delete='.$key, 'easy-delete-custom').'"><img style="vertical-align:middle;" src="'.RESERVATIONS_URL.'/images/delete.png"></a>';
 			$table .= '</td></tr>';
 		}
 	} else $table .= '<tr><td colspan="5 ">'.__('No custom fields defined', 'easyReservations').'</td></tr>';
@@ -1195,50 +1284,7 @@ if($settingpage == "general"){
 
 	echo $table;
 
-	$creator = '<form name="custom_creator" id="custom_creator" style="width:30%;">';
-		$creator .= '<table id="custom_fields_table" class="'.RESERVATIONS_STYLE.'" style="width:99%;">';
-			$creator .= '<theady>';
-				$creator .= '<tr>';
-					$creator .= '<th colspan="2">';
-						$creator .= __('Add and edit custom fields', 'easyReservations');
-					$creator .= '</th>';
-				$creator .= '</tr>';
-			$creator .= '</thead>';
-			$creator .= '<tbody>';
-				$creator .= '<tr>';
-					$creator .= '<td>';
-						$creator .= __('Type', 'easyReservations');
-					$creator .= '</td>';
-					$creator .= '<td>';
-						$creator .= '<select id="custom_fields_type" name="custom_field_type">';
-							$creator .= '<option value="info">'.__('Information', 'easyReservations').'</option>';
-							$creator .= '<option value="price">'.__('Price', 'easyReservations').'</option>';
-						$creator .= '</select>';
-					$creator .= '</td>';
-				$creator .= '</tr>';
-				$creator .= '<tr>';
-					$creator .= '<td>';
-						$creator .= __('Title', 'easyReservations');
-					$creator .= '</td>';
-					$creator .= '<td>';
-						$creator .= '<input type="text" name="custom_name" id="custom_none">';
-					$creator .= '</td>';
-				$creator .= '</tr>';
-				$creator .= '<tr>';
-					$creator .= '<td>';
-						$creator .= __('Title', 'easyReservations');
-					$creator .= '</td>';
-					$creator .= '<td>';
-						$creator .= '<input type="text" name="custom_name" id="custom_none">';
-					$creator .= '</td>';
-				$creator .= '</tr>';
-			$creator .= '</tbody>';
-		$creator .= '</table>';
-	$creator .= '</form>';
-
-	echo $creator;
-
-} elseif($settingpage=="email"){
+} elseif($setting_current_page=="email"){
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /* - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + EMAIL SETTINGS + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + */
@@ -1247,33 +1293,33 @@ if($settingpage == "general"){
 
 $emailstandart0="[adminmessage]<br><br>
 Reservation Details:<br>
-ID: [ID]<br>Name: [thename] <br>Email: [email] <br>From: [arrival] <br>To: [departure] <br>Adults: [adults] <br>Childrens: [childs] <br>Resource: [resource] <br>Resource Number: [resourcenumber]<br>Price: [price]<br>[customs]<br>edit your reservation on [editlink]";
+ID: [ID]<br>Name: [thename] <br>Email: [email] <br>From: [arrival] <br>To: [departure] <br>Adults: [adults] <br>Children: [childs] <br>Resource: [resource] <br>Resource Number: [resourcenumber]<br>Price: [price]<br>edit your reservation on [editlink]";
 $emailstandart1="New Reservation on Blogname from<br>
-ID: [ID]<br>Name: [thename] <br>Email: [email] <br>From: [arrival] <br>To: [departure] <br>Adults: [adults] <br>Childrens: [childs] <br>Resource: [resource]<br>Price: [price]<br>[customs]";
+ID: [ID]<br>Name: [thename] <br>Email: [email] <br>From: [arrival] <br>To: [departure] <br>Adults: [adults] <br>Children: [childs] <br>Resource: [resource]<br>Price: [price]<br>";
 $emailstandart2="Your Reservation on Blogname has been approved.<br>
 [adminmessage]<br><br>
 Reservation Details:<br>
-ID: [ID]<br>Name: [thename] <br>Email: [email] <br>From: [arrival] <br>To: [departure] <br>Adults: [adults] <br>Childrens: [childs] <br>Resource: [resource] <br>Resource Number: [resourcenumber]<br>Price: [price]<br>[customs]<br>edit your reservation on [editlink]";
+ID: [ID]<br>Name: [thename] <br>Email: [email] <br>From: [arrival] <br>To: [departure] <br>Adults: [adults] <br>Children: [childs] <br>Resource: [resource] <br>Resource Number: [resourcenumber]<br>Price: [price]<br>edit your reservation on [editlink]";
 $emailstandart3="Your Reservation on Blogname has been rejected.<br>
 [adminmessage]<br> <br>
 Reservation Details:<br>
-ID: [ID]<br>Name: [thename] <br>Email: [email] <br>From: [arrival] <br>To: [departure] <br>Adults: [adults] <br>Childrens: [childs] <br>Resource: [resource]<br><br>Price: [price]<br>[customs]<br>edit your reservation on [editlink]";
+ID: [ID]<br>Name: [thename] <br>Email: [email] <br>From: [arrival] <br>To: [departure] <br>Adults: [adults] <br>Children: [childs] <br>Resource: [resource]<br><br>Price: [price]<br>edit your reservation on [editlink]";
 $emailstandart4="We've got your reservaion and treat it as soon as possible.<br><br>
 Reservation Details:<br>
-ID: [ID]<br>Name: [thename] <br>Email: [email] <br>From: [arrival] <br>To: [departure] <br>Adults: [adults] <br>Childrens: [childs] <br>Resource: [resource]<br>Resource Number: [resourcenumber]<br>Price: [price]<br>[customs]<br><br>edit your reservation on [editlink]";
+ID: [ID]<br>Name: [thename] <br>Email: [email] <br>From: [arrival] <br>To: [departure] <br>Adults: [adults] <br>Children: [childs] <br>Resource: [resource]<br>Resource Number: [resourcenumber]<br>Price: [price]<br><br>edit your reservation on [editlink]";
 $emailstandart5="Your reservation got edited from you. If this wasnt you, please contact us through this email address.<br><br>
 New Reservation Details:<br>
-ID: [ID]<br>Name: [thename] <br>Email: [email] <br>From: [arrival] <br>To: [departure] <br>Adults: [adults] <br>Childrens: [childs] <br>Resource: [resource] <br>Resource Number: [resourcenumber]<br>Price: [price]<br>[customs]<br><br>edit your reservation on [editlink]<br><br>[changelog]";
+ID: [ID]<br>Name: [thename] <br>Email: [email] <br>From: [arrival] <br>To: [departure] <br>Adults: [adults] <br>Children: [childs] <br>Resource: [resource] <br>Resource Number: [resourcenumber]<br>Price: [price]<br><br>edit your reservation on [editlink]<br><br>[changelog]";
 $emailstandart6="Reservation got edited by guest.<br><br>
 New Reservation Details:<br>
-ID: [ID]<br>Name: [thename] <br>Email: [email] <br>From: [arrival] <br>To: [departure] <br>Adults: [adults] <br>Childrens: [childs] <br>Resource: [resource] <br>Resource Number: [resourcenumber]<br>Price: [price]<br>[customs]<br><br>[changelog]";
+ID: [ID]<br>Name: [thename] <br>Email: [email] <br>From: [arrival] <br>To: [departure] <br>Adults: [adults] <br>Children: [childs] <br>Resource: [resource] <br>Resource Number: [resourcenumber]<br>Price: [price]<br><br>[changelog]";
 $emailstandart7="Your reservation got edited by admin.<br><br>
 [adminmessage]<br>
 New Reservation Details:<br>
-ID: [ID]<br>Name: [thename] <br>Email: [email] <br>From: [arrival] <br>To: [departure] <br>Adults: [adults] <br>Childrens: [childs] <br>Resource: [resource] <br>Resource Number: [resourcenumber]<br>Price: [price]<br>[customs]<br><br>edit your reservation on [editlink]<br><br>[changelog]";
+ID: [ID]<br>Name: [thename] <br>Email: [email] <br>From: [arrival] <br>To: [departure] <br>Adults: [adults] <br>Children: [childs] <br>Resource: [resource] <br>Resource Number: [resourcenumber]<br>Price: [price]<br><br>edit your reservation on [editlink]<br><br>[changelog]";
 $emailstandart10="Reservation got canceled by guest.<br><br>
 New Reservation Details:<br>
-ID: [ID]<br>Name: [thename] <br>Email: [email] <br>From: [arrival] <br>To: [departure] <br>Adults: [adults] <br>Childrens: [childs] <br>Resource: [resource] <br>Resource Number: [resourcenumber]<br>Price: [price]<br>[customs]<br><br>[changelog]";
+ID: [ID]<br>Name: [thename] <br>Email: [email] <br>From: [arrival] <br>To: [departure] <br>Adults: [adults] <br>Children: [childs] <br>Resource: [resource] <br>Resource Number: [resourcenumber]<br>Price: [price]<br><br>[changelog]";
 ?><script type="text/javascript">
 function addtextforemail(nr){
 	if(nr == 0) document.reservations_email_settings.reservations_email_sendmail_msg.value = document.reservations_email_settings.inputemail0.value;
@@ -1312,8 +1358,8 @@ function addtextforemail(nr){
 								echo '<tr>';
 									echo '<th>';
 										echo $email['name'];
-										echo '<span style="float:right">'.__( 'Active' , 'easyReservations' ).': <input type="checkbox" id="idactive" value="1" name="'.$key.'_check" '.checked(1, $email['option']['active'],false).' style="margin-top:3px;margin-left:-1px;"> &nbsp;';
-										echo '<input type="button" onclick="document.getElementById(\'reservations_email_settings\').submit(); return false;" class="easySubmitButton-primary" value="'.__( 'Save Changes' , 'easyReservations' ).'"></span>';
+										echo '<span style="float:right">'.__( 'Active' , 'easyReservations' ).': <input type="checkbox" id="idactive" value="1" name="'.$key.'_check" '.checked(1, $email['option']['active'],false).'> &nbsp;';
+										echo '<input type="button" onclick="document.getElementById(\'reservations_email_settings\').submit(); return false;" class="easybutton button-primary" value="'.__( 'Save Changes' , 'easyReservations' ).'"></span>';
 									echo '</th>';
 								echo '</tr>';
 							echo '</thead>';
@@ -1321,7 +1367,7 @@ function addtextforemail(nr){
 								echo '<tr valign="top">';
 									echo '<td>';
 										echo '<input id="idsubj" type="text" name="'.$key.'_subj" style="width:60%;" value=\''.stripslashes($email['option']['subj']).'\'> '.__( 'Subject' , 'easyReservations' );
-										echo '<input type="button" onclick="addtextforemail('.$email['default'].');" style="float:right" class="easySubmitButton-secondary" value="'.__( 'Default' , 'easyReservations' ).'">';
+										echo '<input type="button" onclick="addtextforemail('.$email['default'].');" style="float:right" class="button" value="'.__( 'Default' , 'easyReservations' ).'">';
 									echo '</td>';
 								echo '</tr>';
 								echo '<tr valign="top">';
@@ -1334,11 +1380,11 @@ function addtextforemail(nr){
 					} ?>
 		</td>
 		<td style="width:1%;"></td>
-		<td style="width:39%;" valign="top">
+		<td style="width:350px;" valign="top">
 			<table class="<?php echo RESERVATIONS_STYLE; ?>">
 			<thead>
 				<tr>
-					<thid="idtags"> <?php printf ( __( 'Tags' , 'easyReservations' ));?></th>
+					<th id="idtags"> <?php printf ( __( 'Tags' , 'easyReservations' ));?></th>
 				</tr>
 			</thead>
 			<tbody>
@@ -1353,17 +1399,15 @@ function addtextforemail(nr){
 							<p><code class="codecolor">[arrival]</code> <i><?php printf ( __( 'arrival date' , 'easyReservations' ));?></i></p>								
 							<p><code class="codecolor">[departure]</code> <i><?php printf ( __( 'departure date' , 'easyReservations' ));?></i></p>
 							<p><code class="codecolor">[units]</code> <i><?php echo __( 'amount of billing units', 'easyReservations' )?></i></p>
-							<p><code class="codecolor">[reserved]</code> <i><?php printf( __( 'amount of %s from date of reservation' , 'easyReservations' ), easyreservations_interval_infos());?></i></p>
-							<p><code class="codecolor">[persons]</code> <i><?php printf ( __( 'amount of adults and childs' , 'easyReservations' ));?></i></p>
+							<p><code class="codecolor">[persons]</code> <i><?php printf ( __( 'amount of adults and children' , 'easyReservations' ));?></i></p>
 							<p><code class="codecolor">[adults]</code> <i><?php printf ( __( 'amount of adults' , 'easyReservations' ));?></i></p>
-							<p><code class="codecolor">[childs]</code> <i><?php printf ( __( 'amount of childs' , 'easyReservations' ));?></i></p>
+							<p><code class="codecolor">[childs]</code> <i><?php printf ( __( 'amount of children' , 'easyReservations' ));?></i></p>
 							<p><code class="codecolor">[country]</code> <i><?php printf ( __( 'country of guest' , 'easyReservations' ));?></i></p>
 							<p><code class="codecolor">[resource]</code> <i><?php printf ( __( 'name of resource' , 'easyReservations' ));?></i></p>
 							<p><code class="codecolor">[resource-number]</code> <i><?php printf ( __( 'name of resource number' , 'easyReservations' ));?></i></p>
 							<p><code class="codecolor">[price]</code> <i><?php printf ( __( 'price of reservation' , 'easyReservations' ));?></i></p>
 							<p><code class="codecolor">[paid]</code> <i><?php printf ( __( 'paid amount' , 'easyReservations' ));?></i></p>
-							<p><code class="codecolor">[customs]</code> <i><?php printf ( __( 'custom fields' , 'easyReservations' ));?></i></p>
-							<p><code class="codecolor" id="idtagcustom">[prices]</code> <i><?php printf ( __( 'price fields' , 'easyReservations' ));?></i></p>
+							<p><code class="codecolor" id="idtagcustom">[custom id="*"]</code> <i><?php printf ( __( 'custom fields' , 'easyReservations' ));?></i></p>
 							<p><code class="codecolor">[changlog]</code> <i><?php printf ( __( 'show changes after edits' , 'easyReservations' ));?></i></p>
 							<p><code class="codecolor">[editlink]</code> <i><?php printf ( __( 'link to user control panel' , 'easyReservations' ));?></i></p>
 							<?php do_action('easy-email-list'); ?>
@@ -1377,7 +1421,7 @@ function addtextforemail(nr){
 	<?php } do_action('easy-email-settings'); ?>
 </form>
 <?php } 
-	if($settingpage=="about"){ ?>
+	if($setting_current_page=="about"){ ?>
 	<table style="width:99%;" cellspacing="0"><tr><td style="width:60%;" style="width:49%;"  valign="top">
 		<table id="changelog" class="<?php echo RESERVATIONS_STYLE; ?>" >
 			<thead>
@@ -1387,7 +1431,7 @@ function addtextforemail(nr){
 			</thead>
 			<tbody>
 				<tr>
-					<td style="width:100%;" align="center">
+					<td style="width:100%;" align="left">
 						<style> 
 							#changelog ul {
 								list-style: disc !important;
@@ -1411,7 +1455,7 @@ function addtextforemail(nr){
 				</thead>
 				<tbody>
 					<tr>
-						<td style="font-weight:bold;padding:10px;text-align:center"><span style="width:20%;display: inline-block">Version: <?php echo RESERVATIONS_VERSION; ?></span><span style="width:30%;display: inline-block">Last update: 20.08.2013</span><span style="width:30%;display: inline-block">written by Feryaz Beer</span></td>
+						<td style="font-weight:bold;padding:10px;text-align:center"><span style="width:20%;display: inline-block">Version: <?php echo RESERVATIONS_VERSION; ?></span><span style="width:30%;display: inline-block">Last update: 13.05.2013</span><span style="width:30%;display: inline-block">written by Feryaz Beer</span></td>
 					</tr>
 					<tr class="alternate">
 						<td style="font-size:14px;text-align:center;font-weight:bold;padding:10px"><a href="http://easyreservations.org/knowledgebase/" target="_blank" id="iddocumentation"><?php echo __( 'Documentation' , 'easyReservations' );?></a></td>
@@ -1468,7 +1512,7 @@ function addtextforemail(nr){
 		</table>
 	</tr>
 </table>
-<?php } elseif($settingpage=="chrome"){
+<?php } elseif($setting_current_page=="chrome"){
 	$countactive = 0;
 	$countpending = 0;
 	easyreservations_load_resources();

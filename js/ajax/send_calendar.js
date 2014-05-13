@@ -1,118 +1,126 @@
-var easyClick = 0;
-var easyClickFirst = '';
-var easyCellnr = 0;
-var easyCalM = 0;
-function easyreservations_click_calendar(t,d,w,m){
-    var atts = null;
-	if(jQuery(t).closest('#showCalender.widget').length > 0) atts = easyWidgetCalendarAtts;
-	else atts = easyCalendarAtts;
-	jQuery('.reqdisabled').removeClass('reqdisabled');
-	if(easyClick == 2 || (atts['select'] == 1 && easyClick == 1)){
-		jQuery(".calendar-cell-selected").removeClass("calendar-cell-selected");
-		easyClick = 0;
-	}
-
-	if(easyClick == 1){
-		jQuery('.reqstartdisabled').addClass('reqdisabled');
-		if(jQuery(t).hasClass('reqenddisabled')) return false;
-		easyCellnr = parseFloat(easyCellnr);
-		easyCalM = parseFloat(easyCalM);
-		var axis = parseFloat(t.axis);
-		if(easyCalM != m) axis = 31;
-		//alert('easyCellnr: '+easyCellnr+' axis: '+axis+' m: '+m+' easyCalM: '+easyCalM);
-		if(!document.getElementById('easy-cal-' + w + '-'+ easyCellnr + '-' + easyCalM)) easyCellnr = 1;
-
-		if(easyCellnr <= axis && parseFloat(m) >= easyCalM){
-
-			for (i=easyCellnr; i<=axis; i++){
-				var element = '#easy-cal-' + w + '-'+ i + '-' + easyCalM;
-				if(i != axis && jQuery(element).hasClass('calendar-cell-full') == true){
-					jQuery(".calendar-cell-selected").removeClass("calendar-cell-selected");
-					jQuery('#easy-form-to').val('');
-					jQuery(t.parentNode.parentNode.parentNode.parentNode).addClass("calendar-full");
-					break;
-				}
-				jQuery(element).addClass("calendar-cell-selected");
-				if(i  == 31 && easyCalM != m){
-					easyCalM = easyCalM + 1;
-					i = 0;
-					if(easyCalM == m) axis = parseFloat(t.axis);
-				}
-			}
-			jQuery('#easy-form-to,#easy-widget-datepicker-to').val(d);
-			if(document.getElementById('easy-form-units') && document.getElementById('easy-form-from')){
-				instance = jQuery( '#easy-form-from' ).data( "datepicker" );
-				if(instance){
-					dateanf = jQuery.datepicker.parseDate(instance.settings.dateFormat || jQuery.datepicker._defaults.dateFormat, document.getElementById('easy-form-from').value, instance.settings );
-					dateend = jQuery.datepicker.parseDate(instance.settings.dateFormat || jQuery.datepicker._defaults.dateFormat, d, instance.settings );
-					var difference_ms = Math.abs(dateanf - dateend);
-					var diff = difference_ms/1000;
-					var interval = 86400;
-					var interval_array = eval("(" + easyAjax.interval + ")");
-					if(interval_array[document.getElementById('form_room').value]) interval = interval_array[document.getElementById('form_room').value];
-					nights = Math.ceil(diff/interval);
-					jQuery('#easy-form-units').val(nights);
-				}
-			}
-			if(window.easyreservations_send_price) easyreservations_send_price('easyFrontendFormular');
-			if(window.easyreservations_send_validate) easyreservations_send_validate(false, 'easyFrontendFormular');
-			if(window.easyreservations_send_search) easyreservations_send_search();
-
-			easyClick = 2;
-		} else {
-			easyClick = 2;
-			easyCalM = 0;
-			jQuery(".calendar-cell-selected").removeClass("calendar-cell-selected");
+var easyCalendars = [];
+jQuery("body").on({
+	click: function(){
+		var split = this.id.split("-");
+		if(easyCalendars[split[2]]){
+			var cal = easyCalendars[split[2]];
+			cal.click(this,jQuery(this).attr('date'),split[4]);
 		}
 	}
-	if(easyClick == 0){
-		if(jQuery(t).hasClass('reqenddisabled')) return false;
-		jQuery('.reqenddisabled').addClass('reqdisabled');
-		easyCalM = m;
-		easyClickFirst = t.id;
-		jQuery(t.parentNode.parentNode.parentNode.parentNode).removeClass("calendar-full");
-		jQuery(t).addClass("calendar-cell-selected");
-		jQuery('#easy-form-from,#easy-widget-datepicker-from').val(d);
+}, "td[date]");
 
-		easyCellnr  = t.axis;
-		easyClick = 1;
-	}
-}
+jQuery('#form_room').bind("change", function(){
+		var x = 0;
+		for(i in easyCalendars){
+			if(x > 1) return;
+			easyCalendars[i].change('resource', jQuery(this).val());
+			x++;
+		}
+});
 
-function easyreservations_send_calendar(where, e ){
-	if(where == 'shortcode' && !jQuery("#showCalender").length > 0) return;
-	if(where != 'shortcode' && !jQuery("#showCalender.widget").length > 0) return;
-	var atts = '';
-	if(where == 'widget') atts = easyWidgetCalendarAtts;
-	else atts = easyCalendarAtts;
-	e =  window.event;
-	if(e){ e = e.target || e.srcElement; }
-	if(where == 'shortcode'){
-		var tsecurity = document.CalendarFormular.calendarnonce.value;
-		var room = document.CalendarFormular.easyroom.value;
-		var sizefield = document.CalendarFormular.size;
-		if(sizefield) var size = sizefield.value;
-		else var size = '300,260,0,1';
-		var datefield = document.CalendarFormular.date;
-		if(datefield) var date = datefield.value;
-		else var date = '0';
-	} else {
-		var tsecurity = document.widget_formular.calendarnonce.value;
-		var room = document.widget_formular.easyroom.value;
-		var datefield = document.widget_formular.date;
-		if(datefield) var date = datefield.value;
-		else var date = '0';
+function easyCalendar(nonce, atts, type){
+	this.id = atts['id'];
+	this.nonce = nonce;
+	this.resource = atts['resource'];
+	this.date = 0;
+	this.type = type;
+	this.atts = atts;
+
+	this.clicknr = 0;
+	this.cellnr = 0;
+	this.calm = 0;
+
+	this.change = change;
+	this.send = send;
+	this.click = click;
+
+	easyCalendars[this.id] = this;
+
+	function change(key, value){
+		this[key] = value;
+		this.send();
 	}
-	var data = {
-		action: 'easyreservations_send_calendar',
-		security:tsecurity,
-		room: room,
-		date: date,
-		where:where,
-		atts:atts
-	};
-	jQuery.post(easyAjax.ajaxurl , data, function(response) {
-		if(where == 'shortcode') jQuery("#showCalender").html(response);
-    else jQuery("#showCalender.widget").html(response);
-	});
+	function send(){
+		var data = {
+			action: 'easyreservations_send_calendar',
+			security: this.nonce,
+			room: this.resource,
+			date: this.date,
+			where: this.type,
+			atts: this.atts
+		};
+		if(this.persons) data.persons = this.persons
+		if(this.childs) data.childs = this.childs
+		if(this.reservated) data.reservated = this.reservated
+		var id = this.id;
+		jQuery.post(easyAjax.ajaxurl , data, function(response) {
+			jQuery("#CalendarFormular-"+id+" #showCalender").html(response);
+		});
+	}
+	function click(cell, date, m){
+		jQuery("#CalendarFormular-"+this.id+' .reqdisabled').removeClass('reqdisabled');
+		if(this.clicknr == 2 || (atts['select'] == 1 && this.clicknr == 1)){
+			jQuery("#CalendarFormular-"+this.id+" .calendar-cell-selected").removeClass("calendar-cell-selected");
+			this.clicknr = 0;
+		}
+
+		if(this.clicknr == 1){
+			jQuery("#CalendarFormular-"+this.id+' .reqstartdisabled').addClass('reqdisabled');
+			if(jQuery(cell).hasClass('reqenddisabled')) return false;
+			this.cellnr = parseFloat(this.cellnr);
+			this.calm = parseFloat(this.calm);
+			var axis = parseFloat(cell.axis);
+			if(this.calm != m) axis = 31;
+			if(!document.getElementById('easy-cal-' + this.id + '-'+ this.cellnr + '-' + this.calm)) this.cellnr = 1;
+			if(this.cellnr <= axis && parseFloat(m) >= this.calm){
+				for(var i = this.cellnr; i<=axis; i++){
+					var element = '#easy-cal-' + this.id + '-'+ i + '-' + this.calm;
+					if(i != axis && jQuery(element).hasClass('calendar-cell-full') == true){
+						jQuery("#CalendarFormular-"+this.id+" .calendar-cell-selected").removeClass("calendar-cell-selected");
+						jQuery('#easy-form-to, #easy-search-to').val('');
+						jQuery(cell.parentNode.parentNode.parentNode.parentNode).addClass("calendar-full");
+						break;
+					}
+					jQuery(element).addClass("calendar-cell-selected");
+					if(i == 31 && this.calm != m){
+						i = 0;
+						this.calm = this.calm + 1;
+						if(this.calm == m) axis = parseFloat(cell.axis);
+					}
+				}
+				jQuery('#easy-form-to,#easy-widget-datepicker-to,#easy-search-to').val(date);
+				if(document.getElementById('easy-form-units') && document.getElementById('easy-form-from')){
+					var instance = jQuery( '#easy-form-from' ).data( "datepicker" );
+					if(instance){
+						var dateanf = jQuery.datepicker.parseDate(instance.settings.dateFormat || jQuery.datepicker._defaults.dateFormat, document.getElementById('easy-form-from').value, instance.settings );
+						var dateend = jQuery.datepicker.parseDate(instance.settings.dateFormat || jQuery.datepicker._defaults.dateFormat, date, instance.settings );
+						var diff = Math.abs(dateanf - dateend)/1000;
+						var interval = 86400;
+						var interval_array = eval("(" + easyAjax.interval + ")");
+						if(interval_array[this.resource]) interval = interval_array[this.resource];
+						jQuery('#easy-form-units').val(Math.ceil(diff/interval));
+					}
+				}
+				if(window.easyreservations_send_price) easyreservations_send_price('easyFrontendFormular');
+				if(window.easyreservations_send_validate) easyreservations_send_validate(false, 'easyFrontendFormular');
+				if(window.easyreservations_send_search) easyreservations_send_search();
+				this.clicknr = 2;
+			} else {
+				this.clicknr = 2;
+				this.calm = 0;
+				jQuery("#CalendarFormular-"+this.id+" .calendar-cell-selected").removeClass("calendar-cell-selected");
+			}
+		}
+		if(this.clicknr == 0){
+			if(jQuery(cell).hasClass('reqenddisabled')) return false;
+			jQuery("#CalendarFormular-"+this.id+' .reqenddisabled').addClass('reqdisabled');
+			jQuery(cell.parentNode.parentNode.parentNode.parentNode).removeClass("calendar-full");
+			jQuery(cell).addClass("calendar-cell-selected");
+			jQuery('#easy-form-from,#easy-widget-datepicker-from, #easy-search-from').val(date);
+			this.calm = m;
+			this.cellnr = cell.axis;
+			this.clicknr = 1;
+		}
+	}
+	this.send();
 }

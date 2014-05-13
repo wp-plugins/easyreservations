@@ -8,9 +8,8 @@
 				'<h3>Copy resrouce</h3><p>You can also copy the resources settings and filters to minimize your work.</p>',
 				'<h3>Edit resource</h3><p>Click here to edit the resource.</p>',
 		);
-		$offset = array(' 0', '-75 0', '-75 0', '-346 10', '-75 0');
 		$at = array('', 'top', 'top', 'right', 'top');
 		$execute = array('', '', '', '', 'window.location = jQuery(\'a[name="thelink"]:first\').attr(\'href\');');
-		echo easyreservations_execute_pointer(5, $handler, $content, $offset, $at, $execute);
+		echo easyreservations_execute_pointer(5, $handler, $content, $at, $execute);
 	}
 ?>

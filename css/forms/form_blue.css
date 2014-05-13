@@ -136,10 +136,20 @@
 	margin-left: 4px;
 	line-height :1.2em;
 }
-span.radio {
-	display: block;
+#easyFrontendFormular span.radio {
+    width: 55%;
+    display: inline-block;
+    max-width:68%;
+    margin:0px 0px 8px 10px;
 }
 
+#easyFrontendFormular span.radio span {
+    display: block;
+}
+
+#easyFrontendFormular img {
+    box-shadow: none;
+}
 .showPrice {
 	padding:6px;
 	width:170px;

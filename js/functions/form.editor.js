@@ -103,9 +103,9 @@ function generateTagEdit(type, tag){
 				if(typeof v['input'] == 'function') value += v['input'](tag);
 				else {
 					if(v['input'] == 'text'){
-						value += '<input type="text" name="'+k+'" value="'+sel+'" '+hasclass+'>';
+						value += '<input type="text" name="'+k+'" value="'+sel+'"'+hasclass+'>';
 					} else if(v['input'] == 'textarea'){
-						value += '<textarea name="'+k+'">'+sel+'</textarea>';
+						value += '<textarea name="'+k+'"'+hasclass+'>'+sel+'</textarea>';
 					} else if(v['input'] == 'check'){
 						if(tag && tag[k] || (!tag && v['checked'])) sel = 'checked="checked" '; else sel = '';
 						value += '<input type="checkbox" name="'+k+'" value="'+v['default']+'" '+sel+hasclass+'> '+v['title'];
@@ -118,31 +118,12 @@ function generateTagEdit(type, tag){
 				value += '</p>';
 			});
 		}
-		value += '<a href="javascript:" class="easySubmitButton-primary" onclick="submitTag();">'+title+'</a>&nbsp;';
-		value += '<a href="javascript:" class="easySubmitButton-secondary" onclick="deactivateTag();">Cancel</a>';
+		value += '<a href="javascript:" class="easybutton button-primary" onclick="submitTag();">'+title+'</a>&nbsp;';
+		value += '<a href="javascript:" class="button" onclick="deactivateTag();">Cancel</a>';
 		value += '</div>';
 		jQuery('#accordion').prepend(value);
 		jQuery('#accordion').accordion( "destroy").accordion({heightStyle: "content", autoHeight: false, icons: { "header": "ui-icon-plus", "activeHeader": "ui-icon-minus" }});
 	}
-}
-
-function generateOptions(options, sel){
-	var value = '';
-	if(typeof options == "string"){
-		var split = options.split('-');
-		for(var k = split[0]; k <= split[1]; k++){
-			var selected = '';
-			if(sel && sel == k) selected = 'selected="selected"';
-			value += '<option value="'+k+'" '+selected+'>'+k+'</option>';
-		}
-	} else {
-		jQuery.each(options, function(ok,ov){
-			var selected = '';
-			if(sel && sel == ok) selected = 'selected="selected"';
-			value += '<option value="'+ok+'" '+selected+'>'+ov+'</option>';
-		});
-	}
-	return value;
 }
 
 function submitTag(){
@@ -183,8 +164,8 @@ function resetToDefault(){
 	var Default = '[error]\n';
 	Default += '<h1>Reserve now![show_price style="float:right;"]</h1>\n';
 	Default += '<h2>General information</h2>\n\n';
-	Default += '<label>Arrival Date\n<span class="small">When will you come?</span>\n</label><span class="row">[date-from style="width:75px"] [date-from-hour style="width:45px" value="12"]:[date-from-min style="width:45px"]</span>\n\n';
-	Default += '<label>Departure Date\n<span class="small">When will you go?</span>\n</label><span class="row">[date-to style="width:75px"] [date-to-hour style="width:45px" value="12"]:[date-to-min style="width:45px"]</span>\n\n';
+	Default += '<label>Arrival Date\n<span class="small">When will you come?</span>\n</label><span class="row">[date-from style="width:75px"] [date-from-hour style="width:auto" value="12"]:[date-from-min style="width:auto"]</span>\n\n';
+	Default += '<label>Departure Date\n<span class="small">When will you go?</span>\n</label><span class="row">[date-to style="width:75px"] [date-to-hour style="width:auto" value="12"]:[date-to-min style="width:auto"]</span>\n\n';
 	Default += '<label>Resource\n<span class="small">Where you want to sleep?</span>\n</label>[resources]\n\n';
 	Default += '<label>Adults\n<span class="small">How many guests?</span>\n</label>[adults 1 10]\n\n';
 	Default += '<label>Children\'s\n<span class="small">With children\'s?</span>\n</label>[childs 0 10]\n\n';
@@ -219,10 +200,19 @@ if (window.getSelection) {
 		for (var i = 0, len = savedSelection.length; i < len; ++i) {
 			sel.addRange(savedSelection[i]);
 		}
-		document.execCommand("insertHTML", true, text);
-		//var range = sel.getRangeAt(0);
+		var range = sel.getRangeAt(0);
+		range.collapse (false);
+		var el = document.createElement("div");
+		el.innerHTML = text;
+		var frag = document.createDocumentFragment(), node, lastNode;
+		while ( (node = el.firstChild) ) {
+			lastNode = frag.appendChild(node);
+		}
+		//document.execCommand("insertHTML", true, text);
 		//range.deleteContents();
-		//range.insertNode( document.createTextNode(text) );
+		range.insertNode( frag );
+		sel.removeAllRanges();
+
 	};
 	insertTag = function(type, start, end){
 		if(savedSelection){

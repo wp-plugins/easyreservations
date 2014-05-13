@@ -9,8 +9,7 @@
 				'<h3>Templates Navigation</h3><p>Select your invoice templates to edit them. You can add unlimited templates.</p>',
 				'<h3>Logo</h3><p>Click here to upload a logo. The image quality wont be perfect. You can try to improve it by changing the size or crop it better.</p>'
 		);
-		$offset = array('-35 0', '-75 0', '-75 0', '-75 0', '-75 0', '-75 0');
 		$at = array('top', 'top', 'top', 'top', 'top', 'top');
-		echo easyreservations_execute_pointer(6, $handler, $content, $offset, $at);
+		echo easyreservations_execute_pointer(6, $handler, $content, $at);
 	}
 ?>

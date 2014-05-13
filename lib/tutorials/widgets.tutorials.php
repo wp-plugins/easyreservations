@@ -6,11 +6,10 @@
 			'<h3>Form</h3><p>Define the form here. You can click on the [tags] below to add the to the text area. HTML is fully supported.</p>',
 			'<h3>URL</h3><p>Enter the URL to a page or post with a form or a searchForm in it. The information selected in the widget gets transmitted.</p>',
 		);
-		$offset = array('-55 0', '-75 0', '-75 0');
 		$at = array('top', 'right', 'top' );
 		$position = array('', '', '' );
 
-		echo easyreservations_execute_pointer(3, $handler, $content, $offset, $at, false, $position);
+		echo easyreservations_execute_pointer(3, $handler, $content, $at, false, $position);
 	}
 
 	function easyreservation_widget_open_event(){

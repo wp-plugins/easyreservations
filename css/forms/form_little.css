@@ -6,6 +6,7 @@
 #easy_widget_form #easy-widget-date-from-hour, #easy_widget_form #easy-widget-date-from-min,
 #easy_widget_form #easy-widget-date-to-hour, #easy_widget_form #easy-widget-date-to-min {
 	min-width: 45px;
+    width: auto;
 }
 
 #easy_widget_form {

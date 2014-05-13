@@ -23,11 +23,10 @@
 				'<h3>Pagination</h3><p>If more reservations are in the same group then defined above they get separated and you can navigate through them here.</p>',
 				'<h3>Today</h3><p>Here you can see who arrivals and departures today. The percentage value quantifies how much of your resources are reserved today.</p>',
 		);
-		$offset = array('20 0', '-100 0', '25 0', '-75 0', '-75 0', '-110 0', '-68 5', '-75 4', '-75 0', '-75 0', '-75 0', '-75 0', '-75 0', '-75 0', '-75 0', '-50 0', '-66 0', '-75 0', '-75 0', '-75 0');
 		$options = array('', '', 'pointerClass: \'easy-pointer-right\',', '', '', 'pointerClass: \'easy-pointer-right2\',', '', '', '', '', '', '', '', '',  'pointerClass: \'easy-pointer-right2\',', '', '', '', '', '',);
 		$execute = array('', '', '', '', 'easyRes_sendReq_Overview(0,\'no\',\'30\',\'3600\');resetSet();', 'easyRes_sendReq_Overview(0,\'no\',50,86400);resetSet();document.getElementById(\'easy-table-search-date\').value = \''.date(RESERVATIONS_DATE_FORMAT, time()+3*86400).'\';easyreservation_send_table(\'all\', 1);', 'resetTableValues();', 'clickOne(jQuery(\'.overview tr[id^="room"]:nth-child(3) > td:nth-child(10)\').get(0), '.(time()+5*86400).', \'black\');',  'resetSet();clickOne(jQuery(\'.overview tr[id^="room"]:nth-child(3) > td:nth-child(10)\').get(0), '.(time()+5*86400).', \'black\');clickTwo(jQuery(\'.overview tr[id^="room"]:nth-child(3) > td:nth-child(13)\').get(0), '.(time()+8*86400).', \'black\', 1);', 'resetSet()', '', '', '', '', '', 'easyreservations_send_fav(jQuery(\'.easy-favourite:first\').get(0));', 'easyreservations_send_fav(jQuery(\'.easy-favourite:first\').get(0));jQuery(\'input[name="themainbulk"]\').attr(\'checked\', true);checkAllController(document.frmAdd,jQuery(\'input[name="themainbulk"]\').get(0),\'bulkArr\');', 'jQuery(\'input[name="themainbulk"]\').attr(\'checked\', false);checkAllController(document.frmAdd,jQuery(\'input[name="themainbulk"]\').get(0),\'bulkArr\');', '', '');
 		$at = array('', 'top', 'top', 'top', 'top', 'top', 'top', 'top', 'top', 'top', 'top', 'top', 'top', 'top', 'top', 'top', 'top', 'top', 'top', 'top');
-		echo '<br>';
-		echo easyreservations_execute_pointer(20, $handler, $content, $offset, $at, $execute, $options);
+
+		echo easyreservations_execute_pointer(20, $handler, $content, $at, $execute, $options);
 	}
 ?>

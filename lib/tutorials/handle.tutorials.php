@@ -19,6 +19,9 @@
 		} elseif(isset($_GET['site']) && $_GET['site'] == "form"){
 			include_once(dirname(__FILE__)."/form.tutorials.php");
 			$script = 'form';
+		} elseif(isset($_GET['site']) && $_GET['site'] == "custom"){
+			include_once(dirname(__FILE__)."/custom.tutorials.php");
+			$script = 'custom';
 		} elseif(isset($_GET['site']) && $_GET['site'] == "email"){
 			if(function_exists('easyreservations_send_multipart_mail')){
 				include_once(dirname(__FILE__)."/emailshtml.tutorials.php");
@@ -68,7 +71,7 @@
 	} else $script = '';
 	
 	
-	function easyreservations_execute_pointer($nr, $handler, $content, $offset, $at, $execute = false, $custom = false){
+	function easyreservations_execute_pointer($nr, $handler, $content, $at, $execute = false, $custom = false){
 		global $script;
 		$return = '<script type="text/javascript">';
 		$option = get_user_setting( 'easy_tutorial');
@@ -81,7 +84,7 @@
 			if(isset($execute[$i])) $send.= $execute[$i];
 			if(!isset($custom[$i])) $custom[$i] = '';
 			$return .= 'function easypointer'.$i.'(){ ';
-			$return .= easyreservations_generate_pointer( $send, $i, $handler[$i], $content[$i], $offset[$i], $at[$i], $custom[$i]);
+			$return .= easyreservations_generate_pointer( $send, $i, $handler[$i], $content[$i], $at[$i], $custom[$i]);
 			$return .= '}';
 		}
 		$return.=<<<EOF
@@ -96,7 +99,7 @@ EOF;
 		return $return;
 	}
 
-	function easyreservations_generate_pointer($send, $nr, $handler, $content, $offset, $at, $custom){
+	function easyreservations_generate_pointer($send, $nr, $handler, $content, $at, $custom){
 		$nr++;
 		$nr2 = $nr+1;
 		$nr3 = $nr2+1;
@@ -114,9 +117,8 @@ if(jQuery('$handler').length>0){
 		},
 		position: {
 			my: 'left top',
-			at: 'center bottom',
-			edge: '$at',
-			offset: '$offset'
+			at: 'left bottom',
+			edge: '$at'
 		},
 		close: function() {
 			$send
