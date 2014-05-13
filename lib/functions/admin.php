@@ -26,12 +26,6 @@ function easyreservations_add_pages(){  //  Add Pages Admincenter and Order them
 /**
  * 	Hook languages to admin & frontend
  */
-function easyreservations_get_pending(){
-	global $wpdb;
-
-	$count = $wpdb->get_var("SELECT COUNT(*) as Num FROM ".$wpdb->prefix ."reservations WHERE approve='' AND arrival > NOW()");
-	return $count;
-}
 
 function easyreservations_load_admin_stylesheet(){
 	wp_enqueue_style('easy-adminstyle', RESERVATIONS_URL . 'css/admin.css', false);

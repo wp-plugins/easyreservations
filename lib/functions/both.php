@@ -2,6 +2,12 @@
 	/**
 	* 	@functions for admin and frontend 
 	*/
+	function easyreservations_get_pending(){
+		global $wpdb;
+
+		$count = $wpdb->get_var("SELECT COUNT(*) as Num FROM ".$wpdb->prefix ."reservations WHERE approve='' AND arrival > NOW()");
+		return $count;
+	}
 
 	function easyreservations_load_both_stylesheet(){
 		wp_enqueue_style('both', RESERVATIONS_URL . 'css/both.css', false);
