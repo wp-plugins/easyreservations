@@ -233,14 +233,12 @@ foreach( $all_resources as $key => $resource){ /* - + - FOREACH ROOM - + - */
 			foreach($reservations[$row_count] as $reservation){
 				$res_id=$reservation->id;
 				$res_name=$reservation->name;
-				$res_adate_stamp = strtotime($reservation->arrival);
-				$res_adate = $res_adate_stamp - (int) date("i", $res_adate_stamp);
-				$res_departure_stamp= strtotime($reservation->departure)-1;
-				$res_departure = $res_departure_stamp - (int) date("i", $res_departure_stamp);
-				if(date($date_pat, $res_departure_stamp) == date($date_pat, $res_adate_stamp)){
+				$res_arrival = strtotime($reservation->arrival);
+				$res_departure= strtotime($reservation->departure);
+				if(date($date_pat, $res_departure) == date($date_pat, $res_arrival)){
 					if($interval == 3600) $temp_date_pat = $date_pat.':i';
 					else $temp_date_pat = $date_pat;
-					$round = round((strtotime(date($temp_date_pat,$res_adate_stamp))+($interval/2)-$timesx)/$interval);
+					$round = round((strtotime(date($temp_date_pat,$res_arrival))+($interval/2)-$timesx)/$interval);
 					if($avail_by_pers){
 						if(isset($datesHalfOccupied[$round]['i'])) $datesHalfOccupied[$round]['i'] += $reservation->persons;
 						else $datesHalfOccupied[$round]['i'] = $reservation->persons;
@@ -248,25 +246,27 @@ foreach( $all_resources as $key => $resource){ /* - + - FOREACH ROOM - + - */
 						if(isset($datesHalfOccupied[$round]['i'])) $datesHalfOccupied[$round]['i'] += 1;
 						else $datesHalfOccupied[$round]['i'] = 1;
 					}
-					if(isset($datesHalfOccupied[$round]['v'])) $datesHalfOccupied[$round]['v'] .= date('d.m H:i', $res_adate_stamp).' - '.date('d.m H:i', $res_departure_stamp).' <b>'.$res_name.'</b> (#'.$res_id.')<br>';
-					else $datesHalfOccupied[$round]['v'] = date('d.m H:i', $res_adate_stamp).' - '.date('d.m H:i', $res_departure_stamp).' <b>'.$res_name.'</b> (#'.$res_id.')<br>';
+					if(isset($datesHalfOccupied[$round]['v'])) $datesHalfOccupied[$round]['v'] .= date('d.m H:i', $res_arrival).' - '.date('d.m H:i', $res_departure).' <b>'.$res_name.'</b> (#'.$res_id.')<br>';
+					else $datesHalfOccupied[$round]['v'] = date('d.m H:i', $res_arrival).' - '.date('d.m H:i', $res_departure).' <b>'.$res_name.'</b> (#'.$res_id.')<br>';
 					$datesHalfOccupied[$round]['id'][] = $res_id;
 					if(isset($personsOccupied[date($date_pat, $round+$interval)])) $personsOccupied[date($date_pat, $round+$interval)] += $reservation->persons;
 					else $personsOccupied[date($date_pat, $round+$interval)] = $reservation->persons;
 				} else {
-					$res_nights = round(($res_departure_stamp - $res_adate_stamp) / $interval);
+					$date_pattern = $date_pat;
+					if($interval == 3600) $date_pattern.=":00";
+					$res_nights = round((strtotime(date($date_pattern,$res_departure)) - strtotime(date($date_pattern,$res_arrival))) / $interval);
 					for($i=0; $i <= $res_nights; $i++){
-						if($timesx <= $res_adate+($i*$interval) && $res_nights >= 1){
-							$daysOccupied[]=date($date_pat, $res_adate+($i*$interval)+$interval);
+						if($timesx <= $res_arrival+($i*$interval) && $res_nights >= 1){
+							$daysOccupied[]=date($date_pat, $res_arrival+($i*$interval)+$interval);
 							$numberOccupied[]=$countdifferenz;
 							if($avail_by_pers){
-								if(isset($personsOccupied[date($date_pat, $res_adate+($i*$interval)+$interval)])) $personsOccupied[date($date_pat, $res_adate+($i*$interval)+$interval)] += $reservation->persons;
-								else $personsOccupied[date($date_pat, $res_adate+($i*$interval)+$interval)] = $reservation->persons;
+								if(isset($personsOccupied[date($date_pat, $res_arrival+($i*$interval)+$interval)])) $personsOccupied[date($date_pat, $res_arrival+($i*$interval)+$interval)] += $reservation->persons;
+								else $personsOccupied[date($date_pat, $res_arrival+($i*$interval)+$interval)] = $reservation->persons;
 							}
 						}
 					}
 				}
-				$reservation_array[]=array( 'name' =>$res_name, 'ID' =>$res_id, 'departure' => $res_departure, 'arDate' => $res_adate, 'nights' => $res_nights );
+				$reservation_array[]=array( 'name' =>$res_name, 'ID' =>$res_id, 'departure' => $res_departure, 'arDate' => $res_arrival, 'nights' => $res_nights );
 				$countdifferenz++;
 			}
 		}
@@ -274,10 +274,9 @@ foreach( $all_resources as $key => $resource){ /* - + - FOREACH ROOM - + - */
 		$showdatenumber_end=$days_to_show+$days_after_present;
 
 		while($showdatenumber_start < $showdatenumber_end){
-			$one_day=$interval*$showdatenumber_start;
 			$cell_count++;
 			$showdatenumber_start++;
-			$dateToday=$timevariable+$one_day;
+			$dateToday=$timevariable+($interval*$showdatenumber_start);
 			$wasFullTwo=0;
 			$borderside=1;
 			$onClick=0;

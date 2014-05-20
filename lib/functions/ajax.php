@@ -960,7 +960,7 @@ function easyreservations_send_table_callback() {
               </div>
               <div>
                 <span style="font-weight: bold !important;font-size:12px;">
-	                <?php if($res->price == 0) echo 0; else echo round(100/$res->price*$res->paid, 0); ?>% Paid
+	                <?php if($res->price == 0) echo 0; else echo round(100/$res->price*$res->paid, 0); ?>% <?php printf ( __( 'Paid' , 'easyReservations' ));?>
                 </span>
               </div>
             </td>
@@ -969,7 +969,7 @@ function easyreservations_send_table_callback() {
 			<?php }
 		} else { ?> <!-- if no results form main quary !-->
      <tr>
-        <td colspan="<?php echo $countrows; ?>"><b><?php printf ( __( 'No Reservations found!' , 'easyReservations' ));?></b></td> <!-- Mail Table Body if empty //-->
+        <td colspan="<?php echo $countrows; ?>"><b><?php printf ( __( 'No Reservations found' , 'easyReservations' ));?></b></td> <!-- Mail Table Body if empty //-->
 					<tr>
 		<?php } ?>
 		</tbody>
