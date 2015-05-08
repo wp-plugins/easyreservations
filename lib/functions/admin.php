@@ -53,7 +53,7 @@ if(isset($_GET['page'])){
 
 
 	if($page == 'reservations' || $page== 'reservation-settings' || $page== 'reservation-statistics' ||  $page=='reservation-resources' ||$page = 'reservation-stream'){  //  Only load Styles and Scripts on Reservation Admin Page 
-		add_action('admin_init', 'easyreservations_load_mainstyle');
+		add_action('admin_enqueue_scripts', 'easyreservations_load_mainstyle');
 	}
 
 	function easyreservations_statistics_load(){  //  Load Scripts and Styles
@@ -65,7 +65,7 @@ if(isset($_GET['page'])){
 	}
 
 	if($page == 'reservation-statistics' || $page == 'reservations'){  //  Only load Styles and Scripts on Statistics Page
-		add_action('admin_init', 'easyreservations_statistics_load');
+		add_action('admin_enqueue_scripts', 'easyreservations_statistics_load');
 	}
 
 	function easyreservations_scripts_resources_load() {  //  Load Scripts and Styles
@@ -847,7 +847,7 @@ if(isset($_GET['page'])){
 	}
 
 	function easyreservations_generate_admin_custom_add(){
-		wp_enqueue_script('custom-add', RESERVATIONS_URL.'js/functions/custom.add.js');
+		wp_enqueue_script('custom-add', RESERVATIONS_URL.'js/functions/custom.add.js', array(), RESERVATIONS_VERSION);
 		$custom_fields = get_option('reservations_custom_fields');
 		$options = '<option value="custom">New information</option><option value="price">New price</option>';
 		if($custom_fields){

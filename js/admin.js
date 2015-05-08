@@ -44,7 +44,6 @@ function generateOptions(options, sel){
 			value += '<option value="'+k+'" '+selected+'>'+k+'</option>';
 		}
 	} else {
-
 		jQuery.each(options, function(ok,ov){
 			var selected = '';
 			if(sel && sel == ok) selected = ' selected="selected"';

@@ -32,7 +32,7 @@ function easyreservations_send_validate(y,form){
 			if(new_custom.indexOf(this.id+',') >= 0) return;
 			if(this.value == '') new_custom +=	this.id + ',';
 			else if(this.type == 'checkbox' && this.checked == false) new_custom +=	this.id + ',';
-			else if( this.type == 'radio' && this.checked == false) new_custom += this.id + ',';
+			else if(this.type == 'radio' && this.checked == false && !jQuery("input[name='"+this.name+"']:checked").val()) new_custom += this.id + ',';
 		});
 
 		var data = easy_get_data(form);
@@ -128,7 +128,9 @@ function easyreservations_send_validate(y,form){
 						return true;
 					} else {
 						if(easyReservationEdit) easyFormSubmit();
-						else easyInnerlay(1);
+						else {
+							easyInnerlay(1);
+						}
 					}
 				} else easyOverlayDimm(1);
 			});

@@ -614,8 +614,7 @@ if(!isset($site) || $site=='' || $site =='main'){
 									$condition_string =str_replace(__("calculate", 'easyReservations'), __("check", 'easyReservations'),$description[1]).' '.__('resource is unavailable','easyReservations');
 								} elseif($filter['type']=="req"){
 									$bg_color='#F4AA33';
-									$time_desc = easyreservations_get_filter_description($filter, $resourceID, 1);
-									$condition_string = str_replace(__("calculate", 'easyReservations'), __("check", 'easyReservations'),$time_desc[1]).' '.__('resources condition change to','easyReservations');
+									$condition_string = str_replace(__("calculate", 'easyReservations'), __("check", 'easyReservations'),$description[1]).' '.__('resources condition change to','easyReservations');
 									$max_nights = ($filter['req']['nights-max'] == 0) ? '&infin;' : $filter['req']['nights-max'];
 									$max_pers = ($filter['req']['pers-max'] == 0) ? '&infin;' : $filter['req']['pers-max'];
 									$condition_string .=  ' Persons: <b>'.$filter['req']['pers-min'].'</b> - <b>'.$max_pers.'</b>, '.ucfirst(easyreservations_interval_infos($reservations_current_int,0,2)).': <b>'.$filter['req']['nights-min'].'</b> - <b>'.$max_nights.'</b><br>';

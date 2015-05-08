@@ -58,7 +58,8 @@
 					if(isset($array[0]) && $array[0] == 'dontclean'){
 						unset($array[0]);
 						$this->ArrayToReservation($array);
-					} else $this->ArrayToReservation($this->cleanSqlContent($array));
+					} else
+						$this->ArrayToReservation($this->cleanSqlContent($array));
 				} else {
 					throw new easyException( 'Need either reservations ID or array with information', 2 );
 				}
@@ -179,11 +180,10 @@
 						if(isset($this->datearray)){
 							$getrightday=true;
 							while($getrightday){
-								if(is_array($this->datearray) && in_array($this->arrival+($ifDateHasToBeAdded*$this->interval), $this->datearray)){
+								if(is_array($this->datearray) && in_array($this->arrival+($ifDateHasToBeAdded*$this->interval), $this->datearray))
 									$ifDateHasToBeAdded++;
-								} else {
+								else
 									$getrightday=false;
-								}
 							}
 							$this->datearray[]=$this->arrival+($ifDateHasToBeAdded*$this->interval);
 						}
@@ -202,13 +202,15 @@
 						}
 						if(!empty($this->childs) && $this->childs > 0){
 							$childprice = get_post_meta($this->resource, 'reservations_child_price', true);
+							$childsPrice = 0;
 							if($childprice != -1){
 								if(substr($childprice, -1) == "%"){
-									$percent=$checkprice/100*(str_replace("%", "", $childprice));
-									$childsPrice = ($checkprice - $percent);
-								} else $childsPrice = ($checkprice - $childprice);
-								if(!isset($this->once)) $childsPrice = $childsPrice * $this->times;
-								$childsPrice = $childsPrice*$this->childs;
+									$childsPrice=$checkprice/100*(str_replace("%", "", $childprice));
+								} else {
+									if(!isset($this->once)) $childsPrice = ($childprice * $this->times);
+									else $childsPrice = ($childprice);
+								}
+								$childsPrice = ($checkprice-$childsPrice) *$this->childs;
 								$this->price += $childsPrice;
 								if($history) $this->history[] = array('date'=>$this->arrival+($this->countpriceadd*$this->interval), 'priceday'=>$childsPrice, 'type'=> 'childs', 'name' => $this->childs);
 								$this->countpriceadd++;
@@ -292,8 +294,12 @@
 							$theprice = $customprices;
 							$plus = 15;
 						}
-						$tax_amount = $theprice / 100 * $tax[1];
-						if(!isset($this->fixed)) $this->price += $tax_amount;
+
+						if(!isset($this->fixed)) {
+							$tax_amount = $theprice / 100 * $tax[1];
+							$this->price += $tax_amount;
+						} else $tax_amount = $theprice * (1-1/(1+$tax[1]/100));
+
 						$this->taxamount += $tax_amount;
 						$this->taxrate += $tax[1];
 						if($history) $this->history[] = array('date'=>$this->arrival+(($this->countpriceadd+$plus)*$this->interval), 'priceday'=>$tax_amount, 'type' => 'tax', 'name' => __($tax[0]), 'amount' => $tax[1], 'class' => (isset($tax[2])) ? $tax[2] : 0);
@@ -325,11 +331,11 @@
 						foreach($option['clauses'] as $clause){
 							$true = false;
 							if($last_next){
-								if($last_next[0] == "AND" && !$last_next[1]){
+								if($last_next[0] == "and" && !$last_next[1]){
 									if(is_numeric($clause['price'])) $last_next = false;
 									else $last_next[0] == $clause['price'];
 									continue;
-								} if($last_next[0] == "OR" && $last_next[1]){
+								} if($last_next[0] == "or" && $last_next[1]){
 									$true = true;
 								}
 							}
@@ -428,8 +434,8 @@
 			*/
 			public function checkAvailability($mode=0, $filter = true, $display_interval = 86400, $ids = false){
 				global $wpdb, $reservations_settings;
-				$error=null;
-				$afterpersons=false;
+				$error = null;
+				$afterpersons = false;
 				$interval = easyreservations_get_interval($this->interval, $this->resource, 1);
 				$times = $this->getTimes(0, $interval);
 				$res_number = '';
@@ -498,18 +504,18 @@
 							for($t = 0; $t < $times; $t++){
 								$i = $this->arrival+($t*$interval);
 								$startdate=date("Y-m-d H:i:s", $i+60);
-								if($this->departure < $i+$interval) $enddate=date("Y-m-d H:i:s", $this->departure-60);
+								if($this->departure < $i+$interval) $enddate = date("Y-m-d H:i:s", $this->departure-60);
 								else $enddate=date("Y-m-d H:i:s", $i+$interval-60);
 								if($interval == 3600)	$addstart = "AND HOUR($departure) != HOUR('$startdate')";
-								else $addstart = "AND (DATE($arrival) = DATE($departure) OR DATE($departure) != DATE('$startdate'))";
+								else $addstart = "";
 								if($afterpersons){
-									$count = $wpdb->get_var($wpdb->prepare("SELECT SUM(number+childs) FROM ".$wpdb->prefix ."reservations WHERE $approve AND $res_sql $idsql (%s < $departure AND %s > $arrival) $addstart", array($enddate, $enddate)));
+									$count = $wpdb->get_var($wpdb->prepare("SELECT SUM(number+childs) FROM ".$wpdb->prefix ."reservations WHERE $approve AND $res_sql $idsql (%s < $departure AND %s > $arrival) $addstart", array($startdate, $enddate)));
 									if($count < 1) $count = 0;
 									$count = $count+$this->childs+$this->adults;
 									if($mode == 1 && $count > $resource_number) $error[] = $i;
 									elseif($mode == 0 && $count > $resource_number) $error += $resource_number;
 								} else {
-									$count = $wpdb->get_var($wpdb->prepare("SELECT COUNT(*) FROM ".$wpdb->prefix ."reservations WHERE $approve AND $res_sql $idsql (%s <= $departure AND %s >= $arrival)", array($enddate, $enddate)));
+									$count = $wpdb->get_var($wpdb->prepare("SELECT COUNT(*) FROM ".$wpdb->prefix ."reservations WHERE $approve AND $res_sql $idsql (%s <= $departure AND %s >= $arrival)", array($startdate, $enddate)));
 									if($mode == 1 && $count >= $resource_number) $error[] = $i;
 									elseif($mode == 0 && $count >= $resource_number) $error += $resource_number;
 								}
@@ -521,20 +527,29 @@
 							$addstart = "";
 							if($interval == 3600) $addstart1 = "'$startdate' BETWEEN $arrival AND $departure - INTERVAL 1 SECOND";
 							else $addstart1 = "DATE('$startdate') BETWEEN DATE($arrival) AND DATE($departure)";
+							if(RESERVATIONS_USE_TIME && $interval > 86300) $addstart1 .= " AND (DATE('$startdate') != DATE($departure) OR HOUR($departure) > 12)";
 							$count = $wpdb->get_var("SELECT sum(number+childs) as count FROM ".$wpdb->prefix ."reservations WHERE $approve AND $res_sql $idsql $addstart1 $addstart");
+							if($mode == 5)
+								$error = array($error+$count, $error+$count);
 						} else {
-							$addstart = ''; $addend = ""; $case = '1';
+							$addstart = ''; $addend = ""; $case = '1'; $caseArrival = '1'; $caseDeparture = '1';
 							if($interval == 3600) $addstart1 = "'$startdate' BETWEEN $arrival AND $departure";
 							else $addstart1 = "DATE('$startdate') BETWEEN DATE($arrival) AND DATE($departure)";
 							if(RESERVATIONS_USE_TIME){
 								if($interval == 3600){
 									$addstart = " AND HOUR($arrival) = HOUR('$startdate')";
 									$addend  = " AND HOUR($departure) = HOUR('$startdate')";
-								}
-								$case = "Case When DATE($arrival) = DATE('$startdate')$addstart Then 0.99 When DATE($departure) = DATE('$startdate')$addend Then 0.52 Else 1 End";
+								} else $addstart1 .= " AND (DATE($arrival) != DATE($departure) OR HOUR($departure) > 11)";
+								//TODO: fix
+								$case = "Case When DATE($departure) = DATE('$startdate')$addend Then 0 Else 1 End";
+								$caseArrival = "Case When (DATE($departure) = DATE('$startdate')$addend)||(DATE($arrival) = DATE('$startdate')$addstart) Then 1 Else 0 End";
 							}
-							//if($interval > 86300) $addstart1 .= " AND (DATE('$startdate') != DATE($departure) OR HOUR($departure) > 12)";
-							$count = $wpdb->get_var("SELECT sum($case) as count FROM ".$wpdb->prefix ."reservations WHERE $approve AND $res_sql $idsql $addstart1");
+							$count = $wpdb->get_results("SELECT sum($case) as count,
+								sum($caseArrival) as arrivals
+								FROM ".$wpdb->prefix ."reservations WHERE $approve AND $res_sql $idsql $addstart1", ARRAY_A);
+							if($mode == 5){
+								$error = array($error+$count[0]["count"], $count[0]["arrivals"]);
+							} else $count = $count[0]["count"];
 						}
 						if($mode == 4 && $count >= $resource_number) $error += $count;
 						elseif($mode == 3) $error += $count;
@@ -543,7 +558,7 @@
 
 				if(empty($error)) $error = false;
 				else {
-					if(is_array($error)){
+					if($mode !== 5 && is_array($error)){
 						$started = false;
 						$string = '';
 						foreach($error as $key => $date){
@@ -896,6 +911,7 @@
 						$errors[] = __( 'The arrival date has to be in future' , 'easyReservations');
 					}
 					$filters = get_post_meta($this->resource, 'easy_res_filter', true);
+					$checked = false;
 					if($filters && !empty($filters)){
 						foreach($filters as $filter){
 							if($filter['type'] == 'req'){
@@ -908,15 +924,18 @@
 									}
 								}
 								if($price_add == 1){
+									$checked = true;
 									$errors = $this->checkRequirements($filter['req'], $errors, $mini);
 									if(!empty($errors)) return $errors;
 								}
 							}
 						}
 					}
-					$resource_req = get_post_meta($this->resource, 'easy-resource-req', TRUE);
-					if(!$resource_req || !is_array($resource_req)) $resource_req = array('nights-min' => 0, 'nights-max' => 0, 'pers-min' => 1, 'pers-max' => 0);
-					$errors = $this->checkRequirements($resource_req, $errors, $mini);
+					if(!$checked){
+						$resource_req = get_post_meta($this->resource, 'easy-resource-req', TRUE);
+						if(!$resource_req || !is_array($resource_req)) $resource_req = array('nights-min' => 0, 'nights-max' => 0, 'pers-min' => 1, 'pers-max' => 0);
+						$errors = $this->checkRequirements($resource_req, $errors, $mini);
+					}
 				}
 				if(empty($errors)) return false;
 				else return $errors;
@@ -1100,8 +1119,8 @@
 							$theForm=str_replace('[coupon]', $this->coupon, $theForm);
 						} elseif($field[0]=="editlink"){
 							$the_link = get_option("reservations_edit_url");
-							$nonce =  substr(wp_hash(wp_nonce_tick() .'easyusereditlink0', 'nonce'), -12, 10);
-							$the_edit_link = trim($the_link).'?edit&id='.$this->id.'&email='.$this->email.'&ernonce='.$nonce;
+							$nonce =  substr(wp_hash(wp_nonce_tick() .'|easyusereditlink|0', 'nonce'), -12, 10);
+							$the_edit_link = trim($the_link).'?edit&id='.$this->id.'&email='.urlencode($this->email).'&ernonce='.$nonce;
 							if(!empty($the_link)) $theForm=str_replace('[editlink]', $the_edit_link, $theForm);
 							else  $theForm=str_replace('[editlink]', '', $theForm);
 						} elseif($field[0]=="custom" && isset($field['id'])){
@@ -1251,7 +1270,6 @@
 						if($mail && !$edit){
 							if(!is_array($mail)) $mail = array($mail);
 							if(!is_array($to)) $to = array($to);
-							//$this->generateChangelog();
 							foreach($mail as $key => $themail) if($to[$key] !== true)  $this->sendMail($mail[$key], $to[$key]);
 						}
 						return $edit;
@@ -1323,7 +1341,7 @@
 						throw new easyException( 'No changes');
 						return true;
 					} elseif(!$return){
-						throw new easyException( 'Reservation couldn\'t be edited. Error: '.mysql_error(), mysql_errno() );
+						throw new easyException( 'Reservation could not be edited. Error: '.mysql_error(), mysql_errno() );
 						return true;
 					} else return false;
 				}
@@ -1368,7 +1386,7 @@
 				if(!$return){
 					throw new easyException( 'Reservation couldn\'t be deleted. Error: '.mysql_error(), mysql_errno() );
 					return true;
-				} else return $this->id = mysql_insert_id();
+				}
 			}
 		}
 

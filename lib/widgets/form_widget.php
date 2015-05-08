@@ -68,7 +68,8 @@ class easyReservations_form_widget extends WP_Widget {
 				} elseif($field[0]=="country"){
 					$theForm=str_replace('['.$fields.']', '<select id="easy-widget-country" name="country">'.easyreservations_country_options('').'</select>', $theForm);
 				} elseif($field[0]=="rooms" || $field[0]=="resources"){
-					$theForm=str_replace('['.$fields.']', '<select name="easyroom" id="form_room">'.easyreservations_resource_options($calendar_room).'</select>', $theForm);
+					$exclude = explode(",",$field["exclude"]);
+					$theForm=str_replace('['.$fields.']', '<select name="easyroom" id="form_room">'.easyreservations_resource_options($calendar_room, 0, $exclude).'</select>', $theForm);
 				}
 			}
 		}

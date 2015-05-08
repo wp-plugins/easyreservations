@@ -88,6 +88,7 @@ div.easy_infobox_border.only-image img {
 	-webkit-border-radius: 5px;
 	-moz-border-radius: 5px;
 	border-radius: 5px;
+    min-width: 400px;
     z-index:2;
 }
 
@@ -261,6 +262,7 @@ span.creditor {
 
 #easyccerror {
 	color:#f00;
+    display: block;
 }
 
 #easyccsubmited {
@@ -307,7 +309,7 @@ span.creditor {
 }
 #easy_form_success select { margin-bottom:5px;}
 
-#easy_form_success .depositbox {
+.depositbox {
     color:#000;font-weight:normal;text-align:left;width:250px;display:block;margin: 0 auto;
 }
 
@@ -326,4 +328,8 @@ span.creditor {
 
 #easy_overlay_table img {
 	cursor: pointer;
+}
+
+.captcha-image {
+    background-color:#fff;
 }

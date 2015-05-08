@@ -5,10 +5,12 @@
 }
 #showCalender {
     margin-bottom: 0px;
+    margin-right:auto;margin-left:auto;vertical-align:middle;padding:0;width:100%
 }
 #showCalender table.calendar-table {
     border:none;
     border-spacing: 0;
+    border-collapse: separate;
     margin:0px;
     -moz-user-select: none;
     -khtml-user-select: none;
@@ -16,6 +18,8 @@
     -o-user-select: none;
     width: 100%;
     min-heigth:auto;
+    border-right: 1px solid #666666;
+    border-bottom: 1px solid #666666;
 }
 #showCalender .calendar-table table {
     border:none;
@@ -37,10 +41,11 @@
 #showCalender td.calendar-cell {
     line-height: 1.8em;
     color: #fff;
+    font-weight: bold;
     text-align:center;
+    border: 0px;
     border-bottom: 1px solid #D1D1D1;
     border-left: 1px solid #D1D1D1;
-    border-top:none;
     text-align: center;
     vertical-align: middle;
     font-size:12px;
@@ -51,13 +56,11 @@
     background-size: 50% ;
 }
 
-#showCalender .calendar-table tbody td:first-of-type {border-left:0px;}
+#showCalender .calendar-table tbody td:first-of-type {border-left:1px solid #666666;}
 #showCalender .calendar-table tbody tr td:first-of-type {border-left:1px solid #666666}
 #showCalender .calendar-direct-table > tbody > tr:last-of-type > td {border-bottom:none}
 #showCalender .calendar-table > tbody > tr:last-of-type > td {border-bottom:1px solid #666666;}
 #showCalender .calendar-table thead .calendar-header-cell:last-of-type,
-#showCalender .calendar-direct-table tbody tr td:last-of-type {border-right:1px solid #666666}
-#showCalender .calendar-direct-table tbody tr td:first-of-type {border-left:0px;}
 
 #showCalender .calendar-header-cell {
     cursor:default;
@@ -73,7 +76,7 @@
     text-align:center;
     color:#fff !important;
     border-top:1px solid #666666;
-    border-right:1px solid #666666 ;
+    border-left:1px solid #666666 ;
 }
 
 #showCalender .calendar-cell-lastfixer {
@@ -86,6 +89,7 @@
 #showCalender td.calendar-cell-last .calendar-cell-price{}
 #showCalender .calendar-cell-last {
     cursor:default;
+    font-weight: normal !important;
     background-color: #E2E2E2;
     color: #A5A5A5;
     height: auto !important;
@@ -149,11 +153,26 @@
     font-weight: normal;
 }
 
+#showCalender td.calendar-cell-empty2.calendar-cell-halfend {
+    color:#fff;
+    background-image:url(../../images/cal-1-end-green.png);
+    background-repeat: no-repeat;
+    background-position: bottom center;
+    background-size: auto;
+}
+#showCalender td.calendar-cell-empty2.calendar-cell-halfstart {
+    color:#fff;
+    background-image:url(../../images/cal-1-start-green.png);
+    background-repeat: no-repeat;
+    background-position: top center;
+    background-size: auto;
+
+}
 #showCalender td.calendar-cell-occupied2.calendar-cell-halfend {
     color:#fff;
     background-image:url(../../images/cal-1-end-yel.png);
     background-repeat: no-repeat;
-    background-position: bottom left;
+    background-position: bottom center;
     background-size: auto;
 }
 #showCalender td.calendar-cell-occupied2.calendar-cell-halfstart {
@@ -168,7 +187,7 @@
     color:#fff;
     background-image:url(../../images/cal-1-end-red.png);
     background-repeat: no-repeat;
-    background-position: bottom left;
+    background-position: bottom center;
     background-size: auto;
 }
 #showCalender td.calendar-cell-full2.calendar-cell-halfstart {
@@ -178,4 +197,13 @@
     background-position: top right;
     background-size: auto;
 }
+
+#showCalender td.calendar-cell-selected {
+    color:#fff;
+    background-image:url(../../images/cal-1-end-grey.png) !important;
+    background-repeat: no-repeat;
+    background-position: bottom left;
+    background-size: auto;
+}
+
 #showCalender .reqdisabled {cursor: default;}

@@ -397,19 +397,19 @@
 		if(isset($_POST['formname']))$theForm = stripslashes(get_option('reservations_form_'.$_POST['formname']));
 		else $theForm = stripslashes(get_option("reservations_form"));
 		if(empty($theForm)) $theForm = stripslashes(get_option("reservations_form"));
+		$custom_form = array();
 
 		$theForm = apply_filters( 'easy-form-content', $theForm);
 		$tags = easyreservations_shortcode_parser($theForm, true);
 		$custom_fields = get_option('reservations_custom_fields');
 		$custom_price = '';
-		$done = '';
 
 		foreach($tags as $fields){
 			$field=shortcode_parse_atts( $fields);
 			if($field[0]=="custom"){
 				if(isset($field["id"])){
 					if(isset($_POST['easy-new-custom-'.$field["id"]])){
-						$custom = array( 'type' => 'cstm', 'mode' => 'edit', 'id' => $field["id"], 'value' => $_POST['easy-new-custom-'.$field["id"]]);
+						$custom = array( 'type' => 'cstm', 'mode' => 'edit', 'id' => $field["id"], 'value' => stripslashes($_POST['easy-new-custom-'.$field["id"]]));
 						if(isset($custom_fields['fields'][$field["id"]]['price'])) $custom_price[] = $custom;
 						else $custom_form[] = $custom;
 					} elseif(isset($custom_fields[$field["id"]]['required'])){
@@ -417,7 +417,7 @@
 					}
 				} else {
 					if(isset($_POST['easy-custom-'.$field[2]]) && !empty($_POST['easy-custom-'.$field[2]])){
-						$custom_form[] = array( 'type' => 'cstm', 'mode' => 'edit', 'title' => $field[2], 'value' => $_POST['easy-custom-'.$field[2]]);
+						$custom_form[] = array( 'type' => 'cstm', 'mode' => 'edit', 'title' => $field[2], 'value' => stripslashes($_POST['easy-custom-'.$field[2]]));
 					} else {
 						if(end($field)  == "*") $error.= '<li>'.sprintf(__( '%s is required', 'easyReservations'), ucfirst($field[2])).'</li>';
 					}
@@ -434,7 +434,7 @@
 					elseif(end($field)  == 'pn') $theprice = $explodeprice[1] * $nights;
 					elseif(end($field)  == 'pb') $theprice = $explodeprice[1] * $nights * ($array['adults']+$array['childs']);
 					else $theprice = $explodeprice[1];
-					$custom_price[] = array( 'type' => 'cstm', 'mode' => 'edit', 'title' => $field[2], 'value' => $explodeprice[0], 'amount' => $theprice );
+					$custom_price[] = array( 'type' => 'cstm', 'mode' => 'edit', 'title' => $field[2], 'value' => stripslashes($explodeprice[0]), 'amount' => $theprice );
 				}
 			}
 		}
@@ -455,9 +455,9 @@
 				if($sel) $value = $sel;
 				$form_field = '<textarea name="easy-new-custom-'.$id.'" id="easy-new-custom-'.$id.'"'.$after.'>'.$value.'</textarea>';
 			} elseif($custom_field['type'] == 'check'){
-				$checked = '';
 				foreach($custom_field['options'] as $opt_id => $option){
-					if($sel || (!$sel && $option['checked'])) $checked = ' checked="checked"';
+					if($sel || (!$sel && isset($option['checked']))) $checked = ' checked="checked"';
+					else $checked = '';
 					$form_field .= '<input type="checkbox" name="easy-new-custom-'.$id.'" id="easy-new-custom-'.$id.'" value="'.$opt_id.'" '.$checked.$after.'>';
 				}
 			} elseif($custom_field['type'] == 'radio'){
@@ -801,12 +801,29 @@ EOF;
 	function easyreservations_verify_nonce($nonce, $action = -1) {
 		$i = wp_nonce_tick();
 		// Nonce generated 0-12 hours ago
-		if ( substr(wp_hash($i . $action . '0', 'nonce'), -12, 10) === $nonce )
+		if ( hash_equals(substr(wp_hash($i .'|'.$action . '|0', 'nonce'), -12, 10), $nonce) )
 			return 1;
 		// Nonce generated 12-24 hours ago
-		if ( substr(wp_hash(($i - 1) . $action . '0', 'nonce'), -12, 10) === $nonce )
+		if ( hash_equals( substr(wp_hash(($i - 1) .'|'.$action . '|0', 'nonce'), -12, 10) , $nonce ) )
 			return 2;
 		// Invalid nonce
 		return false;
 	}
+
+	function easyreservations_calculate_out_summertime($timestamp, $begin){
+		$diff = 0;
+		if(version_compare(PHP_VERSION, '5.3.0') >= 0 && is_numeric($timestamp)){
+			$timezone = new DateTimeZone(date_default_timezone_get ());
+			$transitions = $timezone->getTransitions($begin, $timestamp);
+			if(isset($transitions[1]) && $transitions[0]['offset'] != $transitions[1]['offset']){
+				$diff = $transitions[1]['offset'] - $transitions[0]['offset'];
+				//if($transitions[0]['offset'] < $transitions[1]['offset']) $diff = $transitions[0]['offset'] - $transitions[1]['offset'];
+				//else $diff = $transitions[1]['offset'] - $transitions[0]['offset'];
+			}
+		}
+		return ($timestamp-$diff);
+	}
+
+
+
 ?>

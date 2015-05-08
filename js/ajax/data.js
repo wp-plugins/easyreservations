@@ -1,5 +1,5 @@
 function easy_get_data(form){
-    var tnights = 0, nights = '', to = '', toplus = 0, fromplus = 0, childs = 0, persons = 1, captcha = 'x!', captcha_prefix = '', tom = 0, toh = '', fromm = 0, fromh = '', theid = '';
+    var tnights = 0, nights = '', to = '', toplus = -1, fromplus = 0, childs = 0, persons = 1, captcha = 'x!', captcha_prefix = '', tom = 0, toh = '', fromm = 0, fromh = '', theid = '';
 
     if(jQuery('#'+form+' input[name="from"]').length > 0){
         var from = jQuery('#'+form+' input[name="from"]').val();

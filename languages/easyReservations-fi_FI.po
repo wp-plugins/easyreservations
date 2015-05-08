@@ -1,93 +1,91 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: easyReservations 3.1.5\n"
+"Project-Id-Version: easyReservations\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-05-08 12:10+0100\n"
 "PO-Revision-Date: 2015-05-08 12:20+0100\n"
-"Last-Translator: Jörgen <sjoholmjorgen@gmail.com>\n"
-"Language-Team: kjeell.se <digidocs@kjeell.se>\n"
-"Language: sv_SE\n"
+"Last-Translator: Hannu Jaatinen <hannu.jaatinen@jargon.fi>\n"
+"Language-Team: Feryaz Beer <contact@easyreservations.org>\n"
+"Language: fi_FI\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Poedit-KeywordsList: __;__\n"
+"X-Poedit-KeywordsList: __;_e\n"
 "X-Poedit-Basepath: .\n"
 "X-Generator: Poedit 1.7.6\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-SearchPath-0: .\n"
-"X-Poedit-SearchPath-1: ..\n"
 
 #: easyReservations_admin_main.php:39 easyReservations_admin_main.php:55
 #: easyReservations_admin_main.php:71 easyReservations_admin_main.php:1055
 #: easyReservations_admin_resources.php:22 lib/functions/admin.php:19
 #: lib/modules/stream/stream.php:149
 msgid "Reservation"
-msgstr "Reservation"
+msgstr "Varaus"
 
 #: easyReservations_admin_main.php:39 easyReservations_admin_main.php:55
 #: easyReservations_admin_main.php:71 easyReservations_admin_resources.php:219
 msgid "Reservations"
-msgstr "Reservationer"
+msgstr "Varaukset"
 
 #: easyReservations_admin_main.php:40
 msgid "moved to trash"
-msgstr "flyttad till papperskorg"
+msgstr "siirretty roskakoriin"
 
 #: easyReservations_admin_main.php:40
 msgid "Undo"
-msgstr "Ångra"
+msgstr "Kumoa"
 
 #: easyReservations_admin_main.php:56
 msgid "restored from trash"
-msgstr "återställd från papperskorg"
+msgstr "palautettu roskakorista"
 
 #: easyReservations_admin_main.php:72
 msgid "deleted permanently"
-msgstr "permanent raderad"
+msgstr "poistettu pysyvästi"
 
 #: easyReservations_admin_main.php:84
 msgid "Custom information deleted"
-msgstr "Valfri information raderad"
+msgstr "Oma tieto poistettu"
 
 #: easyReservations_admin_main.php:85
 msgid "Custom information isn't existing"
-msgstr "Valfri information existerar inte"
+msgstr "Omaa tietoa ei ole olemassa"
 
 #: easyReservations_admin_main.php:98
 msgid "Custom price deleted"
-msgstr "Valfritt pris raderat"
+msgstr "Oma hinta poistettu"
 
 #: easyReservations_admin_main.php:99
 msgid "Custom price isn't existing"
-msgstr "Valfritt pris existerar inte"
+msgstr "Omaa hintaa ei ole olemassa"
 
 #: easyReservations_admin_main.php:120 easyReservations_admin_main.php:205
 msgid "Wrong money format in custom price"
-msgstr "Fel prisformat i prisfältet"
+msgstr "Oma hinta on väärässä muodossa"
 
 #: easyReservations_admin_main.php:164 easyReservations_admin_main.php:246
 msgid "Price couldn't be fixed, input isn't valid money format"
-msgstr "Priset kunde inte anges, indatan är inte ett giltigt prisformat"
+msgstr "Hintaa ei voitu määrittää, annettu tieto ei ole rahan muodossa"
 
 #: easyReservations_admin_main.php:169
 msgid "Reservation edited."
-msgstr "Reservationen redigerad"
+msgstr "Varausta muokattu."
 
 #: easyReservations_admin_main.php:179
 #, php-format
 msgid "Reservation #%1$d copied as #%2$d"
-msgstr "Reservation #%1$d kopierad som #%2$d"
+msgstr "Varaus #%1$d kopioitiin #%2$d"
 
 #: easyReservations_admin_main.php:250
 #, php-format
 msgid "Reservation #%d added"
-msgstr "Reservation #%d tillagd"
+msgstr "Varaus #%d lisätty"
 
 #: easyReservations_admin_main.php:261 lib/functions/ajax.php:409
 #: lib/functions/ajax.php:419
 msgid "Wrong date format"
-msgstr "Fel datumformat"
+msgstr "Väärä päivämäärän muoto"
 
 #: easyReservations_admin_main.php:282
 msgid ""
@@ -95,55 +93,54 @@ msgid ""
 "price or settings or the reservations price it wont match the fixed price "
 "anymore."
 msgstr ""
-"Så här skulle priset bli kalkylerat nu. Efter att ha ändrat filter,"
-"standardpris eller inställningar eller reservations priset så kommer det "
-"inte att överensstämma med det fasta priset längre."
+"Näin hinta laskettaisiin tällä hetkellä. Jos muutat varausten hinnan "
+"suotimia, perushintaa tai asetuksia, se ei vastaa enää kiinteätä hintaa."
 
 #: easyReservations_admin_main.php:306
 msgid "Email sent successfully"
-msgstr "E-post har sänts framgåmgsrikt"
+msgstr "Sähköpostin lähetys onnistui"
 
 #: easyReservations_admin_main.php:334
 msgid "Reservation approved"
-msgstr "Reservation godkänd"
+msgstr "Varaus hyväksytty"
 
 #: easyReservations_admin_main.php:335
 msgid "Reservation rejected"
-msgstr "Reservation avvisad"
+msgstr "Varaus hylätty"
 
 #: easyReservations_admin_main.php:350
 msgid "Reservations Dashboard"
-msgstr "Reservations Kontrollpanel"
+msgstr "Varausten yhteenvetosivu"
 
 #: easyReservations_admin_main.php:351
 #: easyReservations_admin_resources.php:204
 msgid "Add New"
-msgstr "Lägg till ny"
+msgstr "Lisää uusi"
 
 #: easyReservations_admin_main.php:363 easyReservations_admin_main.php:974
 #: easyReservations_admin_main.php:999 easyReservations_admin_main.php:1306
 #: easyReservations_admin_main.php:1477 lib/core/core.php:338
 #: lib/modules/hourlycal/hourlycal.php:206 lib/modules/paypal/paypal.php:344
 msgid "None"
-msgstr "Inget"
+msgstr "Ei mitään"
 
 #: easyReservations_admin_main.php:475 easyReservations_admin_main.php:852
 #: easyReservations_admin_resources.php:1363
 msgid "choose date"
-msgstr "välj datum"
+msgstr "valitse pvm"
 
 #: easyReservations_admin_main.php:566
 msgid "full"
-msgstr "fullbelagd"
+msgstr "täysi"
 
 #: easyReservations_admin_main.php:896 lib/functions/admin.php:341
 #: lib/modules/statistics/statistics.php:493
 msgid "Upcoming reservations"
-msgstr "Kommande reservationer"
+msgstr "Tulevat varaukset"
 
 #: easyReservations_admin_main.php:913 lib/functions/admin.php:342
 msgid "New reservations"
-msgstr "Nya reservationer"
+msgstr "Uudet varaukset"
 
 #: easyReservations_admin_main.php:941
 msgid "What's happening today"
@@ -151,11 +148,11 @@ msgstr ""
 
 #: easyReservations_admin_main.php:941
 msgid "workload today"
-msgstr "arbetsbelastning idag"
+msgstr "tämän päivän työt"
 
 #: easyReservations_admin_main.php:951
 msgid "Arrival today"
-msgstr "Ankomster idag"
+msgstr "Saapuu tänään"
 
 #: easyReservations_admin_main.php:953 easyReservations_admin_main.php:1070
 #: easyReservations_admin_main.php:1234 easyReservations_admin_main.php:1412
@@ -172,7 +169,7 @@ msgstr "Ankomster idag"
 #: lib/modules/useredit/useredit.php:343 lib/modules/useredit/useredit.php:675
 #: lib/modules/useredit/useredit.php:784
 msgid "Name"
-msgstr "Namn"
+msgstr "Nimi"
 
 #: easyReservations_admin_main.php:953 easyReservations_admin_main.php:1088
 #: easyReservations_admin_main.php:1263 easyReservations_admin_main.php:1439
@@ -190,7 +187,7 @@ msgstr "Namn"
 #: lib/modules/statistics/statistics.php:714
 #: lib/modules/useredit/useredit.php:348 lib/modules/useredit/useredit.php:551
 msgid "Resource"
-msgstr "Resurs"
+msgstr "Resurssi"
 
 #: easyReservations_admin_main.php:953 easyReservations_admin_main.php:1084
 #: easyReservations_admin_main.php:1254 easyReservations_admin_main.php:1430
@@ -205,7 +202,7 @@ msgstr "Resurs"
 #: lib/modules/useredit/useredit.php:345 lib/modules/useredit/useredit.php:677
 #: lib/modules/useredit/useredit.php:788
 msgid "Persons"
-msgstr "Personer"
+msgstr "Henkilöt"
 
 #: easyReservations_admin_main.php:953 easyReservations_admin_main.php:1284
 #: easyReservations_admin_main.php:1461 easyReservations_admin_main.php:1488
@@ -229,11 +226,11 @@ msgstr "Personer"
 #: lib/modules/useredit/useredit.php:745 lib/modules/useredit/useredit.php:847
 #: lib/modules/useredit/useredit.php:910
 msgid "Price"
-msgstr "Pris"
+msgstr "Hinta"
 
 #: easyReservations_admin_main.php:978
 msgid "Departure today"
-msgstr "Avresor idag"
+msgstr "Lähtö tänään"
 
 #: easyReservations_admin_main.php:1027
 #: easyReservations_admin_resources.php:1016
@@ -246,29 +243,29 @@ msgstr "Avresor idag"
 #: easyReservations_admin_settings.php:1245
 #: lib/modules/search/attributes.php:120
 msgid "Type"
-msgstr "Typ"
+msgstr "Tyyppi"
 
 #: easyReservations_admin_main.php:1027 easyReservations_admin_main.php:1298
 #: easyReservations_admin_main.php:1473 lib/functions/ajax.php:749
 msgid "Approved"
-msgstr "Godkända"
+msgstr "Hyväksytty"
 
 #: easyReservations_admin_main.php:1027 easyReservations_admin_main.php:1298
 #: easyReservations_admin_main.php:1473 lib/functions/ajax.php:738
 #: lib/functions/ajax.php:749
 msgid "Pending"
-msgstr "Väntande"
+msgstr "Odottaa"
 
 #: easyReservations_admin_main.php:1027 easyReservations_admin_main.php:1298
 #: easyReservations_admin_main.php:1473 lib/functions/ajax.php:739
 #: lib/functions/ajax.php:749
 msgid "Rejected"
-msgstr "Avvisade"
+msgstr "Hylätty"
 
 #: easyReservations_admin_main.php:1027 easyReservations_admin_main.php:1298
 #: lib/functions/ajax.php:749
 msgid "Trashed"
-msgstr "Kastade"
+msgstr "Siirretty roskakoriin"
 
 #: easyReservations_admin_main.php:1028
 #: easyReservations_admin_resources.php:551
@@ -276,49 +273,49 @@ msgstr "Kastade"
 #: easyReservations_form_shortcode.php:427 lib/modules/coupons/coupons.php:35
 #: lib/modules/useredit/useredit.php:358
 msgid "Time"
-msgstr "Tid"
+msgstr "Aika"
 
 #: easyReservations_admin_main.php:1028 lib/modules/useredit/useredit.php:359
 #: overview.php:159
 msgid "Past"
-msgstr "Tidigare"
+msgstr "Mennyt"
 
 #: easyReservations_admin_main.php:1028 overview.php:107 overview.php:160
 msgid "Present"
-msgstr "Närvarande"
+msgstr "Nykyinen"
 
 #: easyReservations_admin_main.php:1028 lib/modules/useredit/useredit.php:361
 #: overview.php:161
 msgid "Future"
-msgstr "Framtida"
+msgstr "Tuleva"
 
 #: easyReservations_admin_main.php:1055 easyReservations_admin_main.php:1545
 #: easyReservations_admin_main.php:1560 lib/functions/admin.php:256
 #: lib/functions/ajax.php:939
 msgid "Approve"
-msgstr "Godkänn"
+msgstr "Hyväksy"
 
 #: easyReservations_admin_main.php:1055 easyReservations_admin_main.php:1545
 #: easyReservations_admin_main.php:1560 lib/functions/admin.php:258
 #: lib/functions/ajax.php:940
 msgid "Reject"
-msgstr "Avvisa"
+msgstr "Hylkää"
 
 #: easyReservations_admin_main.php:1055
 msgid "View"
-msgstr "Visa"
+msgstr "Näytä"
 
 #: easyReservations_admin_main.php:1057 lib/functions/admin.php:260
 #: lib/functions/ajax.php:938 lib/modules/search/attributes.php:137
 msgid "Edit"
-msgstr "Redigera"
+msgstr "Muokkaa"
 
 #: easyReservations_admin_main.php:1074 lib/functions/admin.php:109
 #: lib/functions/ajax.php:789 lib/functions/ajax.php:830
 #: lib/modules/import/import.php:73 lib/modules/statistics/statistics.php:713
 #: lib/modules/useredit/useredit.php:344 lib/modules/useredit/useredit.php:674
 msgid "Date"
-msgstr "Datum"
+msgstr "Päiväys"
 
 #: easyReservations_admin_main.php:1080 easyReservations_admin_main.php:1270
 #: easyReservations_admin_main.php:1448
@@ -329,7 +326,7 @@ msgstr "Datum"
 #: lib/modules/paypal/creditcards.php:344
 #: lib/modules/useredit/useredit.php:785 lib/modules/useredit/useredit.php:872
 msgid "Email"
-msgstr "E-post"
+msgstr "Sähköposti"
 
 #: easyReservations_admin_main.php:1085 easyReservations_admin_main.php:1256
 #: easyReservations_admin_main.php:1432
@@ -339,7 +336,7 @@ msgstr "E-post"
 #: lib/modules/htmlmails/htmlmails.php:125
 #: lib/modules/htmlmails/htmlmails.php:382
 msgid "Adults"
-msgstr "Vuxna"
+msgstr "Aikuisia"
 
 #: easyReservations_admin_main.php:1085 easyReservations_admin_main.php:1258
 #: easyReservations_admin_main.php:1434
@@ -349,7 +346,7 @@ msgstr "Vuxna"
 #: easyReservations_admin_settings.php:433
 #: easyReservations_admin_settings.php:1010
 msgid "Children"
-msgstr "Barn"
+msgstr "Lapsia"
 
 #: easyReservations_admin_main.php:1093 easyReservations_admin_main.php:1274
 #: easyReservations_admin_main.php:1452
@@ -360,60 +357,60 @@ msgstr "Barn"
 #: lib/modules/htmlmails/htmlmails.php:384 lib/modules/import/import.php:74
 #: lib/modules/useredit/useredit.php:790
 msgid "Country"
-msgstr "Land"
+msgstr "Maa"
 
 #: easyReservations_admin_main.php:1136
 msgid "GuestContact"
-msgstr "Gästkontakt"
+msgstr "Asiakkaan yhteystieto"
 
 #: easyReservations_admin_main.php:1217 easyReservations_admin_main.php:1284
 msgid "Edit reservation"
-msgstr "Redigera reservation"
+msgstr "Muokkaa varausta"
 
 #: easyReservations_admin_main.php:1220
 msgid "Really delete this reservation permanently?"
-msgstr "Verkligen ta bort denna reservation permanent?"
+msgstr "Poistetaanko varaus varmasti lopullisesti?"
 
 #: easyReservations_admin_main.php:1220
 #: easyReservations_admin_resources.php:265
 #: lib/modules/useredit/useredit.php:62 lib/modules/useredit/useredit.php:63
 #: lib/modules/useredit/useredit.php:126 lib/modules/useredit/useredit.php:132
 msgid "delete"
-msgstr "radera"
+msgstr "poista"
 
 #: easyReservations_admin_main.php:1222
 msgid "Really move this reservation to trash?"
-msgstr "Verkligen flytta denna reservation till papperskorgen?"
+msgstr "Siirretäänkö varaus varmasti roskakoriin?"
 
 #: easyReservations_admin_main.php:1222
 msgid "trash"
-msgstr "papperskorg"
+msgstr "roskakoriin"
 
 #: easyReservations_admin_main.php:1238 easyReservations_admin_main.php:1416
 #: easyReservations_admin_resources.php:761 lib/modules/coupons/coupons.php:75
 #: lib/modules/useredit/useredit.php:786
 msgid "From"
-msgstr "Från"
+msgstr "Alkaen"
 
 #: easyReservations_admin_main.php:1247 easyReservations_admin_main.php:1423
 #: easyReservations_admin_main.php:1560
 #: easyReservations_admin_resources.php:765 lib/modules/coupons/coupons.php:79
 #: lib/modules/useredit/useredit.php:787
 msgid "To"
-msgstr "Till"
+msgstr "Päättyen"
 
 #: easyReservations_admin_main.php:1275 easyReservations_admin_main.php:1453
 #: lib/modules/useredit/useredit.php:695
 msgid "Unknown"
-msgstr "Okänd"
+msgstr "Tuntematon"
 
 #: easyReservations_admin_main.php:1284
 msgid "Copy"
-msgstr "Kopia"
+msgstr "Kopioi"
 
 #: easyReservations_admin_main.php:1292 easyReservations_admin_main.php:1467
 msgid "Status & Price"
-msgstr "Status & Pris"
+msgstr "Tila ja hinta"
 
 #: easyReservations_admin_main.php:1297 easyReservations_admin_main.php:1472
 #: easyReservations_admin_resources.php:221
@@ -425,21 +422,21 @@ msgstr "Status & Pris"
 #: lib/modules/useredit/useredit.php:347 lib/modules/useredit/useredit.php:353
 #: lib/modules/useredit/useredit.php:676 lib/modules/useredit/useredit.php:906
 msgid "Status"
-msgstr "Status"
+msgstr "Tila"
 
 #: easyReservations_admin_main.php:1301 easyReservations_admin_main.php:1484
 #: lib/functions/ajax.php:797 lib/functions/ajax.php:838
 #: lib/modules/import/import.php:73 lib/modules/useredit/useredit.php:679
 msgid "Reserved"
-msgstr "Reserverad"
+msgstr "Varattu"
 
 #: easyReservations_admin_main.php:1305 easyReservations_admin_main.php:1476
 msgid "Assign user"
-msgstr "Tilldela användare"
+msgstr "Liitä käyttäjä"
 
 #: easyReservations_admin_main.php:1313
 msgid "Fixed Price"
-msgstr "Fast pris"
+msgstr "Kiinteä hinta"
 
 #: easyReservations_admin_main.php:1317 easyReservations_admin_main.php:1391
 #: lib/functions/ajax.php:987 lib/modules/htmlmails/htmlmails.php:137
@@ -447,163 +444,163 @@ msgstr "Fast pris"
 #: lib/modules/statistics/statistics.php:517
 #: lib/modules/useredit/useredit.php:745
 msgid "Paid"
-msgstr "Betald"
+msgstr "Maksettu"
 
 #: easyReservations_admin_main.php:1326
 msgid "Send mail"
-msgstr "Skicka e-post"
+msgstr "Lähetä sähköposti"
 
 #: easyReservations_admin_main.php:1331
 msgid "Send mail to user on edit"
-msgstr "Skicka e-post till användare vid redigering"
+msgstr "Lähetä sähköpostia käyttäjällä jos varausta muokataan"
 
 #: easyReservations_admin_main.php:1389
 msgid "set price"
-msgstr "lägg in pris"
+msgstr "aseta hinta"
 
 #: easyReservations_admin_main.php:1390
 msgid "fix the sum of the normal calculation"
-msgstr "fastställ summan av den normala kalkyleringen"
+msgstr "määritä normaalin laskennan summa"
 
 #: easyReservations_admin_main.php:1407
 msgid "Add Reservation"
-msgstr "Lägg till reservation"
+msgstr "Lisää varaus"
 
 #: easyReservations_admin_main.php:1461
 msgid "Add reservation"
-msgstr "Lägg till reservation"
+msgstr "Lisää varaus"
 
 #: easyReservations_admin_main.php:1489
 msgid "Fix Price"
-msgstr "Fast pris"
+msgstr "Aseta hinta"
 
 #: easyReservations_admin_main.php:1498
 msgid "Add custom field"
-msgstr "Lägg till anpassat fält"
+msgstr "Lisää oma kenttä"
 
 #: easyReservations_admin_main.php:1504
 msgid "Editable"
-msgstr "Redigerbar"
+msgstr "Muokattava"
 
 #: easyReservations_admin_main.php:1504 easyReservations_admin_main.php:1519
 msgid "Visible"
-msgstr "Synlig"
+msgstr "Näkyvä"
 
 #: easyReservations_admin_main.php:1504 easyReservations_admin_main.php:1519
 #: easyReservations_admin_settings.php:831
 #: easyReservations_admin_settings.php:1043
 msgid "Hidden"
-msgstr "Dold"
+msgstr "Piilotettu"
 
 #: easyReservations_admin_main.php:1504 easyReservations_admin_main.php:1519
 msgid "for Guest"
-msgstr "för Gäst"
+msgstr "asiakkaalle"
 
 #: easyReservations_admin_main.php:1506 lib/functions/admin.php:858
 msgid "Add custom Field"
-msgstr "Lägg till eget fält"
+msgstr "Lisää oma kenttä"
 
 #: easyReservations_admin_main.php:1513
 msgid "Add custom price field"
-msgstr "Lägg till anpassade prisfält"
+msgstr "Lisää oman hinnan kenttä"
 
 #: easyReservations_admin_main.php:1519
 msgid "Selectable"
-msgstr "Valbar"
+msgstr "Valittavissa"
 
 #: easyReservations_admin_main.php:1521
 msgid "Add custom Price Field"
-msgstr "Lägg till eget prisfält"
+msgstr "Lisää oman hinnan kenttä"
 
 #: easyReservations_admin_main.php:1545
 msgid "Approve the reservation"
-msgstr "Godkänn reservation"
+msgstr "Hyväksy varaus"
 
 #: easyReservations_admin_main.php:1545
 msgid "Reject the reservation"
-msgstr "Avvisa reservation"
+msgstr "Hylkää varaus"
 
 #: easyReservations_admin_main.php:1559 easyReservations_admin_main.php:1581
 msgid "Send mail to guest"
-msgstr "Skicka e-post till gäst"
+msgstr "Lähetä sähköpostia asiakkaalle"
 
 #: easyReservations_admin_main.php:1559
 msgid "Has been paid"
-msgstr "Har betalats"
+msgstr "On maksettu"
 
 #: easyReservations_admin_main.php:1560
 msgid "the reservation, write a message and press send"
-msgstr "reservationen, skriv ett meddelande och klicka på skicka"
+msgstr "varaus, kirjoita viesti ja paina Lähetä"
 
 #: easyReservations_admin_main.php:1560
 msgid "The Guest will recieve that message in an email"
-msgstr "Gästen får det meddelandet i ett e-postmeddelande"
+msgstr "Asiakas saa kirjoittamasi viestin sähköpostina"
 
 #: easyReservations_admin_main.php:1581 lib/modules/useredit/useredit.php:76
 msgid "Send"
-msgstr "Skicka"
+msgstr "Lähetä"
 
 #: easyReservations_admin_main_stats.php:35
 #: lib/classes/reservation.class.php:1241
 #: lib/modules/statistics/statistics.php:423
 #: lib/modules/useredit/useredit.php:354
 msgid "approved"
-msgstr "godkänd"
+msgstr "hyväksytty"
 
 #: easyReservations_admin_main_stats.php:35
 #: lib/classes/reservation.class.php:1241
 #: lib/modules/statistics/statistics.php:423
 #: lib/modules/useredit/useredit.php:356
 msgid "rejected"
-msgstr "avvisad"
+msgstr "hylätty"
 
 #: easyReservations_admin_main_stats.php:35
 #: lib/classes/reservation.class.php:1241
 #: lib/modules/statistics/statistics.php:423
 #: lib/modules/useredit/useredit.php:355
 msgid "pending"
-msgstr "väntande"
+msgstr "odottaa"
 
 #: easyReservations_admin_resources.php:11
 msgid "the base price changes to"
-msgstr "grundpriset ändrat till"
+msgstr "perushinnaksi vaihtuu"
 
 #: easyReservations_admin_resources.php:23
 #: lib/modules/useredit/useredit.php:441
 msgid "Day"
-msgstr "Dag"
+msgstr "Päivä"
 
 #: easyReservations_admin_resources.php:24
 #: easyReservations_admin_resources.php:711
 msgid "Person"
-msgstr "Person"
+msgstr "Henkilö"
 
 #: easyReservations_admin_resources.php:25
 msgid "Person and Day"
-msgstr "Person och Dag"
+msgstr "Henkilö ja päivä"
 
 #: easyReservations_admin_resources.php:26
 #: easyReservations_admin_resources.php:93
 msgid "Adult"
-msgstr "Vuxna"
+msgstr "Aikuinen"
 
 #: easyReservations_admin_resources.php:29
 msgid "the price increases by"
-msgstr "priset ökar med"
+msgstr "hinta nousee"
 
 #: easyReservations_admin_resources.php:30
 msgid "the price decreases by"
-msgstr "prissänkningar efter"
+msgstr "hinta laskee"
 
 #: easyReservations_admin_resources.php:37
 #, php-format
 msgid "If %s to calculate is "
-msgstr "Om %s att beräkna är "
+msgstr "Jos %s, joka lasketaan on "
 
 #: easyReservations_admin_resources.php:39
 #, php-format
 msgid "between %1$s and %2$s"
-msgstr "mellan %1$s och %2$s"
+msgstr "välillä %1$s - %2$s"
 
 #: easyReservations_admin_resources.php:70
 #: easyReservations_admin_resources.php:71
@@ -614,111 +611,111 @@ msgstr "mellan %1$s och %2$s"
 #: easyReservations_admin_resources.php:76
 #: easyReservations_admin_resources.php:114
 msgid "and"
-msgstr "och"
+msgstr "ja"
 
 #: easyReservations_admin_resources.php:72
 msgid "in calendar week"
-msgstr "i kalendervecka"
+msgstr "kalenteriviikossa"
 
 #: easyReservations_admin_resources.php:73
 #: easyReservations_admin_resources.php:75
 msgid "in"
-msgstr "i"
+msgstr ":"
 
 #: easyReservations_admin_resources.php:74
 msgid "in quarter"
-msgstr "i kvartal"
+msgstr "neljänneksessä"
 
 #: easyReservations_admin_resources.php:85
 msgid "Stay"
-msgstr "Stannar"
+msgstr "Viipyminen"
 
 #: easyReservations_admin_resources.php:87
 #, php-format
 msgid "guest stays %s days or more"
-msgstr "gäst stannar % s dagar eller mer"
+msgstr "asiakas viipyy vähintään %s päivää"
 
 #: easyReservations_admin_resources.php:89
 msgid "Pers"
-msgstr "Pers"
+msgstr "Hlö"
 
 #: easyReservations_admin_resources.php:91
 #, php-format
 msgid "%s or more persons reserve"
-msgstr "% s eller flera personer reserverar"
+msgstr "vähintään %s henkilöä varaa"
 
 #: easyReservations_admin_resources.php:95
 #, php-format
 msgid "%s or more adults reserve"
-msgstr "% s eller fler vuxna reserverar"
+msgstr "vähintään %s aikuista varaa"
 
 #: easyReservations_admin_resources.php:99
 #, php-format
 msgid "%s or more children's reserve"
-msgstr "% s eller fler barn reserverar"
+msgstr "vähintään %s lasta varaa"
 
 #: easyReservations_admin_resources.php:101
 msgid "Loyal"
-msgstr "Lojal"
+msgstr "Uskollinen"
 
 #: easyReservations_admin_resources.php:107
 #, php-format
 msgid "guest comes the %1$s%2$s time"
-msgstr "gäst kommer %1$s%2$s tid"
+msgstr "asiakas tulee %1$s%2$s kertaa"
 
 #: easyReservations_admin_resources.php:109
 msgid "Early"
-msgstr "Tidig"
+msgstr "Aikainen"
 
 #: easyReservations_admin_resources.php:111
 #, php-format
 msgid "the guest reserves %s days before his arrival"
-msgstr "gäst reserverar % s dagar före hans ankomst"
+msgstr "asiakas varaa %s päivää ennen saapumista"
 
 #: easyReservations_admin_resources.php:115
 msgid "If"
-msgstr "Om"
+msgstr "Jos"
 
 #: easyReservations_admin_resources.php:119
 msgid "Base"
-msgstr "Bas"
+msgstr "Perus"
 
 #: easyReservations_admin_resources.php:123
 #: easyReservations_admin_resources.php:1052
 #: lib/modules/coupons/coupons.php:37
 msgid "Discount"
-msgstr "Rabatt"
+msgstr "Alennus"
 
 #: easyReservations_admin_resources.php:126
 #: easyReservations_admin_resources.php:129
 msgid "Charge"
-msgstr "Kostnad"
+msgstr "Veloitus"
 
 #: easyReservations_admin_resources.php:142
 msgid "Resource and all its reservations deleted"
-msgstr "Resursen och alla tillhörande reservationer raderade"
+msgstr "Resurssi ja sen kaikki varaukset poistettiin"
 
 #: easyReservations_admin_resources.php:143
 msgid "Resource deleted, but reservations couldnt"
-msgstr "Resursen raderat, men reservationerna kunde inte raderas"
+msgstr "Resurssi poistettiin mutta varauksia ei voitu poistaa"
 
 #: easyReservations_admin_resources.php:158
 #: easyReservations_admin_resources.php:190
 #, php-format
 msgid "Resource #%d added"
-msgstr "Resurs #%d tillagd"
+msgstr "Lisättiin resurssi #%d"
 
 #: easyReservations_admin_resources.php:191
 msgid "Please enter a Title"
-msgstr "Ange en rubrik"
+msgstr "Kirjoita otsikko"
 
 #: easyReservations_admin_resources.php:204
 msgid "Reservations Resources"
-msgstr "Bokningsresurser"
+msgstr "Varausten resurssit"
 
 #: easyReservations_admin_resources.php:204
 msgid "Post View"
-msgstr "Visa post"
+msgstr "Julkaisunäkymä"
 
 #: easyReservations_admin_resources.php:215
 #: easyReservations_admin_settings.php:561
@@ -727,7 +724,7 @@ msgstr "Visa post"
 #: easyReservations_admin_settings.php:1244 lib/modules/paypal/paypal.php:179
 #: lib/modules/useredit/useredit.php:395
 msgid "Title"
-msgstr "Rubrik"
+msgstr "Otsikko"
 
 #: easyReservations_admin_resources.php:216
 #: easyReservations_admin_settings.php:1243
@@ -735,260 +732,262 @@ msgstr "Rubrik"
 #: lib/modules/import/import.php:72 lib/modules/useredit/useredit.php:342
 #: lib/modules/useredit/useredit.php:673 lib/modules/useredit/useredit.php:870
 msgid "ID"
-msgstr "ID"
+msgstr "Tunnus"
 
 #: easyReservations_admin_resources.php:217
 msgid "Quantity"
-msgstr "Antal"
+msgstr "Määrä"
 
 #: easyReservations_admin_resources.php:218
 msgid "Base Price"
-msgstr "Standardpris"
+msgstr "Perushinta"
 
 #: easyReservations_admin_resources.php:220
 #: easyReservations_admin_resources.php:549
 #: easyReservations_admin_resources.php:592
 msgid "Filter"
-msgstr "Filter"
+msgstr "Suodin"
 
 #: easyReservations_admin_resources.php:222
 #: easyReservations_admin_settings.php:860
 msgid "Excerpt"
-msgstr "Utdrag"
+msgstr "Ote"
 
 #: easyReservations_admin_resources.php:244
 #: js/tinyMCE/tinyMCE_shortcode_add.php:132
 msgid "Full"
-msgstr "Fullbelagd"
+msgstr "Täysi"
 
 #: easyReservations_admin_resources.php:245 lib/modules/search/search.php:434
 msgid "Available"
-msgstr "Tillgänglig"
+msgstr "Saatavilla"
 
 #: easyReservations_admin_resources.php:250
 #: easyReservations_admin_resources.php:536
 #: lib/modules/useredit/useredit.php:61 lib/modules/useredit/useredit.php:131
 msgid "edit"
-msgstr "redigera"
+msgstr "muokkaa"
 
 #: easyReservations_admin_resources.php:253
 msgid "edit "
-msgstr "redigera"
+msgstr "muokkaa"
 
 #: easyReservations_admin_resources.php:262
 msgid "edit post"
-msgstr "redigera post"
+msgstr "muokkaa julkaisua"
 
 #: easyReservations_admin_resources.php:263
 msgid "edit resource"
-msgstr "redigera resurs"
+msgstr "muokkaa resurssia"
 
 #: easyReservations_admin_resources.php:264
 msgid "copy resource settings"
-msgstr "kopiera resursens inställningar"
+msgstr "kopioi resurssin asetukset"
 
 #: easyReservations_admin_resources.php:265
 msgid "Really delete this resource and all its reservations?"
-msgstr "Vill du verkligen radera denna resurs och dess alla reservationer?"
+msgstr "Haluatko varmasti poistaa tämän resurssin ja sen kaikki varaukset?"
 
+# hmm
 #: easyReservations_admin_resources.php:280
 msgid "Resource's count names changed"
-msgstr "Resursens räknings namn ändrad"
+msgstr "Resurssin lukumäärien nimet muutettu"
 
 #: easyReservations_admin_resources.php:298
 msgid "Requirements edited"
-msgstr "Krav redigerat"
+msgstr "Vaatimuksia muokattu"
 
 #: easyReservations_admin_resources.php:308
 msgid "Base price edited"
-msgstr "Baspris redigerat"
+msgstr "Perushintaa muokattu"
 
 #: easyReservations_admin_resources.php:309
 #: easyReservations_admin_resources.php:358
 msgid "Insert right money format"
-msgstr "Ange rätt pengar format"
+msgstr "Anna oikea rahan muoto"
 
+# hmm
 #: easyReservations_admin_resources.php:318
 msgid "Count of resource space edited"
-msgstr "Räkning av resursutrymme som redigerats"
+msgstr "Resurssin tilan määrää muutettu"
 
 #: easyReservations_admin_resources.php:331
 msgid "Price setting changed"
-msgstr "Prisinställningar ändrade"
+msgstr "Hinta-asetusta muutettu"
 
 #: easyReservations_admin_resources.php:340
 msgid "Resource permission edited"
-msgstr "Resursens behörigheter ändrade"
+msgstr "Resurssin käyttöoikeutta muutettu"
 
 #: easyReservations_admin_resources.php:341
 #: easyReservations_admin_settings.php:161
 msgid "Only admins can change the permissions for"
-msgstr "Enbart admin kan ändra behörigheterna för"
+msgstr "Vain ylläpitäjä voi muuttaa oikeuksia kohteelle"
 
 #: easyReservations_admin_resources.php:341
 msgid "resource"
-msgstr "resurs"
+msgstr "resurssi"
 
 #: easyReservations_admin_resources.php:348
 msgid "Billing unit changed"
-msgstr "Faktureringsenheten ändrats"
+msgstr "Laskutusyksikkö muutettu"
 
 #: easyReservations_admin_resources.php:357
 msgid "Children's discount edited"
-msgstr "Barnrabatt redigerad"
+msgstr "Lapsialennusta muutettu"
 
 #: easyReservations_admin_resources.php:370
 msgid "Tax percentage has to be numeric"
-msgstr "Momsprocenten måste vara numerisk"
+msgstr "Veroprosentin on oltava numero"
 
 #: easyReservations_admin_resources.php:424
 msgid "Enter a starting date"
-msgstr "Ange ett startdatum"
+msgstr "Anna alkamispäivä"
 
 #: easyReservations_admin_resources.php:428
 msgid "Enter an ending date"
-msgstr "Ange ett slutdatum"
+msgstr "Anna päättymispäivä"
 
 #: easyReservations_admin_resources.php:439
 msgid "Select a condition"
-msgstr "Välj ett villkor"
+msgstr "Valitse ehto"
 
 #: easyReservations_admin_resources.php:442
 msgid ""
 "No arrival or departure possible - use unavailability filter to disable "
 "reservations by time"
 msgstr ""
-"Ingen ankomst eller avresa möjlig - använd otillgänglighetsfiltret för att "
-"inaktivera reservationer per tid"
+"Saapuminen tai lähtö ei ole mahdollinen - käytä ei saatavilla -suodinta jos "
+"haluat poistaa aikavaraukset käytöstä"
 
 #: easyReservations_admin_resources.php:500
 msgid "Please give the filter a name"
-msgstr "Ange ett namn för filtret"
+msgstr "Nimeä suodin"
 
 #: easyReservations_admin_resources.php:508
 #, php-format
 msgid "From %1$s till %2$s"
-msgstr "Från %1$s till %2$s"
+msgstr "%1$s - %2$s"
 
 #: easyReservations_admin_resources.php:541
 msgid "Comments"
-msgstr "Kommentarer"
+msgstr "Kommentit"
 
 #: easyReservations_admin_resources.php:550
 #: easyReservations_admin_resources.php:742
 msgid "Priority"
-msgstr "Prioritet"
+msgstr "Prioriteetti"
 
 #: easyReservations_admin_resources.php:588
 msgid "No price filter set"
-msgstr "Inget prisfilter angivet"
+msgstr "Hintasuodinta ei ole asetettu"
 
 #: easyReservations_admin_resources.php:593
 #: easyReservations_admin_resources.php:747
 #: easyReservations_admin_resources.php:1025
 msgid "Condition"
-msgstr "Villkor"
+msgstr "Ehto"
 
 #: easyReservations_admin_resources.php:614
 #: easyReservations_admin_resources.php:617
 msgid "calculate"
-msgstr "beräkna"
+msgstr "laske"
 
 #: easyReservations_admin_resources.php:614
 #: easyReservations_admin_resources.php:617
 msgid "check"
-msgstr "kryssa"
+msgstr "tarkista"
 
 #: easyReservations_admin_resources.php:614
 msgid "resource is unavailable"
-msgstr "resursen är otillgänglig"
+msgstr "resurssi ei ole saatavilla"
 
 #: easyReservations_admin_resources.php:617
 msgid "resources condition change to"
-msgstr "resurser villkorsändras till"
+msgstr "muuta resurssin ehdoksi"
 
 #: easyReservations_admin_resources.php:623
 #: easyReservations_admin_resources.php:633 lib/functions/ajax.php:740
 msgid "All"
-msgstr "Alla"
+msgstr "Kaikki"
 
 #: easyReservations_admin_resources.php:656
 msgid "No filter set"
-msgstr "Inget filter angivet"
+msgstr "Suodinta ei ole asetettu"
 
 #: easyReservations_admin_resources.php:669
 msgid "Price simulator"
-msgstr "Prissimulator"
+msgstr "Hinnan simulointi"
 
 #: easyReservations_admin_resources.php:705
 msgid "Base price per billing unit"
-msgstr "Grundpris per faktureringsenhet"
+msgstr "Laskutusyksikön perushinta"
 
 #: easyReservations_admin_resources.php:706
 msgid "Children's discount per billing unit"
-msgstr "Barnrabatt per faktureringsenhet"
+msgstr "Laskutusyksikön lapsialennus"
 
 #: easyReservations_admin_resources.php:707
 msgid "Billing"
-msgstr "Fakturering"
+msgstr "Laskutus"
 
 #: easyReservations_admin_resources.php:707
 #: easyReservations_admin_resources.php:773
 msgid "Unit"
-msgstr "Enhet"
+msgstr "Yksikkö"
 
 #: easyReservations_admin_resources.php:707
 msgid "Hourly billing"
-msgstr "Pris per timme"
+msgstr "Tuntilaskutus"
 
 #: easyReservations_admin_resources.php:707
 msgid "Daily billing"
-msgstr "Pris per dag"
+msgstr "Päivälaskutus"
 
 #: easyReservations_admin_resources.php:707
 msgid "Weekly billing"
-msgstr "Pris per vecka"
+msgstr "Viikkolaskutus"
 
 #: easyReservations_admin_resources.php:707
 msgid "Monthly billing"
-msgstr "Pris per månad"
+msgstr "Kuukausilaskutus"
 
 #: easyReservations_admin_resources.php:707
 msgid "Calculate base price only once"
-msgstr "Kalkylera baspris endast en gång"
+msgstr "Laske perushinta vain kerran"
 
 #: easyReservations_admin_resources.php:707
 #: easyReservations_admin_settings.php:542 lib/functions/admin.php:144
 msgid "Price per person"
-msgstr "Pris per person"
+msgstr "Hinta henkilöltä"
 
 #: easyReservations_admin_resources.php:708 lib/modules/import/import.php:73
 #: lib/modules/statistics/statistics.php:588
 msgid "Taxes"
-msgstr "Moms"
+msgstr "Verot"
 
 #: easyReservations_admin_resources.php:708
 #: easyReservations_admin_resources.php:728
 #: easyReservations_admin_resources.php:1431
 #: easyReservations_admin_settings.php:410 lib/modules/invoice/invoice.php:651
 msgid "Add"
-msgstr "Lägg till"
+msgstr "Lisää"
 
 #: easyReservations_admin_resources.php:709 lib/modules/search/search.php:54
 msgid "Availability"
-msgstr "Tillgänglighet"
+msgstr "Saatavuus"
 
 #: easyReservations_admin_resources.php:710
 msgid "Resources count"
-msgstr "Räkna resurser "
+msgstr "Resurssien määrä"
 
 #: easyReservations_admin_resources.php:711
 msgid "Availability by"
-msgstr "Tillgänglighet via"
+msgstr "Saatavuus:"
 
 #: easyReservations_admin_resources.php:711
 msgid "Object"
-msgstr "Ämne"
+msgstr "Objekti"
 
 #: easyReservations_admin_resources.php:712
 #: easyReservations_admin_resources.php:713
@@ -1008,60 +1007,60 @@ msgstr "Min"
 #: easyReservations_admin_settings.php:741
 #: easyReservations_admin_settings.php:768 lib/modules/search/search.php:352
 msgid "Max"
-msgstr "Max"
+msgstr "Maks"
 
 #: easyReservations_admin_resources.php:714
 #: easyReservations_admin_resources.php:976
 msgid "Arrival possible on"
-msgstr "Ankomst möjlig den"
+msgstr "Tulo mahdollinen"
 
 #: easyReservations_admin_resources.php:715
 #: easyReservations_admin_resources.php:991
 msgid "Departure possible on"
-msgstr "Avresa möjlig den"
+msgstr "Lähtö mahdollinen"
 
 #: easyReservations_admin_resources.php:716
 msgid "Required  permission"
-msgstr "Kräver behörighet"
+msgstr "Tarvittava käyttöoikeus"
 
 #: easyReservations_admin_resources.php:717
 msgid "Filters"
-msgstr "Filtreras"
+msgstr "Suotimet"
 
 #: easyReservations_admin_resources.php:720
 msgid "Resources settings"
-msgstr "Resurs inställningar"
+msgstr "Resurssien asetukset"
 
 #: easyReservations_admin_resources.php:720
 #: easyReservations_admin_resources.php:1070
 #: lib/modules/invoice/invoice.php:572 lib/modules/search/attributes.php:200
 #: lib/modules/search/search.php:123
 msgid "Save"
-msgstr "Spara"
+msgstr "Tallenna"
 
 #: easyReservations_admin_resources.php:730
 msgid "Unavailability"
-msgstr "Otillgänglighet"
+msgstr "Ei saatavilla"
 
 #: easyReservations_admin_resources.php:731
 #: easyReservations_admin_resources.php:955
 msgid "Requirements"
-msgstr "Krav"
+msgstr "Vaatimukset"
 
 #: easyReservations_admin_resources.php:749
 msgid "Filter by time"
-msgstr "Filtrera efter tid"
+msgstr "Suodata ajan mukaan"
 
 #: easyReservations_admin_resources.php:756
 msgid "Date range"
-msgstr "Datumintervall"
+msgstr "Aikaväli"
 
 #: easyReservations_admin_resources.php:778
 #: lib/modules/hourlycal/hourlycal.php:209
 #: lib/modules/htmlmails/htmlmails.php:119
 #: lib/modules/useredit/useredit.php:439 lib/modules/useredit/useredit.php:440
 msgid "Hours"
-msgstr "Timmar"
+msgstr "Tuntia"
 
 #: easyReservations_admin_resources.php:779
 #: easyReservations_admin_resources.php:815
@@ -1069,84 +1068,86 @@ msgstr "Timmar"
 #: easyReservations_admin_resources.php:902
 #: easyReservations_admin_resources.php:926
 msgid "select nothing to change price/availability for entire"
-msgstr "ange inget för att ändra pris/tillgänglighet för hela"
+msgstr "älä valitse mitään, jos haluat muuttaa hintaa/saatavuutta ajalta"
 
+# hmm
 #: easyReservations_admin_resources.php:779
 #: easyReservations_admin_settings.php:262
 msgid "day"
-msgstr "dag"
+msgstr "päivä"
 
 #: easyReservations_admin_resources.php:814 lib/functions/admin.php:396
 #: lib/modules/hourlycal/hourlycal.php:201 overview.php:104 overview.php:105
 #: overview.php:106 overview.php:108 overview.php:109 overview.php:110
 msgid "Days"
-msgstr "Dagar"
+msgstr "Päivää"
 
 #: easyReservations_admin_resources.php:815
 msgid "calendar week"
-msgstr "kalendervecka"
+msgstr "kalenteriviikko"
 
 #: easyReservations_admin_resources.php:831
 msgid "Calendar Week"
-msgstr "Kalendervecka"
+msgstr "Kalenteriviikko"
 
 #: easyReservations_admin_resources.php:832
 #: easyReservations_admin_settings.php:262
 msgid "month"
-msgstr "månad"
+msgstr "kuukausi"
 
 #: easyReservations_admin_resources.php:900
 msgid "Months"
-msgstr "Månader"
+msgstr "Kuukautta"
 
 #: easyReservations_admin_resources.php:902
 msgid "quarter"
-msgstr "kvartal"
+msgstr "neljännes"
 
 #: easyReservations_admin_resources.php:925
 msgid "Quarter"
-msgstr "Kvartal"
+msgstr "Neljännes"
 
 #: easyReservations_admin_resources.php:926
 msgid "year"
-msgstr "år"
+msgstr "vuosi"
 
 #: easyReservations_admin_resources.php:934
 #: lib/modules/paypal/creditcards.php:253
 msgid "Year"
-msgstr "År"
+msgstr "Vuosi"
 
 #: easyReservations_admin_resources.php:1009
 msgid "Filter by condition"
-msgstr "Filtrera efter tillstånd"
+msgstr "Suodata ehdon mukaan"
 
 #: easyReservations_admin_resources.php:1018
 msgid "between reservation and arrival"
-msgstr "mellan reservation och ankomst"
+msgstr "varauksen ja tulon välillä"
 
 #: easyReservations_admin_resources.php:1019
 msgid "Recurring guests"
-msgstr "Återkommande gäst"
+msgstr "Vakioasiakkaat"
 
+# hmm
 #: easyReservations_admin_resources.php:1020
 msgid "Amount of"
-msgstr "Antal"
+msgstr "Lukumäärä"
 
 #: easyReservations_admin_resources.php:1021
 #: easyReservations_admin_resources.php:1353
 #: lib/modules/statistics/statistics.php:157
 msgid "persons"
-msgstr "personer"
+msgstr "henkilöä"
 
 #: easyReservations_admin_resources.php:1022
 #: easyReservations_admin_resources.php:1354
 msgid "adults"
-msgstr "vuxna"
+msgstr "aikuista"
 
 #: easyReservations_admin_resources.php:1023
 #: easyReservations_admin_resources.php:1355
 msgid "children's"
-msgstr "barns"
+msgstr "lasta"
 
 #: easyReservations_admin_resources.php:1028
 #: lib/modules/paypal/creditcards.php:322 lib/modules/paypal/paypal.php:192
@@ -1155,174 +1156,175 @@ msgstr "barns"
 #: lib/modules/paypal/paypal.php:269 lib/modules/sync/sync.php:31
 #: lib/modules/useredit/useredit.php:385
 msgid "Mode"
-msgstr "Läge"
+msgstr "Moodi"
 
 #: easyReservations_admin_resources.php:1030
 msgid "Price per reservation"
-msgstr "Pris per reservation"
+msgstr "Hinta varaukselta"
 
 #: easyReservations_admin_resources.php:1031
 msgid "Price per billing"
-msgstr "Pris per fakturering"
+msgstr "Hinta laskutukselta"
 
 #: easyReservations_admin_resources.php:1032
 msgid "Price per persons"
-msgstr "Pris per person"
+msgstr "Hinta henkilöiltä"
 
 #: easyReservations_admin_resources.php:1033
 msgid "Price per adults"
-msgstr "Pris per vuxen"
+msgstr "Hinta aikuisilta"
 
 #: easyReservations_admin_resources.php:1034
 msgid "Price per children's"
-msgstr "Pris per barn"
+msgstr "Hinta lapsilta"
 
 #: easyReservations_admin_resources.php:1035
 #, php-format
 msgid "Price per billing %s and persons"
-msgstr "Pris per fakturering %s och personer"
+msgstr "Hinta laskutukselta %s ja henkilöiltä"
 
 #: easyReservations_admin_resources.php:1036
 #, php-format
 msgid "Price per billing %s and adults"
-msgstr "Pris per fakturering %s och vuxna"
+msgstr "Hinta laskutukselta %s ja aikuisilta"
 
 #: easyReservations_admin_resources.php:1037
 #, php-format
 msgid "Price per billing %s and children's"
-msgstr "Pris per fakturering %s och barn"
+msgstr "Hinta laskutukselta %s ja lapsilta"
 
 #: easyReservations_admin_resources.php:1038
 msgid "Percent"
-msgstr "Procent"
+msgstr "Prosentti"
 
+# hmm
 #: easyReservations_admin_resources.php:1041
 msgid "Only the first condition match from high to low will be given"
-msgstr "Endast det första villkoret matchar från hög till låg kommer att ges"
+msgstr "Näytetään vain ensimmäinen korkea-alhainen-hakuehdon osuma"
 
 #: easyReservations_admin_resources.php:1051
 msgid "Extra Charge"
-msgstr "Extra Kostnad"
+msgstr "Ekstran veloitus"
 
 #: easyReservations_admin_resources.php:1053
 msgid "Change base price"
-msgstr "Ändra standardpris"
+msgstr "Muuta perushintaa"
 
 #: easyReservations_admin_resources.php:1062
 #: easyReservations_admin_resources.php:1348
 msgid "Add filter"
-msgstr "Lägg till filter"
+msgstr "Lisää suodin"
 
 #: easyReservations_admin_resources.php:1070
 msgid "Resources Numbers/Names"
-msgstr "Resursers nummer/namn"
+msgstr "Resurssien numerot/nimet"
 
 #: easyReservations_admin_resources.php:1108
 msgid "Edit filter"
-msgstr "Redigera filter"
+msgstr "Muokkaa suodinta"
 
 #: easyReservations_admin_resources.php:1352
 msgid "visits"
-msgstr "besök"
+msgstr "käyntiä"
 
 #: easyReservations_admin_resources.php:1404
 msgid "Copy resource"
-msgstr "Kopiera resurs"
+msgstr "Kopioi resurssi"
 
 #: easyReservations_admin_resources.php:1404
 msgid "Add resource"
-msgstr "Lägg till resurs"
+msgstr "Lisää resurssi"
 
 #: easyReservations_admin_resources.php:1409
 msgid ""
 "This will add a custom post that's private and only visible in forms and "
 "admin"
 msgstr ""
-"Detta lägger till ett eget fält som är privat och enbart synligt i formulär "
-"och admin."
+"Tämä lisää oman julkaisun, joka on yksityinen ja näkyy vain lomakkeissa ja "
+"ylläpidossa"
 
 #: easyReservations_admin_resources.php:1412
 msgid "Resource's Title"
-msgstr "Resursens rubrik"
+msgstr "Resurssin otsikko"
 
 #: easyReservations_admin_resources.php:1416
 msgid "Resource's Content"
-msgstr "Resursens innehåll"
+msgstr "Resurssin sisältö"
 
 #: easyReservations_admin_resources.php:1420
 msgid "Resource Image"
-msgstr "Bild för resurs"
+msgstr "Resurssin kuva"
 
 #: easyReservations_admin_settings.php:14
 msgid "Database cleaned"
-msgstr "Databasen rensad"
+msgstr "Tietokanta puhdistettu"
 
 #: easyReservations_admin_settings.php:18
 #: easyReservations_form_shortcode.php:70 lib/functions/ajax.php:231
 #: lib/modules/coupons/coupons.php:134 lib/modules/invoice/invoice.php:357
 #: lib/modules/paypal/creditcards.php:280 lib/modules/paypal/paypal.php:71
 msgid "Back"
-msgstr "Tillbaka"
+msgstr "Takaisin"
 
 #: easyReservations_admin_settings.php:33
 msgid "General settings saved"
-msgstr "Generella inställningar sparade"
+msgstr "Yleiset asetukset tallennettu"
 
 #: easyReservations_admin_settings.php:137
 msgid "Email settings saved"
-msgstr "E-post inställningar sparade"
+msgstr "Sähköpostiasetukset tallennettu"
 
 #: easyReservations_admin_settings.php:153
 #, php-format
 msgid "Form%ssaved"
-msgstr "Formulär%ssparad"
+msgstr "Lomake %s tallennettu"
 
 #: easyReservations_admin_settings.php:160
 msgid "Permissions changed"
-msgstr "Behörigheter ändrade"
+msgstr "Käyttöoikeuksia muutettu"
 
 #: easyReservations_admin_settings.php:166
 #, php-format
 msgid "Form %s has been deleted"
-msgstr "Formulär %s har raderats"
+msgstr "Lomake %s poistettu"
 
 #: easyReservations_admin_settings.php:178
 #, php-format
 msgid "Form %s has been added"
-msgstr "Formulär %s har lagts till"
+msgstr "Lomake %s lisätty"
 
 #: easyReservations_admin_settings.php:179
 msgid "Please enter a name for the form"
-msgstr "Ange ett namn för formuläret"
+msgstr "Anna lomakkeelle nimi"
 
 #: easyReservations_admin_settings.php:199
 msgid "Reservations Settings"
-msgstr "Inställningar för reservationen"
+msgstr "Varausasetukset"
 
 #: easyReservations_admin_settings.php:204
 msgid "General"
-msgstr "Generellt"
+msgstr "Yleiset"
 
 #: easyReservations_admin_settings.php:205
 #: js/tinyMCE/tinyMCE_shortcode_add.php:81
 #: js/tinyMCE/tinyMCE_shortcode_add.php:119 lib/modules/search/search.php:33
 msgid "Form"
-msgstr "Formulär"
+msgstr "Lomake"
 
 #: easyReservations_admin_settings.php:207
 #: easyReservations_admin_settings.php:906
 #: easyReservations_admin_settings.php:1047
 #: lib/modules/htmlmails/htmlmails.php:130
 msgid "Custom"
-msgstr "Eget"
+msgstr "Oma"
 
 #: easyReservations_admin_settings.php:209
 msgid "Emails"
-msgstr "E-post"
+msgstr "Sähköpostit"
 
 #: easyReservations_admin_settings.php:211
 msgid "About"
-msgstr "Om"
+msgstr "Tietoja"
 
 #: easyReservations_admin_settings.php:256
 msgid "Wordpress"
@@ -1330,7 +1332,7 @@ msgstr "Wordpress"
 
 #: easyReservations_admin_settings.php:256
 msgid "Grey"
-msgstr "Grå"
+msgstr "Harmaa"
 
 #: easyReservations_admin_settings.php:257
 #: easyReservations_admin_settings.php:300
@@ -1340,80 +1342,80 @@ msgstr "Premium"
 
 #: easyReservations_admin_settings.php:262
 msgid "minutes"
-msgstr "minuter"
+msgstr "minuuttia"
 
 #: easyReservations_admin_settings.php:262
 msgid "hour"
-msgstr "timme"
+msgstr "tunti"
 
 #: easyReservations_admin_settings.php:262
 #: lib/modules/hourlycal/hourlycal.php:198
 msgid "hours"
-msgstr "timmar"
+msgstr "tuntia"
 
 #: easyReservations_admin_settings.php:262
 msgid "days"
-msgstr "dagar"
+msgstr "päivää"
 
 #: easyReservations_admin_settings.php:265
 msgid "Support email"
-msgstr "Support e-post"
+msgstr "Tukisähköposti"
 
 #: easyReservations_admin_settings.php:266
 msgid "Money format"
-msgstr "Pengar format"
+msgstr "Rahan muoto"
 
 #: easyReservations_admin_settings.php:266
 msgid "after"
-msgstr "efter"
+msgstr "jälkeen"
 
 #: easyReservations_admin_settings.php:266
 msgid "before"
-msgstr "före"
+msgstr "ennen"
 
 #: easyReservations_admin_settings.php:266
 msgid "Whitespace between price and currency sign"
-msgstr "Mellanslag mellan pris och valutasymbol"
+msgstr "Välilyönti hinnan ja valuuttamerkin välissä"
 
 #: easyReservations_admin_settings.php:266
 msgid "Th. seperator"
-msgstr "Tusenavskiljare"
+msgstr "Tuhaterotin"
 
 #: easyReservations_admin_settings.php:266
 msgid "Dec. seperator"
-msgstr "Öresavskiljare"
+msgstr "Desim.erotin"
 
 #: easyReservations_admin_settings.php:266
 msgid "show decimals"
-msgstr "visa decimaler"
+msgstr "näytä desimaalit"
 
 #: easyReservations_admin_settings.php:266
 msgid "round"
-msgstr "avrunda"
+msgstr "pyöristä"
 
 #: easyReservations_admin_settings.php:266
 msgid "Example"
-msgstr "Exempel"
+msgstr "Esimerkki"
 
 #: easyReservations_admin_settings.php:267
 msgid "Date format"
-msgstr "Datumformat"
+msgstr "Pvm muoto"
 
 #: easyReservations_admin_settings.php:268
 msgid ""
 "Enable display of time and that the time gets used to calculate the billing "
 "units instead of only the date"
 msgstr ""
-"Aktivera visning av tid och att tiden vänjer sig vid att beräkna "
-"faktureringsheter istället för endast datum"
+"Ota ajan näyttö käyttöön ja laske laskutusyksiköt kellonajan mukaan pelkän "
+"päivämäärän sijasta"
 
 #: easyReservations_admin_settings.php:269
 msgid "Admin Style"
-msgstr "Adminutseende"
+msgstr "Ylläpidon tyyli"
 
 #: easyReservations_admin_settings.php:270
 msgid "Merge resources"
-msgstr "Slå samman resurser"
+msgstr "Yhdistä resurssit"
 
 #: easyReservations_admin_settings.php:270
 #, php-format
@@ -1421,69 +1423,69 @@ msgid ""
 "Only allow %s reservations at the same time in all resources regardless of "
 "the resource counts"
 msgstr ""
-"Tillåt endast %s reservationer samtidigt i alla resurser oavsett att resurs "
-"räknas"
+"Salli vain %s kaikkien resurssien samanaikaista varausta riippumatta "
+"resurssin lukumäärästä"
 
 #: easyReservations_admin_settings.php:271
 msgid "Block time"
-msgstr "Blockera tid"
+msgstr "Estä aika"
 
 #: easyReservations_admin_settings.php:271
 msgid "Block"
-msgstr "Blockera"
+msgstr "Estä"
 
 #: easyReservations_admin_settings.php:271
 msgid "before and"
-msgstr "före och"
+msgstr "ennen ja"
 
 #: easyReservations_admin_settings.php:271
 msgid "after reservations"
-msgstr "efter reservationer"
+msgstr "varausten jälkeen"
 
 #: easyReservations_admin_settings.php:272
 msgid "Tutorial"
-msgstr "Guide"
+msgstr "Opas"
 
 #: easyReservations_admin_settings.php:272
 msgid "Enable tutorial mode"
-msgstr "Aktivera guideläge"
+msgstr "Ota opastila käyttöön"
 
 #: easyReservations_admin_settings.php:272
 #: easyReservations_admin_settings.php:1104
 msgid "Reset"
-msgstr "Återställ"
+msgstr "Palauta"
 
 #: easyReservations_admin_settings.php:273
 msgid "Uninstall"
-msgstr "Avinstallera"
+msgstr "Poista asennus"
 
 #: easyReservations_admin_settings.php:273
 msgid "Delete settings, reservations and resources"
-msgstr "Radera inställningar, reservationer och resurser vid avinstallation"
+msgstr "Poista asetukset, varaukset ja resurssit"
 
 #: easyReservations_admin_settings.php:276
 msgid "Important guests"
-msgstr "Viktiga gäster"
+msgstr "Tärkeät asiakkaat"
 
 #: easyReservations_admin_settings.php:276
 msgid ""
 "Enter emails of important guests; saperated by comma. Reservations with this "
 "email will be highlighted."
 msgstr ""
-"Ange e-post för viktiga gäster; separerade med kommatecken. Bokningar med "
-"detta e-postmeddelande kommer att markeras."
+"Kirjoita tärkeiden asiakkaiden sähköpostiosoitteet, pilkulla erotettuina. "
+"Näillä osoitteilla tehdyt varaukset korostetaan."
 
 #: easyReservations_admin_settings.php:277
 msgid "Execute scripts"
-msgstr "Köra skript"
+msgstr "Suorita komentosarjoja"
 
 #: easyReservations_admin_settings.php:277
 msgid "After successful reservation."
-msgstr "Efter successfull reservation"
+msgstr "Onnistuneen varauksen jälkeen."
 
 #: easyReservations_admin_settings.php:278
 msgid "General Settings"
-msgstr "Allmänna inställningar"
+msgstr "Yleiset asetukset"
 
 #: easyReservations_admin_settings.php:278
 #: easyReservations_admin_settings.php:1362 lib/functions/admin.php:492
@@ -1493,109 +1495,109 @@ msgstr "Allmänna inställningar"
 #: lib/modules/search/attributes.php:128 lib/modules/useredit/useredit.php:372
 #: lib/modules/useredit/useredit.php:460
 msgid "Save Changes"
-msgstr "Spara ändringar"
+msgstr "Tallenna muutokset"
 
 #: easyReservations_admin_settings.php:294
 #: easyReservations_admin_settings.php:1461
 msgid "Documentation"
-msgstr "Dokumentation"
+msgstr "Ohjeet"
 
 #: easyReservations_admin_settings.php:297
 #: easyReservations_admin_settings.php:1464
 msgid "Report bug"
-msgstr "Rapportera bugg"
+msgstr "Ilmoita virheestä"
 
 #: easyReservations_admin_settings.php:303
 #: easyReservations_admin_settings.php:1470
 msgid "Rate the Plugin"
-msgstr "Betygsätt tillägget"
+msgstr "Arvioi lisäosa"
 
 #: easyReservations_admin_settings.php:313
 msgid "Clean Database"
-msgstr "Rensa databas"
+msgstr "Puhdista tietokanta"
 
 #: easyReservations_admin_settings.php:313
 msgid "Clean"
-msgstr "Rensa"
+msgstr "Puhdista"
 
 #: easyReservations_admin_settings.php:319
 msgid "Delete all unapproved old reservations"
-msgstr "Radera alla icke godkända gamla reservationer"
+msgstr "Poista kaikki hyväksymättömät vanhat varaukset"
 
 #: easyReservations_admin_settings.php:330
 msgid "Change Permissions"
-msgstr "Ändra behörigheter"
+msgstr "Muuta käyttöoikeuksia"
 
 #: easyReservations_admin_settings.php:330
 msgid "Set"
-msgstr "Ställ"
+msgstr "Aseta"
 
 #: easyReservations_admin_settings.php:335 lib/functions/admin.php:20
 msgid "Dashboard"
-msgstr "Kontrollpanel"
+msgstr "Yhteenveto"
 
 #: easyReservations_admin_settings.php:339
 #: easyReservations_admin_settings.php:712
 #: easyReservations_admin_settings.php:1000 lib/functions/admin.php:21
 msgid "Resources"
-msgstr "Resurser"
+msgstr "Resurssit"
 
 #: easyReservations_admin_settings.php:343 lib/core/core.php:217
 #: lib/functions/admin.php:339 lib/modules/statistics/statistics.php:24
 msgid "Statistics"
-msgstr "Statistik"
+msgstr "Tilastot"
 
 #: easyReservations_admin_settings.php:347 lib/functions/admin.php:23
 #: lib/modules/paypal/paypal.php:184 lib/modules/useredit/useredit.php:364
 msgid "Settings"
-msgstr "Inställningar"
+msgstr "Asetukset"
 
 #: easyReservations_admin_settings.php:401
 #: easyReservations_admin_settings.php:403
 #: js/tinyMCE/tinyMCE_shortcode_add.php:9
 msgid "Standard"
-msgstr "Standard"
+msgstr "Normaali"
 
 #: easyReservations_admin_settings.php:425
 #: easyReservations_admin_settings.php:595
 #: easyReservations_admin_settings.php:951
 #: lib/modules/htmlmails/htmlmails.php:116
 msgid "Arrival date"
-msgstr "Ankomst datum"
+msgstr "Tulopäivä"
 
 #: easyReservations_admin_settings.php:426
 #: easyReservations_admin_settings.php:625
 #: easyReservations_admin_settings.php:956
 msgid "Arrival hour"
-msgstr "Ankomst timme"
+msgstr "Tuloajan tunnit"
 
 #: easyReservations_admin_settings.php:427
 #: easyReservations_admin_settings.php:655
 #: easyReservations_admin_settings.php:961
 msgid "Arrival minute"
-msgstr "Ankomst minut"
+msgstr "Tuloajan minuutit"
 
 #: easyReservations_admin_settings.php:428
 msgid "Departure Date"
-msgstr "Avresedatum"
+msgstr "Lähtöpäivä"
 
 #: easyReservations_admin_settings.php:429
 #: easyReservations_admin_settings.php:640
 #: easyReservations_admin_settings.php:976
 msgid "Departure hour"
-msgstr "Avrese timme"
+msgstr "Lähtöajan tunnit"
 
 #: easyReservations_admin_settings.php:430
 #: easyReservations_admin_settings.php:670
 #: easyReservations_admin_settings.php:981
 msgid "Departure minute"
-msgstr "Avrese minut"
+msgstr "Lähtöajan minuutit"
 
 #: easyReservations_admin_settings.php:431
 #: easyReservations_admin_settings.php:685
 #: easyReservations_admin_settings.php:971
 msgid "Billing units"
-msgstr "Faktureringsheter"
+msgstr "Laskutusyksiköt"
 
 #: easyReservations_admin_settings.php:469
 #: easyReservations_admin_settings.php:599
@@ -1605,99 +1607,100 @@ msgstr "Faktureringsheter"
 #: easyReservations_admin_settings.php:897
 #: easyReservations_admin_settings.php:1246 lib/modules/lang/lang.php:112
 msgid "Value"
-msgstr "Värde"
+msgstr "Arvo"
 
 #: easyReservations_admin_settings.php:497
 msgid "Display featured image"
-msgstr "Visa presenterade bilden"
+msgstr "Näytä pääkuva"
 
 #: easyReservations_admin_settings.php:498
 #: js/tinyMCE/tinyMCE_shortcode_add.php:195
 #: lib/modules/hourlycal/hourlycal.php:193 lib/modules/search/search.php:29
 #: lib/modules/search/search.php:50
 msgid "Width"
-msgstr "Bredd"
+msgstr "Leveys"
 
 #: easyReservations_admin_settings.php:499 lib/modules/search/search.php:50
 msgid "Height"
-msgstr "Höjd"
+msgstr "Korkeus"
 
+# hmm
 #: easyReservations_admin_settings.php:507
 msgid "Display content with"
-msgstr "Visa innehåll med"
+msgstr "Näytettävä sisällön pituus"
 
 #: easyReservations_admin_settings.php:507
 #: easyReservations_admin_settings.php:515
 msgid "characters"
-msgstr "tecken"
+msgstr "merkkiä"
 
 #: easyReservations_admin_settings.php:515
 msgid "Display excerpt with"
-msgstr "Visa utdrag med"
+msgstr "Näytettävä otteen pituus"
 
 #: easyReservations_admin_settings.php:530
 msgid "Required"
-msgstr "Krävs"
+msgstr "Pakollinen"
 
 #: easyReservations_admin_settings.php:539
 msgid "Price per billing unit"
-msgstr "Pris per faktureringsenhet"
+msgstr "Hinta laskutusyksiköltä"
 
 #: easyReservations_admin_settings.php:557
 #: js/tinyMCE/tinyMCE_shortcode_add.php:127
 #: js/tinyMCE/tinyMCE_shortcode_add.php:187 lib/modules/search/search.php:21
 msgid "Style"
-msgstr "Stil"
+msgstr "Tyyli"
 
 #: easyReservations_admin_settings.php:565
 msgid "Max-length"
-msgstr "Max-längd"
+msgstr "Maks.pituus"
 
 #: easyReservations_admin_settings.php:571
 msgid "Disabled"
-msgstr "Inaktiverad"
+msgstr "Pois käytöstä"
 
 #: easyReservations_admin_settings.php:577
 msgid "Errors"
-msgstr "Errors"
+msgstr "Virheet"
 
 #: easyReservations_admin_settings.php:578
 msgid ""
 "Shows the warning messages in form. Is required for the multiple "
 "reservations form function."
 msgstr ""
-"Visar varningsmeddelanden i formuläret. Krävs för flera bokningars formulär "
-"funktion."
+"Näyttää varoitussanomat lomakkeissa. Pakollinen useiden varausten "
+"lomaketoiminnossa."
 
 #: easyReservations_admin_settings.php:586
 msgid "Message"
-msgstr "Meddelande"
+msgstr "Sanoma"
 
 #: easyReservations_admin_settings.php:596
 msgid "Field with datepicker for the arrival date. Is required in any form."
-msgstr "Fält med datumväljare för ankomstdatumet. Krävs i något formulär."
+msgstr "Tulopäivän valintakenttä. Pakollinen kaikissa lomakkeissa."
 
 #: easyReservations_admin_settings.php:610
 #: easyReservations_admin_settings.php:966
 #: lib/modules/htmlmails/htmlmails.php:117
 msgid "Departure date"
-msgstr "Avresedatum"
+msgstr "Tulopäivä"
 
 #: easyReservations_admin_settings.php:611
 msgid ""
 "Field with datepicker for the departure date. Can be replaced by billing "
 "units selection or deleted so that every reservation lasts one billing unit."
 msgstr ""
-"Fält med datumväljare för avresedatum. Kan ersättas av faktureringsenheters "
-"val eller tas bort så att varje bokning varar en faktureringsenhet."
+"Lähtöpäivän valintakenttä. Voidaan korvata laskutusyksiköiden valinnalla tai "
+"poistaa, jolloin jokainen varaus kestää yhden laskutusyksikön."
 
 #: easyReservations_admin_settings.php:626
 msgid ""
 "Select for arrival hour. Can be replaced by a hidden field and defaults to "
 "12:00 if not in form."
 msgstr ""
-"Välj för ankomst timme. Kan ersättas av ett dolt fält och standardvärden "
-"till 12.00, om det inte finns i formuläret."
+"Valitse tuloajan tunti. Voidaan korvata piilotetulla kentällä. Jos arvoa ei "
+"anneta lomakkeessa, käytetään oletusarvoa 12.00."
 
 #: easyReservations_admin_settings.php:629
 #: easyReservations_admin_settings.php:644
@@ -1709,67 +1712,69 @@ msgstr ""
 #: easyReservations_admin_settings.php:774
 #: easyReservations_admin_settings.php:819
 msgid "Selected"
-msgstr "Vald"
+msgstr "Valittu"
 
 #: easyReservations_admin_settings.php:641
 msgid ""
 "Select for departure hour. Can be replaced by a hidden field and defaults to "
 "12:00 if not in form."
 msgstr ""
-"Välj för avfärds timme. Kan ersättas av ett dolt fält och standardvärden "
-"till 12.00, om det inte finns i formuläret."
+"Valitse lähtöajan tunti. Voidaan korvata piilotetulla kentällä. Jos arvoa ei "
+"anneta lomakkeessa, käytetään oletusarvoa 12.00."
 
 #: easyReservations_admin_settings.php:656
 msgid "Select for arrival minute."
-msgstr "Välj för ankomst minut."
+msgstr "Valitse tuloajan minuutit."
 
 #: easyReservations_admin_settings.php:671
 msgid "Select for departure minute."
-msgstr "Välj för avfärds minut."
+msgstr "Valitse lähtöajan minuutit."
 
 #: easyReservations_admin_settings.php:686
 msgid ""
 "Select of billing units to define the length of stay. Can be replaced by "
 "depature date field or defaults to one billing unit if not in form."
 msgstr ""
-"Välj fakturerings enheter för att definiera längden på vistelsen. Kan "
-"ersättas av avrese datumfält eller standard till en faktureringsenheten om "
-"den inte finns i formuläretet."
+"Viipymisen laskutusyksiköiden valinta. Voidaan korvata lähtöpäiväkentällä. "
+"Jos arvoa ei anneta lomakkeessa, käytetään yhden laskutusyksikön oletusarvoa."
 
 #: easyReservations_admin_settings.php:713
 msgid ""
 "Select of resources. Is required and can only be replaced by hidden field. "
 "You can exclude resources with comma saperated IDs."
 msgstr ""
-"Välj resurser. Det krävs och kan endast bytas ut mot dolt fält. Du kan "
-"utesluta resurser med komma separerade IDs."
+"Resurssien valinta. On pakollinen ja voidaan korvata vain piilotetulla "
+"kentällä. Voit sulkea resursseja pois pilkulla erotetuilla tunnuksilla."
 
 #: easyReservations_admin_settings.php:721 lib/modules/search/search.php:41
 msgid "Exclude"
-msgstr "Exkludera"
+msgstr "Sulje pois"
 
 #: easyReservations_admin_settings.php:732
 msgid "Select of adults. Is required and can only be replaced by hidden field."
-msgstr "Välj för vuxna. Det krävs och kan endast bytas ut mot dolt fält."
+msgstr ""
+"Aikuisten valintakenttä. Pakollinen ja voidaan korvata vain piilotetulla "
+"kentällä."
 
 #: easyReservations_admin_settings.php:758
 #: lib/modules/useredit/useredit.php:789
 msgid "Children's"
-msgstr "Barn"
+msgstr "Lasten"
 
 #: easyReservations_admin_settings.php:759
 msgid "Select of children's. Can be replaced by hidden field or deleted."
-msgstr "Välj för barn. Kan ersättas av dolt fält eller tas bort."
+msgstr ""
+"Lasten valintakenttä. Voidaan poistaa tai korvata piilotetulla kentällä."
 
 #: easyReservations_admin_settings.php:786
 msgid "Text field for name. Is required in any form."
-msgstr "Textfält för namn. Krävs i någon form."
+msgstr "Nimen tekstikenttä. Pakollinen kaikissa lomakkeissa."
 
 #: easyReservations_admin_settings.php:801
 #: easyReservations_admin_settings.php:816
 #: easyReservations_admin_settings.php:867
 msgid "Text field for email. Is required in any form."
-msgstr "Textfält för e-post. Krävs i någon form."
+msgstr "Sähköpostin tekstikenttä. Pakollinen kaikissa lomakkeissa."
 
 #: easyReservations_admin_settings.php:832
 msgid ""
@@ -1777,45 +1782,44 @@ msgid ""
 "selection without the guest choosing or seeing it. They are helpful for "
 "special offers or forms for just one resource."
 msgstr ""
-"Datum och informationsfält kan ersättas av dolda fält för att tvinga "
-"inställningen utan gästen utsett eller ser det. De är till hjälp för "
-"specialerbjudanden eller formulär för bara en resurs."
+"Päivämäärä- ja tietokentät voidaan korvata piilotetuilla kentillä, jos "
+"valinta halutaan tehdä niin, ettei asiakas voi valita tai nähdä sitä. Ne "
+"ovat näppäriä erikoistarjouksissa tai vain yhden resurssin lomakkeissa."
 
 #: easyReservations_admin_settings.php:836
 #: easyReservations_admin_settings.php:1051
 msgid "Resources infobox"
-msgstr "Infobox resurser "
+msgstr "Resurssien tietokenttä"
 
 #: easyReservations_admin_settings.php:837
 msgid ""
 "Shows the information title, image, content and excerpt of the currently "
 "selected resource."
-msgstr ""
-"Visar titelinformationen, bild, innehåll och utdrag ur den valda resursen."
+msgstr "Näyttää valittuna olevan resurssin otsikon, kuvan, sisällön ja otteen."
 
 #: easyReservations_admin_settings.php:841
 msgid "Size"
-msgstr "Storlek"
+msgstr "Koko"
 
 #: easyReservations_admin_settings.php:843
 msgid "Big"
-msgstr "Stor"
+msgstr "Suuri"
 
 #: easyReservations_admin_settings.php:843
 msgid "Medium"
-msgstr "Medium"
+msgstr "Keskisuuri"
 
 #: easyReservations_admin_settings.php:847
 msgid "Featured image"
-msgstr "Dagens bild"
+msgstr "Pääkuva"
 
 #: easyReservations_admin_settings.php:851
 msgid "Show title"
-msgstr "Visa titel"
+msgstr "Näytä otsikko"
 
 #: easyReservations_admin_settings.php:856
 msgid "Content"
-msgstr "Innehåll"
+msgstr "Sisältö"
 
 #: easyReservations_admin_settings.php:866
 #: easyReservations_admin_settings.php:1056
@@ -1825,28 +1829,29 @@ msgstr "Captcha"
 
 #: easyReservations_admin_settings.php:870
 msgid "Color of code"
-msgstr "Färg på koden"
+msgstr "Koodin väri"
 
 #: easyReservations_admin_settings.php:872
 msgid "Black"
-msgstr "Svart"
+msgstr "Musta"
 
 #: easyReservations_admin_settings.php:872
 #: js/tinyMCE/tinyMCE_shortcode_add.php:128
 msgid "White"
-msgstr "Vit"
+msgstr "Valkoinen"
 
 #: easyReservations_admin_settings.php:880
 msgid "display price"
-msgstr "visa pris"
+msgstr "näytä hinta"
 
+# hmm
 #: easyReservations_admin_settings.php:881
 msgid "Shows the price as of selections."
-msgstr "Visar priset per val."
+msgstr "Näyttää valintojen mukaisen hinnan."
 
 #: easyReservations_admin_settings.php:884
 msgid "Text before price"
-msgstr "Text före pris"
+msgstr "Teksti ennen hintaa"
 
 #: easyReservations_admin_settings.php:893
 #: easyReservations_admin_settings.php:1103
@@ -1854,11 +1859,11 @@ msgstr "Text före pris"
 #: js/tinyMCE/tinyMCE_shortcode_add.php:154 lib/modules/search/search.php:61
 #: lib/modules/useredit/useredit.php:849 lib/modules/useredit/useredit.php:876
 msgid "Submit"
-msgstr "Skicka"
+msgstr "Lähetä"
 
 #: easyReservations_admin_settings.php:894
 msgid "Button to submit the form."
-msgstr "Knappen för att skicka formuläret."
+msgstr "Lomakkeen lähetyspainike."
 
 #: easyReservations_admin_settings.php:907
 #, php-format
@@ -1866,326 +1871,328 @@ msgid ""
 "Can be any form element, can have an impact on the price and are used to get "
 "more information. Define them %s first"
 msgstr ""
-"Kan vara någon formulär element, kan ha en inverkan på priset och används "
-"för att få mer information. Definiera dem %s först"
+"Voi olla mikä tahansa lomake-elementti, voi vaikuttaa hintaan ja käytetään "
+"lisätietojen saamiseen. Määritä ne %s ensin"
 
+# hmm
 #: easyReservations_admin_settings.php:910
 #: easyReservations_admin_settings.php:961
 #: easyReservations_admin_settings.php:981
 msgid "Select field"
-msgstr "Välj fält"
+msgstr "Valitse kenttä"
 
 #: easyReservations_admin_settings.php:938
 msgid "Date fields"
-msgstr "Datum fält"
+msgstr "Päivämääräkentät"
 
 #: easyReservations_admin_settings.php:945
 #: easyReservations_admin_settings.php:994
 #: easyReservations_admin_settings.php:1105
 #: easyReservations_admin_settings.php:1370
 msgid "Default"
-msgstr "Standard"
+msgstr "Oletus"
 
 #: easyReservations_admin_settings.php:951
 #: easyReservations_admin_settings.php:966
 msgid "Text field with datepicker"
-msgstr "Textfält med datumväljare"
+msgstr "Tekstikenttä päivämäärävalinnalla"
 
+# hmm
 #: easyReservations_admin_settings.php:956
 #: easyReservations_admin_settings.php:976
 msgid "Select field as of the time pattern selection"
-msgstr "Välj fält som av tids urvalsmönstret"
+msgstr "Valitse kenttä ajan valintaa varten"
 
 #: easyReservations_admin_settings.php:971
 msgid "Select field to choose length of stay"
-msgstr "Välj fältet för att välja vistelsens längd"
+msgstr "Valitse kenttä viipymisen pituuden valintaa varten"
 
 #: easyReservations_admin_settings.php:987
 msgid "Information fields"
-msgstr "Informations fält"
+msgstr "Tietokentät"
 
 #: easyReservations_admin_settings.php:1000
 msgid "Select of resource"
-msgstr "Välj resurs"
+msgstr "Resurssin valinta"
 
 #: easyReservations_admin_settings.php:1005
 msgid "Select field for adults"
-msgstr "Välj fält för vuxna"
+msgstr "Aikuisten valintakenttä"
 
 #: easyReservations_admin_settings.php:1010
 msgid "Select field for children's"
-msgstr "Välj fält för barn"
+msgstr "Lasten valintakenttä"
 
 #: easyReservations_admin_settings.php:1015
 msgid "Text field for name"
-msgstr "Textfält för namn"
+msgstr "Nimen tekstikenttä"
 
 #: easyReservations_admin_settings.php:1020
 msgid "Text field for mail"
-msgstr "Textfält för e-post"
+msgstr "Sähköpostin tekstikenttä"
 
 #: easyReservations_admin_settings.php:1025
 msgid "Select field of country's"
-msgstr "Välj fält för land"
+msgstr "Maan valintakenttä"
 
 #: easyReservations_admin_settings.php:1031
 msgid "Special fields"
-msgstr "Särskilda fält"
+msgstr "Erikoiskentät"
 
 #: easyReservations_admin_settings.php:1043
 msgid "Fix information and hide from guest"
-msgstr "Fixa information och dölj från gäst"
+msgstr "Aseta tiedot pysyvästi ja piilota asiakkailta"
 
 #: easyReservations_admin_settings.php:1047
 msgid "Custom form elements to get more information"
-msgstr "Anpassade formulärelement för att få mer information"
+msgstr "Omat lomake-elementit lisätietojen saamiseksi"
 
 #: easyReservations_admin_settings.php:1051
 msgid "Displays information of currently selected resource"
-msgstr "Visar information om valda resursen"
+msgstr "Näyttää valittuna olevan resurssin tiedot"
 
 #: easyReservations_admin_settings.php:1056
 msgid "To verify only humans use the form"
-msgstr "För att verifiera endast människor som använder formuläret"
+msgstr "Varmistaa, että ihminen täyttää lomakkeen"
 
 #: easyReservations_admin_settings.php:1060
 #: js/tinyMCE/tinyMCE_shortcode_add.php:165
 #: lib/modules/useredit/useredit.php:911
 msgid "Show price"
-msgstr "Visa pris"
+msgstr "Näytä hinta"
 
 #: easyReservations_admin_settings.php:1060
 msgid "Display price live"
-msgstr "Visa pris live"
+msgstr "Näytä hinta reaaliajassa"
 
 #: easyReservations_admin_settings.php:1064
 msgid "Error"
-msgstr "Error"
+msgstr "Virhe"
 
 #: easyReservations_admin_settings.php:1064
 msgid "Displays errors"
-msgstr "Visa errors"
+msgstr "Näytä virheet"
 
 #: easyReservations_admin_settings.php:1068
 msgid "Submit button"
-msgstr "Skicka knapp"
+msgstr "Lähetä-painike"
 
 #: easyReservations_admin_settings.php:1068
 msgid "Button to submit the form"
-msgstr "Knappen för att skicka formuläret"
+msgstr "Lomakkeen lähetyspainike"
 
 #: easyReservations_admin_settings.php:1073
 msgid "Format"
-msgstr "Format"
+msgstr "Muoto"
 
 #: easyReservations_admin_settings.php:1078
 msgid "Label"
-msgstr "Etikett"
+msgstr "Nimike"
 
 #: easyReservations_admin_settings.php:1078
 msgid "Used for description of tags. Should be before the tag."
-msgstr "Används för beskrivning av taggar. Bör vara före taggen."
+msgstr "Käytetään tunnisteiden kuvaamiseen. Tulee olla ennen tunnistetta."
 
 #: easyReservations_admin_settings.php:1081
 msgid "Sub-label"
-msgstr "Sub-etikett"
+msgstr "Alanimike"
 
 #: easyReservations_admin_settings.php:1081
 msgid "Small sub-label. Should be used inside labels."
-msgstr "Liten sub-etikett. Bör användas inuti etiketter."
+msgstr "Pieni alanimike. Käytetään nimikkeiden sisällä."
 
 #: easyReservations_admin_settings.php:1084
 msgid "Row"
-msgstr "Rad"
+msgstr "Rivi"
 
 #: easyReservations_admin_settings.php:1084
 msgid ""
 "To use multiple elements in one row. It may be nesecarry to define their "
 "width's."
 msgstr ""
-"Om du vill använda flera element i en rad. Det kan vara nödvändigt att "
-"definiera deras bredd."
+"Jos haluat käyttää useita elementtejä yhdellä rivillä. Voi edellyttää "
+"elementtien leveyden määrittämistä."
 
 #: easyReservations_admin_settings.php:1087
 msgid "Bold"
-msgstr "Fet"
+msgstr "Lihavoitu"
 
 #: easyReservations_admin_settings.php:1087
 msgid "Bold text"
-msgstr "Fet text"
+msgstr "Lihavoi teksti"
 
 #: easyReservations_admin_settings.php:1090
 msgid "Italic"
-msgstr "Kursiv"
+msgstr "Kursivoitu"
 
 #: easyReservations_admin_settings.php:1090
 msgid "Italic text"
-msgstr "Kursiv text"
+msgstr "Kursivoi teksti"
 
 #: easyReservations_admin_settings.php:1093
 msgid "Headline"
-msgstr "Rubrik"
+msgstr "Otsikko"
 
 #: easyReservations_admin_settings.php:1093
 msgid "Big headline."
-msgstr "Stor rubrik"
+msgstr "Iso otsikko."
 
 #: easyReservations_admin_settings.php:1096
 msgid "Sub-headline"
-msgstr "Under rubrik"
+msgstr "Alaotsikko"
 
 #: easyReservations_admin_settings.php:1096
 msgid "Smaller headline to divide the form."
-msgstr "Mindre rubrik för att dela upp formuläret."
+msgstr "Pienempi otsikko lomakkeen jaotteluun."
 
 #: easyReservations_admin_settings.php:1168
 msgid "Custom field edited"
-msgstr "Anpassat fält redigerat"
+msgstr "Omaa kenttää muokattu"
 
 #: easyReservations_admin_settings.php:1173
 msgid "Added custom field"
-msgstr "Ytterliggare egna fält"
+msgstr "Oma kenttä lisätty"
 
 #: easyReservations_admin_settings.php:1179
 msgid "Custom field deleted"
-msgstr "Anpassat fält raderat"
+msgstr "Oma kenttä poistettu"
 
 #: easyReservations_admin_settings.php:1193
 msgid "Add and edit custom fields"
-msgstr "Lägg till och redigera egna fält"
+msgstr "Lisää ja muokkaa omia kenttiä"
 
 #: easyReservations_admin_settings.php:1208
 msgid "Price field"
-msgstr "Pris fält"
+msgstr "Hinta-kenttä"
 
 #: easyReservations_admin_settings.php:1212
 msgid "Field has influence on price"
-msgstr "Fältet har inflytande på pris"
+msgstr "Kenttä vaikuttaa hintaan"
 
 #: easyReservations_admin_settings.php:1217
 msgid "Form Element"
-msgstr "Formulär element"
+msgstr "Lomake-elementti"
 
 #: easyReservations_admin_settings.php:1247
 msgid "Else"
-msgstr "Eller"
+msgstr "Muu"
 
 #: easyReservations_admin_settings.php:1281
 msgid "No custom fields defined"
-msgstr "Inga anpassade fält definierade"
+msgstr "Omia kenttiä ei ole määritetty"
 
 #: easyReservations_admin_settings.php:1361
 #: lib/modules/paypal/creditcards.php:391 overview.php:162
 msgid "Active"
-msgstr "Aktiv"
+msgstr "Aktiivinen"
 
 #: easyReservations_admin_settings.php:1369
 msgid "Subject"
-msgstr "Ärende"
+msgstr "Aihe"
 
 #: easyReservations_admin_settings.php:1387
 msgid "Tags"
-msgstr "Taggar"
+msgstr "Tunnisteet"
 
 #: easyReservations_admin_settings.php:1394
 msgid "wordwrap"
-msgstr "radbrytning"
+msgstr "rivitys"
 
 #: easyReservations_admin_settings.php:1395
 msgid "message from admin"
-msgstr "meddelande från admin"
+msgstr "viesti ylläpitäjältä"
 
 #: easyReservations_admin_settings.php:1397
 #: lib/modules/invoice/invoice.php:585
 msgid "name"
-msgstr "namn"
+msgstr "nimi"
 
 #: easyReservations_admin_settings.php:1398
 #: lib/modules/invoice/invoice.php:586
 msgid "email"
-msgstr "e-post"
+msgstr "sähköposti"
 
 #: easyReservations_admin_settings.php:1399
 #: lib/modules/invoice/invoice.php:582
 msgid "arrival date"
-msgstr "ankomstdatum"
+msgstr "tulopäivä"
 
 #: easyReservations_admin_settings.php:1400
 #: lib/modules/invoice/invoice.php:583
 msgid "departure date"
-msgstr "avresedatum"
+msgstr "lähtöpäivä"
 
 #: easyReservations_admin_settings.php:1401
 #: lib/modules/invoice/invoice.php:584
 msgid "amount of billing units"
-msgstr "mängd av faktureringsenheter"
+msgstr "laskutusyksikköjen määrä"
 
 #: easyReservations_admin_settings.php:1402
 #: lib/modules/invoice/invoice.php:589
 msgid "amount of adults and children"
-msgstr "mängd vuxna och barn"
+msgstr "aikuisten ja lasten määrä"
 
 #: easyReservations_admin_settings.php:1403
 #: lib/modules/invoice/invoice.php:590
 msgid "amount of adults"
-msgstr "antal vuxna"
+msgstr "aikuisten määrä"
 
 #: easyReservations_admin_settings.php:1404
 #: lib/modules/invoice/invoice.php:591
 msgid "amount of children"
-msgstr "mängd av barn"
+msgstr "lasten määrä"
 
 #: easyReservations_admin_settings.php:1405
 #: lib/modules/invoice/invoice.php:592
 msgid "country of guest"
-msgstr "gästens land"
+msgstr "asiakkaan maa"
 
 #: easyReservations_admin_settings.php:1406
 msgid "name of resource"
-msgstr "namn på resurs"
+msgstr "resurssin nimi"
 
 #: easyReservations_admin_settings.php:1407
 msgid "name of resource number"
-msgstr "namn på resursnummer"
+msgstr "resurssinumeron nimi"
 
 #: easyReservations_admin_settings.php:1408
 #: lib/modules/invoice/invoice.php:594
 msgid "price of reservation"
-msgstr "pris på bokningen"
+msgstr "varauksen hinta"
 
 #: easyReservations_admin_settings.php:1409
 #: lib/modules/invoice/invoice.php:595
 msgid "paid amount"
-msgstr "inbetalt belopp"
+msgstr "maksettu summa"
 
 #: easyReservations_admin_settings.php:1410
 msgid "custom fields"
-msgstr "egna fält"
+msgstr "omat kentät"
 
 #: easyReservations_admin_settings.php:1411
 msgid "show changes after edits"
-msgstr "visa ändringar efter redigering"
+msgstr "näytä muutokset muokkausten jälkeen"
 
 #: easyReservations_admin_settings.php:1412
 msgid "link to user control panel"
-msgstr "länk till användar kontrollpanel"
+msgstr "linkki käyttäjän hallintapaneeliin"
 
 #: easyReservations_admin_settings.php:1429 lib/core/core.php:324
 #: lib/modules/htmlmails/htmlmails.php:134
 msgid "Changelog"
-msgstr "Ändringslogg"
+msgstr "Muutosloki"
 
 #: easyReservations_admin_settings.php:1473
 msgid "Chrome Extension"
-msgstr "Chrome Extension"
+msgstr "Chrome-lisäosa"
 
 #: easyReservations_admin_settings.php:1480
 msgid "Latest News"
-msgstr "Senaste Nytt"
+msgstr "Uusimmat uutiset"
 
 #: easyReservations_form_shortcode.php:22 lib/modules/search/search.php:208
 msgid "Room"
-msgstr "Rum"
+msgstr "Huone"
 
 #: easyReservations_form_shortcode.php:23
 #: js/tinyMCE/tinyMCE_shortcode_add.php:99 lib/modules/paypal/paypal.php:197
@@ -2193,36 +2200,36 @@ msgstr "Rum"
 #: lib/modules/paypal/paypal.php:245 lib/modules/paypal/paypal.php:258
 #: lib/modules/paypal/paypal.php:274 lib/modules/useredit/useredit.php:309
 msgid "Cancel"
-msgstr "Avbryt"
+msgstr "Peruuta"
 
 #: easyReservations_form_shortcode.php:24
 #: lib/modules/useredit/useredit.php:487
 msgid "Your reservation is complete"
-msgstr "Din reservation är utförd"
+msgstr "Varauksesi on valmis"
 
 #: easyReservations_form_shortcode.php:25
 msgid "Your reservation was sent"
-msgstr "Din bokning skickades"
+msgstr "Varauksesi lähetettiin"
 
 #: easyReservations_form_shortcode.php:26
 msgid "Reservation was validated succesfully"
-msgstr "Reservationen har validerats succefullt"
+msgstr "Varauksesi vahvistus onnistui"
 
 #: easyReservations_form_shortcode.php:432
 msgid "Add another reservation"
-msgstr "Lägg till ytterligare reservation"
+msgstr "Lisää toinen varaus"
 
 #: easyReservations_form_shortcode.php:433
 msgid "Submit all reservations"
-msgstr "Skicka alla reservationer"
+msgstr "Lähetä kaikki varaukset"
 
 #: js/tinyMCE/tinyMCE_shortcode_add.php:5
 msgid "You are not allowed to access this file."
-msgstr "Du tillåts inte få åtkomst till denna fil."
+msgstr "Sinulla ei ole tämän tiedoston käyttöoikeutta."
 
 #: js/tinyMCE/tinyMCE_shortcode_add.php:20
 msgid "easyReservations Shortcode Creator"
-msgstr "easyReservations Shortcode Skaparen"
+msgstr "easyReservations lyhytkoodinluontiohjelma"
 
 #: js/tinyMCE/tinyMCE_shortcode_add.php:77
 #: lib/modules/hourlycal/hourlycal.php:206 lib/modules/paypal/paypal.php:200
@@ -2230,19 +2237,19 @@ msgstr "easyReservations Shortcode Skaparen"
 #: lib/modules/paypal/paypal.php:261 lib/modules/paypal/paypal.php:278
 #: lib/modules/search/attributes.php:122
 msgid "Select"
-msgstr "Välj"
+msgstr "Valitse"
 
 #: js/tinyMCE/tinyMCE_shortcode_add.php:80
 msgid "choose"
-msgstr "välj"
+msgstr "valitse"
 
 #: js/tinyMCE/tinyMCE_shortcode_add.php:82 lib/modules/search/search.php:57
 msgid "Calendar"
-msgstr "Kalender"
+msgstr "Kalenteri"
 
 #: js/tinyMCE/tinyMCE_shortcode_add.php:84
 msgid "Choose type of shortcode"
-msgstr "Välj typ av kortkod"
+msgstr "Valitse lyhytkoodin tyyppi"
 
 #: js/tinyMCE/tinyMCE_shortcode_add.php:90
 #: js/tinyMCE/tinyMCE_shortcode_add.php:206
@@ -2250,84 +2257,85 @@ msgid ""
 "The shortcodes wont work if more then one of the same type are on the same "
 "site"
 msgstr ""
-"Kortkoden fungerar inte om mer än en av samma typ används på samma sida"
+"Lyhytkoodit eivät toimi, jos samalla sivustolla on useita samantyyppisiä "
+"lyhytkoodeja"
 
 #: js/tinyMCE/tinyMCE_shortcode_add.php:90
 #: js/tinyMCE/tinyMCE_shortcode_add.php:206
 msgid "This can happen with posts in category-views or on homepage"
-msgstr "Detta kan hända med inlägg i kategorivy eller på startsida"
+msgstr "Näin voi käydä esimerkiksi kategoria- tai etusivulla"
 
 #: js/tinyMCE/tinyMCE_shortcode_add.php:90
 #: js/tinyMCE/tinyMCE_shortcode_add.php:206
 msgid "To prevent this add the shortcodes after the [more] tag"
-msgstr "För att förhindra detta, ange kortkod efter [mer] tagg"
+msgstr "Voit estää tämän lisäämällä lyhytkoodin [more]-tunnisteen jälkeen"
 
 #: js/tinyMCE/tinyMCE_shortcode_add.php:96
 msgid "Insert"
-msgstr "Infoga"
+msgstr "Lisää"
 
 #: js/tinyMCE/tinyMCE_shortcode_add.php:113
 #: js/tinyMCE/tinyMCE_shortcode_add.php:115
 #: lib/modules/hourlycal/hourlycal.php:182 lib/modules/search/search.php:18
 msgid "Custom Style"
-msgstr "Anpassad stil"
+msgstr "Oma tyyli"
 
 #: js/tinyMCE/tinyMCE_shortcode_add.php:120
 msgid "Select form template"
-msgstr "Välj formulärmall"
+msgstr "Valitse lomakemalli"
 
 #: js/tinyMCE/tinyMCE_shortcode_add.php:124
 msgid "Attached to reservations if no resource [tag] in form"
-msgstr "Bifogat till reservationer om ingen resurs [tagg] i formuläret"
+msgstr "Liitetään varauksiin, jos lomakkeessa ei ole resurssi [tag]"
 
 #: js/tinyMCE/tinyMCE_shortcode_add.php:128
 msgid "Blue"
-msgstr "Blå"
+msgstr "Sininen"
 
 #: js/tinyMCE/tinyMCE_shortcode_add.php:128
 msgid "Select style"
-msgstr "Välj stil"
+msgstr "Valitse tyyli"
 
 #: js/tinyMCE/tinyMCE_shortcode_add.php:131
 msgid "Multiple reservations"
-msgstr "Multipla reservationer"
+msgstr "Useita varauksia"
 
 #: js/tinyMCE/tinyMCE_shortcode_add.php:132
 msgid "Allow multiple reservations in a"
-msgstr "Tillåt flera reservationer i ett"
+msgstr "Salli monta varausta"
 
 #: js/tinyMCE/tinyMCE_shortcode_add.php:132
 msgid "Popup"
-msgstr "Popup"
+msgstr "Ponnahdusikkuna"
 
 #: js/tinyMCE/tinyMCE_shortcode_add.php:132
 #: js/tinyMCE/tinyMCE_shortcode_add.php:135
 msgid "Overlay"
-msgstr "Överlappad"
+msgstr "Overlayikkuna"
 
 #: js/tinyMCE/tinyMCE_shortcode_add.php:135
 msgid ""
 "If multiple reservations are enabled the overlay will show the list of the "
 "reservations."
 msgstr ""
-"Om flera reservationer är aktiverade visar överlagringen listan över de "
-"reservationer."
+"Jos useita varauksia -toiminto on käytössä, varausluettelo näytetään overlay-"
+"ikkunassa."
 
 #: js/tinyMCE/tinyMCE_shortcode_add.php:138
 msgid "Overlay message"
-msgstr "Överlappande meddelande"
+msgstr "Overlay-viesti"
 
 #: js/tinyMCE/tinyMCE_shortcode_add.php:142
 msgid "Overlay sub-message"
-msgstr "Överlappande sub-meddelande"
+msgstr "Overlay-alaviesti"
 
 #: js/tinyMCE/tinyMCE_shortcode_add.php:146 lib/modules/search/search.php:70
 msgid "Name for resources"
-msgstr "Resursens namn"
+msgstr "Resurssien nimi"
 
 #: js/tinyMCE/tinyMCE_shortcode_add.php:150
 msgid "Persons in list"
-msgstr "Personer i listan"
+msgstr "Luettelon henkilöt"
 
 #: js/tinyMCE/tinyMCE_shortcode_add.php:154
 msgid ""
@@ -2335,304 +2343,304 @@ msgid ""
 "messages, the price and, if available, the paypal button and the credit "
 "cards form."
 msgstr ""
-"Efter att ha lämnat in en eller flera reservationer kommer överläggning "
-"eller sidan att visa detta budskap, priset och, om möjligt, den paypal "
-"knappen och kreditkorts formuläret."
+"Kun yksi tai useampi varaus on lähetetty, overlay-ikkunassa tai sivulla "
+"näytetään nämä viestit, hinta sekä mahdollinen PayPal-painike ja "
+"luottokorttilomake."
 
 #: js/tinyMCE/tinyMCE_shortcode_add.php:157
 msgid "Submit message"
-msgstr "Lägg till meddelande"
+msgstr "Lähetä viesti"
 
 #: js/tinyMCE/tinyMCE_shortcode_add.php:161
 msgid "Submit sub-message"
-msgstr "Lägg till sub-meddelande"
+msgstr "Lähetä alaviesti"
 
 #: js/tinyMCE/tinyMCE_shortcode_add.php:169
 #: lib/modules/paypal/creditcards.php:224
 #: lib/modules/paypal/creditcards.php:244
 msgid "Credit Card"
-msgstr "Kreditkort"
+msgstr "Luottokortti"
 
 #: js/tinyMCE/tinyMCE_shortcode_add.php:169
 msgid ""
 "If the credit card form is enabled this messages will be shown after a "
 "successfully submit of it."
 msgstr ""
-"Om kreditkortsformuläret är aktiverat kommer detta inlägg att visas efter "
-"att framgångsrikt lämnat in det."
+"Jos luottokortin lomake on käytössä, nämä viestit näytetään kun lomakkeen "
+"tiedot on lähetetty."
 
 #: js/tinyMCE/tinyMCE_shortcode_add.php:172
 msgid "Credit Card message"
-msgstr "Kreditkorts meddelande"
+msgstr "Luottokortin viesti"
 
 #: js/tinyMCE/tinyMCE_shortcode_add.php:176
 msgid "Credit Card sub-message"
-msgstr "Kreditkorts delmeddelande"
+msgstr "Luottokortin alaviesti"
 
 #: js/tinyMCE/tinyMCE_shortcode_add.php:179
 msgid "Only add one form per page or post"
-msgstr "Lägg bara till ett formulär per sida eller inlägg"
+msgstr "Lisää sivulle tai artikkeliin vain yksi lomake"
 
 #: js/tinyMCE/tinyMCE_shortcode_add.php:184
 #: lib/modules/hourlycal/hourlycal.php:186
 msgid "Select default resource"
-msgstr "Välj förvald resurs"
+msgstr "Valitse oletusresurssi"
 
 #: js/tinyMCE/tinyMCE_shortcode_add.php:188
 msgid "simple"
-msgstr "enkel"
+msgstr "yksinkertainen"
 
 #: js/tinyMCE/tinyMCE_shortcode_add.php:188 lib/modules/search/search.php:22
 msgid "modern"
-msgstr "modern"
+msgstr "moderni"
 
 #: js/tinyMCE/tinyMCE_shortcode_add.php:188
 msgid "Select calendar style"
-msgstr "Välj kalenderstil"
+msgstr "Valitse kalenterin tyyli"
 
 #: js/tinyMCE/tinyMCE_shortcode_add.php:192
 #: lib/modules/hourlycal/hourlycal.php:190
 msgid "no"
-msgstr "nej"
+msgstr "ei"
 
 #: js/tinyMCE/tinyMCE_shortcode_add.php:192
 #: lib/modules/hourlycal/hourlycal.php:190
 msgid "Show price in calendar"
-msgstr "Visa pris i kalender"
+msgstr "Näytä hinta kalenterissa"
 
 #: js/tinyMCE/tinyMCE_shortcode_add.php:199
 msgid "Check"
-msgstr "Kryss"
+msgstr "Valitse"
 
 #: js/tinyMCE/tinyMCE_shortcode_add.php:200
 msgid ""
 "Check resources global possible arrival and departure days so they cant be "
 "clicked"
 msgstr ""
-"Kolla resursernas globala möjliga ankomst och avresedag, så de inte kan "
-"klickas på"
+"Valitse resurssien yleiset mahdolliset tulo- ja lähtöpäivät, jotta niitä ei "
+"voi napsauttaa"
 
 #: js/tinyMCE/tinyMCE_shortcode_add.php:203
 msgid "This shortcode adds an availability calendar to the post or page"
-msgstr ""
-"Denna kortkod lägger till en tillgänglighetskalender på inlägg eller sida"
+msgstr "Tämä lyhytkoodi lisää saatavuuskalenterin artikkeliin tai sivulle"
 
 #: js/tinyMCE/tinyMCE_shortcode_add.php:203
 msgid ""
 "You can combine it with a form or the edit-form by add it to the same page"
 msgstr ""
-"Du kan kombinera det med ett formulär genom att lägga till det på samma sida"
+"Voit käyttää sen yhteydessä lomaketta tai muokkauslomaketta lisäämällä sen "
+"samalle sivulle"
 
 #: js/tinyMCE/tinyMCE_shortcode_add.php:203
 msgid "Only add the calendar once per page or post"
-msgstr "Lägg bara in kalendern 1 gång per sida eller inlägg"
+msgstr "Lisää artikkeliin tai sivuun vain yksi kalenteri"
 
 #: lib/classes/reservation.class.php:857
 msgid "Please enter your name"
-msgstr "Vänligen ange ditt namn"
+msgstr "Kirjoita nimesi"
 
 #: lib/classes/reservation.class.php:863
 msgid "Please enter a correct email"
-msgstr "Vänligen ange en korrekt e-postadress"
+msgstr "Kirjoita toimiva sähköpostiosoite"
 
 #: lib/classes/reservation.class.php:868
 msgid "Please enter correct dates"
-msgstr "Var god ange korrekta datum"
+msgstr "Anna oikeat päivämäärät"
 
 #: lib/classes/reservation.class.php:874
 msgid "The departure date has to be after the arrival date"
-msgstr "Avresedagen måste vara efter ankomstdagen"
+msgstr "Lähtöpäivän on oltava ennen tulopäivää"
 
 #: lib/classes/reservation.class.php:880
 msgid "Adults has to be a number at least one"
-msgstr "Vuxna måste vara ett nummer minst en"
+msgstr "Aikuisten määrän on oltava vähintään yksi"
 
 #: lib/classes/reservation.class.php:886
 msgid "Children's has to be a number"
-msgstr "Barn måste vara ett nummer"
+msgstr "Lapset-arvon on oltava numero"
 
 #: lib/classes/reservation.class.php:895 lib/modules/search/search.php:429
 msgid "Not available at"
-msgstr "Inte tillgänglig den"
+msgstr "Ei saatavilla"
 
 #: lib/classes/reservation.class.php:896 lib/classes/reservation.class.php:897
 msgid "Selected time is occupied"
-msgstr "Vald tid är otillgänglig"
+msgstr "Valittu aika on varattu"
 
 #: lib/classes/reservation.class.php:911
 msgid "The arrival date has to be in future"
-msgstr "Ankomstdatumet måste vara i framtiden"
+msgstr "Tulopäivän on oltava tulevaisuudessa"
 
 #: lib/classes/reservation.class.php:952
 #, php-format
 msgid "At least %1$s persons in %2$s"
-msgstr "Minst %1$s personer i %2$s"
+msgstr "Vähintään %1$s henkilöä kohteessa %2$s"
 
 #: lib/classes/reservation.class.php:959
 #, php-format
 msgid "Maximum %1$s persons in %2$s"
-msgstr "Max %1$s personer i %2$s"
+msgstr "Enintään %1$s henkilöä kohteessa %2$s"
 
 #: lib/classes/reservation.class.php:966
 #, php-format
 msgid "At least %1$s %2$s in %3$s"
-msgstr "Minst %1$s %2$s i %3$s"
+msgstr "Vähintään %1$s %2$s kohteessa %3$s"
 
 #: lib/classes/reservation.class.php:973
 #, php-format
 msgid "Maximum %1$s %2$s in %3$s"
-msgstr "Maximalt %1$s %2$s in %3$s"
+msgstr "Enintään %1$s %2$s kohteessa %3$s"
 
 #: lib/classes/reservation.class.php:985
 #, php-format
 msgid "Arrival only possible on %s"
-msgstr "Ankomst är endast möjlig %s"
+msgstr "Tulo mahdollinen vain %s"
 
 #: lib/classes/reservation.class.php:996
 #, php-format
 msgid "Departure only possible on %s"
-msgstr "Avresa är endast möjlig %s"
+msgstr "Lähtö mahdollinen vain %s"
 
 #: lib/classes/reservation.class.php:1003
 #, php-format
 msgid "Arrival only possible from %s"
-msgstr "Ankomst är endast möjlig från %s"
+msgstr "Tulo mahdollinen vain alkaen %s"
 
 #: lib/classes/reservation.class.php:1007
 #, php-format
 msgid "Arrival only possible till %s"
-msgstr "Ankomst är endast möjlig till %s"
+msgstr "Tulo mahdollinen vain viimeistään %s"
 
 #: lib/classes/reservation.class.php:1013
 #, php-format
 msgid "Departure only possible from %s"
-msgstr "Avresa är endast möjlig från %s"
+msgstr "Lähtö mahdollinen vain alkaen %s"
 
 #: lib/classes/reservation.class.php:1017
 #, php-format
 msgid "Departure only possible till %s"
-msgstr "Avresa är endast möjlig från %s"
+msgstr "Lähtö mahdollinen vain viimeistään %s"
 
 #: lib/classes/reservation.class.php:1226 lib/functions/both.php:308
 msgid "The arrival date was edited"
-msgstr "Ankomstdatumet redigerades"
+msgstr "Tulopäivää muokattu"
 
 #: lib/classes/reservation.class.php:1227 lib/functions/both.php:312
 msgid "The departure date was edited"
-msgstr "Avresedatumet redigerades"
+msgstr "Lähtöpäivää muokattu"
 
 #: lib/classes/reservation.class.php:1228 lib/functions/both.php:316
 msgid "The name was edited"
-msgstr "Namnet redigerades"
+msgstr "Nimeä muokattu"
 
 #: lib/classes/reservation.class.php:1229 lib/functions/both.php:320
 msgid "The email was edited"
-msgstr "E-posten redigerades"
+msgstr "Sähköpostiosoitetta muokattu"
 
 #: lib/classes/reservation.class.php:1230
 msgid "The amount of adults was edited"
-msgstr "Antal vuxna redigerades"
+msgstr "Aikuisten määrää muokattu"
 
 #: lib/classes/reservation.class.php:1231 lib/functions/both.php:328
 msgid "The amount of children was edited"
-msgstr "Mängden barn har redigerats"
+msgstr "Lasten määrää muokattu"
 
 #: lib/classes/reservation.class.php:1232 lib/functions/both.php:332
 msgid "The country was edited"
-msgstr "Landet redigerades"
+msgstr "Maata muokattu"
 
 #: lib/classes/reservation.class.php:1233
 msgid "The resource was edited"
-msgstr "Resursen redigerades"
+msgstr "Resurssia muokattu"
 
 #: lib/classes/reservation.class.php:1234 lib/functions/both.php:344
 msgid "Custom fields got edited"
-msgstr "Eget fält redigerades"
+msgstr "Omia kenttiä muokattu"
 
 #: lib/classes/reservation.class.php:1235
 msgid "Prices got edited"
-msgstr "Priserna fick redigeras"
+msgstr "Hintoja muokattu"
 
 #: lib/classes/reservation.class.php:1241
 #: lib/modules/useredit/useredit.php:357
 msgid "trashed"
-msgstr "kastade"
+msgstr "siirretty roskiin"
 
 #: lib/core/core.php:28
 msgid "Checked for updates"
-msgstr "Kontrollerad efter uppdateringar"
+msgstr "Päivitykset tarkistettu"
 
 #: lib/core/core.php:31
 msgid "Logging in"
-msgstr "Loggar in"
+msgstr "Kirjaudutaan sisään"
 
 #: lib/core/core.php:34
 #, php-format
 msgid "Module %s activated"
-msgstr "Modul %s är aktiverad"
+msgstr "Moduuli %s aktivoitu"
 
 #: lib/core/core.php:37
 msgid "Logged out"
-msgstr "Utloggad"
+msgstr "Kirjattu ulos"
 
 #: lib/core/core.php:39
 msgid "All installed modules activated"
-msgstr "Alla installerade moduler är aktiverade"
+msgstr "Kaikki asennetut moduulit aktivoitu"
 
 #: lib/core/core.php:41
 msgid "All installed modules deactivated"
-msgstr "Alla installerade moduler är deaktiverade"
+msgstr "Kaikki asennetut moduulit deaktivoitu"
 
 #: lib/core/core.php:46
 msgid "updated"
-msgstr "uppdaterad"
+msgstr "päivitetty"
 
 #: lib/core/core.php:49
 msgid "installed"
-msgstr "installerad"
+msgstr "asennettu"
 
 #: lib/core/core.php:54
 #, php-format
 msgid "Failure at updating module %1$s - %2$s"
-msgstr "Misslyckades att uppdatera modul %1$s - %2$s"
+msgstr "Virhe päivitettäessä moduulia %1$s - %2$s"
 
 #: lib/core/core.php:55
 #, php-format
 msgid "Failure at extracting module %1$s - %2$s"
-msgstr "Misslyckande vid extrahering av modul %1$s - %2$s"
+msgstr "Virhe purettaessa moduulia %1$s - %2$s"
 
 #: lib/core/core.php:57
 #, php-format
 msgid "Module %1$s %2$s"
-msgstr "Modul %1$s %2$s"
+msgstr "Moduuli %1$s %2$s"
 
 #: lib/core/core.php:59
 #, php-format
 msgid "Module %s deactivated"
-msgstr "Modul %s avaktiverad"
+msgstr "Moduuli %s deaktivoitu"
 
 #: lib/core/core.php:74
 #, php-format
 msgid "Module %s deleted"
-msgstr "Modul %s raderad"
+msgstr "Moduuli %s poistettu"
 
 #: lib/core/core.php:107
 #, php-format
 msgid "Module %s installed successfully"
-msgstr "Modul %s har installerats"
+msgstr "Moduuli %s asennettu onnistuneesti"
 
 #: lib/core/core.php:109
 msgid "Upload failed"
-msgstr "Uppladdningen misslyckades"
+msgstr "Lähetys epäonnistui"
 
 #: lib/core/core.php:110 lib/modules/import/import.php:46
 msgid "Wrong file"
-msgstr "Fel fil"
+msgstr "Väärä tiedosto"
 
 #: lib/core/core.php:121 lib/modules/invoice/invoice.php:347
 #: lib/modules/useredit/useredit.php:742 lib/modules/useredit/useredit.php:915
 msgid "Invoice"
-msgstr "Faktura"
+msgstr "Lasku"
 
 #: lib/core/core.php:122
 msgid ""
@@ -2640,22 +2648,22 @@ msgid ""
 "templates. Including an editor for admins, invoices as email attachments and "
 "correct A4 Letter formats."
 msgstr ""
-"Generera helt anpassningsbara fakturor automatiskt från fördefinierade "
-"mallar. Inklusive en editor för admins, fakturor som e-postbilagor och "
-"korrigera A4 Brev format."
+"Luo täysin muokattavissa olevia laskuja automaattisesti valmiista malleista. "
+"Editori ylläpitäjille, laskujen liittäminen sähköpostiin sekä oikeat A4- ja "
+"Letter-koot."
 
 #: lib/core/core.php:130
 msgid "htmlMails"
-msgstr "htmlMails"
+msgstr "html-viestit"
 
 #: lib/core/core.php:131
 msgid ""
 "Style your emails with HTML to increase the appearance of your hospitality."
-msgstr "Styla din e-post med HTML för att öka utseendet på din gästfrihet."
+msgstr "Voit käyttää viesteissä HTML:ää, jos haluat tehdä näyttäviä viestejä."
 
 #: lib/core/core.php:139 lib/modules/paypal/paypal.php:63
 msgid "Payment"
-msgstr "Betalning"
+msgstr "Maksu"
 
 #: lib/core/core.php:140
 msgid ""
@@ -2665,15 +2673,14 @@ msgid ""
 "manual treatment. Automatically approve new reservations and/or after "
 "payment.."
 msgstr ""
-"Integration av flera olika betalningsalternativ som PayPal, Google Wallet, "
-"Authorize.net, 2Checkout, DIBSpayment eller Ogone. Ytterligare genomförande "
-"av Stripe.com kreditkort gateway och en funktion för att lagra kreditkort "
-"för manuell behandling. Automatiskt godkänna nya bokningar och/eller efter "
-"betalning.."
+"Käytettävissä useita maksutapoja, kuten PayPal, Google Wallet, Authorize."
+"net, 2checkout, DIBSpayment tai Ogone. Myös Stripe.com Credit Cards -"
+"maksukäytävä sekä luottokorttien tallennusmahdollisuus. Hyväksy uudet "
+"varaukset automaattisesti ja/tai maksun jälkeen."
 
 #: lib/core/core.php:148
 msgid "searchForm"
-msgstr "sökFormulär"
+msgstr "searchForm"
 
 #: lib/core/core.php:149
 msgid ""
@@ -2683,61 +2690,64 @@ msgid ""
 "a small one-column calendar to show when its available. The results can be "
 "shown as list or table."
 msgstr ""
-"Ny shortcode för att låta dina gäster söka efter tillgängliga resurser. "
-"Ingen sida laddar om för sökning, kompatibel med kalender, visa pris, visa "
-"även otillgängliga resurser , länk till formulär med automatiskt val. Varje "
-"resurs kan ha en liten en kolumns kalender för att visa när det är "
-"tillgängligt. Resultaten kan visas som en lista eller tabell."
+"Asiakkaat voivat etsiä vapaita resursseja uuden lyhytkoodin avulla. Sivua ei "
+"tarvitse ladata hakua varten uudelleen, yhteensopiva kalenterin kanssa, "
+"näyttää hinnan, näyttää varatut resurssit, linkki lomakkeeseen "
+"automaattisilla valinnoilla. Jokaisella resurssilla voi olla pieni yhden "
+"sarakkeen saatavuuskalenteri. Tulokset voidaan näyttää luettelona tai "
+"taulukkona."
 
 #: lib/core/core.php:158
 msgid "Releated Posts Add-On"
-msgstr "Tillägg för relaterade poster"
+msgstr "Liittyvät artikkelit -lisäosa"
 
 #: lib/core/core.php:159
 msgid "Link post or pages with resources for the search results"
-msgstr "Länk till inlägg eller sidor med resurser för sökresultatet"
+msgstr "Linkitä artikkeleja tai sivuja hakutulosten resursseihin"
 
 #: lib/core/core.php:169
 msgid "Resource Attributes Add-On"
-msgstr "Resursattribut för tillägg"
+msgstr "Resurssien määritteet -lisäosa"
 
 #: lib/core/core.php:170
 msgid ""
 "Give resource different attributes to let your guests search more detailed"
 msgstr ""
-"Ge resurser olika attributer för att låta dina gäster söka mer detaljerat"
+"Anna resursseille eri määritteitä, jotta asiakkaat voivat tehdä tarkkoja "
+"hakuja"
 
+# hmm
 #: lib/core/core.php:181
 msgid "hourlyCalendar"
-msgstr "Tim kalender"
+msgstr "tuntikalenteri"
 
 #: lib/core/core.php:182
 msgid "Show your guests the availability of the resources on a hourly basis."
-msgstr "Visa dina gäster tillgängligheten på timbasis."
+msgstr "Näyttää resurssien saatavuuden asiakkaille tunneittain."
 
 #: lib/core/core.php:190
 msgid "Export &amp; Import"
-msgstr "Exportera &amp; Importera"
+msgstr "Vie ja Tuo"
 
 #: lib/core/core.php:191
 msgid ""
 "Export selectable reservation information by time, selection or all as ."
 "xls, .csv or .least and Import them from back from the .least files."
 msgstr ""
-"Exportera valbara reservations information per tid, val eller alla som ."
-"xls, .csv eller .least och importera dem bakåt från .least filer."
+"Vie ajan tai valintojen mukaisten tai kaikkien varausten valitut tiedot "
+"xls-, csv-, tai least-muotoon ja tuo tietoja takaisin least-tiedostoista."
 
 #: lib/core/core.php:199
 msgid "Multilingual"
-msgstr "Flerspråkig"
+msgstr "Monikielinen"
 
 #: lib/core/core.php:200
 msgid ""
 "Function to make texts in forms, emails, search bar and invoices "
 "translatable."
 msgstr ""
-"Funktion för att göra texter i formulär, e-post, sökfältet och fakturor "
-"översättningsbara."
+"Mahdollisuus kääntää lomakkeiden, sähköpostiviestien, hakupalkkien ja "
+"laskujen tekstejä."
 
 #: lib/core/core.php:208 lib/modules/paypal/paypal.php:196
 #: lib/modules/paypal/paypal.php:212 lib/modules/paypal/paypal.php:227
@@ -2745,7 +2755,7 @@ msgstr ""
 #: lib/modules/paypal/paypal.php:273 lib/modules/useredit/useredit.php:250
 #: lib/modules/useredit/useredit.php:945
 msgid "User Control Panel"
-msgstr "Gästredigering"
+msgstr "Käyttäjän hallintapaneeli"
 
 #: lib/core/core.php:209
 msgid ""
@@ -2755,100 +2765,103 @@ msgid ""
 "dummy message at start, admin notices, avatars and fully AJAX driven. The "
 "guest can see his invoice and cancel his reservation."
 msgstr ""
-"Låt dina gäster logga in med sitt reservations ID och e-post för att "
-"redigera sin reservation i efterhand. De kan växla mellan sina reservationer "
-"i en tabell. Dessutom ges en chatt-liknande funktion. Nya meddelanden i "
-"tabell, dummy meddelande vid start, admin meddelanden, avatarer och fullt "
-"AJAX driven. Gästen kan se sin faktura och avboka sin reservation."
+"Anna asiakkaiden kirjautua palveluun varaustunnuksella ja "
+"sähköpostiosoitteella, jotta he voivat muokata varauksiaan jälkikäteen. He "
+"voivat vaihtaa varauksia taulukon avulla. Lisäksi toiminnossa on myös chat-"
+"ominaisuus. Uudet viestit taulukossa, dummy-viesti alussa, ilmoitukset "
+"ylläpitäjille, avatarit ja AJAX-pohjainen ratkaisu. Asiakas näkee oman "
+"laskunsa ja voi perua varauksensa."
 
 #: lib/core/core.php:218
 msgid "Detailed statistics, charts, resource usages and a dashboard widget."
 msgstr ""
-"Detaljerad statistik, diagram, resursanvändning och kontrollpanels widget."
+"Tarkat tilastot, kaaviot, resurssien käyttötiedot ja yhteenvetovimpain."
 
 #: lib/core/core.php:226 lib/modules/stream/stream.php:193
 msgid "Stream"
-msgstr "Ström"
+msgstr "Virta"
 
 #: lib/core/core.php:227
 msgid "Text."
-msgstr "Text."
+msgstr "Teksti."
 
 #: lib/core/core.php:236
 msgid "Synchronization"
-msgstr "Synkronisering"
+msgstr "Synkronointi"
 
 #: lib/core/core.php:237
 msgid "Add reservations to the shopping card of WooCommerce."
-msgstr "Lägg reservationer i kundvagnen i WooCommerce."
+msgstr "Lisää varaukset WooCommercen ostoskoriin."
 
 #: lib/core/core.php:245
 msgid "Styles"
-msgstr "Utseenden"
+msgstr "Tyylit"
 
 #: lib/core/core.php:246
 msgid ""
 "New Admin, Calendar and Form style. In addition it changes your datepickers "
 "style and disable unavailble dates in it."
 msgstr ""
-"Ny Admin, Kalender och Formulär utseende. Dessutom ändras din datumväljares "
-"stil och inaktiverar otillgängliga datum i den."
+"Uudet ylläpito-, kalenteri- ja lomaketyylit. Voit vaihtaa myös päivämäärän "
+"valitsimen tyyliä ja estää varattujen päivien näkymisen."
 
 #: lib/core/core.php:254 lib/functions/admin.php:146
 #: lib/modules/coupons/coupons.php:204 lib/modules/coupons/coupons.php:219
 #: lib/modules/useredit/useredit.php:842
 msgid "Coupon"
-msgstr "Kupong"
+msgstr "Kuponki"
 
 #: lib/core/core.php:255
 msgid "Let your guests enter coupon codes for discounts."
-msgstr "Låt din gäst ange kupongkoder för rabatter"
+msgstr "Salli asiakkaiden syöttää alennuskuponkien koodeja."
 
+# hmm
 #: lib/core/core.php:263
 msgid "extentedCalendar"
-msgstr "utökadKalender"
+msgstr "laajakalenteri"
 
 #: lib/core/core.php:264
 msgid ""
 "Extend the calendar shortcode to show multiple months by an flexible grid "
 "(x*y). Includes a new boxed calendar style."
 msgstr ""
-"Utöka kalenderns shortcode att visa flera månader av en flexibel grid (x*y). "
-"Inkluderar en ny boxad kalender stil."
+"Laajentaa kalenterin lyhytkoodin niin, että se näyttää monta kuukautta "
+"joustavassa taulukossa (x*y). Sisältää myös laatikoidun kalenterityylin."
 
 #: lib/core/core.php:288 lib/functions/admin.php:109
 #: lib/modules/paypal/creditcards.php:340
 msgid "Description"
-msgstr "Beskrivning"
+msgstr "Kuvaus"
 
 #: lib/core/core.php:289
 msgid "Installed"
-msgstr "Installerad"
+msgstr "Asennettu"
 
 #: lib/core/core.php:290
 msgid "Actual"
-msgstr "Senaste"
+msgstr "Todellinen"
 
 #: lib/core/core.php:291
 msgid "Link"
-msgstr "Länk"
+msgstr "Linkki"
 
 #: lib/core/core.php:320 lib/core/core.php:365
 msgid "Activate"
-msgstr "Aktivera"
+msgstr "Aktivoi"
 
 #: lib/core/core.php:321 lib/modules/paypal/creditcards.php:236
 msgid "Delete"
-msgstr "Radera"
+msgstr "Poista"
 
 #: lib/core/core.php:322 lib/core/core.php:366
 msgid "Deactivate"
-msgstr "Avaktivera"
+msgstr "Deaktivoi"
 
 #: lib/core/core.php:334 lib/core/core.php:370
 #, php-format
 msgid "Incompatibility - Update easyReservations to at least %s"
-msgstr "Inkompabilitet - Uppdatera easyReservation till minst %s"
+msgstr ""
+"Yhteensopivuusongelma - Päivitys easyReservations vähintään versioon %s"
 
 #: lib/core/core.php:335 lib/core/core.php:371
 #, php-format
@@ -2856,100 +2869,100 @@ msgid ""
 "Incompatibility - This version of easyReservations needs at least version %s "
 "of this module"
 msgstr ""
-"Inkompabilitet - Denna version av easyReservations behöver minst version %s "
-"för den här modulen"
+"Yhteensopivuusongelma - easyReservationsin tämä versio edellyttää vähintään "
+"version %s tästä moduulista"
 
 #: lib/core/core.php:342
 msgid "Update"
-msgstr "Uppdatera"
+msgstr "Päivitä"
 
 #: lib/core/core.php:343
 msgid "Reinstall"
-msgstr "Ominstallera"
+msgstr "Asenna uudelleen"
 
 #: lib/core/core.php:344 lib/core/core.php:448
 #: lib/modules/stream/stream.php:146
 msgid "Install"
-msgstr "Installera"
+msgstr "Asenna"
 
 #: lib/core/core.php:346 lib/core/core.php:376
 #: lib/modules/useredit/useredit.php:741
 msgid "Download"
-msgstr "Ladda ner"
+msgstr "Lataa"
 
 #: lib/core/core.php:387
 msgid "Premium Login"
-msgstr "Premiuminloggning"
+msgstr "Premium Kirjaudu"
 
 #: lib/core/core.php:387
 msgid "Premium Features"
-msgstr "Premium funktioner"
+msgstr "Premium-ominaisuudet"
 
 #: lib/core/core.php:388
 msgid "Login"
-msgstr "Logga in"
+msgstr "Kirjaudu sisään"
 
 #: lib/core/core.php:399
 msgid "Username"
-msgstr "Användarnamn"
+msgstr "Käyttäjänimi"
 
 #: lib/core/core.php:403
 msgid "Password"
-msgstr "Lösenord"
+msgstr "Salasana"
 
 #: lib/core/core.php:413
 msgid "Install all modules"
-msgstr "Installera alla moduler"
+msgstr "Asenna kaikki moduulit"
 
 #: lib/core/core.php:417
 msgid "Activate All"
-msgstr "Aktivera alla"
+msgstr "Aktivoi kaikki"
 
 #: lib/core/core.php:421
 msgid "Deactivate All"
-msgstr "Avaktivera alla"
+msgstr "Deaktivoi kaikki"
 
 #: lib/core/core.php:424
 msgid "Check for updates"
-msgstr "Sök efter uppdateringar"
+msgstr "Etsi päivityksiä"
 
 #: lib/core/core.php:425
 msgid "Turn off update notifier"
-msgstr "Slå av uppdaterings anmälaren"
+msgstr "Poista päivitysilmoitukset käytöstä"
 
 #: lib/core/core.php:426
 msgid "Last check"
-msgstr "Senaste kontroll"
+msgstr "Viimeinen tarkistus"
 
 #: lib/core/core.php:435
 msgid "Install or Update Module manually"
-msgstr "Installera eller uppdatera moduler manuellt"
+msgstr "Asenna tai päivitä moduuli manuaalisesti"
 
 #: lib/core/core.php:538
 msgid "Wrong login data"
-msgstr "Fel inloggningsinformation"
+msgstr "Väärät kirjautumistiedot"
 
 #: lib/core/core.php:539
 #, php-format
 msgid "No premium account - %s"
-msgstr "Inget premium konto - %s"
+msgstr "Ei Premium-tiliä - %s"
 
 #: lib/core/core.php:541
 msgid "cURL isnt installed on your server, please contact your host"
-msgstr "cURL är inte installead på din server. Kontakta ditt webbhotell"
+msgstr "URL ei ole asennettu palvelimellesi, ota yhteyttä ylläpitäjään"
 
 #: lib/core/core.php:552
 #, php-format
 msgid "Failure at copying module %1$s - %2$s"
-msgstr "Misslyckades att kopiera modul %1$s - %2$s"
+msgstr "Virhe kopioitaessa moduulia %1$s - %2$s"
 
 #: lib/core/core.php:651
 #, php-format
 msgid ""
 "Modules %1$s is incopatible to easyReservations %2$s - update to version %3$s"
 msgstr ""
-"Moduler %1$s är inkompatibel till easyReservations %2$s - uppdatera "
-"åtminstone till version %3$s"
+"Moduuli %1$s ei ole yhteensopiva easyReservations %2$s kanssa - päivitä "
+"versioon %3$s"
 
 #: lib/core/core.php:653
 #, php-format
@@ -2957,16 +2970,16 @@ msgid ""
 "easyReservations %1$s is incompatible to %2$s %3$s - update at least to "
 "version %4$s"
 msgstr ""
-"easyReservations %1$s är inkompatibel till %2$s %3$s - uppdatera åtminstone "
-"till version %4$s"
+"easyReservations %1$s ei ole yhteensopiva %2$s %3$s kanssa - päivitä "
+"vähintään versioon %4$s"
 
 #: lib/core/core.php:660
 msgid "Update easyReservations now"
-msgstr "Uppdatera easyReservation nu"
+msgstr "Päivitä easyReservations nyt"
 
 #: lib/core/core.php:663
 msgid " Update Modules now"
-msgstr "Uppdatera moduler nu"
+msgstr "Päivitä moduulit nyt"
 
 #: lib/functions/admin.php:19
 msgid "easyReservation"
@@ -2974,236 +2987,238 @@ msgstr "easyReservation"
 
 #: lib/functions/admin.php:109
 msgid "Price calculation"
-msgstr "Priskalkyl"
+msgstr "Hinnan laskeminen"
 
 #: lib/functions/admin.php:109
 msgid "Total"
-msgstr "Total"
+msgstr "Yhteensä"
 
 #: lib/functions/admin.php:122
 #, php-format
 msgid "Custom price %s"
-msgstr "Anpassat pris %s"
+msgstr "Oma hinta %s"
 
 #: lib/functions/admin.php:124 lib/functions/admin.php:126
 msgid "Custom price"
-msgstr "Eget pris"
+msgstr "Oma hinta"
 
 #: lib/functions/admin.php:128
 msgid "Stay filter"
-msgstr "Besöksfilter"
+msgstr "Viipymis-suodin"
 
 #: lib/functions/admin.php:130
 msgid "Loyal filter"
-msgstr "Lojalitetsfilter"
+msgstr "Uskollinen-suodin"
 
 #: lib/functions/admin.php:132
 msgid "Person filter"
-msgstr "Personfilter"
+msgstr "Henkilö-suodin"
 
 #: lib/functions/admin.php:134
 msgid "Adults filter"
-msgstr "Vuxna filter"
+msgstr "Aikuiset-suodin"
 
 #: lib/functions/admin.php:136
 msgid "Chrildren's filter"
-msgstr "Barn filter"
+msgstr "Lapset-suodin"
 
 #: lib/functions/admin.php:138
 msgid "Discount filter"
-msgstr "Rabattfilter"
+msgstr "Alennus-suodin"
 
 #: lib/functions/admin.php:140
 msgid "Extra charge filter"
-msgstr "Extra avgifts filter"
+msgstr "Lisäveloitus-suodin"
 
 #: lib/functions/admin.php:142
 msgid "Earlybird filter"
-msgstr "Framförhållningsfilter"
+msgstr "Aikainen varaaja -suodin"
 
 #: lib/functions/admin.php:148
 msgid "Price per children"
-msgstr "Pris per barn"
+msgstr "Hinta lapselta"
 
 #: lib/functions/admin.php:150
 msgid "Tax"
-msgstr "Moms"
+msgstr "Vero"
 
 #: lib/functions/admin.php:153
 msgid "Price filter"
-msgstr "Prisfilter"
+msgstr "Hinta-suodin"
 
 #: lib/functions/admin.php:156
 msgid "Base price"
-msgstr "Standardpris"
+msgstr "Perushinta"
 
 #: lib/functions/admin.php:192
 msgid "active"
-msgstr "aktiv"
+msgstr "aktiivinen"
 
 #: lib/functions/admin.php:197
 msgid "future"
-msgstr "framtida"
+msgstr "tuleva"
 
 #: lib/functions/admin.php:202
 msgid "past"
-msgstr "tidigare"
+msgstr "mennyt"
 
 #: lib/functions/admin.php:210 lib/modules/statistics/statistics.php:104
 msgid "price"
-msgstr "pris"
+msgstr "hinta"
 
 #: lib/functions/admin.php:215 lib/modules/statistics/statistics.php:115
 #: lib/modules/statistics/statistics.php:127
 msgid "paid"
-msgstr "betald"
+msgstr "maksettu"
 
 #: lib/functions/admin.php:219
 msgid "time"
-msgstr "tid"
+msgstr "aika"
 
 #: lib/functions/admin.php:223
 msgid "status"
-msgstr "status"
+msgstr "tila"
 
 #: lib/functions/admin.php:236
 msgid "Mail to guest from admin in dashboard"
-msgstr "E-post till gäst från admin i kontrollpanel"
+msgstr "Lähetä sähköposti asiakkaalle ylläpitäjältä yhteenvetonäkymästä"
 
 #: lib/functions/admin.php:237
 msgid "Mail to guest after new reservation"
-msgstr "E-post till gäst efter ny reservation"
+msgstr "Lähetä sähköposti asiakkaalle uuden varauksen jälkeen"
 
 #: lib/functions/admin.php:238
 msgid "Mail to guest after approval"
-msgstr "E-post till gäst efter godkännande"
+msgstr "Lähetä sähköposti asiakkaalle hyväksymisen jälkeen"
 
 #: lib/functions/admin.php:239
 msgid "Mail to guest after rejection"
-msgstr "E-post till gäst efter avslag"
+msgstr "Lähetä sähköposti asiakkaalle hylkäämisen jälkeen"
 
 #: lib/functions/admin.php:240
 msgid "Mail to guest after admin edited"
-msgstr "E-post till gäst efter admin redigering"
+msgstr "Lähetä sähköposti ylläpitäjän muokkauksen jälkeen"
 
 #: lib/functions/admin.php:241
 msgid "Mail to admin after new reservation"
-msgstr "E-post till admin efter ny reservation"
+msgstr "Lähetä sähköposti ylläpitäjälle uuden varauksen jälkeen"
 
+# hmm
 #: lib/functions/admin.php:262 lib/functions/ajax.php:944
 #: lib/modules/invoice/editor.php:24
 msgid "Mail"
-msgstr "E-post"
+msgstr "Sähköposti"
 
 #: lib/functions/admin.php:326
 msgid "Reservations dashboard settings saved"
-msgstr "Inställningar för Reservationens översikt är sparad"
+msgstr "Varausten yhteenvetonäkymän asetukset tallennettu"
 
 #: lib/functions/admin.php:337
 msgid "Show/Hide content"
-msgstr "Visa/Dölj innehåll"
+msgstr "Näytä/piilota sisältö"
 
 #: lib/functions/admin.php:338 lib/functions/admin.php:391
 msgid "Overview"
-msgstr "Översikt"
+msgstr "Yleiskatsaus"
 
 #: lib/functions/admin.php:340 lib/modules/search/search.php:26
 #: lib/modules/useredit/useredit.php:902
 msgid "Table"
-msgstr "Tabell"
+msgstr "Taulukko"
 
 #: lib/functions/admin.php:343 lib/modules/import/import.php:58
 msgid "Export"
-msgstr "Exportera"
+msgstr "Vie"
 
 #: lib/functions/admin.php:344
 msgid "What happen today"
-msgstr "Vad som händer idag"
+msgstr "Tapahtumat tänään"
 
 #: lib/functions/admin.php:347
 msgid "Table information"
-msgstr "Tabell information"
+msgstr "Taulukon tiedot"
 
 #: lib/functions/admin.php:349
 msgid "Color"
-msgstr "Färg"
+msgstr "Väri"
 
 #: lib/functions/admin.php:352
 msgid "Date  "
-msgstr "Datum"
+msgstr "Pvm"
 
 #: lib/functions/admin.php:353
 msgid "Reserved "
-msgstr "Reserverad"
+msgstr "Varattu"
 
 #: lib/functions/admin.php:358
 msgid "Resource number"
-msgstr "Resursnummer"
+msgstr "Resurssin numero"
 
 #: lib/functions/admin.php:364 lib/functions/ajax.php:815
 #: lib/functions/ajax.php:856 lib/modules/htmlmails/htmlmails.php:392
 msgid "Custom fields"
-msgstr "Eget fält"
+msgstr "Omat kentät"
 
 #: lib/functions/admin.php:365 lib/functions/ajax.php:817
 #: lib/functions/ajax.php:858
 msgid "Custom prices"
-msgstr "Eget pris"
+msgstr "Omat hinnat"
 
 #: lib/functions/admin.php:367
 msgid "Favourites"
-msgstr "Favoriter"
+msgstr "Suosikit"
 
 #: lib/functions/admin.php:371
 msgid "Table actions"
-msgstr "Tabell åtgärder"
+msgstr "Taulukon toiminnot"
 
 #: lib/functions/admin.php:372
 msgid "Filter by month"
-msgstr "Filtrera per månad"
+msgstr "Suodata kuukauden mukaan"
 
 #: lib/functions/admin.php:373
 msgid "Filter by resource"
-msgstr "Filtrera resurser"
+msgstr "Suodata resurssin mukaan"
 
 #: lib/functions/admin.php:374
 msgid "Filter by status"
-msgstr "Filtrera status"
+msgstr "Suodata tilan mukaan"
 
 #: lib/functions/admin.php:375
 msgid "Choose days to show"
-msgstr "Välj dagar att visa"
+msgstr "Valitse näytettävät päivät"
 
 #: lib/functions/admin.php:376 lib/functions/ajax.php:775
 #: lib/modules/search/search.php:37 lib/modules/search/search.php:111
 #: lib/modules/search/search.php:210
 msgid "Search"
-msgstr "Sök"
+msgstr "Haku"
 
 #: lib/functions/admin.php:377
 msgid "Bulk & Checkboxes"
-msgstr "Bulk & Kryssrutor"
+msgstr "Massatoiminnot ja valintaruudut"
 
 #: lib/functions/admin.php:380
 msgid "Show Resources"
-msgstr "Visa Resurser"
+msgstr "Näytä resurssit"
 
 #: lib/functions/admin.php:392
 msgid "Overview onMouseOver Date & Select animation"
-msgstr "Översikt för animering av onMouseOver Datum & Val."
+msgstr "Yleiskatsaus kun osoitin pvm päällä & Valitse animaatio"
 
+# hmm
 #: lib/functions/admin.php:393
 msgid "Overview autoselect with inputs on add/edit"
-msgstr "Översikt för autoval med data för lägg till/redigera"
+msgstr "Yleiskatsauksen autom. valinta kun tietoja lisätään/muokataan"
 
 #: lib/functions/admin.php:394
 #, php-format
 msgid "Show empty space for each resource and day (+20% load)"
-msgstr "Visa tomt utrymme för varje resurs och dag (+ 20% belastning)"
+msgstr "Show empty space for each resource and day (+20% load)"
 
 #: lib/functions/admin.php:395
 msgid "Hourly mode as standard"
-msgstr "Timvis läge som standard"
+msgstr "Käytä tuntitilaa oletuksena"
 
 #: lib/functions/admin.php:577
 msgid "easyReservations Premium"
@@ -3211,74 +3226,74 @@ msgstr "easyReservations Premium"
 
 #: lib/functions/ajax.php:51
 msgid "prev"
-msgstr "föregående"
+msgstr "edell"
 
 #: lib/functions/ajax.php:53
 msgid "next"
-msgstr "nästa"
+msgstr "seur"
 
 #: lib/functions/ajax.php:279
 msgid "Please enter the correct captcha"
-msgstr "Ange rätt captcha kod"
+msgstr "Kirjoita Captcha oikein"
 
 #: lib/functions/ajax.php:448 lib/functions/ajax.php:459
 #, php-format
 msgid "%1$s is required"
-msgstr "%1$s krävs"
+msgstr "%1$s on pakollinen"
 
 #: lib/functions/ajax.php:466
 msgid "Captcha is required"
-msgstr "Captcha kod krävs"
+msgstr "Captcha on pakollinen"
 
 #: lib/functions/ajax.php:469 lib/functions/ajax.php:477
 msgid "Enter correct captcha"
-msgstr "Ange rätt captcha kod"
+msgstr "Kirjoita oikea Captcha"
 
 #: lib/functions/ajax.php:723
 msgid "of"
-msgstr "av"
+msgstr "/"
 
 #: lib/functions/ajax.php:736
 msgid "Upcoming"
-msgstr "Kommande"
+msgstr "Tuleva"
 
 #: lib/functions/ajax.php:737 lib/modules/useredit/useredit.php:360
 msgid "Current"
-msgstr "Aktuella"
+msgstr "Nykyinen"
 
 #: lib/functions/ajax.php:741
 msgid "Old"
-msgstr "Gamla"
+msgstr "Vanha"
 
 #: lib/functions/ajax.php:742
 msgid "Trash"
-msgstr "Papperskorg"
+msgstr "Roskakori"
 
 #: lib/functions/ajax.php:749
 msgid "View all statuses"
-msgstr "Visa alla statusar"
+msgstr "Näytä kaikki tilat"
 
 #: lib/functions/ajax.php:751
 msgid "Show all monthes"
-msgstr "Visa alla månader"
+msgstr "Näytä kaikki kuukaudet"
 
 #: lib/functions/ajax.php:765
 msgid "View all Resources"
-msgstr "Visa alla resurser"
+msgstr "Näytä kaikki resurssit"
 
 #: lib/functions/ajax.php:941 lib/functions/ajax.php:1004
 msgid "Restore"
-msgstr "Återställ"
+msgstr "Palauta"
 
 #: lib/functions/ajax.php:942 lib/functions/ajax.php:1004
 msgid "Delete Permanently"
-msgstr "Radera permanent"
+msgstr "Poista pysyvästi"
 
 #: lib/functions/ajax.php:948 lib/modules/stream/stream.php:130
 #: lib/modules/useredit/useredit.php:30 lib/modules/useredit/useredit.php:58
 #: lib/modules/useredit/useredit.php:138 lib/modules/useredit/useredit.php:697
 msgid "ago"
-msgstr "sedan"
+msgstr "sitten"
 
 #: lib/functions/ajax.php:996
 msgid "No Reservations found"
@@ -3286,260 +3301,260 @@ msgstr ""
 
 #: lib/functions/ajax.php:1004
 msgid "Bulk Actions"
-msgstr "Massåtgärder"
+msgstr "Massatoiminnot"
 
 #: lib/functions/ajax.php:1004
 msgid "Move to Trash"
-msgstr "Flytta till papperskorg"
+msgstr "Siirrä roskakoriin"
 
 #: lib/functions/ajax.php:1004
 msgid "Apply"
-msgstr "Tillämpa"
+msgstr "Käytä"
 
 #: lib/functions/ajax.php:1010
 msgid "Elements"
-msgstr "Element"
+msgstr "Elementit"
 
 #: lib/functions/both.php:23
 msgid "Add New Resource"
-msgstr "Lägg till ny resurs"
+msgstr "Lisää uusi resurssi"
 
 #: lib/functions/both.php:24
 msgid "Edit Resource"
-msgstr "Redigera resurs"
+msgstr "Muokkaa resurssia"
 
 #: lib/functions/both.php:25
 msgid "New Resource"
-msgstr "Ny resurs"
+msgstr "Uusi resurssi"
 
 #: lib/functions/both.php:26
 msgid "All Resources"
-msgstr "Alla resurser"
+msgstr "Kaikki resurssit"
 
 #: lib/functions/both.php:27
 msgid "View Resource"
-msgstr "Visa resurs"
+msgstr "Näytä resurssi"
 
 #: lib/functions/both.php:324
 msgid "The amount of persons was edited"
-msgstr "Antal personer redigerades"
+msgstr "Henkilöiden määrää muokattu"
 
 #: lib/functions/both.php:336
 msgid "The resource got changed"
-msgstr "Resursen fick ändras"
+msgstr "Resurssia vaihdettu"
 
 #: lib/functions/both.php:340
 msgid "The message was edited"
-msgstr "Meddelandet redigerades"
+msgstr "Viestiä muokattu"
 
 #: lib/functions/both.php:348
 msgid "Prices  got edited"
-msgstr "Priserna redigerades"
+msgstr "Hintoja muokattu"
 
 #: lib/functions/both.php:416 lib/functions/both.php:422
 #, php-format
 msgid "%s is required"
-msgstr "%s krävs"
+msgstr "%s on pakollinen"
 
 #: lib/functions/both.php:661
 msgid "Monday"
-msgstr "Måndag"
+msgstr "Maanantai"
 
 #: lib/functions/both.php:662
 msgid "Tuesday"
-msgstr "Tisdag"
+msgstr "Tiistai"
 
 #: lib/functions/both.php:663
 msgid "Wednesday"
-msgstr "Onsdag"
+msgstr "Keskiviikko"
 
 #: lib/functions/both.php:664
 msgid "Thursday"
-msgstr "Torsdag"
+msgstr "Torstai"
 
 #: lib/functions/both.php:665
 msgid "Friday"
-msgstr "Fredag"
+msgstr "Perjantai"
 
 #: lib/functions/both.php:666
 msgid "Saturday"
-msgstr "Lördag"
+msgstr "Lauantai"
 
 #: lib/functions/both.php:667
 msgid "Sunday"
-msgstr "Söndag"
+msgstr "Sunnuntai"
 
 #: lib/functions/both.php:669
 msgid "January"
-msgstr "Januari"
+msgstr "tammikuu"
 
 #: lib/functions/both.php:670
 msgid "February"
-msgstr "Februari"
+msgstr "helmikuu"
 
 #: lib/functions/both.php:671
 msgid "March"
-msgstr "Mars"
+msgstr "maaliskuu"
 
 #: lib/functions/both.php:672
 msgid "April"
-msgstr "April"
+msgstr "huhtikuu"
 
 #: lib/functions/both.php:673
 msgid "May"
-msgstr "Maj"
+msgstr "toukokuu"
 
 #: lib/functions/both.php:674
 msgid "June"
-msgstr "Juni"
+msgstr "kesäkuu"
 
 #: lib/functions/both.php:675
 msgid "July"
-msgstr "Juli"
+msgstr "heinäkuu"
 
 #: lib/functions/both.php:676
 msgid "August"
-msgstr "Augusti"
+msgstr "elokuu"
 
 #: lib/functions/both.php:677
 msgid "September"
-msgstr "September"
+msgstr "syyskuu"
 
 #: lib/functions/both.php:678
 msgid "October"
-msgstr "Oktober"
+msgstr "lokakuu"
 
 #: lib/functions/both.php:679
 msgid "November"
-msgstr "November"
+msgstr "marraskuu"
 
 #: lib/functions/both.php:680
 msgid "December"
-msgstr "December"
+msgstr "joulukuu"
 
 #: lib/modules/coupons/coupons.php:18 lib/modules/coupons/coupons.php:179
 msgid "Coupons"
-msgstr "Kuponger"
+msgstr "Kupongit"
 
 #: lib/modules/coupons/coupons.php:34 lib/modules/coupons/coupons.php:71
 msgid "Code"
-msgstr "Kod"
+msgstr "Koodi"
 
 #: lib/modules/coupons/coupons.php:36
 msgid "Used"
-msgstr "Använd"
+msgstr "Käytetty"
 
 #: lib/modules/coupons/coupons.php:58 lib/modules/coupons/coupons.php:154
 msgid "No coupons"
-msgstr "Inga kuponger"
+msgstr "Ei kuponkeja"
 
 #: lib/modules/coupons/coupons.php:66 lib/modules/coupons/coupons.php:187
 msgid "Add coupon"
-msgstr "Lägg till kupong"
+msgstr "Lisää kuponki"
 
 #: lib/modules/coupons/coupons.php:83
 msgid "Maximum usages"
-msgstr "Max antal användningstillfällen"
+msgstr "Käyttökerrat enintään"
 
 #: lib/modules/coupons/coupons.php:87
 msgid "Amount"
-msgstr "Belopp"
+msgstr "Määrä"
 
 #: lib/modules/coupons/coupons.php:138
 #, php-format
 msgid "Coupon %s added"
-msgstr "Kupong %s tillagd"
+msgstr "Kuponki %s lisätty"
 
 #: lib/modules/coupons/coupons.php:144
 #, php-format
 msgid "Coupon %s deleted"
-msgstr "Kupong %s raderad"
+msgstr "Kuponki %s poistettu"
 
 #: lib/modules/coupons/coupons.php:205 lib/modules/coupons/coupons.php:219
 msgid "Text field to enter coupon codes"
-msgstr "Textfält för att ange kupong kod"
+msgstr "Kuponkikoodien kirjoituskenttä"
 
 #: lib/modules/hourlycal/hourlycal.php:197
 msgid "Clock"
-msgstr "Klocka"
+msgstr "Kello"
 
 #: lib/modules/hourlycal/hourlycal.php:206
 msgid "Display"
-msgstr "Visa"
+msgstr "Näytä"
 
 #: lib/modules/hourlycal/hourlycal.php:206
 msgid "Navigation"
-msgstr "Navigering"
+msgstr "Navigointi"
 
 #: lib/modules/hourlycal/hourlycal.php:210
 msgid "Display hours from"
-msgstr "Visa timmar från"
+msgstr "Näytä tunnit alkaen"
 
 #: lib/modules/hourlycal/hourlycal.php:210
 msgid "to"
-msgstr "till"
+msgstr "-"
 
 #: lib/modules/hourlycal/hourlycal.php:240
 msgid "Hourly Calendar"
-msgstr "Timkalender"
+msgstr "Tuntikalenteri"
 
 #: lib/modules/htmlmails/htmlmails.php:33
 msgid "Email Settings"
-msgstr "E-post inställningar"
+msgstr "Sähköpostiasetukset"
 
 #: lib/modules/htmlmails/htmlmails.php:38
 msgid "Choose type of email"
-msgstr "Välj typ av e-post"
+msgstr "Valitse sähköpostin tyyppi"
 
 #: lib/modules/htmlmails/htmlmails.php:42
 msgid "Subj"
-msgstr "Ärende"
+msgstr "Aihe"
 
 #: lib/modules/htmlmails/htmlmails.php:42
 msgid "Activate email"
-msgstr "Aktivera e-post"
+msgstr "Käytä sähköpostia"
 
 #: lib/modules/htmlmails/htmlmails.php:47
 msgid "Plain text"
-msgstr "Vanlig text"
+msgstr "Pelkkä teksti"
 
 #: lib/modules/htmlmails/htmlmails.php:118
 msgid "Times of stay"
-msgstr "Antal besök"
+msgstr "Vierailujen määrä"
 
 #: lib/modules/htmlmails/htmlmails.php:120
 msgid "Nights"
-msgstr "Nätter"
+msgstr "Yötä"
 
 #: lib/modules/htmlmails/htmlmails.php:121
 msgid "Weeks"
-msgstr "Veckor"
+msgstr "Viikkoa"
 
 #: lib/modules/htmlmails/htmlmails.php:123
 #: lib/modules/htmlmails/htmlmails.php:386
 #: lib/modules/useredit/useredit.php:349
 msgid "Resource Number"
-msgstr "Resursnummer"
+msgstr "Resurssin numero"
 
 #: lib/modules/htmlmails/htmlmails.php:126
 msgid "Childs"
-msgstr "Barn"
+msgstr "Lapsia"
 
 #: lib/modules/htmlmails/htmlmails.php:131
 msgid "Date today"
-msgstr "Dagens datum"
+msgstr "Pvm tänään"
 
 #: lib/modules/htmlmails/htmlmails.php:132
 msgid "ID of reservation"
-msgstr "ID för reservation"
+msgstr "Varaustunnus"
 
 #: lib/modules/htmlmails/htmlmails.php:133
 msgid "Message from admin"
-msgstr "Meddelande från admin"
+msgstr "Viesti ylläpidolta"
 
 #: lib/modules/htmlmails/htmlmails.php:135
 msgid "Link to edit"
-msgstr "Länk för redigering"
+msgstr "Muokkauslinkki"
 
 #: lib/modules/htmlmails/htmlmails.php:138
 #: lib/modules/htmlmails/htmlmails.php:393
@@ -3548,245 +3563,247 @@ msgstr "PayPal URL"
 
 #: lib/modules/htmlmails/htmlmails.php:378
 msgid "Line Break"
-msgstr "Radbrytning"
+msgstr "Rivinvaihto"
 
 #: lib/modules/htmlmails/htmlmails.php:379
 msgid "Arrival"
-msgstr "Ankomst"
+msgstr "Tulo"
 
 #: lib/modules/htmlmails/htmlmails.php:380
 msgid "Departure"
-msgstr "Avresa"
+msgstr "Lähtö"
 
 #: lib/modules/htmlmails/htmlmails.php:381
 msgid "Times"
-msgstr "Gånger"
+msgstr "Ajat"
 
 #: lib/modules/htmlmails/htmlmails.php:383
 msgid "Childrens"
-msgstr "Barn"
+msgstr "Lapset"
 
 #: lib/modules/htmlmails/htmlmails.php:389
 msgid "Changlog"
-msgstr "Ändringslogg"
+msgstr "Muutosloki"
 
+# hmm
 #: lib/modules/htmlmails/htmlmails.php:390
 msgid "Editlink"
-msgstr "Redigeringslänk"
+msgstr "Muokkauslinkki"
 
 #: lib/modules/htmlmails/htmlmails.php:391
 msgid "Admin Message"
-msgstr "Admin meddelande"
+msgstr "Ylläpidon viesti"
 
 #: lib/modules/import/import.php:15 lib/modules/import/import.php:25
 msgid "Import"
-msgstr "Importera"
+msgstr "Tuo"
 
 #: lib/modules/import/import.php:40
 #, php-format
 msgid "%s reservations imported"
-msgstr "%s reservationer importerade"
+msgstr "tuotiin %s varausta"
 
 #: lib/modules/import/import.php:42
 msgid "Error at access server"
-msgstr "Fel vid serveraccess"
+msgstr "Palvelimen käyttöoikeusvirhe"
 
 #: lib/modules/import/import.php:44
 msgid "Only admins can import reservations"
-msgstr "Enbart admin kan importera reservationer"
+msgstr "Vain ylläpitäjät voivat tuoda varauksia"
 
 #: lib/modules/import/import.php:68
 msgid "Reservations in table"
-msgstr "Reservationer i tabellen"
+msgstr "Varaukset taulukossa"
 
 #: lib/modules/import/import.php:68
 msgid "All reservations"
-msgstr "Alla reservationer"
+msgstr "Kaikki varaukset"
 
 #: lib/modules/import/import.php:68
 msgid "Select reservations"
-msgstr "Välj reservationer"
+msgstr "Valitse varaukset"
 
 #: lib/modules/import/import.php:68
 msgid "Excel File"
-msgstr "Excel fil"
+msgstr "Excel-tiedosto"
 
 #: lib/modules/import/import.php:68
 msgid "Backup (XML)"
-msgstr "Backup (XML)"
+msgstr "Varmuuskopio (XML)"
 
 #: lib/modules/import/import.php:68
 msgid "CSV File"
-msgstr "CSV Fil"
+msgstr "CSV-tiedosto"
 
 #: lib/modules/import/import.php:71 lib/modules/useredit/useredit.php:401
 #: lib/modules/useredit/useredit.php:738
 msgid "Informations"
-msgstr "Informationer"
+msgstr "Tiedot"
 
 #: lib/modules/import/import.php:73
 msgid "Price/Paid"
-msgstr "Pris/Betalt"
+msgstr "Hinta/Maksettu"
 
 #: lib/modules/import/import.php:74
 msgid "Customs"
-msgstr "Egna"
+msgstr "Omat tiedot"
 
 #: lib/modules/import/import.php:78
 msgid "Export reservations"
-msgstr "Exportera reservationer"
+msgstr "Vie varaukset"
 
 #: lib/modules/invoice/editor.php:22
 msgid "Generate"
-msgstr "Generera"
+msgstr "Luo"
 
 #: lib/modules/invoice/editor.php:23
 msgid "Preview"
-msgstr "Förhandsgranska"
+msgstr "Esikatselu"
 
 #: lib/modules/invoice/invoice.php:154
 msgid "Due date"
-msgstr "Förfallodatum"
+msgstr "Eräpäivä"
 
 #: lib/modules/invoice/invoice.php:464
 msgid "Invoice settings changed"
-msgstr "Fakturainställningar ändrade"
+msgstr "Laskun asetuksia muutettu"
 
 #: lib/modules/invoice/invoice.php:572
 msgid "Invoice Settings"
-msgstr "Faktureringsinställningar"
+msgstr "Laskun asetukset"
 
 #: lib/modules/invoice/invoice.php:626
 msgid "with template"
-msgstr "med mall"
+msgstr "mallin mukaan"
 
 #: lib/modules/invoice/invoice.php:651
 msgid "Copy & Add"
-msgstr "Kopiera och lägg till"
+msgstr "Kopioi ja lisää"
 
 #: lib/modules/lang/lang.php:63
 msgid "translateable content"
-msgstr "översättningsbart innehåll"
+msgstr "käännettävä sisältö"
 
 #: lib/modules/lang/lang.php:107 lib/modules/lang/lang.php:132
 msgid "Translation"
-msgstr "Översättning"
+msgstr "Käännös"
 
 #: lib/modules/lang/lang.php:108
 msgid ""
 "For multilingual content. It can be used inside other tags and used in "
 "emails, the search bar or invoice templates."
 msgstr ""
-"För flerspråkigt innehåll. Den kan användas inuti andra taggar och används i "
-"e-postmeddelanden, sökfältet eller fakturamallar."
+"Monikielisiä sisältöjä varten. Voidaan käyttää muiden tunnisteiden sisällä "
+"sähköposteissa, hakupalkissa ja laskumalleissa."
 
 #: lib/modules/lang/lang.php:117
 msgid "Translations"
-msgstr "Översättningar"
+msgstr "Käännökset"
 
 #: lib/modules/lang/lang.php:126 lib/modules/paypal/paypal.php:195
 #: lib/modules/paypal/paypal.php:229 lib/modules/paypal/paypal.php:260
 #: lib/modules/paypal/paypal.php:276
 msgid "Language"
-msgstr "Språk"
+msgstr "Kieli"
 
 #: lib/modules/lang/lang.php:132
 msgid "For multilingual content"
-msgstr "För flerspråkigt innehåll"
+msgstr "Monikielistä sisältöä varten"
 
 #: lib/modules/multical/multical.php:23
 msgid "Display months"
-msgstr "Visa månader"
+msgstr "Näytä kuukaudet"
 
 #: lib/modules/multical/multical.php:24 lib/modules/paypal/creditcards.php:252
 #: lib/modules/useredit/useredit.php:443
 msgid "Month"
-msgstr "Månad"
+msgstr "Kuukausi"
 
 #: lib/modules/multical/multical.php:25
 msgid "Interval"
-msgstr "Intervall"
+msgstr "Väli"
 
 #: lib/modules/multical/multical.php:28
 msgid "Display month name"
-msgstr "Visa månads namn"
+msgstr "Näytä kuukauden nimi"
 
 #: lib/modules/multical/multical.php:36
 msgid "boxes"
-msgstr "rutor"
+msgstr "laatikot"
 
 #: lib/modules/paypal/creditcards.php:103
 msgid "Credit card data deleted"
-msgstr "Kreditkortsuppgifter raderade"
+msgstr "Luottokortin tiedot poistettu"
 
 #: lib/modules/paypal/creditcards.php:104
 msgid "Credit card data couldn't be deleted"
-msgstr "Kreditkortsuppgifter kunde inte raderas"
+msgstr "Luottokortin tietoja ei voitu poistaa"
 
 #: lib/modules/paypal/creditcards.php:122
 msgid "All credit cards deleted"
-msgstr "Alla kreditkort raderade"
+msgstr "Kaikki luottokortit poistettu"
 
 #: lib/modules/paypal/creditcards.php:129
 msgid "Unknown card type"
-msgstr "Okänd kort"
+msgstr "Tuntematon kortin tyyppi"
 
 #: lib/modules/paypal/creditcards.php:130
 msgid "No card number provided"
-msgstr "Inget kortnummer angivet"
+msgstr "Kortin numero ei ole annettu"
 
 #: lib/modules/paypal/creditcards.php:131
 msgid "Credit card number has invalid format"
-msgstr "Kreditkortsnumret har ogiltigt format"
+msgstr "Luottokortin numero on väärässä muodossa"
 
 #: lib/modules/paypal/creditcards.php:132
 msgid "Credit card number is invalid"
-msgstr "Kreditkortsnumret är ogiltigt"
+msgstr "Luottokortin numero ei kelpaa"
 
 #: lib/modules/paypal/creditcards.php:133
 msgid "Credit card number is wrong length"
-msgstr "Kreditkortsnumret har fel längd"
+msgstr "Luottokortin numero on väärän pituinen"
 
 #: lib/modules/paypal/creditcards.php:134
 msgid "Please enter credit cards owner name"
-msgstr "Vänligen ange kreditkortets ägarnamn"
+msgstr "Kirjoita luottokortin omistajan nimi"
 
 #: lib/modules/paypal/creditcards.php:212
 #: lib/modules/paypal/creditcards.php:213
 msgid "Enter correct CVV code"
-msgstr "Ange rätt CVV kod"
+msgstr "Anna oikea CVV-koodi"
 
 #: lib/modules/paypal/creditcards.php:225
 #: lib/modules/paypal/creditcards.php:251
 msgid "Number"
-msgstr "Nummer"
+msgstr "Numero"
 
 #: lib/modules/paypal/creditcards.php:225
 #: lib/modules/paypal/creditcards.php:439
 msgid "Expires"
-msgstr "Utgångsdatum"
+msgstr "Vanhenee"
 
 #: lib/modules/paypal/creditcards.php:267
 msgid ""
 "Credit Card Number must be a number and between 12 and 16 characters long"
-msgstr "Kreditkortsnumret måste vara mellan 12 och 16 siffror"
+msgstr "Luottokortin numeron on oltava 12-16 merkkiä pitkä numero"
 
 #: lib/modules/paypal/creditcards.php:291
 msgid "Credit Cards settings changed"
-msgstr "Kreditkortsinställningar ändrade"
+msgstr "Luottokorttien asetukset muutettu"
 
 #: lib/modules/paypal/creditcards.php:292 lib/modules/paypal/paypal.php:97
 #: lib/modules/paypal/paypal.php:105 lib/modules/paypal/paypal.php:115
 #: lib/modules/paypal/paypal.php:125 lib/modules/paypal/paypal.php:133
 #: lib/modules/paypal/paypal.php:141
 msgid "settings changed"
-msgstr "inställningar ändrade"
+msgstr "asetukset muutettu"
 
 #: lib/modules/paypal/creditcards.php:304
 #, php-format
 msgid "Before using open the file %1$s and enter a long random password"
 msgstr ""
-"Innan användning, öppna filen %1$s och ange ett långt slumpmässigt lösenord"
+"Ennen kuin ryhdyt käyttämään, avaa tiedosto %1$s ja anna pitkä satunnainen "
+"salasana"
 
 #: lib/modules/paypal/creditcards.php:305
 #, php-format
@@ -3794,20 +3811,22 @@ msgid ""
 "Can't open the file %1$s with the security key. Try to give it and it's "
 "folder CHMOD 755 or higher."
 msgstr ""
-"Kan inte öppna fil %1$s med säkerhetsnyckeln. Prova att ge den, och dess "
-"mapp, CHMOD 755 eller högre."
+"Tiedostoa %1$s ei voi avata suojausavaimella. Yritä muuttaa tiedoston ja sen "
+"kansion oikeuksiksi vähintään 755."
 
 #: lib/modules/paypal/creditcards.php:306
 #, php-format
 msgid "Before using create a file named %1$s in %2$s and enter %3$s"
-msgstr "Innan användning skapa en fil med namn %1$s i %2$s och ange %3$s"
+msgstr ""
+"Ennen kuin ryhdyt käyttämään, luo tiedosto %1$s kohteeseen %2$s ja kirjoita "
+"%3$s"
 
 #: lib/modules/paypal/creditcards.php:317 lib/modules/paypal/paypal.php:203
 #: lib/modules/paypal/paypal.php:216 lib/modules/paypal/paypal.php:233
 #: lib/modules/paypal/paypal.php:248 lib/modules/paypal/paypal.php:263
 #: lib/modules/paypal/paypal.php:281
 msgid "settings"
-msgstr "inställningar"
+msgstr "asetukset"
 
 #: lib/modules/paypal/creditcards.php:325 lib/modules/paypal/paypal.php:192
 #: lib/modules/paypal/paypal.php:209 lib/modules/paypal/paypal.php:223
@@ -3815,93 +3834,94 @@ msgstr "inställningar"
 #: lib/modules/paypal/paypal.php:269 lib/modules/sync/sync.php:30
 #: lib/modules/useredit/useredit.php:388
 msgid "Off"
-msgstr "Av"
+msgstr "Pois"
 
+# hmm
 #: lib/modules/paypal/creditcards.php:326
 msgid "Normal credit card form get send to stripe"
-msgstr "Normalt kreditkorts formulär får skicka till stripe"
+msgstr "Normaali luottokorttilomake lähetetään Stripe-palveluun"
 
 #: lib/modules/paypal/creditcards.php:327
 msgid "Stripe button with blue style popup form"
-msgstr "Stripe knapp med blå stil i popup formuläret"
+msgstr "Stripe-painike sinisellä ponnahduslomakkeella"
 
 #: lib/modules/paypal/creditcards.php:342
 msgid "Attach transaction to"
-msgstr "Bifoga transaktionen till"
+msgstr "Liitä maksutapahtuma kohteeseen"
 
 #: lib/modules/paypal/creditcards.php:347
 msgid "in Stripes system"
-msgstr "i Stripes system"
+msgstr "Stripes-järjestelmässä"
 
 #: lib/modules/paypal/creditcards.php:351
 msgid "Stripe button"
-msgstr "Stripe knapp"
+msgstr "Stripe-painike"
 
 #: lib/modules/paypal/creditcards.php:353
 msgid "Ask for address in popup form"
-msgstr "Fråga efter adressen i popup formuläret"
+msgstr "Pyydä osoite ponnahduslomakkeessa"
 
 #: lib/modules/paypal/creditcards.php:354
 msgid "Title in popup"
-msgstr "Titel i popup"
+msgstr "Ponnahdusikkunan otsikko"
 
 #: lib/modules/paypal/creditcards.php:355
 msgid "Subtitle in popup"
-msgstr "Undertitel i popup"
+msgstr "Ponnahdusikkunan alaotsikko"
 
 #: lib/modules/paypal/creditcards.php:359 lib/modules/paypal/paypal.php:194
 #: lib/modules/paypal/paypal.php:246 lib/modules/paypal/paypal.php:259
 #: lib/modules/paypal/paypal.php:275
 msgid "Currency"
-msgstr "Valuta"
+msgstr "Valuutta"
 
 #: lib/modules/paypal/creditcards.php:376
 msgid "Credit Card settings"
-msgstr "Kreditkortsinställningar"
+msgstr "Luottokortin asetukset"
 
 #: lib/modules/paypal/creditcards.php:376
 msgid "Delete all credit cards"
-msgstr "Radera alla kreditkort"
+msgstr "Poista kaikki luottokortit"
 
 #: lib/modules/paypal/creditcards.php:393
 msgid ""
 "Check to give your guests the opportunity to enter their credit card "
 "information after submit"
 msgstr ""
-"Kryssa i för att ge dina gäster möjlighet att ange deras "
-"kreditkortsinformation efter inskickning"
+"Valitse, jos haluat että asiakas voi kirjoittaa luottokortin tiedot "
+"lähettämisen jälkeen"
 
 #: lib/modules/paypal/creditcards.php:397 lib/modules/paypal/paypal.php:193
 msgid "Owner"
-msgstr "Ägare"
+msgstr "Omistaja"
 
 #: lib/modules/paypal/creditcards.php:399
 msgid "Ask for name of card holder"
-msgstr "Fråga efter namn på kortinnehavaren"
+msgstr "Pyydä kortin haltijan nimi"
 
 #: lib/modules/paypal/creditcards.php:403 lib/modules/paypal/paypal.php:344
 msgid "Automatically approval"
-msgstr "Automatiskt godkännande"
+msgstr "Hyväksy automaattisesti"
 
 #: lib/modules/paypal/creditcards.php:405
 msgid "Auto-approve after entered correctly credit card information"
-msgstr "Godkänn automatiskt efter att ha angett korrekt kreditkortsinformation"
+msgstr "Hyväksy automaattisesti kun luottokortin tiedot on annettu oikein"
 
 #: lib/modules/paypal/creditcards.php:409
 msgid "Available Credit Cards"
-msgstr "Tillgängliga kreditkort"
+msgstr "Hyväksytyt luottokortit"
 
 #: lib/modules/paypal/creditcards.php:436
 msgid "Card Type"
-msgstr "Korttyp"
+msgstr "Kortin tyyppi"
 
 #: lib/modules/paypal/creditcards.php:437
 msgid "Holders name"
-msgstr "Innehavarens namn"
+msgstr "Haltijan nimi"
 
 #: lib/modules/paypal/creditcards.php:438
 msgid "Card Number"
-msgstr "Kortnummer"
+msgstr "Kortin numero"
 
 #: lib/modules/paypal/creditcards.php:440
 msgid "CCV"
@@ -3909,23 +3929,23 @@ msgstr "CCV"
 
 #: lib/modules/paypal/creditcards.php:467
 msgid "Pay"
-msgstr "Betala"
+msgstr "Maksa"
 
 #: lib/modules/paypal/creditcards.php:467
 msgid "Secure"
-msgstr "Säker"
+msgstr "Turvallinen"
 
 #: lib/modules/paypal/paypal.php:180
 msgid "Title when paying multiple reservations"
-msgstr "Rubrik vid betalning av flera reservationer"
+msgstr "Otsikko maksettaessa useita varauksia"
 
 #: lib/modules/paypal/paypal.php:181
 msgid "Deposit"
-msgstr "Handpenning"
+msgstr "Ennakkomaksu"
 
 #: lib/modules/paypal/paypal.php:183
 msgid "General payment settings"
-msgstr "Allmän betalnings inställningar"
+msgstr "Yleiset maksuasetukset"
 
 #: lib/modules/paypal/paypal.php:192 lib/modules/paypal/paypal.php:209
 #: lib/modules/paypal/paypal.php:223 lib/modules/paypal/paypal.php:240
@@ -3937,27 +3957,27 @@ msgstr "Sandbox"
 #: lib/modules/paypal/paypal.php:223 lib/modules/paypal/paypal.php:240
 #: lib/modules/paypal/paypal.php:254 lib/modules/paypal/paypal.php:269
 msgid "Live"
-msgstr "Live"
+msgstr "Normaali"
 
 #: lib/modules/paypal/paypal.php:192
 msgid "The validation only works with SSL in Sandbox"
-msgstr "Valideringen fungerar endast med SSL i Sandbox"
+msgstr "Validointi toimii vain SSL/Sandbox-yhdistelmällä"
 
 #: lib/modules/paypal/paypal.php:193
 msgid "Paypal email or Secure Merchant ID"
-msgstr "PayPal e-post eller Secure Merchant ID"
+msgstr "Paypal-sähköpostiosoite tai Secure Merchant -tunnus"
 
 #: lib/modules/paypal/paypal.php:196 lib/modules/paypal/paypal.php:212
 #: lib/modules/paypal/paypal.php:227 lib/modules/paypal/paypal.php:244
 #: lib/modules/paypal/paypal.php:257 lib/modules/paypal/paypal.php:273
 msgid "After success return to"
-msgstr "Efter utförd betalningen återgå till"
+msgstr "Palaa onnistumisen jälkeen kohtaan"
 
 #: lib/modules/paypal/paypal.php:196 lib/modules/paypal/paypal.php:212
 #: lib/modules/paypal/paypal.php:227 lib/modules/paypal/paypal.php:244
 #: lib/modules/paypal/paypal.php:257 lib/modules/paypal/paypal.php:273
 msgid "Page"
-msgstr "Sida"
+msgstr "Sivu"
 
 #: lib/modules/paypal/paypal.php:196 lib/modules/paypal/paypal.php:212
 #: lib/modules/paypal/paypal.php:227 lib/modules/paypal/paypal.php:244
@@ -3967,385 +3987,383 @@ msgstr "URL"
 
 #: lib/modules/paypal/paypal.php:198
 msgid "Label above note"
-msgstr "Etikett ovanför meddelande"
+msgstr "Nimike huomautuksen yllä"
 
 #: lib/modules/paypal/paypal.php:199
 msgid "Charset"
-msgstr "Teckenuppsättning"
+msgstr "Merkistö"
 
 #: lib/modules/paypal/paypal.php:200 lib/modules/paypal/paypal.php:214
 #: lib/modules/paypal/paypal.php:231 lib/modules/paypal/paypal.php:261
 #: lib/modules/paypal/paypal.php:278
 msgid "Button"
-msgstr "Knapp"
+msgstr "Painike"
 
 #: lib/modules/paypal/paypal.php:201
 msgid "Instant Payment Notifications"
-msgstr "Instant Payment Meddelande"
+msgstr "Välittömät maksuilmoitukset"
 
 #: lib/modules/paypal/paypal.php:201
 msgid "Validate payment & set paid amount"
-msgstr "Validera betalning & ange betalt belopp"
+msgstr "Vahvista maksu ja tallenna maksettu summa"
 
 #: lib/modules/paypal/paypal.php:224
 msgid "Routine"
-msgstr "Rutin"
+msgstr "Rutiini"
 
 #: lib/modules/paypal/paypal.php:224
 msgid "Multi-page Payment"
-msgstr "Flersidig betalning"
+msgstr "Maksu usealla sivulla"
 
 #: lib/modules/paypal/paypal.php:224
 msgid "Single Page Payment"
-msgstr "Ensidig betalning"
+msgstr "Maksu yhdellä sivulla"
 
 #: lib/modules/paypal/paypal.php:230
 msgid "Skip review page"
-msgstr "Hoppa över sida för förhandsgranskning"
+msgstr "Ohita tarkistussivu"
 
 #: lib/modules/paypal/paypal.php:277
 msgid "Logo"
-msgstr "Logotyp"
+msgstr "Logo"
 
 #: lib/modules/paypal/paypal.php:279
 msgid "Button Background"
-msgstr "Knapp bakgrund"
+msgstr "Painikkeen tausta"
 
 #: lib/modules/paypal/paypal.php:285
 msgid "Dont forget the new email types!"
-msgstr "Glöm inte bort de nya e-post typerna!"
+msgstr "Älä unohda uusia sähköpostityyppejä!"
 
 #: lib/modules/paypal/paypal.php:338
 msgid "Payment button"
-msgstr "Betalnings knapp"
+msgstr "Maksupainike"
 
 #: lib/modules/paypal/paypal.php:344
 msgid "After submit"
-msgstr "Efter skickat"
+msgstr "Lähetyksen jälkeen"
 
 #: lib/modules/paypal/paypal.php:344
 msgid "After payment"
-msgstr "Efter betalning"
+msgstr "Maksun jälkeen"
 
 #: lib/modules/paypal/paypal.php:344
 msgid "Both"
-msgstr "Båda"
+msgstr "Molemmat"
 
 #: lib/modules/paypal/paypal.php:344
 msgid "If there's free space in resource"
-msgstr "Om resursen är ledig"
+msgstr "Jos resurssissa on vapaata"
 
 #: lib/modules/paypal/paypal.php:355
 msgid "Mail to admin after payment"
-msgstr "E-post till admin efter betalning"
+msgstr "Lähetä sähköposti ylläpitäjälle maksun jälkeen"
 
 #: lib/modules/paypal/paypal.php:356
 msgid "Mail to guest after payment"
-msgstr "E-post till gäst efter betalning"
+msgstr "Lähetä sähköposti asiakkaalle maksun jälkeen"
 
 #: lib/modules/paypal/paypal.php:417
 msgid "or pay with credit card"
-msgstr "eller betala med kreditkort"
+msgstr "tai maksa luottokortilla"
 
 #: lib/modules/paypal/paypal.php:423
 msgid "Choose payment gateway"
-msgstr "Välj betalning gateway"
+msgstr "Valitse maksukäytävä"
 
 #: lib/modules/paypal/paypal.php:740 lib/modules/paypal/paypal.php:746
 msgid "Pay a deposit of"
-msgstr "Betala en deposition på"
+msgstr "Maksa ennakkomaksuna"
 
 #: lib/modules/paypal/paypal.php:750
 msgid "Pay the full price of"
-msgstr "Betala fullt pris på"
+msgstr "Maksa koko hinta"
 
 #: lib/modules/paypal/paypal.php:802
 #, php-format
 msgid "Payment about %1$s successful"
-msgstr "Betalning för %1$s lyckades"
+msgstr "Maksu kohteesta %1$s onnistui"
 
 #: lib/modules/search/attributes.php:21
 msgid "Attribute deleted"
-msgstr "Attribut raderat"
+msgstr "Määrite poistettu"
 
 #: lib/modules/search/attributes.php:22
 msgid "Attribute not found"
-msgstr "Attribut hittades inte"
+msgstr "Määritettä ei löytynyt"
 
 #: lib/modules/search/attributes.php:29
 msgid "There is already an attribute with a similar title"
-msgstr "Det finns redan ett attribut med en liknande titel"
+msgstr "Järjestelmässä on jo määrite, jolla on samankaltainen otsikko"
 
 #: lib/modules/search/attributes.php:36
 msgid "Select a type for the attribute"
-msgstr "Välj en typ för attributet"
+msgstr "Valitse määritteen tyyppi"
 
 #: lib/modules/search/attributes.php:40
 msgid "No options provided"
-msgstr "Inga förutsatta alternativ"
+msgstr "Vaihtoehtoja ei ole määritetty"
 
 #: lib/modules/search/attributes.php:46
 msgid "Minimum value must be entered and be a number"
-msgstr "Min. värde måste anges och vara ett nummer"
+msgstr "Minimiarvo on annettava ja sen täytyy olla numero"
 
 #: lib/modules/search/attributes.php:50 lib/modules/search/attributes.php:61
 msgid "Maximum value must be entered and be a number"
-msgstr "Max värde måste anges och vara ett nummer"
+msgstr "Maksimiarvo on annettava ja sen täytyy olla numero"
 
 #: lib/modules/search/attributes.php:59
 msgid "Attribute edited"
-msgstr "Attribut redigerad"
+msgstr "Määritettä muokattu"
 
 #: lib/modules/search/attributes.php:65
 msgid "Attribute added"
-msgstr "Attribut tillsatt"
+msgstr "Määrite lisätty"
 
 #: lib/modules/search/attributes.php:81 lib/modules/search/attributes.php:200
 msgid "searchForm attributes"
-msgstr "sökFormulär attribut"
+msgstr "hakulomakkeen määritteet"
 
 #: lib/modules/search/attributes.php:106
 msgid "No attributes"
-msgstr "Inga attribut"
+msgstr "Ei määritteitä"
 
 #: lib/modules/search/attributes.php:111
 msgid "Add attribute"
-msgstr "Lägg till attribut"
+msgstr "Lisää määrite"
 
 #: lib/modules/search/attributes.php:122
 msgid "Checkbox"
-msgstr "Kryssruta"
+msgstr "Valintaruutu"
 
 #: lib/modules/search/attributes.php:122
 msgid "Min - Max"
-msgstr "Min - Max"
+msgstr "Min - Maks"
 
 #: lib/modules/search/attributes.php:155
 msgid "Comma separated options"
-msgstr "Komma separerade val"
+msgstr "Pilkulla erotetut vaihtoehdot"
 
 #: lib/modules/search/attributes.php:159
 msgid "Only numbers"
-msgstr "Enbart nummer"
+msgstr "Vain numeroita"
 
 #: lib/modules/search/attributes.php:178
 msgid "Value of $s must be a number"
-msgstr "Värdet för $s måste vara ett nummer"
+msgstr "Kohteen $s arvon täytyy olla numero"
 
 #: lib/modules/search/search.php:25
 msgid "Theme"
-msgstr "Tema"
+msgstr "Teema"
 
 #: lib/modules/search/search.php:26
 msgid "List"
-msgstr "Lista"
+msgstr "Luettelo"
 
 #: lib/modules/search/search.php:34
 msgid "URL to page or post with form"
-msgstr "URL till sida eller inlägg med formuläret"
+msgstr "Lomakkeen sisältävän sivun tai artikkelin URL"
 
 #: lib/modules/search/search.php:38
 msgid "Search after page loaded"
-msgstr "Sök efter sido laddning"
+msgstr "Haku sivun lataamisen jälkeen"
 
 #: lib/modules/search/search.php:38
 msgid "Search after every change"
-msgstr "Sök efter varje förändring"
+msgstr "Haku jokaisen muutoksen jälkeen"
 
 #: lib/modules/search/search.php:42
 msgid "Exclude resource by comma saperated IDs"
-msgstr "Uteslut resurs genom kommaseparerade ID"
+msgstr "Jätä pois pilkulla erotellut resurssitunnukset"
 
 #: lib/modules/search/search.php:45
 msgid "Unavailable"
-msgstr "Otillgänglig"
+msgstr "Ei saatavilla"
 
 #: lib/modules/search/search.php:46
 msgid "Show unavailable resources too"
-msgstr "Visa även otillgängliga resurser"
+msgstr "Näytä myös resurssit, jotka eivät ole saatavilla "
 
 #: lib/modules/search/search.php:49
 msgid "Thumbnail"
-msgstr "Miniatyr"
+msgstr "Pikkukuva"
 
 #: lib/modules/search/search.php:53
 msgid "Show"
-msgstr "Visa"
+msgstr "Näytä"
 
 #: lib/modules/search/search.php:54
 msgid "first characters of content"
-msgstr "första tecknen i innehållet"
+msgstr "sisällön ensimmäistä merkkiä"
 
 #: lib/modules/search/search.php:54
 msgid "More link to resources post"
-msgstr "Mer länk till resurser inlägget"
+msgstr "Lisää-linkki resurssien artikkeliin"
 
 #: lib/modules/search/search.php:58
 #, php-format
 msgid "Show %s days in calendar with %s"
-msgstr "Visa %s dagar i kalendern med %s"
+msgstr "Näytä %s päivää kalenterissa %s"
 
 #: lib/modules/search/search.php:58
 msgid "Nothing"
-msgstr "Inget"
+msgstr "Ei mitään"
 
 #: lib/modules/search/search.php:58
 msgid "Free space count"
-msgstr "Fritt utrymme räknas"
+msgstr "Vapaan tilan määrä"
 
 #: lib/modules/search/search.php:62
 msgid "Text for seach button"
-msgstr "Text för sökknapp"
+msgstr "Hakupainikkeen teksti"
 
 #: lib/modules/search/search.php:65
 msgid "Reserve"
-msgstr "Reservera"
+msgstr "Varaa"
 
 #: lib/modules/search/search.php:66
 msgid "Text for reserve link/button"
-msgstr "Text för reservations länk/knapp"
+msgstr "Varauslinkin/-painikkeen teksti"
 
 #: lib/modules/search/search.php:72
 msgid "This shortcode adds an availability search form to the post or page"
-msgstr ""
-"Denna shortcode lägger till ett tillgängligt sök formulär på inlägg eller "
-"sida"
+msgstr "Tämä lyhytkoodi lisää saatavuushakulomakkeen artikkeliin tai sivulle"
 
 #: lib/modules/search/search.php:72
 msgid "You can combine it with a calendar by add it to the same page"
-msgstr ""
-"Du kan kombinera det med en kalender genom att lägga till det på samma sida"
+msgstr "Voit käyttää sen yhteydessä kalenteria lisäämällä sen samalle sivulle"
 
 #: lib/modules/search/search.php:72
 msgid "Only add it once per page or post"
-msgstr "Lägg bara till det en gång per sida eller inlägg"
+msgstr "Lisää artikkeliin tai sivuun vain kerran"
 
+# hmm
 #: lib/modules/search/search.php:123
 msgid "searchForm bar"
-msgstr "Sökformulär"
+msgstr "hakulomakepalkki"
 
 #: lib/modules/search/search.php:178
 msgid "Search form settings saved"
-msgstr "Inställningar för sökformulär sparade"
+msgstr "Hakulomakkeen asetukset tallennettu"
 
 #: lib/modules/search/search.php:211 lib/widgets/form_widget.php:140
 #: lib/widgets/form_widget.php:147
 msgid "Reserve now!"
-msgstr "Boka nu!"
+msgstr "Varaa nyt!"
 
 #: lib/modules/search/search.php:382
 #, php-format
 msgid "min %s pers"
-msgstr "min %s pers"
+msgstr "väh. %s hlöä"
 
 #: lib/modules/search/search.php:383
 #, php-format
 msgid "max %s pers"
-msgstr "max %s pers"
+msgstr "enint. %s hlöä"
 
 #: lib/modules/search/search.php:384
 #, php-format
 msgid "min %1$s %2$s"
-msgstr "min %1$s %2$s"
+msgstr "väh. %1$s %2$s"
 
 #: lib/modules/search/search.php:385
 #, php-format
 msgid "max %1$s %2$s"
-msgstr "max %1$s %2$s"
+msgstr "enint. %1$s %2$s"
 
 #: lib/modules/search/search.php:386
 #, php-format
 msgid "arrival only %s"
-msgstr "ankomst enbart %s"
+msgstr "tulo vain %s"
 
 #: lib/modules/search/search.php:387
 #, php-format
 msgid "departure only %s"
-msgstr "avresa enbart %s"
+msgstr "lähtö vain %s"
 
 #: lib/modules/search/search.php:438
 msgid "more"
-msgstr "mer"
+msgstr "lisää"
 
 #: lib/modules/search/search.php:556
 msgid "None available in this period"
-msgstr "Inga tillgängliga under denna period"
+msgstr "Ei yhtään saatavilla tällä aikavälillä"
 
 #: lib/modules/search/searchtypes.php:15
 msgid "Post Types"
-msgstr "Post typer"
+msgstr "Julkaisutyypit"
 
 #: lib/modules/statistics/statistics.php:93
 msgid "reservations"
-msgstr "reservationer"
+msgstr "varaukset"
 
 #: lib/modules/statistics/statistics.php:144
 msgid "reserved"
-msgstr "reserverad"
+msgstr "varattu"
 
 #: lib/modules/statistics/statistics.php:258
 msgid "Reservations Statistics"
-msgstr "Statistik för reservationer"
+msgstr "Varaustilastot"
 
 #: lib/modules/statistics/statistics.php:259
 msgid "All resources"
-msgstr "Alla resurser"
+msgstr "Kaikki resurssit"
 
 #: lib/modules/statistics/statistics.php:531
 msgid "Detailed Statistics"
-msgstr "Detaljerad statistik"
+msgstr "Tarkat tilastot"
 
 #: lib/modules/statistics/statistics.php:536
 msgid "Total reservations"
-msgstr "Totala reservationer"
+msgstr "Varauksia yhteensä"
 
 #: lib/modules/statistics/statistics.php:540
 msgid "Future approved reservations"
-msgstr "Framtida godkända reservationer"
+msgstr "Tulevat hyväksytyt varaukset"
 
 #: lib/modules/statistics/statistics.php:544
 msgid "Past approved reservations"
-msgstr "Passerade godkända reservationer"
+msgstr "Menneet hyväksytyt varaukset"
 
 #: lib/modules/statistics/statistics.php:548
 msgid "Pending reservations"
-msgstr "Väntande reservationer"
+msgstr "Odottavat varaukset"
 
 #: lib/modules/statistics/statistics.php:552
 msgid "Rejected reservations"
-msgstr "Avvisade reservationer"
+msgstr "Hylätyt varaukset"
 
 #: lib/modules/statistics/statistics.php:556
 msgid "Trashed reservations"
-msgstr "Kastade reservationer"
+msgstr "Roskiin siirretyt varaukset"
 
 #: lib/modules/statistics/statistics.php:560
 msgid "Guests per reservations"
-msgstr "Gäster per reservation"
+msgstr "Asiakkaita varauksia kohti"
 
 #: lib/modules/statistics/statistics.php:564
 msgid "Times per reservations"
-msgstr "Gånger per reservation"
+msgstr "Aikoja varauksia kohti"
 
 #: lib/modules/statistics/statistics.php:568
 msgid "Paid amount of all reservations"
-msgstr "Betalt belopp för alla reservationer"
+msgstr "Kaikkien varattujen maksettu summa"
 
 #: lib/modules/statistics/statistics.php:572
 msgid "Paid per reservations"
-msgstr "Betalt per reservation"
+msgstr "Maksetut varauksia kohti"
 
 #: lib/modules/statistics/statistics.php:576
 msgid "Revenue of all reservations"
-msgstr "Intäkter för alla reservationer"
+msgstr "Tulot kaikista varauksista"
 
 #: lib/modules/statistics/statistics.php:580
 msgid "Revenue of future reservations"
-msgstr "Intäkter för framtida reservationer"
+msgstr "Tulot tulevista varauksista"
 
 #: lib/modules/statistics/statistics.php:584
 msgid "Revenue of past reservations"
-msgstr "Intälter för passerade reservationer"
+msgstr "Tulot menneistä varauksista"
 
 #: lib/modules/statistics/statistics.php:592
 #: lib/modules/statistics/statistics.php:597
@@ -4354,7 +4372,7 @@ msgstr "Brutto"
 
 #: lib/modules/statistics/statistics.php:596
 msgid "Revenue per reservations"
-msgstr "Intäkter per reservation"
+msgstr "Tulot varauksista"
 
 #: lib/modules/statistics/statistics.php:597
 msgid "Net"
@@ -4362,35 +4380,35 @@ msgstr "Netto"
 
 #: lib/modules/statistics/statistics.php:609
 msgid "Approved and reservated graph"
-msgstr "Godkända och reserverade diagram"
+msgstr "Hyväksyttyjen ja varattujen kuvaaja"
 
 #: lib/modules/statistics/statistics.php:623
 msgid "Add reservations first"
-msgstr "Lägg till reservation först"
+msgstr "Lisää varaukset ensin"
 
 #: lib/modules/stream/stream.php:141 lib/modules/stream/stream.php:172
 msgid "Admin"
-msgstr "Admin"
+msgstr "Ylläpitäjä"
 
 #: lib/modules/stream/stream.php:143 lib/modules/stream/stream.php:172
 msgid "Guest"
-msgstr "Gäst"
+msgstr "Asiakas"
 
 #: lib/modules/stream/stream.php:147
 msgid "installed stream module"
-msgstr "installerad stream modul"
+msgstr "asensi virtamoduulin"
 
 #: lib/modules/stream/stream.php:151
 msgid "added reservation"
-msgstr "tillagd reservation"
+msgstr "lisäsi varauksen"
 
 #: lib/modules/stream/stream.php:159
 msgid "No result"
-msgstr "Inget resultat"
+msgstr "Ei tuloksia"
 
 #: lib/modules/stream/stream.php:172
 msgid "Everyone"
-msgstr "Alla"
+msgstr "Kaikki"
 
 #: lib/modules/styles/styles.php:36
 msgid "premium"
@@ -4398,174 +4416,174 @@ msgstr "premium"
 
 #: lib/modules/styles/styles.php:86
 msgid "Datepicker style"
-msgstr "Utseende för datumval"
+msgstr "Päivämäärän valitsimen tyyli"
 
 #: lib/modules/styles/styles.php:87
 msgid "Datepicker availability"
-msgstr "Tillgänglighet för datumval"
+msgstr "Päivämäärän valitsimen saatavuus"
 
 #: lib/modules/styles/styles.php:87
 #, php-format
 msgid "Check availability for %s days"
-msgstr "Kontrollera tillgänglighet för %s days"
+msgstr "Tarkista saatavuus %s päivälle"
 
 #: lib/modules/styles/styles.php:87
 msgid "Cost at least one ms loading time per day and resource"
-msgstr "Kostar minst 1 ms laddningstid per dag och resurs"
+msgstr "Aiheuttaa vähintään yhden ms:n latausajan päivää ja resurssia kohden"
 
 #: lib/modules/sync/google.cal.php:33
 msgid "Connect to google"
-msgstr "Anslut till google"
+msgstr "Yhdistä Googleen"
 
 #: lib/modules/sync/google.cal.php:51
 msgid "client id"
-msgstr "klient id"
+msgstr "asiakastunnus"
 
 #: lib/modules/sync/google.cal.php:52
 msgid "client secret"
-msgstr "klienthemlighet"
+msgstr "asiakkaan salainen"
 
 #: lib/modules/sync/google.cal.php:53
 msgid "developer key"
-msgstr "utvecklarnyckel"
+msgstr "kehittäjäavain"
 
 #: lib/modules/sync/google.cal.php:79
 msgid "Inactive"
-msgstr "Inaktiv"
+msgstr "Inaktiivinen"
 
 #: lib/modules/sync/google.cal.php:79
 msgid "New"
-msgstr "Ny"
+msgstr "Uusi"
 
 #: lib/modules/sync/sync.php:27
 msgid "This function will add reservations to the woocommerce cart."
-msgstr "Denna funktion kommer att lägga reservationer i woocommerce varukorg."
+msgstr "Tämä toiminto lisää varaukset WooCommercen ostoskoriin."
 
 #: lib/modules/sync/sync.php:28
 msgid "After first activation save the settings of each resource once."
 msgstr ""
-"Efter första aktiveringen spara inställningarna för varje resurs en gång."
+"Kun toiminto on aktivoitu, tallenna jokaisen resurssin asetukset kertaalleen."
 
 #: lib/modules/sync/sync.php:29
 msgid "On"
-msgstr "På"
+msgstr "Päällä"
 
 #: lib/modules/sync/sync.php:32
 msgid "WooCommerce compatibility"
-msgstr "WooCommerce kompatibilitet"
+msgstr "WooCommerce-yhteensopivuus"
 
 #: lib/modules/sync/sync.php:57
 msgid "Sync"
-msgstr "Synk"
+msgstr "Synkr"
 
 #: lib/modules/useredit/useredit.php:72
 msgid "Message to guest"
-msgstr "Meddelande till gäst"
+msgstr "Viesti asiakkaalle"
 
 #: lib/modules/useredit/useredit.php:72
 msgid "Message to admin or Note"
-msgstr "Meddelande till admin eller notering"
+msgstr "Viesti ylläpidolle tai Huomautus"
 
 #: lib/modules/useredit/useredit.php:239
 msgid "Mail to guest after guest edited"
-msgstr "Mail till gäst efter gäst redigering"
+msgstr "Lähetä sähköposti asiakkaalle asiakkaan muokkauksen jälkeen"
 
 #: lib/modules/useredit/useredit.php:240
 msgid "Mail to admin after guest edited"
-msgstr "E-post till admin efter gästs redigering"
+msgstr "Lähetä sähköposti ylläpidolle asiakkaan muokkauksen jälkeen"
 
 #: lib/modules/useredit/useredit.php:241
 msgid "Mail to admin after guest canceled"
-msgstr "E-post till admin efter gästs avbrytning"
+msgstr "Lähetä sähköposti ylläpidolle asiakkaan peruutuksen jälkeen"
 
 #: lib/modules/useredit/useredit.php:282
 msgid "User Control Panel settings saved"
-msgstr "Inställningar för gästredigering sparad"
+msgstr "Käyttäjän hallintapaneelin asetukset tallennettu"
 
 #: lib/modules/useredit/useredit.php:295
 msgid "User Control Panel settings"
-msgstr "Använd kontrollpanels inställningar"
+msgstr "Käyttäjän hallintapaneelin asetukset"
 
 #: lib/modules/useredit/useredit.php:301
 msgid "URL of page with shortcode"
-msgstr "URL till sida med shortcode"
+msgstr "Lyhytkoodin sisältämän sivun URL"
 
 #: lib/modules/useredit/useredit.php:312
 #, php-format
 msgid "Let the guest cancel his reservation till %s days before arrival"
-msgstr "Låt gästen avbryta sin reservation till %s dagar före ankomst"
+msgstr "Salli asiakkaan perua varauksensa vielä %s päivää saapumista ennen"
 
 #: lib/modules/useredit/useredit.php:317
 msgid "Text after Submit"
-msgstr "Text efter inskickning"
+msgstr "Teksti lähettämisen jälkeen"
 
 #: lib/modules/useredit/useredit.php:326
 msgid "Text over login area - optional"
-msgstr "Text ovanför inloggningen - valfri"
+msgstr "Teksti kirjautumisalueen yllä - valinnainen"
 
 #: lib/modules/useredit/useredit.php:330
 msgid "Text over edit area - optional"
-msgstr "Text ovanför redigeringsområdet - valfri"
+msgstr "Teksti muokkausalueen yllä - valinnainen"
 
 #: lib/modules/useredit/useredit.php:337
 msgid "Table Settings"
-msgstr "Tabellinställningar"
+msgstr "Taulukon asetukset"
 
 #: lib/modules/useredit/useredit.php:338
 msgid "Table of other reservations from the same email"
-msgstr "Tabell över andra reservationer från samma e-postadress"
+msgstr "Muut varaukset sisältävä taulukko samassa sähköpostissa"
 
 #: lib/modules/useredit/useredit.php:341
 msgid "Information"
-msgstr "Information"
+msgstr ""
 
 #: lib/modules/useredit/useredit.php:346
 msgid "Reservated"
-msgstr "Reserverad"
+msgstr "Varattu"
 
 #: lib/modules/useredit/useredit.php:365
 msgid "Use style for table"
-msgstr "Använd stil för tabellen"
+msgstr "Käytä tyylejä taulukoissa"
 
 #: lib/modules/useredit/useredit.php:366
 msgid "Only display table if guest reserved more than once"
-msgstr "Visa endast tabell om gästen reserverat mer än en gång"
+msgstr "Näytä taulukko vain, jos asiakas on varannut useammin kuin kerran"
 
 #: lib/modules/useredit/useredit.php:380
 msgid "Guest contact settings"
-msgstr "Kontaktinställningar gäst"
+msgstr "Asiakkaan yhteystietoasetukset"
 
 #: lib/modules/useredit/useredit.php:389
 msgid "Only admin"
-msgstr "Enbart admin"
+msgstr "Vain ylläpito"
 
 #: lib/modules/useredit/useredit.php:390
 msgid "User Control Panel and admin"
-msgstr "Använd kontrollpanel och admin"
+msgstr "Käyttäjän hallintapaneeli ja ylläpito"
 
 #: lib/modules/useredit/useredit.php:397
 msgid "Title over textarea"
-msgstr "Titel över textområde"
+msgstr "Otsikko tekstialueen yläpuolella"
 
 #: lib/modules/useredit/useredit.php:403
 msgid "Show avatars"
-msgstr "Visa avatarer"
+msgstr "Näytä avatarit"
 
 #: lib/modules/useredit/useredit.php:404
 msgid "Show time ago"
-msgstr "Visa tid sedan"
+msgstr "Näytä kuinka kauan sitten"
 
 #: lib/modules/useredit/useredit.php:405
 msgid "Show unanswered messages in table"
-msgstr "Visa obesvarade meddelanden i tabell"
+msgstr "Näytä vastaamattomat viestit taulukossa"
 
 #: lib/modules/useredit/useredit.php:409
 msgid "Guest Avatar"
-msgstr "Gästs avatar"
+msgstr "Asiakkaan avatar"
 
 #: lib/modules/useredit/useredit.php:411
 msgid "Image as avatar for guests"
-msgstr "Bild för gästs avatar"
+msgstr "Kuva asiakkaiden avatarina"
 
 #: lib/modules/useredit/useredit.php:415
 msgid "Dummy"
@@ -4573,45 +4591,45 @@ msgstr "Dummy"
 
 #: lib/modules/useredit/useredit.php:417
 msgid "Show dummy"
-msgstr "Visa dummy"
+msgstr "Näytä dummy"
 
 #: lib/modules/useredit/useredit.php:421
 msgid "Dummy user"
-msgstr "Dummy användare"
+msgstr "Dummy-käyttäjä"
 
 #: lib/modules/useredit/useredit.php:422
 msgid "User of dummy"
-msgstr "Användare för dummy"
+msgstr "Dummyn käyttäjä"
 
 #: lib/modules/useredit/useredit.php:425
 msgid "Dummy message"
-msgstr "Dummy meddelande"
+msgstr "Dummy-viesti"
 
 #: lib/modules/useredit/useredit.php:431
 msgid "Time to delete"
-msgstr "Tidsaspekt för radering"
+msgstr "Poistamisaika"
 
 #: lib/modules/useredit/useredit.php:434
 msgid "Not at all"
-msgstr "Ingen"
+msgstr "Ei ollenkaan"
 
 #: lib/modules/useredit/useredit.php:435 lib/modules/useredit/useredit.php:436
 #: lib/modules/useredit/useredit.php:437
 msgid "Minutes"
-msgstr "Minuter"
+msgstr "Minuuttia"
 
 #: lib/modules/useredit/useredit.php:438
 msgid "Hour"
-msgstr "Timmar"
+msgstr "Tuntia"
 
 #: lib/modules/useredit/useredit.php:442
 msgid "Week"
-msgstr "Veckor"
+msgstr "Viikko"
 
 #: lib/modules/useredit/useredit.php:504 lib/modules/useredit/useredit.php:531
 #: lib/modules/useredit/useredit.php:555 lib/modules/useredit/useredit.php:614
 msgid "An error occurred, please try again"
-msgstr "Ett fel har påträffats, vänligen försök igen"
+msgstr "Tapahtui virhe, yritä uudelleen"
 
 #: lib/modules/useredit/useredit.php:504 lib/modules/useredit/useredit.php:516
 #: lib/modules/useredit/useredit.php:519 lib/modules/useredit/useredit.php:531
@@ -4619,881 +4637,197 @@ msgstr "Ett fel har påträffats, vänligen försök igen"
 #: lib/modules/useredit/useredit.php:621 lib/modules/useredit/useredit.php:714
 #: lib/modules/useredit/useredit.php:861
 msgid "back"
-msgstr "tillbaka"
+msgstr "takaisin"
 
 #: lib/modules/useredit/useredit.php:516
 msgid "Please enter the correct captcha code"
-msgstr "Var god ange rätt captcha kod"
+msgstr "Anna oikea Captcha-koodi"
 
 #: lib/modules/useredit/useredit.php:519
 msgid "Link is only 24h valid"
-msgstr "Länker gäller endast i 24 timmar"
+msgstr "Linkki on voimassa vain 24 tuntia"
 
 #: lib/modules/useredit/useredit.php:621
 msgid "Reservation canceled"
-msgstr "Reservationen annulleras"
+msgstr "Varaus peruttu"
 
 #: lib/modules/useredit/useredit.php:622
 msgid "Too late to cancel"
-msgstr "För sent att avbryta"
+msgstr "Liian myöhäistä perua"
 
 #: lib/modules/useredit/useredit.php:631
 msgid "Your Reservation was edited"
-msgstr "Din Reservation har ändrats"
+msgstr "Varaustasi muokattiin"
 
 #: lib/modules/useredit/useredit.php:714
 msgid "Wrong email"
-msgstr "Fel e-post"
+msgstr "Väärä sähköpostiosoite"
 
 #: lib/modules/useredit/useredit.php:718
 msgid "Please contact us to edit your reservation"
-msgstr "Var vänlig kontakta oss för att redigera din reservation"
+msgstr "Ota meihin yhteyttä, jos haluat muokata varaustasi"
 
 #: lib/modules/useredit/useredit.php:727
 msgid "Pay now"
-msgstr "Betala nu"
+msgstr "Maksa nyt"
 
 #: lib/modules/useredit/useredit.php:746
 msgid "logout"
-msgstr "logga ut"
+msgstr "kirjaudu ulos"
 
 #: lib/modules/useredit/useredit.php:784
 msgid "Your name"
-msgstr "Ditt namn"
+msgstr "Nimesi"
 
 #: lib/modules/useredit/useredit.php:785 lib/modules/useredit/useredit.php:873
 msgid "Your email"
-msgstr "Din e-post"
+msgstr "Sähköpostiosoitteesi"
 
 #: lib/modules/useredit/useredit.php:786
 msgid "The arrival date"
-msgstr "Ankomst datum"
+msgstr "Tulopäivä"
 
 #: lib/modules/useredit/useredit.php:787
 msgid "The departure date"
-msgstr "Avresedatum"
+msgstr "Lähtöpäivä"
 
 #: lib/modules/useredit/useredit.php:788
 msgid "Amount of persons"
-msgstr "Antal personer"
+msgstr "Henkilömäärä"
 
 #: lib/modules/useredit/useredit.php:789
 msgid "Amount of children"
-msgstr "Mängd barn"
+msgstr "Lasten lukumäärä"
 
 #: lib/modules/useredit/useredit.php:790
 msgid "Select your country"
-msgstr "Välj ditt land"
+msgstr "Valitse maa"
 
 #: lib/modules/useredit/useredit.php:793
 msgid "Choose the"
-msgstr "Välj"
+msgstr "Valitse"
 
 #: lib/modules/useredit/useredit.php:800 lib/modules/useredit/useredit.php:808
 msgid "Type in information"
-msgstr "Skriv in information"
+msgstr "Kirjoita tiedot"
 
 #: lib/modules/useredit/useredit.php:823 lib/modules/useredit/useredit.php:831
 msgid "Extra service"
-msgstr "Extra service"
+msgstr "Lisäpalvelu"
 
 #: lib/modules/useredit/useredit.php:842
 msgid "Discount Code"
-msgstr "Rabattkod"
+msgstr "Alennuskoodi"
 
 #: lib/modules/useredit/useredit.php:850
 msgid "Cancel reservation"
-msgstr "Avbryt reservation"
+msgstr "Peruuta varaus"
 
 #: lib/modules/useredit/useredit.php:861
 msgid "Wrong ID or email"
-msgstr "Fel ID eller e-post"
+msgstr "Väärä tunnus tai sähköposti"
 
 #: lib/modules/useredit/useredit.php:871
 msgid "ID of your reservation"
-msgstr "ID för din reservation"
+msgstr "Varaustunnuksesi"
 
 #: lib/modules/useredit/useredit.php:875
 msgid "Type in code"
-msgstr "Ange kod"
+msgstr "Kirjoita koodi"
 
 #: lib/modules/useredit/useredit.php:898
 msgid "Reservations are editable till"
-msgstr "Reservationer kan redigeras till"
+msgstr "Varauksia voi muokata vielä"
 
 #: lib/modules/useredit/useredit.php:899
 msgid "days before their arrival"
-msgstr "dagar före deras ankomst"
+msgstr "päivää ennen saapumista"
 
 #: lib/modules/useredit/useredit.php:903
 msgid "Show table with other reservations by the same email"
-msgstr "Visa tabell md andra reservationer från samma e-poset"
+msgstr "Näytä muut varaukset sisältävä taulukko samassa sähköpostissa"
 
 #: lib/modules/useredit/useredit.php:907
 msgid "Show status"
-msgstr "Visa status"
+msgstr "Näytä tila"
 
 #: lib/modules/useredit/useredit.php:916
 msgid ""
 "Let your guests view and download their invoices by invoice guest template"
 msgstr ""
-"Låter dina gäster visa och ladda ner sin faktura via fakturamallen för gäster"
+"Salli asiakkaiden tarkastella ja ladata laskuja asiakkaiden laskupohjan "
+"avulla"
 
 #: lib/modules/useredit/useredit.php:920
 msgid "Name for resource"
-msgstr "Namn för resursen"
+msgstr "Resurssin nimi"
 
 #: lib/modules/useredit/useredit.php:921
 msgid "e.g. Apartment"
-msgstr "ex. Lägenhet"
+msgstr "esim. Asunto"
 
 #: lib/modules/useredit/useredit.php:923
 msgid ""
 "This shortcode adds the function for your guests to edit their reservations "
 "afterwards"
 msgstr ""
-"Denna kortkort lägger till funktioner för din gäst att redigera deras "
-"reservation efteråt"
+"Tämä lyhytkoodi lisää toiminnon, jonka avulla asiakkaat voivat muokata "
+"varauksiaan myöhemmin"
 
 #: lib/modules/useredit/useredit.php:923
 msgid ""
 "You have to copy the URL of this site to the easyReservations general "
 "settings"
 msgstr ""
-"Du måste kopiera URLen till denna site och klistra in i easyReservations "
-"generella inställningar"
+"Sinun on kopioitava tämän sivuston www-osoite easyReservationsin yleisiin "
+"asetuksiin"
 
 #: lib/modules/useredit/useredit.php:923
 msgid "Only add the edit-form on one page or post"
-msgstr "Lägg bara till formuläret en gång per sida eller inlägg"
+msgstr "Lisää muokkauslomake vain yhteen sivuun tai artikkeliin"
 
 #: lib/widgets/form_widget.php:146
 msgid "type in URL to a form"
-msgstr "ange URL till formuläret"
+msgstr "kirjoita lomakkeen URL"
 
 #: lib/widgets/form_widget.php:154
 msgid "Title:"
-msgstr "Rubrik:"
+msgstr "Otsikko:"
 
 #: lib/widgets/form_widget.php:158
 msgid "Show calendar:"
-msgstr "Visa kalender:"
+msgstr "Näytä kalenteri:"
 
 #: lib/widgets/form_widget.php:162
 msgid "Calendar style:"
-msgstr "Kalender utseende:"
+msgstr "Kalenterin tyyli:"
 
 #: lib/widgets/form_widget.php:166
 msgid "Default resource:"
-msgstr "Standard resurs:"
+msgstr "Oletusresurssi:"
 
 #: lib/widgets/form_widget.php:170
 msgid "Calendar width:"
-msgstr "Kalender bredd:"
+msgstr "Kalenterin leveys:"
 
 #: lib/widgets/form_widget.php:174
 msgid "Show price in calendar:"
-msgstr "Visa pris i kalender:"
+msgstr "Näytä hinta kalenterissa:"
 
 #: lib/widgets/form_widget.php:178
 msgid "Widgets form template:"
-msgstr "Widgets formulärmall"
+msgstr "Vimpainten lomakemalli:"
 
 #: lib/widgets/form_widget.php:183
 msgid "Form URL:"
-msgstr "Forumlärets URL:"
+msgstr "Lomakkeen URL:"
 
 #: lib/widgets/form_widget.php:187
 msgid "Submit button:"
-msgstr "Skicka knapp:"
+msgstr "Lähetä-painike:"
 
 #~ msgid "Adult's"
-#~ msgstr "Vuxna"
+#~ msgstr "Aikuisten"
 
 #~ msgid "No Reservations found!"
-#~ msgstr "Inga reservationer hittades!"
-
-#~ msgid "Price per"
-#~ msgstr "Pris per"
-
-#~ msgid "Price per Person"
-#~ msgstr "Pris per Person"
-
-#, fuzzy
-#~ msgid "Price per Child"
-#~ msgstr "Pris per barn"
-
-#, fuzzy
-#~ msgid "Text"
-#~ msgstr "Text."
-
-#, fuzzy
-#~ msgid "Textarea"
-#~ msgstr "Text."
-
-#~ msgid "Radio"
-#~ msgstr "Alternativknapp"
-
-#, fuzzy
-#~ msgid "Don't display price "
-#~ msgstr "Visa pris"
-
-#~ msgid "amount of %s from date of reservation"
-#~ msgstr "antal %s från reservationsdatum"
-
-#~ msgid "amount of childs"
-#~ msgstr "antal barn"
-
-#~ msgid "price fields"
-#~ msgstr "prisfält"
-
-#~ msgid "The room was edited"
-#~ msgstr "Resursen redigerades"
-
-#, fuzzy
-#~ msgid "Text field to enter coupon codes."
-#~ msgstr "Textfält med datumväljare"
-
-#~ msgid "<"
-#~ msgstr "<"
-
-#~ msgid "0"
-#~ msgstr "0"
-
-#~ msgid ">"
-#~ msgstr ">"
-
-#~ msgid "Select default room"
-#~ msgstr "Välj förval resurs"
-
-#~ msgid "HTML"
-#~ msgstr "HTML"
-
-#~ msgid "Price fields"
-#~ msgstr "Prisfält"
-
-#, fuzzy
-#~ msgid "Stripe settings changed"
-#~ msgstr "Prisinställningar ändrade"
-
-#, fuzzy
-#~ msgid "Stripe settings"
-#~ msgstr "DIBS Inställningar"
-
-#~ msgid "Modus"
-#~ msgstr "Moduler"
-
-#, fuzzy
-#~ msgid "Secret Key"
-#~ msgstr "Säljar Nyckel"
-
-#~ msgid "Automatical Approval"
-#~ msgstr "Automatiskt godkännande"
-
-#~ msgid "PayPal settings changed"
-#~ msgstr "PayPal inställningar ändrade"
-
-#~ msgid "Authorize.Net settings changed"
-#~ msgstr "Authorize.Net inställningar ändrade"
-
-#~ msgid "2checkout settings changed"
-#~ msgstr "2checkout inställningar ändrade"
-
-#~ msgid "Google Wallet settings changed"
-#~ msgstr "Google Wallet inställningar ändrade"
-
-#, fuzzy
-#~ msgid "Ogone settings changed"
-#~ msgstr "Fakturainställningar ändrade"
-
-#, fuzzy
-#~ msgid "PayPal settings"
-#~ msgstr "PayPal inställningar"
-
-#, fuzzy
-#~ msgid "Login ID"
-#~ msgstr "Login ID"
-
-#~ msgid "Transaction Key"
-#~ msgstr "Transaktionsnyckel"
-
-#~ msgid "Authorize.Net settings"
-#~ msgstr "Authorize.Net inställningar"
-
-#~ msgid "2checkout settings"
-#~ msgstr "2checkout inställningar"
-
-#, fuzzy
-#~ msgid "Merchant ID"
-#~ msgstr "Säljar ID"
-
-#, fuzzy
-#~ msgid "Merchant Key"
-#~ msgstr "Säljar Nyckel"
-
-#~ msgid "Google Wallet settings"
-#~ msgstr "Google Wallet Inställningar"
-
-#, fuzzy
-#~ msgid "Mac Key"
-#~ msgstr "Säljar Nyckel"
-
-#~ msgid "DIBS settings"
-#~ msgstr "DIBS Inställningar"
-
-#, fuzzy
-#~ msgid "Ogone settings"
-#~ msgstr "Inställningar för Resurs"
-
-#, fuzzy
-#~ msgid "Deactive"
-#~ msgstr "Avaktivera"
-
-#~ msgid "Default room:"
-#~ msgstr "Förvald resurs:"
-
-#~ msgid "Groundprice edited"
-#~ msgstr "Standardpris redigerat"
-
-#~ msgid "Resource interval edited"
-#~ msgstr "Resursens intervall redigerad"
-
-#~ msgid "Enter a date"
-#~ msgstr "Ange ett datum"
-
-#~ msgid "else"
-#~ msgstr "annars"
-
-#~ msgid "Conditional"
-#~ msgstr "Villkorlig"
-
-#~ msgid "At"
-#~ msgstr "Den"
-
-#~ msgid "Time reservations"
-#~ msgstr "Tidsreservationer"
-
-#~ msgid "Enable time for reservations "
-#~ msgstr "Möjliggör klockslag för reservationer"
-
-#~ msgid "Reservation Form"
-#~ msgstr "Reservationsformulär"
-
-#~ msgid "Add Field"
-#~ msgstr "Lägg till fält"
-
-#~ msgid "Arrival Date"
-#~ msgstr "Ankomstdatum"
-
-#, fuzzy
-#~ msgid "Custom field"
-#~ msgstr "Eget fält"
-
-#, fuzzy
-#~ msgid "Hidden field"
-#~ msgstr "Dolt fält"
-
-#~ msgid "Infobox"
-#~ msgstr "Inforuta"
-
-#~ msgid "Submit Button"
-#~ msgstr "Skicka knapp"
-
-#~ msgid "Default Form"
-#~ msgstr "Standardformulär"
-
-#~ msgid "Reset Form"
-#~ msgstr "Återställ formulär"
-
-#~ msgid "Include to Page or Post with"
-#~ msgstr "Inkludera på sida eller i inlägg med"
-
-#~ msgid "Tag"
-#~ msgstr "Etikett"
-
-#~ msgid "If unused"
-#~ msgstr "Om ej vald"
-
-#~ msgid "Select from 00-23"
-#~ msgstr "Välj mellan 00-23"
-
-#~ msgid "Select from 00-59"
-#~ msgstr "Välj mellan 00-59"
-
-#~ msgid "Select of definable numbers"
-#~ msgstr "Urval av definerbara siffror"
-
-#~ msgid "Select of excludable resources"
-#~ msgstr "Urval av resurser att undanta"
-
-#~ msgid "Custom field, area, select, radio or checkbox"
-#~ msgstr "Eget fält, textområde, rullningslist, kryssruta eller valknapp"
-
-#~ msgid "Price Field"
-#~ msgstr "Prisfält"
-
-#~ msgid "Custom select, radio or checkbox with effect on price"
-#~ msgstr ""
-#~ "Valfri rullningslist, valknapp eller kryssruta med koppling till pris"
-
-#~ msgid "Show selected resources informations flexible"
-#~ msgstr "Visa flexibel information för valda resurser"
-
-#~ msgid "Fix &amp; hide informations in form"
-#~ msgstr "Fixa &amp; dölj information i formulär"
-
-#~ msgid "Text field and captcha image"
-#~ msgstr "Textruta och captcha bild"
-
-#~ msgid "Box with live price calculation"
-#~ msgstr "Ruta med beräkning av pris"
-
-#~ msgid "Box with errors"
-#~ msgstr "Ruta med felmeddelande"
-
-#~ msgid "Submit button with definable text"
-#~ msgstr "Skickaknapp med valfri text"
-
-#~ msgid "No"
-#~ msgstr "Nej"
-
-#~ msgid "Tag in Form"
-#~ msgstr "Tag i Formulär"
-
-#~ msgid "or"
-#~ msgstr "eller"
-
-#~ msgid "Dont use"
-#~ msgstr "Använd inte"
-
-#~ msgid "in the same Form"
-#~ msgstr "i samma formulär"
-
-#~ msgid "Custom field name entered multiple times - must be unique. Name:"
-#~ msgstr ""
-#~ "Namn för eget fält är angivit fler gånger - det måste vara unikt. Namn:"
-
-#~ msgid "Price field name entered multiple times - must be unique. Name:"
-#~ msgstr ""
-#~ "Namn för prisfält är angivit fler gånger - det måste vara unikt. Namn:"
-
-#~ msgid "This form is not valid"
-#~ msgstr "Detta formulär är ogitligt"
-
-#~ msgid "This form is valid"
-#~ msgstr "Detta formlär är giltigt"
-
-#~ msgid "Select type of Input you want to add"
-#~ msgstr "Välj typ av fält du vill lägga till"
-
-#~ msgid "Select Type of custom price field"
-#~ msgstr "Välj typ av eget prisfält"
-
-#~ msgid "Add a dropdown select field with effect on the price to the form"
-#~ msgstr "Lägg till en rullningslist med koppling till priset"
-
-#~ msgid "Add a radio select field with effect on the price to the form"
-#~ msgstr "Lägg till valknappar med koppling till priset"
-
-#~ msgid "Add a checkbox input with effect on the price to the form"
-#~ msgstr "Lägg till en kryssruta med koppling till priset"
-
-#~ msgid "Exclude by ID"
-#~ msgstr "Exkludera via ID"
-
-#~ msgid "Image"
-#~ msgstr "Bild"
-
-#~ msgid "Type in value of submit button"
-#~ msgstr "Skriv in värdet av Skicka knappen"
-
-#~ msgid "Select type of hidden input"
-#~ msgstr "Välj typ av dold information"
-
-#~ msgid ""
-#~ "Fix a resource to the form; dont use it with [resources] in the same form"
-#~ msgstr ""
-#~ "Ange resurs i formuläret; använd inte tillsammans med [resources] i samma "
-#~ "formulär"
-
-#~ msgid ""
-#~ "Fix an arrival date to the form; dont use it with [date-from] in the same "
-#~ "form"
-#~ msgstr ""
-#~ "Ange ankomstdatum i formuläret; använd inte tillsammans med [date-to] i "
-#~ "samma formulär"
-
-#~ msgid ""
-#~ "Fix a departure date to the form; dont use it with [date-to] in the same "
-#~ "form"
-#~ msgstr ""
-#~ "Ange avresedatum i formuläret; använd inte tillsammans med [date-to] i "
-#~ "samma formulär"
-
-#, fuzzy
-#~ msgid ""
-#~ "Fix billing units to the form; dont use it with [date-to] or [units] in "
-#~ "the same form"
-#~ msgstr ""
-#~ "Ange tider i formuläret; använd det inte tillsammans med [date-to] eller "
-#~ "[times] i samma formulär"
-
-#~ msgid ""
-#~ "Fix an amount of adults to the form; dont use it with [adults] in the "
-#~ "same form"
-#~ msgstr ""
-#~ "Ange antal vuxna i formuläret; använd det inte med [adults] i samma "
-#~ "formulär"
-
-#~ msgid ""
-#~ "Fix an amount of childrens to the form; dont use it with [childs] in the "
-#~ "same form"
-#~ msgstr ""
-#~ "Ange antal barn i formuläret; använd det inte med [childs] i samma "
-#~ "formulär"
-
-#~ msgid "Type in a name for the"
-#~ msgstr "Ange ett namn för"
-
-#~ msgid "input you want to add"
-#~ msgstr "värde du vill lägga till"
-
-#~ msgid "Type in a Name for the Checkbox"
-#~ msgstr "Ange namn för kryssrutan"
-
-#~ msgid "Type in a value for the checkbox"
-#~ msgstr "Ange värdet för kryssrutan"
-
-#~ msgid "The value has to match "
-#~ msgstr "Värdet måste matcha"
-
-#~ msgid ""
-#~ "Price: negative for reduction %1$s  zero for no change %2$s positiv for "
-#~ "increase %3$s "
-#~ msgstr ""
-#~ "Pris: negativt för avdrag %1$s  noll för oförändrad %2$s positiv för "
-#~ "ökning %3$s "
-
-#~ msgid "Type in a name for the dropdown select"
-#~ msgstr "Ange ett namn för rullningslisten"
-
-#~ msgid "Type in the options field for the"
-#~ msgstr "Ange värdet för valet "
-
-#~ msgid "The options field has to match "
-#~ msgstr "Fälten för valen måste överensstämma"
-
-#~ msgid "Type in a Name for the"
-#~ msgstr "Ange ett namn för"
-
-#~ msgid "Type in the options field"
-#~ msgstr "Ange värde för valen"
-
-#~ msgid "Fill in the date of the departure date you want to fix"
-#~ msgstr "Fyll i datumet för avresedatumet som du vill fastställa"
-
-#, fuzzy
-#~ msgid "Select the amount of billing units you want to fix"
-#~ msgstr "Ange antal gånger som du vill fastställa"
-
-#~ msgid "price per person"
-#~ msgstr "pris per person"
-
-#~ msgid "price per night"
-#~ msgstr "pris per natt"
-
-#~ msgid "show price"
-#~ msgstr "visa pris"
-
-#~ msgid "Show all Dates"
-#~ msgstr "Visa alla datum"
-
-#, fuzzy
-#~ msgid "If the %3$s to calculate is beween %1$s and %2$s"
-#~ msgstr "Om %3$s att beräkna är mellan %1$s och %2$s annars "
-
-#, fuzzy
-#~ msgid "If the %2$s to calculate is %1$s"
-#~ msgstr "Om %2$s att beräkna är %1$s annars"
-
-#, fuzzy
-#~ msgid "Automatically approvement"
-#~ msgstr "Automatiskt godkännande"
-
-#~ msgid "Edit form:"
-#~ msgstr "Redigera formulär:"
-
-#~ msgid "Give your filter a name"
-#~ msgstr "Namnge ditt filter"
-
-#~ msgid "Between"
-#~ msgstr "Mellan"
-
-#~ msgid "Mail to guest"
-#~ msgstr "E-post till gäst"
-
-#, fuzzy
-#~ msgid "Mail on new reservation"
-#~ msgstr "E-post vid ny reservation"
-
-#~ msgid "Mail to admin"
-#~ msgstr "E-post till admin"
-
-#, fuzzy
-#~ msgid "Mail on approvement"
-#~ msgstr "E-post vid godkännande"
-
-#, fuzzy
-#~ msgid "Mail on rejection"
-#~ msgstr "E-post vid avvisande"
-
-#, fuzzy
-#~ msgid "Mails on editing of admin"
-#~ msgstr "E-post vid redigering av admin"
-
-#~ msgid "Donate"
-#~ msgstr "Donera"
-
-#~ msgid "Invoice Module"
-#~ msgstr "Modul för Faktura"
-
-#~ msgid "Payment Module"
-#~ msgstr "Modul för Betalning"
-
-#~ msgid "searchForm Module"
-#~ msgstr "Modul för Sökformulär"
-
-#~ msgid "hourlyCalendar Module"
-#~ msgstr "Modul för timkalender"
-
-#, fuzzy
-#~ msgid "User Control Panel Module"
-#~ msgstr "Gästredigering"
-
-#~ msgid "Statistics Module"
-#~ msgstr "Modul för Statistik"
-
-#~ msgid "Stream Module"
-#~ msgstr "Modul för Strömning"
-
-#~ msgid "Coupon Module"
-#~ msgstr "Modul för Kuponger"
-
-#~ msgid "New Updates are available:"
-#~ msgstr "Nya uppdateringar finns tillgängliga:"
-
-#~ msgid "New Update is available:"
-#~ msgstr "Ny uppdatering finns tillgänglig:"
-
-#~ msgid "Mails after payment"
-#~ msgstr "E-post efter betalning"
-
-#, fuzzy
-#~ msgid "Mails on editing from guest"
-#~ msgstr "Mail efter redigering av användare"
-
-#, fuzzy
-#~ msgid "Mails on cancellation from guest"
-#~ msgstr "Mail efter redigering av användare"
-
-#~ msgid "eMail"
-#~ msgstr "e-post"
-
-#~ msgid "Count of resource"
-#~ msgstr "Antal resurser"
-
-#~ msgid "Per unit"
-#~ msgstr "Per enhet"
-
-#~ msgid "Per person"
-#~ msgstr "Pris per person"
-
-#~ msgid "Child discount"
-#~ msgstr "Barnrabatt"
-
-#~ msgid "Monthes"
-#~ msgstr "Månader"
-
-#~ msgid "eMails"
-#~ msgstr "E-post"
-
-#~ msgid "Reservation settings"
-#~ msgstr "Inställningar för reservation"
-
-#~ msgid "Currency sign"
-#~ msgstr "Valutasymbol"
-
-#~ msgid "Custom Field"
-#~ msgstr "Eget fält"
-
-#~ msgid "Standard Sendmail"
-#~ msgstr "Standard mail"
-
-#~ msgid "amount of"
-#~ msgstr "antal"
-
-#~ msgid "link to user edit"
-#~ msgstr "länk till gästredigering"
-
-#~ msgid "Formular"
-#~ msgstr "Formulär"
-
-#~ msgid "Min width"
-#~ msgstr "Min bredd"
-
-#~ msgid ""
-#~ "Your guest can pay their reservations directly through PayPal or leave "
-#~ "their credit card details for manually booking. Automatically approve new "
-#~ "reservations and/or paid reservations. Payment verification by IPN."
-#~ msgstr ""
-#~ "Dina gäster kan betala sina reservationer direkt via PayPal eller lämna "
-#~ "din kreditkortsinformation för manuell bokning. Automatiskt godkännande "
-#~ "för nya reservationer och/eller betalda reservationer. "
-#~ "Betalningsverifiering via IPN."
-
-#~ msgid "Guest Editing Module"
-#~ msgstr "Modul för Gästredigering"
-
-#~ msgid "Show welcome message"
-#~ msgstr "Visa välkomstmeddelande"
-
-#~ msgid "Admin mail to guest"
-#~ msgstr "E-post från Admin till gäst"
-
-#~ msgid "Mail after new reservation to guest"
-#~ msgstr "E-post till gäst efter ny reservation"
-
-#~ msgid "Mail after user-edit to admin"
-#~ msgstr "E-post till admin efter gästredigering"
-
-#~ msgid "Mail after user-edit to guest"
-#~ msgstr "E-post till gäst efter gästredigering"
-
-#~ msgid "Mail after payment to admin"
-#~ msgstr "E-post till admin efter betalning"
-
-#~ msgid "Mail after payment to guest"
-#~ msgstr "E-post till gäst efter betalning"
-
-#~ msgid "Show month"
-#~ msgstr "Visa månad"
-
-#~ msgid "Cancel Url"
-#~ msgstr "Ångra URL"
-
-#~ msgid "User ControlPanel"
-#~ msgstr "Gästredigering"
-
-#~ msgid "Insert URL"
-#~ msgstr "Infoga URL"
-
-#~ msgid "Language of PayPal"
-#~ msgstr "PayPal språk"
-
-#~ msgid "Language of 2checkout"
-#~ msgstr "Språk för 2checkout"
-
-#~ msgid ""
-#~ "To let users edit their reservations on your site add a page or post with "
-#~ "the shortcode"
-#~ msgstr ""
-#~ "För att låta gäster redigera sin reservation på din site, lägg till en "
-#~ "följande kortkod på en sida eller ett inlägg"
-
-#~ msgid "Other"
-#~ msgstr "Annat"
-
-#~ msgid "use style"
-#~ msgstr "använd stil"
-
-#~ msgid "only show for guest with >1 reservations"
-#~ msgstr "visa bara för gäster med mer än 1 reservation"
-
-#~ msgid "Days between arrival and today for last chance to edit"
-#~ msgstr "Dagar mellan ankomst och idag för sista chans att redigera"
-
-#~ msgid "Name for Resource"
-#~ msgstr "Namn för Resurs"
-
-#~ msgid "Useredit"
-#~ msgstr "Gästredigering"
-
-#~ msgid "whitespace"
-#~ msgstr "mellanslag"
-
-#~ msgid "Optionable to pay full price"
-#~ msgstr "Möjlighet att betala fullt pris"
-
-#~ msgid "Optionable to pay percentage based amounts"
-#~ msgstr "Möjlighet att betala procentuellt pris baserat på belopp"
-
-#~ msgid "Seperate percantage values by comma"
-#~ msgstr "Separera procentvärde med komma"
-
-#~ msgid "Optionable to pay a choosen amount"
-#~ msgstr "Möjlighet att betala ett valfritt belopp"
-
-#~ msgid "Turn on "
-#~ msgstr "Slå på"
-
-#~ msgid "Auto Return for Website Payments "
-#~ msgstr "Automatisk återvändning för webbsitesbetalningar "
-
-#~ msgid "in "
-#~ msgstr "i"
-
-#~ msgid "Website Payment Preferences "
-#~ msgstr "Website Payment Preferences "
-
-#~ msgid "for this feature "
-#~ msgstr "för den här funktionen"
-
-#~ msgid ""
-#~ "Replace message above the note field - \"Add special instructions to "
-#~ "merchant\" "
-#~ msgstr ""
-#~ "Byt ut meddelandet ovanför meddelandefältet - \"Lägg till instruktioner "
-#~ "till säljaren\" "
-
-#~ msgid "Use SSL "
-#~ msgstr "Använd SSL "
-
-#~ msgid "Recommended: "
-#~ msgstr "Rekommenderad: "
-
-#~ msgid ""
-#~ "To automatically set the paid amount and approve you have to log-in at "
-#~ msgstr ""
-#~ "För att automatiskt ange betalt belopp och godkänna, behöver du logga in "
-#~ "på "
-
-#~ msgid "go to "
-#~ msgstr "gå till"
-
-#~ msgid "Notifications -> Settings "
-#~ msgstr "Meddelande -> Inställningar"
-
-#~ msgid "enable the "
-#~ msgstr "aktivera"
-
-#~ msgid "Fraud Status Changed "
-#~ msgstr "Bedrägeristatus ändrad"
-
-#~ msgid "and enter "
-#~ msgstr "och ange"
-
-#~ msgid "in the text field."
-#~ msgstr "i textfältet"
-
-#~ msgid ""
-#~ "Unfortunatly their sandbox is awful and this feature cant be tested in "
-#~ "it. If it"
-#~ msgstr ""
-#~ "Tyvärr är deras sandbox hemsk och denna funktion kan det inte testas i. "
-#~ "Om det"
-
-#~ msgid "Use HTTPS"
-#~ msgstr "Använd HTTPS"
-
-#~ msgid "Start"
-#~ msgstr "Start"
+#~ msgstr "Varauksia ei löytynyt!"

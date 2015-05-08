@@ -28,8 +28,8 @@
 		if (wp_style_is('easy-cal-'.$atts['style'], 'registered')) wp_enqueue_style('easy-cal-'.$atts['style'], false, array(), false, 'all');
 		else wp_enqueue_style('easy-form-none' , false, array(), false, 'all');
 
-		$return = '<form name="CalendarFormular" id="CalendarFormular-'.$atts['id'].'" style="width:'.$atts['width'].'%";margin:0px;padding:0px;display:inline-block;>';
-			$return .= '<div id="showCalender" style="margin-right:auto;margin-left:auto;vertical-align:middle;padding:0;width:100%"></div>';
+		$return = '<form name="CalendarFormular" id="CalendarFormular-'.$atts['id'].'" style="width:'.$atts['width'].'%;margin:0px;padding:0px;display:inline-block;">';
+			$return .= '<div id="showCalender"></div>';
 		$return .= '</form><!-- Provided by easyReservations free Wordpress Plugin http://www.easyreservations.org -->';
 
 		$cal = 'new easyCalendar("'.wp_create_nonce( 'easy-calendar' ).'", '.json_encode($atts).', "shortcode");';

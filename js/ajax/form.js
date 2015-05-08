@@ -86,7 +86,7 @@ jQuery( window ).bind('beforeunload', function() {
 function easyInnerlay(content,add){
 	if(!add){
 		add = true;
-		jQuery('#easybackbutton').html('<input type="button" class="easy-button back" value="'+easyReservationAtts['cancel']+'" onclick="easyOverlayDimm(0);easyInnerlay(1,342);">');
+		if(easyReservationAtts['cancel'] != "") jQuery('#easybackbutton').html('<input type="button" class="easy-button back" value="'+easyReservationAtts['cancel']+'" onclick="easyOverlayDimm(0);easyInnerlay(1,342);">');
 	} else {
 		add  = false;
 		window.location.hash = 'easyFormOverlay';
@@ -319,7 +319,26 @@ function easyAddAnother(){
 }
 
 function easyAddAnotherCallback(){
-	if(easyReservationAtts['reset'] == 1) document.getElementById('easyFrontendFormular').reset();
+	if(easyReservationAtts['reset'] == 1){
+		var name = jQuery('#easy-form-thename').val();
+		var email = jQuery('#easy-form-email').val();
+		var country = jQuery('#easy-form-country').val();
+
+		var array = {};
+		jQuery('input[type="text"][name^="easy-custom-"], textarea[name^="easy-custom-"]').each(function(key, value){
+			array[jQuery(this).attr('id')] = jQuery(this).val();
+		});
+
+		document.getElementById('easyFrontendFormular').reset();
+
+		for ( var key in array ) {
+			jQuery('#'+key).val(array[key]);
+		}
+
+		jQuery('#easy-form-thename').val(name);
+		jQuery('#easy-form-email').val(email);
+		jQuery('#easy-form-country').val(country);
+	}
 	easyOverlayDimm(1);
 }
 
@@ -409,28 +428,4 @@ function easy_number_format(number, decimals, dec_point, thousands_sep){
 		s[1] += new Array(prec - s[1].length + 1).join('0');
 	}
 	return s.join(dec);
-}
-function changePayPalAmount(place){
-	var price = easyStartPrice
-	if(place == 'perc'){
-		document.getElementById('easy_radio_perc').checked = true;
-		var perc = document.getElementById('easy_deposit_perc').value;
-		if(perc.substr(perc.length - 1) == '%'){
-			price = easyStartPrice / 100 * parseFloat(perc.substr(0,perc.length - 1));
-		} else price = perc;
-	} else if(place == 'own'){
-		document.getElementById('easy_radio_own').checked = true;
-		var price = document.getElementById('easy_deposit_own').value;
-	} else if(place == 'full'){
-		document.getElementById('easy_radio_full').checked = true;
-		var price = easyStartPrice;
-	}
-	if(price > 0){
-		price = Math.round(price*Math.pow(10,2))/Math.pow(10,2);
-		if(document._xclick) document._xclick.amount.value = price;
-		else if(document.authorize) document.authorize.x_amount.value = price;
-		else if(document.googlewallet) document.googlewallet.item_price_1.value = price;
-		else if(document.checkout){ document.checkout.li_0_price.value = price; document.checkout.x_amount.value = price; }
-		else if(document.dibs){ document.dibs.amount.value = price.toFixed(2).replace(".",""); }
-	}
 }

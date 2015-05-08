@@ -3,7 +3,7 @@
 Plugin Name: easyReservations
 Plugin URI: http://www.easyreservations.org
 Description: This powerfull property and reservation management plugin allows you to receive, schedule and handle your bookings easily!
-Version: 3.4.2
+Version: 3.5
 Author: Feryaz Beer
 Author URI: http://www.feryaz.de
 License:GPL2
@@ -143,7 +143,6 @@ ID: [ID]<br>Name: [thename] <br>Email: [email] <br>From: [arrival] <br>To: [depa
 		$room_args = array( 'post_status' => 'publish|private', 'post_type' => 'easy-rooms', 'orderby' => 'post_title', 'order' => 'ASC', 'numberposts' => 1);
 		$roomcategories = get_posts( $room_args );
 		if(!$roomcategories){
-
 			$roomOne = array(
 				'post_title' => 'Sample Resource One',
 				'post_content' => 'This is a Sample Resource.',
@@ -503,7 +502,7 @@ if(!function_exists("strptime")){
 	add_filter('upgrader_post_install', 'easyreservations_recover', 10, 2);
 	$reservations_settings = get_option("reservations_settings");
 
-	define('RESERVATIONS_VERSION', '3.4.2');
+	define('RESERVATIONS_VERSION', '3.5');
 	define('RESERVATIONS_DIR', WP_PLUGIN_DIR.'/easyreservations/');
 	define('RESERVATIONS_URL', WP_PLUGIN_URL.'/easyreservations/');
 	define('RESERVATIONS_STYLE', $reservations_settings['style']);

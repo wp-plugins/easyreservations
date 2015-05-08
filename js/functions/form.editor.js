@@ -1,7 +1,7 @@
 var tag_before = '',
-	tag_edit = false,
-	savedSelection = false,
-	insert_began = [];
+		tag_edit = false,
+		savedSelection = false,
+		insert_began = [];
 
 jQuery('#accordion').accordion({heightStyle: "content", autoHeight: false, icons: { "header": "ui-icon-plus", "activeHeader": "ui-icon-minus" }});
 jQuery('formtag').bind('click', function(){
@@ -27,9 +27,11 @@ jQuery('formtag').bind('click', function(){
 	tag_edit = true;
 	generateTagEdit(tag_final[0], tag_final);
 });
+
 jQuery('#formcontainer').bind('click', function(){
 	savedSelection = saveSelection();
 });
+
 jQuery('table.formtable tbody tr').bind('click', function(){
 	if(jQuery(this).attr('attr')) generateTagEdit(jQuery(this).attr('attr'));
 	else if(jQuery(this).attr('bttr')){
@@ -75,12 +77,79 @@ jQuery('#formcontainer').bind("keypress",function(e){
 		return false;
 	}
 });
+/*
 jQuery('#formcontainer').bind("paste",function(e){
+	var data = e.originalEvent.clipboardData.getData('html');
+	if(!data) data = window.clipboardData.getData("Text");
+	console.log(data);
 	setTimeout(function(e) {
 		var value = jQuery('#formcontainer').html().replace("&nbsp;", "<br>\r\n");
 		jQuery('#formcontainer').html(value);
+		jQuery('#formcontainer *').removeAttr("style");
 	}, 0);
+});*/
+jQuery('#formcontainer').bind("paste",function(e){
+	savedSelection = saveSelection();
+	e.preventDefault();
+	var text;
+	if( e.originalEvent.clipboardData ){
+		text = (e.originalEvent || e).clipboardData.getData('text/plain') || prompt('Paste something..');
+		window.document.execCommand('insertText', false, text);
+	} else {
+		text = window.clipboardData.getData("Text");
+		if (window.getSelection)
+			window.getSelection().getRangeAt(0).insertNode( document.createTextNode(text) );
+	}
+
+
+	//insertAtCaret(text);
+
+
+	//handlepaste(document.getElementById("formcontainer"), e);
 });
+
+function handlepaste(elem, e) {
+	var savedcontent = elem.innerHTML;
+	var test;
+	if (e && e.clipboardData && e.clipboardData.getData) {// Webkit - get data from clipboard, put into editdiv, cleanup, then cancel event
+		if (/text\/html/.test(e.clipboardData.types))
+			elem.innerHTML = e.clipboardData.getData('text/html');
+		else if (/text\/plain/.test(e.clipboardData.types))
+			elem.innerHTML = e.clipboardData.getData('text/plain');
+		else
+			elem.innerHTML = "";
+		waitforpastedata(elem, savedcontent);
+		if (e.preventDefault) {
+			e.stopPropagation();
+			e.preventDefault();
+		}
+		return false;
+	}
+	else {// Everything else - empty editdiv and allow browser to paste content into it, then cleanup
+		elem.innerHTML = "";
+		waitforpastedata(elem, savedcontent);
+		return true;
+	}
+}
+
+function waitforpastedata(elem, savedcontent) {
+	if (elem.childNodes && elem.childNodes.length > 0)
+		processpaste(elem, savedcontent);
+	else {
+		that = { e: elem, s: savedcontent }
+		that.callself = function () {
+			waitforpastedata(that.e, that.s)
+		}
+		setTimeout(that.callself,20);
+	}
+}
+
+function processpaste (elem, savedcontent) {
+	pasteddata = elem.innerHTML;
+	//elem.innerHTML = savedcontent;
+	insertAtCaret(pasteddata);
+}
+
 
 function generateTagEdit(type, tag){
 	if(fields[type]){
@@ -269,3 +338,4 @@ function htmlForTextWithEmbeddedNewlines(text) {
 	}
 	return htmls.join("<br>\n");
 }
+

@@ -120,6 +120,7 @@ function easyCalendar(nonce, atts, type){
 			this.calm = m;
 			this.cellnr = cell.axis;
 			this.clicknr = 1;
+			if(atts['select'] == 1 && window.easyreservations_send_price) easyreservations_send_price('easyFrontendFormular');
 		}
 	}
 	this.send();

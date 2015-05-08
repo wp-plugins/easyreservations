@@ -41,3 +41,27 @@ function easyInArray(array, needle){
 	}
 	return false;
 }
+function changePayPalAmount(place){
+	var price = easyStartPrice
+	if(place == 'perc'){
+		document.getElementById('easy_radio_perc').checked = true;
+		var perc = document.getElementById('easy_deposit_perc').value;
+		if(perc.substr(perc.length - 1) == '%'){
+			price = easyStartPrice / 100 * parseFloat(perc.substr(0,perc.length - 1));
+		} else price = perc;
+	} else if(place == 'own'){
+		document.getElementById('easy_radio_own').checked = true;
+		var price = document.getElementById('easy_deposit_own').value;
+	} else if(place == 'full'){
+		document.getElementById('easy_radio_full').checked = true;
+		var price = easyStartPrice;
+	}
+	if(price > 0){
+		price = Math.round(price*Math.pow(10,2))/Math.pow(10,2);
+		if(document._xclick) document._xclick.amount.value = price;
+		else if(document.authorize) document.authorize.x_amount.value = price;
+		else if(document.googlewallet) document.googlewallet.item_price_1.value = price;
+		else if(document.checkout){ document.checkout.li_0_price.value = price; document.checkout.x_amount.value = price; }
+		else if(document.dibs){ document.dibs.amount.value = price.toFixed(2).replace(".",""); }
+	}
+}

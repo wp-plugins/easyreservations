@@ -167,9 +167,13 @@ td.hover  { background: #C6C6C6; }
 	color:#666
 }
 .h1overview {
-	font: 12px #333333 Verdana, Arial;
-	vertical-align:middle;
-	background:#ECECEC;
+    font: 14px Verdana, Arial;
+    vertical-align:middle;
+    text-align:center;
+    background:#ECECEC;
+    text-shadow:0 1px 2px rgba(0,0,0,0.5);
+    width:126px;
+
 }
 .h1overview a {
 	height:12px;
@@ -296,4 +300,8 @@ td.hover  { background: #C6C6C6; }
 }
 .widefat th input {
 	vertical-align: inherit;
+}
+#editreservation .widefat span.radio span {
+    display: block;
+    padding: 1px 0;
 }

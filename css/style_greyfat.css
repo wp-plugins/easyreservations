@@ -204,8 +204,8 @@ input[type=text], select {
 	Settings Navigation
 	
 */
-.tabs-box {
-	width:99% !important;
+.reservation_page_reservation-settings .tabs-box {
+    width:99% !important;
 	color: #fff;
 	border:1px solid #575757 !important;
 	height:40px;
@@ -352,11 +352,10 @@ ul.tabs a.current {
 }
 .ov-days-hours {
 	background: #BFBFBF;
-	border-left: 1px dashed #000 !important;
+	border-left: 1px dashed #000;
 	border-top: 1px solid #000 !important;
 }
-.ov-days-hours-first {
-	background: #BFBFBF;
+.ov-days-hours.first {
 	border-top: 1px solid #000 !important;
 	border-left: 1px solid #000 !important;
 }
@@ -367,10 +366,7 @@ ul.tabs a.current {
 	color:#8C8C8C !important;
 	text-shadow:none;border-style:none;vertical-align:middle;
 }
-.roomhead:hover {
-	background: #C6C6C6;
-}
-.hover {
+.roomhead:hover,.hover, .ov-days-hours.first.hover {
 	background: #C6C6C6;
 }
 #overviewTheadTr {
@@ -380,11 +376,12 @@ ul.tabs a.current {
 	color:#fff;
 }
 .h1overview {
-	font: 12px #333333 Verdana, Arial; 
+	font: 14px Verdana, Arial;
 	vertical-align:middle;
 	text-align:center;
 	background:#575757;
 	text-shadow:0 1px 2px rgba(0,0,0,0.5);
+    width:126px;
 }
 .h1overview a {
 	height:12px;
@@ -418,4 +415,8 @@ ul.tabs a.current {
 	background: #575757;
 	border: 1px solid #575757;
 	color:#fff;
+}
+#editreservation .greyfat span.radio span {
+    display: block;
+    padding: 1px 0;
 }

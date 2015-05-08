@@ -122,7 +122,7 @@ License:GPL2
 					'content' => __( 'Generate totally customizable Invoices automatically from predefined templates. Including an editor for admins, invoices as email attachments and correct A4 Letter formats.' , 'easyReservations' ),
 					'function' => 'easyreservations_load_invoice_template',
 					'least' => '1.0.14',
-					'vers' => '1.0.14',
+					'vers' => '1.0.15',
 					'image' => 'invoice',
 				),
 				'htmlmails' => array(
@@ -139,8 +139,8 @@ License:GPL2
 					'title' => __( 'Payment' , 'easyReservations' ),
 					'content' => __( 'Integration of multiple payment gateways like PayPal, Google Wallet, Authorize.net, 2checkout, DIBSpayment or Ogone. Further implementing of Stripe.com Credit Cards gateway and a function to store credit cards for manual treatment. Automatically approve new reservations and/or after payment..' , 'easyReservations' ),
 					'function' => 'easyreservations_validate_payment',
-					'least' => '1.7.1',
-					'vers' => '1.7.1',
+					'least' => '1.7.2',
+					'vers' => '1.7.2',
 					'image' => 'paypal',
 				),
 				'search' => array(
@@ -149,7 +149,7 @@ License:GPL2
 					'content' => __( 'New shortcode to let your guests search for available resources. No page reload for searching, compatible to calendar, show price, show unavailable resources, link to form with automatically selection. Each resource can have a small one-column calendar to show when its available. The results can be shown as list or table.' , 'easyReservations' ),
 					'function' => 'easyreservations_search_add_tinymce',
 					'least' => '1.2.5',
-					'vers' => '1.2.5',
+					'vers' => '1.2.6',
 					'image' => 'search',
 					'addon' => array(
 						array(
@@ -159,8 +159,8 @@ License:GPL2
 							'content' => __( 'Link post or pages with resources for the search results' , 'easyReservations' ),
 							'function' => 'easyreservations_search_change_values',
 							'link' => 'forums/topic/releated-posts-add-on/',
-							'vers' => '1.0.7',
-							'least' => '1.0.7',
+							'vers' => '1.0.8',
+							'least' => '1.0.8',
 							'beta' => 1
 						),
 						array(
@@ -170,8 +170,8 @@ License:GPL2
 							'content' => __( 'Give resource different attributes to let your guests search more detailed' , 'easyReservations' ),
 							'function' => 'easyreservations_search_attributes_check',
 							'link' => 'forums/topic/resource-attributes-add-on/',
-							'vers' => '1.0.1',
-							'least' => '1.0.1',
+							'vers' => '1.0.2',
+							'least' => '1.0.2',
 							'beta' => 1
 						)
 					)
@@ -191,7 +191,7 @@ License:GPL2
 					'content' => __( 'Export selectable reservation information by time, selection or all as .xls, .csv or .least and Import them from back from the .least files.' , 'easyReservations' ),
 					'function' => 'easyreservations_generate_import',
 					'least' => '1.2.7',
-					'vers' => '1.2.7',
+					'vers' => '1.2.8',
 					'image' => 'import',
 				),
 				'lang' => array(
@@ -200,7 +200,7 @@ License:GPL2
 					'content' => __( 'Function to make texts in forms, emails, search bar and invoices translatable.' , 'easyReservations' ),
 					'function' => 'easyreservations_translate_content',
 					'least' => '1.2.2',
-					'vers' => '1.2.2',
+					'vers' => '1.2.3',
 					'image' => 'country',
 				),
 				'useredit' => array(
@@ -208,8 +208,8 @@ License:GPL2
 					'title' => __( 'User Control Panel' , 'easyReservations' ),
 					'content' => __( ' Let your guests login with their reservations ID and email to edit their reservation afterwards. They can switch between their reservations in a table. In addition it provides a chat-like feature. New messages in table, dummy message at start, admin notices, avatars and fully AJAX driven. The guest can see his invoice and cancel his reservation.' , 'easyReservations' ),
 					'function' => 'easyreservations_generate_chat',
-					'least' => '1.3.3',
-					'vers' => '1.3.3',
+					'least' => '1.3.4',
+					'vers' => '1.3.4',
 					'image' => 'chat',
 				),
 				'statistics' => array(
@@ -218,7 +218,7 @@ License:GPL2
 					'content' => __( 'Detailed statistics, charts, resource usages and a dashboard widget.' , 'easyReservations' ),
 					'function' => 'easyreservations_add_statistics_submenu',
 					'least' => '1.2',
-					'vers' => '1.2.1',
+					'vers' => '1.2.2',
 					'image' => 'statistics',
 				),
 				'stream' => array(
@@ -236,8 +236,8 @@ License:GPL2
 					'title' => __( 'Synchronization' , 'easyReservations' ),
 					'content' => __( 'Add reservations to the shopping card of WooCommerce.' , 'easyReservations' ),
 					'function' => 'easyreservations_sync_check',
-					'least' => '1.0.1',
-					'vers' => '1.0.1',
+					'least' => '1.0.2',
+					'vers' => '1.0.2',
 					'image' => 'reload',
 				),
 				'styles' => array(
@@ -246,7 +246,7 @@ License:GPL2
 					'content' => __( 'New Admin, Calendar and Form style. In addition it changes your datepickers style and disable unavailble dates in it.' , 'easyReservations' ),
 					'least' => '1.2.8',
 					'function' => 'easyreservations_register_datepicker_style',
-					'vers' => '1.2.8',
+					'vers' => '1.2.9',
 					'image' => 'to',
 				),
 				'coupons' => array(

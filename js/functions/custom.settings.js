@@ -186,7 +186,7 @@ function clause_happens_select(sel, opt_id, clause_id, append, mult){
 		}, mult)+'</select></span>';
 	} else if(sel !== '' && sel !== 'x'){
 		content = '<input type="hidden" name="if_cond_amount[]" id="if_clause_amount_'+opt_id+'_'+clause_id+'" value="0">';
-		content = '<input type="hidden" name="if_cond_mult[]" id="if_clause_mult_'+opt_id+'_'+clause_id+'" value="x">';
+		content += '<input type="hidden" name="if_cond_mult[]" id="if_clause_mult_'+opt_id+'_'+clause_id+'" value="x">';
 		if(append){
 			if(!added[opt_id+clause_id]) add_if_clause(opt_id, false);
 			added[opt_id+clause_id] = 1;

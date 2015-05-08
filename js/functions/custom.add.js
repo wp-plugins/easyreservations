@@ -1,4 +1,4 @@
-var custom_temp_id = 0, price_temp_id = 0;
+var custom_temp_id = 1000, price_temp_id = 1000;
 
 function easy_add_custom_content(){
 	var id = jQuery('#custom_add_select').val();
